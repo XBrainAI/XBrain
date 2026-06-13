@@ -2,13 +2,862 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello XBrain</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>XBrain — 探索未知</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ===== Canvas Background ===== */
+    #network-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+
+    .xbrain-brand .xb-ring {
+      stroke-width: 4;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-glow-bg {
+      opacity: 0.40;
+    }
+
+    .xbrain-brand .xb-center-ring {
+      stroke-width: 3;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-x-line {
+      opacity: 0.9;
+      stroke-width: 2.5;
+    }
+
+    .xbrain-brand .xb-core {
+      r: 12;
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-ttai {
+      fill: #4a70c0;
+      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
+    }
+
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 {
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-bar-group {
+      opacity: 0.75;
+    }
+
+    .xbrain-brand .xb-bar {
+      fill: #5a90e0;
+    }
+
+    .xbrain-brand .xb-bar-glow {
+      opacity: 0.9;
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-logo {
+      width: clamp(120px, 20vw, 200px);
+      height: auto;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: scale(0.9);
+      animation: heroLogoIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+      filter: drop-shadow(0 0 30px rgba(100, 180, 255, 0.4));
+    }
+
+    @keyframes heroLogoIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+
+    .hero-title span {
+      color: var(--xb-accent);
+      text-shadow: 0 0 30px rgba(100, 180, 255, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 300;
+      color: var(--xb-text-dim);
+      letter-spacing: 6px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease 0.9s forwards;
+    }
+
+    .hero-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--xb-accent), transparent);
+      margin: 0 auto 3rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.1s forwards;
+    }
+
+    .hero-desc {
+      max-width: 500px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--xb-text-dim);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease 1.3s forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.8s forwards;
+      color: var(--xb-text-dim);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+    }
+
+    .scroll-indicator svg {
+      width: 24px;
+      height: 24px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(8px);
+      }
+
+      60% {
+        transform: translateY(4px);
+      }
+    }
+
+    /* ===== SITES SECTION ===== */
+    .sites-section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-header h2 span {
+      color: var(--xb-accent);
+    }
+
+    .section-header p {
+      color: var(--xb-text-dim);
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .section-line {
+      width: 40px;
+      height: 2px;
+      background: var(--xb-accent);
+      margin: 1rem auto 0;
+      opacity: 0.5;
+    }
+
+    .sites-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .site-card {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
+      border: 1px solid var(--xb-border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .site-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .site-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(100, 180, 255, 0.5);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(100, 180, 255, 0.15);
+    }
+
+    .site-card-image {
+      width: 100%;
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .site-card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.9) 100%);
+    }
+
+    .site-card-image.fallback {
+      background: linear-gradient(135deg, #1a1030 0%, #2d1b4e 50%, #1a3a5c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .site-card-image.fallback::after {
+      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.7) 100%);
+    }
+
+    .site-card-image.fallback svg {
+      width: 80px;
+      height: 80px;
+      opacity: 0.3;
+      filter: drop-shadow(0 0 20px rgba(100, 180, 255, 0.3));
+    }
+
+    .site-card-content {
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .site-card-tag {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border: 1px solid var(--xb-accent);
+      color: var(--xb-accent);
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+
+    .site-card h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--xb-text);
+    }
+
+    .site-card p {
+      font-size: 0.9rem;
+      color: var(--xb-text-dim);
+      line-height: 1.6;
+    }
+
+    .site-card-arrow {
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--xb-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--xb-accent);
+      transition: all 0.3s ease;
+    }
+
+    .site-card:hover .site-card-arrow {
+      background: var(--xb-accent);
+      color: var(--xb-deep);
+      border-color: var(--xb-accent);
+      box-shadow: 0 0 16px rgba(100, 180, 255, 0.4);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--xb-border);
+      margin: 0 auto 1rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .sites-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .hero-title {
+        letter-spacing: 2px;
+      }
+
+      .hero-subtitle {
+        letter-spacing: 3px;
+      }
+
+      .sites-section {
+        padding: 4rem 1rem 2rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <h1>Hello XBrain 0613!</h1>
+
+  <!-- ===== XBrain Brand Logo (Fixed) ===== -->
+  <a class="xbrain-brand" href="#top" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+        opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+          opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== Canvas Background ===== -->
+  <canvas id="network-canvas"></canvas>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <svg class="hero-logo" viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="heroCoreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="heroRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="heroGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle cx="176" cy="180" r="170" fill="url(#heroCoreGlow)" opacity="0.25" />
+      <circle cx="176" cy="180" r="168" fill="none" stroke="url(#heroRingGrad)" stroke-width="3" opacity="0.8"
+        filter="url(#heroGlow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect fill="#3a5aaa" width="240" height="36" rx="4" ry="4" filter="url(#heroGlow)" />
+        <rect fill="url(#heroRingGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.95" />
+        <rect fill="url(#heroRingGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.7" />
+      </g>
+      <g transform="matrix(0 -1 1 0 66 200)" opacity="0.5">
+        <rect fill="#4a70c0" width="40" height="280" rx="3" ry="3" />
+        <rect fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.6" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="3" opacity="0.9"
+          filter="url(#heroGlow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.5" opacity="0.6" />
+        <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="2" opacity="0.7" />
+        <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="2" opacity="0.7" />
+        <circle cx="50" cy="50" r="12" fill="#80c0ff" filter="url(#heroGlow)" opacity="0.95" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g transform="matrix(0 -1 1 0 38 222)" opacity="0.5">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1.2" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.8" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+
+    <h1 class="hero-title"><span>X</span>Brain</h1>
+    <p class="hero-subtitle">探 索 · 发 现 · 连 接</p>
+    <div class="hero-line"></div>
+    <p class="hero-desc">以好奇心为神经突触，以脚步为数据流，<br>遍历岭南秘境的每一个节点。</p>
+
+    <div class="scroll-indicator">
+      <span>向下滚动</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== SITES ===== -->
+  <section class="sites-section">
+    <div class="section-header">
+      <h2>探索<span>站点</span></h2>
+      <p>选择你的下一个目的地</p>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="sites-grid">
+      <a class="site-card" href="./四季景点/花都石头记矿物园/石头记矿物园旅行手册.html">
+        <div class="site-card-image"
+          style="background-image: url('./四季景点/花都石头记矿物园/4A级景区之-广州花都区石头记矿物园⛰️_13_蛋挞独斗_来自小红书网页版.jpg')"></div>
+        <div class="site-card-content">
+          <span class="site-card-tag">四季景点</span>
+          <h3>花都石头记矿物园</h3>
+          <p>世界首座宝石矿物主题乐园，地下千年奇石，地上万象新生，国家AAAA级景区。</p>
+          <div class="site-card-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a class="site-card" href="./四季景点/肇庆怀集燕岩雪风洞.html">
+        <div class="site-card-image fallback">
+          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
+            <g transform="matrix(0 -1 1 0 30 230)">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
+              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
+              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
+              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
+            </g>
+          </svg>
+        </div>
+        <div class="site-card-content">
+          <span class="site-card-tag">四季景点</span>
+          <h3>肇庆怀集燕岩雪风洞</h3>
+          <p>岭南秘境旅行指南，燕岩奇观与雪风洞探险，金丝燕的家园与地下宫殿。</p>
+          <div class="site-card-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <a class="site-card" href="./四季景点/从化吕田狮象岩.html">
+        <div class="site-card-image" style="background-image: url('./四季景点/PTitle.jpg')"></div>
+        <div class="site-card-content">
+          <span class="site-card-tag">四季景点</span>
+          <h3>从化吕田狮象岩</h3>
+          <p>探访哈迪斯领地，深入喀斯特溶洞，寻访古文明遗迹与隐秘的地下河流。</p>
+          <div class="site-card-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <p>XBrain &copy; 2026</p>
+    <p>探索未知，连接世界</p>
+  </footer>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    (function () {
+      // ===== Canvas Network Background =====
+      var canvas = document.getElementById('network-canvas');
+      var ctx = canvas.getContext('2d');
+      var width, height;
+      var dpr = window.devicePixelRatio || 1;
+      var nodes = [];
+      var NODE_COUNT = 60;
+      var CONNECTION_DISTANCE = 150;
+      var MOUSE_DISTANCE = 200;
+      var mouse = { x: -9999, y: -9999 };
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+      }
+
+      function createNodes() {
+        nodes = [];
+        for (var i = 0; i < NODE_COUNT; i++) {
+          nodes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            radius: Math.random() * 2 + 1
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          var dx = mouse.x - n.x;
+          var dy = mouse.y - n.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MOUSE_DISTANCE) {
+            var force = (MOUSE_DISTANCE - dist) / MOUSE_DISTANCE;
+            n.x -= dx * force * 0.02;
+            n.y -= dy * force * 0.02;
+          }
+        }
+
+        for (var i = 0; i < nodes.length; i++) {
+          for (var j = i + 1; j < nodes.length; j++) {
+            var a = nodes[i], b = nodes[j];
+            var dx = a.x - b.x;
+            var dy = a.y - b.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < CONNECTION_DISTANCE) {
+              var alpha = (1 - dist / CONNECTION_DISTANCE) * 0.15;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = 'rgba(100, 180, 255, ' + alpha + ')';
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(100, 180, 255, 0.4)';
+          ctx.fill();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', function () {
+        resize();
+        createNodes();
+      });
+      window.addEventListener('mousemove', function (e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener('touchmove', function (e) {
+        if (e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      resize();
+      createNodes();
+      draw();
+
+      // ===== Logo Scroll Fade =====
+      var logo = document.querySelector('.xbrain-brand');
+      var ticking = false;
+
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateLogo();
+
+      // ===== Card Reveal on Scroll =====
+      var cards = document.querySelectorAll('.site-card');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry, index) {
+          if (entry.isIntersecting) {
+            setTimeout(function () {
+              entry.target.classList.add('visible');
+            }, index * 150);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      cards.forEach(function (card) {
+        observer.observe(card);
+      });
+    })();
+  </script>
+
 </body>
 
 </html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XBrain Logo 可见性测试 - 多方案对比</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #111;
+    color: #eee;
+    line-height: 1.6;
+  }
+
+  /* ===== 测试页面布局 ===== */
+  .test-section {
+    padding: 60px 20px;
+    position: relative;
+  }
+  .test-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.4rem;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+  .bg-label {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    background: rgba(0,0,0,0.3);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  /* 各种测试背景 */
+  .bg-dark-deep    { background: linear-gradient(180deg, #0a0a1a 0%, #12122a 100%); }
+  .bg-dark-medium  { background: linear-gradient(180deg, #1a1a2e 0%, #252540 100%); }
+  .bg-light        { background: linear-gradient(180deg, #f5f7fa 0%, #e8ecf1 100%); }
+  .bg-light h2, .bg-light .variant-label { color: #1a1a2e; text-shadow: none; }
+  .bg-light .bg-label { color: rgba(0,0,0,0.4); background: rgba(255,255,255,0.5); }
+  .bg-image        { background: url('PTitle.jpg') center center / cover no-repeat; position: relative; }
+  .bg-image::before { content:''; position:absolute; inset:0; background: rgba(0,0,0,0.45); }
+  .bg-image > * { position: relative; z-index: 1; }
+
+  .variants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .variant-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .bg-light .variant-card {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .variant-label {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 16px;
+  }
+  .logo-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+  }
+  .bg-light .logo-stage {
+    background: rgba(0,0,0,0.05);
+  }
+
+  /* ===== SVG 基础 ===== */
+  .xbrain-brand svg {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .xbrain-brand .xbrain-text {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #e8ecf4;
+    line-height: 1;
+  }
+  .xbrain-brand .xbrain-text span {
+    color: #64b4ff;
+  }
+
+  /* ===== 方案 0：当前版 ===== */
+  .v-current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(15, 10, 40, 0.92) 0%, rgba(30, 20, 60, 0.90) 100%);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(100, 180, 255, 0.25);
+    border-radius: 12px;
+    padding: 6px 14px 6px 8px;
+    box-shadow:
+      0 0 16px rgba(80, 140, 255, 0.15),
+      0 2px 12px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    text-decoration: none;
+  }
+  .v-current svg {
+    filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.35));
+  }
+  .v-current .xbrain-text {
+    text-shadow: 0 0 10px rgba(100, 180, 255, 0.4);
+  }
+  .v-current .xbrain-text span {
+    text-shadow: 0 0 14px rgba(100, 180, 255, 0.7);
+  }
+
+  /* ===== 方案 F：圆环+圆圈增强 ===== */
+  .v-svg-ring {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(180, 210, 255, 0.50);
+    border-radius: 12px;
+    padding: 6px 14px 6px 8px;
+    box-shadow:
+      0 0 10px rgba(255, 255, 255, 0.12),
+      0 0 36px rgba(80, 140, 255, 0.30),
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    text-decoration: none;
+  }
+  .v-svg-ring .xb-ring { stroke-width: 4; opacity: 0.95; }
+  .v-svg-ring .xb-glow-bg { opacity: 0.35; }
+  .v-svg-ring .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+  .v-svg-ring .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+  .v-svg-ring .xb-core { r: 12; opacity: 1; }
+  .v-svg-ring svg { filter: drop-shadow(0 0 10px rgba(100,180,255,0.5)); }
+
+  /* ===== 方案 G：T台+主体提亮 ===== */
+  .v-svg-ttai {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(180, 210, 255, 0.50);
+    border-radius: 12px;
+    padding: 6px 14px 6px 8px;
+    box-shadow:
+      0 0 10px rgba(255, 255, 255, 0.12),
+      0 0 36px rgba(80, 140, 255, 0.30),
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    text-decoration: none;
+  }
+  .v-svg-ttai .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+  .v-svg-ttai .xb-ttai-line1,
+  .v-svg-ttai .xb-ttai-line2 { opacity: 1; }
+  .v-svg-ttai .xb-bar-group { opacity: 0.75; }
+  .v-svg-ttai .xb-bar { fill: #5a90e0; }
+  .v-svg-ttai .xb-bar-glow { opacity: 0.9; }
+
+  /* ===== 方案 D：容器综合增强 ===== */
+  .v-combo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(180, 210, 255, 0.50);
+    border-radius: 12px;
+    padding: 6px 14px 6px 8px;
+    box-shadow:
+      0 0 10px rgba(255, 255, 255, 0.12),
+      0 0 36px rgba(80, 140, 255, 0.30),
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .v-combo svg {
+    filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.55));
+  }
+  .v-combo .xbrain-text {
+    text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+  }
+  .v-combo .xbrain-text span {
+    text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+  }
+
+  /* ===== 方案 H：SVG全局增强（新推荐） ===== */
+  .v-svg-full {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(180, 210, 255, 0.55);
+    border-radius: 12px;
+    padding: 6px 14px 6px 8px;
+    box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.15),
+      0 0 40px rgba(80, 140, 255, 0.35),
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .v-svg-full .xb-ring { stroke-width: 4; opacity: 0.95; }
+  .v-svg-full .xb-glow-bg { opacity: 0.40; }
+  .v-svg-full .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+  .v-svg-full .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+  .v-svg-full .xb-core { r: 12; opacity: 1; }
+  .v-svg-full .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+  .v-svg-full .xb-ttai-line1,
+  .v-svg-full .xb-ttai-line2 { opacity: 1; }
+  .v-svg-full .xb-bar-group { opacity: 0.75; }
+  .v-svg-full .xb-bar { fill: #5a90e0; }
+  .v-svg-full .xb-bar-glow { opacity: 0.9; }
+  .v-svg-full svg { filter: drop-shadow(0 0 12px rgba(100,180,255,0.55)); }
+
+  /* 底部说明 */
+  .summary {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+  }
+  .summary h3 {
+    color: #ccc;
+    margin-bottom: 12px;
+  }
+  .summary code {
+    background: rgba(255,255,255,0.08);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #aad;
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部标题 -->
+<div style="text-align:center; padding:40px 20px 20px; background:#0a0a14;">
+  <h1 style="font-size:1.8rem; color:#fff; margin-bottom:8px;">XBrain Logo 可见性对比测试</h1>
+  <p style="color:#888; font-size:0.9rem;">在不同背景色下对比当前版与 4 种改进方案的效果</p>
+</div>
+
+<!-- 共同使用的 SVG 定义 -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+      <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#80c0ff" />
+      <stop offset="50%" stop-color="#4a90e2" />
+      <stop offset="100%" stop-color="#80c0ff" />
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<!-- SVG 图标内容模板 -->
+<template id="xbrain-svg">
+  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+    <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+    <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+    <g transform="matrix(0 -1 1 0 30 300)">
+      <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+      <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+      <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+    </g>
+    <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+      <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+      <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+    </g>
+    <g transform="matrix(0 -1 1 0 30 230)">
+      <circle cx="50" cy="50" r="50" fill="#0d1636" />
+      <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+      <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+      <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+      <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+      <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+      <circle cx="50" cy="50" r="4" fill="#ffffff" />
+    </g>
+    <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+      <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+      <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+    </g>
+  </svg>
+  <div class="xbrain-text"><span>X</span>Brain</div>
+</template>
+
+<!-- ===== 测试区域 1：深色背景 ===== -->
+<section class="test-section bg-dark-deep">
+  <div class="bg-label">背景：深色 #0a0a1a（类似 从化吕田狮象岩.html）</div>
+  <h2>深色背景下的可见性对比</h2>
+  <div class="variants-grid">
+    <div class="variant-card">
+      <div class="variant-label">方案 0：当前版<br><small style="color:#666">border 0.25 / glow 0.15</small></div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-current" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 F：圆环+圆圈增强<br><small style="color:#666">SVG圆环加粗/加亮，核心圆点放大</small></div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ring" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 G：T台+主体提亮<br><small style="color:#666">T形结构提亮，侧边条增强</small></div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ttai" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label" style="color:#6cf; font-weight:700;">方案 H：SVG全局增强（新推荐）<br><small style="color:#888">圆环+T台+圆圈全部增强</small></div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-full" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 D：容器综合增强<br><small style="color:#888">光晕 + 亮边框 + 背景微调（SVG不变）</small></div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-combo" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 测试区域 2：中等深色背景 ===== -->
+<section class="test-section bg-dark-medium">
+  <div class="bg-label">背景：中等深色 #1a1a2e</div>
+  <h2>中等深色背景下的可见性对比</h2>
+  <div class="variants-grid">
+    <div class="variant-card">
+      <div class="variant-label">方案 0：当前版</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-current" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 F：圆环+圆圈增强</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ring" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 G：T台+主体提亮</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ttai" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label" style="color:#6cf; font-weight:700;">方案 H：SVG全局增强（新推荐）</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-full" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 D：容器综合增强</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-combo" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 测试区域 3：浅色背景 ===== -->
+<section class="test-section bg-light">
+  <div class="bg-label" style="color:rgba(0,0,0,0.4); background:rgba(255,255,255,0.5);">背景：浅色 #f5f7fa（类似 补录统计.html）</div>
+  <h2>浅色背景下的可见性对比</h2>
+  <div class="variants-grid">
+    <div class="variant-card">
+      <div class="variant-label">方案 0：当前版</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-current" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 F：圆环+圆圈增强</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ring" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 G：T台+主体提亮</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ttai" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label" style="color:#2563eb; font-weight:700;">方案 H：SVG全局增强（新推荐）</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-full" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 D：容器综合增强</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-combo" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 测试区域 4：图片背景 ===== -->
+<section class="test-section bg-image">
+  <div class="bg-label">背景：PTitle.jpg 图片背景</div>
+  <h2>图片背景下的可见性对比</h2>
+  <div class="variants-grid">
+    <div class="variant-card">
+      <div class="variant-label">方案 0：当前版</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-current" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 F：圆环+圆圈增强</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ring" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 G：T台+主体提亮</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-ttai" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label" style="color:#6cf; font-weight:700;">方案 H：SVG全局增强（新推荐）</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-svg-full" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+    <div class="variant-card">
+      <div class="variant-label">方案 D：容器综合增强</div>
+      <div class="logo-stage">
+        <a class="xbrain-brand v-combo" href="#" onclick="return false;"></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 说明区域 ===== -->
+<div class="summary">
+  <h3>各方案改动点汇总</h3>
+  <p>
+    <strong>方案 0（当前）：</strong>容器 border <code>0.25</code> + SVG圆环 stroke-width <code>2</code> / opacity <code>0.55</code><br>
+    <strong>方案 D（容器增强）：</strong>仅增强容器（边框 0.50 + 发光 + 背景微提亮），SVG保持不变<br>
+    <strong>方案 F（圆环+圆圈）：</strong>SVG外圆环 stroke-width <code>2→4</code> + opacity <code>0.55→0.95</code>；中心圆外圈加粗 + X线加粗 + 核心圆点放大<br>
+    <strong>方案 G（T台+主体）：</strong>T形主体结构 fill 从 <code>#2a4080→#4a70c0</code> 提亮；装饰线 opacity 拉满；侧边条提亮并增强<br>
+    <strong>方案 H（SVG全局增强）：</strong>综合 F + G，同时给整个 SVG 加 <code>drop-shadow</code> 发光，图标整体更醒目
+  </p>
+  <p style="margin-top:16px; color:#666;">
+    请滚动页面，重点观察 SVG 中圆环、中心圆圈、T形结构的可见性差异。选出最满意的方案后告知，我将统一更新到所有 HTML 文件中。
+  </p>
+</div>
+
+<script>
+  // 将 SVG 模板内容克隆到所有 Logo 容器中
+  document.querySelectorAll('.xbrain-brand').forEach(function(el) {
+    var tmpl = document.getElementById('xbrain-svg');
+    el.appendChild(tmpl.content.cloneNode(true));
+  });
+</script>
+
+</body>
+</html>

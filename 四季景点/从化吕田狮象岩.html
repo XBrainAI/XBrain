@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>狮象岩 · 广州最早的人类家园</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    :root {
+      --primary: #2d5016;
+      --primary-light: #4a7c2a;
+      --accent: #c8922a;
+      --accent-light: #e8b84a;
+      --bg: #f5f2eb;
+      --card-bg: #ffffff;
+      --text: #2c2c2c;
+      --text-light: #666;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --radius: 16px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .page-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    /* ===== XBrain Brand (Cerebro Style) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-clip {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('PTitle.jpg') center center / cover no-repeat;
+      filter: brightness(0.55) saturate(1.1);
+      transition: transform 8s ease;
+    }
+
+    .hero:hover .hero-clip .hero-bg {
+      transform: scale(1.12);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.85) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 24px;
+      max-width: 600px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: 3px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 8vw, 4.2rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 6px;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 small {
+      display: block;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 400;
+      letter-spacing: 8px;
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+
+    .hero-tagline {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+
+    .hero-scroll {
+      display: inline-block;
+      width: 36px;
+      height: 60px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 18px;
+      position: relative;
+      animation: fadeInUp 1.5s ease 0.5s both;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 2px;
+      animation: scrollDot 2s ease infinite;
+    }
+
+    @keyframes scrollDot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        opacity: 0.3;
+        transform: translateX(-50%) translateY(14px);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== Content Container ===== */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ===== Section ===== */
+    section {
+      padding: 48px 0;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-sub {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e8e2d8;
+    }
+
+    /* ===== Card ===== */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== Stats Grid ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-item {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-item .num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .stat-item .label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* ===== Timeline ===== */
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary-light), var(--accent));
+    }
+
+    .tl-item {
+      position: relative;
+      padding: 0 0 24px 20px;
+    }
+
+    .tl-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border: 2px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .tl-year {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .tl-text {
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    /* ===== Image Gallery ===== */
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .gallery .img-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      background: #ddd;
+    }
+
+    .gallery .img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery .img-wrap:hover img {
+      transform: scale(1.08);
+    }
+
+    .gallery .img-wrap.full {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+
+    /* ===== Info Tags ===== */
+    .info-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .info-tags span {
+      background: #edf5e7;
+      color: var(--primary);
+      font-size: 0.78rem;
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid #d6e5c8;
+    }
+
+    /* ===== Highlight Box ===== */
+    .highlight {
+      background: linear-gradient(135deg, #f8f4ea 0%, #f0ead8 100%);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 18px 20px;
+      margin: 16px 0;
+      font-size: 0.93rem;
+      color: #555;
+    }
+
+    .highlight strong {
+      color: var(--primary);
+    }
+
+    /* ===== Data Table ===== */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 12px 0;
+    }
+
+    .data-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .data-table td:first-child {
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+      width: 80px;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: #1a1a2e;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      padding: 32px 16px;
+      font-size: 0.8rem;
+      line-height: 2;
+    }
+
+    footer a {
+      color: var(--accent-light);
+      text-decoration: none;
+    }
+
+    /* ===== Scroll Animation ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .stat-item {
+        padding: 14px 10px;
+      }
+
+      .stat-item .num {
+        font-size: 1.3rem;
+      }
+
+      .gallery {
+        gap: 6px;
+      }
+
+      section {
+        padding: 32px 0;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .hero {
+        min-height: 100dvh;
+      }
+
+      .hero:hover .hero-clip .hero-bg {
+        transform: scale(1.03);
+      }
+
+      .xbrain-brand {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .gallery .img-wrap.full {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+
+    <!-- ===== XBrain Brand IP ===== -->
+    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- 核心光晕 -->
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+          </radialGradient>
+          <!-- 外环渐变 -->
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#80c0ff" />
+            <stop offset="50%" stop-color="#4a90e2" />
+            <stop offset="100%" stop-color="#80c0ff" />
+          </linearGradient>
+          <!-- 发光滤镜 -->
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- 最外层能量场 -->
+        <circle cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" class="xb-glow-bg" />
+
+        <!-- 外环 - 能量圈 -->
+        <circle cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55"
+          filter="url(#glow)" class="xb-ring" />
+
+        <!-- 横向接口条 - 主脑控制面板 -->
+        <g transform="matrix(0 -1 1 0 30 300)">
+          <rect fill="#2a4080" width="240" height="36" rx="4" ry="4" class="xb-ttai" />
+          <rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" class="xb-ttai-line1" />
+          <rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" class="xb-ttai-line2" />
+        </g>
+
+        <!-- 竖向数据条 -->
+        <g transform="matrix(0 -1 1 0 66 200)" opacity="0.35" class="xb-bar-group">
+          <rect fill="#3a60a0" width="40" height="280" rx="3" ry="3" class="xb-bar" />
+          <rect fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" class="xb-bar-glow" />
+        </g>
+
+        <!-- 中央核心圆 - 大脑核心 -->
+        <g transform="matrix(0 -1 1 0 30 230)">
+          <!-- 底座深色 -->
+          <circle cx="50" cy="50" r="50" fill="#0d1636" />
+          <!-- 内层发光 -->
+          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+          <!-- 核心光环 -->
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7"
+            filter="url(#glow)" class="xb-center-ring" />
+          <!-- 内环 -->
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+          <!-- X 形交叉线 - 突变基因符号 -->
+          <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" class="xb-x-line" />
+          <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" class="xb-x-line" />
+          <!-- 中心亮点 -->
+          <circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" class="xb-core" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+        </g>
+
+        <!-- 内层辅助环 -->
+        <g transform="matrix(0 -1 1 0 38 222)" opacity="0.4" class="xb-decor-group">
+          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+        </g>
+      </svg>
+      <div class="xbrain-text"><span>X</span>Brain</div>
+    </a>
+
+    <!-- ===== Hero ===== -->
+    <div class="hero" id="top">
+      <div class="hero-clip">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">广州·从化·吕田</div>
+        <h1>狮象岩<small>广州最早的人类家园</small></h1>
+        <p class="hero-tagline">七千年文明薪火 · 喀斯特秘境探幽</p>
+        <div class="hero-scroll"></div>
+      </div>
+    </div>
+
+    <!-- ===== 概览 ===== -->
+    <section>
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title"> 概览</div>
+          <p class="section-sub">Lion-Elephant Rock · Guangzhou's oldest human settlement</p>
+        </div>
+
+        <div class="stats-grid fade-in">
+          <div class="stat-item">
+            <div class="num">7000</div>
+            <div class="label">年人类活动史</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">80+</div>
+            <div class="label">米岩高</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">300+</div>
+            <div class="label">米山体长度</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">39</div>
+            <div class="label">平方公里村域</div>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <p>
+            <strong>狮象岩</strong>位于广州市从化区吕田镇狮象村，是<strong>广州地区目前发现最早的远古人类遗址</strong>，距今约<strong>7000年</strong>。这座天然石灰岩山体因形似狮、象而得名，不仅是新石器时代人类的家园，更是一处<strong>国内罕见的多时代文化并存的史前遗迹</strong>——从上层的战国、汉代、唐代文物到下层的新石器时代遗存，七千年文明星火在此层叠交织。
+          </p>
+          <p>2008年12月，狮象遗址被公布为<strong>广州市第七批文物保护单位</strong>。如今，这里正以"古人类遗址文旅产业园"的蓝图焕发新生。</p>
+          <div class="info-tags">
+            <span>广州市文物保护单位</span>
+            <span>新石器时代遗址</span>
+            <span>喀斯特溶洞</span>
+            <span>免费开放</span>
+            <span>自驾可达</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 地理·地质 ===== -->
+    <section style="background:#eef1e8;padding-bottom:48px;padding-top:48px;">
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title"> 地理 · 地质</div>
+          <p class="section-sub">Geology &amp; Geography</p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>地理位置</h3>
+          <p>狮象岩坐落在吕田盆地西南部、吕田河南岸。狮象村距从化中心城区65公里，距吕田镇中心5公里。遗址位于狮象村以西约500米，北约1000米即是拥有天然石灰岩溶洞的狮象岩山丘。</p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>岩体特征</h3>
+          <table class="data-table">
+            <tr>
+              <td>岩性</td>
+              <td>天然石灰岩（喀斯特地貌）</td>
+            </tr>
+            <tr>
+              <td>高度</td>
+              <td>约80余米</td>
+            </tr>
+            <tr>
+              <td>长度</td>
+              <td>300多米</td>
+            </tr>
+            <tr>
+              <td>占地面积</td>
+              <td>约90亩</td>
+            </tr>
+            <tr>
+              <td>成因</td>
+              <td>第四纪冰期-间冰期交替形成的石灰岩溶蚀地貌</td>
+            </tr>
+          </table>
+          <p>
+            岩体内拥有多处天然溶洞，洞内钟乳石、石幔、石柱千姿百态，如金钟垂悬、冰凝瀑布。洞穴内颜色各异的堆积物，是地球进入第四纪以来经历冰期、间冰期、冰后温暖期等不同气候条件下形成并遗留下的历史见证，对研究古气候变迁具有重要科学意义。
+          </p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>流溪河源头</h3>
+          <p>
+            狮象岩所在地是<strong>流溪河源头最主要的河谷</strong>——狮象草埔河谷。往南数里，流溪河水奔腾而过，岸边卵石密布。吕田镇山清水秀，拥有丰富的生态资源和千亩有机蔬菜场地，被誉为"天然氧吧"和"广州后花园"。
+          </p>
+        </div>
+
+        <div class="card fade-in" style="padding:0;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+            <img src="走访吕田狮象村_ 探访古文明历史和一路寻源_3_银林生态社区_来自小红书网页版.jpg" alt="沿石阶探入狮象岩洞穴"
+              style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            <img src="走访吕田狮象村_ 探访古文明历史和一路寻源_5_银林生态社区_来自小红书网页版.jpg" alt="洞穴内岩壁光斑"
+              style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+          </div>
+          <div style="padding:14px 18px;font-size:0.8rem;color:#888;background:#fff;"> 左：沿石阶探入狮象岩 · 右：洞穴内岩壁光影 · 小红书
+            @银林生态社区</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== 考古·历史 ===== -->
+    <section>
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title"> 考古 · 历史</div>
+          <p class="section-sub">Archaeology &amp; History</p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>七千年文明画卷</h3>
+          <p>狮象岩遗址的考古发现如同一幅徐徐展开的七千年历史长卷——从新石器时代晚期到战国、汉、唐，人类在这片土地上从未真正离开过。</p>
+          <div class="highlight">
+            <strong>核心判断：</strong>狮象岩遗址是<strong>国内罕见的多时代文化并存的史前人类遗迹</strong>，为广州地区的考古编年和历史重构提供了重要的实物依据。其新石器时代晚期遗存同时具有<strong>珠江三角洲</strong>和<strong>粤北石峡文化</strong>的特点，是两大区域史前文化交流的关键节点。
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <h3>考古大事记</h3>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-year">1984年</div>
+              <div class="tl-text">在狮象村东村社迳坑发现一件<strong>石质刮削器</strong>（直径约5厘米，四周坚利呈鳞状），判定为新石器晚期遗物。周围地表散布瓷片、砺石等。</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2002年底–2003年初</div>
+              <div class="tl-text">
+                广州市文物考古研究所正式发掘，在250平方米范围内清理出<strong>25个灰坑、1座墓葬、数十个柱洞</strong>。出土<strong>39件磨制石器</strong>（石锛、石镞、石环、石戈、双肩石斧等）及<strong>50多件可复原陶器</strong>（水波纹陶缶、方格纹陶罐、青釉四耳罐等）。密集灰坑表明先人活动频繁，群居规模较大。
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2006年末</div>
+              <div class="tl-text">广州市地质调查院科考队确认洞穴内堆积物为第四纪冰期-间冰期交替形成的历史见证，具有重要古气候研究价值。</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2007年初</div>
+              <div class="tl-text">科考队在距新石器时代洞穴东面80米处发现新的"狮象岩洞穴"，保留有<strong>珍稀哺乳动物化石</strong>。</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-year">2008年12月</div>
+              <div class="tl-text">被公布为<strong>广州市第七批文物保护单位</strong>。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card fade-in" style="padding:0;overflow:hidden;">
+          <img src="走访吕田狮象村_ 探访古文明历史和一路寻源_2_银林生态社区_来自小红书网页版.jpg" alt="实地探访狮象岩洞穴内部" style="width:100%;display:block;"
+            loading="lazy">
+          <div style="padding:14px 18px;font-size:0.8rem;color:#888;background:#fff;"> 实地探访狮象岩洞穴遗址内部 · 小红书 @银林生态社区</div>
+        </div>
+
+        <div class="card fade-in">
+          <h3>白庙沟遗址</h3>
+          <p>
+            1982年，在流溪河岸边、自流泉旁的白庙与银佛岭山坡一带（面积约1公顷）发现<strong>圆孔石斧</strong>，米黄色，长方形，长约16.7厘米，宽7.8厘米，厚2厘米，一端平直开一圆孔，另一端为半圆形，打磨光滑。此发现进一步印证了该区域古人类活动的密集程度。
+          </p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>近现代记忆</h3>
+          <p>狮象岩最大的溶洞在文革前后曾作为<strong>军备物资仓库</strong>（林彪"七〇一工程"洞之一）。洞内至今保留有探矿坑遗迹，诉说着那段特殊岁月的记忆。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 探洞体验 ===== -->
+    <section style="background:#2c2c2c;color:#eee;padding-bottom:48px;padding-top:48px;">
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title" style="color:#e8d5a3;"> 探洞 · 秘境</div>
+          <p class="section-sub" style="color:rgba(255,255,255,0.5);border-bottom-color:rgba(255,255,255,0.1);">Cave
+            Exploration</p>
+        </div>
+
+        <div class="card fade-in" style="background:#3a3a3a;color:#ddd;">
+          <p style="color:#ccc;">狮象岩拥有多处天然溶洞，洞中套洞、奇洞生怪洞。至今未经商业开发，保留着原始的野性与神秘——这是探险爱好者的天堂，也是摄影师钟爱的取景地。</p>
+        </div>
+
+        <div class="card fade-in" style="background:#3a3a3a;color:#ddd;">
+          <h3 style="color:#e8d5a3;">洞内奇观</h3>
+          <p style="color:#ccc;">
+            狮象岩溶洞内景致丰富，钟乳石千姿百态，如金钟垂悬、冰凝瀑布、关公守关、观音端坐。狭窄过后"别有洞天"，空旷石厅令人震撼。洞顶天窗泻入天光，可见远处流雾，"恍如隔世"。洞中有石燕、蝙蝠飞翔，地面鸟粪层深达数米。</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:0.85rem;color:#aaa;margin-top:10px;">
+            <div style="background:#444;border-radius:8px;padding:8px 10px;text-align:center;"> 三片探洞区域</div>
+            <div style="background:#444;border-radius:8px;padding:8px 10px;text-align:center;"> 洞中套洞</div>
+            <div style="background:#444;border-radius:8px;padding:8px 10px;text-align:center;"> 暗河河道</div>
+            <div style="background:#444;border-radius:8px;padding:8px 10px;text-align:center;"> 蝙蝠栖居</div>
+          </div>
+        </div>
+
+        <div class="card fade-in" style="background:#3a3a3a;color:#ddd;padding:0;overflow:hidden;">
+          <div style="padding:16px 16px 8px;">
+            <h3 style="color:#e8d5a3;font-size:1.05rem;margin-bottom:4px;">探洞实拍</h3>
+            <p style="color:#aaa;font-size:0.82rem;margin:0;">来自探险者的真实记录</p>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 16px;">
+            <div style="grid-column:1 / -1;border-radius:10px;overflow:hidden;aspect-ratio:16/9;">
+              <img src="从化狮象岩，拜访哈迪斯领地_4_Almond_来自小红书网页版.jpg" alt="洞穴内剪影，洞口天光"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+            <div style="border-radius:10px;overflow:hidden;aspect-ratio:3/4;">
+              <img src="从化狮象岩，拜访哈迪斯领地_3_Almond_来自小红书网页版.jpg" alt="洞穴内望向外面的蓝天"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+            <div style="border-radius:10px;overflow:hidden;aspect-ratio:3/4;">
+              <img src="狮象岩探洞_7_YYyong（摩旅版）_来自小红书网页版.jpg" alt="走向洞穴深处的光亮"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+            <div style="border-radius:10px;overflow:hidden;aspect-ratio:3/4;">
+              <img src="从化狮象岩，拜访哈迪斯领地_6_Almond_来自小红书网页版.jpg" alt="头灯照亮洞穴岩壁"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+            <div style="border-radius:10px;overflow:hidden;aspect-ratio:3/4;">
+              <img src="狮象岩探洞_10_YYyong（摩旅版）_来自小红书网页版.jpg" alt="洞穴地面的水石奇观"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+            <div style="grid-column:1 / -1;border-radius:10px;overflow:hidden;aspect-ratio:16/9;">
+              <img src="从化狮象岩，拜访哈迪斯领地_17_Almond_来自小红书网页版.jpg" alt="攀爬洞穴岩壁"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+            </div>
+          </div>
+          <div style="padding:12px 16px;font-size:0.78rem;color:#999;background:#3a3a3a;">
+            探洞实拍 · 小红书 @Almond / @YYyong（摩旅版）
+          </div>
+        </div>
+
+        <div class="card fade-in" style="background:#3a3a3a;color:#ddd;">
+          <h3 style="color:#e8d5a3;">探洞须知</h3>
+          <div class="highlight" style="background:#4a4a3a;border-left-color:#e8d5a3;color:#ddd;">
+            <strong> 安全第一！</strong>
+            狮象岩溶洞<strong>尚未开发</strong>，无任何人工设施，洞内有探矿坑。必须<strong>结伴而行</strong>，强烈建议有当地向导带路，备好<strong>强光手电或头灯</strong>、登山鞋、长袖衣裤、饮用水。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 四季风光 ===== -->
+    <section>
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title"> 四季风光</div>
+          <p class="section-sub">Four Seasons · Beauty of Nature</p>
+        </div>
+
+        <div class="card fade-in">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="text-align:center;padding:14px;background:#f0f7ed;border-radius:12px;">
+              <div style="font-size:1.6rem;"></div>
+              <div style="font-weight:700;color:var(--primary);font-size:1rem;">春</div>
+              <div style="font-size:0.8rem;color:#666;">青草遍野，天蓝云白<br>李花盛开如白雪</div>
+            </div>
+            <div style="text-align:center;padding:14px;background:#e8f4f0;border-radius:12px;">
+              <div style="font-size:1.6rem;"></div>
+              <div style="font-weight:700;color:var(--primary);font-size:1rem;">夏</div>
+              <div style="font-size:0.8rem;color:#666;">避暑玩水佳处<br>逐水戏流享半日闲</div>
+            </div>
+            <div style="text-align:center;padding:14px;background:#f7efe0;border-radius:12px;">
+              <div style="font-size:1.6rem;"></div>
+              <div style="font-weight:700;color:var(--primary);font-size:1rem;">秋</div>
+              <div style="font-size:0.8rem;color:#666;">满山红遍<br>落日残红</div>
+            </div>
+            <div style="text-align:center;padding:14px;background:#e8ecf4;border-radius:12px;">
+              <div style="font-size:1.6rem;"></div>
+              <div style="font-weight:700;color:var(--primary);font-size:1rem;">冬</div>
+              <div style="font-size:0.8rem;color:#666;">李花白茫茫<br>田间霜冻如雪</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery fade-in" style="margin-top:16px;">
+          <div class="img-wrap full">
+            <img src="http://www.conghua.gov.cn/img/1/1228/1228821/9738285.jpg" alt="狮象田园航拍" loading="lazy">
+            <div
+              style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:#fff;padding:30px 12px 10px;font-size:0.78rem;">
+              狮象村田园风光航拍 · 摄于2024年</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 游览指南 ===== -->
+    <section style="background:#eef1e8;padding-bottom:48px;padding-top:48px;">
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title"> 游览指南</div>
+          <p class="section-sub">Travel Guide</p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>基本资讯</h3>
+          <table class="data-table">
+            <tr>
+              <td>门票</td>
+              <td><strong>免费</strong>（未开发景区，无售票）</td>
+            </tr>
+            <tr>
+              <td>开放时间</td>
+              <td>全天（建议白天前往）</td>
+            </tr>
+            <tr>
+              <td>最佳季节</td>
+              <td>四季皆宜；春赏李花，夏可玩水，秋冬探洞</td>
+            </tr>
+            <tr>
+              <td>建议游玩</td>
+              <td>2–5小时（含周边田园探索）</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card fade-in">
+          <h3>交通方式</h3>
+          <p><strong>自驾（推荐）</strong><br>
+            GPS导航至「从化区吕田镇狮象村」或「狮象岩遗址」，郊野山边可任意停车。</p>
+          <p style="margin-top:8px;"><strong>跟团</strong><br>
+            广州部分户外俱乐部开设"吕田狮象岩+桂峰山"一日游线路（约79元/人），珠江新城地铁口集合，含往返大巴、领队及保险。</p>
+          <p style="margin-top:8px;"><strong>公共交通</strong><br>
+            从广州各客运站乘车至从化客运站，转乘往吕田镇的班车，再打车至狮象村。</p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>推荐路线</h3>
+          <p><strong>半日探秘线：</strong>狮象村 → 狮象岩主洞口 → 溶洞探秘（约1-2小时）→ 周边田园漫步 → 流溪河畔戏水</p>
+          <p><strong>一日深度线：</strong>上午探洞 → 中午吕田镇农家菜（吕田头酒、本地黄豆等）→ 下午桂峰山赏李花/徒步 → 傍晚返程</p>
+          <div class="highlight">
+            <strong> 温馨提示：</strong>吕田镇特色农产品有吕田头酒、本地黄豆、桂峰山三花李。冬季李花盛放时，漫山遍野白茫茫一片，堪称"广州版雪景"，是绝佳的摄影时机。
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <h3>装备清单</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.9rem;">
+            <div> 强光手电/头灯</div>
+            <div> 登山鞋/防滑鞋</div>
+            <div> 长袖衣裤（防刮）</div>
+            <div> 饮用水2L以上</div>
+            <div> 干粮/零食</div>
+            <div> 充电宝</div>
+            <div> 垃圾袋（无痕户外）</div>
+            <div> 防晒/雨具</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 人文·今天 ===== -->
+    <section>
+      <div class="container">
+        <div class="fade-in">
+          <div class="section-title"> 今日狮象村</div>
+          <p class="section-sub">Village Today</p>
+        </div>
+
+        <div class="card fade-in">
+          <p>
+            因狮象岩遗址而得名的狮象村，现辖15个经济社，人口2047人。2010年，狮象村被确定为<strong>广州市社会主义新农村建设示范点</strong>，星河湾集团捐资<strong>1.19亿元</strong>，将原本分散的15个聚居点集中建设为3个聚居点，新建村屋555套。
+          </p>
+        </div>
+
+        <div class="card fade-in">
+          <h3>乡村新貌</h3>
+          <table class="data-table">
+            <tr>
+              <td>村域面积</td>
+              <td>39平方公里</td>
+            </tr>
+            <tr>
+              <td>耕地</td>
+              <td>2497亩</td>
+            </tr>
+            <tr>
+              <td>林地</td>
+              <td>4.4万亩</td>
+            </tr>
+            <tr>
+              <td>新村房屋</td>
+              <td>555套（联排别墅+公寓）</td>
+            </tr>
+            <tr>
+              <td>基础设施</td>
+              <td>太阳能路灯、污水处理池、硬底化社道、文化室、卫生站</td>
+            </tr>
+            <tr>
+              <td>传统民俗</td>
+              <td>舞狮；现存8处宗祠、1处黄迳党支部旧址</td>
+            </tr>
+          </table>
+          <p style="margin-top:12px;">
+            吕田镇正以全域土地综合整治为契机，结合狮象村古人类遗址第二考古契机，打造<strong>狮象田园风光及一河两岸改造升级</strong>，将狮象岩古人类遗址发展为<strong>农文旅和劳动研学融合发展区</strong>。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+      <div class="container">
+        <p style="font-size:0.9rem;color:rgba(255,255,255,0.8);margin-bottom:8px;">狮象岩 · 广州最早的人类家园</p>
+        <p> 广州市从化区吕田镇狮象村</p>
+        <p style="margin-top:16px;"><a href="#top" style="color:var(--accent-light);">↑ 返回顶部</a></p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);">
+          <svg width="28" height="28" viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 4px rgba(100,180,255,0.25));">
+            <defs>
+              <radialGradient id="fgGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#64b4ff" stop-opacity="0.6" />
+                <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="fgRing" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#80c0ff" />
+                <stop offset="100%" stop-color="#4a90e2" />
+              </linearGradient>
+            </defs>
+            <circle cx="176" cy="180" r="170" fill="url(#fgGlow)" opacity="0.1" />
+            <circle cx="176" cy="180" r="168" fill="none" stroke="url(#fgRing)" stroke-width="2" opacity="0.4" />
+            <circle cx="50" cy="50" fill="#0d1636" r="50" transform="matrix(0 -1 1 0 30 230)" />
+            <circle cx="50" cy="50" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" r="42" transform="matrix(0 -1 1 0 30 230)" />
+            <circle cx="50" cy="50" fill="#80c0ff" opacity="0.7" r="8" transform="matrix(0 -1 1 0 30 230)" />
+            <circle cx="50" cy="50" fill="#ffffff" r="3" transform="matrix(0 -1 1 0 30 230)" />
+          </svg>
+          <span style="font-size:0.82rem;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,0.35);">
+            <span style="color:#64b4ff;">X</span>Brain · 智能信息整理
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===== Scroll Animation ===== -->
+    <script>
+      (function () {
+        // Fade-in: use both IntersectionObserver and initial check for mobile compatibility
+        var faders = document.querySelectorAll('.fade-in');
+
+        // First, show elements that are already in viewport on load
+        function checkVisible(el) {
+          var rect = el.getBoundingClientRect();
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          if (rect.top < vh && rect.bottom > 0) {
+            el.classList.add('visible');
+            return true;
+          }
+          return false;
+        }
+
+        faders.forEach(function (el) {
+          checkVisible(el);
+        });
+
+        // IntersectionObserver with generous rootMargin for mobile
+        var observer;
+        if ('IntersectionObserver' in window) {
+          observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.05, rootMargin: '0px 0px 80px 0px' });
+
+          document.querySelectorAll('.fade-in:not(.visible)').forEach(function (el) {
+            observer.observe(el);
+          });
+        } else {
+          // Fallback for browsers without IntersectionObserver
+          document.querySelectorAll('.fade-in').forEach(function (el) {
+            el.classList.add('visible');
+          });
+        }
+
+        // XBrain Logo scroll fade
+        var logo = document.querySelector('.xbrain-brand');
+        var ticking = false;
+
+        function updateLogo() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var ratio = Math.min(scrollY / vh, 1);
+          var opacity = 1 - ratio * 0.7;
+          if (logo) {
+            logo.style.opacity = opacity;
+            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+          }
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        // Also listen to touchmove for mobile momentum scrolling compatibility
+        window.addEventListener('touchmove', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        // Initial state
+        updateLogo();
+
+        // Safety fallback: force reveal all fade-in elements after 3s
+        // to prevent permanent invisibility if observer fails
+        setTimeout(function () {
+          document.querySelectorAll('.fade-in:not(.visible)').forEach(function (el) {
+            el.classList.add('visible');
+          });
+        }, 3000);
+      })();
+    </script>
+
+  </div>
+</body>
+
+</html>
