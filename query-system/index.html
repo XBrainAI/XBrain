@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>中考志愿填报查询系统</title>
-    <style>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中考志愿填报查询系统</title>
+  <style>
     /* ===== XBrain Brand (Cerebro Style) ===== */
     .xbrain-brand {
       position: fixed;
@@ -29,6 +30,7 @@
       text-decoration: none;
       transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
     }
+
     .xbrain-brand:hover {
       box-shadow:
         0 0 24px rgba(80, 140, 255, 0.40),
@@ -37,6 +39,7 @@
       transform: translateY(-1px);
       border-color: rgba(180, 210, 255, 0.70);
     }
+
     .xbrain-brand.scrolled {
       background: rgba(15, 10, 40, 0.4);
       backdrop-filter: blur(4px);
@@ -44,27 +47,65 @@
       border-color: rgba(100, 180, 255, 0.08);
       box-shadow: none;
     }
+
     .xbrain-brand.scrolled:hover {
       opacity: 0.7 !important;
       border-color: rgba(100, 180, 255, 0.2);
     }
+
     .xbrain-brand svg {
       width: 32px;
       height: 32px;
       flex-shrink: 0;
       filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
     }
-    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
-    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
-    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
-    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
-    .xbrain-brand .xb-core { r: 12; opacity: 1; }
-    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+
+    .xbrain-brand .xb-ring {
+      stroke-width: 4;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-glow-bg {
+      opacity: 0.40;
+    }
+
+    .xbrain-brand .xb-center-ring {
+      stroke-width: 3;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-x-line {
+      opacity: 0.9;
+      stroke-width: 2.5;
+    }
+
+    .xbrain-brand .xb-core {
+      r: 12;
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-ttai {
+      fill: #4a70c0;
+      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
+    }
+
     .xbrain-brand .xb-ttai-line1,
-    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
-    .xbrain-brand .xb-bar-group { opacity: 0.75; }
-    .xbrain-brand .xb-bar { fill: #5a90e0; }
-    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xb-ttai-line2 {
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-bar-group {
+      opacity: 0.75;
+    }
+
+    .xbrain-brand .xb-bar {
+      fill: #5a90e0;
+    }
+
+    .xbrain-brand .xb-bar-glow {
+      opacity: 0.9;
+    }
+
     .xbrain-brand .xbrain-text {
       font-size: 15px;
       font-weight: 800;
@@ -73,106 +114,111 @@
       line-height: 1;
       text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
     }
+
     .xbrain-brand .xbrain-text span {
       color: #64b4ff;
       text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
     }
   </style>
 </head>
-  <body>
-    <!-- ===== XBrain Brand IP ===== -->
-    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
-      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
-            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
-            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
-          </radialGradient>
-          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#80c0ff" />
-            <stop offset="50%" stop-color="#4a90e2" />
-            <stop offset="100%" stop-color="#80c0ff" />
-          </linearGradient>
-          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
-        <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
-        <g transform="matrix(0 -1 1 0 30 300)">
-          <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
-          <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
-          <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
-        </g>
-        <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
-          <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
-          <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
-        </g>
-        <g transform="matrix(0 -1 1 0 30 230)">
-          <circle cx="50" cy="50" r="50" fill="#0d1636" />
-          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
-          <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
-          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
-          <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
-          <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
-          <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
-          <circle cx="50" cy="50" r="4" fill="#ffffff" />
-        </g>
-        <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
-          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
-          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
-        </g>
-      </svg>
-      <div class="xbrain-text"><span>X</span>Brain</div>
-    </a>
 
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-      <!-- ===== XBrain Logo Scroll Fade ===== -->
-    <script>
-      (function () {
-        var logo = document.querySelector('.xbrain-brand');
-        var ticking = false;
+<body>
+  <!-- ===== XBrain Brand IP ===== -->
+  <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+        opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+          opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
 
-        function updateLogo() {
-          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-          var vh = window.innerHeight || document.documentElement.clientHeight;
-          var ratio = Math.min(scrollY / vh, 1);
-          var opacity = 1 - ratio * 0.7;
-          if (logo) {
-            logo.style.opacity = opacity;
-            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
-          }
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <!-- ===== XBrain Logo Scroll Fade ===== -->
+  <script>
+    (function () {
+      var logo = document.querySelector('.xbrain-brand');
+      var ticking = false;
+
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
         }
+      }
 
-        window.addEventListener('scroll', function () {
-          if (!ticking) {
-            window.requestAnimationFrame(function () {
-              updateLogo();
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
 
-        window.addEventListener('touchmove', function () {
-          if (!ticking) {
-            window.requestAnimationFrame(function () {
-              updateLogo();
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
+      window.addEventListener('touchmove', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
 
-        updateLogo();
-      })();
-    </script>
+      updateLogo();
+    })();
+  </script>
 
 </body>
+
 </html>

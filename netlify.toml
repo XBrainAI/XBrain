@@ -2,7 +2,19 @@
   command = "npm run build"
   publish = "."
 
+# SPA 路由：query-system 子站点的 history fallback
 [[redirects]]
   from = "/query-system/dist/*"
   to = "/query-system/dist/index.html"
   status = 200
+
+# 简化 URL：/query-system/ → /query-system/dist/index.html
+[[redirects]]
+  from = "/query-system"
+  to = "/query-system/dist/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/query-system/"
+  to = "/query-system/dist/index.html"
+  status = 301
