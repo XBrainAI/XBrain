@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>志愿方案-0601 - 2026年广州中考</title>
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2c5282;
+            --accent: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #fff;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --success: #38a169;
+            --warning: #dd6b20;
+            --batch2: #3182ce;
+            --batch3: #38a169;
+            --batch4: #d69e2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, .2)
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px
+        }
+
+        .header .subtitle {
+            opacity: .85;
+            font-size: 14px
+        }
+
+        .overview-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .08)
+        }
+
+        .overview-card h2 {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border)
+        }
+
+        .overview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px
+        }
+
+        .overview-table th,
+        .overview-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .overview-table th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: var(--primary)
+        }
+
+        .overview-table tr:hover td {
+            background: #f7fafc
+        }
+
+        .ov-batch {
+            font-weight: 700
+        }
+
+        .ov-batch2 {
+            color: var(--batch2)
+        }
+
+        .ov-batch3 {
+            color: var(--batch3)
+        }
+
+        .ov-batch4 {
+            color: var(--batch4)
+        }
+
+        .ov-volunteer {
+            font-weight: 600
+        }
+
+        .ov-school {
+            font-weight: 500
+        }
+
+        .section {
+            margin-bottom: 24px
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border)
+        }
+
+        .section-header .badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px
+        }
+
+        .badge-batch2 {
+            background: var(--batch2)
+        }
+
+        .badge-batch3 {
+            background: var(--batch3)
+        }
+
+        .badge-batch4 {
+            background: var(--batch4)
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            color: var(--primary)
+        }
+
+        .section-header .count {
+            margin-left: auto;
+            font-size: 13px;
+            color: var(--text-muted)
+        }
+
+        .school-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+            border-left: 4px solid var(--border)
+        }
+
+        .school-card.batch2 {
+            border-left-color: var(--batch2)
+        }
+
+        .school-card.batch3 {
+            border-left-color: var(--batch3)
+        }
+
+        .school-card.batch4 {
+            border-left-color: var(--batch4)
+        }
+
+        .card-tag-row {
+            margin-bottom: 8px
+        }
+
+        .volunteer-tag-top {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .school-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px
+        }
+
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border)
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px
+        }
+
+        .info-item .label {
+            color: var(--text-muted)
+        }
+
+        .info-item .value {
+            font-weight: 500
+        }
+
+        .nature-gongban {
+            color: var(--success)
+        }
+
+        .nature-minban {
+            color: var(--warning)
+        }
+
+        .batch-data-group {
+            margin-bottom: 16px
+        }
+
+        .batch-data-group:last-child {
+            margin-bottom: 0
+        }
+
+        .batch-data-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 6px 12px;
+            background: #edf2f7;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-block
+        }
+
+        .batch-data-title.batch2-title {
+            background: #ebf8ff;
+            color: var(--batch2)
+        }
+
+        .batch-data-title.batch3-title {
+            background: #f0fff4;
+            color: var(--batch3)
+        }
+
+        .batch-data-title.batch4-title {
+            background: #fffaf0;
+            color: var(--batch4)
+        }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px
+        }
+
+        .score-table th,
+        .score-table td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid var(--border)
+        }
+
+        .score-table th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: var(--primary)
+        }
+
+        .score-table td {
+            background: white
+        }
+
+        .score-table .year-col {
+            background: #f7fafc;
+            font-weight: 600
+        }
+
+        .score {
+            font-weight: 700
+        }
+
+        .plan-block {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 14px
+        }
+
+        .plan-block h4 {
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px
+        }
+
+        .plan-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 4px 0
+        }
+
+        .plan-item .p-label {
+            color: var(--text-muted)
+        }
+
+        .plan-item .p-value {
+            font-weight: 500
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 20px
+        }
+
+        @media(max-width:768px) {
+            .container {
+                padding: 12px
+            }
+
+            .header {
+                padding: 20px
+            }
+
+            .header h1 {
+                font-size: 20px
+            }
+
+            .overview-table {
+                font-size: 12px
+            }
+
+            .overview-table th,
+            .overview-table td {
+                padding: 8px 6px
+            }
+
+            .score-table {
+                font-size: 11px
+            }
+
+            .score-table th,
+            .score-table td {
+                padding: 5px 3px
+            }
+
+            .plan-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+        /* ===== XBrain Brand (Cerebro Style) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+</style>
+</head>
+
+<body>
+    <!-- ===== XBrain Brand IP ===== -->
+    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#80c0ff" />
+            <stop offset="50%" stop-color="#4a90e2" />
+            <stop offset="100%" stop-color="#80c0ff" />
+          </linearGradient>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+        <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+        <g transform="matrix(0 -1 1 0 30 300)">
+          <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+          <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+          <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+        </g>
+        <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+          <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+          <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+        </g>
+        <g transform="matrix(0 -1 1 0 30 230)">
+          <circle cx="50" cy="50" r="50" fill="#0d1636" />
+          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+          <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+          <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+        </g>
+        <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+        </g>
+      </svg>
+      <div class="xbrain-text"><span>X</span>Brain</div>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>2026年广州中考志愿填报方案（0601）</h1>
+            <h3>【0601提交纸质初稿版本】</h3>
+            <div class="subtitle">数据截止：2026年6月 | 面向：老三区户籍考生</div>
+        </div>
+
+        <div class="overview-card">
+            <h2>志愿总表</h2>
+            <table class="overview-table">
+                <thead>
+                    <tr>
+                        <th>批次</th>
+                        <th>志愿序号</th>
+                        <th>学校名称</th>
+                        <th>学校类别</th>
+                        <th>2025年户籍生最低分</th>
+                        <th>梯度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ov-batch ov-batch2">第二批</td>
+                        <td class="ov-volunteer">第一志愿</td>
+                        <td class="ov-school">广州市西关外国语学校</td>
+                        <td>广州市示范性普通高中</td>
+                        <td>610</td>
+                        <td>第四梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch2">第二批</td>
+                        <td class="ov-volunteer">第二志愿</td>
+                        <td class="ov-school">广州市第四中学</td>
+                        <td>国家级示范性普通高中</td>
+                        <td>627</td>
+                        <td>第三梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch2">第二批</td>
+                        <td class="ov-volunteer">第三志愿</td>
+                        <td class="ov-school">广州市真光中学（广钢校区）</td>
+                        <td>国家级示范性普通高中</td>
+                        <td>667</td>
+                        <td>第二梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch3">第三批</td>
+                        <td class="ov-volunteer">第一志愿</td>
+                        <td class="ov-school">广州市第一中学</td>
+                        <td>国家级示范性普通高中</td>
+                        <td>628</td>
+                        <td>第三梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch3">第三批</td>
+                        <td class="ov-volunteer">第二志愿</td>
+                        <td class="ov-school">广州市第十七中学</td>
+                        <td>广州市示范性普通高中</td>
+                        <td>616</td>
+                        <td>第四梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch3">第三批</td>
+                        <td class="ov-volunteer">第三志愿</td>
+                        <td class="ov-school">广州市南海中学</td>
+                        <td>广州市示范性普通高中</td>
+                        <td>587</td>
+                        <td>第四梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch3">第三批</td>
+                        <td class="ov-volunteer">第四志愿</td>
+                        <td class="ov-school">广州市真光中学（汾水校区）</td>
+                        <td>国家级示范性普通高中</td>
+                        <td>631</td>
+                        <td>第三梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch3">第三批</td>
+                        <td class="ov-volunteer">第五志愿</td>
+                        <td class="ov-school">广州市第九十七中学（江南新苑校区）</td>
+                        <td>广州市示范性普通高中</td>
+                        <td>589</td>
+                        <td>第四梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch4">第四批</td>
+                        <td class="ov-volunteer">第一志愿</td>
+                        <td class="ov-school">广州市第十三中学</td>
+                        <td>广州市示范性普通高中</td>
+                        <td>616</td>
+                        <td>第四梯度</td>
+                    </tr>
+                    <tr>
+                        <td class="ov-batch ov-batch4">第四批</td>
+                        <td class="ov-volunteer">第二志愿</td>
+                        <td class="ov-school">广州理工实验学校</td>
+                        <td>广州市示范性普通高中</td>
+                        <td>625</td>
+                        <td>第三梯度</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="badge badge-batch2">2</div>
+                <h2>第二批（名额分配）</h2><span class="count">3个志愿</span>
+            </div>
+
+            <div class="school-card batch2">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第二批-第一志愿</span></div>
+                <div class="school-name">广州市西关外国语学校</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">广州市示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">荔湾区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市荔湾区中山八路石路基1号</span>
+                    </div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">232人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">69人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">526人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">500</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch2-title">第二批（名额分配）</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">622</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">610</td>
+                            <td>319</td>
+                            <td>1</td>
+                            <td>610</td>
+                            <td>612</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">652</td>
+                            <td>308</td>
+                            <td>1</td>
+                            <td>652</td>
+                            <td>652</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">635</td>
+                            <td>276</td>
+                            <td>2</td>
+                            <td>668</td>
+                            <td>635</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch2">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第二批-第二志愿</span></div>
+                <div class="school-name">广州市第四中学</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">国家级示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">荔湾区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span
+                            class="value">广州市荔湾区西华路太保直街1号（后门）康王北路芦荻街（正门）</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">314人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">94人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">737人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">300</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch2-title">第二批（名额分配）</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">616</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">627</td>
+                            <td>386</td>
+                            <td>2</td>
+                            <td>644</td>
+                            <td>627</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">655</td>
+                            <td>448</td>
+                            <td>1</td>
+                            <td>655</td>
+                            <td>656</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">636</td>
+                            <td>264</td>
+                            <td>2</td>
+                            <td>643</td>
+                            <td>639</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch2">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第二批-第三志愿</span></div>
+                <div class="school-name">广州市真光中学（广钢校区）</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">国家级示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">荔湾区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市荔湾区崇文五路</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">176人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">63人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">422人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">422</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch2-title">第二批（名额分配）</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">617</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">667</td>
+                            <td>387</td>
+                            <td>3</td>
+                            <td>695</td>
+                            <td>667</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="badge badge-batch3">3</div>
+                <h2>第三批（示范性高中）</h2><span class="count">5个志愿</span>
+            </div>
+
+            <div class="school-card batch3">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第三批-第一志愿</span></div>
+                <div class="school-name">广州市第一中学</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">国家级示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">荔湾区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span
+                            class="value">广州市荔湾区大坦沙岛育贤路30号（高中校区）</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">288人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">107人</span>
+                        </div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">836人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">836</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch2-title">第二批（名额分配）</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">628</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">628</td>
+                            <td>119</td>
+                            <td>5</td>
+                            <td>655</td>
+                            <td>633</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">652</td>
+                            <td>388</td>
+                            <td>1</td>
+                            <td>652</td>
+                            <td>662</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">675</td>
+                            <td>410</td>
+                            <td>4</td>
+                            <td>691</td>
+                            <td>675</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch3">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第三批-第二志愿</span></div>
+                <div class="school-name">广州市第十七中学</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">广州市示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">越秀区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市小北路280号</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">190人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">57人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">432人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">0</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">616</td>
+                            <td>264</td>
+                            <td>1</td>
+                            <td>616</td>
+                            <td>616</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">622</td>
+                            <td>313</td>
+                            <td>3</td>
+                            <td>644</td>
+                            <td>623</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">635</td>
+                            <td>306</td>
+                            <td>2</td>
+                            <td>663</td>
+                            <td>698</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch3">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第三批-第三志愿</span></div>
+                <div class="school-name">广州市南海中学</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">广州市示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">荔湾区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">荔湾区南岸富力路56号</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">223人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">67人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">528人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">0</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch2-title">第二批（名额分配）</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">603</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">587</td>
+                            <td>319</td>
+                            <td>2</td>
+                            <td>606</td>
+                            <td>599</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">622</td>
+                            <td>396</td>
+                            <td>3</td>
+                            <td>630</td>
+                            <td>626</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">635</td>
+                            <td>382</td>
+                            <td>4</td>
+                            <td>636</td>
+                            <td>648</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch3">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第三批-第四志愿</span></div>
+                <div class="school-name">广州市真光中学（汾水校区）</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">国家级示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">荔湾区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市荔湾区芳村汾水小区芬芳街47号</span>
+                    </div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">93人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">33人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">220人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">0</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch2-title">第二批（名额分配）</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">594</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">631</td>
+                            <td>28</td>
+                            <td>5</td>
+                            <td>650</td>
+                            <td>650</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">623</td>
+                            <td>473</td>
+                            <td>3</td>
+                            <td>631</td>
+                            <td>654</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">635</td>
+                            <td>325</td>
+                            <td>3</td>
+                            <td>638</td>
+                            <td>640</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch4-title">第四批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch3">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第三批-第五志愿</span></div>
+                <div class="school-name">广州市第九十七中学（江南新苑校区）</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">广州市示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">海珠区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市海珠区晓港东横街12号</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">100人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">30人</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">200人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">0</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">589</td>
+                            <td>347</td>
+                            <td>3</td>
+                            <td>618</td>
+                            <td>605</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <div class="badge badge-batch4">4</div>
+                <h2>第四批（非示范性高中/综合高中）</h2><span class="count">2个志愿</span>
+            </div>
+
+            <div class="school-card batch4">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第四批-第一志愿</span></div>
+                <div class="school-name">广州市第十三中学</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-gongban">公办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">广州市示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">越秀区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市文德北路83号</span></div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">168人</span></div>
+                        <div class="plan-item"><span class="p-label">外区最大计划</span><span class="p-value">-</span></div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">336人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">300</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch4-title">第四批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">616</td>
+                            <td>71</td>
+                            <td>1</td>
+                            <td>616</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">636</td>
+                            <td>80</td>
+                            <td>1</td>
+                            <td>636</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">630</td>
+                            <td>148</td>
+                            <td>1</td>
+                            <td>630</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="school-card batch4">
+                <div class="card-tag-row"><span class="volunteer-tag-top">第四批-第二志愿</span></div>
+                <div class="school-name">广州理工实验学校</div>
+                <div class="info-row">
+                    <div class="info-item"><span class="label">性质：</span><span class="value nature-minban">民办</span>
+                    </div>
+                    <div class="info-item"><span class="label">类别：</span><span class="value">广州市示范性普通高中</span></div>
+                    <div class="info-item"><span class="label">隶属：</span><span class="value">增城区</span></div>
+                    <div class="info-item"><span class="label">地址：</span><span class="value">广州市增城区中新镇团结村山口路169号</span>
+                    </div>
+                </div>
+                <div class="plan-block">
+                    <h4>2026年招生计划</h4>
+                    <div class="plan-grid">
+                        <div class="plan-item"><span class="p-label">招生计划</span><span class="p-value">200人</span></div>
+                        <div class="info-item"><span class="label">备注：</span><span class="value">公费班80人，自费班120人</span>
+                        </div>
+                        <div class="plan-item"><span class="p-label">学校总计划</span><span class="p-value">400人</span></div>
+                        <div class="plan-item"><span class="p-label">总宿位</span><span class="p-value">400</span></div>
+                    </div>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch3-title">第三批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                            <th>外区生最低分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">625</td>
+                            <td>168</td>
+                            <td>1</td>
+                            <td>625</td>
+                            <td>629</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2024</td>
+                            <td class="score">663</td>
+                            <td>231</td>
+                            <td>1</td>
+                            <td>663</td>
+                            <td>663</td>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2023</td>
+                            <td class="score">681</td>
+                            <td>142</td>
+                            <td>1</td>
+                            <td>681</td>
+                            <td>682</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="batch-data-group">
+                    <div class="batch-data-title batch4-title">第四批</div>
+                    <table class="score-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>户籍生最低分</th>
+                            <th>同分序号</th>
+                            <th>志愿序号</th>
+                            <th>末位考生分</th>
+                        </tr>
+                        <tr>
+                            <td class="year-col">2025</td>
+                            <td class="score">-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">数据来源：广州市招考办、学校官方信息 | 本方案仅供参考，请以官方最新发布为准</div>
+    </div>
+    <!-- ===== XBrain Logo Scroll Fade ===== -->
+    <script>
+      (function () {
+        var logo = document.querySelector('.xbrain-brand');
+        var ticking = false;
+
+        function updateLogo() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var ratio = Math.min(scrollY / vh, 1);
+          var opacity = 1 - ratio * 0.7;
+          if (logo) {
+            logo.style.opacity = opacity;
+            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+          }
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateLogo();
+      })();
+    </script>
+
+</body>
+
+</html>

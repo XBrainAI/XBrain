@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0
+    <title>家用新风机购买选型指南（2026年版）</title>
+    <link rel=" preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #10b981;
+            --accent: #06b6d4;
+            --bg: #ffffff;
+            --bg-alt: #f0f9ff;
+            --bg-warm: #f6fdf9;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 70px;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+        }
+
+        /* ===== Navigation ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: rgba(14, 165, 233, 0.08);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(14, 165, 233, 0.12);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            position: relative;
+            padding: 140px 24px 100px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #d1fae5 50%, #ecfeff 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--primary-dark);
+            margin-bottom: 28px;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-motto {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-radius: var(--radius);
+            padding: 24px 32px;
+            display: inline-block;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-motto-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-motto-text {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* ===== Sections ===== */
+        .section {
+            padding: 80px 24px;
+        }
+
+        .section-alt {
+            background: var(--bg-alt);
+        }
+
+        .section-warm {
+            background: var(--bg-warm);
+        }
+
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .section h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            color: var(--text-light);
+            font-size: 1.0625rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== Comparison Table ===== */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9375rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            font-weight: 700;
+            text-align: left;
+            padding: 16px 20px;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        tr:hover td {
+            background: rgba(14, 165, 233, 0.04);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .col-highlight {
+            background: rgba(14, 165, 233, 0.06);
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-gray {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        /* ===== Cards ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card p,
+        .card ul {
+            font-size: 0.9375rem;
+            color: var(--text-light);
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .card ul li {
+            padding: 4px 0;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary);
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== Indicator Items ===== */
+        .indicator-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .indicator-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .indicator-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+
+        .indicator-content h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .indicator-content p {
+            color: var(--text-light);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+
+        .indicator-table-wrap {
+            overflow-x: auto;
+        }
+
+        .indicator-table-wrap table {
+            box-shadow: none;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .indicator-table-wrap th {
+            background: #f8fafc;
+            padding: 10px 14px;
+            font-size: 0.875rem;
+        }
+
+        .indicator-table-wrap td {
+            padding: 10px 14px;
+            font-size: 0.875rem;
+        }
+
+        /* ===== Product Table ===== */
+        .product-table th:first-child,
+        .product-table td:first-child {
+            position: sticky;
+            left: 0;
+            background: white;
+            z-index: 2;
+            min-width: 160px;
+        }
+
+        .product-table th:first-child {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            z-index: 3;
+        }
+
+        .product-table tr:hover td:first-child {
+            background: rgba(14,165,233,0.04);
+        }
+
+        .price {
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .recommend {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            font-weight: 700;
+        }
+
+        /* ===== Scene Tabs ===== */
+        .scene-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .scene-tab {
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: var(--text-light);
+        }
+
+        .scene-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .scene-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(14,165,233,0.3);
+        }
+
+        .scene-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .scene-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scene-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .scene-card h4 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        /* ===== Decision Tree ===== */
+        .tree-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tree-question {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .tree-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tree-option {
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tree-option:hover {
+            border-color: var(--primary);
+            background: rgba(14,165,233,0.04);
+        }
+
+        .tree-result {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .tree-result h4 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .tree-result p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .tree-restart {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .tree-restart:hover {
+            opacity: 0.9;
+        }
+
+        .tree-breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tree-breadcrumb span {
+            font-size: 0.8125rem;
+            color: var(--text-light);
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 100px;
+        }
+
+        /* ===== Pitfall Cards ===== */
+        .pitfall-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .pitfall-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid #f59e0b;
+        }
+
+        .pitfall-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #92400e;
+        }
+
+        .pitfall-card p {
+            font-size: 0.9375rem;
+            color: var(--text-light);
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .footer p {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ===== Back to Top ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ===== Mobile Optimizations ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 16px;
+                gap: 4px;
+                border-bottom: 1px solid var(--border);
+                box-shadow: var(--shadow);
+                max-height: calc(100vh - 64px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 12px 16px;
+                font-size: 1rem;
+                border-radius: var(--radius-sm);
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: var(--radius-sm);
+                background: rgba(14,165,233,0.08);
+                color: var(--primary);
+            }
+
+            .hero {
+                padding: 100px 16px 60px;
+            }
+
+            .hero h1 {
+                font-size: 1.625rem;
+                line-height: 1.3;
+            }
+
+            .hero p {
+                font-size: 0.9375rem;
+                padding: 0 8px;
+            }
+
+            .hero-badge {
+                font-size: 0.8125rem;
+                padding: 6px 14px;
+            }
+
+            .hero-motto {
+                padding: 18px 20px;
+                width: 100%;
+            }
+
+            .hero-motto-text {
+                font-size: 0.9375rem;
+                line-height: 1.6;
+            }
+
+            .section {
+                padding: 48px 16px;
+            }
+
+            .section-header {
+                margin-bottom: 32px;
+            }
+
+            .section h2 {
+                font-size: 1.375rem;
+            }
+
+            .section-desc {
+                font-size: 0.9375rem;
+                padding: 0 8px;
+            }
+
+            .section-tag {
+                font-size: 0.6875rem;
+                padding: 3px 10px;
+            }
+
+            .indicator-item {
+                flex-direction: column;
+                gap: 14px;
+                padding: 20px;
+            }
+
+            .indicator-num {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .indicator-content h3 {
+                font-size: 1rem;
+            }
+
+            .indicator-content p {
+                font-size: 0.875rem;
+            }
+
+            .indicator-table-wrap {
+                margin: 0 -4px;
+            }
+
+            .indicator-table-wrap table {
+                font-size: 0.8125rem;
+            }
+
+            .indicator-table-wrap th,
+            .indicator-table-wrap td {
+                padding: 8px 10px;
+            }
+
+            .tree-container {
+                padding: 20px 16px;
+                border-radius: var(--radius-sm);
+            }
+
+            .tree-question {
+                font-size: 1.0625rem;
+                margin-bottom: 20px;
+            }
+
+            .tree-option {
+                padding: 14px 16px;
+                font-size: 0.9375rem;
+                text-align: left;
+            }
+
+            .tree-breadcrumb span {
+                font-size: 0.75rem;
+                padding: 3px 10px;
+            }
+
+            .tree-result h4 {
+                font-size: 1.0625rem;
+            }
+
+            .tree-result p {
+                font-size: 0.9375rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.25rem;
+            }
+
+            .card h3 {
+                font-size: 1rem;
+            }
+
+            .card p, .card ul {
+                font-size: 0.875rem;
+            }
+
+            .table-wrap {
+                border-radius: var(--radius-sm);
+                margin: 0 -4px;
+                width: calc(100% + 8px);
+            }
+
+            table {
+                font-size: 0.8125rem;
+            }
+
+            th, td {
+                padding: 10px 12px;
+            }
+
+            .product-table th:first-child,
+            .product-table td:first-child {
+                min-width: 120px;
+                max-width: 140px;
+                white-space: normal;
+                word-break: break-all;
+            }
+
+            .scene-tabs {
+                gap: 6px;
+                margin-bottom: 20px;
+            }
+
+            .scene-tab {
+                padding: 8px 14px;
+                font-size: 0.8125rem;
+            }
+
+            .scene-card {
+                padding: 20px;
+                border-radius: var(--radius-sm);
+            }
+
+            .scene-card h4 {
+                font-size: 0.9375rem;
+            }
+
+            .pitfall-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .pitfall-card {
+                padding: 18px;
+            }
+
+            .pitfall-card h4 {
+                font-size: 0.9375rem;
+            }
+
+            .pitfall-card p {
+                font-size: 0.875rem;
+            }
+
+            .footer {
+                padding: 28px 16px;
+                font-size: 0.75rem;
+            }
+
+            .back-to-top {
+                width: 44px;
+                height: 44px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .badge {
+                font-size: 0.6875rem;
+                padding: 1px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.375rem;
+            }
+
+            .section h2 {
+                font-size: 1.25rem;
+            }
+
+            .hero-motto-text {
+                font-size: 0.875rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+
+            .scene-tab {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (pointer: coarse) {
+            .tree-option,
+            .scene-tab,
+            .nav-links a,
+            .back-to-top {
+                min-height: 44px;
+            }
+
+            .card:hover {
+                transform: none;
+            }
+
+            .tree-option:active {
+                background: rgba(14,165,233,0.1);
+                border-color: var(--primary);
+            }
+
+            .scene-tab:active {
+                opacity: 0.8;
+            }
+        }
+
+        /* ===== Scroll Reveal ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* ===== XBrain Brand (Cerebro Style) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+</style>
+</head>
+<body>
+    <!-- ===== XBrain Brand IP ===== -->
+    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#80c0ff" />
+            <stop offset="50%" stop-color="#4a90e2" />
+            <stop offset="100%" stop-color="#80c0ff" />
+          </linearGradient>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+        <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+        <g transform="matrix(0 -1 1 0 30 300)">
+          <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+          <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+          <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+        </g>
+        <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+          <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+          <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+        </g>
+        <g transform="matrix(0 -1 1 0 30 230)">
+          <circle cx="50" cy="50" r="50" fill="#0d1636" />
+          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+          <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+          <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+        </g>
+        <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+        </g>
+      </svg>
+      <div class="xbrain-text"><span>X</span>Brain</div>
+    </a>
+
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">新风机选型指南</div>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="菜单">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#intro" onclick="closeMenu()">认识新风</a></li>
+                <li><a href="#types" onclick="closeMenu()">四大类型</a></li>
+                <li><a href="#indicators" onclick="closeMenu()">六大指标</a></li>
+                <li><a href="#products" onclick="closeMenu()">产品横评</a></li>
+                <li><a href="#scenes" onclick="closeMenu()">场景推荐</a></li>
+                <li><a href="#decision" onclick="closeMenu()">快速决策</a></li>
+                <li><a href="#pitfalls" onclick="closeMenu()">避坑指南</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+                2026年版
+            </div>
+            <h1>家用新风机购买选型指南</h1>
+            <p>从零开始帮你搞清楚新风系统怎么选。基于2026年市场最新数据和主流产品横评，让普通消费者不再踩坑。</p>
+            <div class="hero-motto">
+                <div class="hero-motto-label">一句话选购口诀</div>
+                <div class="hero-motto-text">双向流、全热交换、H13过滤、睡眠&le;25dB、支持小孔/玻璃安装、质保&ge;2年</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro: 认识新风 -->
+    <section class="section" id="intro">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">基础知识</span>
+                <h2>认识新风系统</h2>
+                <p class="section-desc">新风系统是一套独立的空气处理系统，能在不开窗的情况下实现24小时不间断通风换气。</p>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>对比维度</th>
+                            <th class="col-highlight">新风系统</th>
+                            <th>空气净化器</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>空气来源</td>
+                            <td class="col-highlight">室外新鲜空气（过滤后引入）</td>
+                            <td>室内空气（循环过滤）</td>
+                        </tr>
+                        <tr>
+                            <td>降低CO₂</td>
+                            <td class="col-highlight"><span class="badge badge-green">可以</span></td>
+                            <td><span class="badge badge-gray">不能</span></td>
+                        </tr>
+                        <tr>
+                            <td>降低甲醛</td>
+                            <td class="col-highlight"><span class="badge badge-green">可以（持续稀释）</span></td>
+                            <td><span class="badge badge-gray">有限（吸附饱和后失效）</span></td>
+                        </tr>
+                        <tr>
+                            <td>降PM2.5</td>
+                            <td class="col-highlight"><span class="badge badge-green">可以</span></td>
+                            <td><span class="badge badge-green">可以</span></td>
+                        </tr>
+                        <tr>
+                            <td>安装难度</td>
+                            <td class="col-highlight">需要打孔或布管</td>
+                            <td>即插即用</td>
+                        </tr>
+                        <tr>
+                            <td>使用成本</td>
+                            <td class="col-highlight">滤网更换（年300-800元）</td>
+                            <td>滤网更换（年300-600元）</td>
+                        </tr>
+                        <tr>
+                            <td>能耗</td>
+                            <td class="col-highlight">运行功率30-200W</td>
+                            <td>运行功率5-70W</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 20px; padding: 16px 20px; background: #eff6ff; border-radius: var(--radius-sm); border-left: 4px solid var(--primary); font-size: 0.9375rem;">
+                <strong>结论：</strong>新风系统解决的是"换气+净化"，空气净化器解决的是"净化"。如果长期不开窗、室内CO₂容易超标、新装修担心甲醛，新风系统是更好的选择。
+            </div>
+        </div>
+    </section>
+
+    <!-- Types: 四大类型 -->
+    <section class="section section-alt" id="types">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">类型选择</span>
+                <h2>新风系统的四大类型</h2>
+                <p class="section-desc">根据房屋状态和使用需求，选择最适合的安装类型。</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon" style="background: #dbeafe;">🏠</div>
+                    <span class="card-tag" style="background: #dbeafe; color: #1e40af;">全屋覆盖</span>
+                    <h3>吊顶式中央新风</h3>
+                    <p style="margin-bottom: 12px;"><strong>适合：</strong>未装修的毛坯房</p>
+                    <ul>
+                        <li>全屋送风排风，覆盖所有房间</li>
+                        <li>隐蔽安装，不占地面/墙面空间</li>
+                        <li>风量大，适合大户型</li>
+                        <li>综合成本约1-3万元</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: #d1fae5;">🖼️</div>
+                    <span class="card-tag" style="background: #d1fae5; color: #065f46;">最推荐</span>
+                    <h3>壁挂式新风机</h3>
+                    <p style="margin-bottom: 12px;"><strong>适合：</strong>已装修房、精装房、老房改造</p>
+                    <ul>
+                        <li>无需布管，墙面打孔即可安装</li>
+                        <li>1-2小时无尘完工</li>
+                        <li>可单房间独立使用</li>
+                        <li>性价比高（2000-6000元）</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: #fef3c7;">🚪</div>
+                    <span class="card-tag" style="background: #fef3c7; color: #92400e;">大户型</span>
+                    <h3>柜式新风机</h3>
+                    <p style="margin-bottom: 12px;"><strong>适合：</strong>大户型、客厅</p>
+                    <ul>
+                        <li>风量大（500-800m³/h）</li>
+                        <li>滤网面积大，寿命更长</li>
+                        <li>落地安装，不破坏墙体</li>
+                        <li>适合大平层、别墅</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon" style="background: #f3e8ff;">🪟</div>
+                    <span class="card-tag" style="background: #f3e8ff; color: #6b21a8;">租房/临时</span>
+                    <h3>窗式新风机</h3>
+                    <p style="margin-bottom: 12px;"><strong>适合：</strong>租房用户、无法打孔</p>
+                    <ul>
+                        <li>免打孔，安装在窗户上</li>
+                        <li>价格便宜（500-2000元）</li>
+                        <li>搬家可带走</li>
+                        <li>风量较小（30-80m³/h）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="table-wrap" style="margin-top: 32px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>你的情况</th>
+                            <th>推荐类型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>毛坯房，准备装修</td><td><span class="badge badge-green">吊顶式中央新风</span></td></tr>
+                        <tr><td>精装房/已装修，主要改善卧室</td><td><span class="badge badge-green">壁挂式新风机</span></td></tr>
+                        <tr><td>大户型/别墅，全屋覆盖</td><td><span class="badge badge-green">柜式或吊顶式中央新风</span></td></tr>
+                        <tr><td>租房，临时使用</td><td><span class="badge badge-green">窗式新风机</span></td></tr>
+                        <tr><td>多个房间都有需求但不方便吊顶</td><td><span class="badge badge-green">多台壁挂式组合</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Indicators: 六大指标 -->
+    <section class="section" id="indicators">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">选购要点</span>
+                <h2>选购的六大核心指标</h2>
+                <p class="section-desc">掌握这六个指标，选购新风机不再迷茫。</p>
+            </div>
+
+            <div class="indicator-list">
+                <!-- 指标1 -->
+                <div class="indicator-item">
+                    <div class="indicator-num">1</div>
+                    <div class="indicator-content">
+                        <h3>换气方式 — 单向流 vs 双向流</h3>
+                        <p>这是选购新风系统最基础也是最重要的决策点。</p>
+                        <div class="indicator-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>对比维度</th>
+                                        <th>单向流（正压式）</th>
+                                        <th style="background: #dbeafe;">双向流（全热交换）</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>工作原理</td><td>只送风不排风</td><td>同时送风+排风</td></tr>
+                                    <tr><td>热量损失</td><td>大（冬天灌冷风）</td><td>小（回收热量）</td></tr>
+                                    <tr><td>节能性</td><td>差</td><td>好</td></tr>
+                                    <tr><td>价格</td><td>低</td><td>中高</td></tr>
+                                    <tr><td>推荐场景</td><td>南方/全年开空调</td><td>北方/四季分明/有采暖</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 12px; color: var(--primary); font-weight: 600;">建议：强烈建议选择双向流+全热交换，除非预算极低。</p>
+                    </div>
+                </div>
+
+                <!-- 指标2 -->
+                <div class="indicator-item">
+                    <div class="indicator-num">2</div>
+                    <div class="indicator-content">
+                        <h3>风量 — 决定换气能力的核心</h3>
+                        <p>计算方法：房间面积 × 层高 × 换气次数（建议0.5-1次/小时），或按人数（每人≥30m³/h）。</p>
+                        <div class="indicator-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>风量</th><th>适合面积</th><th>适合场景</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>80-150 m³/h</td><td>≤20㎡</td><td>单人卧室/书房</td></tr>
+                                    <tr><td>150-250 m³/h</td><td>20-40㎡</td><td>主卧/儿童房</td></tr>
+                                    <tr><td>250-400 m³/h</td><td>40-80㎡</td><td>客餐厅一体</td></tr>
+                                    <tr><td>400-600 m³/h</td><td>80-150㎡</td><td>大户型/全屋</td></tr>
+                                    <tr><td>600+ m³/h</td><td>150㎡+</td><td>别墅/商用</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 12px; color: #92400e; font-weight: 600;">注意：标注风量通常是最大档位，日常使用开中低档（约50-70%），选购要留余量。</p>
+                    </div>
+                </div>
+
+                <!-- 指标3 -->
+                <div class="indicator-item">
+                    <div class="indicator-num">3</div>
+                    <div class="indicator-content">
+                        <h3>过滤等级 — 决定空气有多干净</h3>
+                        <p>HEPA滤网等级越高过滤效果越好。</p>
+                        <div class="indicator-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>等级</th><th>PM2.5过滤效率</th><th>评价</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>H10</td><td>≥85%</td><td>基础级，不够用</td></tr>
+                                    <tr><td>H11</td><td>≥95%</td><td>合格，但不够好</td></tr>
+                                    <tr><td>H12</td><td>≥99.5%</td><td>良好，推荐</td></tr>
+                                    <tr><td style="background: #dbeafe; font-weight: 700;">H13</td><td style="background: #dbeafe; font-weight: 700;">≥99.97%</td><td style="background: #dbeafe; font-weight: 700;">医用级，首选</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 12px; color: var(--primary); font-weight: 600;">建议：优先选择H13级HEPA滤网，多层过滤更优（G4初效+H13高效+活性炭+杀菌）。</p>
+                    </div>
+                </div>
+
+                <!-- 指标4 -->
+                <div class="indicator-item">
+                    <div class="indicator-num">4</div>
+                    <div class="indicator-content">
+                        <h3>热交换效率 — 节能的关键</h3>
+                        <p>热交换效率指回收室内排出空气中热量（或冷量）的能力。</p>
+                        <div class="indicator-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>热交换率</th><th>评价</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>&lt;50%</td><td>差，基本等于没有</td></tr>
+                                    <tr><td>50-65%</td><td>合格</td></tr>
+                                    <tr><td>65-75%</td><td>良好</td></tr>
+                                    <tr><td style="background: #dbeafe; font-weight: 700;">&gt;75%</td><td style="background: #dbeafe; font-weight: 700;">优秀</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 12px;"><strong>芯体材料对比：</strong>纸芯（60-70%，1-2年需更换）→ 铝芯（50-65%，可水洗）→ <strong>石墨烯/高分子（65-90%，可水洗长寿命）</strong></p>
+                    </div>
+                </div>
+
+                <!-- 指标5 -->
+                <div class="indicator-item">
+                    <div class="indicator-num">5</div>
+                    <div class="indicator-content">
+                        <h3>噪音 — 好机器是安静的</h3>
+                        <p>噪音直接影响日常使用体验，特别是卧室使用。</p>
+                        <div class="indicator-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>场景</th><th>推荐噪音标准</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>睡眠模式</td><td style="background: #dbeafe; font-weight: 700;">≤25dB</td></tr>
+                                    <tr><td>中档运行</td><td>≤30dB</td></tr>
+                                    <tr><td>最大档位</td><td>≤40dB</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 12px; color: var(--text-light);">提醒：不要只看最低档噪音，中高档才是常用档位。直流无刷电机比交流电机更安静。</p>
+                    </div>
+                </div>
+
+                <!-- 指标6 -->
+                <div class="indicator-item">
+                    <div class="indicator-num">6</div>
+                    <div class="indicator-content">
+                        <h3>安装与售后 — 容易被忽略的关键</h3>
+                        <div class="indicator-table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>维度</th><th>优质标准</th><th>注意避坑</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>安装方式</td><td>支持玻璃开孔/小孔径穿墙</td><td>只能大孔径打墙（破坏性强）</td></tr>
+                                    <tr><td>安装速度</td><td>1-2小时无尘完工</td><td>工期3-7天</td></tr>
+                                    <tr><td>整机质保</td><td>≥2年</td><td>仅1年</td></tr>
+                                    <tr><td>售后响应</td><td>24小时内响应</td><td>48-72小时</td></tr>
+                                    <tr><td>滤网购买</td><td>官方渠道容易买到</td><td>停产即断供</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products: 产品横评 -->
+    <section class="section section-alt" id="products">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">产品对比</span>
+                <h2>2026年主流壁挂机型横评</h2>
+                <p class="section-desc">基于国家新风标准GB/T 21087，综合12款壁挂机型实测数据。</p>
+            </div>
+
+            <div class="table-wrap" style="overflow-x: auto;">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>品牌型号</th>
+                            <th>换气方式</th>
+                            <th>风量(m³/h)</th>
+                            <th>过滤等级</th>
+                            <th>热回收率</th>
+                            <th>噪音(dB)</th>
+                            <th>落地价</th>
+                            <th>质保</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 700;"><span class="badge recommend" style="margin-right: 6px;">推荐</span>第五季 BG160TSC</td>
+                            <td>双向流全热</td>
+                            <td>200</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥70%</td>
+                            <td><span class="badge badge-green">20</span></td>
+                            <td class="price">¥2,983</td>
+                            <td><span class="badge badge-green">2年</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700;"><span class="badge recommend" style="margin-right: 6px;">推荐</span>第五季 BG360A</td>
+                            <td>双向流全热</td>
+                            <td>360</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥67%</td>
+                            <td>26</td>
+                            <td class="price">¥3,909</td>
+                            <td><span class="badge badge-green">2年</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700;"><span class="badge recommend" style="margin-right: 6px;">推荐</span>第五季 BG500A</td>
+                            <td>双向流全热</td>
+                            <td>500</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥72%</td>
+                            <td>27</td>
+                            <td class="price">¥4,759</td>
+                            <td><span class="badge badge-green">2年</span></td>
+                        </tr>
+                        <tr>
+                            <td>松下 FV-RZ09VD1</td>
+                            <td>双向流全热</td>
+                            <td>90</td>
+                            <td>H11</td>
+                            <td>≥70%</td>
+                            <td>22</td>
+                            <td class="price">¥3,299</td>
+                            <td>1年</td>
+                        </tr>
+                        <tr>
+                            <td>松下 FV-RZ18VD1</td>
+                            <td>双向流全热</td>
+                            <td>180</td>
+                            <td>H11</td>
+                            <td>≥70%</td>
+                            <td>25</td>
+                            <td class="price">¥4,999</td>
+                            <td>1年</td>
+                        </tr>
+                        <tr>
+                            <td>米家新风 A1</td>
+                            <td>单向流</td>
+                            <td>150</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>—</td>
+                            <td>28</td>
+                            <td class="price">¥1,999</td>
+                            <td>1年</td>
+                        </tr>
+                        <tr>
+                            <td>米家新风 Pro</td>
+                            <td>双向流全热</td>
+                            <td>300</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥60%</td>
+                            <td>30</td>
+                            <td class="price">¥3,499</td>
+                            <td>1年</td>
+                        </tr>
+                        <tr>
+                            <td>造梦者 F1300</td>
+                            <td>双向流全热</td>
+                            <td>300</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥65%</td>
+                            <td>29</td>
+                            <td class="price">¥5,999</td>
+                            <td>2年</td>
+                        </tr>
+                        <tr>
+                            <td>造梦者 F1600</td>
+                            <td>双向流全热</td>
+                            <td>500</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥68%</td>
+                            <td>32</td>
+                            <td class="price">¥8,999</td>
+                            <td>2年</td>
+                        </tr>
+                        <tr>
+                            <td>远大 FE6</td>
+                            <td>单向流</td>
+                            <td>600</td>
+                            <td>H12</td>
+                            <td>—</td>
+                            <td>38</td>
+                            <td class="price">¥6,800</td>
+                            <td>1年</td>
+                        </tr>
+                        <tr>
+                            <td>果麦 GM420</td>
+                            <td>双向流全热</td>
+                            <td>420</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>≥65%</td>
+                            <td>31</td>
+                            <td class="price">¥4,299</td>
+                            <td>1年</td>
+                        </tr>
+                        <tr>
+                            <td>空气堡 ZEN-300</td>
+                            <td>单向流</td>
+                            <td>300</td>
+                            <td><span class="badge badge-green">H13</span></td>
+                            <td>—</td>
+                            <td>27</td>
+                            <td class="price">¥3,699</td>
+                            <td>1年</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenes: 场景推荐 -->
+    <section class="section" id="scenes">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">按需选购</span>
+                <h2>按场景选购推荐</h2>
+                <p class="section-desc">根据你的实际使用场景，快速找到最适合的机型。</p>
+            </div>
+
+            <div class="scene-tabs">
+                <button class="scene-tab active" onclick="switchScene(0)">卧室专用</button>
+                <button class="scene-tab" onclick="switchScene(1)">客厅/客餐厅</button>
+                <button class="scene-tab" onclick="switchScene(2)">全屋覆盖</button>
+                <button class="scene-tab" onclick="switchScene(3)">毛坯房装修</button>
+                <button class="scene-tab" onclick="switchScene(4)">预算有限/租房</button>
+            </div>
+
+            <div class="scene-panel active" id="scene-0">
+                <div class="scene-card">
+                    <h4>场景一：卧室专用（15-25㎡）</h4>
+                    <p style="margin-bottom: 16px; color: var(--text-light);">首要需求：静音、适中风量、全热交换</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>推荐</th><th>型号</th><th>价格</th><th>理由</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="badge badge-green">首选</span></td><td><strong>第五季 BG160TSC</strong></td><td class="price">¥2,983</td><td>200风量、20dB超静音、H13+全热、含安装</td></tr>
+                                <tr><td>备选</td><td>松下 FV-RZ09VD1</td><td class="price">¥3,299</td><td>品牌过硬但风量小(90)、仅H11滤网</td></tr>
+                                <tr><td>入门</td><td>米家新风 Pro</td><td class="price">¥3,499</td><td>智能生态好，但热回收率偏低</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scene-panel" id="scene-1">
+                <div class="scene-card">
+                    <h4>场景二：客厅/客餐厅一体（30-60㎡）</h4>
+                    <p style="margin-bottom: 16px; color: var(--text-light);">首要需求：大风量、全热交换、智能控制</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>推荐</th><th>型号</th><th>价格</th><th>理由</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="badge badge-green">首选</span></td><td><strong>第五季 BG360A</strong></td><td class="price">¥3,909</td><td>360风量、H13四级过滤、67%热回收、米家智能</td></tr>
+                                <tr><td>备选</td><td>果麦 GM420</td><td class="price">¥4,299</td><td>420风量、H13过滤，热回收率略低</td></tr>
+                                <tr><td>备选</td><td>松下 FV-RZ18VD1</td><td class="price">¥4,999</td><td>品牌好但风量仅180、H11滤网</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scene-panel" id="scene-2">
+                <div class="scene-card">
+                    <h4>场景三：全屋覆盖（80-150㎡）</h4>
+                    <p style="margin-bottom: 16px; color: var(--text-light);">首要需求：超大风量、高效热交换、全面净化</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>推荐</th><th>型号</th><th>价格</th><th>理由</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="badge badge-green">首选</span></td><td><strong>第五季 BG500A</strong></td><td class="price">¥4,759</td><td>500风量、72%全场最高热回收、双进口电机</td></tr>
+                                <tr><td>备选</td><td>造梦者 F1600</td><td class="price">¥8,999</td><td>德国EBM电机顶级，但价格高出一倍</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scene-panel" id="scene-3">
+                <div class="scene-card">
+                    <h4>场景四：毛坯房装修（全屋中央新风）</h4>
+                    <p style="margin-bottom: 16px; color: var(--text-light);">首要需求：管道设计、全屋覆盖、大品牌售后</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>档次</th><th>品牌</th><th>预算范围</th><th>理由</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="badge recommend">高端</span></td><td>托马仕/森德/霍尼韦尔</td><td>2-4万（含管道）</td><td>技术顶级、欧洲品质</td></tr>
+                                <tr><td>中端</td><td>松下/大金</td><td>1.5-2.5万</td><td>品牌可靠、售后完善</td></tr>
+                                <tr><td>性价比</td><td>远大/绿岛风/兰舍</td><td>0.8-1.5万</td><td>国产实力派、价格友好</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scene-panel" id="scene-4">
+                <div class="scene-card">
+                    <h4>场景五：预算有限 / 租房</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>推荐</th><th>型号</th><th>价格</th><th>理由</th></tr></thead>
+                            <tbody>
+                                <tr><td><span class="badge badge-green">首选</span></td><td><strong>米家新风 A1</strong></td><td class="price">¥1,999</td><td>最便宜双向流入口、H13过滤</td></tr>
+                                <tr><td>备选</td><td>窗式新风机</td><td class="price">¥500-2000</td><td>免打孔、搬家可带走</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Decision Tree -->
+    <section class="section section-warm" id="decision">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">快速工具</span>
+                <h2>快速选购决策树</h2>
+                <p class="section-desc">回答几个简单问题，快速找到适合你的新风机。</p>
+            </div>
+
+            <div class="tree-container">
+                <div class="tree-breadcrumb" id="treeBreadcrumb"></div>
+                <div id="treeContent">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pitfalls -->
+    <section class="section" id="pitfalls">
+        <div class="section-inner reveal">
+            <div class="section-header">
+                <span class="section-tag">避坑必读</span>
+                <h2>常见误区与避坑指南</h2>
+                <p class="section-desc">六大常见误区，帮你避免花冤枉钱。</p>
+            </div>
+
+            <div class="pitfall-grid">
+                <div class="pitfall-card">
+                    <h4>误区一："新风量越大越好"</h4>
+                    <p>风量过大导致耗电增加、噪音大、室内温湿度失衡。应根据房间面积合理选择，留适当余量即可。</p>
+                </div>
+                <div class="pitfall-card">
+                    <h4>误区二："有空气净化器就够了"</h4>
+                    <p>空气净化器只能过滤室内PM2.5，无法降低CO₂浓度、无法持续稀释甲醛。两者定位不同。</p>
+                </div>
+                <div class="pitfall-card">
+                    <h4>误区三："单向流就够了，反正便宜"</h4>
+                    <p>单向流冬天灌冷风、夏天灌热风，使用体验极差。多花1000-2000元选双向流全热交换绝对值得。</p>
+                </div>
+                <div class="pitfall-card">
+                    <h4>误区四："HEPA等级无所谓"</h4>
+                    <p>H11过滤PM2.5仅95%（5%漏过），H13过滤99.97%。在中国空气环境下，H13是更可靠的选择。</p>
+                </div>
+                <div class="pitfall-card">
+                    <h4>误区五："大品牌的一定好"</h4>
+                    <p>有些家电大品牌的新风产品线是贴牌或延伸产品，技术积累反而不如专业新风品牌。要看参数而非Logo。</p>
+                </div>
+                <div class="pitfall-card">
+                    <h4>误区六："安装随便打孔就行"</h4>
+                    <p>孔径大小（63mm vs 160mm）差异巨大：大孔径破坏墙体结构，承重墙打大孔存在安全隐患。</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px;">
+                <div class="section-header" style="margin-bottom: 32px;">
+                    <h2 style="font-size: 1.5rem;">日常维护与滤网成本</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>维护项目</th><th>频率</th><th>说明</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>初效滤网清洗</td><td>1-3个月</td><td>可水洗，晾干后装回</td></tr>
+                            <tr><td>HEPA滤网更换</td><td>6-12个月</td><td>根据使用环境和机器提示</td></tr>
+                            <tr><td>活性炭滤网更换</td><td>6-12个月</td><td>吸附饱和后失效</td></tr>
+                            <tr><td>全热交换芯清洗</td><td>6-12个月</td><td>可水洗型，部分纸芯型需更换</td></tr>
+                            <tr><td>进风口清洁</td><td>1-3个月</td><td>防止堵塞</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 16px; text-align: center; color: var(--text-light);">滤网年使用成本：经济型 300-500元/年 | 中端 500-800元/年 | 高端 800-1500元/年</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            数据来源：国家新风标准GB/T 21087、2026年主流产品官方公示参数、中国暖通行业研究院2026年3月报告。<br>
+            价格以2026年5-6月市场实际落地价（含安装）为准，具体以购买时官方报价为准。<br>
+            本指南仅供参考，选购时请以实际产品参数和官方说明为准。
+        </p>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="返回顶部">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script>
+        // ===== Mobile Menu =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+            document.body.style.overflow = document.getElementById('navLinks').classList.contains('open') ? 'hidden' : '';
+        }
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('.navbar');
+            const menu = document.getElementById('navLinks');
+            if (menu.classList.contains('open') && !nav.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMenu();
+            }
+        });
+
+        // ===== Scene Tabs =====
+        function switchScene(index) {
+            document.querySelectorAll('.scene-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.scene-panel').forEach((panel, i) => {
+                panel.classList.toggle('active', i === index);
+            });
+        }
+
+        // ===== Decision Tree =====
+        const treeData = {
+            start: {
+                question: '你的房子还没装修吗？',
+                options: [
+                    { text: '是，毛坯房准备装修', next: 'central_budget' },
+                    { text: '否，已装修/精装房', next: 'room_target' }
+                ]
+            },
+            central_budget: {
+                question: '预算充足吗？（中央新风含安装约1-4万）',
+                options: [
+                    { text: '预算充足（2万以上）', result: '推荐：吊顶式中央新风 — 托马仕/森德/霍尼韦尔（高端）或松下/大金（中端）' },
+                    { text: '预算有限（1-1.5万）', result: '推荐：吊顶式中央新风 — 远大/绿岛风/兰舍（性价比之选）' }
+                ]
+            },
+            room_target: {
+                question: '主要想改善哪个房间的空气？',
+                options: [
+                    { text: '主要是卧室', next: 'bedroom_size' },
+                    { text: '客厅/客餐厅', next: 'living_room' },
+                    { text: '想全屋覆盖', next: 'whole_house' },
+                    { text: '预算很紧张/租房', result: '推荐：米家新风 A1（¥1,999）或窗式新风机（¥500-2000）' }
+                ]
+            },
+            bedroom_size: {
+                question: '卧室面积多大？',
+                options: [
+                    { text: '≤15㎡', result: '推荐：第五季 BG160TSC（¥2,983）或松下 FV-RZ09VD1（¥3,299）' },
+                    { text: '15-25㎡', result: '推荐：第五季 BG160TSC（¥2,983）— 200风量、20dB超静音、H13+全热交换' }
+                ]
+            },
+            living_room: {
+                question: '客厅面积多大？',
+                options: [
+                    { text: '30-60㎡', result: '推荐：第五季 BG360A（¥3,909）— 360风量、H13四级过滤、67%热回收、米家智能' },
+                    { text: '>60㎡', result: '推荐：第五季 BG500A（¥4,759）— 500风量、72%热回收、双进口电机' }
+                ]
+            },
+            whole_house: {
+                question: '房屋总面积多大？',
+                options: [
+                    { text: '80-150㎡', result: '推荐：第五季 BG500A（¥4,759）— 500风量、72%全场最高热回收' },
+                    { text: '150㎡以上/别墅', result: '推荐：柜式新风机（远大/造梦者/AirProce）或吊顶式中央新风' }
+                ]
+            }
+        };
+
+        let treePath = [];
+
+        function renderTree(nodeId) {
+            const node = treeData[nodeId];
+            const container = document.getElementById('treeContent');
+            const breadcrumb = document.getElementById('treeBreadcrumb');
+
+            // Update breadcrumb
+            breadcrumb.innerHTML = treePath.map(step => `<span>${step}</span>`).join('');
+
+            if (node.result) {
+                container.innerHTML = `
+                    <div class="tree-result">
+                        <h4>为你推荐的方案</h4>
+                        <p>${node.result}</p>
+                        <button class="tree-restart" onclick="resetTree()">重新选择</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="tree-question">${node.question}</div>
+                <div class="tree-options">
+                    ${node.options.map((opt, i) => `
+                        <button class="tree-option" onclick="chooseOption('${nodeId}', ${i})">${opt.text}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function chooseOption(nodeId, optionIndex) {
+            const node = treeData[nodeId];
+            const option = node.options[optionIndex];
+            treePath.push(option.text);
+            if (option.next) {
+                renderTree(option.next);
+            } else if (option.result) {
+                renderTree(nodeId); // will show result
+            }
+        }
+
+        function resetTree() {
+            treePath = [];
+            renderTree('start');
+        }
+
+        renderTree('start');
+
+        // ===== Scroll Reveal =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== Back to Top =====
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 500);
+        });
+
+        // ===== Active Nav Link =====
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+            });
+        });
+    </script>
+    <!-- ===== XBrain Logo Scroll Fade ===== -->
+    <script>
+      (function () {
+        var logo = document.querySelector('.xbrain-brand');
+        var ticking = false;
+
+        function updateLogo() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var ratio = Math.min(scrollY / vh, 1);
+          var opacity = 1 - ratio * 0.7;
+          if (logo) {
+            logo.style.opacity = opacity;
+            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+          }
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateLogo();
+      })();
+    </script>
+
+</body>
+</html>

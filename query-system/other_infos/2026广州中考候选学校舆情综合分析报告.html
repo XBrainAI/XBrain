@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026年广州中考候选学校网络舆情综合分析报告</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #2c3e50;
+    --h1: #1a1a2e;
+    --h2: #16213e;
+    --h3: #0f3460;
+    --accent: #e74c3c;
+    --accent2: #3498db;
+    --accent3: #27ae60;
+    --warn: #f39c12;
+    --border: #e0e0e0;
+    --table-head: #f5f6fa;
+    --table-stripe: #fafbfc;
+    --card-bg: #f8f9fa;
+    --bad-up: #e74c3c;
+    --bad-down: #27ae60;
+    --tag-risk: #fff3cd;
+    --tag-safe: #d4edda;
+    --tag-neutral: #e2e3e5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif; color: var(--text); background: #f0f2f5; line-height: 1.7; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  
+  header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; padding: 40px 30px; border-radius: 12px; margin-bottom: 25px; }
+  header h1 { font-size: 26px; margin-bottom: 8px; color: white; }
+  header .subtitle { font-size: 14px; opacity: 0.85; }
+  header .badge { display: inline-block; background: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; }
+  
+  .section { background: var(--bg); border-radius: 12px; padding: 28px; margin-bottom: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 20px; color: var(--h2); border-bottom: 3px solid var(--accent2); padding-bottom: 10px; margin-bottom: 18px; }
+  .section h3 { font-size: 17px; color: var(--h3); margin: 18px 0 10px 0; }
+  .section h4 { font-size: 15px; color: #555; margin: 12px 0 6px 0; }
+  
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 18px 0; font-size: 13.5px; }
+  th { background: var(--table-head); padding: 10px 8px; text-align: center; font-weight: 600; border: 1px solid var(--border); }
+  td { padding: 8px 8px; text-align: center; border: 1px solid var(--border); }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  
+  .highlight { font-weight: 700; }
+  .up { color: var(--bad-up); font-weight: 600; }
+  .down { color: var(--bad-down); font-weight: 600; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .tag-risk { background: #fff3cd; color: #856404; }
+  .tag-safe { background: #d4edda; color: #155724; }
+  .tag-neutral { background: #e2e3e5; color: #383d41; }
+  .tag-red { background: #f8d7da; color: #721c24; }
+  
+  .card { background: var(--card-bg); border-left: 4px solid var(--accent2); padding: 15px 18px; margin: 14px 0; border-radius: 0 8px 8px 0; }
+  .card.warn { border-left-color: var(--warn); }
+  .card.danger { border-left-color: var(--accent); }
+  .card.good { border-left-color: var(--accent3); }
+  
+  .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; margin: 14px 0; }
+  .score-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .score-card .school-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .score-card .school-name .district { font-size: 12px; font-weight: 400; color: #888; margin-left: 6px; }
+  .score-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #eee; font-size: 13px; }
+  .score-row:last-child { border-bottom: none; }
+  .score-row .label { color: #666; }
+  .score-row .val { font-weight: 600; }
+  
+  .opinion-box { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 14px; margin: 10px 0; }
+  .opinion-box .source { font-size: 11px; color: #999; margin-top: 4px; }
+  
+  .summary-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 14px 0; }
+  .stat-item { text-align: center; background: var(--card-bg); padding: 16px; border-radius: 10px; }
+  .stat-item .num { font-size: 28px; font-weight: 700; }
+  .stat-item .label { font-size: 12px; color: #888; margin-top: 4px; }
+  
+  .warning-box { background: #fff3cd; border: 1px solid #ffc107; padding: 14px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  .info-box { background: #d1ecf1; border: 1px solid #bee5eb; padding: 14px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+  
+  footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
+  
+  @media print { body { background: white; } .section { box-shadow: none; border: 1px solid #ddd; } }
+    /* ===== XBrain Brand (Cerebro Style) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+</style>
+</head>
+<body>
+    <!-- ===== XBrain Brand IP ===== -->
+    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#80c0ff" />
+            <stop offset="50%" stop-color="#4a90e2" />
+            <stop offset="100%" stop-color="#80c0ff" />
+          </linearGradient>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+        <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+        <g transform="matrix(0 -1 1 0 30 300)">
+          <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+          <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+          <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+        </g>
+        <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+          <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+          <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+        </g>
+        <g transform="matrix(0 -1 1 0 30 230)">
+          <circle cx="50" cy="50" r="50" fill="#0d1636" />
+          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+          <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+          <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+        </g>
+        <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+        </g>
+      </svg>
+      <div class="xbrain-text"><span>X</span>Brain</div>
+    </a>
+
+<div class="container">
+
+<header>
+  <span class="badge">2026广州中考</span><span class="badge">网络舆情</span><span class="badge">志愿填报</span>
+  <h1>2026年广州中考候选学校<br>网络舆情综合分析报告</h1>
+  <div class="subtitle">数据采集时间：2026年6月5日 | 数据来源：知乎、贴吧、小红书、百度知道、搜狐教育、本地宝、招考办官方数据等 | 研究范围：9所候选学校</div>
+</header>
+
+<!-- ===== 一、总览 ===== -->
+<div class="section">
+  <h2>一、研究总览</h2>
+  
+  <div class="summary-stats">
+    <div class="stat-item"><div class="num" style="color:var(--accent);">9</div><div class="label">候选学校</div></div>
+    <div class="stat-item"><div class="num" style="color:var(--accent2);">5</div><div class="label">覆盖行政区</div></div>
+    <div class="stat-item"><div class="num" style="color:var(--bad-down);">6</div><div class="label">2025年分数下降</div></div>
+    <div class="stat-item"><div class="num" style="color:var(--bad-up);">1</div><div class="label">2025年分数上升</div></div>
+    <div class="stat-item"><div class="num" style="color:var(--warn);">-42</div><div class="label">最大降幅（分）</div></div>
+    <div class="stat-item"><div class="num" style="color:var(--accent3);">548</div><div class="label">最低控制线</div></div>
+  </div>
+
+  <p>2026年广州中考志愿填报正在进行中（6月1日-5日）。本报告从<strong>网络舆情</strong>角度出发，综合搜索知乎、贴吧、小红书、教育资讯平台、官方招考数据等多渠道信息，对9所候选学校进行系统性的风评分析与分数预判。</p>
+  
+  <div class="info-box">
+    <strong>核心结论：</strong>2025年广州中考整体分数下降趋势明显，9所候选学校中6所录取分数同比下降，其中西关外国语暴跌42分、南海中学跌35分、广二师番禺附中跌36分均为显著案例。2026年在考生人数增加（+12,954人）、学位扩容、梯度线规则微调的背景下，各校分数存在回升可能，尤其是2025年"超跌"的学校可能成为2026年志愿博弈的热点。
+  </div>
+</div>
+
+<!-- ===== 二、核心数据总表 ===== -->
+<div class="section">
+  <h2>二、9所候选学校核心数据总表</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>学校</th><th>区域</th><th>2025录取分</th><th>2024录取分</th><th>同比变化</th><th>2025梯度</th><th>2026名额分配控制线</th><th>舆情评分</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">广州市第一中学</td><td>荔湾区</td><td>628</td><td>652</td><td class="down">-24 ▼</td><td>第三梯度</td><td>611</td><td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市第四中学</td><td>荔湾区</td><td>627</td><td>655</td><td class="down">-28 ▼</td><td>第三梯度</td><td>599</td><td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市西关外国语学校</td><td>荔湾区</td><td>610</td><td>652</td><td class="down">-42 ▼▼</td><td>第四梯度</td><td>592</td><td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市第十七中学</td><td>越秀区</td><td>616</td><td>622</td><td class="down">-6 ▼</td><td>第四梯度</td><td>584</td><td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市南海中学</td><td>荔湾区</td><td>587</td><td>622</td><td class="down">-35 ▼▼</td><td>第四梯度</td><td>574</td><td>★★☆☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市第九十七中学<br>(江南新苑校区)</td><td>海珠区</td><td>589</td><td>-</td><td>首年</td><td>第四梯度</td><td>590</td><td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广东第二师范学院<br>番禺附属中学</td><td>番禺区</td><td>587</td><td>623</td><td class="down">-36 ▼▼</td><td>第四梯度</td><td>575</td><td>★★★★☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市花都区<br>圆玄中学</td><td>花都区</td><td>587</td><td>582</td><td class="up">+5 ▲</td><td>第四梯度</td><td>548</td><td>★★★☆☆</td>
+      </tr>
+      <tr>
+        <td class="highlight">广州市第十三中学</td><td>越秀区</td><td>616</td><td>636</td><td class="down">-20 ▼</td><td>第四批次</td><td>587</td><td>★★☆☆☆</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="warning-box">
+    <strong>说明：</strong>① 2025录取分为第三/四批次户籍生最低分数；② 2026名额分配控制线 = 近三年录取平均分 - 40分（去尾取整）；③ 舆情评分为综合家长评价、学生评价、校风口碑等多维度信息的粗略评级，仅供参考；④ 2025年梯度线：第一梯度707分、第二梯度667分、第三梯度627分、第四梯度587分、第五梯度547分。
+  </div>
+</div>
+
+<!-- ===== 三、各校详细舆情分析 ===== -->
+<div class="section">
+  <h2>三、各校详细网络舆情分析</h2>
+
+  <!-- 一中 -->
+  <h3>1. 广州市第一中学（荔湾区·国家级示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广州市第一中学<span class="district">荔湾区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">628分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">652分（-24）</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">611分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">651分</span></div>
+    </div>
+  </div>
+  
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>正面评价：</strong>宿舍和饭堂条件不错，校园环境好，体育节和艺术节活动丰富，走读生不需晚修（自由度较高），学习氛围相对轻松。有学生评价为"快乐星球"、"高中生活很开心"。<br><br>
+    <strong>负面评价（知乎高频）：</strong>重本率较低（有回答提到2018年仅28%），师资水平参差不齐（语文老师被特别点名批评），近年来高考成绩下滑明显，"生源决定一切，重点班出成果，普通班处于没落"。有学生评论"老师上课讲的题面对大多数同学，高难度题很少涉及"。<br><br>
+    <strong>关键矛盾：</strong>"快乐教育"VS"升学结果"——氛围轻松但高考成绩不够硬。<br>
+    <span class="source">来源：知乎多个问答、百度知道、搜狐教育</span>
+  </div>
+  
+  <div class="card warn">
+    <strong>2026分数预判：</strong>一中2025年从652分急降24分至628分，属于中大幅度下跌。但因2025年整体第三梯度线下降，628分仍在第三梯度内。2026年考生增加，一中作为荔湾区老牌国家级示范性高中，有回升至635-645区间的可能性。家长群讨论中将其定位为荔湾区"冲稳保"中的"稳"或"保"位置。名额分配控制线611分，对中等生友好。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 四中 -->
+  <h3>2. 广州市第四中学（荔湾区·国家级示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广州市第四中学<span class="district">荔湾区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">627分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">655分（-28）</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">599分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">639分</span></div>
+    </div>
+  </div>
+  
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>核心争议：</strong>一位自称"6年子弟兵"的知乎用户发表了极为详细的负面评价，引发广泛关注。主要内容包括：<br><br>
+    <strong>环境与硬件：</strong>校园面积"小得可怜"（仅27,669㎡，约为隔壁真光中学的1/3），课室拥挤（50+人/班），无标准跑道，无游泳课，体育馆形同虚设（下雨天不允许进入）。<br><br>
+    <strong>教学与管理：</strong>高一高二存在"水课"和即将退休的老师，高三师资最好。被评价为"衡水式教育僵化"，新校长改革未见成效。高考特控率约30%，处于"滞胀"状态。<br><br>
+    <strong>食宿条件：</strong>只有90个宿位（绝大多数学生走读），插队风气严重，被多次点名批评。"师生餐不在同一水平线"。<br><br>
+    <strong>正面声音：</strong>交通便利，地理位置好。大/小锐班师资稳定。对分数不足以到达更高层次学校的学生"也不失一个好选择"。省一级学校，校风总体良好。有百度知道用户表示"在荔湾区名列前茅"。<br>
+    <span class="source">来源：知乎子弟兵分享、百度知道、localsite百度聚合、百家号</span>
+  </div>
+  
+  <div class="card danger">
+    <strong>2026分数预判：</strong>四中2025年从655分暴跌28分至627分，刚好踩在第三梯度线上。网络负面舆情较多（硬件差、食宿差、成绩停滞），可能影响2026年报考热度。但荔湾区属国家级示范性高中的身份仍具有一定吸引力。2026年预计在625-635分之间波动，回升空间有限。名额分配控制线599分。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 西关外国语 -->
+  <h3>3. 广州市西关外国语学校（荔湾区·市示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广州市西关外国语学校<span class="district">荔湾区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">610分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">652分（-42）</span></div>
+      <div class="score-row"><span class="label">2025非户籍生</span><span class="val">623分</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">592分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">632分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>学校特色：</strong>广州第一所省一级公办外国语完全中学，原名广州市第12中学（1948年建校），2007年改为现名。开设法语、日语、德语、韩语等第二语言课程，有专职外教。2026年1月腾讯新闻专文推介。<br><br>
+    <strong>负面信息：</strong>2025年11月学校发布声明辟谣"社会机构冒用名义虚假招生"，说明存在外部乱象。知乎有学生评价中提到了"老师态度强硬"、劝退成绩不好的学生等争议。<br><br>
+    <strong>家长评价：</strong>外国语特色是差异化优势，适合对语言有兴趣的学生。2025年名额分配本校初中部高达693分，说明本校初中家长认可度较高。<br>
+    <span class="source">来源：知乎、腾讯新闻、百度百科、搜狐教育、周边趣中考</span>
+  </div>
+  
+  <div class="card danger">
+    <strong>2026分数预判：</strong>西外2025年暴跌42分（从652到610），是9所候选校中降幅最大的，从第三梯度直接跌入第四梯度。这一"超跌"可能引发2026年的"抄底"心理，导致分数大幅反弹。但另一方面，外国语特色在当前环境下吸引力有所减弱。预计2026年分数可能在620-635区间，存在较大不确定性。名额分配控制线592分，是荔湾区较低的。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 十七中 -->
+  <h3>4. 广州市第十七中学（越秀区·市示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广州市第十七中学<span class="district">越秀区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">616分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">622分（-6）</span></div>
+      <div class="score-row"><span class="label">2025非户籍生</span><span class="val">628分</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">584分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">624分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>总体评价：</strong>"还不错"，是较为常见的评价。知乎有学生写道："虽然中考不努力没去更厉害的学校，但十七中度过的青春时光是美好的"。越秀区排名靠后但放在广东省属中等偏上。<br><br>
+    <strong>正面信息：</strong>省一级学校（1929年建校，近百年历史），2026年被列为广州市示范性高中。航空航天特色教育是独特亮点。课内外活动较多，学习生活相对轻松，家长表示"不会把孩子当学习机器"。有家长明确表示宁愿选十七中也不选某民办学校。<br><br>
+    <strong>负面信息：</strong>贴吧有"考虑清楚再报考"的警示帖。越秀区排名靠后是家长群中常见的负面标签。有讨论提到师资生源差距。<br>
+    <span class="source">来源：知乎、百度贴吧、百度知道、微信公众号</span>
+  </div>
+
+  <div class="card warn">
+    <strong>2026分数预判：</strong>十七中2025年仅下降6分（622→616），属于微幅调整，表现相对稳定。越秀区整体生源质量较高，且十七中近年获得示范性高中称号，品牌有所提升。2026年预计在615-625之间窄幅波动，变化不大。航空航天特色可能吸引特定生源。名额分配控制线584分，性价比较高。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 南海中学 -->
+  <h3>5. 广州市南海中学（荔湾区·市示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广州市南海中学<span class="district">荔湾区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">587分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">622分（-35）</span></div>
+      <div class="score-row"><span class="label">2025非户籍生</span><span class="val">633分（+46）</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">574分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">614分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>百年名校身份：</strong>1904年创办，120年办学历史，广东省一级学校。搜狐、知乎等平台有专门介绍文章，品牌认知度较高。<br><br>
+    <strong>关键评价：</strong>百度聚合评价指出"重点班建设和师资储备具备优势，但普通班教学质量与校园管理仍有提升空间"。贴吧有"学风班级差异大，建议慎选"的警示帖。知乎就读体验中提到"需要改善学生生活质量，建电梯、改善吃饭条件"。校风总体评价正面（"弘毅弘志、求真求实"），但学生实际体验褒贬不一。<br><br>
+    <strong>非户籍生竞争激烈：</strong>非户籍生633分比户籍生587分高出46分，是9校中差距最大的之一。<br>
+    <span class="source">来源：知乎、百度贴吧、百度知道、localsite百度聚合、搜狐</span>
+  </div>
+
+  <div class="card danger">
+    <strong>2026分数预判：</strong>南海中学2025年暴跌35分（622→587），从第三梯度直接跌至第四梯度底部（仅比587分梯度线高0分）。与西外类似存在"超跌反弹"预期。但南海中学的"班级差异大"评价可能让部分家长望而却步。预计2026年分数在590-610区间，反弹幅度取决于荔湾区整体报考热度。名额分配控制线574分，是候选校中最低之一。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 九十七中江南新苑 -->
+  <h3>6. 广州市第九十七中学（江南新苑校区·海珠区·市示范性）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">九十七中（江南新苑校区）<span class="district">海珠区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">589分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">-（首年招生）</span></div>
+      <div class="score-row"><span class="label">校本部2025</span><span class="val">659分</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">590分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">630分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>新校区特征：</strong>江南新苑校区为九十七中教育集团的新增校区，2025年首次招生。校本部在海珠区口碑良好（2025年659分、同比+12分），但新校区目前信息较少。<br><br>
+    <strong>校本部声誉：</strong>广州市首批示范性普通高中、广东省一级学校，以"阳光教育"为特色（97阳光之星评选），注重心理健康教育、艺术教育。2026年4月发布了特长生招生简章，体育艺术特色突出。<br><br>
+    <strong>风险提示：</strong>百度聚合文章提到该校区"改造工程"，暗示校区可能仍在建设中。新校区无高考成绩可参考，存在"首届学生等于试验品"的风险。<br>
+    <span class="source">来源：微信公众号、百度知道、localsite百度聚合、搜狐</span>
+  </div>
+
+  <div class="card warn">
+    <strong>2026分数预判：</strong>首年589分录取，定位第四梯度。新校区的不确定性（师资磨合、管理体系未成熟、无高考成绩参考）可能压制报考热度。但校本部659分的品牌效应有望为江南新苑校区带来"贴牌溢价"。预计2026年分数在585-600区间波动。名额分配控制线590分，与2025年实际录取分几乎持平。适合海珠区中等偏下分数段考生作为保底选择。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 广二师番禺附中 -->
+  <h3>7. 广东第二师范学院番禺附属中学（番禺区·国家级示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广二师番禺附中<span class="district">番禺区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">587分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">623分（-36）</span></div>
+      <div class="score-row"><span class="label">2025非户籍生</span><span class="val">629分</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">575分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">615分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>正面评价突出：</strong>是9校中风评最好的学校之一。百度知道有详细正面评价：连续五年获"广州市高中毕业班工作二等奖"，曾获一等奖。综合加工能力在广州市120多所高中中跃居第5名、番禺区第2名。"低进高出"的加工能力被广泛认可。学生表示"老师对我们的恩情永远不会忘记"、"二师的日子成为最怀念的时光"。<br><br>
+    <strong>校园环境：</strong>占地面积125亩，绿草如茵、绿树成林、鸟语花香，交通便利，被评价为"读书求学的好地方"。校刊《二月风》获全国一等奖，篮球队多次广州市第一名。<br><br>
+    <strong>国家级示范性标签：</strong>广东省国家级示范性普通高中，这在候选校中属于较高层级。<br>
+    <span class="source">来源：百度知道、百度百科、搜狗百科、搜狐</span>
+  </div>
+
+  <div class="card good">
+    <strong>2026分数预判：</strong>2025年暴跌36分（623→587），从第三梯度跌至第四梯度底部，与南海中学持平。但该校的"国家级示范性"标签和良好的加工能力口碑是重要加分项。2026年存在较大的反弹可能。番禺区2026名额分配控制线575分。预计2026年分数在595-615区间。对分数在600分左右的考生而言，这是一个"低分高配"的潜力股。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 圆玄中学 -->
+  <h3>8. 广州市花都区圆玄中学（花都区·市示范性高中）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">花都区圆玄中学<span class="district">花都区</span></div>
+      <div class="score-row"><span class="label">2025第三批户籍生</span><span class="val">587分</span></div>
+      <div class="score-row"><span class="label">2024第三批户籍生</span><span class="val">582分（+5）</span></div>
+      <div class="score-row"><span class="label">2025非户籍生</span><span class="val">627分（+40）</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">548分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">588分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>基本信息：</strong>2005年创办，由香港圆玄学院与花都区政府共建，历史不长。百度百科、360问答等评价"非常不错"、"师资、升学率、教学管理都还可以"。知乎有专门问答但回答较少。<br><br>
+    <strong>关键特点：</strong>花都区本地生源为主，非户籍生分数线627分比户籍生587分高出40分，差距较大。2025年名额分配本校632分（花都区第二高，仅次于秀全中学），说明本校初中家长认可度较高。非遗特色课程（灰塑、剪纸、压花）为独特亮点。<br><br>
+    <strong>地理劣势：</strong>位于花都区，对老三区考生吸引力有限，主要面向花都本地生源。<br>
+    <span class="source">来源：知乎、百度百科、360问答、周边趣中考</span>
+  </div>
+
+  <div class="card neutral">
+    <strong>2026分数预判：</strong>是9校中唯一2025年分数上升的学校（+5分，582→587），虽幅度很小但方向特殊。花都区2026名额分配控制线仅548分，是候选校中最低的。作为花都区第二梯队高中（仅次于秀全中学、邝维煜纪念中学），2026年预计继续在585-595区间窄幅波动。适合花都区及周边中等分数段考生。
+  </div>
+
+  <hr style="margin:20px 0; border: none; border-top: 1px dashed #ddd;">
+
+  <!-- 十三中 -->
+  <h3>9. 广州市第十三中学（越秀区·省一级）</h3>
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="school-name">广州市第十三中学<span class="district">越秀区</span></div>
+      <div class="score-row"><span class="label">2025第四批户籍生</span><span class="val">616分</span></div>
+      <div class="score-row"><span class="label">2024第四批户籍生</span><span class="val">636分（-20）</span></div>
+      <div class="score-row"><span class="label">2025非户籍生</span><span class="val">643分（+27）</span></div>
+      <div class="score-row"><span class="label">2026名额分配控制线</span><span class="val">587分</span></div>
+      <div class="score-row"><span class="label">近三年平均分</span><span class="val">627分</span></div>
+    </div>
+  </div>
+
+  <h4>网络风评摘要</h4>
+  <div class="opinion-box">
+    <strong>评价两极分化严重：</strong>知乎有详细正面评价——"重点班资源最好"、"老师很有耐心也很关心同学"、"学习氛围维持得不错"、"不舒服可以随时请假回家休息"。百度知道同样正面评价校园设施和教学环境。<br><br>
+    <strong>负面评价突出：</strong>贴吧有帖子直指"校风不佳，老师常骂人并用学分威胁，学习氛围差"。百度聚合评价"适合中等分数段学生保底"、"需关注分班考准备"。<br><br>
+    <strong>越秀区特殊地位：</strong>位于文德路，属越秀区核心位置，百年老校（两个校区），2025年第四批次招生（非第三批），是越秀区为数不多的第四批次公办选项。<br>
+    <span class="source">来源：知乎、百度贴吧、百度知道、localsite百度聚合</span>
+  </div>
+
+  <div class="card warn">
+    <strong>2026分数预判：</strong>十三中2025年下降20分（636→616），但在第四批次招生中仍属相对高位。越秀区第四批次公办选项稀缺，这为十三中提供了结构性优势。2026年预计在610-625区间波动。名额分配控制线587分。需要注意的是贴吧中的负面评价可能影响部分家长的选择，但越秀区的地理位置优势仍然显著。
+  </div>
+</div>
+
+<!-- ===== 四、舆情对比分析 ===== -->
+<div class="section">
+  <h2>四、舆情对比与风险分析</h2>
+  
+  <h3>4.1 风评梯队</h3>
+  <table>
+    <thead><tr><th>梯队</th><th>学校</th><th>核心标签</th><th>主要风险</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-safe">好评较多</span></td>
+        <td>广二师番禺附中</td>
+        <td>国家级示范性、加工能力强、口碑好</td>
+        <td>地理位置偏远（番禺）</td>
+      </tr>
+      <tr>
+        <td rowspan="4"><span class="tag tag-neutral">中规中矩</span></td>
+        <td>十七中</td>
+        <td>越秀区、活动多、压力小</td>
+        <td>越秀区排名靠后</td>
+      </tr>
+      <tr>
+        <td>一中</td>
+        <td>环境好、轻松愉快</td>
+        <td>升学率不高、"没落"标签</td>
+      </tr>
+      <tr>
+        <td>西关外国语</td>
+        <td>外国语特色、品牌悠久</td>
+        <td>2025暴跌42分、劝退争议</td>
+      </tr>
+      <tr>
+        <td>九十七中江南新苑</td>
+        <td>新校区、校本部品牌好</td>
+        <td>无往届数据、建设期中</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><span class="tag tag-risk">争议较多</span></td>
+        <td>四中</td>
+        <td>百年老校、交通便利</td>
+        <td>硬件差、食宿差、成绩停滞</td>
+      </tr>
+      <tr>
+        <td>十三中</td>
+        <td>越秀区核心位置</td>
+        <td>校风争议大、分数下降</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><span class="tag tag-neutral">信息较少</span></td>
+        <td>南海中学</td>
+        <td>120年名校、省一级</td>
+        <td>班级差异大、暴跌35分</td>
+      </tr>
+      <tr>
+        <td>圆玄中学</td>
+        <td>花都区第二梯队</td>
+        <td>地理位置偏远</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>4.2 关键风险提示</h3>
+  <div class="warning-box">
+    <strong>⚠️ "超跌反弹"博弈风险：</strong>西关外国语（-42分）、广二师番禺附中（-36分）、南海中学（-35分）三校2025年跌幅巨大，可能引发2026年集中报考导致分数反弹。建议不要单纯以2025年低分作为"稳"的判断依据。<br><br>
+    <strong>⚠️ 非户籍生竞争差异大：</strong>南海中学非户籍生比户籍生高46分、圆玄中学高40分、十三中高27分。非户籍生家庭需特别关注这一差距。<br><br>
+    <strong>⚠️ 新校区风险：</strong>九十七中江南新苑校区为首年招生新校区，无高考成绩参考，师资和管理体系尚在磨合期。首届学生需承担一定风险。<br><br>
+    <strong>⚠️ 硬件与食宿：</strong>四中宿位仅90个且条件差、南海中学被吐槽"吃饭要跑"、一中课室拥挤——对住宿和伙食有要求的家庭需要实地考察。
+  </div>
+</div>
+
+<!-- ===== 五、志愿策略建议 ===== -->
+<div class="section">
+  <h2>五、2026年志愿填报策略建议（基于舆情分析）</h2>
+
+  <h3>5.1 按分数段的冲稳保建议</h3>
+  <table>
+    <thead>
+      <tr><th>一模分数段</th><th>冲（冲刺）</th><th>稳（匹配）</th><th>保（保底）</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>640-660分</td>
+        <td>四中、一中</td>
+        <td>西关外国语、九十七中校本部</td>
+        <td>十三中、十七中</td>
+      </tr>
+      <tr>
+        <td>620-640分</td>
+        <td>西关外国语、一中</td>
+        <td>十七中、十三中</td>
+        <td>南海中学、九十七中江南新苑</td>
+      </tr>
+      <tr>
+        <td>600-620分</td>
+        <td>十七中、十三中</td>
+        <td>南海中学、九十七中江南新苑</td>
+        <td>广二师番禺附中、圆玄中学</td>
+      </tr>
+      <tr>
+        <td>580-600分</td>
+        <td>南海中学、番禺附中</td>
+        <td>广二师番禺附中、圆玄中学</td>
+        <td>圆玄中学（名额分配548）</td>
+      </tr>
+      <tr>
+        <td>550-580分</td>
+        <td>圆玄中学</td>
+        <td>圆玄中学（名额分配）</td>
+        <td>花都区一中/其他区属</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 针对四所目标学校（一中、四中、西外、南海）的特别分析</h3>
+  
+  <div class="card warn">
+    <strong>荔湾区志愿排序博弈：</strong>荔湾区四所候选学校的2025录取分从高到低为：一中(628) > 四中(627) > 西外(610) > 南海(587)。但2026年因"超跌反弹"效应，实际排序可能发生变化。<br><br>
+    <strong>建议：</strong>如果考生分数在620-640区间，可考虑一中/四中为"稳"，西外为"保"（但要警惕西外反弹风险）；如果考生分数在600-620区间，西外/十七中为"冲"，南海中学为"稳"，广二师番禺附中为"保"。<br><br>
+    <strong>名额分配策略：</strong>荔湾区考生应充分利用名额分配窗口。一中名额分配控制线611分、四中599分、西外592分、南海574分——均低于各校第三批次录取分，可降低门槛。
+  </div>
+
+  <h3>5.3 舆情重点提示</h3>
+  <ol style="margin: 10px 0; padding-left: 20px; font-size: 14px; line-height: 2;">
+    <li><strong>不要只看2025年分数：</strong>2025年普遍下跌，如果2026年考题难度回调或报考热度上升，各校分数可能全面回升5-20分。</li>
+    <li><strong>关注"低进高出"加工能力：</strong>广二师番禺附中是9校中加工能力口碑最好的，适合中等分数段、追求高考逆袭的考生。</li>
+    <li><strong>实地考察必不可少：</strong>尤其是四中（硬件/食宿争议大）、南海中学（班级差异大）、九十七中江南新苑（新校区）——网络舆情仅供参考，亲自去看看最靠谱。</li>
+    <li><strong>关注梯度变化：</strong>西关外国语、南海中学、广二师番禺附中2025年均从第三梯度跌入第四梯度，2026年若能回到第三梯度，录取分至少需达到627分以上。</li>
+    <li><strong>名额分配是降分利器：</strong>9校2026名额分配控制线均大幅低于2025实际录取分（差额10-40分不等），务必充分利用。</li>
+  </ol>
+</div>
+
+<!-- ===== 六、数据溯源 ===== -->
+<div class="section">
+  <h2>六、数据来源与免责声明</h2>
+  
+  <div class="info-box">
+    <strong>数据来源说明：</strong><br>
+    · 录取分数线：广州招考网(gzzk.gz.gov.cn)、广州本地宝(gz.bendibao.com)、高考直通车、周边趣中考等<br>
+    · 风评舆情：知乎、百度贴吧、百度知道、小红书、百家号、localsite百度聚合、腾讯新闻、搜狐教育等<br>
+    · 名额分配数据：广州招考网2026年官方发布<br>
+    · 采集方式：多轮关键词搜索（每校3-6组搜索词），交叉验证<br><br>
+    <strong>免责声明：</strong><br>
+    1. 本报告中的"分数预判"基于历史趋势和舆情分析推断，<strong>非官方预测</strong>，仅供志愿填报参考<br>
+    2. 网络舆情存在主观性和时效性，部分评价时间较早（如知乎2019-2023年回答），可能有滞后<br>
+    3. 最终录取分数线由当年试题难度、招生计划、报考人数等多因素决定<br>
+    4. 请务必以<strong>广州市招生考试委员会办公室</strong>官方发布为准<br>
+    5. 报告生成时间：2026年6月5日
+  </div>
+</div>
+
+<footer>
+  2026年广州中考候选学校网络舆情综合分析报告 | 仅供志愿填报参考 | 非官方数据<br>
+  数据采集截止：2026年6月5日
+</footer>
+
+</div>
+    <!-- ===== XBrain Logo Scroll Fade ===== -->
+    <script>
+      (function () {
+        var logo = document.querySelector('.xbrain-brand');
+        var ticking = false;
+
+        function updateLogo() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var ratio = Math.min(scrollY / vh, 1);
+          var opacity = 1 - ratio * 0.7;
+          if (logo) {
+            logo.style.opacity = opacity;
+            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+          }
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateLogo();
+      })();
+    </script>
+
+</body>
+</html>

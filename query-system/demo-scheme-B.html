@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>方案B Demo - 分组横条 + 单行明细表头</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    background: #f8fafc;
+    color: #1a202c;
+    padding: 24px;
+  }
+
+  .demo-header {
+    max-width: 1600px; margin: 0 auto 20px;
+    background: linear-gradient(135deg, #0f2440, #1a365d, #2c5282);
+    color: white; padding: 20px 32px; border-radius: 12px;
+  }
+  .demo-header h1 { font-size: 20px; font-weight:700; margin-bottom:4px; }
+  .demo-header p { font-size:13px; opacity:0.75; }
+
+  .demo-info {
+    max-width: 1600px; margin: 0 auto 16px;
+    display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .info-card {
+    background:white; border:1px solid #e2e8f0; border-radius:8px;
+    padding:12px 16px; font-size:12px;
+  }
+  .info-card strong { color:#1a365d; }
+  .info-card .tag {
+    display:inline-block; padding:2px 8px; border-radius:10px;
+    font-size:11px; font-weight:600; margin:2px 2px 2px 0;
+  }
+
+  .table-container {
+    max-width: 1600px; margin: 0 auto;
+    background:#fff; border-radius:12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border:1px solid #e2e8f0;
+    overflow-x:auto; max-height:70vh; overflow-y:auto;
+  }
+
+  .data-table {
+    border-collapse: separate; border-spacing:0;
+    font-size:13px; table-layout:auto; width:max-content;
+    min-width:100%;
+  }
+
+  /* ================================================================
+     第1行：分组横条（深色，大族标识）
+     ================================================================ */
+  .batch-group-row th {
+    border-bottom: 1px solid #c7d2e8 !important;
+    border-right: 1px solid #dce3ec !important;
+    padding: 5px 6px !important;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .batch-group-row th:last-child { border-right:none !important; }
+
+  /* 大族基础色 */
+  .g-base     { background: linear-gradient(135deg,#cbd5e1,#94a3b8) !important; color: #fff !important; }
+  .g-gradient { background: linear-gradient(135deg,#d97706,#b45309) !important; color: #fff !important; }
+  .g-batch2  { background: linear-gradient(135deg,#2563eb,#1d4ed8) !important; color: #fff !important; }
+  .g-batch3  { background: linear-gradient(135deg,#16a34a,#15803d) !important; color: #fff !important; }
+  .g-batch4  { background: linear-gradient(135deg,#db2777,#be185d) !important; color: #fff !important; }
+  .g-makeup  { background: linear-gradient(135deg,#7c3aed,#6d28d9) !important; color: #fff !important; }
+  .g-plan    { background: linear-gradient(135deg,#9333ea,#7e22ce) !important; color: #fff !important; }
+
+  /* ================================================================
+     第2行：单行明细表头 — 继承大族色 + 分年深浅
+     ================================================================ */
+  .data-table thead tr:last-child th {
+    padding: 6px 5px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    border-bottom: 2px solid #cbd5e0;
+    border-right: 1px solid rgba(255,255,255,0.6);
+    line-height: 1.35;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .data-table thead tr:last-child th:hover { filter: brightness(0.92); }
+  .data-table thead tr:last-child th:first-child,
+  .data-table thead tr:last-child th:last-child { border-right:none; }
+
+  /* ---- 基础信息 / 操作（灰蓝系）---- */
+  .c-base     { background: linear-gradient(135deg,#e2e8f0,#cbd5e1) !important; color:#334155 !important; }
+
+  /* ---- 梯度（琥珀金）---- */
+  .c-gradient { background: linear-gradient(135deg,#fef3c7,#fde68a) !important; color:#92400e !important; }
+
+  /* ---- 第二批名额分配（蓝色）---- */
+  .c-batch2  { background: linear-gradient(135deg,#dbeafe,#bfdbfe) !important; color:#1e40af !important; }
+
+  /* ---- 第三批统招：绿色系分年 ---- */
+  .c-b3-25   { background: linear-gradient(135deg,#dcfce7,#bbf7d0) !important; color:#166534 !important; } /* 25年：标准绿 */
+  .c-b3-24   { background: linear-gradient(135deg,#ecfccb,#d9f99d) !important; color:#3f6212 !important; } /* 24年：黄绿 */
+  .c-b3-23   { background: linear-gradient(135deg,#fef9c3,#fef08a) !important; color:#854d0e !important; } /* 23年：浅黄绿 */
+
+  /* ---- 第四批常规兜底：粉红系分年 ---- */
+  .c-b4-25   { background: linear-gradient(135deg,#fce7f3,#fbcfe8) !important; color:#9d174d !important; } /* 25年：标准粉 */
+  .c-b4-24   { background: linear-gradient(135deg,#ffe4e6,#fecdd3) !important; color:#be185d !important; } /* 24年：浅粉 */
+  .c-b4-23   { background: linear-gradient(135deg,#fff1f2,#fee2e2) !important; color:#e11d48 !important; } /* 23年：极浅粉 */
+
+  /* ---- 补录（靛蓝）---- */
+  .c-makeup  { background: linear-gradient(135deg,#e0e7ff,#c7d2fe) !important; color:#3730a3 !important; }
+
+  /* ---- 计划信息（紫罗兰）---- */
+  .c-plan    { background: linear-gradient(135deg,#f3e8ff,#e9d5ff) !important; color:#6b21a8 !important; }
+
+  /* ================================================================
+     冻结列
+     ================================================================ */
+  .col-expand { width:36px; min-width:36px; position:sticky; left:0; z-index:11;
+    background: linear-gradient(135deg,#e2e8f0,#cbd5e1) !important; }
+  .col-name { min-width:160px; max-width:200px; position:sticky; left:36px; z-index:10;
+    background: linear-gradient(135deg,#e2e8f0,#cbd5e1) !important; box-shadow:4px 0 8px rgba(0,0,0,0.10); text-align:left!important; }
+  .col-action { width:48px; min-width:48px; }
+
+  /* ================================================================
+     数据区域 td — 底色继承二层族群色（极浅版，不干扰分数值）
+     ================================================================ */
+  .data-table td {
+    padding: 7px 8px; border-bottom:1px solid #e2e8f0;
+    border-right:1px solid #f1f5f9; text-align:center;
+    font-size:12px; vertical-align:middle; white-space:nowrap;
+  }
+  .data-table tbody tr { transition:background 0.1s; }
+  .data-table tbody tr:hover { background:#eef6ff; }
+  .data-table tbody tr:hover td:not(.col-expand):not(.col-name):not(.col-action) { filter:brightness(0.97); }
+
+  td.col-expand { background:#fff; position:sticky; left:0; z-index:3; }
+  td.col-name { background:#fff; position:sticky; left:36px; z-index:2;
+    box-shadow:4px 0 8px rgba(0,0,0,0.08); text-align:left; font-weight:600; color:#1a365d; }
+  tbody tr:hover td.col-expand { background:#eff6ff; }
+  tbody tr:hover td.col-name { background:#eff6ff; }
+
+  /* 基础信息数据色（极浅灰） */
+  .d-base     { background: #f8fafc; }
+
+  /* 梯度数据色 */
+  .d-gradient { background: #fffbeb; }
+
+  /* 第二批数据色（极浅蓝） */
+  .d-batch2  { background: #f0f9ff; }
+
+  /* 第三批分年数据色（极浅绿系） */
+  .d-b3-25   { background: #f0fdf4; } /* 25年：极浅绿 */
+  .d-b3-24   { background: #f7fef8; } /* 24年：更浅绿 */
+  .d-b3-23   { background: #fcfef5; } /* 23年：最浅绿 */
+
+  /* 第四批分年数据色（极浅粉系） */
+  .d-b4-25   { background: #fdf2f8; } /* 25年：极浅粉 */
+  .d-b4-24   { background: #fef7f9; } /* 24年：更浅粉 */
+  .d-b4-23   { background: #fff9fa; } /* 23年：最浅粉 */
+
+  /* 补录数据色 */
+  .d-makeup  { background: #eef2ff; }
+
+  /* 计划信息数据色 */
+  .d-plan    { background: #faf5ff; }
+
+  /* hover时保持区分度 */
+  tbody tr:hover .d-b3-25   { background: #dcfce7; }
+  tbody tr:hover .d-b3-24   { background: #ecfccb; }
+  tbody tr:hover .d-b3-23   { background: #fef9c3; }
+  tbody tr:hover .d-b4-25   { background: #fce7f3; }
+  tbody tr:hover .d-b4-24   { background: #ffe4e6; }
+  tbody tr:hover .d-b4-23   { background: #fff1f2; }
+  tbody tr:hover .d-batch2  { background: #dbeafe; }
+  tbody tr:hover .d-gradient { background: #fef3c7; }
+  tbody tr:hover .d-makeup  { background: #e0e7ff; }
+  tbody tr:hover .d-plan    { background: #f3e8ff; }
+  tbody tr:hover .d-base    { background: #e2e8f0; }
+
+  /* ================================================================
+     样式组件
+     ================================================================ */
+  .nature-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; }
+  .nb-gongban { background:#dbeafe; color:#1d4ed8; }
+  .nb-minban  { background:#fef3c7; color:#b45309; }
+  .score-val { font-weight:700; font-variant-numeric:tabular-nums; padding:2px 6px; border-radius:4px; }
+  .sg1{background:#fee2e2;color:#b91c1c} .sg2{background:#ffedd5;color:#c2410c}
+  .sg3{background:#fef9c3;color:#a16207} .sg4{background:#ecfccb;color:#65a30d}
+  .sg5{background:#cffafe;color:#0891b2} .sg6{background:#dbeafe;color:#2563eb}
+  .sgmin{background:#f3f4f6;color:#6b7280}
+  .quota-line { font-weight:700; color:#b7791f; background:#fefce8; padding:2px 8px; border-radius:4px; }
+  .change-pos{color:#16a34a;font-weight:600} .change-neg{color:#dc2626;font-weight:600}
+  .gtag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;}
+  .gt1{background:#fee2e2;color:#b91c1c}.gt2{background:#ffedd5;color:#c2410c}
+  .gt3{background:#fef9c3;color:#a16207}.gt4{background:#ecfccb;color:#65a30d}
+  .gt5{background:#cffafe;color:#0891b2}.gt6{background:#dbeafe;color:#2563eb}
+  .gt-min{background:#f3f4f6;color:#6b7280}
+  .empty-val{color:#a0aec0;}
+
+  .btn-detail {
+    background:none;border:1px solid #2c5282;color:#1a365d;
+    padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;
+  }
+  .btn-detail:hover{background:#1a365d;color:white;}
+
+  /* 图例 */
+  .legend { max-width:1600px; margin:16px auto 0; display:flex; gap:12px; flex-wrap:wrap;
+    background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px 16px; font-size:11px; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .legend-dot { width:14px; height:14px; border-radius:3px; }
+
+  ::-webkit-scrollbar{width:6px;height:6px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:#cbd5e0;border-radius:3px;}
+    /* ===== XBrain Brand (Cerebro Style) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+</style>
+</head>
+<body>
+    <!-- ===== XBrain Brand IP ===== -->
+    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#80c0ff" />
+            <stop offset="50%" stop-color="#4a90e2" />
+            <stop offset="100%" stop-color="#80c0ff" />
+          </linearGradient>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+        <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+        <g transform="matrix(0 -1 1 0 30 300)">
+          <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+          <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+          <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+        </g>
+        <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+          <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+          <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+        </g>
+        <g transform="matrix(0 -1 1 0 30 230)">
+          <circle cx="50" cy="50" r="50" fill="#0d1636" />
+          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+          <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+          <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+        </g>
+        <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+        </g>
+      </svg>
+      <div class="xbrain-text"><span>X</span>Brain</div>
+    </a>
+
+
+<div class="demo-header">
+  <h1>方案 B Demo：分组横条 + 单行明细</h1>
+  <p>双层着色 — 一层大族标识(深色) → 二层字段继承+分年渐变(中色) → 数据区底色继承(极浅)</p>
+</div>
+
+<div class="demo-info">
+  <div class="info-card">
+    <strong>配色规则：</strong><br/>
+    一层横条=大族深色 | 二层表头=同族中色+分年深浅 | 数据td=同族极浅底色<br/>
+    第三批绿系：25深绿→24黄绿→23浅黄绿 | 第四批粉系：25深粉→24浅粉→23极浅粉
+  </div>
+  <div class="info-card">
+    <strong>分组结构（45数据列 + 2操作 = 47列）：</strong><br/>
+    <span class="tag" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#fff">基础信息 4</span>
+    <span class="tag" style="background:linear-gradient(135deg,#d97706,#b45309);color:#fff">梯度 1</span>
+    <span class="tag" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff">第二批 4</span>
+    <span class="tag" style="background:linear-gradient(135deg,#16a34a,#15803d);color:#fff">第三批 18</span>
+    <span class="tag" style="background:linear-gradient(135deg,#db2777,#be185d);color:#fff">第四批 9</span>
+    <span class="tag" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff">补录 3</span>
+    <span class="tag" style="background:linear-gradient(135deg,#9333ea,#7e22ce);color:#fff">计划 4</span>
+  </div>
+</div>
+
+<div class="table-container">
+<table class="data-table">
+<thead>
+  <!-- ========== 第1行：分组横条（深色） ========== -->
+  <tr class="batch-group-row">
+    <th class="g-base"></th>
+    <th colspan="4" class="g-base">基础信息</th>
+    <th colspan="1" class="g-gradient">梯度</th>
+    <th colspan="4" class="g-batch2">第二批（名额分配）</th>
+    <th colspan="18" class="g-batch3">第三批（统招）</th>
+    <th colspan="9"  class="g-batch4">第四批（常规兜底）</th>
+    <th colspan="3"  class="g-makeup">补录</th>
+    <th colspan="4"  class="g-plan">计划信息</th>
+    <th class="g-base"></th>
+  </tr>
+
+  <!-- ========== 第2行：单行明细（中色，分年渐变） ========== -->
+  <tr>
+    <th class="col-expand c-base">展开</th>
+    <!-- 基础信息 -->
+    <th class="c-base">学校名称</th><th class="c-base">性质</th><th class="c-base">区域</th><th class="c-base">批次</th>
+    <!-- 梯度 -->
+    <th class="c-gradient">梯度·统招25</th>
+    <!-- 第二批名额分配 4 -->
+    <th class="c-batch2">控·26</th><th class="c-batch2">控·25</th><th class="c-batch2">录·25</th><th class="c-batch2">变化</th>
+    <!-- 第三批统招 2025 (6列) — 标准绿 -->
+    <th class="c-b3-25">户·控25</th><th class="c-b3-25">户·录25</th><th class="c-b3-25">户·末志25</th>
+    <th class="c-b3-25">外·控25</th><th class="c-b3-25">外·录25</th><th class="c-b3-25">外·末志25</th>
+    <!-- 第三批统招 2024 (6列) — 黄绿 -->
+    <th class="c-b3-24">户·控24</th><th class="c-b3-24">户·录24</th><th class="c-b3-24">户·末志24</th>
+    <th class="c-b3-24">外·控24</th><th class="c-b3-24">外·录24</th><th class="c-b3-24">外·末志24</th>
+    <!-- 第三批统招 2023 (6列) — 浅黄绿 -->
+    <th class="c-b3-23">户·控23</th><th class="c-b3-23">户·录23</th><th class="c-b3-23">户·末志23</th>
+    <th class="c-b3-23">外·控23</th><th class="c-b3-23">外·录23</th><th class="c-b3-23">外·末志23</th>
+    <!-- 第四批常规兜底 2025 (3列) — 标准粉 -->
+    <th class="c-b4-25">控·25</th><th class="c-b4-25">录·25</th><th class="c-b4-25">末志25</th>
+    <!-- 第四批常规兜底 2024 (3列) — 浅粉 -->
+    <th class="c-b4-24">控·24</th><th class="c-b4-24">录·24</th><th class="c-b4-24">末志24</th>
+    <!-- 第四批常规兜底 2023 (3列) — 极浅粉 -->
+    <th class="c-b4-23">控·23</th><th class="c-b4-23">录·23</th><th class="c-b4-23">末志23</th>
+    <!-- 补录 -->
+    <th class="c-makeup">补正常分</th><th class="c-makeup">补录分</th><th class="c-makeup">补差值</th>
+    <!-- 计划信息 -->
+    <th class="c-plan">计划人数</th><th class="c-plan">外区人数</th><th class="c-plan">总计划</th><th class="c-plan">总宿位</th>
+    <!-- 操作 -->
+    <th class="col-action c-base">操作</th>
+  </tr>
+</thead>
+<tbody>
+  <!-- ===== 行1：省实 ===== -->
+  <tr>
+    <td class="col-expand d-base"><button style="cursor:pointer;background:none;border:none;">&#9660;</button></td>
+    <td class="col-name d-base">广东实验中学</td>
+    <td class="d-base"><span class="nature-badge nb-gongban">公办</span></td>
+    <td class="d-base">荔湾</td>
+    <td class="d-base">二三四</td>
+    <td class="d-gradient"><span class="gtag gt1">第一梯度</span></td>
+    <td class="d-batch2"><span class="quota-line">703</span></td>
+    <td class="d-batch2">698</td>
+    <td class="d-batch2"><span class="score-val sg1">703</span></td>
+    <td class="d-batch2"><span class="change-pos">+5</span></td>
+    <!-- 第三批2025 绿 -->
+    <td class="d-b3-25"><span class="score-val sg1">705</span></td><td class="d-b3-25"><span class="score-val sg1">705</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-25"><span class="score-val sg1">705</span></td><td class="d-b3-25"><span class="score-val sg1">705</span></td><td class="d-b3-25">1</td>
+    <!-- 第三批2024 黄绿 -->
+    <td class="d-b3-24"><span class="score-val sg1">707</span></td><td class="d-b3-24"><span class="score-val sg1">707</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-24"><span class="score-val sg1">707</span></td><td class="d-b3-24"><span class="score-val sg1">707</span></td><td class="d-b3-24">1</td>
+    <!-- 第三批2023 浅黄绿 -->
+    <td class="d-b3-23"><span class="score-val sg1">710</span></td><td class="d-b3-23"><span class="score-val sg1">710</span></td><td class="d-b3-23">1</td>
+    <td class="d-b3-23"><span class="score-val sg1">710</span></td><td class="d-b3-23"><span class="score-val sg1">710</span></td><td class="d-b3-23">1</td>
+    <!-- 第四批2025 粉 -->
+    <td class="d-b4-25"><span class="score-val sg1">705</span></td><td class="d-b4-25"><span class="score-val sg1">705</span></td><td class="d-b4-25">1</td>
+    <!-- 第四批2024 浅粉 -->
+    <td class="d-b4-24"><span class="score-val sg1">707</span></td><td class="d-b4-24"><span class="score-val sg1">707</span></td><td class="d-b4-24">1</td>
+    <!-- 第四批2023 极浅粉 -->
+    <td class="d-b4-23"><span class="score-val sg1">710</span></td><td class="d-b4-23"><span class="score-val sg1">710</span></td><td class="d-b4-23">1</td>
+    <!-- 补录 -->
+    <td class="d-makeup">--</td><td class="d-makeup">--</td><td class="d-makeup">--</td>
+    <!-- 计划 -->
+    <td class="d-plan">520</td><td class="d-plan">52</td><td class="d-plan">520</td><td class="d-plan">400</td>
+    <td class="d-base col-action"><button class="btn-detail">详情</button></td>
+  </tr>
+
+  <!-- ===== 行2：二中 ===== -->
+  <tr>
+    <td class="col-expand d-base"><button style="cursor:pointer;background:none;border:none;">&#9660;</button></td>
+    <td class="col-name d-base">广州市第二中学</td>
+    <td class="d-base"><span class="nature-badge nb-gongban">公办</span></td>
+    <td class="d-base">越秀</td>
+    <td class="d-base">二三四</td>
+    <td class="d-gradient"><span class="gtag gt1">第一梯度</span></td>
+    <td class="d-batch2"><span class="quota-line">697</span></td>
+    <td class="d-batch2">692</td>
+    <td class="d-batch2"><span class="score-val sg1">697</span></td>
+    <td class="d-batch2"><span class="change-pos">+5</span></td>
+    <td class="d-b3-25"><span class="score-val sg1">699</span></td><td class="d-b3-25"><span class="score-val sg1">699</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-25"><span class="score-val sg1">699</span></td><td class="d-b3-25"><span class="score-val sg1">699</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-24"><span class="score-val sg1">701</span></td><td class="d-b3-24"><span class="score-val sg1">701</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-24"><span class="score-val sg1">701</span></td><td class="d-b3-24"><span class="score-val sg1">701</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-23"><span class="score-val sg2">695</span></td><td class="d-b3-23"><span class="score-val sg2">695</span></td><td class="d-b3-23">1</td>
+    <td class="d-b3-23"><span class="score-val sg2">695</span></td><td class="d-b3-23"><span class="score-val sg2">695</span></td><td class="d-b3-23">1</td>
+    <td class="d-b4-25"><span class="score-val sg2">690</span></td><td class="d-b4-25"><span class="score-val sg2">690</span></td><td class="d-b4-25">1</td>
+    <td class="d-b4-24"><span class="score-val sg2">695</span></td><td class="d-b4-24"><span class="score-val sg2">695</span></td><td class="d-b4-24">1</td>
+    <td class="d-b4-23"><span class="score-val sg2">692</span></td><td class="d-b4-23"><span class="score-val sg2">692</span></td><td class="d-b4-23">1</td>
+    <td class="d-makeup">--</td><td class="d-makeup">--</td><td class="d-makeup">--</td>
+    <td class="d-plan">480</td><td class="d-plan">48</td><td class="d-plan">480</td><td class="d-plan">360</td>
+    <td class="d-base col-action"><button class="btn-detail">详情</button></td>
+  </tr>
+
+  <!-- ===== 行3：执信 ===== -->
+  <tr>
+    <td class="col-expand d-base"><button style="cursor:pointer;background:none;border:none;">&#9654;</button></td>
+    <td class="col-name d-base">广州市执信中学</td>
+    <td class="d-base"><span class="nature-badge nb-gongban">公办</span></td>
+    <td class="d-base">越秀</td>
+    <td class="d-base">二三四</td>
+    <td class="d-gradient"><span class="gtag gt1">第一梯度</span></td>
+    <td class="d-batch2"><span class="quota-line">692</span></td>
+    <td class="d-batch2">688</td>
+    <td class="d-batch2"><span class="score-val sg1">692</span></td>
+    <td class="d-batch2"><span class="change-pos">+4</span></td>
+    <td class="d-b3-25"><span class="score-val sg1">694</span></td><td class="d-b3-25"><span class="score-val sg1">694</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-25"><span class="score-val sg1">694</span></td><td class="d-b3-25"><span class="score-val sg1">694</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-24"><span class="score-val sg2">696</span></td><td class="d-b3-24"><span class="score-val sg2">696</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-24"><span class="score-val sg2">696</span></td><td class="d-b3-24"><span class="score-val sg2">696</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-23"><span class="score-val sg2">690</span></td><td class="d-b3-23"><span class="score-val sg2">690</span></td><td class="d-b3-23">2</td>
+    <td class="d-b3-23"><span class="score-val sg2">690</span></td><td class="d-b3-23"><span class="score-val sg2">690</span></td><td class="d-b3-23">2</td>
+    <td class="d-b4-25"><span class="score-val sg2">685</span></td><td class="d-b4-25"><span class="score-val sg2">685</span></td><td class="d-b4-25">2</td>
+    <td class="d-b4-24"><span class="score-val sg2">690</span></td><td class="d-b4-24"><span class="score-val sg2">690</span></td><td class="d-b4-24">2</td>
+    <td class="d-b4-23"><span class="score-val sg3">680</span></td><td class="d-b4-23"><span class="score-val sg3">680</span></td><td class="d-b4-23">3</td>
+    <td class="d-makeup">--</td><td class="d-makeup">--</td><td class="d-makeup">--</td>
+    <td class="d-plan">500</td><td class="d-plan">50</td><td class="d-plan">500</td><td class="d-plan">380</td>
+    <td class="d-base col-action"><button class="btn-detail">详情</button></td>
+  </tr>
+
+  <!-- ===== 行4：广雅（有补录） ===== -->
+  <tr>
+    <td class="col-expand d-base"><button style="cursor:pointer;background:none;border:none;">&#9654;</button></td>
+    <td class="col-name d-base">广东广雅中学</td>
+    <td class="d-base"><span class="nature-badge nb-gongban">公办</span></td>
+    <td class="d-base">荔湾</td>
+    <td class="d-base">二三四</td>
+    <td class="d-gradient"><span class="gtag gt2">第二梯度</span></td>
+    <td class="d-batch2"><span class="quota-line">685</span></td>
+    <td class="d-batch2">680</td>
+    <td class="d-batch2"><span class="score-val sg2">685</span></td>
+    <td class="d-batch2"><span class="change-pos">+5</span></td>
+    <td class="d-b3-25"><span class="score-val sg2">687</span></td><td class="d-b3-25"><span class="score-val sg2">687</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-25"><span class="score-val sg2">687</span></td><td class="d-b3-25"><span class="score-val sg2">687</span></td><td class="d-b3-25">1</td>
+    <td class="d-b3-24"><span class="score-val sg2">688</span></td><td class="d-b3-24"><span class="score-val sg2">688</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-24"><span class="score-val sg2">688</span></td><td class="d-b3-24"><span class="score-val sg2">688</span></td><td class="d-b3-24">1</td>
+    <td class="d-b3-23"><span class="score-val sg3">678</span></td><td class="d-b3-23"><span class="score-val sg3">678</span></td><td class="d-b3-23">2</td>
+    <td class="d-b3-23"><span class="score-val sg3">678</span></td><td class="d-b3-23"><span class="score-val sg3">678</span></td><td class="d-b3-23">2</td>
+    <td class="d-b4-25"><span class="score-val sg3">670</span></td><td class="d-b4-25"><span class="score-val sg3">670</span></td><td class="d-b4-25">2</td>
+    <td class="d-b4-24"><span class="score-val sg3">678</span></td><td class="d-b4-24"><span class="score-val sg3">678</span></td><td class="d-b4-24">2</td>
+    <td class="d-b4-23"><span class="score-val sg3">672</span></td><td class="d-b4-23"><span class="score-val sg3">672</span></td><td class="d-b4-23">3</td>
+    <td class="d-makeup"><span class="score-val sg3">650</span></td>
+    <td class="d-makeup"><span class="score-val sg4">635</span></td>
+    <td class="d-makeup"><span class="change-neg">-15</span></td>
+    <td class="d-plan">450</td><td class="d-plan">45</td><td class="d-plan">450</td><td class="d-plan">340</td>
+    <td class="d-base col-action"><button class="btn-detail">详情</button></td>
+  </tr>
+
+  <!-- ===== 行5：天河省实（民办，无第二批） ===== -->
+  <tr>
+    <td class="col-expand d-base"><span class="empty-val">--</span></td>
+    <td class="col-name d-base">广州市天河省实</td>
+    <td class="d-base"><span class="nature-badge nb-minban">民办</span></td>
+    <td class="d-base">天河</td>
+    <td class="d-base">三四</td>
+    <td class="d-gradient"><span class="gtag gt3">第三梯度</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-b3-25"><span class="score-val sg3">635</span></td><td class="d-b3-25"><span class="score-val sg3">638</span></td><td class="d-b3-25">2</td>
+    <td class="d-b3-25"><span class="score-val sg3">635</span></td><td class="d-b3-25"><span class="score-val sg3">638</span></td><td class="d-b3-25">2</td>
+    <td class="d-b3-24"><span class="score-val sg3">632</span></td><td class="d-b3-24"><span class="score-val sg3">635</span></td><td class="d-b3-24">2</td>
+    <td class="d-b3-24"><span class="score-val sg3">632</span></td><td class="d-b3-24"><span class="score-val sg3">635</span></td><td class="d-b3-24">2</td>
+    <td class="d-b3-23"><span class="score-val sg4">618</span></td><td class="d-b3-23"><span class="score-val sg4">620</span></td><td class="d-b3-23">3</td>
+    <td class="d-b3-23"><span class="score-val sg4">618</span></td><td class="d-b3-23"><span class="score-val sg4">620</span></td><td class="d-b3-23">3</td>
+    <td class="d-b4-25"><span class="score-val sg4">605</span></td><td class="d-b4-25"><span class="score-val sg4">608</span></td><td class="d-b4-25">3</td>
+    <td class="d-b4-24"><span class="score-val sg4">602</span></td><td class="d-b4-24"><span class="score-val sg4">605</span></td><td class="d-b4-24">3</td>
+    <td class="d-b4-23"><span class="score-val sg5">585</span></td><td class="d-b4-23"><span class="score-val sg5">588</span></td><td class="d-b4-23">4</td>
+    <td class="d-makeup"><span class="empty-val">--</span></td><td class="d-makeup"><span class="empty-val">--</span></td><td class="d-makeup"><span class="empty-val">--</span></td>
+    <td class="d-plan">380</td><td class="d-plan">38</td><td class="d-plan">380</td><td class="d-plan">280</td>
+    <td class="d-base col-action"><button class="btn-detail">详情</button></td>
+  </tr>
+
+  <!-- ===== 行6：美术中学（仅四批） ===== -->
+  <tr>
+    <td class="col-expand d-base"><span class="empty-val">--</span></td>
+    <td class="col-name d-base">广州市美术中学</td>
+    <td class="d-base"><span class="nature-badge nb-gongban">公办</span></td>
+    <td class="d-base">越秀</td>
+    <td class="d-base">四</td>
+    <td class="d-gradient"><span class="gtag gt-min">普高最低线</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-batch2"><span class="empty-val">--</span></td>
+    <td class="d-b3-25"><span class="empty-val">--</span></td><td class="d-b3-25"><span class="empty-val">--</span></td><td class="d-b3-25"><span class="empty-val">--</span></td>
+    <td class="d-b3-25"><span class="empty-val">--</span></td><td class="d-b3-25"><span class="empty-val">--</span></td><td class="d-b3-25"><span class="empty-val">--</span></td>
+    <td class="d-b3-24"><span class="empty-val">--</span></td><td class="d-b3-24"><span class="empty-val">--</span></td><td class="d-b3-24"><span class="empty-val">--</span></td>
+    <td class="d-b3-24"><span class="empty-val">--</span></td><td class="d-b3-24"><span class="empty-val">--</span></td><td class="d-b3-24"><span class="empty-val">--</span></td>
+    <td class="d-b3-23"><span class="empty-val">--</span></td><td class="d-b3-23"><span class="empty-val">--</span></td><td class="d-b3-23"><span class="empty-val">--</span></td>
+    <td class="d-b3-23"><span class="empty-val">--</span></td><td class="d-b3-23"><span class="empty-val">--</span></td><td class="d-b3-23"><span class="empty-val">--</span></td>
+    <td class="d-b4-25"><span class="score-val sg5">530</span></td><td class="d-b4-25"><span class="score-val sg5">533</span></td><td class="d-b4-25">5</td>
+    <td class="d-b4-24"><span class="score-val sg5">528</span></td><td class="d-b4-24"><span class="score-val sg5">530</span></td><td class="d-b4-24">5</td>
+    <td class="d-b4-23"><span class="score-val sg6">510</span></td><td class="d-b4-23"><span class="score-val sg6">512</span></td><td class="d-b4-23">6</td>
+    <td class="d-makeup"><span class="score-val sg6">495</span></td>
+    <td class="d-makeup"><span class="score-val sgmin">480</span></td>
+    <td class="d-makeup"><span class="change-neg">-15</span></td>
+    <td class="d-plan">200</td><td class="d-plan">20</td><td class="d-plan">200</td><td class="d-plan">120</td>
+    <td class="d-base col-action"><button class="btn-detail">详情</button></td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<!-- 颜色图例 -->
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8)"></span> 基础信息 / 操作</div>
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#d97706,#b45309)"></span> 梯度</div>
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)"></span> 第二批（名额分配）</div>
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#16a34a,#15803d)"></span> 第三批统招
+    <span style="font-size:9px;margin-left:4px;color:#94a3b8">25深绿/24黄绿/23浅黄</span>
+  </div>
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#db2777,#be185d)"></span> 第四批常规兜底
+    <span style="font-size:9px;margin-left:4px;color:#94a3b8">25深粉/24浅粉/23极浅</span>
+  </div>
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)"></span> 补录</div>
+  <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,#9333ea,#7e22ce)"></span> 计划信息</div>
+</div>
+
+    <!-- ===== XBrain Logo Scroll Fade ===== -->
+    <script>
+      (function () {
+        var logo = document.querySelector('.xbrain-brand');
+        var ticking = false;
+
+        function updateLogo() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var ratio = Math.min(scrollY / vh, 1);
+          var opacity = 1 - ratio * 0.7;
+          if (logo) {
+            logo.style.opacity = opacity;
+            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+          }
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateLogo();
+      })();
+    </script>
+
+</body>
+</html>

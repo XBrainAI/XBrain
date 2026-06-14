@@ -1,0 +1,10 @@
+{
+  "name": "xbrain-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "XBrain 多子站点聚合部署",
+  "scripts": {
+    "build": "cd query-system && npm install && npm run build",
+    "dev": "cd query-system && npm run dev"
+  }
+}

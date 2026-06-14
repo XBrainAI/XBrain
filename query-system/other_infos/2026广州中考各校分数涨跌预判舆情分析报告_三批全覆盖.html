@@ -1,0 +1,2775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026年广州中考志愿填报各校分数涨跌趋势舆情分析报告</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: white;
+      padding: 40px 30px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
+    }
+
+    .header h1 {
+      font-size: 1.8em;
+      margin-bottom: 12px;
+    }
+
+    .header .subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .header .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.9em;
+      opacity: 0.85;
+    }
+
+    .header .meta span {
+      display: flex;
+      align-items: center;
+    }
+
+    .header .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      margin-right: 12px;
+    }
+
+    .toc {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .toc h2 {
+      font-size: 1.2em;
+      color: #1a73e8;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e8f0fe;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .toc a {
+      color: #1a73e8;
+      text-decoration: none;
+      padding: 8px 14px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      transition: all 0.2s;
+      font-size: 0.9em;
+    }
+
+    .toc a:hover {
+      background: #e8f0fe;
+      transform: translateX(4px);
+    }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .section h2 {
+      font-size: 1.4em;
+      color: #1a73e8;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e8f0fe;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section h2 .num {
+      background: #1a73e8;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85em;
+    }
+
+    .section h3 {
+      font-size: 1.15em;
+      color: #333;
+      margin: 24px 0 14px;
+      padding-left: 12px;
+      border-left: 4px solid #1a73e8;
+    }
+
+    .section h4 {
+      font-size: 1em;
+      color: #555;
+      margin: 18px 0 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9em;
+    }
+
+    th {
+      background: #f8f9fa;
+      color: #333;
+      font-weight: 600;
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 2px solid #ddd;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    tr:hover td {
+      background: #f8f9fa;
+    }
+
+    .highlight-row td {
+      background: #fff3cd;
+      font-weight: 500;
+    }
+
+    .remark {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 14px 18px;
+      margin: 16px 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9em;
+    }
+
+    .remark.warning {
+      background: #fff3e0;
+      border-left-color: #ff9800;
+    }
+
+    .remark.info {
+      background: #e3f2fd;
+      border-left-color: #2196f3;
+    }
+
+    .remark.danger {
+      background: #ffebee;
+      border-left-color: #f44336;
+    }
+
+    .key-conclusion {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 24px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .key-conclusion h4 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+
+    .tag-up {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .tag-down {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .tag-flat {
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .tag-new {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .stat-card .value {
+      font-size: 2em;
+      font-weight: 700;
+      color: #1a73e8;
+    }
+
+    .stat-card .label {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 6px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px;
+      color: #888;
+      font-size: 0.85em;
+    }
+
+    .footer a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 12px;
+      }
+
+      .header {
+        padding: 24px 18px;
+      }
+
+      .header h1 {
+        font-size: 1.4em;
+      }
+
+      table {
+        font-size: 0.8em;
+      }
+
+      td,
+      th {
+        padding: 8px 10px;
+      }
+    }
+      /* ===== XBrain Brand (Cerebro Style) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,0.45)); }
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+</style>
+</head>
+
+<body>
+    <!-- ===== XBrain Brand IP ===== -->
+    <a class="xbrain-brand" href="#top" title="XBrain - Cerebro">
+      <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+            <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#80c0ff" />
+            <stop offset="50%" stop-color="#4a90e2" />
+            <stop offset="100%" stop-color="#80c0ff" />
+          </linearGradient>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+        <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+        <g transform="matrix(0 -1 1 0 30 300)">
+          <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+          <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+          <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+        </g>
+        <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+          <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+          <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+        </g>
+        <g transform="matrix(0 -1 1 0 30 230)">
+          <circle cx="50" cy="50" r="50" fill="#0d1636" />
+          <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+          <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+          <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+          <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+          <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+        </g>
+        <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+          <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+          <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+        </g>
+      </svg>
+      <div class="xbrain-text"><span>X</span>Brain</div>
+    </a>
+
+  <div class="container">
+
+    <!-- 头部 -->
+    <div class="header">
+      <h1>2026年广州中考志愿填报各校分数涨跌趋势舆情分析报告</h1>
+      <div class="subtitle">覆盖第二批、第三批、第四批 + 荔湾 &rarr; 老三区 &rarr; 外区 + 公办/民办</div>
+      <div class="meta">
+        <span><span class="badge">完全版</span></span>
+        <span>报告日期：2026年6月3日</span>
+        <span>填报窗口：6月1日—5日</span>
+      </div>
+    </div>
+
+    <!-- 目录 -->
+    <div class="toc">
+      <h2>目录</h2>
+      <div class="toc-grid">
+        <a href="#s1">一、总体趋势研判</a>
+        <a href="#s2">二、一模数据换算</a>
+        <a href="#s3">三、第二批名额分配</a>
+        <a href="#s4">四、第三批统招预测</a>
+        <a href="#s5">五、第四批与民办</a>
+        <a href="#s6">六、9校深度分析</a>
+        <a href="#s6b">六+、分段报考策略</a>
+        <a href="#s7">七、各区录取门槛</a>
+        <a href="#s8">八、政策变化要点</a>
+        <a href="#s9">九、舆情热度图谱</a>
+        <a href="#s10">十、数据来源说明</a>
+        <a href="#appendix">附录速查表</a>
+      </div>
+    </div>
+
+    <!-- 第一章 -->
+    <div class="section" id="s1">
+      <h2><span class="num">1</span> 总览：2026年总体趋势研判</h2>
+
+      <div class="key-conclusion">
+        <h4>核心结论</h4>
+        <table style="background:transparent;color:white;">
+          <tr>
+            <td style="border:none;padding:6px 12px;"><strong>梯度线方向</strong></td>
+            <td style="border:none;padding:6px 12px;"><strong>整体微降</strong>，第一梯度线预计约 698-705分（2025年为707分）</td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:6px 12px;"><strong>三批分数线</strong></td>
+            <td style="border:none;padding:6px 12px;">高分段竞争加剧、中低分段明显受益于学位扩容（+1.5万公办学位）</td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:6px 12px;"><strong>四批/民办</strong></td>
+            <td style="border:none;padding:6px 12px;">民办普高线首次独立划定（比公办低80分），极大拓宽中低分段升学通路</td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:6px 12px;"><strong>荔湾区四校</strong></td>
+            <td style="border:none;padding:6px 12px;">2025年全线大跌后，2026年<strong>企稳/微涨</strong>，大幅反弹概率低</td>
+          </tr>
+        </table>
+      </div>
+
+      <h3>五大核心变量</h3>
+      <table>
+        <tr>
+          <th>变量</th>
+          <th>2025年</th>
+          <th>2026年</th>
+          <th>变化</th>
+          <th>对分数线影响</th>
+        </tr>
+        <tr>
+          <td>中考考生</td>
+          <td>约14.8万</td>
+          <td><strong>约15.1万</strong></td>
+          <td>+2.0%</td>
+          <td>微推高</td>
+        </tr>
+        <tr>
+          <td>公办普高学位</td>
+          <td>90,476个</td>
+          <td><strong>超10.5万个</strong></td>
+          <td>+16.6%</td>
+          <td><strong>显著降低</strong></td>
+        </tr>
+        <tr>
+          <td>公办普高率</td>
+          <td>约48%</td>
+          <td><strong>约52%</strong></td>
+          <td>+4pp</td>
+          <td><strong>显著降低</strong></td>
+        </tr>
+        <tr>
+          <td>第一梯度划线比例</td>
+          <td>10%</td>
+          <td><strong>10%</strong></td>
+          <td>不变</td>
+          <td>中性</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>民办普高线</td>
+          <td>与公办同</td>
+          <td><strong>比公办低80分</strong></td>
+          <td><span class="tag tag-new">重大变化</span></td>
+          <td>分流降低中低分段压力</td>
+        </tr>
+      </table>
+
+      <div class="remark">
+        <strong>核心判断：</strong>学位扩容幅度（+16.6%）远超考生增幅（+2.0%），2026年整体录取门槛<strong>确定走低</strong>。但这主要利好中等及中后段考生，优质高中学位扩招有限，高分段竞争依然激烈。
+      </div>
+    </div>
+
+    <!-- 第二章 -->
+    <div class="section" id="s2">
+      <h2><span class="num">2</span> 一模数据与梯度线换算</h2>
+
+      <h3>2.1 一模考试概况</h3>
+      <div class="grid-2">
+        <div class="stat-card">
+          <div class="value">690分</div>
+          <div class="label">一模总分（不含体育/英语听说/理化实验）</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">810分</div>
+          <div class="label">中考总分（含全部科目）</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">431分</div>
+          <div class="label">一模全市平均分</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">577分</div>
+          <div class="label">一模第一梯度线（前10%）</div>
+        </div>
+      </div>
+
+      <h3>2.2 一模—中考等效换算</h3>
+      <table>
+        <tr>
+          <th>梯度</th>
+          <th>一模参考分数</th>
+          <th>对应中考分数段</th>
+          <th>适合考生排位</th>
+        </tr>
+        <tr>
+          <td><strong>一梯</strong></td>
+          <td>&ge;577分</td>
+          <td>720+</td>
+          <td>前10%</td>
+        </tr>
+        <tr>
+          <td><strong>二梯</strong></td>
+          <td>537-576分</td>
+          <td>680-715</td>
+          <td>10%-25%</td>
+        </tr>
+        <tr>
+          <td><strong>三梯</strong></td>
+          <td>497-536分</td>
+          <td>640-675</td>
+          <td>25%-40%</td>
+        </tr>
+        <tr>
+          <td><strong>四梯</strong></td>
+          <td>457-496分</td>
+          <td>600-635</td>
+          <td>40%-55%</td>
+        </tr>
+        <tr>
+          <td><strong>五梯及以下</strong></td>
+          <td>&lt;457分</td>
+          <td>&lt;600</td>
+          <td>55%以后</td>
+        </tr>
+      </table>
+      <div class="remark info">换算法则：中考同口径分数 &approx; 一模分数 + 3~5分（一模略难于中考）</div>
+
+      <h3>2.3 2026年梯度线预测</h3>
+      <table>
+        <tr>
+          <th>梯度线</th>
+          <th>2025年实际</th>
+          <th>2026年预测</th>
+          <th>方向</th>
+        </tr>
+        <tr>
+          <td>第一梯度</td>
+          <td>707</td>
+          <td><strong>698-705</strong></td>
+          <td><span class="tag tag-down">微降</span></td>
+        </tr>
+        <tr>
+          <td>第二梯度</td>
+          <td>667</td>
+          <td><strong>658-665</strong></td>
+          <td><span class="tag tag-down">微降</span></td>
+        </tr>
+        <tr>
+          <td>第三梯度</td>
+          <td>627</td>
+          <td><strong>618-625</strong></td>
+          <td><span class="tag tag-down">微降</span></td>
+        </tr>
+        <tr>
+          <td>第四梯度</td>
+          <td>587</td>
+          <td><strong>578-585</strong></td>
+          <td><span class="tag tag-down">微降</span></td>
+        </tr>
+        <tr>
+          <td>公办普高线</td>
+          <td>487</td>
+          <td><strong>485-495</strong></td>
+          <td><span class="tag tag-flat">持平</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>民办普高线（新增）</strong></td>
+          <td>—</td>
+          <td><strong>405-415</strong></td>
+          <td><span class="tag tag-new">比公办低80分</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 第三章 -->
+    <div class="section" id="s3">
+      <h2><span class="num">3</span> 第二批——各校名额分配录取最低控制线</h2>
+      <div class="remark info">数据来源：广州市招考办2026年5月12日官方发布 | 计算公式：近三年统招首批次户籍生录取最低分平均值 - 40分（去尾取整）</div>
+
+      <h3>3.1 省市属学校（21所）——面向全市</h3>
+      <table>
+        <tr>
+          <th>学校名称</th>
+          <th style="text-align:center;">控制线</th>
+          <th style="text-align:center;">近三年均分</th>
+          <th style="text-align:center;">性质</th>
+        </tr>
+        <tr>
+          <td>广州外国语学校</td>
+          <td style="text-align:center;"><strong>695</strong></td>
+          <td style="text-align:center;">735</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>广州大学附属中学</td>
+          <td style="text-align:center;"><strong>691</strong></td>
+          <td style="text-align:center;">731</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>华师附中（石牌校区）</td>
+          <td style="text-align:center;"><strong>689</strong></td>
+          <td style="text-align:center;">729</td>
+          <td>省属</td>
+        </tr>
+        <tr>
+          <td>广州市第二中学</td>
+          <td style="text-align:center;"><strong>687</strong></td>
+          <td style="text-align:center;">727</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>省实（白云校区）</td>
+          <td style="text-align:center;"><strong>686</strong></td>
+          <td style="text-align:center;">726</td>
+          <td>省属</td>
+        </tr>
+        <tr>
+          <td>执信中学（执信路校区）</td>
+          <td style="text-align:center;"><strong>684</strong></td>
+          <td style="text-align:center;">724</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>省实（荔湾校区）</td>
+          <td style="text-align:center;"><strong>682</strong></td>
+          <td style="text-align:center;">722</td>
+          <td>省属</td>
+        </tr>
+        <tr>
+          <td>执信中学（天河校区）</td>
+          <td style="text-align:center;"><strong>680</strong></td>
+          <td style="text-align:center;">720</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>广雅中学（花都校区）</td>
+          <td style="text-align:center;"><strong>677</strong></td>
+          <td style="text-align:center;">717</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>广雅中学（荔湾校区）</td>
+          <td style="text-align:center;"><strong>676</strong></td>
+          <td style="text-align:center;">716</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>六中（海珠校区）</td>
+          <td style="text-align:center;"><strong>676</strong></td>
+          <td style="text-align:center;">716</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>华师附中（知识城校区）</td>
+          <td style="text-align:center;"><strong>676</strong></td>
+          <td style="text-align:center;">716</td>
+          <td>省属</td>
+        </tr>
+        <tr>
+          <td>铁一中学（越秀校区）</td>
+          <td style="text-align:center;"><strong>676</strong></td>
+          <td style="text-align:center;">716</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>铁一中学（白云校区）</td>
+          <td style="text-align:center;"><strong>667</strong></td>
+          <td style="text-align:center;">707</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>铁一中学（番禺校区）</td>
+          <td style="text-align:center;"><strong>665</strong></td>
+          <td style="text-align:center;">705</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>六中（花都校区）</td>
+          <td style="text-align:center;"><strong>652</strong></td>
+          <td style="text-align:center;">692</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>清华附中湾区（智谷校区）</td>
+          <td style="text-align:center;"><strong>652</strong></td>
+          <td style="text-align:center;">692</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>清华附中湾区（智慧城校区）</td>
+          <td style="text-align:center;"><strong>652</strong></td>
+          <td style="text-align:center;">692</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>六中（从化校区）</td>
+          <td style="text-align:center;"><strong>646</strong></td>
+          <td style="text-align:center;">686</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>广州协和学校</td>
+          <td style="text-align:center;"><strong>628</strong></td>
+          <td style="text-align:center;">668</td>
+          <td>市属</td>
+        </tr>
+        <tr>
+          <td>广东华侨中学</td>
+          <td style="text-align:center;"><strong>602</strong></td>
+          <td style="text-align:center;">642</td>
+          <td>市属</td>
+        </tr>
+      </table>
+      <div class="remark"><strong>省市属控制线区间：</strong>602-695分 &nbsp;|&nbsp;
+        与2025年对比：除华附石牌持平外，其余学校<strong>均出现下降</strong>，六中花都降幅最大（-21分）</div>
+
+      <h3>3.2 荔湾区（7所）——优先关注</h3>
+      <table>
+        <tr>
+          <th>学校名称</th>
+          <th style="text-align:center;">控制线</th>
+          <th style="text-align:center;">近三年均分</th>
+          <th style="text-align:center;">2025统招分</th>
+          <th style="text-align:center;">降分空间</th>
+          <th>备注</th>
+        </tr>
+        <tr>
+          <td>真光中学（校本部）</td>
+          <td style="text-align:center;"><strong>636</strong></td>
+          <td style="text-align:center;">676</td>
+          <td style="text-align:center;">689</td>
+          <td style="text-align:center;">-53</td>
+          <td>荔湾龙头，绝对值最高</td>
+        </tr>
+        <tr>
+          <td>真光中学（广钢校区）</td>
+          <td style="text-align:center;"><strong>615</strong></td>
+          <td style="text-align:center;">655</td>
+          <td style="text-align:center;">667</td>
+          <td style="text-align:center;">-52</td>
+          <td>新校区第二年，热度渐升</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>广州市第一中学</td>
+          <td style="text-align:center;"><strong>611</strong></td>
+          <td style="text-align:center;">651</td>
+          <td style="text-align:center;">628</td>
+          <td style="text-align:center;">-17</td>
+          <td>2025跌至触三梯线</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>广州市第四中学</td>
+          <td style="text-align:center;"><strong>599</strong></td>
+          <td style="text-align:center;">639</td>
+          <td style="text-align:center;">627</td>
+          <td style="text-align:center;">-28</td>
+          <td>新宿舍利好已消化</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>西关外国语学校</td>
+          <td style="text-align:center;"><strong>592</strong></td>
+          <td style="text-align:center;">632</td>
+          <td style="text-align:center;">610</td>
+          <td style="text-align:center;">-18</td>
+          <td>2025暴跌42分后的均值回归机会</td>
+        </tr>
+        <tr>
+          <td>真光中学（汾水校区）</td>
+          <td style="text-align:center;"><strong>589</strong></td>
+          <td style="text-align:center;">629</td>
+          <td style="text-align:center;">631</td>
+          <td style="text-align:center;">-42</td>
+          <td>真光系"低门槛入口"</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>广州市南海中学</td>
+          <td style="text-align:center;"><strong>574</strong></td>
+          <td style="text-align:center;">614</td>
+          <td style="text-align:center;">587</td>
+          <td style="text-align:center;">-13</td>
+          <td>触第四梯度底线，下降空间极小</td>
+        </tr>
+      </table>
+      <div class="remark"><strong>荔湾控制线区间：</strong>574-636分 &nbsp;|&nbsp;
+        舆情要点："610分不到就能通过名额分配入读四中和西外"，荔湾区名额分配获益面在老城区中最为友好。</div>
+
+      <h3>3.3 老三区名额分配控制线横向对比</h3>
+      <table>
+        <tr>
+          <th>区域</th>
+          <th style="text-align:center;">学校数</th>
+          <th style="text-align:center;">最高</th>
+          <th style="text-align:center;">最低</th>
+          <th style="text-align:center;">区间宽度</th>
+          <th>整体定位</th>
+        </tr>
+        <tr>
+          <td>荔湾区</td>
+          <td style="text-align:center;">7</td>
+          <td style="text-align:center;">636（真光本部）</td>
+          <td style="text-align:center;">574（南海中学）</td>
+          <td style="text-align:center;">62分</td>
+          <td>整体偏低，友好型</td>
+        </tr>
+        <tr>
+          <td>越秀区</td>
+          <td style="text-align:center;">10</td>
+          <td style="text-align:center;">657（十六中本部）</td>
+          <td style="text-align:center;">584（十七中）</td>
+          <td style="text-align:center;">73分</td>
+          <td>中高，头部较强</td>
+        </tr>
+        <tr>
+          <td>海珠区</td>
+          <td style="text-align:center;">9</td>
+          <td style="text-align:center;">670（五中本部）</td>
+          <td style="text-align:center;">584（四十一中）</td>
+          <td style="text-align:center;">86分</td>
+          <td>分化最大，五中一枝独秀</td>
+        </tr>
+      </table>
+
+      <h3>3.4 各区学校控制线快速查询</h3>
+      <div class="grid-2">
+        <div>
+          <h4>越秀区（10所）</h4>
+          <table>
+            <tr>
+              <th>学校</th>
+              <th style="text-align:center;">控制线</th>
+            </tr>
+            <tr>
+              <td>十六中（校本部）</td>
+              <td style="text-align:center;"><strong>657</strong></td>
+            </tr>
+            <tr>
+              <td>七中（校本部）</td>
+              <td style="text-align:center;"><strong>652</strong></td>
+            </tr>
+            <tr>
+              <td>培正中学</td>
+              <td style="text-align:center;"><strong>646</strong></td>
+            </tr>
+            <tr>
+              <td>七中（麓湖校区）</td>
+              <td style="text-align:center;"><strong>639</strong></td>
+            </tr>
+            <tr>
+              <td>三中</td>
+              <td style="text-align:center;"><strong>626</strong></td>
+            </tr>
+            <tr>
+              <td>育才中学</td>
+              <td style="text-align:center;"><strong>614</strong></td>
+            </tr>
+            <tr>
+              <td>十六中（水荫校区）</td>
+              <td style="text-align:center;"><strong>601</strong></td>
+            </tr>
+            <tr>
+              <td>省实越秀学校</td>
+              <td style="text-align:center;"><strong>590</strong></td>
+            </tr>
+            <tr>
+              <td>十三中</td>
+              <td style="text-align:center;"><strong>587</strong></td>
+            </tr>
+            <tr>
+              <td>十七中</td>
+              <td style="text-align:center;"><strong>584</strong></td>
+            </tr>
+          </table>
+          <div class="remark info">区间：584-657分</div>
+        </div>
+        <div>
+          <h4>海珠区（9所）</h4>
+          <table>
+            <tr>
+              <th>学校</th>
+              <th style="text-align:center;">控制线</th>
+            </tr>
+            <tr>
+              <td>五中（校本部）</td>
+              <td style="text-align:center;"><strong>670</strong></td>
+            </tr>
+            <tr>
+              <td>五中（金碧校区）</td>
+              <td style="text-align:center;"><strong>629</strong></td>
+            </tr>
+            <tr>
+              <td>海实（校本部）</td>
+              <td style="text-align:center;"><strong>626</strong></td>
+            </tr>
+            <tr>
+              <td>南武（校本部）</td>
+              <td style="text-align:center;"><strong>625</strong></td>
+            </tr>
+            <tr>
+              <td>九十七中（校本部）</td>
+              <td style="text-align:center;"><strong>613</strong></td>
+            </tr>
+            <tr>
+              <td>海实（江海校区）</td>
+              <td style="text-align:center;"><strong>612</strong></td>
+            </tr>
+            <tr>
+              <td>九十七中（江南新苑校区）</td>
+              <td style="text-align:center;"><strong>590</strong></td>
+            </tr>
+            <tr>
+              <td>南武（岭南画派纪念校区）</td>
+              <td style="text-align:center;"><strong>589</strong></td>
+            </tr>
+            <tr>
+              <td>四十一中</td>
+              <td style="text-align:center;"><strong>584</strong></td>
+            </tr>
+          </table>
+          <div class="remark info">区间：584-670分</div>
+        </div>
+      </div>
+
+      <h3>3.5 天河区与白云区</h3>
+      <div class="grid-2">
+        <div>
+          <h4>天河区（9所）</h4>
+          <table>
+            <tr>
+              <th>学校</th>
+              <th style="text-align:center;">控制线</th>
+            </tr>
+            <tr>
+              <td>天外（珠江新城）</td>
+              <td style="text-align:center;"><strong>667</strong></td>
+            </tr>
+            <tr>
+              <td>天外（智慧城）</td>
+              <td style="text-align:center;"><strong>664</strong></td>
+            </tr>
+            <tr>
+              <td>广州中学</td>
+              <td style="text-align:center;"><strong>657</strong></td>
+            </tr>
+            <tr>
+              <td>一一三中（金融城/元岗）</td>
+              <td style="text-align:center;"><strong>628</strong></td>
+            </tr>
+            <tr>
+              <td>天河中学</td>
+              <td style="text-align:center;"><strong>627</strong></td>
+            </tr>
+            <tr>
+              <td>八十九中</td>
+              <td style="text-align:center;"><strong>599</strong></td>
+            </tr>
+            <tr>
+              <td>七十五中</td>
+              <td style="text-align:center;"><strong>585</strong></td>
+            </tr>
+            <tr>
+              <td>广州奥林匹克中学</td>
+              <td style="text-align:center;"><strong>584</strong></td>
+            </tr>
+          </table>
+          <div class="remark info">区间：584-667分</div>
+        </div>
+        <div>
+          <h4>白云区（10所）</h4>
+          <table>
+            <tr>
+              <th>学校</th>
+              <th style="text-align:center;">控制线</th>
+            </tr>
+            <tr>
+              <td>培英（白云新城）</td>
+              <td style="text-align:center;"><strong>654</strong></td>
+            </tr>
+            <tr>
+              <td>六十五中（江高）</td>
+              <td style="text-align:center;"><strong>621</strong></td>
+            </tr>
+            <tr>
+              <td>培英（鹤洞）</td>
+              <td style="text-align:center;"><strong>610</strong></td>
+            </tr>
+            <tr>
+              <td>六十五中（江府）</td>
+              <td style="text-align:center;"><strong>597</strong></td>
+            </tr>
+            <tr>
+              <td>大同中学</td>
+              <td style="text-align:center;"><strong>595</strong></td>
+            </tr>
+            <tr>
+              <td>广外实验中学</td>
+              <td style="text-align:center;"><strong>588</strong></td>
+            </tr>
+            <tr>
+              <td>白云中学</td>
+              <td style="text-align:center;"><strong>587</strong></td>
+            </tr>
+            <tr>
+              <td>六十五中（同德）</td>
+              <td style="text-align:center;"><strong>589</strong></td>
+            </tr>
+            <tr>
+              <td>空港实验中学</td>
+              <td style="text-align:center;"><strong>557</strong></td>
+            </tr>
+            <tr>
+              <td>彭加木纪念中学</td>
+              <td style="text-align:center;"><strong>554</strong></td>
+            </tr>
+          </table>
+          <div class="remark info">区间：554-654分</div>
+        </div>
+      </div>
+
+      <h3>3.6 黄埔区与番禺区</h3>
+      <div class="grid-2">
+        <div>
+          <h4>黄埔区（8所）</h4>
+          <table>
+            <tr>
+              <th>学校</th>
+              <th style="text-align:center;">控制线</th>
+            </tr>
+            <tr>
+              <td>玉岩中学</td>
+              <td style="text-align:center;"><strong>666</strong></td>
+            </tr>
+            <tr>
+              <td>八十六中</td>
+              <td style="text-align:center;"><strong>651</strong></td>
+            </tr>
+            <tr>
+              <td>北师大广州实验</td>
+              <td style="text-align:center;"><strong>628</strong></td>
+            </tr>
+            <tr>
+              <td>科学城中学</td>
+              <td style="text-align:center;"><strong>603</strong></td>
+            </tr>
+            <tr>
+              <td>开元学校（新增）</td>
+              <td style="text-align:center;"><strong>613</strong></td>
+            </tr>
+            <tr>
+              <td>广州实验中学（新增）</td>
+              <td style="text-align:center;"><strong>626</strong></td>
+            </tr>
+            <tr>
+              <td>苏元学校（新增）</td>
+              <td style="text-align:center;"><strong>609</strong></td>
+            </tr>
+            <tr>
+              <td>石化中学</td>
+              <td style="text-align:center;"><strong>536</strong></td>
+            </tr>
+          </table>
+          <div class="remark info">区间：536-666分</div>
+        </div>
+        <div>
+          <h4>番禺区（13所）</h4>
+          <table>
+            <tr>
+              <th>学校</th>
+              <th style="text-align:center;">控制线</th>
+            </tr>
+            <tr>
+              <td>仲元中学</td>
+              <td style="text-align:center;"><strong>663</strong></td>
+            </tr>
+            <tr>
+              <td>番禺中学</td>
+              <td style="text-align:center;"><strong>629</strong></td>
+            </tr>
+            <tr>
+              <td>象贤中学</td>
+              <td style="text-align:center;"><strong>613</strong></td>
+            </tr>
+            <tr>
+              <td>番禺实验中学</td>
+              <td style="text-align:center;"><strong>593</strong></td>
+            </tr>
+            <tr>
+              <td>二师番禺附中</td>
+              <td style="text-align:center;"><strong>575</strong></td>
+            </tr>
+            <tr>
+              <td>大龙中学</td>
+              <td style="text-align:center;"><strong>558</strong></td>
+            </tr>
+            <tr>
+              <td>洛溪新城中学</td>
+              <td style="text-align:center;"><strong>549</strong></td>
+            </tr>
+            <tr>
+              <td>石碁中学</td>
+              <td style="text-align:center;"><strong>532</strong></td>
+            </tr>
+            <tr>
+              <td>石北中学</td>
+              <td style="text-align:center;"><strong>512</strong></td>
+            </tr>
+            <tr>
+              <td>南村中学</td>
+              <td style="text-align:center;"><strong>522</strong></td>
+            </tr>
+            <tr>
+              <td>石楼中学</td>
+              <td style="text-align:center;"><strong>499</strong></td>
+              <td>全市最低</td>
+            </tr>
+          </table>
+          <div class="remark info">区间：499-663分</div>
+        </div>
+      </div>
+
+      <h3>3.7 外围四区</h3>
+      <table>
+        <tr>
+          <th>区域</th>
+          <th style="text-align:center;">学校数</th>
+          <th style="text-align:center;">最高</th>
+          <th style="text-align:center;">最低</th>
+          <th style="text-align:center;">区间</th>
+        </tr>
+        <tr>
+          <td><strong>花都区</strong></td>
+          <td style="text-align:center;">6</td>
+          <td style="text-align:center;">秀全中学 633</td>
+          <td style="text-align:center;">花都第一中学 537</td>
+          <td style="text-align:center;">537-633</td>
+        </tr>
+        <tr>
+          <td><strong>南沙区</strong></td>
+          <td style="text-align:center;">6</td>
+          <td style="text-align:center;">广附南沙实验 628</td>
+          <td style="text-align:center;">南沙大岗中学 518</td>
+          <td style="text-align:center;">518-628</td>
+        </tr>
+        <tr>
+          <td><strong>从化区</strong></td>
+          <td style="text-align:center;">4</td>
+          <td style="text-align:center;">从化中学 569</td>
+          <td style="text-align:center;">从化第二中学 501</td>
+          <td style="text-align:center;">501-569</td>
+        </tr>
+        <tr>
+          <td><strong>增城区</strong></td>
+          <td style="text-align:center;">7</td>
+          <td style="text-align:center;">增城中学 611</td>
+          <td style="text-align:center;">高级中学 548</td>
+          <td style="text-align:center;">548-611</td>
+        </tr>
+      </table>
+
+      <h3>3.8 2026年全市名额分配概况</h3>
+      <div class="grid-2">
+        <div class="stat-card">
+          <div class="value">115,739人</div>
+          <div class="label">资格考生（+12,954）</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">31,858个</div>
+          <div class="label">名额分配计划（+4,064）</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">86所</div>
+          <div class="label">参与招生学校（+7所）</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">3.6:1</div>
+          <div class="label">竞争比（略有缓解）</div>
+        </div>
+      </div>
+      <div class="remark info"><strong>新增7所：</strong>清华附中湾区学校、广州实验中学、黄埔区苏元学校、黄埔区开元学校、广大附中南沙实验学校、二中南沙天元学校、增城区应元学校</div>
+    </div>
+
+    <!-- 第四章 -->
+    <div class="section" id="s4">
+      <h2><span class="num">4</span> 第三批——各校统招分数线涨跌研判</h2>
+      <div class="remark info">数据来源：中考知校（2026年5月25日）基于近3年数据+招生计划的专业研判</div>
+
+      <h3>4.1 稳定保持在第二梯度的区属龙头</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">区域</th>
+          <th style="text-align:center;">2025最低分</th>
+          <th style="text-align:center;">2026预测</th>
+          <th>判断依据</th>
+        </tr>
+        <tr>
+          <td>七中（校本部）</td>
+          <td style="text-align:center;">越秀</td>
+          <td style="text-align:center;">710</td>
+          <td style="text-align:center;"><strong>第二梯度</strong></td>
+          <td>口碑稳定，长期老二梯度标杆</td>
+        </tr>
+        <tr>
+          <td>仲元中学</td>
+          <td style="text-align:center;">番禺</td>
+          <td style="text-align:center;">706</td>
+          <td style="text-align:center;"><strong>第二梯度</strong></td>
+          <td>番禺龙头，生源稳定</td>
+        </tr>
+        <tr>
+          <td>广州中学</td>
+          <td style="text-align:center;">天河</td>
+          <td style="text-align:center;">695</td>
+          <td style="text-align:center;"><strong>第二梯度</strong></td>
+          <td>天河老牌，生源质量高</td>
+        </tr>
+        <tr>
+          <td>真光中学（校本部）</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">689</td>
+          <td style="text-align:center;"><strong>第二梯度</strong></td>
+          <td>荔湾独大，2025逆势上涨24分</td>
+        </tr>
+        <tr>
+          <td>秀全中学</td>
+          <td style="text-align:center;">花都</td>
+          <td style="text-align:center;">685</td>
+          <td style="text-align:center;"><strong>第二梯度</strong></td>
+          <td>花都标杆，口碑坚挺</td>
+        </tr>
+      </table>
+
+      <h3>4.2 可能冲击第一梯度的学校</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">2025分数</th>
+          <th>升温因素</th>
+          <th style="text-align:center;">冲击一梯概率</th>
+        </tr>
+        <tr>
+          <td><strong>清华附中湾区（智谷校区）</strong></td>
+          <td style="text-align:center;">~700 / 二梯靠近一梯</td>
+          <td>新增智慧城校区，热度持续攀升</td>
+          <td style="text-align:center;"><strong>极高</strong></td>
+        </tr>
+        <tr>
+          <td><strong>玉岩中学</strong></td>
+          <td style="text-align:center;">705 / 接近一梯</td>
+          <td>全寄宿+90%本科率，连年接近一梯</td>
+          <td style="text-align:center;">中等偏高</td>
+        </tr>
+        <tr>
+          <td><strong>广州外国语学校</strong></td>
+          <td style="text-align:center;">700 / 二梯</td>
+          <td>去年意外遇冷（首进三批），今年回温必然</td>
+          <td style="text-align:center;"><strong>极高</strong></td>
+        </tr>
+      </table>
+
+      <h3>4.3 梯度可能回升/上升的学校</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th>变化路径</th>
+          <th>原因</th>
+        </tr>
+        <tr>
+          <td><strong>天河中学</strong></td>
+          <td>三梯 &rarr; 重返二梯</td>
+          <td>前两年稳定二梯，去年滑落偶发</td>
+        </tr>
+        <tr>
+          <td><strong>三中</strong></td>
+          <td>三梯 &rarr; 重返二梯</td>
+          <td>同天河中学，波动性滑落后均值回归</td>
+        </tr>
+        <tr>
+          <td>黄埔开元学校</td>
+          <td>梯度上升</td>
+          <td>新增名额分配后三批缩招200人，学位供不应求</td>
+        </tr>
+        <tr>
+          <td>增城应元学校</td>
+          <td>梯度上升</td>
+          <td>同上，三批缩招</td>
+        </tr>
+        <tr>
+          <td>颜乐天纪念中学</td>
+          <td>梯度上升</td>
+          <td>跃迁至第三批次招生，分数线大概率提升</td>
+        </tr>
+        <tr>
+          <td>培英实验（同和校区）</td>
+          <td>梯度上升</td>
+          <td>同上，跃迁至三批</td>
+        </tr>
+      </table>
+
+      <h3>4.4 梯度可能回落的学校</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th>变化路径</th>
+          <th>原因</th>
+        </tr>
+        <tr>
+          <td><strong>天外（智慧城校区）</strong></td>
+          <td>一梯 &rarr; 可能回落</td>
+          <td>去年首年招生命悬一线踩一梯，今年三批扩招126人</td>
+        </tr>
+      </table>
+
+      <h3>4.5 2026年新增公办高中（校区）</h3>
+      <table>
+        <tr>
+          <th>新增学校</th>
+          <th style="text-align:center;">性质</th>
+          <th style="text-align:center;">预测梯度</th>
+          <th>判断依据</th>
+        </tr>
+        <tr>
+          <td>清华附中湾区（智慧城校区）</td>
+          <td style="text-align:center;">市属</td>
+          <td style="text-align:center;"><strong>第二梯度上游</strong></td>
+          <td>与智谷校区共享师资，天河新热点，首年或保守</td>
+        </tr>
+        <tr>
+          <td>七中（麓湖校区）</td>
+          <td style="text-align:center;">越秀区属</td>
+          <td style="text-align:center;"><strong>第三梯度下游</strong></td>
+          <td>替代桂花校区招生，参照去年桂花三梯表现</td>
+        </tr>
+        <tr>
+          <td>一一三中（元岗校区）</td>
+          <td style="text-align:center;">天河区属</td>
+          <td style="text-align:center;"><strong>第三梯度</strong></td>
+          <td>本部近3年稳定二梯，新校区保守定位</td>
+        </tr>
+        <tr>
+          <td>省实花都学校</td>
+          <td style="text-align:center;">省实品牌</td>
+          <td style="text-align:center;"><strong>第三梯度上游</strong></td>
+          <td>非省实新校区但有品牌背书，估计660+</td>
+        </tr>
+        <tr>
+          <td>增城南香山中学</td>
+          <td style="text-align:center;">增城区属</td>
+          <td style="text-align:center;"><strong>第六梯度附近</strong></td>
+          <td>第四批招生，低调</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 第五章 -->
+    <div class="section" id="s5">
+      <h2><span class="num">5</span> 第四批 + 民办高中——分数预判与趋势</h2>
+
+      <h3>5.1 重大政策变化：民办普高线独立划定</h3>
+      <div class="key-conclusion">
+        <h4>2026年广州市招考办首次将公办和民办普高最低控制线分开划定</h4>
+        <table style="background:transparent;color:white;">
+          <tr>
+            <td style="border:none;padding:8px 12px;"><strong>公办普高最低控制线</strong></td>
+            <td style="border:none;padding:8px 12px;">正常划定（预计485-495分）</td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:8px 12px;"><strong>民办普高最低控制线</strong></td>
+            <td style="border:none;padding:8px 12px;"><strong>在公办线基础上降低80分（预计405-415分）</strong></td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:8px 12px;">中外合作办学项目</td>
+            <td style="border:none;padding:8px 12px;">适用民办普高线</td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:8px 12px;">民办综合高中自费班</td>
+            <td style="border:none;padding:8px 12px;">按民办普高线执行</td>
+          </tr>
+          <tr>
+            <td style="border:none;padding:8px 12px;">民办综合高中公费班</td>
+            <td style="border:none;padding:8px 12px;">按公办普高线执行（第三批次填报）</td>
+          </tr>
+        </table>
+      </div>
+
+      <h3>5.2 民办高中形势研判</h3>
+      <table>
+        <tr>
+          <th>维度</th>
+          <th>分析</th>
+        </tr>
+        <tr>
+          <td><strong>分数线方向</strong></td>
+          <td>门槛大幅降低（-80分），更多考生可达到民办普高线</td>
+        </tr>
+        <tr>
+          <td><strong>热门民办</strong></td>
+          <td>因品牌效应+加工能力强，实际录取线<strong>不会大幅下降</strong>，预计维持三梯/四梯度水平</td>
+        </tr>
+        <tr>
+          <td><strong>普通民办</strong></td>
+          <td>受益于降线政策，预计录取人数将增加，但头部民办仍维持较高门槛</td>
+        </tr>
+        <tr>
+          <td><strong>非户籍生分流</strong></td>
+          <td>外围区非户籍门槛高，部分非户籍生将转向民办，<strong>可能推高热门民办线</strong></td>
+        </tr>
+        <tr>
+          <td><strong>中本贯通竞争</strong></td>
+          <td>中本贯通志愿从2个增至3个，部分中低分段考生可能优先选择中本贯通</td>
+        </tr>
+      </table>
+
+      <h3>5.3 中本贯通变化</h3>
+      <table>
+        <tr>
+          <th>变化</th>
+          <th>内容</th>
+          <th>影响</th>
+        </tr>
+        <tr>
+          <td>志愿数</td>
+          <td>2个 &rarr; <strong>3个</strong></td>
+          <td>中本贯通吸引力增强</td>
+        </tr>
+        <tr>
+          <td>补录顺序</td>
+          <td><strong>中本贯通优先</strong>于普高补录投档</td>
+          <td>部分补录考生可能被中本截走</td>
+        </tr>
+      </table>
+
+      <h3>5.4 第四批"冲-稳-保"建议（按分数段）</h3>
+      <table>
+        <tr>
+          <th style="text-align:center;">一模分数</th>
+          <th style="text-align:center;">中考预估</th>
+          <th>推荐策略</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">457-496</td>
+          <td style="text-align:center;">600-635</td>
+          <td>冲：天河东圃、白云江高 &rarr; 稳：南海中学、四十一中 &rarr; 保：优质民办</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">417-456</td>
+          <td style="text-align:center;">555-599</td>
+          <td>冲：普通区属公办 &rarr; 稳：外围公办 &rarr; 保：民办+中职兜底</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">360-417</td>
+          <td style="text-align:center;">540-555</td>
+          <td>冲：民办 &rarr; 稳：民办+中职 &rarr; 保：优质中职（可升大专）</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">&lt;360</td>
+          <td style="text-align:center;">&lt;540</td>
+          <td>重点布局民办（降80分利好）+中职三二分段</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 第六章 -->
+    <div class="section" id="s6">
+      <h2><span class="num">6</span> 9校深度分析与2026年涨跌预判</h2>
+
+      <h3>6.1 9校核心数据一览（基于深度评估报告）</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">2025分</th>
+          <th style="text-align:center;">2026预估</th>
+          <th style="text-align:center;">趋势</th>
+          <th style="text-align:center;">特控率</th>
+          <th style="text-align:center;">本科率</th>
+          <th style="text-align:center;">宿位</th>
+          <th style="text-align:center;">末位志愿</th>
+        </tr>
+        <tr>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;">667</td>
+          <td style="text-align:center;"><strong>650-662</strong></td>
+          <td style="text-align:center;"><span class="tag tag-down">回落</span></td>
+          <td style="text-align:center;">待验证</td>
+          <td style="text-align:center;">待验证</td>
+          <td style="text-align:center;">422(100%)</td>
+          <td style="text-align:center;">3</td>
+        </tr>
+        <tr>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;">629(桂花)</td>
+          <td style="text-align:center;"><strong>635-650</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">微升</span></td>
+          <td style="text-align:center;">90%+(本部)</td>
+          <td style="text-align:center;">97%+</td>
+          <td style="text-align:center;">260(48%)</td>
+          <td style="text-align:center;">4</td>
+        </tr>
+        <tr>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;">631</td>
+          <td style="text-align:center;"><strong>615-625</strong></td>
+          <td style="text-align:center;"><span class="tag tag-down">回落</span></td>
+          <td style="text-align:center;">~9.4%</td>
+          <td style="text-align:center;">~61%</td>
+          <td style="text-align:center;">0</td>
+          <td style="text-align:center;">5</td>
+        </tr>
+        <tr>
+          <td>广州四中</td>
+          <td style="text-align:center;">627</td>
+          <td style="text-align:center;"><strong>625-635</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">微升</span></td>
+          <td style="text-align:center;">41-42%</td>
+          <td style="text-align:center;">>91%</td>
+          <td style="text-align:center;">300(40.7%)</td>
+          <td style="text-align:center;">2</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>广州一中</td>
+          <td style="text-align:center;">628</td>
+          <td style="text-align:center;"><strong>615-625</strong></td>
+          <td style="text-align:center;"><span class="tag tag-down">微降</span></td>
+          <td style="text-align:center;">37.6%</td>
+          <td style="text-align:center;">96.4%</td>
+          <td style="text-align:center;">836(100%)</td>
+          <td style="text-align:center;">5</td>
+        </tr>
+        <tr>
+          <td>西关外国语</td>
+          <td style="text-align:center;">610</td>
+          <td style="text-align:center;"><strong>620-635</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">反弹</span></td>
+          <td style="text-align:center;">~41%</td>
+          <td style="text-align:center;">94.3%</td>
+          <td style="text-align:center;">560(106%)</td>
+          <td style="text-align:center;"><strong>1</strong></td>
+        </tr>
+        <tr>
+          <td>十七中</td>
+          <td style="text-align:center;">616</td>
+          <td style="text-align:center;"><strong>618-628</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">触底</span></td>
+          <td style="text-align:center;">~20-25%</td>
+          <td style="text-align:center;">~80%</td>
+          <td style="text-align:center;">0(待确认)</td>
+          <td style="text-align:center;"><strong>1</strong></td>
+        </tr>
+        <tr>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;">589</td>
+          <td style="text-align:center;"><strong>590-600</strong></td>
+          <td style="text-align:center;"><span class="tag tag-flat">持平</span></td>
+          <td style="text-align:center;">38%(全校)</td>
+          <td style="text-align:center;">87%(全校)</td>
+          <td style="text-align:center;">0</td>
+          <td style="text-align:center;">3</td>
+        </tr>
+        <tr>
+          <td>南海中学</td>
+          <td style="text-align:center;">587</td>
+          <td style="text-align:center;"><strong>590-602</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">反弹</span></td>
+          <td style="text-align:center;">~8.5%</td>
+          <td style="text-align:center;">~80%</td>
+          <td style="text-align:center;">0(待确认)</td>
+          <td style="text-align:center;">2</td>
+        </tr>
+      </table>
+
+      <div class="remark warning">
+        <strong>重要提示：</strong>末位志愿序号=1的学校（西外、十七中）<strong>必须第一志愿</strong>，否则即使分数更高也会被拒；末位志愿序号=5的学校（一中、汾水）不必第一志愿，适合作为保底。
+      </div>
+
+      <h3>6.2 2026年扩招/缩招情况</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">2025招生</th>
+          <th style="text-align:center;">2026招生</th>
+          <th style="text-align:center;">变化</th>
+          <th>影响</th>
+        </tr>
+        <tr>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;">300</td>
+          <td style="text-align:center;">422</td>
+          <td style="text-align:center;color:#c62828;"><strong>+122 (+41%)</strong></td>
+          <td>9校中扩招幅度最大，录取线承压</td>
+        </tr>
+        <tr>
+          <td>南海中学</td>
+          <td style="text-align:center;">424</td>
+          <td style="text-align:center;">520</td>
+          <td style="text-align:center;">+96 (+23%)</td>
+          <td>587分低位再扩招，短期供需失衡</td>
+        </tr>
+        <tr>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">540</td>
+          <td style="text-align:center;"><span class="tag tag-new">新校区首招</span></td>
+          <td>录取概率大增，但供给扩大压线</td>
+        </tr>
+        <tr>
+          <td>广州一中</td>
+          <td style="text-align:center;">~750</td>
+          <td style="text-align:center;">815</td>
+          <td style="text-align:center;">+65</td>
+          <td>扩招加剧竞争</td>
+        </tr>
+        <tr>
+          <td>广州四中</td>
+          <td style="text-align:center;">~700</td>
+          <td style="text-align:center;">724</td>
+          <td style="text-align:center;">+24</td>
+          <td>微扩招，影响有限</td>
+        </tr>
+        <tr>
+          <td>十七中</td>
+          <td style="text-align:center;">~400</td>
+          <td style="text-align:center;">432</td>
+          <td style="text-align:center;">+32</td>
+          <td>微扩招</td>
+        </tr>
+        <tr>
+          <td>西关外国语</td>
+          <td style="text-align:center;">530(普通班)</td>
+          <td style="text-align:center;">526+75(中外合作)</td>
+          <td style="text-align:center;">普通班-4</td>
+          <td>普通班微缩招，但中外合作单独代码不影响统招线</td>
+        </tr>
+        <tr>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;">220</td>
+          <td style="text-align:center;">200</td>
+          <td style="text-align:center;color:#2e7d32;">-20</td>
+          <td>缩招有限，难以逆转大趋势</td>
+        </tr>
+        <tr>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;">~200</td>
+          <td style="text-align:center;">220</td>
+          <td style="text-align:center;">+20</td>
+          <td>微扩招</td>
+        </tr>
+      </table>
+
+      <h3>6.3 2026年各校涨跌判断（精细化）</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">2026预测分</th>
+          <th style="text-align:center;">方向</th>
+          <th>核心逻辑</th>
+        </tr>
+        <tr>
+          <td><strong>真光（广钢）</strong></td>
+          <td style="text-align:center;">650-662</td>
+          <td style="text-align:center;"><span class="tag tag-down">回落</span></td>
+          <td>扩招41%直接稀释录取线，预计回落8-15分，但真光品牌撑住底部</td>
+        </tr>
+        <tr>
+          <td><strong>七中（麓湖）</strong></td>
+          <td style="text-align:center;">635-650</td>
+          <td style="text-align:center;"><span class="tag tag-up">微升</span></td>
+          <td>七中品牌（90%+特控率）碾压，260宿位已确认，9校中性价比之王</td>
+        </tr>
+        <tr>
+          <td><strong>真光（汾水）</strong></td>
+          <td style="text-align:center;">615-625</td>
+          <td style="text-align:center;"><span class="tag tag-down">回落</span></td>
+          <td>第三批控制线降档至第四梯度+末位志愿序号=5，双重利空，9校中性价比最低</td>
+        </tr>
+        <tr>
+          <td><strong>广州四中</strong></td>
+          <td style="text-align:center;">625-635</td>
+          <td style="text-align:center;"><span class="tag tag-up">微升</span></td>
+          <td>特控率三年连升13个百分点，锐志班98%特控率IP深入人心，最具上升势头</td>
+        </tr>
+        <tr>
+          <td><strong>广州一中</strong></td>
+          <td style="text-align:center;">615-625</td>
+          <td style="text-align:center;"><span class="tag tag-down">微降</span></td>
+          <td>第三批控制线降至第四梯度（官方定位下移信号）+末位志愿序号=5，下行风险大于原判断</td>
+        </tr>
+        <tr>
+          <td><strong>西关外国语</strong></td>
+          <td style="text-align:center;">620-635</td>
+          <td style="text-align:center;"><span class="tag tag-up">反弹</span></td>
+          <td>610分超跌+普通班微缩招+新宿舍560个+中外合作办学利好，技术性反弹概率大</td>
+        </tr>
+        <tr>
+          <td><strong>十七中</strong></td>
+          <td style="text-align:center;">618-628</td>
+          <td style="text-align:center;"><span class="tag tag-up">触底</span></td>
+          <td>616分已接近底部，越秀区稳定性优于荔湾，但七中麓湖分流压力大</td>
+        </tr>
+        <tr>
+          <td><strong>97中（江南新苑）</strong></td>
+          <td style="text-align:center;">590-600</td>
+          <td style="text-align:center;"><span class="tag tag-flat">持平</span></td>
+          <td>缩招+校本部品牌上升带动，但无住宿是硬伤</td>
+        </tr>
+        <tr>
+          <td><strong>南海中学</strong></td>
+          <td style="text-align:center;">590-602</td>
+          <td style="text-align:center;"><span class="tag tag-up">反弹</span></td>
+          <td>致远班特控率近80%吸引590-610分段考生，新宿舍800宿位待确认是最大变量</td>
+        </tr>
+      </table>
+
+      <div class="remark danger">
+        <strong>官方定位下移信号：</strong>一中和汾水仅2校被列入"第三批控制线=第四梯度"名单，教育局官方定位下移信号极强。本报告预测区间（615-625分）与此存在张力，实际录取线可能低于预测。
+      </div>
+
+      <h3>6.4 9校横向对比总表</h3>
+      <h4>录取分数线与趋势</h4>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">区域</th>
+          <th style="text-align:center;">2023年</th>
+          <th style="text-align:center;">2024年</th>
+          <th style="text-align:center;">2025年</th>
+          <th style="text-align:center;">2026年预估</th>
+          <th style="text-align:center;">趋势</th>
+        </tr>
+        <tr>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">667</td>
+          <td style="text-align:center;"><strong>650-662</strong></td>
+          <td style="text-align:center;"><span class="tag tag-down">回落</span></td>
+        </tr>
+        <tr>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;">越秀</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">629(桂花)</td>
+          <td style="text-align:center;"><strong>635-650</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">微升</span></td>
+        </tr>
+        <tr>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">623</td>
+          <td style="text-align:center;">631</td>
+          <td style="text-align:center;"><strong>615-625</strong></td>
+          <td style="text-align:center;"><span class="tag tag-down">回落</span></td>
+        </tr>
+        <tr>
+          <td>广州四中</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">636</td>
+          <td style="text-align:center;">655</td>
+          <td style="text-align:center;">627</td>
+          <td style="text-align:center;"><strong>625-635</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">微升</span></td>
+        </tr>
+        <tr>
+          <td>广州一中</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">675</td>
+          <td style="text-align:center;">652</td>
+          <td style="text-align:center;">628</td>
+          <td style="text-align:center;"><strong>615-625</strong></td>
+          <td style="text-align:center;"><span class="tag tag-down">微降</span></td>
+        </tr>
+        <tr>
+          <td>西关外国语</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">652</td>
+          <td style="text-align:center;">610</td>
+          <td style="text-align:center;"><strong>620-635</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">反弹</span></td>
+        </tr>
+        <tr>
+          <td>十七中</td>
+          <td style="text-align:center;">越秀</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">622</td>
+          <td style="text-align:center;">616</td>
+          <td style="text-align:center;"><strong>618-628</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">触底</span></td>
+        </tr>
+        <tr>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;">海珠</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">589</td>
+          <td style="text-align:center;"><strong>590-600</strong></td>
+          <td style="text-align:center;"><span class="tag tag-flat">持平</span></td>
+        </tr>
+        <tr>
+          <td>南海中学</td>
+          <td style="text-align:center;">荔湾</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">622</td>
+          <td style="text-align:center;">587</td>
+          <td style="text-align:center;"><strong>590-602</strong></td>
+          <td style="text-align:center;"><span class="tag tag-up">反弹</span></td>
+        </tr>
+      </table>
+
+      <h4>高考出口与性价比</h4>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">特控率</th>
+          <th style="text-align:center;">本科率</th>
+          <th style="text-align:center;">重点班特控率</th>
+          <th style="text-align:center;">2026预估线</th>
+          <th>性价比评级</th>
+        </tr>
+        <tr>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;">90%+(本部)</td>
+          <td style="text-align:center;">97%+</td>
+          <td style="text-align:center;">红星班极高</td>
+          <td style="text-align:center;">635-650</td>
+          <td><strong>[TOP] 9校中品牌溢价最强</strong></td>
+        </tr>
+        <tr>
+          <td>西关外国语</td>
+          <td style="text-align:center;">~41%</td>
+          <td style="text-align:center;">94.3%</td>
+          <td style="text-align:center;">菁英班100%</td>
+          <td style="text-align:center;">620-635</td>
+          <td>[优秀] 出口>入口，性价比封神</td>
+        </tr>
+        <tr>
+          <td>广州四中</td>
+          <td style="text-align:center;">41-42%</td>
+          <td style="text-align:center;">>91%</td>
+          <td style="text-align:center;">大锐班98%</td>
+          <td style="text-align:center;">625-635</td>
+          <td>[优秀] 特控率三年连升，上升势头最强</td>
+        </tr>
+        <tr>
+          <td>广州一中</td>
+          <td style="text-align:center;">37.6%</td>
+          <td style="text-align:center;">96.4%</td>
+          <td style="text-align:center;">院士班85-95%</td>
+          <td style="text-align:center;">615-625</td>
+          <td>[良好] 100%宿位+院士班，但官方定位下移</td>
+        </tr>
+        <tr>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;">38%(全校)</td>
+          <td style="text-align:center;">87%(全校)</td>
+          <td style="text-align:center;">绿英实验班40%</td>
+          <td style="text-align:center;">590-600</td>
+          <td>[良好] 校本部品牌带动，但无住宿</td>
+        </tr>
+        <tr>
+          <td>南海中学</td>
+          <td style="text-align:center;">~8.5%</td>
+          <td style="text-align:center;">~80%</td>
+          <td style="text-align:center;">致远班80%</td>
+          <td style="text-align:center;">590-602</td>
+          <td>[良好] 致远班特控率近80%，590-610分段最优选择之一</td>
+        </tr>
+        <tr>
+          <td>十七中</td>
+          <td style="text-align:center;">~20-25%</td>
+          <td style="text-align:center;">~80%</td>
+          <td style="text-align:center;">弘毅班50%+</td>
+          <td style="text-align:center;">618-628</td>
+          <td>[一般] 越秀区稳定，但七中麓湖分流压力大</td>
+        </tr>
+        <tr>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;">~9.4%</td>
+          <td style="text-align:center;">~61%</td>
+          <td style="text-align:center;">大成班较高</td>
+          <td style="text-align:center;">615-625</td>
+          <td>[低] 9校中性价比最低，同等分数优先选四中/一中</td>
+        </tr>
+        <tr>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;">待验证</td>
+          <td style="text-align:center;">待验证</td>
+          <td style="text-align:center;">大成班(本部72.4%)</td>
+          <td style="text-align:center;">650-662</td>
+          <td>[待定] 首招数据待验证，真光品牌兜底</td>
+        </tr>
+      </table>
+
+      <h4>名额分配控制线与统招预估差距</h4>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">2026控制线</th>
+          <th style="text-align:center;">与统招预估差距</th>
+          <th>通道价值</th>
+        </tr>
+        <tr>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;"><strong>639</strong></td>
+          <td style="text-align:center;">~-10分</td>
+          <td>差距小，通道价值一般</td>
+        </tr>
+        <tr>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;"><strong>615</strong></td>
+          <td style="text-align:center;">~-35分</td>
+          <td>通道价值高</td>
+        </tr>
+        <tr>
+          <td>广州一中</td>
+          <td style="text-align:center;"><strong>611</strong></td>
+          <td style="text-align:center;">~-15分</td>
+          <td>通道价值中等</td>
+        </tr>
+        <tr>
+          <td>广州四中</td>
+          <td style="text-align:center;"><strong>599</strong></td>
+          <td style="text-align:center;">~-30分</td>
+          <td>通道价值高</td>
+        </tr>
+        <tr>
+          <td>西关外国语</td>
+          <td style="text-align:center;"><strong>592</strong></td>
+          <td style="text-align:center;">~-30分</td>
+          <td>通道价值高</td>
+        </tr>
+        <tr>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;"><strong>590</strong></td>
+          <td style="text-align:center;">~-5分</td>
+          <td>差距极小，通道价值有限</td>
+        </tr>
+        <tr>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;"><strong>589</strong></td>
+          <td style="text-align:center;">~-40分</td>
+          <td>通道价值最高</td>
+        </tr>
+        <tr>
+          <td>十七中</td>
+          <td style="text-align:center;"><strong>584</strong></td>
+          <td style="text-align:center;">~-35分</td>
+          <td>通道价值高</td>
+        </tr>
+        <tr>
+          <td>南海中学</td>
+          <td style="text-align:center;"><strong>574</strong></td>
+          <td style="text-align:center;">~-20分</td>
+          <td>通道价值中等</td>
+        </tr>
+      </table>
+
+      <h3>6.5 9校核心结论</h3>
+      <table>
+        <tr>
+          <th>结论</th>
+          <th>说明</th>
+        </tr>
+        <tr>
+          <td><strong>最大价值洼地</strong></td>
+          <td>七中（麓湖校区）——635分享受90%+特控率，260宿位已确认，9校中品牌溢价最强</td>
+        </tr>
+        <tr>
+          <td><strong>最具上升势头</strong></td>
+          <td>广州四中——特控率三年连升13个百分点，锐志班98%特控率IP深入人心</td>
+        </tr>
+        <tr>
+          <td><strong>最大技术反弹机会</strong></td>
+          <td>西关外国语——610分超跌+普通班微缩招+新宿舍560个+中外合作办学利好</td>
+        </tr>
+        <tr>
+          <td><strong>最大扩招压力</strong></td>
+          <td>真光（广钢）——扩招41%直接稀释录取线，预计回落8-15分</td>
+        </tr>
+        <tr>
+          <td><strong>性价比最低</strong></td>
+          <td>真光（汾水）——615分换9.4%特控率，第三批控制线降档+末位志愿序号=5</td>
+        </tr>
+        <tr>
+          <td><strong>最大变量</strong></td>
+          <td>南海中学——新宿舍800宿位待确认（官方数据仍为0），若确认则推动触底反弹</td>
+        </tr>
+        <tr>
+          <td><strong>官方定位下移最明显</strong></td>
+          <td>一中/汾水——仅2校被列入"第三批控制线=第四梯度"名单</td>
+        </tr>
+        <tr>
+          <td><strong>最稳定</strong></td>
+          <td>十七中——越秀区降幅小（三年-19分），616分已近底部</td>
+        </tr>
+      </table>
+
+      <h3>6.6 舆情关键点</h3>
+      <div class="remark">"西外出口荔湾区属最佳，入口分不算高，性价比封神"（教育圈共识）</div>
+      <div class="remark">"一中宿位100%这个优势太香了，远距离通勤家庭的刚需"（家长群高频讨论）</div>
+      <div class="remark">"南海中学存在感低，但作为保底是不错选择"（家长代表意见）</div>
+      <div class="remark">"荔湾区整体竞争舒服，名额分配获益面大"（对比天河越秀后的普遍评价）</div>
+    </div>
+
+    <!-- 第六章新增：分段报考策略 -->
+    <div class="section" id="s6b">
+      <h2><span class="num">6+</span> 9校分段报考策略（基于末位志愿序号）</h2>
+      <div class="remark warning"><strong>核心规则提醒：</strong>广州中考是<strong>顺序志愿</strong>（非平行志愿），同梯度内<strong>志愿顺序 >
+          分数高低</strong>。学校优先录取第一志愿考生，第一志愿录满即关门。末位考生志愿序号反映学校在考生志愿中的竞争力——序号越小，说明第一志愿即可录满，报考时必须优先填报。</div>
+
+      <h3>6+.1 末位考生志愿序号与填报策略（2025年数据）</h3>
+      <table>
+        <tr>
+          <th>学校</th>
+          <th style="text-align:center;">末位志愿序号</th>
+          <th>志愿填报策略</th>
+        </tr>
+        <tr>
+          <td>西关外国语</td>
+          <td style="text-align:center;"><strong>1</strong></td>
+          <td><strong>必须第一志愿</strong>——第一志愿即可录满，第二志愿无录取机会</td>
+        </tr>
+        <tr>
+          <td>十七中</td>
+          <td style="text-align:center;"><strong>1</strong></td>
+          <td><strong>必须第一志愿</strong>——第一志愿即可录满</td>
+        </tr>
+        <tr>
+          <td>广州四中</td>
+          <td style="text-align:center;">2</td>
+          <td>建议第一志愿，第二志愿仍有机会</td>
+        </tr>
+        <tr>
+          <td>南海中学</td>
+          <td style="text-align:center;">2</td>
+          <td>建议第一志愿，第二志愿仍有机会</td>
+        </tr>
+        <tr>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;">3</td>
+          <td>可放在第二志愿，第三志愿仍可录取</td>
+        </tr>
+        <tr>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;">3</td>
+          <td>可放在第二志愿，第三志愿仍可录取</td>
+        </tr>
+        <tr>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;">4</td>
+          <td>可放在第二/三志愿，第四志愿仍可录取</td>
+        </tr>
+        <tr>
+          <td>广州一中</td>
+          <td style="text-align:center;"><strong>5</strong></td>
+          <td><strong>不必第一志愿</strong>——第五志愿仍可录取，适合作为保底志愿</td>
+        </tr>
+        <tr>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;"><strong>5</strong></td>
+          <td><strong>不必第一志愿</strong>——第五志愿仍可录取，适合作为保底志愿</td>
+        </tr>
+      </table>
+
+      <h3>6+.2 645-665分段：冲刺第二梯度</h3>
+      <table>
+        <tr>
+          <th style="text-align:center;">优先级</th>
+          <th>学校</th>
+          <th style="text-align:center;">预估线</th>
+          <th style="text-align:center;">志愿位置</th>
+          <th>理由</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td>真光（广钢）</td>
+          <td style="text-align:center;">650-662</td>
+          <td style="text-align:center;">第一志愿</td>
+          <td>真光品牌+与本部一体化+422宿位全覆盖</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td>七中（麓湖）</td>
+          <td style="text-align:center;">635-650</td>
+          <td style="text-align:center;">第一/二志愿</td>
+          <td>若分数在645+可冲七中本部（675-690），麓湖作保底</td>
+        </tr>
+      </table>
+
+      <h3>6+.3 625-645分段：第三梯度中上段核心竞争区</h3>
+      <table>
+        <tr>
+          <th style="text-align:center;">优先级</th>
+          <th>学校</th>
+          <th style="text-align:center;">预估线</th>
+          <th style="text-align:center;">志愿位置</th>
+          <th>理由</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td><strong>七中（麓湖）</strong></td>
+          <td style="text-align:center;">635-650</td>
+          <td style="text-align:center;"><strong>第一志愿</strong></td>
+          <td><strong>90%+特控率品牌碾压，性价比之王，260宿位已确认</strong></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td>广州四中</td>
+          <td style="text-align:center;">625-635</td>
+          <td style="text-align:center;">第一/二志愿</td>
+          <td>锐志班98%特控率，300宿位（非全覆盖）</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td>西关外国语</td>
+          <td style="text-align:center;">620-635</td>
+          <td style="text-align:center;"><strong>必须第一志愿</strong></td>
+          <td>末位志愿序号=1，第二志愿无录取机会</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">4</td>
+          <td>广州一中</td>
+          <td style="text-align:center;">615-625</td>
+          <td style="text-align:center;">第二/三志愿（保底）</td>
+          <td>末位志愿序号=5，不必第一志愿，院士班口碑+本科率96.4%</td>
+        </tr>
+      </table>
+
+      <h3>6+.4 615-625分段：第三梯度底部</h3>
+      <table>
+        <tr>
+          <th style="text-align:center;">优先级</th>
+          <th>学校</th>
+          <th style="text-align:center;">预估线</th>
+          <th style="text-align:center;">志愿位置</th>
+          <th>理由</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td>广州四中（名额分配599分）</td>
+          <td style="text-align:center;">625-635</td>
+          <td style="text-align:center;">名额分配志愿</td>
+          <td>名额分配通道性价比极高</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td>十七中</td>
+          <td style="text-align:center;">618-628</td>
+          <td style="text-align:center;"><strong>必须第一志愿</strong></td>
+          <td>末位志愿序号=1，弘毅班50%+特控率，越秀区稳定</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td>广州一中（名额分配611分）</td>
+          <td style="text-align:center;">615-625</td>
+          <td style="text-align:center;">第二/三志愿（保底）</td>
+          <td>末位志愿序号=5，名额分配比统招低约15分</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">4</td>
+          <td>真光（汾水）</td>
+          <td style="text-align:center;">615-625</td>
+          <td style="text-align:center;">第三/四志愿（保底）</td>
+          <td>末位志愿序号=5，性价比最低，仅作最后保底</td>
+        </tr>
+      </table>
+
+      <h3>6+.5 585-615分段：第三/四梯度过渡区</h3>
+      <table>
+        <tr>
+          <th style="text-align:center;">优先级</th>
+          <th>学校</th>
+          <th style="text-align:center;">预估线</th>
+          <th style="text-align:center;">志愿位置</th>
+          <th>理由</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td><strong>南海中学（致远班）</strong></td>
+          <td style="text-align:center;">590-602</td>
+          <td style="text-align:center;">第一/二志愿</td>
+          <td>致远班特控率近80%，本科率近100%，新宿舍待确认</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td>97中（江南新苑）</td>
+          <td style="text-align:center;">590-600</td>
+          <td style="text-align:center;">第一/二志愿</td>
+          <td>97中品牌+绿英实验班，但无住宿</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td>南海中学（普通班）</td>
+          <td style="text-align:center;">590-602</td>
+          <td style="text-align:center;">第二/三志愿</td>
+          <td>新宿舍800宿位待确认，从无到有</td>
+        </tr>
+      </table>
+
+      <h3>6+.6 特别提醒</h3>
+      <div class="remark danger">
+        <strong>真光（汾水）性价比陷阱：</strong>真光（汾水）预估线615-625分，与一中/四中高度重叠，但高考出口（特控率9.4%、本科率61%）远逊于两校。<strong>同等分数段，强烈建议优先选择四中或一中，汾水仅作为最后保底</strong>。
+      </div>
+      <div class="remark warning"><strong>志愿填报三大铁律：</strong><br>1. 西关外国语必须第一志愿——末位志愿序号=1，第二志愿零录取机会<br>2.
+        一中/汾水不必第一志愿——末位志愿序号=5，放在第2-5志愿仍有录取机会，应将第一志愿留给更热门的学校<br>3. 同一学校可多批次填报——如2批名额分配+3批统招，增加录取概率</div>
+    </div>
+
+    <!-- 第七章 -->
+    <div class="section" id="s7">
+      <h2><span class="num">7</span> 各区录取门槛预测（户籍生/非户籍生）</h2>
+
+      <h3>7.1 各区最低录取线预测</h3>
+      <table>
+        <tr>
+          <th>区域</th>
+          <th style="text-align:center;">户籍生最低</th>
+          <th style="text-align:center;">非户籍生最低</th>
+          <th style="text-align:center;">差异</th>
+        </tr>
+        <tr>
+          <td>越秀区</td>
+          <td style="text-align:center;">630</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">+5</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>荔湾区</strong></td>
+          <td style="text-align:center;"><strong>627</strong></td>
+          <td style="text-align:center;"><strong>638</strong></td>
+          <td style="text-align:center;"><strong>+11</strong></td>
+        </tr>
+        <tr>
+          <td>海珠区</td>
+          <td style="text-align:center;">640</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;color:#c62828;">-5（户籍更高）</td>
+        </tr>
+        <tr>
+          <td>天河区</td>
+          <td style="text-align:center;">624</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">+11</td>
+        </tr>
+        <tr>
+          <td>白云区</td>
+          <td style="text-align:center;">560</td>
+          <td style="text-align:center;">597</td>
+          <td style="text-align:center;">+37</td>
+        </tr>
+        <tr>
+          <td>黄埔区</td>
+          <td style="text-align:center;">573</td>
+          <td style="text-align:center;">634</td>
+          <td style="text-align:center;">+61</td>
+        </tr>
+        <tr>
+          <td>番禺区</td>
+          <td style="text-align:center;">555</td>
+          <td style="text-align:center;">625</td>
+          <td style="text-align:center;">+70</td>
+        </tr>
+        <tr>
+          <td>花都区</td>
+          <td style="text-align:center;">545</td>
+          <td style="text-align:center;">635</td>
+          <td style="text-align:center;">+90</td>
+        </tr>
+        <tr>
+          <td>南沙区</td>
+          <td style="text-align:center;">547</td>
+          <td style="text-align:center;">614</td>
+          <td style="text-align:center;">+67</td>
+        </tr>
+        <tr>
+          <td>从化区</td>
+          <td style="text-align:center;">545</td>
+          <td style="text-align:center;">555</td>
+          <td style="text-align:center;">+10</td>
+        </tr>
+        <tr>
+          <td>增城区</td>
+          <td style="text-align:center;">545</td>
+          <td style="text-align:center;">565</td>
+          <td style="text-align:center;">+20</td>
+        </tr>
+      </table>
+      <div class="remark"><strong>荔湾区亮点：</strong>户籍生门槛（627分）在老城区中最低，非户籍生差异（+11）也是老城区最小，整体竞争友好。</div>
+
+      <h3>7.2 跨区报考建议（荔湾户籍生视角）</h3>
+      <table>
+        <tr>
+          <th>外区推荐</th>
+          <th style="text-align:center;">2025户籍线</th>
+          <th>优势</th>
+        </tr>
+        <tr>
+          <td>白云区</td>
+          <td style="text-align:center;">560分起</td>
+          <td>门槛最低，性价比极高</td>
+        </tr>
+        <tr>
+          <td>番禺仲元</td>
+          <td style="text-align:center;">706分</td>
+          <td>番禺龙头，全寄宿</td>
+        </tr>
+        <tr>
+          <td>番禺番中</td>
+          <td style="text-align:center;">677分</td>
+          <td>全寄宿，88%本科率</td>
+        </tr>
+        <tr>
+          <td>黄埔玉岩</td>
+          <td style="text-align:center;">695分</td>
+          <td>全寄宿，90%本科率，可能冲一梯</td>
+        </tr>
+        <tr>
+          <td>花都秀全</td>
+          <td style="text-align:center;">685分</td>
+          <td>花都龙头，稳定二梯</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 第八章 -->
+    <div class="section" id="s8">
+      <h2><span class="num">8</span> 2026年填报窗口关键政策变化</h2>
+      <table>
+        <tr>
+          <th style="text-align:center;">#</th>
+          <th>变化</th>
+          <th>详细内容</th>
+          <th style="text-align:center;">影响批次</th>
+          <th>对荔湾家长影响</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td>民办线降低80分</td>
+          <td>民办普高线=公办线-80分（约405分），独立划定</td>
+          <td style="text-align:center;">第四批</td>
+          <td>低分段多了大量选项</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td>中本贯通志愿扩容</td>
+          <td>2个&rarr;<strong>3个</strong></td>
+          <td style="text-align:center;">第一批</td>
+          <td>部分考生优先选中本，缓解竞争</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td>补录顺序调整</td>
+          <td>补录时中本贯通<strong>优先</strong>于普高</td>
+          <td style="text-align:center;">补录阶段</td>
+          <td>普高补录名额可能减少</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">4</td>
+          <td>民办综合高中变化</td>
+          <td>公费班提至三批（公办线），自费班在四批（民办线）</td>
+          <td style="text-align:center;">三批+四批</td>
+          <td>三批多了民办公费班选项</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 第九章 -->
+    <div class="section" id="s9">
+      <h2><span class="num">9</span> 舆情图谱：2026年各区讨论热度与情绪</h2>
+
+      <h3>9.1 话题热度排名</h3>
+      <table>
+        <tr>
+          <th style="text-align:center;">排名</th>
+          <th>话题</th>
+          <th style="text-align:center;">热度</th>
+          <th style="text-align:center;">情绪倾向</th>
+        </tr>
+        <tr>
+          <td style="text-align:center;">1</td>
+          <td>"一模577分&rarr;中考能上多少分"</td>
+          <td style="text-align:center;">⭐⭐⭐⭐⭐</td>
+          <td style="text-align:center;">急切求解</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">2</td>
+          <td>"民办普高线降80分！"</td>
+          <td style="text-align:center;">⭐⭐⭐⭐⭐</td>
+          <td style="text-align:center;">正面/期待</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">3</td>
+          <td>"西外-42分跌后回归"</td>
+          <td style="text-align:center;">⭐⭐⭐⭐</td>
+          <td style="text-align:center;">观望/理性</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">4</td>
+          <td>"清华附中湾区冲一梯"</td>
+          <td style="text-align:center;">⭐⭐⭐⭐</td>
+          <td style="text-align:center;">关注/期待</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">5</td>
+          <td>"名额分配新增7校好不好"</td>
+          <td style="text-align:center;">⭐⭐⭐⭐</td>
+          <td style="text-align:center;">好奇/谨慎</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">6</td>
+          <td>"志愿填报冲稳保模板"</td>
+          <td style="text-align:center;">⭐⭐⭐⭐</td>
+          <td style="text-align:center;">实用需求</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">7</td>
+          <td>"荔湾区名额分配真香"</td>
+          <td style="text-align:center;">⭐⭐⭐</td>
+          <td style="text-align:center;">庆幸/羡慕</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">8</td>
+          <td>"一中高进低出争议"</td>
+          <td style="text-align:center;">⭐⭐</td>
+          <td style="text-align:center;">质疑</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;">9</td>
+          <td>"南海中学三年连跌"</td>
+          <td style="text-align:center;">⭐⭐</td>
+          <td style="text-align:center;">担忧</td>
+        </tr>
+      </table>
+
+      <h3>9.2 各区家长情绪画像</h3>
+      <table>
+        <tr>
+          <th>区域</th>
+          <th style="text-align:center;">家长情绪</th>
+          <th>核心原因</th>
+        </tr>
+        <tr>
+          <td><strong>荔湾区</strong></td>
+          <td style="text-align:center;">相对轻松</td>
+          <td>名额分配获益大，户籍门槛老城最低</td>
+        </tr>
+        <tr>
+          <td>越秀区</td>
+          <td style="text-align:center;">中性偏紧</td>
+          <td>名校最多但竞争激烈</td>
+        </tr>
+        <tr>
+          <td>海珠区</td>
+          <td style="text-align:center;">分化</td>
+          <td>五中一骑绝尘，其余偏弱</td>
+        </tr>
+        <tr>
+          <td>天河区</td>
+          <td style="text-align:center;">偏焦虑</td>
+          <td>户籍门槛624天河中考生基数大</td>
+        </tr>
+        <tr>
+          <td>白云区</td>
+          <td style="text-align:center;">偏轻松</td>
+          <td>户籍最低560，性价比突出</td>
+        </tr>
+        <tr>
+          <td>黄埔区</td>
+          <td style="text-align:center;">分化</td>
+          <td>非户籍634门槛极高，但新增校利好</td>
+        </tr>
+        <tr>
+          <td>外围区</td>
+          <td style="text-align:center;">中性&rarr;轻松</td>
+          <td>户籍门槛低（545起），但非户籍压力不一</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 第十章 -->
+    <div class="section" id="s10">
+      <h2><span class="num">10</span> 数据来源与免责声明</h2>
+
+      <h3>主要数据来源</h3>
+      <table>
+        <tr>
+          <th>数据</th>
+          <th>来源</th>
+        </tr>
+        <tr>
+          <td>2026名额分配控制线</td>
+          <td>广州市招考办（gzzk.gz.gov.cn）5月12日官方发布</td>
+        </tr>
+        <tr>
+          <td>2025录取分数线</td>
+          <td>广州市招考办官方/高考直通车</td>
+        </tr>
+        <tr>
+          <td>2026一模数据</td>
+          <td>广州市招考办5月10日发布</td>
+        </tr>
+        <tr>
+          <td>梯度预测分析</td>
+          <td>中考知校（5月25日）、陈老师（sjds.net 5月11日）</td>
+        </tr>
+        <tr>
+          <td>区校门槛预测</td>
+          <td>搜狐教育（2026年1月28日）、广州本地宝</td>
+        </tr>
+        <tr>
+          <td>学校特色</td>
+          <td>各校官方简介、腾讯新闻、百度百科</td>
+        </tr>
+        <tr>
+          <td>舆情观点</td>
+          <td>知乎、头条、网易、搜狐等公开平台</td>
+        </tr>
+      </table>
+
+      <h3>免责声明</h3>
+      <div class="remark warning">
+        <ol style="margin-left:20px;line-height:2;">
+          <li>所有2026年分数预测基于历史趋势+政策变量分析，<strong>仅供志愿填报参考</strong>，以官方发布为准</li>
+          <li>高考出口数据（特控率/本科率）为教育圈网传版本，各校未官方公布</li>
+          <li>舆情观点整理自公开平台，不代表报告立场</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- 附录 -->
+    <div class="section" id="appendix">
+      <h2>附录A：2025年各校录取数据对照速查表（第三/四批户籍生）</h2>
+      <table>
+        <tr>
+          <th>梯度</th>
+          <th>代表学校</th>
+          <th style="text-align:center;">2025最低分</th>
+          <th style="text-align:center;">2024最低分</th>
+          <th style="text-align:center;">分差</th>
+        </tr>
+        <tr>
+          <td>一梯</td>
+          <td>华附石牌</td>
+          <td style="text-align:center;">740</td>
+          <td style="text-align:center;">728</td>
+          <td style="text-align:center;">+12</td>
+        </tr>
+        <tr>
+          <td>一梯</td>
+          <td>省实荔湾</td>
+          <td style="text-align:center;">735</td>
+          <td style="text-align:center;">732</td>
+          <td style="text-align:center;">+3</td>
+        </tr>
+        <tr>
+          <td>一梯</td>
+          <td>广附</td>
+          <td style="text-align:center;">738</td>
+          <td style="text-align:center;">730</td>
+          <td style="text-align:center;">+8</td>
+        </tr>
+        <tr>
+          <td>二梯</td>
+          <td>七中</td>
+          <td style="text-align:center;">710</td>
+          <td style="text-align:center;">702</td>
+          <td style="text-align:center;">+8</td>
+        </tr>
+        <tr>
+          <td>二梯</td>
+          <td>五中</td>
+          <td style="text-align:center;">715</td>
+          <td style="text-align:center;">705</td>
+          <td style="text-align:center;">+10</td>
+        </tr>
+        <tr>
+          <td>二梯</td>
+          <td>真光本部</td>
+          <td style="text-align:center;">689</td>
+          <td style="text-align:center;">665</td>
+          <td style="text-align:center;">+24</td>
+        </tr>
+        <tr>
+          <td>二梯</td>
+          <td>真光广钢</td>
+          <td style="text-align:center;">667</td>
+          <td style="text-align:center;">新增</td>
+          <td style="text-align:center;">—</td>
+        </tr>
+        <tr>
+          <td>二梯</td>
+          <td>玉岩</td>
+          <td style="text-align:center;">705</td>
+          <td style="text-align:center;">695</td>
+          <td style="text-align:center;">+10</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>三梯</strong></td>
+          <td><strong>一中</strong></td>
+          <td style="text-align:center;"><strong>628</strong></td>
+          <td style="text-align:center;">652</td>
+          <td style="text-align:center;color:#c62828;">-24</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>三梯</strong></td>
+          <td><strong>四中</strong></td>
+          <td style="text-align:center;"><strong>627</strong></td>
+          <td style="text-align:center;">655</td>
+          <td style="text-align:center;color:#c62828;">-28</td>
+        </tr>
+        <tr>
+          <td>三梯</td>
+          <td>育才</td>
+          <td style="text-align:center;">621</td>
+          <td style="text-align:center;">614</td>
+          <td style="text-align:center;">+7</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>四梯</strong></td>
+          <td><strong>西外</strong></td>
+          <td style="text-align:center;"><strong>610</strong></td>
+          <td style="text-align:center;">652</td>
+          <td style="text-align:center;color:#c62828;"><strong>-42</strong></td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>四梯</strong></td>
+          <td><strong>南海</strong></td>
+          <td style="text-align:center;"><strong>587</strong></td>
+          <td style="text-align:center;">622</td>
+          <td style="text-align:center;color:#c62828;">-35</td>
+        </tr>
+        <tr>
+          <td>四梯</td>
+          <td>西关培英</td>
+          <td style="text-align:center;">591</td>
+          <td style="text-align:center;">610</td>
+          <td style="text-align:center;">-19</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+      <p>报告日期：2026年6月3日 | 数据截止：2026年6月1日 | 填报窗口：6月1日—5日</p>
+      <p>数据来源：广州市招考办、中考知校、高考直通车、广东教育圈、各校深度信息专题报告等公开渠道</p>
+      <p style="margin-top:12px;"><strong>免责声明：</strong>本报告基于历史趋势+政策变量+舆情分析，仅供志愿填报参考，以官方发布为准</p>
+      <p style="margin-top:8px;">特控率数据来源不一，部分学校存在校方宣传口径与第三方统计口径差异；新校区/新宿舍投用时间建议开放日实地确认</p>
+    </div>
+
+  </div>
+    <!-- ===== XBrain Logo Scroll Fade ===== -->
+    <script>
+      (function () {
+        var logo = document.querySelector('.xbrain-brand');
+        var ticking = false;
+
+        function updateLogo() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var ratio = Math.min(scrollY / vh, 1);
+          var opacity = 1 - ratio * 0.7;
+          if (logo) {
+            logo.style.opacity = opacity;
+            logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+          }
+        }
+
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function () {
+          if (!ticking) {
+            window.requestAnimationFrame(function () {
+              updateLogo();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
+        updateLogo();
+      })();
+    </script>
+
+</body>
+
+</html>
