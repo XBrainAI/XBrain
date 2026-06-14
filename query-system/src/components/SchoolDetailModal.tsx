@@ -39,7 +39,7 @@ export default function SchoolDetailModal({ schoolName, onClose }: SchoolDetailM
 
   useEffect(() => {
     const fileName = encodeURIComponent(resolveFileName(schoolName));
-    fetch(`/${fileName}`)
+    fetch(`./${fileName}`)
       .then(res => {
         if (!res.ok) throw new Error('文件不存在');
         return res.text();

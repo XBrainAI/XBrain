@@ -372,7 +372,7 @@ export default function ResultTable({ data, onSelectSchool, keyword, onKeywordCh
       const valid = new Set<string>();
       try {
         // 获取 school_files 目录下的文件列表
-        const res = await fetch('/school-files-list.json');
+        const res = await fetch('./school-files-list.json');
         if (res.ok) {
           const files: string[] = await res.json();
           for (const file of files) {
@@ -394,7 +394,7 @@ export default function ResultTable({ data, onSelectSchool, keyword, onKeywordCh
         ];
         for (const file of fallbackFiles) {
           try {
-            const res = await fetch(`/${encodeURIComponent(file)}`, { method: 'HEAD' });
+            const res = await fetch(`./${encodeURIComponent(file)}`, { method: 'HEAD' });
             if (res.ok) {
               const schoolName = file.replace('深度信息专题报告.md', '');
               valid.add(schoolName);

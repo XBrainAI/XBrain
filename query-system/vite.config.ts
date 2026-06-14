@@ -20,7 +20,7 @@ function generateSchoolFilesList() {
     },
     buildStart() {
       // 构建时生成静态 JSON 文件到 public 目录
-      const schoolFilesDir = path.resolve(__dirname, '../database/school_files')
+      const schoolFilesDir = path.resolve(__dirname, './database/school_files')
       const publicDir = path.resolve(__dirname, 'public')
       let files: string[] = []
       if (fs.existsSync(schoolFilesDir)) {
@@ -71,12 +71,52 @@ function generateOtherInfosList() {
   }
 }
 
+// 构建完成后复制静态资源到 dist 根目录
+function copyStaticAssetsPlugin() {
+  return {
+    name: 'copy-static-assets',
+    writeBundle() {
+      const distDir = path.resolve(__dirname, 'dist')
+      if (!fs.existsSync(distDir)) {
+        fs.mkdirSync(distDir, { recursive: true })
+      }
+
+      // 复制 school_files
+      const schoolFilesDir = path.resolve(__dirname, './database/school_files')
+      if (fs.existsSync(schoolFilesDir)) {
+        const files = fs.readdirSync(schoolFilesDir)
+        for (const file of files) {
+          fs.copyFileSync(
+            path.join(schoolFilesDir, file),
+            path.join(distDir, file)
+          )
+        }
+      }
+
+      // 复制 other_infos 目录
+      const otherInfosDir = path.resolve(__dirname, 'other_infos')
+      const distOtherInfosDir = path.join(distDir, 'other_infos')
+      if (fs.existsSync(otherInfosDir)) {
+        if (!fs.existsSync(distOtherInfosDir)) {
+          fs.mkdirSync(distOtherInfosDir, { recursive: true })
+        }
+        const files = fs.readdirSync(otherInfosDir)
+        for (const file of files) {
+          fs.copyFileSync(
+            path.join(otherInfosDir, file),
+            path.join(distOtherInfosDir, file)
+          )
+        }
+      }
+    }
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   base: './',
-  plugins: [react(), generateSchoolFilesList(), generateOtherInfosList()],
+  plugins: [react(), generateSchoolFilesList(), generateOtherInfosList(), copyStaticAssetsPlugin()],
   server: {
     allowedHosts: true,
   },
-  publicDir: path.resolve(__dirname, './database/school_files'),
 })
