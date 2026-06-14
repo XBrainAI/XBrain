@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# 构建运行文档
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 场景一：日常开发调试
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install    # 首次或依赖变更时执行
+npm run dev    # 启动开发服务器 http://localhost:5173/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 支持热更新，改代码自动刷新
+- 不生成 dist，仅用于开发
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 场景二：验证构建产物（本地模拟线上环境）
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build     # 构建生成 dist/
+npm run preview   # 预览 dist/，确认构建结果正确
 ```
+
+- 用于发布前验证，例如检查 fetch 路径、静态资源是否正常
+- `preview` 必须先执行 `build`
+
+## 场景三：提交代码前检查
+
+```bash
+npm run lint   # 代码规范检查
+npm run test   # 运行单元测试
+```
+
+## 场景四：推送到远程（Netlify 自动部署）
+
+```bash
+# 只需 push 代码，Netlify 会自动执行 npm run build 并部署
+git push
+```
+
+- 无需本地构建，dist 不纳入版本控制
+
+## 命令速查
+
+| 命令 | 场景 | 生成 dist |
+|------|------|-----------|
+| `npm install` | 安装/更新依赖 | 否 |
+| `npm run dev` | 日常开发 | 否 |
+| `npm run build` | 构建产物 / 发布前验证 | 是 |
+| `npm run preview` | 预览已构建的 dist | 否 |
+| `npm run test` | 提交前检查 | 否 |
+| `npm run lint` | 提交前检查 | 否 |

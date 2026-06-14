@@ -217,5 +217,9 @@ __marimo__/
 # Node.js
 node_modules/
 
+# Vite 构建时自动生成的文件列表
+query-system/public/school-files-list.json
+query-system/public/other-infos-list.json
+
 # Streamlit
 .streamlit/secrets.toml
