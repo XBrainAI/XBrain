@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>腰椎间盘突出 — 爸 — 健康档案 — XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.8;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+
+    .xbrain-brand .xb-ring {
+      stroke-width: 4;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-glow-bg {
+      opacity: 0.40;
+    }
+
+    .xbrain-brand .xb-center-ring {
+      stroke-width: 3;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-x-line {
+      opacity: 0.9;
+      stroke-width: 2.5;
+    }
+
+    .xbrain-brand .xb-core {
+      r: 12;
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-ttai {
+      fill: #4a70c0;
+      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
+    }
+
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 {
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-bar-group {
+      opacity: 0.75;
+    }
+
+    .xbrain-brand .xb-bar {
+      fill: #5a90e0;
+    }
+
+    .xbrain-brand .xb-bar-glow {
+      opacity: 0.9;
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== HEADER ===== */
+    .page-header {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--xb-border);
+    }
+
+    .page-header .date-tag {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border: 1px solid var(--xb-accent);
+      color: var(--xb-accent);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .page-header .summary {
+      color: var(--xb-text-dim);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== CONTENT ===== */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .content h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 3rem 0 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--xb-border);
+      color: var(--xb-accent2);
+    }
+
+    .content h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      color: var(--xb-text);
+    }
+
+    .content h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.8rem;
+      color: var(--xb-text-dim);
+    }
+
+    .content p {
+      margin-bottom: 1rem;
+      color: var(--xb-text);
+    }
+
+    .content ul,
+    .content ol {
+      margin: 1rem 0 1rem 1.5rem;
+    }
+
+    .content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .content strong {
+      color: var(--xb-accent);
+      font-weight: 600;
+    }
+
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .content th,
+    .content td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border: 1px solid var(--xb-border);
+    }
+
+    .content th {
+      background: rgba(100, 180, 255, 0.1);
+      color: var(--xb-accent);
+      font-weight: 600;
+    }
+
+    .content tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .content blockquote {
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      border-left: 3px solid var(--xb-accent);
+      background: rgba(100, 180, 255, 0.05);
+      color: var(--xb-text-dim);
+    }
+
+    .content hr {
+      border: none;
+      border-top: 1px solid var(--xb-border);
+      margin: 3rem 0;
+    }
+
+    .content .highlight-box {
+      background: linear-gradient(135deg, rgba(100, 180, 255, 0.08) 0%, rgba(100, 180, 255, 0.03) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .content .highlight-box p {
+      margin-bottom: 0.5rem;
+    }
+
+    .content .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== IMAGES ===== */
+    .report-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .report-images img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--xb-border);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .report-images img:hover {
+      transform: scale(1.02);
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 2rem 0;
+      padding: 0.6rem 1.2rem;
+      color: var(--xb-accent);
+      text-decoration: none;
+      border: 1px solid var(--xb-border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(100, 180, 255, 0.1);
+      border-color: var(--xb-accent);
+    }
+
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      border-top: 1px solid var(--xb-border);
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--xb-border);
+      margin: 0 auto 1rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .page-header {
+        padding: 5rem 1rem 2rem;
+      }
+
+      .content {
+        padding: 2rem 1rem;
+      }
+
+      .content table {
+        font-size: 0.8rem;
+      }
+
+      .content th,
+      .content td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== XBrain Brand Logo (Fixed) ===== -->
+  <a class="xbrain-brand" href="../../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+        opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+          opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== HEADER ===== -->
+  <header class="page-header" id="top">
+    <span class="date-tag">日常调理</span>
+    <h1>40岁中年男性腰椎间盘突出 · 日常生活自我调节方案</h1>
+    <p class="summary">药物治标，锻炼治本，生活管理防复发。康复周期一般需要 3~6 个月系统调理。</p>
+  </header>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="content">
+
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      返回爸健康档案
+    </a>
+
+    <div class="highlight-box">
+      <p><strong>适用对象</strong>：40岁左右、长期久坐/体力劳动的中年男性</p>
+      <p><strong>康复周期</strong>：一般需要 3~6 个月系统调理</p>
+      <p><strong>核心理念</strong>：药物治标，锻炼治本，生活管理防复发</p>
+    </div>
+
+    <h2>目录</h2>
+    <ol>
+      <li>认识腰椎间盘突出</li>
+      <li>自我检测：直腿抬高试验</li>
+      <li>急性期应对方案（0~7天）</li>
+      <li>康复锻炼方案（稳定期）</li>
+      <li>日常生活姿势管理</li>
+      <li>工作与办公场景调整</li>
+      <li>睡眠姿势与床垫选择</li>
+      <li>饮食调理建议</li>
+      <li>体重管理</li>
+      <li>需要立即就医的警示信号</li>
+      <li>整体康复节奏一览</li>
+    </ol>
+
+    <hr>
+
+    <h2>一、认识腰椎间盘突出</h2>
+
+    <h3>为什么会得？</h3>
+    <table>
+      <tr>
+        <th>危险因素</th>
+        <th>说明</th>
+      </tr>
+      <tr>
+        <td><strong>久坐</strong></td>
+        <td>坐位时椎间盘压力是站立时的 1.4 倍，前倾时高达 1.8 倍</td>
+      </tr>
+      <tr>
+        <td><strong>核心肌群薄弱</strong></td>
+        <td>腹部和背部肌肉无法有效支撑脊柱</td>
+      </tr>
+      <tr>
+        <td><strong>不良姿势</strong></td>
+        <td>跷二郎腿、瘫坐、弯腰搬东西</td>
+      </tr>
+      <tr>
+        <td><strong>体重超标</strong></td>
+        <td>每超重 1kg，腰椎负荷增加约 3kg</td>
+      </tr>
+      <tr>
+        <td><strong>突然受力</strong></td>
+        <td>打篮球、搬重物、急转身等瞬间暴力</td>
+      </tr>
+    </table>
+
+    <h3>典型症状</h3>
+    <ul>
+      <li>腰部酸痛/刺痛，久坐或久站后加重</li>
+      <li>屁股、大腿后侧、小腿外侧放射性疼痛（坐骨神经痛）</li>
+      <li>足背或脚趾麻木</li>
+      <li>打喷嚏、咳嗽时腰部突发刺痛</li>
+      <li>严重时：下肢无力、行走困难、大小便功能障碍</li>
+    </ul>
+
+    <hr>
+
+    <h2>二、自我检测：直腿抬高试验</h2>
+
+    <h3>标准步骤</h3>
+    <ol>
+      <li>平躺在硬板床上，双腿自然伸直</li>
+      <li>保持膝盖伸直不弯曲，缓慢抬起一条腿</li>
+      <li>观察：</li>
+    </ol>
+    <table>
+      <tr>
+        <th>抬高角度</th>
+        <th>疼痛出现</th>
+        <th>判断</th>
+      </tr>
+      <tr>
+        <td><strong>30°~70°</strong> 出现腰部→腿的放射痛</td>
+        <td>✅ <strong>阳性</strong></td>
+        <td>提示腰椎间盘突出</td>
+      </tr>
+      <tr>
+        <td><strong>超过70°</strong> 才出现疼痛</td>
+        <td>❌ 阴性</td>
+        <td>多为肌肉或关节问题</td>
+      </tr>
+    </table>
+
+    <h3>加强试验</h3>
+    <ul>
+      <li>抬腿到出现疼痛后，稍微降低高度（疼痛缓解）</li>
+      <li>由他人被动勾脚尖（脚背向上）</li>
+      <li>如果勾脚尖时疼痛再次出现 → 更强烈支持腰突诊断</li>
+    </ul>
+
+    <h3>身体的其他警报</h3>
+    <ul>
+      <li>久坐后腰部僵硬，像被"锁住"</li>
+      <li>平躺时腿无法抬高到 60°</li>
+      <li>脚背发麻，穿鞋感觉不到松紧</li>
+    </ul>
+
+    <hr>
+
+    <h2>三、急性期应对方案（0~7天）</h2>
+
+    <div class="highlight-box">
+      <p><strong>定义</strong>：突然发作的剧烈腰痛，或疼痛明显加重，影响正常活动。</p>
+    </div>
+
+    <h3>1. 卧床休息（最关键）</h3>
+    <ul>
+      <li><strong>时长</strong>：不超过 <strong>48 小时</strong>（长期卧床会导致肌肉萎缩）</li>
+      <li><strong>姿势</strong>：推荐 <strong>侧卧屈膝</strong> 或仰卧膝下垫枕</li>
+      <li><strong>床</strong>：硬板床（上面铺 3~5cm 软垫），避免软床</li>
+      <li><strong>起床技巧</strong>：先侧身 → 手撑床沿 → 缓慢坐起 → 站立，切忌仰卧直接坐起</li>
+    </ul>
+
+    <h3>2. 冰敷（前 3 天）</h3>
+    <ul>
+      <li>用毛巾包裹冰袋敷于疼痛最明显处</li>
+      <li>每次 <strong>15 分钟</strong>，每天 3~4 次</li>
+      <li>作用：减轻急性炎症和水肿</li>
+    </ul>
+
+    <h3>3. 药物（遵医嘱）</h3>
+    <table>
+      <tr>
+        <th>药物类型</th>
+        <th>代表药物</th>
+        <th>作用</th>
+      </tr>
+      <tr>
+        <td>非甾体抗炎药</td>
+        <td>布洛芬、双氯芬酸钠</td>
+        <td>消炎、止痛</td>
+      </tr>
+      <tr>
+        <td>脱水剂</td>
+        <td>甘露醇（静脉）</td>
+        <td>减轻神经根水肿</td>
+      </tr>
+      <tr>
+        <td>营养神经</td>
+        <td>甲钴胺（维生素B12）</td>
+        <td>修复受损神经</td>
+      </tr>
+    </table>
+
+    <div class="highlight-box">
+      <p>⚠️ 非甾体抗炎药不可长期依赖，一般使用不超过 7 天。</p>
+    </div>
+
+    <h3>4. 物理治疗</h3>
+    <ul>
+      <li><strong>热敷</strong>（急性期过后使用）：每天 2~3 次，每次 15~20 分钟</li>
+      <li><strong>专业推拿</strong>：选择柔和手法（揉法、滚法），<strong>杜绝暴力正骨</strong></li>
+      <li><strong>针灸</strong>：可缓解疼痛和麻木</li>
+      <li><strong>骨盆牵引</strong>：疼痛剧烈时在医院由专业人员操作</li>
+    </ul>
+
+    <h3>5. 绝对禁止的动作</h3>
+    <ul>
+      <li>❌ 弯腰搬东西</li>
+      <li>❌ 剧烈扭转腰部</li>
+      <li>❌ 久坐（超过 30 分钟）</li>
+      <li>❌ 自行做大幅度拉伸</li>
+      <li>❌ 按摩店暴力按压</li>
+    </ul>
+
+    <hr>
+
+    <h2>四、康复锻炼方案（稳定期）</h2>
+
+    <div class="highlight-box">
+      <p><strong>开始时间</strong>：急性疼痛基本消失后（一般第 4~7 天起）</p>
+      <p><strong>核心原则</strong>：循序渐进，痛则即止。运动中出现腰痛加重或腿麻，立即停止。</p>
+    </div>
+
+    <h3>第一阶段：入门激活（第 1~2 周）</h3>
+
+    <h4>1. 麦肯基俯卧伸展 ★★★★★（首选起始动作）</h4>
+    <ul>
+      <li>俯卧，双手放在身体两侧</li>
+      <li>将双肘置于肩膀正下方，缓慢撑起上半身</li>
+      <li>骨盆贴床不离开，保持 2~3 分钟</li>
+      <li>深呼吸、完全放松</li>
+      <li>每天 3~5 次</li>
+    </ul>
+
+    <h4>2. 抱膝贴胸</h4>
+    <ul>
+      <li>仰卧，双手抱双膝拉向胸部</li>
+      <li>保持 30 秒，感受腰背部伸展</li>
+      <li>每天 10 组</li>
+    </ul>
+
+    <h4>3. 猫狗式</h4>
+    <ul>
+      <li>四点跪姿（双手双膝着地）</li>
+      <li><strong>猫式</strong>：吸气，腰背向上拱起，低头</li>
+      <li><strong>狗式</strong>：呼气，腰背向下塌，抬头</li>
+      <li>每个姿势保持 30 秒，交替进行</li>
+      <li>每天 10 组</li>
+    </ul>
+
+    <h3>第二阶段：核心强化（第 3~6 周）</h3>
+
+    <h4>4. 桥式运动（五点支撑）★★★★★</h4>
+    <ul>
+      <li>仰卧，屈膝，双脚踩地</li>
+      <li>以头部、双肘、双脚为支点，缓慢抬起臀部</li>
+      <li>身体成一条直线，保持 <strong>10 秒</strong> 后放下</li>
+      <li>每天 <strong>3 组，每组 10~15 次</strong></li>
+      <li><strong>进阶版</strong>：单腿支撑或弹力带增阻</li>
+    </ul>
+
+    <h4>5. 直腿抬高</h4>
+    <ul>
+      <li>平卧，勾脚尖，膝盖伸直</li>
+      <li>缓慢抬高至最大角度（或有牵拉感）</li>
+      <li>保持 10 秒后缓慢放下</li>
+      <li>左右腿各 10~20 次为一组，每天 2~4 组</li>
+    </ul>
+
+    <h4>6. "超人"动作（多方向抗阻）</h4>
+    <ul>
+      <li>俯卧位，同时抬起左臂 + 右腿（对侧联动）</li>
+      <li>保持 5 秒，换对侧</li>
+      <li>每天 10 组</li>
+    </ul>
+
+    <h3>第三阶段：综合巩固（第 7 周以后）</h3>
+
+    <h4>7. 小飞燕（从简到难）</h4>
+    <ul>
+      <li><strong>基础</strong>：俯卧，仅抬上半身，保持 3~5 秒</li>
+      <li><strong>进阶</strong>：俯卧，仅抬双腿，保持 3~5 秒</li>
+      <li><strong>完整</strong>：同时抬上半身和双腿</li>
+      <li>每次 10 个为一组，每天 2~4 组</li>
+    </ul>
+
+    <h4>8. 侧平板支撑</h4>
+    <ul>
+      <li>单侧手肘撑地，侧身挺髋</li>
+      <li>身体保持一条直线</li>
+      <li>保持 15 秒，左右各一次为一组</li>
+      <li>每天 3~5 组</li>
+    </ul>
+
+    <h4>9. 游泳（强烈推荐）</h4>
+    <ul>
+      <li><strong>推荐泳姿</strong>：蛙泳、仰泳</li>
+      <li><strong>水温</strong>：28℃ 以上恒温泳池</li>
+      <li><strong>频率</strong>：每周 3~4 次</li>
+      <li><strong>优势</strong>：水的浮力降低椎间盘压力 40%~60%</li>
+    </ul>
+
+    <hr>
+
+    <h2>五、日常生活姿势管理</h2>
+
+    <h3>正确姿势 vs 错误姿势</h3>
+    <table>
+      <tr>
+        <th>场景</th>
+        <th>✅ 正确</th>
+        <th>❌ 错误</th>
+      </tr>
+      <tr>
+        <td><strong>坐姿</strong></td>
+        <td>腰部垫支撑卷，双脚平放，臀部坐满椅子</td>
+        <td>瘫坐、跷二郎腿、半躺</td>
+      </tr>
+      <tr>
+        <td><strong>站姿</strong></td>
+        <td>收腹挺胸，重心均匀分布双脚</td>
+        <td>挺肚子、单脚站、含胸驼背</td>
+      </tr>
+      <tr>
+        <td><strong>弯腰捡物</strong></td>
+        <td>先下蹲，屈髋屈膝，保持脊柱直立</td>
+        <td>直腿弯腰去够</td>
+      </tr>
+      <tr>
+        <td><strong>搬重物</strong></td>
+        <td>蹲下→贴近身体→用腿发力站起</td>
+        <td>弯腰硬搬、单手侧提</td>
+      </tr>
+      <tr>
+        <td><strong>穿鞋袜</strong></td>
+        <td>坐下或蹲下穿</td>
+        <td>站着弯腰穿</td>
+      </tr>
+      <tr>
+        <td><strong>打喷嚏</strong></td>
+        <td>用手扶腰，微屈膝缓冲</td>
+        <td>直挺挺打喷嚏</td>
+      </tr>
+      <tr>
+        <td><strong>开车</strong></td>
+        <td>椅背调至 100°~110°，腰后垫支撑</td>
+        <td>坐得太直或太躺</td>
+      </tr>
+    </table>
+
+    <h3>搬重物黄金法则</h3>
+    <blockquote>
+      <p>建议搬运重量 <strong>不超过体重的 1/3</strong></p>
+    </blockquote>
+    <p>正确流程：</p>
+    <ol>
+      <li>靠近物体</li>
+      <li>屈髋屈膝下蹲（不是弯腰！）</li>
+      <li>腰背挺直，收紧核心</li>
+      <li>双手抱起物体紧贴胸前</li>
+      <li>用腿部力量站起</li>
+    </ol>
+
+    <hr>
+
+    <h2>六、工作与办公场景调整</h2>
+
+    <h3>工位设置</h3>
+    <ul>
+      <li><strong>座椅</strong>：有腰部支撑的人体工学椅，或腰后加一个支撑靠垫</li>
+      <li><strong>显示器</strong>：上缘与坐姿平视高度一致</li>
+      <li><strong>桌面</strong>：高度让肘关节呈 90°，手腕自然伸直</li>
+    </ul>
+
+    <h3>工作节奏</h3>
+    <ul>
+      <li><strong>每隔 45 分钟</strong> 起身活动 5 分钟</li>
+      <li><strong>站立与坐姿交替</strong>：考虑使用升降桌</li>
+      <li>起身后做简单拉伸：双手叉腰向后仰、猫狗式</li>
+    </ul>
+
+    <h3>护腰使用建议</h3>
+    <ul>
+      <li>✅ 急性期和体力工作时佩戴</li>
+      <li>⚠️ 不要长期依赖（会导致腰部肌肉萎缩）</li>
+      <li>✅ 平时应优先通过锻炼强化自身核心力量</li>
+    </ul>
+
+    <hr>
+
+    <h2>七、睡眠姿势与床垫选择</h2>
+
+    <h3>最佳睡姿</h3>
+
+    <h4>方案 A：侧卧（推荐 L5-S1 病变者）⭐⭐⭐⭐⭐</h4>
+    <ul>
+      <li>下侧腿伸直，上侧腿屈膝</li>
+      <li><strong>双膝之间夹一个枕头</strong>（保持骨盆中立）</li>
+      <li>颈下枕头高度与肩宽一致</li>
+    </ul>
+
+    <h4>方案 B：仰卧改良（推荐 L4-L5 病变者）⭐⭐⭐⭐</h4>
+    <ul>
+      <li><strong>膝下垫 3~5cm 软枕</strong></li>
+      <li>使髋膝保持 10°~15° 屈曲</li>
+      <li>维持腰椎自然生理前凸</li>
+    </ul>
+
+    <h3>床垫选择标准</h3>
+    <table>
+      <tr>
+        <th>指标</th>
+        <th>建议</th>
+      </tr>
+      <tr>
+        <td><strong>硬度</strong></td>
+        <td>中等硬度（棕榈 + 乳胶复合）</td>
+      </tr>
+      <tr>
+        <td><strong>支撑</strong></td>
+        <td>仰卧时脊柱在一条直线上，没有悬空或下陷</td>
+      </tr>
+      <tr>
+        <td><strong>侧卧</strong></td>
+        <td>肩部和臀部适度下陷，骨盆不扭转</td>
+      </tr>
+      <tr>
+        <td><strong>禁忌</strong></td>
+        <td>❌ 纯软床（弹簧床、记忆棉全软）</td>
+      </tr>
+    </table>
+
+    <blockquote>
+      <p>研究表明，合适的床垫可提升睡眠质量约 23%。</p>
+    </blockquote>
+
+    <hr>
+
+    <h2>八、饮食调理建议</h2>
+
+    <h3>抗炎饮食</h3>
+    <table>
+      <tr>
+        <th>建议多吃的食物</th>
+        <th>作用</th>
+      </tr>
+      <tr>
+        <td>深海鱼（三文鱼、鲭鱼）</td>
+        <td>Omega-3 脂肪酸，天然抗炎</td>
+      </tr>
+      <tr>
+        <td>深色蔬菜（西兰花、菠菜）</td>
+        <td>维生素、抗氧化剂</td>
+      </tr>
+      <tr>
+        <td>姜、姜黄、大蒜</td>
+        <td>天然抗炎成分</td>
+      </tr>
+      <tr>
+        <td>坚果（核桃、杏仁）</td>
+        <td>维生素E、镁</td>
+      </tr>
+      <tr>
+        <td>优质蛋白（鸡蛋、鸡胸肉、豆制品）</td>
+        <td>肌肉修复</td>
+      </tr>
+      <tr>
+        <td>高钙食物（牛奶、酸奶、豆制品）</td>
+        <td>骨骼健康</td>
+      </tr>
+    </table>
+
+    <h3>避免或少吃</h3>
+    <ul>
+      <li>❌ 油炸食品、高温烧烤</li>
+      <li>❌ 高糖食品、含糖饮料</li>
+      <li>❌ 过量饮酒</li>
+      <li>❌ 精加工零食</li>
+    </ul>
+
+    <h3>日常小贴士</h3>
+    <ul>
+      <li>每天喝足 <strong>1.5~2L</strong> 水（椎间盘含水量高才能维持弹性）</li>
+      <li>补充钙 + 维生素D（预防骨质疏松）</li>
+      <li>适当补充氨基葡萄糖（有助于椎间盘修复）</li>
+    </ul>
+
+    <hr>
+
+    <h2>九、体重管理</h2>
+
+    <blockquote>
+      <p>体重每减轻 <strong>5 公斤</strong>，腰部压力可减少约 <strong>20%</strong>。</p>
+    </blockquote>
+
+    <h3>中年男性体重标准</h3>
+    <table>
+      <tr>
+        <th>指标</th>
+        <th>健康范围</th>
+      </tr>
+      <tr>
+        <td>BMI</td>
+        <td>18.5~24</td>
+      </tr>
+      <tr>
+        <td>腰围</td>
+        <td>&lt; 90cm</td>
+      </tr>
+    </table>
+
+    <h3>建议</h3>
+    <ul>
+      <li>如果超重，每周减重 0.5~1kg 为宜</li>
+      <li>避免剧烈节食（营养不良不利于椎间盘修复）</li>
+      <li>有氧运动推荐：快走（注意姿势）、游泳、椭圆机（避免跑步机）</li>
+    </ul>
+
+    <hr>
+
+    <h2>十、需要立即就医的警示信号</h2>
+
+    <div class="highlight-box">
+      <p>出现以下任何一种情况，<strong>不要自行处理</strong>，立即去医院：</p>
+    </div>
+
+    <table>
+      <tr>
+        <th>危险信号</th>
+        <th>说明</th>
+      </tr>
+      <tr>
+        <td>🚨 <strong>大小便失禁或排尿困难</strong></td>
+        <td>可能是马尾综合征，需紧急手术</td>
+      </tr>
+      <tr>
+        <td>🚨 <strong>脚趾无力、足下垂</strong></td>
+        <td>神经压迫严重</td>
+      </tr>
+      <tr>
+        <td>🚨 <strong>连续 3 天夜间痛醒</strong></td>
+        <td>炎症或压迫恶化</td>
+      </tr>
+      <tr>
+        <td>🚨 <strong>下肢麻木范围扩大</strong></td>
+        <td>神经损伤进展</td>
+      </tr>
+      <tr>
+        <td>🚨 <strong>疼痛放射至小腿后外侧且加剧</strong></td>
+        <td>神经根严重受压</td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h2>十一、整体康复节奏一览</h2>
+
+    <pre style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--xb-border); overflow-x: auto; font-family: 'Noto Sans SC', sans-serif; line-height: 2; color: var(--xb-text); margin: 1.5rem 0;">
+第1周  ── 急性期：卧床休息 + 冰敷 + 药物
+           ↓ 疼痛缓解后
+第2~3周 ── 入门激活：麦肯基 + 抱膝 + 猫狗式
+           ↓ 基本无痛
+第4~6周 ── 核心强化：桥式 + 直腿抬高 + 超人动作
+           ↓ 力量提升
+第7周+  ── 综合巩固：小飞燕 + 侧平板 + 游泳
+           ↓ 长期坚持
+长期   ── 维持期：每周 1~2 次腰部锻炼</pre>
+
+    <h3>复发率数据</h3>
+    <table>
+      <tr>
+        <th>状态</th>
+        <th>复发率</th>
+      </tr>
+      <tr>
+        <td>未规范康复治疗</td>
+        <td><strong>38.4%</strong></td>
+      </tr>
+      <tr>
+        <td>坚持 6 个月规范康复</td>
+        <td><strong>12.7%</strong></td>
+      </tr>
+    </table>
+
+    <h3>几条最重要的建议</h3>
+    <ol>
+      <li><strong>急性期不乱动，稳定期不能不动</strong> —— 时机比动作更重要</li>
+      <li><strong>核心力量才是腰椎最好的"天然护腰"</strong> —— 护腰是辅助，锻炼是根本</li>
+      <li><strong>姿势是一辈子的功课</strong> —— 正确姿势要内化成习惯</li>
+      <li><strong>康复是马拉松，不是短跑</strong> —— 不要追求速效，坚持比强度重要</li>
+      <li><strong>症状消失不等于痊愈</strong> —— 仍需长期维持锻炼，否则复发概率极高</li>
+    </ol>
+
+    <hr>
+
+    <blockquote>
+      <p><strong>免责声明</strong>：本方案仅供参考，不构成医疗建议。如有严重症状或不确定是否适合某种锻炼，请咨询骨科或康复科医生。</p>
+      <p>参考资料：百度健康、家庭医生在线、知乎健康科普等公开医学资料综合整理。</p>
+    </blockquote>
+
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      返回爸健康档案
+    </a>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <p>XBrain &copy; 2026</p>
+    <p>探索未知，连接世界</p>
+  </footer>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    (function () {
+      // ===== Logo Scroll Fade =====
+      var logo = document.querySelector('.xbrain-brand');
+      var ticking = false;
+
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateLogo();
+    })();
+  </script>
+
+</body>
+
+</html>
