@@ -1,567 +1,2738 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>妈 — 健康档案 — XBrain</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
-    rel="stylesheet">
-  <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>妈 · 个人健康档案 — XBrain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --xb-deep:#0a0a1a;--xb-mid:#1a1030;--xb-light:#2d1b4e;--xb-accent:#64b4ff;
+  --xb-accent2:#80c0ff;--xb-glow:rgba(100,180,255,0.35);--xb-border:rgba(100,180,255,0.2);
+  --xb-text:#e8ecf4;--xb-text-dim:rgba(200,210,230,0.6);--xb-card-bg:linear-gradient(135deg,rgba(20,20,50,0.6) 0%,rgba(30,20,60,0.5) 100%);
+  --success:#2ed573;--warning:#ffa502;--danger:#ff6b6b;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--xb-deep);color:var(--xb-text);line-height:1.7;overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
 
-    :root {
-      --xb-deep: #0a0a1a;
-      --xb-mid: #1a1030;
-      --xb-light: #2d1b4e;
-      --xb-accent: #64b4ff;
-      --xb-accent2: #80c0ff;
-      --xb-glow: rgba(100, 180, 255, 0.35);
-      --xb-border: rgba(100, 180, 255, 0.2);
-      --xb-text: #e8ecf4;
-      --xb-text-dim: rgba(200, 210, 230, 0.6);
-    }
+/* ===== XBrain Logo ===== */
+.xbrain-brand{
+  position:fixed;top:16px;left:16px;z-index:100;display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,rgba(20,15,50,0.94) 0%,rgba(40,30,80,0.92) 100%);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1.5px solid rgba(180,210,255,0.55);border-radius:12px;padding:6px 14px 6px 8px;
+  box-shadow:0 0 12px rgba(255,255,255,0.15),0 0 40px rgba(80,140,255,0.35),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);
+  text-decoration:none;transition:opacity 0.6s ease,box-shadow 0.6s ease;
+}
+.xbrain-brand:hover{box-shadow:0 0 24px rgba(80,140,255,0.40),0 4px 20px rgba(0,0,0,0.5);transform:translateY(-1px)}
+.xbrain-brand.scrolled{background:rgba(15,10,40,0.4);backdrop-filter:blur(4px);border-color:rgba(100,180,255,0.08);box-shadow:none}
+.xbrain-brand svg{width:32px;height:32px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(100,180,255,0.55))}
+.xbrain-brand .xbrain-text{font-size:15px;font-weight:800;letter-spacing:1.5px;color:#e8ecf4;text-shadow:0 0 12px rgba(100,180,255,0.55)}
+.xbrain-brand .xbrain-text span{color:#64b4ff;text-shadow:0 0 18px rgba(100,180,255,0.9)}
 
-    html {
-      scroll-behavior: smooth;
-    }
+/* ===== Layout ===== */
+.container{max-width:900px;margin:0 auto;padding:5rem 1.2rem 2rem}
 
-    body {
-      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--xb-deep);
-      color: var(--xb-text);
-      overflow-x: hidden;
-      -webkit-text-size-adjust: 100%;
-    }
+/* ===== Hero ===== */
+.hero{
+  text-align:center;padding:2rem 0 1.5rem;
+}
+.hero h1{
+  font-family:'Noto Serif SC',serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;
+  letter-spacing:2px;margin-bottom:0.5rem;
+}
+.hero h1 span{color:var(--xb-accent);text-shadow:0 0 30px rgba(100,180,255,0.5)}
+.hero .meta{
+  color:var(--xb-text-dim);font-size:0.85rem;letter-spacing:1px;
+}
 
-    /* ===== XBrain Brand Logo (Fixed) ===== */
-    .xbrain-brand {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(180, 210, 255, 0.55);
-      border-radius: 12px;
-      padding: 6px 14px 6px 8px;
-      box-shadow:
-        0 0 12px rgba(255, 255, 255, 0.15),
-        0 0 40px rgba(80, 140, 255, 0.35),
-        0 4px 20px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.12);
-      text-decoration: none;
-      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
-    }
+/* ===== Section Title ===== */
+.section-title{
+  font-family:'Noto Serif SC',serif;font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;
+  margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--xb-border);
+  display:flex;align-items:center;gap:0.5rem;
+}
+.section-title::before{
+  content:'';width:4px;height:1.2rem;background:var(--xb-accent);border-radius:2px;
+}
 
-    .xbrain-brand:hover {
-      box-shadow:
-        0 0 24px rgba(80, 140, 255, 0.40),
-        0 4px 20px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-      border-color: rgba(180, 210, 255, 0.70);
-    }
+/* ===== Cards ===== */
+.card{
+  background:var(--xb-card-bg);border:1px solid var(--xb-border);border-radius:16px;
+  padding:1.2rem;margin-bottom:1rem;backdrop-filter:blur(10px);
+}
+.card h3{
+  font-size:1.05rem;font-weight:700;margin-bottom:0.6rem;color:var(--xb-accent2);
+}
 
-    .xbrain-brand.scrolled {
-      background: rgba(15, 10, 40, 0.4);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border-color: rgba(100, 180, 255, 0.08);
-      box-shadow: none;
-    }
+/* ===== Status Badge ===== */
+.status-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.6rem;margin:1rem 0;
+}
+.status-item{
+  background:rgba(100,180,255,0.05);border:1px solid var(--xb-border);border-radius:10px;
+  padding:0.8rem;text-align:center;font-size:0.8rem;
+}
+.status-item .sys-name{color:var(--xb-text-dim);margin-bottom:0.3rem}
+.status-item .sys-val{font-weight:700;font-size:0.95rem}
+.status-ok{color:var(--success)}
+.status-warn{color:var(--warning)}
+.status-danger{color:var(--danger)}
 
-    .xbrain-brand.scrolled:hover {
-      opacity: 0.7 !important;
-      border-color: rgba(100, 180, 255, 0.2);
-    }
+/* ===== Timeline Controls ===== */
+.timeline-controls{
+  position:sticky;top:0;z-index:90;background:linear-gradient(to bottom,var(--xb-deep) 80%,transparent);
+  padding:0.8rem 0;margin-bottom:1rem;
+}
+.search-box{
+  width:100%;padding:0.7rem 1rem;border-radius:10px;border:1px solid var(--xb-border);
+  background:rgba(20,20,50,0.6);color:var(--xb-text);font-size:0.95rem;outline:none;
+  margin-bottom:0.6rem;
+}
+.search-box::placeholder{color:var(--xb-text-dim)}
+.search-box:focus{border-color:var(--xb-accent);box-shadow:0 0 12px rgba(100,180,255,0.2)}
+.year-filters{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.year-tag{
+  padding:0.35rem 0.9rem;border-radius:20px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.08);color:var(--xb-text-dim);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.year-tag.active,.year-tag:hover{
+  background:var(--xb-accent);color:var(--xb-deep);border-color:var(--xb-accent);
+  box-shadow:0 0 12px rgba(100,180,255,0.3);
+}
 
-    .xbrain-brand svg {
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
-    }
+/* ===== Timeline ===== */
+.timeline{
+  position:relative;padding-left:1.5rem;
+}
+.timeline::before{
+  content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,var(--xb-accent),transparent);
+}
+.timeline-item{
+  position:relative;margin-bottom:1.2rem;opacity:0;transform:translateY(30px);
+  transition:opacity 0.6s ease,transform 0.6s ease;
+}
+.timeline-item.visible{opacity:1;transform:translateY(0)}
+.timeline-dot{
+  position:absolute;left:-1.5rem;top:1.2rem;width:14px;height:14px;border-radius:50%;
+  background:var(--xb-deep);border:2px solid var(--xb-accent);
+  box-shadow:0 0 8px rgba(100,180,255,0.4);
+}
+.timeline-card{
+  background:var(--xb-card-bg);border:1px solid var(--xb-border);border-radius:14px;
+  padding:1rem;backdrop-filter:blur(10px);
+}
+.timeline-header{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;
+}
+.timeline-date{
+  font-size:0.85rem;color:var(--xb-accent);font-weight:600;
+}
+.timeline-tag{
+  font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;
+  background:rgba(100,180,255,0.1);color:var(--xb-accent2);border:1px solid var(--xb-border);
+}
+.timeline-title{
+  font-size:1rem;font-weight:700;margin-bottom:0.5rem;
+}
+.report-thumb{
+  width:100%;max-width:320px;border-radius:8px;margin:0.5rem 0;
+  border:1px solid var(--xb-border);cursor:pointer;
+}
+.btn-expand{
+  padding:0.4rem 0.9rem;border-radius:6px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.1);color:var(--xb-accent);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.btn-expand:hover{
+  background:var(--xb-accent);color:var(--xb-deep);
+}
+.timeline-detail{
+  margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
+  animation:fadeIn 0.3s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-    .xbrain-brand .xb-ring {
-      stroke-width: 4;
-      opacity: 0.95;
-    }
+/* ===== Report Body (md converted) ===== */
+.report-body h2{
+  font-family:'Noto Serif SC',serif;font-size:1.1rem;font-weight:700;margin:1rem 0 0.5rem;
+  color:var(--xb-accent2);
+}
+.report-body h3{
+  font-size:0.95rem;font-weight:700;margin:0.8rem 0 0.4rem;color:var(--xb-accent);
+}
+.report-body h4{
+  font-size:0.9rem;font-weight:600;margin:0.6rem 0 0.3rem;color:var(--xb-text);
+}
+.report-body p{
+  margin-bottom:0.5rem;color:var(--xb-text-dim);font-size:0.9rem;
+}
+.report-body ul,.report-body ol{
+  margin:0.4rem 0 0.6rem 1.2rem;color:var(--xb-text-dim);font-size:0.9rem;
+}
+.report-body li{
+  margin:0.2rem 0;
+}
+.report-body blockquote{
+  border-left:3px solid var(--xb-accent);padding-left:0.8rem;margin:0.6rem 0;
+  color:var(--xb-text-dim);font-size:0.9rem;
+}
+.report-body strong{
+  color:var(--xb-text);
+}
+.report-body hr{
+  border:none;border-top:1px solid var(--xb-border);margin:1rem 0;
+}
+.report-body .table-wrap{
+  overflow-x:auto;margin:0.6rem 0;
+}
+.report-body table{
+  width:100%;border-collapse:collapse;font-size:0.85rem;
+  background:rgba(100,180,255,0.03);border-radius:8px;overflow:hidden;
+}
+.report-body th,.report-body td{
+  padding:0.5rem 0.6rem;border:1px solid var(--xb-border);text-align:left;
+}
+.report-body th{
+  background:rgba(100,180,255,0.1);color:var(--xb-accent);font-weight:600;
+}
+.report-body img.report-img{
+  max-width:100%;border-radius:8px;margin:0.5rem 0;border:1px solid var(--xb-border);
+}
+.report-body code{
+  background:rgba(100,180,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;
+  font-size:0.85rem;color:var(--xb-accent2);
+}
 
-    .xbrain-brand .xb-glow-bg {
-      opacity: 0.40;
-    }
+/* ===== Modal ===== */
+.modal{
+  display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal.active{display:flex}
+.modal img{
+  max-width:100%;max-height:90vh;border-radius:8px;box-shadow:0 0 40px rgba(0,0,0,0.5);
+}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);
+  font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
 
-    .xbrain-brand .xb-center-ring {
-      stroke-width: 3;
-      opacity: 0.95;
-    }
+/* ===== Back link ===== */
+.back-link{
+  display:inline-flex;align-items:center;gap:0.5rem;margin:2rem auto 0;
+  padding:0.6rem 1.2rem;color:var(--xb-accent);text-decoration:none;
+  border:1px solid var(--xb-border);border-radius:8px;font-size:0.9rem;
+  transition:all 0.3s ease;
+}
+.back-link:hover{
+  background:rgba(100,180,255,0.1);border-color:var(--xb-accent);
+}
 
-    .xbrain-brand .xb-x-line {
-      opacity: 0.9;
-      stroke-width: 2.5;
-    }
+/* ===== Footer ===== */
+footer{
+  text-align:center;padding:2rem 1rem;color:var(--xb-text-dim);font-size:0.8rem;
+}
 
-    .xbrain-brand .xb-core {
-      r: 12;
-      opacity: 1;
-    }
-
-    .xbrain-brand .xb-ttai {
-      fill: #4a70c0;
-      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
-    }
-
-    .xbrain-brand .xb-ttai-line1,
-    .xbrain-brand .xb-ttai-line2 {
-      opacity: 1;
-    }
-
-    .xbrain-brand .xb-bar-group {
-      opacity: 0.75;
-    }
-
-    .xbrain-brand .xb-bar {
-      fill: #5a90e0;
-    }
-
-    .xbrain-brand .xb-bar-glow {
-      opacity: 0.9;
-    }
-
-    .xbrain-brand .xbrain-text {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: #e8ecf4;
-      line-height: 1;
-      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
-    }
-
-    .xbrain-brand .xbrain-text span {
-      color: #64b4ff;
-      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
-    }
-
-    /* ===== HERO ===== */
-    .hero {
-      position: relative;
-      z-index: 1;
-      min-height: 60vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 6rem 2rem 3rem;
-    }
-
-    .hero-title {
-      font-family: 'Noto Serif SC', serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 900;
-      letter-spacing: 4px;
-      margin-bottom: 1rem;
-    }
-
-    .hero-title span {
-      color: var(--xb-accent);
-      text-shadow: 0 0 30px rgba(100, 180, 255, 0.5);
-    }
-
-    .hero-subtitle {
-      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-      font-weight: 300;
-      color: var(--xb-text-dim);
-      letter-spacing: 4px;
-      margin-bottom: 1rem;
-    }
-
-    .hero-line {
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--xb-accent), transparent);
-      margin: 0 auto;
-    }
-
-    /* ===== SITES GRID ===== */
-    .sites-section {
-      position: relative;
-      z-index: 1;
-      padding: 2rem 2rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .sites-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .site-card {
-      position: relative;
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      border-radius: 16px;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
-      border: 1px solid var(--xb-border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-
-    .site-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-    }
-
-    .site-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(100, 180, 255, 0.5);
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(100, 180, 255, 0.15);
-    }
-
-    .site-card-image {
-      width: 100%;
-      height: 220px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-
-    .site-card-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.9) 100%);
-    }
-
-    .site-card-image.fallback {
-      background: linear-gradient(135deg, #1a1030 0%, #2d1b4e 50%, #1a3a5c 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .site-card-image.fallback::after {
-      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.7) 100%);
-    }
-
-    .site-card-image.fallback svg {
-      width: 80px;
-      height: 80px;
-      opacity: 0.3;
-      filter: drop-shadow(0 0 20px rgba(100, 180, 255, 0.3));
-    }
-
-    .site-card-content {
-      padding: 1.5rem;
-      position: relative;
-    }
-
-    .site-card-tag {
-      display: inline-block;
-      padding: 0.2rem 0.8rem;
-      border: 1px solid var(--xb-accent);
-      color: var(--xb-accent);
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      border-radius: 4px;
-      margin-bottom: 0.8rem;
-    }
-
-    .site-card h3 {
-      font-family: 'Noto Serif SC', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--xb-text);
-    }
-
-    .site-card p {
-      font-size: 0.9rem;
-      color: var(--xb-text-dim);
-      line-height: 1.6;
-    }
-
-    .site-card-arrow {
-      position: absolute;
-      right: 1.5rem;
-      bottom: 1.5rem;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1px solid var(--xb-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--xb-accent);
-      transition: all 0.3s ease;
-    }
-
-    .site-card:hover .site-card-arrow {
-      background: var(--xb-accent);
-      color: var(--xb-deep);
-      border-color: var(--xb-accent);
-      box-shadow: 0 0 16px rgba(100, 180, 255, 0.4);
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 3rem 2rem;
-      color: var(--xb-text-dim);
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-    }
-
-    footer .footer-line {
-      width: 30px;
-      height: 1px;
-      background: var(--xb-border);
-      margin: 0 auto 1rem;
-    }
-
-    /* ===== BACK BUTTON ===== */
-    .back-link {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin: 2rem auto 0;
-      padding: 0.6rem 1.2rem;
-      color: var(--xb-accent);
-      text-decoration: none;
-      border: 1px solid var(--xb-border);
-      border-radius: 8px;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-    }
-
-    .back-link:hover {
-      background: rgba(100, 180, 255, 0.1);
-      border-color: var(--xb-accent);
-    }
-
-    .back-link svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 640px) {
-      .sites-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      .hero-title {
-        letter-spacing: 2px;
-      }
-
-      .sites-section {
-        padding: 2rem 1rem 3rem;
-      }
-    }
-  </style>
+/* ===== Responsive ===== */
+@media (max-width:640px){
+  .container{padding:4.5rem 0.8rem 1.5rem}
+  .timeline{padding-left:1.2rem}
+  .timeline-dot{left:-1.2rem;width:12px;height:12px}
+  .status-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
 </head>
-
 <body>
 
-  <!-- ===== XBrain Brand Logo (Fixed) ===== -->
-  <a class="xbrain-brand" href="../index.html" title="XBrain">
-    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
-          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
-          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
-        </radialGradient>
-        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#80c0ff" />
-          <stop offset="50%" stop-color="#4a90e2" />
-          <stop offset="100%" stop-color="#80c0ff" />
-        </linearGradient>
-        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
-      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
-        opacity="0.55" filter="url(#glow)" />
-      <g transform="matrix(0 -1 1 0 30 300)">
-        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
-        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
-        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
-      </g>
-      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
-        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
-        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
-      </g>
-      <g transform="matrix(0 -1 1 0 30 230)">
-        <circle cx="50" cy="50" r="50" fill="#0d1636" />
-        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
-        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
-          opacity="0.7" filter="url(#glow)" />
-        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
-        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
-        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
-        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
-        <circle cx="50" cy="50" r="4" fill="#ffffff" />
-      </g>
-      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
-        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
-        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
-      </g>
-    </svg>
-    <div class="xbrain-text"><span>X</span>Brain</div>
-  </a>
+<!-- XBrain Logo -->
+<a class="xbrain-brand" href="../index.html" title="XBrain">
+  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+    <defs>
+      <radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#64b4ff" stop-opacity="1"/><stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6"/><stop offset="100%" stop-color="#1a2a5e" stop-opacity="0"/></radialGradient>
+      <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#80c0ff"/><stop offset="50%" stop-color="#4a90e2"/><stop offset="100%" stop-color="#80c0ff"/></linearGradient>
+      <filter id="gf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <circle cx="176" cy="180" r="170" fill="url(#cg)" opacity="0.12"/>
+    <circle cx="176" cy="180" r="168" fill="none" stroke="url(#lg)" stroke-width="2" opacity="0.55" filter="url(#gf)"/>
+    <g transform="matrix(0 -1 1 0 30 300)"><rect fill="#2a4080" width="240" height="36" rx="4"/><rect fill="url(#lg)" width="240" height="3" rx="1.5" y="4" opacity="0.9"/><rect fill="url(#lg)" width="240" height="3" rx="1.5" y="29" opacity="0.6"/></g>
+    <g transform="matrix(0 -1 1 0 66 200)" opacity="0.35"><rect fill="#3a60a0" width="40" height="280" rx="3"/><rect fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5"/></g>
+    <g transform="matrix(0 -1 1 0 30 230)"><circle cx="50" cy="50" r="50" fill="#0d1636"/><circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8"/><circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#gf)"/><circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45"/><line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#gf)" opacity="0.9"/><circle cx="50" cy="50" r="4" fill="#fff"/></g>
+  </svg>
+  <div class="xbrain-text"><span>X</span>Brain</div>
+</a>
 
-  <!-- ===== HERO ===== -->
+<div class="container">
+
+  <!-- Hero -->
   <section class="hero" id="top">
-    <h1 class="hero-title">妈<span>健康档案</span></h1>
-    <p class="hero-subtitle">日常调理 · 健康管理</p>
-    <div class="hero-line"></div>
+    <h1>妈<span>个人健康档案</span></h1>
+    <p class="meta">广东省妇幼保健院 · 2024年2月 ~ 2026年5月 · 共23份检查报告</p>
   </section>
 
-  <!-- ===== SITES ===== -->
-  <section class="sites-section">
-    <div class="sites-grid">
-
-      <a class="site-card" href="./白发/index.html">
-        <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
-          </svg>
-        </div>
-        <div class="site-card-content">
-          <span class="site-card-tag">日常调理</span>
-          <h3>40岁中年女性白发全面调理方案</h3>
-          <p>以内调为主，外护为辅，标本兼治，循序渐进。涵盖饮食、生活习惯、头皮护理、中医调理和医学干预。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-    </div>
-
-    <div style="text-align:center;">
-      <a class="back-link" href="../index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        返回健康档案
-      </a>
+  <!-- 健康总览 -->
+  <section>
+    <h2 class="section-title">健康状况总览</h2>
+    <div class="status-grid">
+      <div class="status-item"><div class="sys-name">妇科（内膜）</div><div class="sys-val status-ok">息肉已消退</div></div>
+      <div class="status-item"><div class="sys-name">妇科（微生态）</div><div class="sys-val status-warn">菌群失衡</div></div>
+      <div class="status-item"><div class="sys-name">妇科（宫颈）</div><div class="sys-val status-ok">HPV阴性</div></div>
+      <div class="status-item"><div class="sys-name">乳腺</div><div class="sys-val status-warn">BI-RADS 3级</div></div>
+      <div class="status-item"><div class="sys-name">肺部</div><div class="sys-val status-warn">结节待复查</div></div>
+      <div class="status-item"><div class="sys-name">甲状腺</div><div class="sys-val status-warn">待超声定性</div></div>
+      <div class="status-item"><div class="sys-name">颈椎</div><div class="sys-val status-warn">椎间盘突出</div></div>
+      <div class="status-item"><div class="sys-name">泌尿系统</div><div class="sys-val status-ok">正常</div></div>
+      <div class="status-item"><div class="sys-name">甲功</div><div class="sys-val status-ok">正常</div></div>
+      <div class="status-item"><div class="sys-name">听力</div><div class="sys-val status-ok">正常</div></div>
+      <div class="status-item"><div class="sys-name">胃肠镜</div><div class="sys-val status-ok">已检查</div></div>
+      <div class="status-item"><div class="sys-name">整体评级</div><div class="sys-val status-ok">B+ 良好</div></div>
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="footer-line"></div>
-    <p>XBrain &copy; 2026</p>
-    <p>探索未知，连接世界</p>
-  </footer>
+  <!-- 深度分析报告 -->
+  <section>
+    <h2 class="section-title">深度医学分析报告</h2>
+    <div class="card">
+      <h1>个人健康档案与深度医学分析报告</h1>
+<blockquote><strong>患者概况</strong>：女性，42岁（1984年生），就诊于广东省妇幼保健院（越秀院区）
+<strong>报告覆盖时间</strong>：2024年2月 ~ 2026年5月
+<strong>报告总数</strong>：20份</blockquote>
+<hr>
+<h2>一、完整检查时间线</h2>
+<div class="table-wrap"><table>
+<tr><th>时间</th><th>检查项目</th><th>核心结论</th><th>健康状态</th></tr>
+<tr><td>2024-02-23</td><td>颈椎CT</td><td>C2/3椎间盘中央后型突出；颈椎曲度变直</td><td>⚠️ 需关注</td></tr>
+<tr><td>2024-07-02</td><td>胸部CT</td><td>双肺多发小结节（Lung-RADS 2级）；甲状腺左叶低密度影</td><td>⚠️ 需随访</td></tr>
+<tr><td>2024-12-11</td><td>乳腺X线</td><td>双侧BI-RADS 2级，c型致密乳腺，右乳单个良性钙化</td><td>✅ 良性</td></tr>
+<tr><td>2024-12-11</td><td>乳腺超声</td><td>双侧BI-RADS 3级，双乳实性小结节</td><td>⚠️ 短期随访</td></tr>
+<tr><td>2025-02-20</td><td>尿常规（1+2页）</td><td>核心指标正常，标本轻度污染（鳞状上皮↑）</td><td>✅ 正常</td></tr>
+<tr><td>2025-02-20</td><td>阴道微生态</td><td>微生态基本平衡，过氧化氢阳性（乳杆菌功能轻度下降）</td><td>⚠️ 轻度异常</td></tr>
+<tr><td>2025-02-22</td><td>HPV核酸分型</td><td>21种型别全部阴性</td><td>✅ 正常</td></tr>
+<tr><td>2025-06-18</td><td>甲功三项+β-HCG</td><td>甲状腺功能完全正常，排除妊娠</td><td>✅ 正常</td></tr>
+<tr><td>2025-06-18</td><td>尿常规A组（1+2页）</td><td>基本正常，白细胞酯酶弱阳性（生理性临界）</td><td>✅ 基本正常</td></tr>
+<tr><td>2025-06-18</td><td>尿常规B组（1+2页）</td><td>与A组一致，结果可重复性好</td><td>✅ 基本正常</td></tr>
+<tr><td>2026-04-13</td><td>耳内镜</td><td>双耳少许耵聍，左鼓膜轻度充血</td><td>⚠️ 轻微</td></tr>
+<tr><td>2026-04-13</td><td>纯音听力测试</td><td>双耳听力完全正常（均值19-21dB）</td><td>✅ 正常</td></tr>
+<tr><td>2026-05-12</td><td>妇科超声</td><td>宫腔多发稍高回声团，考虑内膜息肉；内膜13mm</td><td>⚠️ 需复查</td></tr>
+<tr><td>2026-05-12</td><td>乳腺超声</td><td>双侧BI-RADS 3级，多发良性囊肿</td><td>⚠️ 短期随访</td></tr>
+<tr><td>2026-05-12</td><td>阴道微生态（×2份）</td><td>**微生态失衡**：乳杆菌25%↓，杂菌75%↑，pH≥4.6</td><td>⚠️ 需干预</td></tr>
+<tr><td>**2026-05-29**</td><td>**妇科超声复查**</td><td>**宫腔未见明确息肉，内膜6mm，盆腔正常**</td><td>**✅ 已消退**</td></tr>
+</table></div>
+<hr>
+<h2>二、各系统分类深度分析</h2>
+<h3>（一）妇科系统</h3>
+<p><strong>涉及报告</strong>：妇科超声×2、阴道微生态×3、HPV检测×1</p>
+<h4>1. 子宫内膜息肉事件（已解决）</h4>
+<p>这是本次就诊周期中最核心的妇科问题，完整经过如下：</p>
+<ul>
+<li><strong>2026-05-12</strong>：因"下腹痛"就诊，经阴道超声发现宫腔内多个稍高回声团（最大11×6mm），内膜厚13mm，高度怀疑子宫内膜息肉。</li>
+<li><strong>2026-05-29</strong>：复查超声，内膜降至6mm，<strong>宫腔未见明确息肉样占位</strong>，仅内膜回声欠均匀。</li>
+</ul>
+<p><strong>专业判断</strong>：前次发现的"息肉"高度可能是分泌期子宫内膜生理性增厚形成的假性息肉样改变。内膜从13mm降至6mm，符合从分泌期到卵泡期的正常生理脱落规律。子宫各径线也呈生理性缩小（长径50→46mm），进一步支持这一判断。<strong>目前无需宫腔镜手术干预。</strong></p>
+<h4>2. 阴道微生态变化趋势</h4>
+<div class="table-wrap"><table>
+<tr><th>时间</th><th>乳杆菌占比</th><th>杂菌占比</th><th>pH值</th><th>过氧化氢</th><th>白细胞酯酶</th><th>综合评价</th></tr>
+<tr><td>2025-02-20</td><td>95%</td><td>5%</td><td>3.8-4.5</td><td>+</td><td>-</td><td>基本平衡</td></tr>
+<tr><td>2026-05-12</td><td>**25%**</td><td>**75%**</td><td>**≥4.6**</td><td>+</td><td>+</td><td>**失衡**</td></tr>
+</table></div>
+<p><strong>趋势分析</strong>：从2025年2月到2026年5月，阴道微生态从基本平衡恶化到明显失衡。乳杆菌占比从95%骤降至25%，杂菌从5%飙升至75%，pH值突破正常上限，并出现了轻度非特异性炎症（白细胞酯酶转阳）。</p>
+<p><strong>根本原因</strong>：患者存在<strong>阴道脱垂</strong>病史，阴道前后壁闭合不全，外界细菌易侵入，局部黏膜抵抗力下降。围绝经期（42岁）雌激素水平波动也是重要诱因。</p>
+<p><strong>积极信号</strong>：虽然菌群失调，但Nugent评分2分、AV评分1分仍在正常范围，<strong>未发展为细菌性阴道病或需氧菌性阴道炎</strong>，属于"亚健康"阶段，及时干预可逆转。</p>
+<h4>3. HPV与宫颈安全</h4>
+<p>2025年2月HPV 21型全阴，宫颈癌当前风险极低。<strong>但尚未完成TCT（液基细胞学）联合筛查</strong>，这是需要补做的检查项目。</p>
+<hr>
+<h3>（二）乳腺系统</h3>
+<p><strong>涉及报告</strong>：乳腺X线×1、乳腺超声×2</p>
+<div class="table-wrap"><table>
+<tr><th>时间</th><th>检查方式</th><th>BI-RADS分级</th><th>核心发现</th></tr>
+<tr><td>2024-12-11</td><td>X线</td><td>2级</td><td>右乳单个良性钙化灶</td></tr>
+<tr><td>2024-12-11</td><td>超声</td><td>3级</td><td>双乳实性小结节（右乳4×8mm，左乳4×5mm）</td></tr>
+<tr><td>2026-05-12</td><td>超声</td><td>3级</td><td>双乳多发良性囊肿（最大2×6mm）</td></tr>
+</table></div>
+<p><strong>关键变化</strong>：2024年的实性小结节在2026年变为囊性病变（囊肿），这是非常好的转变。实性结节变为囊肿提示原结节可能已自行消退，新发囊肿为良性病变，恶性风险极低。</p>
+<p><strong>持续特征</strong>：乳腺实质为c型（不均匀致密型），这类乳腺组织对X线检查的敏感性较低，需要长期坚持超声+X线联合筛查。</p>
+<p><strong>管理要点</strong>：BI-RADS 3级需6个月后复查超声确认稳定性。</p>
+<hr>
+<h3>（三）呼吸系统</h3>
+<p><strong>涉及报告</strong>：胸部CT（2024-07-02）</p>
+<ul>
+<li><strong>双肺下叶多发实性小结节</strong>：较大者7×4mm，Lung-RADS 2级，恶性概率<1%。无分叶、毛刺等恶性征象。</li>
+<li><strong>甲状腺左叶低密度影</strong>：直径约0.9cm，CT无法定性。</li>
+</ul>
+<p><strong>随访状态</strong>：</p>
+<ul>
+<li>肺结节：距检查已近2年，<strong>已超过Lung-RADS 2级推荐的12个月复查间隔</strong>，应尽快安排复查低剂量胸部CT。</li>
+<li>甲状腺：<strong>2025年6月甲功三项正常</strong>，但尚未做甲状腺超声，需补做以明确结节性质。</li>
+</ul>
+<hr>
+<h3>（四）骨骼系统（颈椎）</h3>
+<p><strong>涉及报告</strong>：颈椎CT（2024-02-23）</p>
+<ul>
+<li><strong>C2/3椎间盘中央后型突出</strong>：属高位颈椎，较少见。目前仅压迫硬膜囊，未累及神经根及骨性椎管。</li>
+<li><strong>颈椎生理曲度变直</strong>：长期低头伏案的典型表现，是颈椎病早期预警。</li>
+</ul>
+<p><strong>风险评估</strong>：目前无脊髓受压证据，进展风险较低。但C2/3为高位颈椎，需避免剧烈颈部活动和外伤。建议1-2年后复查颈椎MRI评估进展。</p>
+<hr>
+<h3>（五）内分泌系统</h3>
+<p><strong>涉及报告</strong>：甲功三项+β-HCG（2025-06-18）</p>
+<ul>
+<li>TSH 1.130 mIU/L、FT3 4.11 pmol/L、FT4 14.6 pmol/L —— <strong>全部正常</strong></li>
+<li>β-HCG <0.200 IU/L —— 排除妊娠</li>
+</ul>
+<p><strong>结论</strong>：甲状腺功能完全正常，临床疑似"甲亢"已被排除。若仍有心悸、多汗等症状，需考虑围绝经期综合征或自主神经功能紊乱。</p>
+<hr>
+<h3>（六）泌尿系统</h3>
+<p><strong>涉及报告</strong>：尿常规×6份（2025-02-20、2025-06-18 A/B组）</p>
+<p>三次尿常规结果高度一致：</p>
+<ul>
+<li>尿蛋白、潜血、葡萄糖、亚硝酸盐 —— <strong>全部阴性</strong></li>
+<li>尿红细胞、白细胞计数 —— <strong>正常范围</strong></li>
+<li>管型、结晶、真菌 —— <strong>全部阴性</strong></li>
+</ul>
+<p><strong>唯一轻微异常</strong>：2025-06-18白细胞酯酶弱阳性（±），但沉渣白细胞计数正常，为生理临界表现。</p>
+<p><strong>标本质量进步</strong>：鳞状上皮从2月的39.9↑降至6月的20.0（正常范围），提示留取方法改善。</p>
+<p><strong>核心结论</strong>：<strong>完全排除泌尿系统感染、肾脏损伤、结石风险</strong>。尿频症状与泌尿系统无关，明确为阴道脱垂导致的膀胱解剖位置改变。</p>
+<hr>
+<h3>（七）耳鼻喉系统</h3>
+<p><strong>涉及报告</strong>：耳内镜、纯音听力测试（2026-04-13）</p>
+<ul>
+<li><strong>听力</strong>：双耳完全正常（均值19-21dB），气骨导差0-1dB，传导和感音功能均完好。</li>
+<li><strong>耳内镜</strong>：仅见少量耵聍（未形成栓塞），左鼓膜轻度充血（多为自限性）。</li>
+<li><strong>耳鸣定性</strong>：排除传导性病因后，耳鸣为<strong>特发性感音神经性耳鸣</strong>，可能与内耳微循环、精神压力、睡眠等因素相关。</li>
+</ul>
+<hr>
+<h2>三、健康状况总览</h2>
+<h3>整体评估</h3>
+<div class="table-wrap"><table>
+<tr><th>系统</th><th>当前状态</th><th>风险等级</th><th>紧急程度</th></tr>
+<tr><td>妇科（内膜）</td><td>✅ 息肉已消退</td><td>低</td><td>常规随访</td></tr>
+<tr><td>妇科（微生态）</td><td>⚠️ 菌群失衡</td><td>中</td><td>需干预治疗</td></tr>
+<tr><td>妇科（宫颈）</td><td>✅ HPV阴性</td><td>低</td><td>需补做TCT</td></tr>
+<tr><td>乳腺</td><td>⚠️ BI-RADS 3级</td><td>低</td><td>6个月复查</td></tr>
+<tr><td>肺部</td><td>⚠️ 肺结节待复查</td><td>低-中</td><td>**已超期，尽快复查**</td></tr>
+<tr><td>甲状腺</td><td>⚠️ 结节待超声定性</td><td>低</td><td>需补做超声</td></tr>
+<tr><td>颈椎</td><td>⚠️ 椎间盘突出</td><td>低</td><td>1-2年复查MRI</td></tr>
+<tr><td>泌尿系统</td><td>✅ 正常</td><td>极低</td><td>无需复查</td></tr>
+<tr><td>甲状腺功能</td><td>✅ 正常</td><td>极低</td><td>常规体检</td></tr>
+<tr><td>听力</td><td>✅ 正常</td><td>极低</td><td>1-2年复查</td></tr>
+<tr><td>阴道脱垂</td><td>⚠️ 持续存在</td><td>中</td><td>需专科评估</td></tr>
+</table></div>
+<hr>
+<h2>四、重点关注问题（按优先级排序）</h2>
+<h3>第一优先级（需尽快处理）</h3>
+<ol>
+<li><strong>肺结节复查超期</strong>：2024年7月发现的肺结节，Lung-RADS 2级要求12个月复查，现已近2年，应<strong>尽快安排低剂量胸部CT复查</strong>。</li>
+<li><strong>阴道微生态失衡</strong>：乳杆菌严重不足，需启动乳杆菌制剂补充治疗，防止发展为细菌性阴道病。</li>
+</ol>
+<h3>第二优先级（1-3个月内完成）</h3>
+<ol>
+<li><strong>甲状腺超声</strong>：2024年胸部CT发现的甲状腺左叶低密度影（0.9cm），甲功虽正常但结构未评估。</li>
+<li><strong>宫颈TCT检查</strong>：HPV阴性但缺少细胞学联合筛查，不符合宫颈癌筛查完整标准。</li>
+<li><strong>乳腺超声复查</strong>：2026年5月BI-RADS 3级，6个月后（约2026年11月）需复查。</li>
+</ol>
+<h3>第三优先级（按计划随访）</h3>
+<ol>
+<li><strong>阴道脱垂</strong>：是尿频、菌群失调等多种症状的根本原因，需妇科盆底专科评估POP-Q分期。</li>
+<li><strong>颈椎MRI</strong>：距2024年2月CT已超2年，建议择期复查评估椎间盘进展。</li>
+<li><strong>耳鸣管理</strong>：若持续超3个月或加重，需完善耳声发射、ABR等专科检查。</li>
+</ol>
+<hr>
+<h2>五、异常指标跟踪表</h2>
+<div class="table-wrap"><table>
+<tr><th>指标</th><th>2024-02</th><th>2024-07</th><th>2024-12</th><th>2025-02</th><th>2025-06</th><th>2026-04</th><th>2026-05</th><th>趋势</th></tr>
+<tr><td>子宫内膜厚度</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>13→6mm</td><td>✅ 消退</td></tr>
+<tr><td>阴道乳杆菌占比</td><td>-</td><td>-</td><td>-</td><td>95%</td><td>-</td><td>-</td><td>25%</td><td>⚠️ 下降</td></tr>
+<tr><td>阴道pH</td><td>-</td><td>-</td><td>-</td><td>3.8-4.5</td><td>-</td><td>-</td><td>≥4.6</td><td>⚠️ 升高</td></tr>
+<tr><td>乳腺BI-RADS</td><td>-</td><td>-</td><td>3级</td><td>-</td><td>-</td><td>-</td><td>3级</td><td>→ 稳定</td></tr>
+<tr><td>肺结节大小</td><td>-</td><td>7×4mm</td><td>-</td><td>-</td><td>-</td><td>-</td><td>**未复查**</td><td>⚠️ 超期</td></tr>
+<tr><td>甲功TSH</td><td>-</td><td>-</td><td>-</td><td>-</td><td>1.130</td><td>-</td><td>-</td><td>✅ 正常</td></tr>
+<tr><td>尿蛋白</td><td>-</td><td>-</td><td>-</td><td>阴性</td><td>阴性</td><td>-</td><td>-</td><td>✅ 稳定</td></tr>
+<tr><td>双耳听力</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>正常</td><td>-</td><td>✅ 正常</td></tr>
+</table></div>
+<hr>
+<h2>六、生活指导建议</h2>
+<h3>1. 饮食调理方案</h3>
+<div class="table-wrap"><table>
+<tr><th>方向</th><th>具体建议</th><th>原因</th></tr>
+<tr><td>抗炎饮食</td><td>增加深海鱼（三文鱼、鲭鱼）、亚麻籽、核桃摄入</td><td>Omega-3脂肪酸有助于减轻乳腺增生和全身慢性炎症</td></tr>
+<tr><td>乳腺保护</td><td>减少咖啡因（每日≤1杯）、控制高脂高糖食物</td><td>减少乳腺囊肿刺激和雌激素波动</td></tr>
+<tr><td>骨骼养护</td><td>每日补钙1000mg（牛奶、豆制品、深绿色蔬菜）+维生素D</td><td>42岁女性围绝经期骨量开始流失</td></tr>
+<tr><td>菌群维护</td><td>适量摄入含益生菌食品（酸奶、发酵食品）</td><td>有助于全身微生物群系平衡</td></tr>
+<tr><td>甲状腺保护</td><td>适量碘摄入（海产品），避免过量</td><td>甲状腺结节患者需注意碘平衡</td></tr>
+<tr><td>肺部保护</td><td>多摄入富含β-胡萝卜素的食物（胡萝卜、南瓜、西红柿）</td><td>抗氧化，保护肺组织</td></tr>
+</table></div>
+<h3>2. 运动健身指导</h3>
+<p><strong>推荐方案（每周）</strong>：</p>
+<ul>
+<li><strong>有氧运动</strong>：快走/慢跑/游泳 3-5次，每次30-45分钟 —— 增强心肺功能、调节免疫</li>
+<li><strong>盆底肌训练（凯格尔运动）</strong>：每日3组，每组10-15次，每次收缩5-10秒 —— <strong>这是最重要的针对性运动</strong>，可改善阴道脱垂、缓解尿频</li>
+<li><strong>颈部功能锻炼</strong>：缓慢前屈后伸（≤30°）、侧屈旋转，每组10次，每日2-3组 —— 维护颈椎稳定</li>
+<li><strong>力量训练</strong>：每周2次，以自重训练为主 —— 维持骨密度和肌肉量</li>
+</ul>
+<p><strong>禁忌</strong>：</p>
+<ul>
+<li>禁止快速甩头、剧烈颈部活动（颈椎C2/3突出风险）</li>
+<li>避免长期重体力劳动、提重物（加重阴道脱垂）</li>
+<li>减少长时间低头（每30分钟抬头活动）</li>
+</ul>
+<h3>3. 生活习惯改善</h3>
+<ul>
+<li><strong>睡眠</strong>：保证每晚7-8小时，规律作息。枕头高度8-10cm（保护颈椎）</li>
+<li><strong>耳机使用</strong>：遵循"60-60原则"（音量≤60%，时长≤60分钟），保护听力、减少耳鸣</li>
+<li><strong>阴道护理</strong>：仅温水清洁外阴，<strong>严禁阴道冲洗</strong>，穿纯棉透气内裤</li>
+<li><strong>乳房自检</strong>：每月月经后7-10天自检，关注有无新肿块、乳头溢液</li>
+<li><strong>戒烟/避二手烟</strong>：保护肺结节、乳腺、宫颈等多系统</li>
+<li><strong>减少雌激素暴露</strong>：不自行服用含雌激素的保健品</li>
+</ul>
+<h3>4. 心理健康维护</h3>
+<p>患者2年多来因多种症状反复就诊（下腹痛、尿频、耳鸣、甲亢疑虑等），多数检查结果为正常或良性。这提示可能存在一定程度的<strong>健康焦虑</strong>，建议：</p>
+<ul>
+<li>建立信心：绝大多数检查结果良好，整体健康状况远好于主观感受</li>
+<li>压力管理：耳鸣、失眠、心悸等症状与精神压力高度相关，可尝试冥想、正念呼吸</li>
+<li>围绝经期认知：42岁处于围绝经前期，激素波动会导致多种不适（月经变化、情绪波动、潮热等），这是正常生理过程</li>
+<li>社交支持：保持社交活动，避免过度关注身体症状</li>
+</ul>
+<hr>
+<h2>七、风险预警与就医指征</h2>
+<h3>需要立即就医的"红色信号"</h3>
+<div class="table-wrap"><table>
+<tr><th>系统</th><th>预警症状</th></tr>
+<tr><td>肺部</td><td>持续干咳&gt;2周、痰中带血、不明原因体重下降</td></tr>
+<tr><td>乳腺</td><td>乳房肿块迅速增大变硬、血性乳头溢液、皮肤橘皮样改变</td></tr>
+<tr><td>颈椎</td><td>上肢麻木无力、行走不稳（踩棉花感）、大小便异常</td></tr>
+<tr><td>妇科</td><td>不规则阴道出血、经量骤增、阴道分泌物恶臭</td></tr>
+<tr><td>听力</td><td>单侧听力突然下降、耳鸣伴眩晕头痛</td></tr>
+<tr><td>全身</td><td>持续发热、夜间盗汗、不明原因消瘦&gt;5%体重</td></tr>
+</table></div>
+<h3>需要计划就医的"黄色信号"</h3>
+<ul>
+<li>下腹痛持续不缓解或加重</li>
+<li>尿频加重、出现尿急/尿痛</li>
+<li>阴道分泌物增多伴异味</li>
+<li>耳鸣持续>3个月或进行性加重</li>
+<li>乳房囊肿区域触及新硬结</li>
+</ul>
+<hr>
+<h2>八、持续跟进方案</h2>
+<h3>未来12个月检查日历</h3>
+<div class="table-wrap"><table>
+<tr><th>时间</th><th>检查项目</th><th>目的</th><th>紧急度</th></tr>
+<tr><td>**2026年6-7月**</td><td>低剂量胸部CT</td><td>肺结节复查（已超期）</td><td>★★★★★</td></tr>
+<tr><td>**2026年6-7月**</td><td>甲状腺+颈部淋巴结超声</td><td>甲状腺结节定性</td><td>★★★★</td></tr>
+<tr><td>**2026年6-7月**</td><td>宫颈TCT</td><td>宫颈癌联合筛查完善</td><td>★★★★</td></tr>
+<tr><td>**2026年6月**</td><td>阴道微生态复查</td><td>评估乳杆菌治疗效果</td><td>★★★</td></tr>
+<tr><td>**2026年11月**</td><td>乳腺超声</td><td>BI-RADS 3级6月随访</td><td>★★★★</td></tr>
+<tr><td>**2026年12月**</td><td>乳腺X线（年度筛查）</td><td>年度乳腺联合筛查</td><td>★★★</td></tr>
+<tr><td>**2027年**</td><td>妇科超声（年度）</td><td>常规监测内膜及盆腔</td><td>★★</td></tr>
+<tr><td>**2027年**</td><td>颈椎MRI</td><td>椎间盘突出进展评估</td><td>★★</td></tr>
+<tr><td>**2027-2028年**</td><td>纯音听力测试</td><td>听力基线监测</td><td>★</td></tr>
+<tr><td>**2028年**</td><td>HPV+TCT联合筛查</td><td>若本次TCT正常，3年间隔</td><td>★</td></tr>
+</table></div>
+<h3>自我监控清单（日常/每周/每月）</h3>
+<p><strong>每日</strong>：</p>
+<ul>
+<li>凯格尔运动 3组</li>
+<li>饮水量 1500-2000ml</li>
+<li>记录有无异常出血、腹痛、耳鸣变化</li>
+</ul>
+<p><strong>每月</strong>：</p>
+<ul>
+<li>月经后7-10天乳房自检</li>
+<li>记录月经周期、经量变化（关注围绝经期征兆）</li>
+</ul>
+<p><strong>每季度</strong>：</p>
+<ul>
+<li>回顾体重变化</li>
+<li>评估耳鸣频率和严重程度</li>
+<li>评估尿频改善情况</li>
+</ul>
+<hr>
+<h2>九、综合总结</h2>
+<p><strong>好消息</strong>：</p>
+<ol>
+<li>绝大多数检查结果正常或良性——甲状腺功能正常、泌尿系统正常、听力正常、HPV阴性、肺结节低危</li>
+<li>疑似子宫内膜息肉已自然消退，无需手术</li>
+<li>乳腺结节从实性变为囊性（囊肿），是良性转变</li>
+<li>宫颈HPV全阴，宫颈癌风险极低</li>
+</ol>
+<p><strong>需要重视的问题</strong>：</p>
+<ol>
+<li><strong>阴道微生态失衡</strong>是当前最需要主动干预的问题，乳杆菌严重不足，需及时补充治疗</li>
+<li><strong>肺结节复查已超期</strong>，应尽快安排</li>
+<li><strong>阴道脱垂</strong>是多种症状（尿频、菌群失调）的根本原因，建议妇科盆底专科系统评估</li>
+<li>多项检查（甲状腺超声、TCT）尚未完成，需补做以完善健康基线</li>
+</ol>
+<p><strong>总体健康评级</strong>：<strong>B+（良好）</strong></p>
+<p>患者整体无器质性重大疾病，多个系统检查结果正常或良性。主要问题集中在阴道微生态失衡（可逆转）、盆底功能障碍（需专科评估）和少数检查项目的随访完善。保持积极心态、规律随访，预后良好。</p>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告为基于所有提供检查资料的综合分析与健康建议，仅供临床参考，不替代执业医师的当面诊断与治疗方案。具体诊疗决策请务必遵循主诊医师的专业判断与医嘱。</blockquote>
+    </div>
+  </section>
 
-  <!-- ===== Scripts ===== -->
-  <script>
-    (function () {
-      // ===== Logo Scroll Fade =====
-      var logo = document.querySelector('.xbrain-brand');
-      var ticking = false;
+  <!-- 时间线 -->
+  <section>
+    <h2 class="section-title">检查报告时间线</h2>
+    <div class="timeline-controls">
+      <input type="text" class="search-box" id="searchBox" placeholder="搜索检查项目、医院、关键词...">
+      <div class="year-filters">
+        <button class="year-tag active" data-year="all">全部</button>
+        <button class="year-tag" data-year="2026">2026</button>
+<button class="year-tag" data-year="2025">2025</button>
+<button class="year-tag" data-year="2024">2024</button>
+      </div>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="timeline-item" data-date="2026-05-29" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-29</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">妇科超声</h4>
+    <img src="./20260529-妇科超声-省妇幼.png" alt="妇科超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>妇科超声复查报告解读</h1>
+<h2>一、基本信息</h2>
+<ul>
+<li>患者信息：女，42岁</li>
+<li>医疗机构：广东省妇幼保健院（妇科门诊·越秀院区）</li>
+<li>检查项目：经阴道妇科彩色多普勒超声检查</li>
+<li>临床拟诊：子宫内膜息肉？</li>
+<li>报告日期：2026-05-29</li>
+<li>检查背景：本次为宫腔异常回声的针对性复查评估</li>
+</ul>
+<h2>二、检查方法说明</h2>
+<p>经阴道彩色多普勒超声是评估宫腔、子宫肌层及附件病变的首选影像学手段，探头贴近盆腔脏器，分辨率优于经腹超声，可清晰显示子宫内膜厚度、回声特征与宫腔占位，也可准确评估卵巢形态及附件区病变。本次检查针对此前提示的“宫腔稍高回声、可疑内膜息肉”开展复查，用于动态观察内膜与宫腔病变的转归。</p>
+<h2>三、本次超声检查所见</h2>
+<ol>
+<li><strong>子宫</strong>：后位，长径46mm，前后径39mm，横径50mm；子宫肌层回声均匀，未见肌瘤、腺肌病等异常占位回声。</li>
+<li><strong>子宫内膜</strong>：厚度6mm，内膜回声欠均匀，未探及明确的局限性高回声团或息肉样占位病变。</li>
+<li><strong>卵巢与附件</strong>：左侧卵巢大小21mm×9mm，右侧卵巢大小23mm×15mm，双侧卵巢形态、大小未见异常；双侧附件区未探及明显包块、囊肿及异常积液征象。</li>
+</ol>
+<h2>四、与前次检查（2026-05-12）对比分析</h2>
+<div class="table-wrap"><table>
+<tr><th>评估项目</th><th>2026-05-12检查结果</th><th>2026-05-29复查结果</th><th>变化解读</th></tr>
+<tr><td>子宫长径</td><td>50mm</td><td>46mm</td><td>略缩小，与月经周期不同阶段的子宫充血状态差异相关，属生理性波动</td></tr>
+<tr><td>子宫内膜厚度</td><td>13mm</td><td>6mm</td><td>显著变薄，符合子宫内膜从分泌期到卵泡期的生理性脱落规律</td></tr>
+<tr><td>宫腔回声特征</td><td>可见多个稍高回声团，最大约11×6mm，考虑内膜息肉</td><td>未探及明确局限性高回声团，仅内膜回声欠均匀</td><td>原高回声团未显影，考虑为内膜分泌期增厚形成的假性息肉样改变，或小型息肉已随月经期内膜脱落自然消退</td></tr>
+<tr><td>左侧卵巢</td><td>26mm×14mm</td><td>21mm×9mm</td><td>径线略缩小，与卵巢周期中卵泡发育、黄体萎缩的生理变化相关</td></tr>
+<tr><td>右侧卵巢</td><td>29mm×21mm</td><td>23mm×15mm</td><td>径线略缩小，属卵巢周期的正常波动范围</td></tr>
+</table></div>
+<h2>五、综合诊断解读</h2>
+<h3>超声提示</h3>
+<p>子宫大小正常，双侧附件未探及明显包块。</p>
+<h3>专业解读</h3>
+<ol>
+<li><strong>内膜息肉样病变大概率消退</strong>：本次复查未发现明确的内膜息肉样占位，结合内膜厚度显著下降，高度提示前次的高回声团为分泌期子宫内膜生理性增厚、回声不均形成的假息肉表现，或体积较小的内膜息肉已随月经内膜脱落自然消失，目前无明确的内膜息肉影像学证据。</li>
+<li><strong>内膜回声欠均匀</strong>：仅提示月经周期中内膜修复阶段的回声不均，无明确病理意义，多可随后续月经周期自行恢复均匀。</li>
+<li><strong>盆腔器官无器质性病变</strong>：子宫肌层、双侧卵巢及附件均未发现肌瘤、囊肿、包块等器质性异常，整体盆腔结构未见明显病理改变。</li>
+</ol>
+<h2>六、临床建议</h2>
+<ol>
+<li><strong>复查时机确认</strong></li>
+</ol>
+<p>   - 若本次检查为月经干净后3~7天内完成，结果参考价值高，可确认息肉已消退，暂无需特殊干预。</p>
+<p>   - 若本次检查并非月经干净后的卵泡期，建议在下一次月经干净后3~5天内再次复查经阴道超声，进一步确认内膜状态。</p>
+<ol>
+<li><strong>症状导向管理</strong></li>
+</ol>
+<p>   - 若无经期延长、经量增多、不规则阴道出血等异常症状，以定期观察随访为主。</p>
+<p>   - 若存在反复不规则出血、经期淋漓不尽等表现，可进一步行宫腔镜检查明确宫腔内情况。</p>
+<ol>
+<li><strong>随访计划</strong></li>
+</ol>
+<p>建议6~12个月后常规复查妇科超声，监测子宫内膜及盆腔器官状态；期间如有异常出血、腹痛等不适，及时就诊。</p>
+<ol>
+<li><strong>妇科健康综合管理</strong></li>
+</ol>
+<p>结合此前阴道微生态失衡的情况，建议定期完成妇科常规筛查，同步关注盆底功能、阴道菌群状态，维护整体妇科健康。</p>
+<hr>
+<h2>免责声明</h2>
+<p>本报告为本次超声检查结果的专业解读与临床参考，不替代执业医师的当面诊断与诊疗方案。具体诊疗及随访安排请务必遵循妇科主诊医师的专业指导。</p></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-15" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-15</span>
+      <span class="timeline-tag">中山一院</span>
+    </div>
+    <h4 class="timeline-title">胃镜</h4>
+    <img src="./20260515-胃镜-中山一院.png" alt="胃镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>麻醉胃镜检查报告解读</h1>
+<h2>一、基本信息</h2>
+<ul>
+<li>患者信息：女，42岁</li>
+<li>检查日期：2026-05-15</li>
+<li>送检科室：消化专科</li>
+<li>检查项目：麻醉（无痛）胃镜检查</li>
+<li>操作情况：进镜至十二指肠降部，操作过程顺利，术中无并发症</li>
+</ul>
+<h2>二、检查方法说明</h2>
+<p>无痛胃镜通过静脉输注短效麻醉药物，使患者在镇静睡眠状态下接受检查，经口腔置入高清电子内镜，依次完整观察食管、贲门、胃底、胃体、胃角、胃窦、幽门、十二指肠球部及降部的黏膜状态，可精准识别炎症、糜烂、溃疡、息肉、肿瘤等病变，并可根据临床需求同步开展组织活检、止血、息肉摘除等镜下操作。</p>
+<p>本次报告标注的“内镜下HP感染”为内镜医师基于黏膜形态的经验性判断，未行活检病理或快速尿素酶试验，不能作为幽门螺杆菌感染的确诊依据。</p>
+<h2>三、内镜下所见</h2>
+<div class="table-wrap"><table>
+<tr><th>检查部位</th><th>内镜表现</th><th>结果判定</th></tr>
+<tr><td>食管</td><td>黏膜光滑，黏膜下血管网清晰，未见糜烂、溃疡与异常隆起</td><td>正常</td></tr>
+<tr><td>贲门</td><td>齿状线清晰，贲门口收缩正常</td><td>正常</td></tr>
+<tr><td>胃底</td><td>黏膜未见明显异常</td><td>正常</td></tr>
+<tr><td>胃体</td><td>黏膜充血水肿，可见胆汁斑残留</td><td>异常</td></tr>
+<tr><td>胃角</td><td>黏膜未见明显异常</td><td>正常</td></tr>
+<tr><td>胃窦</td><td>黏膜充血水肿，红白相间，以红为主</td><td>异常</td></tr>
+<tr><td>幽门</td><td>结构及开闭未见明显异常</td><td>正常</td></tr>
+<tr><td>十二指肠球部</td><td>黏膜未见异常，球腔无畸形</td><td>正常</td></tr>
+<tr><td>十二指肠降部</td><td>黏膜未见异常，主乳头可见</td><td>正常</td></tr>
+</table></div>
+<h2>四、异常结果解读</h2>
+<h3>1. 慢性非萎缩性胃炎</h3>
+<p>胃体、胃窦黏膜充血水肿，胃窦黏膜红白相间、以红为主，是慢性非萎缩性胃炎（原称慢性浅表性胃炎）的典型内镜表现。“非萎缩”提示胃黏膜腺体尚未出现萎缩性改变，胃的分泌功能基本保留，病变程度较轻，是临床最常见的慢性胃炎类型。</p>
+<h3>2. 胆汁反流</h3>
+<p>胃体内可见胆汁斑残留，是胆汁反流的直接内镜证据。胆汁自十二指肠逆向反流进入胃腔，其中的胆汁酸、胆盐成分会破坏胃黏膜屏障，引发黏膜充血、水肿等化学性炎症，是本次胃炎的重要诱发因素。</p>
+<p>胆汁反流常见于幽门括约肌功能失调、胃动力不足、胆囊功能异常、长期腹压增高等情况。</p>
+<h3>3. 幽门螺杆菌相关说明</h3>
+<p>报告标注“内镜下HP感染：阴性”，但同时注明幽门螺杆菌“未检测”，即本次检查未取活检行快速尿素酶试验或病理染色检测，仅为内镜下肉眼经验判断，准确性有限，无法完全排除幽门螺杆菌感染。</p>
+<h2>五、内镜诊断</h2>
+<p><strong>慢性非萎缩性胃炎伴胆汁反流</strong></p>
+<h2>六、临床建议</h2>
+<h3>1. 药物治疗建议（需在消化科医师指导下使用）</h3>
+<ul>
+<li>促胃动力药物：可选用莫沙必利、伊托必利等，促进胃排空，减少胆汁在胃内停留时间，改善反流状态。</li>
+<li>胃黏膜保护剂：可选用铝碳酸镁、瑞巴派特等，其中铝碳酸镁可直接结合胆汁酸，减轻胆汁对胃黏膜的损伤。</li>
+<li>抑酸药物：若伴随明显反酸、烧心、上腹痛症状，可短期使用质子泵抑制剂类药物；症状较轻者无需长期强效抑酸治疗。</li>
+<li>若胆汁反流症状顽固，可经医生评估后使用熊去氧胆酸类药物，优化胆汁成分，降低黏膜损伤性。</li>
+</ul>
+<h3>2. 饮食与生活方式调整</h3>
+<ul>
+<li>饮食规避：减少高脂、油炸、辛辣刺激食物摄入，避免咖啡、浓茶、甜食、巧克力等易降低括约肌张力、加重反流的食物。</li>
+<li>进食习惯：少食多餐，避免暴饮暴食；睡前2~3小时尽量不进食，减少夜间反流风险。</li>
+<li>体位管理：餐后避免立即平卧，可适当站立或慢走；睡眠时可将床头抬高15~20cm，减轻夜间反流。</li>
+<li>减少腹压增高因素：避免长期便秘、久坐，避免穿过紧的衣物束腰，维持健康体重。</li>
+</ul>
+<h3>3. 幽门螺杆菌检测建议</h3>
+<p>建议补充行C13或C14呼气试验，准确排查幽门螺杆菌感染。若结果为阳性，需遵医嘱行规范四联根除治疗，可进一步改善胃炎、降低远期胃部病变风险。</p>
+<h3>4. 复查与进一步评估</h3>
+<ul>
+<li>若无特殊不适，可1~2年后复查胃镜，评估胃炎及胆汁反流改善情况，监测有无黏膜萎缩等进展。</li>
+<li>若出现持续上腹痛、黑便、呕血、体重明显下降等情况，需及时就诊复查。</li>
+<li>若胆汁反流反复发作，建议完善腹部超声检查，评估胆囊功能、有无胆囊结石等胆道系统异常，排查反流诱因。</li>
+</ul>
+<hr>
+<h2>免责声明</h2>
+<p>本报告为本次胃镜检查结果的专业解读与参考分析，不替代执业医师的当面诊断与治疗方案。具体用药及诊疗安排请务必遵循消化科主诊医师的专业指导。</p></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-15" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-15</span>
+      <span class="timeline-tag">中山一院</span>
+    </div>
+    <h4 class="timeline-title">肠镜</h4>
+    <img src="./20260515-肠镜-中山一院.png" alt="肠镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>麻醉结肠镜检查报告解读</h1>
+<h2>一、基本信息</h2>
+<ul>
+<li>患者信息：女，42岁</li>
+<li>检查日期：2026-05-15</li>
+<li>医疗机构：中山大学附属第一医院</li>
+<li>送检科室：消化专科</li>
+<li>检查项目：麻醉（无痛）结肠镜检查</li>
+</ul>
+<h2>二、检查方法说明</h2>
+<p>无痛结肠镜通过静脉输注短效麻醉药物，使患者在镇静睡眠状态下完成检查，可减少操作不适感，同时便于内镜医生细致观察全结肠黏膜。检查采用高清电子内镜，循腔进镜覆盖直肠、全结肠至回肠末端，可发现息肉、炎症、肿瘤等黏膜病变，并可同步完成息肉摘除、组织活检等镜下操作。</p>
+<p>本次肠道准备质量采用<strong>波士顿肠道准备量表（BBPS）</strong>评估：将结肠分为右半结肠、横结肠、左半结肠3段，每段按清洁度计0~3分，总分0~9分，总分≥6分为合格，可满足病变筛查需求。</p>
+<h2>三、肠道准备评估</h2>
+<div class="table-wrap"><table>
+<tr><th>结肠分段</th><th>BBPS评分</th><th>清洁度说明</th></tr>
+<tr><td>右半结肠</td><td>2分</td><td>基本清洁，可见少量液体残留，不影响黏膜观察</td></tr>
+<tr><td>横结肠</td><td>2分</td><td>基本清洁，黏膜可清晰显露</td></tr>
+<tr><td>左半结肠</td><td>2分</td><td>基本清洁，黏膜可清晰显露</td></tr>
+<tr><td>**总分**</td><td>**6分**</td><td>**肠道准备合格**</td></tr>
+</table></div>
+<p>本次肠道准备达合格标准，可完整完成全结肠检查；少量残留液体不影响主体病变识别，若需进一步提升微小病变检出率，下次检查可优化肠道准备方案。</p>
+<h2>四、内镜下所见</h2>
+<p>内镜循腔进镜顺利，成功到达回肠末端，各段肠道观察结果如下：</p>
+<ol>
+<li>回肠末端、回盲瓣、盲肠、阑尾开口：黏膜形态、色泽正常，未见异常隆起、糜烂或溃疡</li>
+<li>升结肠、横结肠、降结肠、乙状结肠：黏膜光滑，血管纹理清晰，未见息肉、憩室、充血水肿等异常</li>
+<li>直肠：可见1枚息肉，大小约0.3×0.3cm，山田I型，NICE分型为1型，已行内镜下钳除，标本送病理检查</li>
+<li>肛管：结构及黏膜未见异常</li>
+</ol>
+<h2>五、直肠息肉专项解读</h2>
+<h3>（一）息肉核心参数</h3>
+<div class="table-wrap"><table>
+<tr><th>参数项</th><th>具体结果</th></tr>
+<tr><td>位置</td><td>直肠</td></tr>
+<tr><td>大小</td><td>约0.3×0.3cm</td></tr>
+<tr><td>形态分型</td><td>山田I型</td></tr>
+<tr><td>内镜下分型</td><td>NICE 1型</td></tr>
+<tr><td>处理方式</td><td>内镜下钳除，标本送检病理</td></tr>
+</table></div>
+<h3>（二）分型临床意义</h3>
+<ol>
+<li><strong>山田分型</strong></li>
+</ol>
+<p>山田I型为广基扁平隆起，隆起基底部与周围黏膜平缓过渡、无明确分界，无蒂结构。该分型息肉多为良性病变，恶性转化风险极低。</p>
+<ol>
+<li><strong>NICE分型</strong></li>
+</ol>
+<p>NICE 1型内镜下表现为黏膜血管纹理规则、无异常结构与异常着色，提示病变倾向为增生性息肉或炎性息肉，属于良性非腺瘤性病变，恶性概率极低。</p>
+<h2>六、内镜诊断</h2>
+<p><strong>直肠息肉（CFP）</strong></p>
+<h2>七、临床建议</h2>
+<ol>
+<li><strong>跟进病理结果</strong></li>
+</ol>
+<p>息肉已完整钳除并送病理检查，病理诊断是判断病变性质的金标准。结合内镜下形态特征，该息肉良性可能性极高，请以最终病理报告为准，病理结果将决定后续复查间隔。</p>
+<ol>
+<li><strong>术后护理要点</strong></li>
+</ol>
+<ul>
+<li>饮食：检查当日可进食温凉流质饮食，术后1~2天逐步过渡至半流质、软质饮食，避免辛辣刺激、坚硬及粗纤维食物。</li>
+<li>活动：术后24小时内避免剧烈运动、重体力劳动及增加腹压的动作，降低创面出血风险。</li>
+<li>病情观察：留意有无便血、持续性腹痛、发热等表现；若出现大量鲜血便、剧烈腹痛，请立即就医排查迟发性出血、肠穿孔。本息肉体积小、钳除创伤小，并发症发生率极低。</li>
+</ul>
+<ol>
+<li><strong>复查随访方案</strong></li>
+</ol>
+<ul>
+<li>若病理为增生性/炎性息肉：建议3~5年后复查结肠镜。</li>
+<li>若病理为腺瘤性息肉：建议1~3年后复查结肠镜。</li>
+<li>若病理提示高级别上皮内瘤变等异常：需遵医嘱缩短复查周期，密切随访。</li>
+</ul>
+<ol>
+<li><strong>肠道健康管理</strong></li>
+</ol>
+<p>日常增加膳食纤维摄入，多食用新鲜蔬果、全谷物类食物，减少红肉、加工肉类摄入；保持规律运动，维持健康体重，避免长期便秘，降低肠道息肉复发风险。</p>
+<ol>
+<li><strong>肠道准备优化建议</strong></li>
+</ol>
+<p>下次结肠镜检查前，可提前2天开始低渣饮食，遵医嘱调整泻药服用方案（如分次服用），进一步提升肠道清洁度，更利于微小病变的检出。</p>
+<hr>
+<h2>免责声明</h2>
+<p>本报告为本次内镜检查结果的专业解读与参考分析，不替代执业医师的当面诊断与治疗方案。具体诊疗及随访安排请务必遵循消化科主诊医师的专业指导。</p></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-15" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-15</span>
+      <span class="timeline-tag">中山一院</span>
+    </div>
+    <h4 class="timeline-title">直肠病理</h4>
+    <img src="./20260515-直肠病理-中山一院.png" alt="直肠病理" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>直肠息肉病理活体组织诊断报告解读</h1>
+<h2>一、基本信息</h2>
+<ul>
+<li>患者信息：女，42岁</li>
+<li>送检医疗机构：中山大学附属第一医院</li>
+<li>送检科室：消化专科</li>
+<li>标本类型：直肠息肉内镜切除小标本</li>
+<li>收到日期：2026-05-15</li>
+<li>临床诊断：直肠息肉（CFP）</li>
+</ul>
+<h2>二、检查方法说明</h2>
+<p>病理诊断是结直肠息肉性质判定的金标准。本次送检的内镜下钳除息肉标本，经10%中性福尔马林固定、石蜡包埋、连续切片、HE染色后，由病理医师在光学显微镜下观察组织形态与细胞结构，明确病变的组织学类型与良恶性质。因本次标本体积极小，行<strong>全埋制片</strong>处理，即全部标本均包埋切片，确保无病变遗漏，诊断结果准确可靠。</p>
+<h2>三、肉眼所见</h2>
+<p>送检（直肠）灰白软组织1粒，直径约0.2cm，标本形态完整，无坏死、破溃表现，全部组织包埋制片。</p>
+<blockquote>注：病理标本测量尺寸小于肠镜下测量尺寸，是组织经福尔马林固定后发生生理性收缩的正常现象，与内镜下0.3×0.3cm的描述相符。</blockquote>
+<h2>四、病理诊断</h2>
+<p><strong>（直肠）增生性息肉</strong></p>
+<h2>五、病理专业解读</h2>
+<h3>1. 病变核心性质</h3>
+<p>增生性息肉是结直肠最常见的<strong>非肿瘤性良性息肉</strong>，不属于癌前病变。镜下可见腺体结构规则、腺上皮呈锯齿状排列、杯状细胞丰富，细胞无异型增生、无恶性形态特征，无癌变潜能。</p>
+<h3>2. 本例病变特点</h3>
+<ul>
+<li>部位与大小：息肉位于直肠，直径仅0.2cm，属于微小息肉，是增生性息肉的好发部位与常见大小。</li>
+<li>内镜匹配性：病理结果与内镜下山田I型、NICE 1型的良性内镜特征完全吻合。</li>
+<li>切除完整性：息肉已完整钳除，全埋制片下未见病变残留，切除效果确切。</li>
+</ul>
+<h3>3. 与腺瘤性息肉的核心区别</h3>
+<div class="table-wrap"><table>
+<tr><th>对比维度</th><th>增生性息肉（本例）</th><th>腺瘤性息肉</th></tr>
+<tr><td>病变性质</td><td>非肿瘤性，良性</td><td>肿瘤性，属于癌前病变</td></tr>
+<tr><td>癌变风险</td><td>无（左半结肠微小息肉）</td><td>存在，与大小、绒毛成分占比正相关</td></tr>
+<tr><td>核心组织学表现</td><td>腺体锯齿状改变，细胞无异型</td><td>腺上皮异型增生，呈管状/绒毛状结构</td></tr>
+<tr><td>常规随访间隔</td><td>3~5年</td><td>1~3年</td></tr>
+</table></div>
+<h2>六、临床建议</h2>
+<ol>
+<li><strong>无需追加治疗</strong></li>
+</ol>
+<p>本次病变为良性增生性息肉，已通过内镜下钳除完整切除，无需追加外科手术、药物或放化疗等治疗。</p>
+<ol>
+<li><strong>结肠镜随访方案</strong></li>
+</ol>
+<ul>
+<li>常规随访：建议3~5年后复查结肠镜，监测肠道有无新发息肉。</li>
+<li>高危调整：若一级亲属（父母、亲兄弟姐妹）有结直肠癌或腺瘤性息肉病史，可将复查间隔缩短至3年，复查时告知医生相关家族史。</li>
+</ul>
+<ol>
+<li><strong>肠道健康日常管理</strong></li>
+</ol>
+<p>日常饮食增加膳食纤维（新鲜蔬菜、水果、全谷物）占比，减少红肉、加工肉制品摄入；保持规律运动，维持健康体重，养成规律排便习惯，避免长期便秘，可降低肠道息肉新发风险。</p>
+<ol>
+<li><strong>复查注意事项</strong></li>
+</ol>
+<p>下次结肠镜检查前可优化肠道准备方案，提升肠道清洁度，更利于微小病变的检出，降低漏诊概率。</p>
+<hr>
+<h2>免责声明</h2>
+<p>本报告为本次病理检查结果的专业解读与临床参考，不替代执业医师的当面诊断与诊疗方案。具体随访与健康管理安排请务必遵循消化科主诊医师的专业指导。</p></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-12" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-12</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">阴道微生态2</h4>
+    <img src="./20260512-阴道微生态2-省妇幼.png" alt="阴道微生态2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>阴道微生态综合评价报告分析</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具机构：广东省妇幼保健院（广东省妇产医院、广东省儿童医院）临床检验中心（越秀院区）
+报告日期：2026-05-12
+患者信息：女，42岁
+送检科室：妇科门诊（越秀）
+检验项目：阴道微生态综合评价
+标本类型：阴道分泌物
+标本状态：合格
+标本号：99
+检测仪器：微生态[越秀]
+临床诊断：下腹痛</blockquote>
+<h2>一、检验结果完整汇总</h2>
+<h3>形态学评价</h3>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目名称</th><th>结果值</th><th>参考范围</th><th>结果评估</th></tr>
+<tr><td>1</td><td>清洁度</td><td>II度</td><td>I~II度</td><td>正常</td></tr>
+<tr><td>2</td><td>白细胞</td><td>少许</td><td>-</td><td>少量</td></tr>
+<tr><td>3</td><td>上皮细胞</td><td>++</td><td>++~++++</td><td>正常</td></tr>
+<tr><td>4</td><td>菌群密集度</td><td>+++</td><td>++~++++</td><td>正常上限</td></tr>
+<tr><td>5</td><td>菌群多样性</td><td>+++</td><td>++~++++</td><td>正常上限</td></tr>
+<tr><td>6</td><td>革兰阳性大杆菌比例</td><td>**25%**</td><td>70%~95%</td><td>明显降低</td></tr>
+<tr><td>7</td><td>其他细菌比例</td><td>**75%**</td><td>5%~30%</td><td>明显升高</td></tr>
+<tr><td>8</td><td>线索细胞</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>9</td><td>形似加德纳菌/拟杆菌</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>10</td><td>形似动弯杆菌</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>11</td><td>革兰阳性球菌</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>12</td><td>革兰阴性杆菌</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>13</td><td>真菌孢子</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>14</td><td>芽生孢子</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>15</td><td>假菌丝</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>16</td><td>滴虫</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>17</td><td>细胞内G⁻双球菌</td><td>-</td><td>-</td><td>阴性</td></tr>
+</table></div>
+<h3>评分系统</h3>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目名称</th><th>结果值</th><th>参考范围</th><th>结果评估</th></tr>
+<tr><td>1</td><td>Nugent评分</td><td>2分</td><td>0~3分</td><td>正常</td></tr>
+<tr><td>2</td><td>AV评分</td><td>1分</td><td>0~2分</td><td>正常</td></tr>
+</table></div>
+<h3>化学分析</h3>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目名称</th><th>结果值</th><th>参考范围</th><th>结果评估</th></tr>
+<tr><td>1</td><td>pH值</td><td>**≥4.6**</td><td>3.8~4.5</td><td>升高</td></tr>
+<tr><td>2</td><td>过氧化氢</td><td>**+**</td><td>-</td><td>阳性</td></tr>
+<tr><td>3</td><td>白细胞酯酶</td><td>**+**</td><td>-</td><td>阳性</td></tr>
+<tr><td>4</td><td>唾液酸苷酶</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>5</td><td>凝固酶</td><td>-</td><td>-</td><td>阴性</td></tr>
+<tr><td>6</td><td>β-葡萄糖醛酸酶</td><td>-</td><td>-</td><td>阴性</td></tr>
+</table></div>
+<h2>二、评价结论</h2>
+<p><strong>阴道微生态失衡</strong></p>
+<h2>三、异常指标专项分析</h2>
+<ol>
+<li><strong>革兰阳性大杆菌比例25%（明显降低）</strong></li>
+</ol>
+<p>   革兰阳性大杆菌（主要为产过氧化氢的乳杆菌）是阴道微生态的核心优势菌，通过产酸维持阴道酸性环境、分泌过氧化氢抑制致病菌生长，构成阴道最重要的防御屏障。比例从正常70%-95%降至25%，提示阴道核心防御功能显著下降。</p>
+<ol>
+<li><strong>其他细菌比例75%（明显升高）</strong></li>
+</ol>
+<p>   阴道内条件致病菌过度增殖，菌群结构发生根本性紊乱，但尚未形成单一优势致病菌，属于菌群失调的早期阶段。</p>
+<ol>
+<li><strong>pH值≥4.6（升高）</strong></li>
+</ol>
+<p>   乳杆菌产酸能力不足导致阴道酸性屏障破坏，pH值升高会进一步促进致病菌繁殖，增加感染风险。</p>
+<ol>
+<li><strong>过氧化氢阳性（+）</strong></li>
+</ol>
+<p>   直接提示产过氧化氢的乳杆菌数量减少或功能缺陷，与革兰阳性大杆菌比例降低的结果一致，是乳杆菌功能受损的特异性指标。</p>
+<ol>
+<li><strong>白细胞酯酶阳性（+）</strong></li>
+</ol>
+<p>   提示阴道黏膜存在轻度炎症反应，由失调的菌群刺激黏膜引起，并非特异性感染导致的炎症。</p>
+<ol>
+<li><strong>菌群密集度及多样性升高（正常上限）</strong></li>
+</ol>
+<p>   与非优势菌过度生长的病理状态相符，进一步佐证菌群结构紊乱。</p>
+<h2>四、整体结果综合解读</h2>
+<ol>
+<li><strong>结果可靠性验证</strong>：本报告与同日另一份阴道微生态报告所有指标数据完全一致，排除单次检测误差，结果准确可靠。</li>
+<li><strong>微生态状态分期</strong>：目前处于<strong>细菌性阴道病前期（阴道微生态亚健康状态）</strong>。Nugent评分2分、AV评分1分均在正常范围但接近临界值，尚未发展为明确的细菌性阴道病、需氧菌性阴道炎等病理性炎症。</li>
+<li><strong>特异性感染排除</strong>：线索细胞、真菌、滴虫、细胞内G⁻双球菌均为阴性，彻底排除外阴阴道假丝酵母菌病、滴虫性阴道炎、淋病奈瑟菌感染等常见特异性阴道炎。</li>
+<li><strong>诱因分析</strong>：患者存在阴道脱垂病史，阴道前后壁闭合不全，外界细菌易侵入定植，同时局部黏膜抵抗力下降，是本次菌群失调的重要诱因。</li>
+<li><strong>与临床症状的关联性</strong>：单纯轻度阴道微生态失衡一般不会引起明显下腹痛。若腹痛持续不缓解，需警惕菌群上行感染引起的子宫内膜炎、盆腔炎等盆腔炎症，或肠道、泌尿系统等非妇科病因。</li>
+</ol>
+<h2>五、医学建议</h2>
+<ol>
+<li><strong>阴道微生态修复治疗</strong></li>
+</ol>
+<p>   - 优先补充活性乳杆菌制剂：选用阴道用乳杆菌栓剂或胶囊，每晚1粒，连用7-10天为1疗程，重建阴道优势菌群。用药期间禁止使用抗生素及阴道冲洗。</p>
+<p>   - 辅助pH调节：可在医生指导下使用乳酸阴道凝胶，帮助快速恢复阴道酸性环境。</p>
+<ol>
+<li><strong>局部护理与生活方式调整</strong></li>
+</ol>
+<p>   - 严格禁止任何形式的阴道冲洗（包括清水、生理盐水及各类妇科洗液），避免进一步破坏微生态平衡。</p>
+<p>   - 每日仅用温水清洗外阴即可，保持外阴清洁干燥；穿纯棉透气内裤，每日更换，避免紧身化纤内裤及长期使用护垫。</p>
+<p>   - 治疗期间避免性生活，或全程使用避孕套；避免不洁性生活。</p>
+<ol>
+<li><strong>病因根治与预防复发</strong></li>
+</ol>
+<p>   - 阴道脱垂是菌群失调反复发作的重要危险因素，建议至妇科盆底专科就诊，完善盆底功能评估，必要时进行盆底肌康复训练或其他针对性治疗。</p>
+<ol>
+<li><strong>复查与随访</strong></li>
+</ol>
+<p>   - 停药后1个月（避开月经期）复查阴道微生态，评估乳杆菌比例、pH值及炎症指标恢复情况。</p>
+<p>   - 若复查仍提示微生态失衡，可再巩固1个疗程的乳杆菌治疗。</p>
+<ol>
+<li><strong>下腹痛相关排查</strong></li>
+</ol>
+<p>   - 若下腹痛持续不缓解、进行性加重，或出现发热、阴道分泌物增多伴异味、不规则阴道出血等症状，需及时就医，完善妇科查体、血常规、盆腔超声等检查，排除盆腔炎性疾病。</p>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次检验数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-12" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-12</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">阴道微生态</h4>
+    <img src="./20260512-阴道微生态-省妇幼.png" alt="阴道微生态" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>阴道微生态综合评价报告解读</h1>
+<p><strong>报告基本信息</strong></p>
+<ul>
+<li>患者信息：女，42岁</li>
+<li>送检科室：妇科门诊（越秀院区）</li>
+<li>标本类型：阴道分泌物</li>
+<li>标本状态：合格</li>
+<li>临床诊断：下腹痛</li>
+<li>检测项目：阴道微生态综合评价</li>
+<li>采样时间：2026-05-12</li>
+<li>报告时间：2026-05-12</li>
+<li>医疗机构：广东省妇幼保健院（越秀院区）</li>
+</ul>
+<hr>
+<h2>一、检测方法概述</h2>
+<p>本次检测采用形态学镜检联合生化酶学分析的综合评价体系：通过湿片镜检、革兰氏染色油镜观察评估阴道菌群的密度、多样性、优势菌占比及病原体形态；通过功能酶学试验检测阴道局部代谢产物与炎症标志物；配套Nugent评分、AV评分系统，对细菌性阴道病、需氧菌性阴道炎进行标准化诊断，全面反映阴道菌群结构、功能状态及局部免疫炎症水平。</p>
+<hr>
+<h2>二、检验结果</h2>
+<h3>（一）形态学镜检结果</h3>
+<div class="table-wrap"><table>
+<tr><th>检测项目</th><th>结果</th><th>参考范围</th><th>结果判定</th></tr>
+<tr><td>清洁度</td><td>II度</td><td>I~II度</td><td>正常</td></tr>
+<tr><td>白细胞</td><td>少许</td><td>-</td><td>少量</td></tr>
+<tr><td>上皮细胞</td><td>++</td><td>++~++++</td><td>正常</td></tr>
+<tr><td>菌群密集度</td><td>+++</td><td>++~++++</td><td>偏高</td></tr>
+<tr><td>菌群多样性</td><td>+++</td><td>++~++++</td><td>偏高</td></tr>
+<tr><td>革兰阳性大杆菌比例</td><td>25%</td><td>70%~95%</td><td>显著降低</td></tr>
+<tr><td>其他细菌比例</td><td>75%</td><td>5%~30%</td><td>显著升高</td></tr>
+<tr><td>线索细胞</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>形似加德纳菌/拟杆菌</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>形似动弯杆菌</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>革兰阳性球菌</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>革兰阴性杆菌</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>真菌孢子</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>芽生孢子</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>假菌丝</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>滴虫</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>细胞内G⁻双球菌</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+</table></div>
+<h3>（二）标准化评分结果</h3>
+<div class="table-wrap"><table>
+<tr><th>评分项目</th><th>得分</th><th>参考范围</th><th>结果判定</th></tr>
+<tr><td>Nugent评分</td><td>2分</td><td>0~3分（正常）</td><td>正常，无细菌性阴道病（BV）</td></tr>
+<tr><td>AV评分</td><td>1分</td><td>0~2分（正常）</td><td>正常，无需氧菌性阴道炎（AV）</td></tr>
+</table></div>
+<h3>（三）生化酶学检测结果</h3>
+<div class="table-wrap"><table>
+<tr><th>检测项目</th><th>结果</th><th>参考范围</th><th>结果判定</th></tr>
+<tr><td>pH值</td><td>≥4.6</td><td>3.8~4.5</td><td>升高</td></tr>
+<tr><td>过氧化氢</td><td>阳性（+）</td><td>阴性</td><td>异常</td></tr>
+<tr><td>白细胞酯酶</td><td>阳性（+）</td><td>阴性</td><td>异常</td></tr>
+<tr><td>唾液酸苷酶</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>凝固酶</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+<tr><td>β-葡萄糖醛酸酶</td><td>阴性</td><td>阴性</td><td>正常</td></tr>
+</table></div>
+<hr>
+<h2>三、综合评价结论</h2>
+<p><strong>阴道微生态失衡（菌群失调期，伴轻度非特异性炎症）</strong></p>
+<hr>
+<h2>四、异常指标解读</h2>
+<ol>
+<li><strong>菌群结构核心异常</strong></li>
+</ol>
+<p>革兰阳性大杆菌（以产过氧化氢的乳杆菌为核心，是阴道优势保护菌）占比仅25%，远低于正常参考下限70%；伴随其他杂菌占比升至75%，是本次微生态失衡的核心表现，提示阴道菌群的优势保护菌定植不足，杂菌过度增殖，菌群稳态被打破。</p>
+<ol>
+<li><strong>阴道屏障功能受损</strong></li>
+</ol>
+<p>阴道pH值升高至≥4.6，超出正常酸性环境范围，结合过氧化氢试验阳性，提示产H₂O₂乳杆菌的数量与功能均下降，阴道的酸性化学屏障、生物屏障功能减弱，对外源病原体的抵抗力降低。</p>
+<ol>
+<li><strong>局部轻度炎症反应</strong></li>
+</ol>
+<p>白细胞酯酶阳性、镜下白细胞少许，提示阴道黏膜存在轻度非特异性炎症反应，为菌群失调继发的黏膜免疫应答，并非特异性病原体感染导致的炎症。</p>
+<ol>
+<li><strong>特异性阴道炎排除</strong></li>
+</ol>
+<p>Nugent评分2分、线索细胞及相关致病菌阴性，不符合细菌性阴道病诊断标准；AV评分1分，排除需氧菌性阴道炎；真菌、滴虫、细胞内G⁻双球菌均为阴性，可排除外阴阴道假丝酵母菌病、滴虫性阴道炎及淋球菌感染。</p>
+<ol>
+<li><strong>临床症状关联分析</strong></li>
+</ol>
+<p>患者伴随下腹痛症状，需警惕阴道菌群失调的上行感染风险，可能与盆腔炎症、子宫内膜炎症存在关联；同时年龄因素（围绝经期雌激素波动）、盆底结构异常（如阴道壁脱垂）、近期用药史、免疫状态波动等均可能是菌群失衡的诱发因素。</p>
+<hr>
+<h2>五、临床干预建议</h2>
+<h3>1. 阴道微生态修复治疗</h3>
+<ul>
+<li>核心方案：补充阴道用乳杆菌活菌制剂（栓剂/胶囊剂型），直接补充优势乳杆菌，重建阴道菌群优势，疗程常规7~10天，建议月经干净后巩固2~3个周期，提升菌群稳态。</li>
+<li>辅助调节：可配合含乳酸的阴道外用凝胶，辅助纠正阴道pH值，恢复酸性环境，为乳杆菌定植创造条件。</li>
+</ul>
+<h3>2. 生活方式与局部护理指导</h3>
+<ul>
+<li>严格禁止阴道灌洗、阴道内冲洗，避免使用碱性洗护产品清洁外阴，仅用温水清洁外阴即可，减少对阴道微环境的人为破坏。</li>
+<li>日常选择透气棉质内衣，避免长期使用护垫，减少局部潮湿闷热环境。</li>
+<li>炎症期建议减少性生活频次，避免外源性因素干扰菌群修复。</li>
+</ul>
+<h3>3. 病因针对性干预</h3>
+<ul>
+<li>建议同步评估盆底功能与阴道壁脱垂情况，若存在盆底功能障碍、阴道脱垂，需通过盆底康复治疗（生物反馈、电刺激、凯格尔训练）或手术方式纠正诱因，从根源减少菌群失调复发。</li>
+<li>结合年龄与月经情况，评估雌激素水平，若存在围绝经期阴道黏膜萎缩，可在医生评估后局部使用雌激素制剂改善阴道黏膜状态，利于乳杆菌定植。</li>
+</ul>
+<h3>4. 症状管理与进一步检查</h3>
+<ul>
+<li>针对下腹痛症状，若疼痛持续、加重或伴随腰骶部坠胀、白带异常增多，建议完善妇科查体、盆腔超声检查，排查盆腔炎性疾病、子宫内膜炎等上行感染问题，必要时针对性抗感染治疗。</li>
+<li>可根据临床需求进一步行一般细菌培养、念珠菌鉴别培养等检查，排查隐匿性感染。</li>
+</ul>
+<h3>5. 随访复查</h3>
+<ul>
+<li>建议用药结束后1个月（避开月经期）复查阴道微生态综合评价，评估乳杆菌占比、pH值及炎症指标的恢复情况，根据复查结果调整后续巩固方案。</li>
+</ul>
+<hr>
+<h2>免责声明</h2>
+<p>本报告为基于本次送检标本的检验结果进行的专业解读与科普性分析，仅作临床参考，不替代执业医师的当面诊断与治疗方案。具体诊疗措施请务必遵循主诊医师的专业判断与医嘱。</p></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-12" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-12</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">妇科超声</h4>
+    <img src="./20260512-妇科超声-省妇幼.png" alt="妇科超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>经阴道妇科彩色多普勒超声检查报告分析</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具日期：2026-05-12 17:39:28
+医疗机构：广东省妇幼保健院（广东省妇产医院、广东省儿童医院）
+患者信息：女，42岁
+就诊科室：妇科门诊（越秀院区）
+检查项目：经阴道妇科彩色多普勒超声检查
+检查仪器：HITACHI超声诊断仪，探头C41V1
+临床诊断：下腹痛</blockquote>
+<h2>一、检查方法概述</h2>
+<p>经阴道超声（TVS）是妇科盆腔疾病诊断的首选影像学技术，探头直接置于阴道后穹隆，距离子宫、卵巢及盆腔组织更近，图像分辨率显著高于经腹超声，无需充盈膀胱，对子宫内膜病变、宫腔占位、卵巢微小病变及早期异位妊娠的诊断价值更高。彩色多普勒血流显像（CDFI）可评估病变内部及周边的血流灌注特征，辅助判断病变良恶性倾向。</p>
+<h2>二、超声检查所见完整汇总</h2>
+<h3>子宫及宫腔</h3>
+<ul>
+<li>子宫位置：后位（正常生理位置）</li>
+<li>子宫大小：长径50mm，前后径45mm，横径50mm（大小正常，符合育龄期女性子宫标准）</li>
+<li>宫肌层：回声均匀，未见明显肌瘤、腺肌症或局灶性异常回声</li>
+<li>子宫内膜：厚度13mm，回声欠均匀；宫腔内可见多个稍高回声团，最大者约11mm×6mm，边界清晰，内部回声分布均匀</li>
+<li>彩色多普勒：上述稍高回声团边缘及内部未探及明显彩色血流信号</li>
+</ul>
+<h3>双侧附件及盆腔</h3>
+<ul>
+<li>左卵巢大小：26mm×14mm（正常范围）</li>
+<li>右卵巢大小：29mm×21mm（正常范围）</li>
+<li>双侧附件区：未见明显囊性、实性或混合性包块</li>
+<li>盆腔：未见明显游离积液</li>
+</ul>
+<h2>三、超声诊断提示</h2>
+<p>宫腔内稍高回声团声像——内膜息肉？其他性质未排。</p>
+<p>双侧附件未见明显包块。</p>
+<p>建议经后复查。</p>
+<h2>四、异常发现专项分析</h2>
+<h3>1. 子宫内膜增厚（13mm）</h3>
+<ul>
+<li><strong>正常参考值</strong>：育龄期女性子宫内膜厚度随月经周期呈周期性变化：</li>
+</ul>
+<p>  - 月经期（第1-4天）：<5mm</p>
+<p>  - 增殖期（第5-14天）：4-10mm</p>
+<p>  - 分泌期（第15-28天）：8-16mm</p>
+<ul>
+<li><strong>临床意义</strong>：本次内膜厚度13mm处于分泌期正常上限。若检查时处于月经周期第15-28天，该厚度为生理性表现；若处于月经刚结束的增殖早期，则提示内膜异常增厚。</li>
+<li><strong>复查必要性</strong>：月经干净后3-5天子宫内膜最薄（通常<8mm），此时复查可排除生理性增厚的干扰，准确判断是否存在病理性内膜增厚。</li>
+</ul>
+<h3>2. 宫腔内多发稍高回声团（最大11mm×6mm）</h3>
+<ul>
+<li><strong>病变性质倾向性分析</strong>：</li>
+</ul>
+<p>  - <strong>高度提示子宫内膜息肉</strong>：超声表现完全符合子宫内膜息肉的典型特征——宫腔内边界清晰的稍高回声团、内部回声均匀、无明显血流信号。</p>
+<p>  - <strong>良性可能性大</strong>：病变血供不丰富，边界规则，无浸润性表现，恶性风险极低（育龄期女性子宫内膜息肉恶变率<1%）。</p>
+<ul>
+<li><strong>鉴别诊断</strong>：</li>
+</ul>
+<p>  - 粘膜下子宫肌瘤：多表现为低回声或等回声团，常向宫腔内突出，多数可见较丰富的血流信号</p>
+<p>  - 子宫内膜增生：多表现为内膜弥漫性增厚，回声不均，无明确局灶性占位</p>
+<p>  - 子宫内膜癌：多表现为内膜不规则增厚、回声杂乱，常伴丰富血流信号，多见于绝经后女性</p>
+<ul>
+<li><strong>大小评估</strong>：最大息肉直径11mm，属于中等大小息肉；多发息肉较单发息肉更易引起临床症状，且复发率相对较高。</li>
+</ul>
+<h2>五、整体结果综合解读</h2>
+<ol>
+<li><strong>正常结构评估</strong>：子宫大小、形态正常，宫肌层回声均匀，排除子宫肌瘤、子宫腺肌病；双侧卵巢大小正常，无囊肿、肿瘤等病变；盆腔无积液，排除明显盆腔炎症。</li>
+<li><strong>核心异常</strong>：唯一异常为宫腔内多发稍高回声团伴内膜增厚，高度提示子宫内膜息肉，无恶性病变的超声征象。</li>
+<li><strong>与临床症状的关联性</strong>：患者主诉下腹痛，但超声未发现盆腔炎、附件炎、卵巢囊肿蒂扭转等常见腹痛病因。子宫内膜息肉一般不引起明显下腹痛，多表现为月经量增多、经期延长、经间期不规则出血或不孕。建议进一步排查下腹痛的其他原因，如肠道疾病、泌尿系统疾病或盆腔慢性疼痛。</li>
+</ol>
+<h2>六、医学建议</h2>
+<ol>
+<li><strong>规范复查超声</strong></li>
+</ol>
+<p>   - 请于<strong>下次月经完全干净后3-5天内</strong>复查经阴道妇科超声，此时子宫内膜最薄，可清晰判断内膜厚度是否恢复正常，以及宫腔内稍高回声团是否持续存在。</p>
+<p>   - 若复查时内膜厚度<8mm且高回声团消失，提示为生理性内膜增厚或一过性内膜增生，无需特殊处理。</p>
+<ol>
+<li><strong>诊疗建议（如复查异常）</strong></li>
+</ol>
+<p>   - 若复查确认宫腔内息肉持续存在，建议行<strong>宫腔镜检查+子宫内膜息肉切除术</strong>。宫腔镜是诊断子宫内膜息肉的金标准，可在直视下完整切除息肉，避免盲目刮宫的漏诊风险。</p>
+<p>   - 切除的所有组织必须送<strong>病理组织学检查</strong>，明确病变性质，排除不典型增生或恶性病变。</p>
+<ol>
+<li><strong>症状管理与观察</strong></li>
+</ol>
+<p>   - 密切观察月经情况，记录是否出现月经量增多、经期延长、经间期点滴出血或不规则阴道流血等子宫内膜息肉典型症状。</p>
+<p>   - 若下腹痛持续不缓解或加重，建议进一步完善相关检查，排查消化系统、泌尿系统及盆腔慢性疼痛等其他病因。</p>
+<ol>
+<li><strong>定期随访</strong></li>
+</ol>
+<p>   - 子宫内膜息肉术后复发率约为10%-30%，术后建议每年复查1次妇科超声。</p>
+<p>   - 42岁处于围绝经期前期，激素水平波动较大，建议每年常规进行妇科体检，包括妇科超声、宫颈TCT/HPV筛查。</p>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次超声检查数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-12" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-05-12</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">乳腺超声</h4>
+    <img src="./20260512-乳腺超声-省妇幼.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>乳腺及其引流区淋巴结彩色多普勒超声检查报告分析</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具日期：2026-05-12 17:38:48
+医疗机构：广东省妇幼保健院（广东省妇产医院、广东省儿童医院）
+患者信息：女，42岁
+就诊科室：妇科门诊（越秀院区）
+检查项目：乳腺及其引流区淋巴结彩色多普勒超声检查
+检查仪器：HITACHI超声诊断仪，探头L55
+临床诊断：下腹痛</blockquote>
+<h2>一、检查方法概述</h2>
+<p>乳腺超声是乳腺疾病筛查与诊断的首选影像学技术，对致密型乳腺（育龄期女性常见）的病变检出率显著高于乳腺X线检查。可清晰分辨乳腺腺体层次，准确识别囊性、实性及混合性病灶；彩色多普勒血流显像（CDFI）可评估病灶内部及周边血流灌注特征，辅助判断病变良恶性倾向。超声引导下穿刺活检是乳腺病变确诊的金标准。</p>
+<h2>二、超声检查所见完整汇总</h2>
+<h3>双侧乳腺背景</h3>
+<p>双侧乳腺呈不均匀背景回声，符合育龄期女性乳腺增生的典型超声表现。</p>
+<h3>左侧乳腺</h3>
+<ul>
+<li>可见多个椭圆形无回声区，呈散在分布</li>
+<li>最大病灶：约2mm（纵径）×6mm（横径），位于左乳1点钟方向，距乳头0mm（近乳头区）</li>
+<li>病灶特征：内见纤细分隔光带，边缘清晰锐利，后方回声稍增强</li>
+<li>彩色多普勒：无回声区边缘及内部未检出血流信号</li>
+</ul>
+<h3>右侧乳腺</h3>
+<ul>
+<li>可见多个椭圆形无回声区，呈散在分布，部分病灶内透声欠佳</li>
+<li>最大病灶：约2mm（纵径）×5mm（横径），位于右乳10点钟方向，距乳头20mm</li>
+<li>病灶特征：边缘清晰锐利，后方回声稍增强</li>
+<li>彩色多普勒：无回声区边缘及内部未检出血流信号</li>
+</ul>
+<h3>双侧腋窝</h3>
+<p>双侧腋窝未探及肿大淋巴结回声，皮髓质分界清晰，淋巴门结构正常。</p>
+<h2>三、超声诊断与BI-RADS分级</h2>
+<h3>诊断提示</h3>
+<p>双侧乳腺BI-RADS分类3类。</p>
+<h3>BI-RADS分级解读</h3>
+<ul>
+<li><strong>BI-RADS 3级</strong>：可能良性发现，恶性概率＜2%</li>
+<li>分级依据：所有病灶均为无回声囊性结构，边界清晰、形态规则、无血流信号，符合典型良性病变特征；但仍需短期随访确认病变稳定性，排除极少数不典型恶性病变。</li>
+</ul>
+<h2>四、异常发现专项分析</h2>
+<h3>1. 双侧乳腺多发囊肿</h3>
+<ul>
+<li><strong>生物学本质</strong>：乳腺囊肿是乳腺终末导管小叶单位扩张形成的囊性病变，内含液体，为育龄期女性最常见的乳腺良性病变，与体内雌激素、孕激素水平周期性波动密切相关。</li>
+<li><strong>良性特征确认</strong>：所有病灶均为椭圆形无回声、边缘清晰、后方回声增强、无血流信号，完全符合单纯性/复杂性乳腺囊肿的超声诊断标准，恶性风险极低。</li>
+</ul>
+<h3>2. 左乳囊肿伴纤细分隔</h3>
+<ul>
+<li>左乳最大囊肿内可见纤细分隔光带，属于复杂性囊肿的一种表现。分隔薄且均匀、无增厚及实性成分，无血流信号，仍为良性特征，无需过度担忧。</li>
+</ul>
+<h3>3. 右乳部分囊肿透声欠佳</h3>
+<ul>
+<li>透声欠佳提示囊肿内可能含有少量蛋白沉积物、细胞碎屑或陈旧性液体，为囊肿的常见生理性演变，不代表恶性变。若透声差同时伴囊壁增厚、实性结节或血流信号，则需警惕恶性可能。</li>
+</ul>
+<h2>五、整体结果综合解读</h2>
+<ol>
+<li><strong>核心结论</strong>：本次超声检查仅发现双侧乳腺多发良性囊肿，无实性占位、无恶性征象、无腋窝淋巴结肿大，整体乳腺状况良好。</li>
+<li><strong>背景回声解读</strong>：双侧乳腺不均匀背景回声为乳腺增生的表现，是育龄期女性的正常生理变化，并非疾病，无需特殊治疗。</li>
+<li><strong>与临床诊断的关联性</strong>：本次乳腺检查结果与患者主诉的"下腹痛"无直接因果关系，下腹痛病因需结合妇科、消化科等相关检查进一步排查。</li>
+</ol>
+<h2>六、医学建议</h2>
+<ol>
+<li><strong>规范随访管理</strong></li>
+</ol>
+<p>   - 按照BI-RADS 3级标准管理要求，建议<strong>6个月后</strong>复查乳腺超声，观察囊肿大小、形态、内部回声及血流信号变化。</p>
+<p>   - 若复查囊肿稳定无变化，可延长至每年1次常规乳腺超声筛查；若囊肿明显增大、出现实性成分或血流信号，需进一步评估，必要时行超声引导下穿刺活检明确性质。</p>
+<ol>
+<li><strong>联合筛查建议</strong></li>
+</ol>
+<p>   - 42岁女性属于乳腺癌筛查重点人群，建议每年进行<strong>乳腺超声+乳腺X线（钼靶）</strong>联合筛查。若近期未行乳腺X线检查，建议在本次检查后1年内补做，全面评估乳腺健康状况。</p>
+<ol>
+<li><strong>囊肿处理原则</strong></li>
+</ol>
+<p>   - 目前囊肿体积微小（最大直径仅6mm），无任何临床症状，无需手术治疗，也无需药物干预。</p>
+<p>   - 若后续囊肿增大至＞3cm且引起明显乳房胀痛、压迫症状，可在超声引导下行囊肿穿刺抽液术缓解症状。</p>
+<ol>
+<li><strong>生活方式调整</strong></li>
+</ol>
+<p>   - 保持情绪稳定，避免长期焦虑、熬夜及过度劳累；规律作息，适当进行体育锻炼。</p>
+<p>   - 减少咖啡因、浓茶、巧克力及高糖高脂食物摄入；避免自行服用含雌激素的保健品或药物。</p>
+<p>   - 穿戴合身的棉质内衣，避免过紧压迫乳房；每月进行1次乳房自我检查，月经干净后7-10天为最佳检查时间。</p>
+<ol>
+<li><strong>就医指征</strong></li>
+</ol>
+<p>   - 出现乳房肿块迅速增大、质地变硬、边界不清</p>
+<p>   - 乳头溢液（尤其是血性溢液）、乳头内陷、乳房皮肤橘皮样改变</p>
+<p>   - 腋窝出现无痛性肿大淋巴结</p>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次超声检查数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-04-13" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-04-13</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">耳内镜</h4>
+    <img src="./20260413-耳内镜-省妇幼.png" alt="耳内镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>耳内镜检查报告分析</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具日期：2026-04-13
+医疗机构：广东省妇幼保健院（广东省儿童医院、广东省妇产医院）
+患者信息：女，42岁
+就诊科室：耳鼻咽喉头颈外科（越秀院区）
+检查部位：耳内镜
+临床诊断：耵聍栓塞、耳鸣</blockquote>
+<h2>一、检查方法概述</h2>
+<p>耳内镜是一种高分辨率光学内镜检查技术，通过耳道进入可放大数十倍清晰观察外耳道深部、鼓膜全貌及中耳相关结构，能精准发现传统额镜难以察觉的微小病变，同时可同步留存影像资料，为诊断和随访提供客观依据。</p>
+<h2>二、内镜下检查所见</h2>
+<p>结合本次检查影像及报告描述：</p>
+<ul>
+<li><strong>右耳</strong>：外耳道可见少许散在耵聍附着，鼓膜完整，形态正常，无充血、水肿、穿孔或内陷，光锥、锤骨柄等解剖标志清晰。</li>
+<li><strong>左耳</strong>：外耳道可见少许散在耵聍附着，鼓膜完整，光锥、锤骨柄等解剖标志尚可辨认；鼓膜呈轻度弥漫性充血，未见穿孔、积液、肉芽或胆脂瘤样改变。</li>
+</ul>
+<h2>三、检查结论</h2>
+<p>双外耳道少许耵聍，右鼓膜未见充血征；左鼓膜稍红、完整，标志尚可。</p>
+<h2>四、异常发现专项分析</h2>
+<h3>1. 双外耳道少许耵聍</h3>
+<ul>
+<li><strong>临床意义</strong>：耵聍为外耳道耵聍腺正常分泌物，具有保护耳道和鼓膜的作用。本次检查仅见少量散在耵聍，未形成耳道阻塞，与临床初步诊断“耵聍栓塞”存在差异，提示耵聍堆积程度极轻。</li>
+<li><strong>症状关联性</strong>：少量耵聍一般不影响听力，但若耵聍碎片靠近鼓膜表面，可能随头部活动或吞咽产生轻微耳闷、耳鸣或异响。</li>
+</ul>
+<h3>2. 左耳鼓膜轻度充血</h3>
+<ul>
+<li><strong>严重程度</strong>：轻度，无病理性结构破坏</li>
+<li><strong>可能病因</strong>：</li>
+</ul>
+<p>  - 生理性/刺激性因素：挖耳损伤、耳道进水、耵聍摩擦刺激鼓膜</p>
+<p>  - 轻度炎症反应：外耳道轻微炎症、上呼吸道感染波及咽鼓管导致中耳短暂充血</p>
+<p>  - 检查操作本身的短暂刺激</p>
+<ul>
+<li><strong>排除性判断</strong>：鼓膜完整、标志尚可，无穿孔、内陷、液平，可排除急性化脓性中耳炎、分泌性中耳炎等严重中耳病变。</li>
+</ul>
+<h2>五、整体结果综合解读</h2>
+<ol>
+<li><strong>本次检查核心结论</strong>：耳内镜下未发现需要紧急干预的器质性病变，双耳结构基本正常。</li>
+<li><strong>与临床症状的关联性分析</strong>：</li>
+</ol>
+<p>   - 传导性耳鸣病因已基本排除：耵聍量少未阻塞耳道，鼓膜完整无穿孔、积液，无明显中耳病变导致的传导性听力损失或耳鸣。</p>
+<p>   - 结合同日纯音测听报告（双耳气导均值19-21dB，听力正常），患者主诉的耳鸣高度提示为<strong>感音神经性耳鸣</strong>，病变部位多位于内耳、听神经或听觉中枢。</p>
+<ol>
+<li><strong>左耳充血的临床价值</strong>：孤立性轻度鼓膜充血无伴随症状时，多为自限性，无需特殊药物治疗。</li>
+</ol>
+<h2>六、医学建议</h2>
+<ol>
+<li><strong>耵聍管理</strong></li>
+</ol>
+<p>   - 目前耵聍量少，若无症状可暂不清理，外耳道具有自洁功能，耵聍可随咀嚼、张口动作自行排出。</p>
+<p>   - 若出现耳闷、耳鸣加重或听力下降，可至耳鼻喉科门诊由医生在耳内镜下用专业器械清理，严禁自行用棉签、挖耳勺深入耳道操作，以免将耵聍推至鼓膜处或损伤鼓膜、外耳道皮肤。</p>
+<p>   - 如耵聍质地坚硬难以取出，可遵医嘱先用5%碳酸氢钠滴耳液滴耳，每次2-3滴，每日3-4次，软化3-5天后再行清理。</p>
+<ol>
+<li><strong>左耳鼓膜充血观察</strong></li>
+</ol>
+<p>   - 无需常规使用抗生素滴耳液或口服抗生素。</p>
+<p>   - 注意保持耳道干燥，洗头、洗澡时可用干棉球堵塞外耳道口，避免污水进入；禁止游泳直至充血消退。</p>
+<p>   - 避免用力擤鼻涕、挖耳等可能加重充血的行为。</p>
+<ol>
+<li><strong>耳鸣综合管理</strong></li>
+</ol>
+<p>   - 优先排查全身性诱因：监测血压、血糖、血脂水平，改善睡眠质量，避免长期熬夜、过度劳累及精神焦虑。</p>
+<p>   - 生活方式调整：减少耳机使用时间（每日不超过1小时，音量不超过60分贝），避免长期暴露于噪声环境；减少咖啡因、酒精摄入。</p>
+<p>   - 声掩蔽疗法：在安静环境中可播放轻柔的白噪音（如雨声、流水声）掩蔽耳鸣，减轻耳鸣对日常生活的干扰。</p>
+<p>   - 专科随访：若耳鸣持续超过3个月、进行性加重，或伴随听力下降、眩晕、头痛等症状，建议进一步完善耳声发射、听觉脑干诱发电位（ABR）、耳鸣匹配等检查，明确耳鸣性质并制定针对性治疗方案。</p>
+<ol>
+<li><strong>随访指征</strong></li>
+</ol>
+<p>   - 出现耳痛、耳道流脓、听力突然下降</p>
+<p>   - 耳鸣加重并伴随眩晕、头痛、面部麻木</p>
+<p>   - 左耳鼓膜充血持续不缓解或加重</p>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次耳内镜检查数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-04-13" data-year="2026">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2026-04-13</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">听力报告</h4>
+    <img src="./20260413-听力报告-省妇幼.png" alt="听力报告" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>纯音裸耳听力报告分析</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具日期：2026-04-13
+医疗机构：广东省妇幼保健院（广东省妇产医院、广东省儿童医院）耳鼻咽喉头颈外科临床听力中心
+患者信息：女，42岁
+检查项目：纯音裸耳听阈测试（气导AC+骨导BC）
+测试条件：AC：贴耳式耳机；BC：骨导耳机（BCE）
+测试频率：气导125Hz-8kHz，骨导500Hz、1kHz、2kHz、4kHz
+临床关联：同日完成耳内镜检查，临床诊断为耵聍栓塞、耳鸣</blockquote>
+<h2>一、检查方法概述</h2>
+<p>纯音听阈测试是目前评估听力损失程度和性质的<strong>金标准</strong>。通过向受试者播放不同频率的纯音，测定其能听到的最小声音强度（单位：dB HL）：</p>
+<ul>
+<li><strong>气导（AC）</strong>：声音经外耳道-鼓膜-听骨链传导至内耳，反映整个听觉传导通路的综合功能</li>
+<li><strong>骨导（BC）</strong>：声音直接通过颅骨振动刺激内耳，绕过外耳和中耳，仅反映内耳毛细胞及听神经的感音功能</li>
+<li><strong>气骨导差（AI）</strong>：气导与骨导听阈的差值。差值＞10dB提示存在传导性听力损失；差值＜10dB为正常；两者同步升高提示感音神经性听力损失</li>
+</ul>
+<h2>二、听力图详细结果</h2>
+<h3>右耳（红色标识）</h3>
+<div class="table-wrap"><table>
+<tr><th>频率(Hz)</th><th>125</th><th>250</th><th>500</th><th>1k</th><th>2k</th><th>4k</th><th>8k</th><th>均值</th></tr>
+<tr><td>气导(AC)</td><td>15</td><td>20</td><td>20</td><td>20</td><td>20</td><td>20</td><td>0</td><td>19 dB HL</td></tr>
+<tr><td>骨导(BC)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>18 dB HL</td></tr>
+<tr><td>气骨导差</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>1 dB HL</td></tr>
+</table></div>
+<h3>左耳（蓝色标识）</h3>
+<div class="table-wrap"><table>
+<tr><th>频率(Hz)</th><th>125</th><th>250</th><th>500</th><th>1k</th><th>2k</th><th>4k</th><th>8k</th><th>均值</th></tr>
+<tr><td>气导(AC)</td><td>20</td><td>20</td><td>20</td><td>20</td><td>25</td><td>20</td><td>20</td><td>21 dB HL</td></tr>
+<tr><td>骨导(BC)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>21 dB HL</td></tr>
+<tr><td>气骨导差</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>0 dB HL</td></tr>
+</table></div>
+<h3>纯音听阈均值汇总</h3>
+<div class="table-wrap"><table>
+<tr><th>耳别</th><th>气导均值(AC)</th><th>骨导均值(BC)</th><th>气骨导差(AI)</th></tr>
+<tr><td>右耳</td><td>19 dB HL</td><td>18 dB HL</td><td>1 dB HL</td></tr>
+<tr><td>左耳</td><td>21 dB HL</td><td>21 dB HL</td><td>0 dB HL</td></tr>
+</table></div>
+<p><em>注：纯音听阈均值(PTA)为500Hz、1kHz、2kHz、4kHz四个言语核心频率气导听阈的算术平均值</em></p>
+<h2>三、听力分级与整体评估</h2>
+<h3>WHO 2021版听力损失分级</h3>
+<div class="table-wrap"><table>
+<tr><th>耳别</th><th>纯音听阈均值</th><th>听力分级</th><th>临床描述</th></tr>
+<tr><td>右耳</td><td>19 dB HL</td><td>正常听力</td><td>可清晰听清日常言语交流，无任何听力障碍</td></tr>
+<tr><td>左耳</td><td>21 dB HL</td><td>正常听力</td><td>处于正常范围上限，无临床意义的听力损失</td></tr>
+</table></div>
+<p><em>WHO分级标准：≤25 dB HL为正常听力；26-40 dB HL为轻度听力损失；41-60 dB HL为中度听力损失；61-80 dB HL为重度听力损失；≥81 dB HL为极重度听力损失</em></p>
+<h3>多维度综合评估</h3>
+<div class="table-wrap"><table>
+<tr><th>评估维度</th><th>评估结论</th></tr>
+<tr><td>双耳整体听力水平</td><td>完全正常</td></tr>
+<tr><td>外耳-中耳传导功能</td><td>无异常（气骨导差均＜10dB）</td></tr>
+<tr><td>内耳-听神经感音功能</td><td>无异常（骨导均值全部正常）</td></tr>
+<tr><td>双耳听力对称性</td><td>基本对称（均值差仅2dB，属正常个体差异）</td></tr>
+<tr><td>高频听力（4-8kHz）</td><td>右耳8kHz听阈极佳，左耳全高频均在正常范围</td></tr>
+<tr><td>言语识别能力预估</td><td>优秀（言语核心频率听阈均≤20dB）</td></tr>
+</table></div>
+<h2>四、结果深度解读</h2>
+<ol>
+<li><strong>全频率听力正常</strong>：双耳125Hz-8kHz所有测试频率听阈均≤25dB HL，符合WHO正常听力标准。其中言语交流最关键的500Hz-2kHz频段听阈均为20dB HL，提示日常对话、电话交流等场景下听力完全正常。</li>
+<li><strong>彻底排除传导性病变</strong>：双耳气骨导差分别为1dB和0dB，远低于10dB的异常阈值。结合同日耳内镜报告（外耳道通畅、鼓膜完整），可完全排除耵聍栓塞、外耳道炎、中耳炎、鼓膜穿孔、听骨链异常等所有外耳、中耳来源的传导性听力损失。</li>
+<li><strong>感音神经功能完好</strong>：双耳骨导均值均在正常范围，无高频或低频感音神经性听力下降，提示内耳毛细胞、听神经及听觉中枢的生理功能基本正常。</li>
+<li><strong>左耳轻微差异的临床意义</strong>：左耳2kHz听阈为25dB HL，均值21dB HL略高于右耳，但该差值在正常个体差异范围内，可能与测试时注意力波动、短暂疲劳或生理差异有关，无病理诊断价值。</li>
+<li><strong>与耳鸣症状的关键关联</strong>：患者存在耳鸣主诉但听力完全正常，且无任何传导性病变证据，因此耳鸣性质可明确指向<strong>特发性感音神经性耳鸣</strong>。此类耳鸣多与内耳微循环障碍、毛细胞兴奋性异常、听觉中枢重塑或精神心理因素相关，与外耳、中耳结构异常无关。</li>
+</ol>
+<h2>五、医学建议</h2>
+<ol>
+<li><strong>听力相关处理</strong>：目前双耳听力处于正常水平，无需佩戴助听器，也无需使用任何改善听力的药物。</li>
+<li><strong>听力保护措施</strong></li>
+</ol>
+<p>   - 严格遵守噪声防护“60-60原则”：使用耳机时音量不超过最大音量的60%，连续使用时间不超过60分钟；优先选择头戴式耳机，避免长时间使用入耳式耳机。</p>
+<p>   - 避免长期暴露于85dB以上的强噪声环境（如嘈杂的商场、工地、KTV等）；在噪声环境中工作或活动时，建议佩戴隔音耳塞或耳罩。</p>
+<ol>
+<li><strong>定期听力监测</strong></li>
+</ol>
+<p>   - 建议每1-2年复查一次纯音听阈测试，重点关注4kHz、8kHz等高频听力变化（年龄相关性听力损失通常最早累及高频区域）。</p>
+<p>   - 若出现单侧听力突然下降、耳鸣进行性加重、耳闷胀感、眩晕或头痛等症状，需立即就医，排除突发性耳聋等急症。</p>
+<ol>
+<li><strong>耳鸣综合管理（结合耳内镜报告）</strong></li>
+</ol>
+<p>   - 全身性因素排查：完善血压、血糖、血脂、血常规及甲状腺功能检查，排除贫血、高血压、糖尿病、甲状腺功能异常等可能诱发或加重耳鸣的全身性疾病。</p>
+<p>   - 生活方式调整：规律作息，保证充足睡眠；减少咖啡因、浓茶、酒精摄入；避免吸烟及二手烟暴露；适当进行有氧运动，缓解精神压力。</p>
+<p>   - 声掩蔽疗法：在安静环境中可播放轻柔的白噪音（如雨声、流水声、森林自然音）掩蔽耳鸣，减轻耳鸣对睡眠和日常生活的干扰。</p>
+<p>   - 专科随访：若耳鸣持续超过3个月、严重影响睡眠或情绪，建议进一步完善耳声发射、听觉脑干诱发电位（ABR）、耳鸣匹配及响度评估等专科检查，制定个性化治疗方案。</p>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次纯音听阈测试数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-06-18" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-06-18</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">甲功三项</h4>
+    <img src="./20250618-甲功三项-省妇幼.png" alt="甲功三项" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>甲功三项+β-HCG检验报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2025-06-18 10:39:32
+<strong>采样时间</strong>：2025-06-18 09:00:01
+<strong>医疗机构</strong>：广东省妇幼保健院（越秀院区）临床检验中心
+<strong>检验仪器</strong>：化学发光仪(越秀)
+<strong>检测方法</strong>：电化学发光法
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：内科门诊（越秀院区）
+<strong>开单医生</strong>：何柳瑜
+<strong>检验项目</strong>：甲功三项+β-HCG
+<strong>标本类型</strong>：血清
+<strong>标本状态</strong>：合格
+<strong>临床诊断</strong>：[西]甲状腺功能亢进症？；[西]下腹痛；[西]阴道脱垂；[西]尿频；[中]下焦虚冷证；[证]肾虚证
+<strong>结果互认</strong>：本报告结果已实现广东省内互认（粤HR）</blockquote>
+<hr>
+<h2>一、检验概述</h2>
+<p>甲功三项是甲状腺功能异常筛查的核心基础组合，可快速评估垂体-甲状腺轴的调节功能及甲状腺激素分泌状态：</p>
+<ul>
+<li><strong>促甲状腺素(HTSH)</strong>：垂体分泌的核心调节激素，是诊断甲状腺功能亢进/减退最敏感的指标，可早期发现亚临床甲状腺疾病。</li>
+<li><strong>游离三碘甲状腺原氨酸(FT3)</strong>：甲状腺激素的活性形式，直接反映机体代谢水平，T3型甲亢时可单独升高。</li>
+<li><strong>游离甲状腺素(FT4)</strong>：甲状腺分泌的主要激素，反映甲状腺的合成与分泌功能。</li>
+<li><strong>β人绒毛膜促性腺激素(β-HCG)</strong>：特异性妊娠标志物，同时HCG可刺激甲状腺激素分泌，导致妊娠期一过性甲亢，因此需排除妊娠状态以准确评估甲状腺功能。</li>
+</ul>
+<hr>
+<h2>二、检验结果</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目</th><th>结果</th><th>单位</th><th>成人非妊娠参考区间</th><th>检测方法</th></tr>
+<tr><td>1</td><td>☆促甲状腺素(HTSH)</td><td>1.130</td><td>mIU/L</td><td>0.27-4.20</td><td>电化学发光法</td></tr>
+<tr><td>2</td><td>☆游离三碘甲状腺原氨酸(FT3)</td><td>4.11</td><td>pmol/L</td><td>3.1-6.8</td><td>电化学发光法</td></tr>
+<tr><td>3</td><td>☆游离甲状腺素(FT4)</td><td>14.6</td><td>pmol/L</td><td>12-22</td><td>电化学发光法</td></tr>
+<tr><td>4</td><td>☆β人绒毛膜促性腺激素(β-HCG)</td><td>&lt;0.200</td><td>IU/L</td><td>&lt;5.3</td><td>电化学发光法</td></tr>
+</table></div>
+<blockquote>补充特殊生理状态参考区间：
+- TSH：妊娠早期0.090-4.520mIU/L，妊娠中期0.450-4.320mIU/L，妊娠晚期0.300-4.980mIU/L
+- FT4：妊娠早期13.15-20.78pmol/L，妊娠中期9.77-18.89pmol/L，妊娠晚期9.04-15.22pmol/L
+- β-HCG：绝经后≤8.3IU/L；孕5周217-7138IU/L，孕6周158-31795IU/L，孕7周3697-163563IU/L，孕8周32065-149571IU/L</blockquote>
+<hr>
+<h2>三、结果评估</h2>
+<div class="table-wrap"><table>
+<tr><th>评估维度</th><th>结论</th></tr>
+<tr><td>甲状腺功能</td><td>完全正常</td></tr>
+<tr><td>甲状腺功能亢进症</td><td>目前不支持（无TSH抑制、无FT3/FT4升高）</td></tr>
+<tr><td>甲状腺功能减退症</td><td>不支持（无TSH升高、无FT4降低）</td></tr>
+<tr><td>妊娠状态</td><td>明确排除</td></tr>
+</table></div>
+<hr>
+<h2>四、综合分析</h2>
+<ol>
+<li><strong>垂体-甲状腺轴功能正常</strong>：TSH 1.130mIU/L处于正常范围中低值，FT3、FT4均位于正常范围中位，提示甲状腺激素的合成、分泌及垂体的反馈调节功能均正常，无亚临床或临床甲亢、甲减的生化证据。</li>
+<li><strong>检测结果准确可靠</strong>：β-HCG <0.200IU/L远低于妊娠诊断阈值，完全排除妊娠状态，同时排除了妊娠期一过性甲亢及HCG对甲状腺功能检测结果的干扰。</li>
+<li><strong>临床疑似甲亢的排除说明</strong>：本次甲功三项结果不支持甲状腺功能亢进症的诊断。若患者仍存在心悸、多汗、手抖、体重下降等疑似甲亢症状，需考虑：</li>
+</ol>
+<p>    - 甲功三项为基础筛查项目，无法涵盖所有甲状腺疾病（如亚急性甲状腺炎早期、自身免疫性甲状腺疾病、甲状腺高功能腺瘤等）；</p>
+<p>    - 症状可能由其他系统疾病引起，如围绝经期综合征、自主神经功能紊乱、心血管疾病等。</p>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>无需甲状腺相关药物治疗</strong>：本次甲状腺功能完全正常，不存在甲亢或甲减的治疗指征，禁止自行服用抗甲状腺药物或甲状腺激素制剂。</li>
+<li><strong>症状持续时的进一步检查</strong>：若心悸、多汗、手抖等不适症状持续不缓解，建议完善：</li>
+</ol>
+<p>    - 甲状腺自身抗体：促甲状腺激素受体抗体(TRAb，Graves病特异性标志物)、甲状腺过氧化物酶抗体(TPOAb)、甲状腺球蛋白抗体(TgAb)，排除自身免疫性甲状腺疾病；</p>
+<p>    - 甲状腺及颈部淋巴结超声：评估甲状腺大小、形态、回声、血流信号及有无结节，明确甲状腺结构是否异常。</p>
+<ol>
+<li><strong>定期健康筛查</strong>：无甲状腺疾病症状及家族史者，可每年常规体检复查甲功三项；若后续发现甲状腺结节或自身抗体异常，需缩短复查间隔至6-12个月。</li>
+<li><strong>中医辨证结合</strong>：临床诊断中的"下焦虚冷证""肾虚证"为中医辨证分型，与西医甲状腺功能正常结果不冲突，中西医结合治疗时可向中医师反馈本次检验结果，以便调整用药方案。</li>
+<li><strong>其他症状管理</strong>：下腹痛、尿频等症状与本次甲状腺功能异常无关，建议结合既往阴道脱垂病史，进一步妇科及泌尿外科评估，明确病因后针对性处理。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-06-18" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-06-18</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">尿常规B2</h4>
+    <img src="./20250618-尿常规B2-省妇幼.png" alt="尿常规B2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>尿常规检验报告分析（B组 · 第2页）</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具时间：2025-06-18 09:27:12
+医疗机构：广东省妇幼保健院（越秀院区）临床检验中心
+患者信息：女，41岁
+送检科室：内科门诊（越秀）
+开单医生：何柳瑜
+检验项目：尿干化学11项+尿沉渣定量
+检测仪器：迈瑞EU8600(越秀)
+样本类型：尿液
+样本状态：合格
+采样时间：2025-06-18 08:41:45
+临床诊断：甲状腺功能亢进症？、下腹痛、阴道脱垂
+报告页码：第2页 / 共2页
+结果互认：本报告纳入广东省检验结果互认体系（粤HR）</blockquote>
+<h2>一、检验结果完整汇总（第2页）</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目名称</th><th>结果</th><th>单位</th><th>参考区间</th><th>结果提示</th></tr>
+<tr><td>16</td><td>尿白细胞计数(WBC)</td><td>8.6</td><td>个/uL</td><td>0~16</td><td>正常</td></tr>
+<tr><td>17</td><td>尿白细胞计数(HPF)</td><td>5.2</td><td>个/HPF</td><td>0~10</td><td>正常</td></tr>
+<tr><td>18</td><td>透明管型(HYA)</td><td>0.0</td><td>个/uL</td><td>0~1</td><td>正常</td></tr>
+<tr><td>19</td><td>病理管型(PAT)</td><td>0</td><td>个/uL</td><td>0~0.5</td><td>正常</td></tr>
+<tr><td>20</td><td>酵母样真菌(YEA)</td><td>0.0</td><td>个/uL</td><td>0~1</td><td>正常</td></tr>
+<tr><td>21</td><td>细菌(BACT)</td><td>103.3</td><td>个/uL</td><td>0~488</td><td>正常</td></tr>
+<tr><td>22</td><td>尿粘液丝(MUC)</td><td>1.9</td><td>个/uL</td><td>0~137</td><td>正常</td></tr>
+<tr><td>23</td><td>非鳞状上皮细胞(NEC)</td><td>0.5</td><td>个/uL</td><td>0~3</td><td>正常</td></tr>
+<tr><td>24</td><td>鳞状上皮细胞(SQEP)</td><td>20.0</td><td>个/uL</td><td>0~24</td><td>正常（临界）</td></tr>
+<tr><td>25</td><td>草酸钙结晶</td><td>0.0</td><td>个/μL</td><td>0~14</td><td>正常</td></tr>
+<tr><td>26</td><td>尿酸结晶</td><td>0.0</td><td>个/μL</td><td>0~14</td><td>正常</td></tr>
+<tr><td>27</td><td>磷酸铵镁结晶</td><td>0.0</td><td>个/uL</td><td>0~14</td><td>正常</td></tr>
+</table></div>
+<h2>二、临界指标专项分析</h2>
+<h3>鳞状上皮细胞(SQEP) 20.0个/uL（正常上限）</h3>
+<ul>
+<li><strong>生物学意义</strong>：尿液中鳞状上皮细胞主要来源于尿道外口及外阴部皮肤黏膜，其数量升高多提示标本受外阴分泌物污染。</li>
+<li><strong>临床价值评估</strong>：本次结果接近正常上限但未超标，提示标本仅存在极轻微的外阴黏膜细胞脱落污染，未达到影响检验结果判读的程度，标本整体质量仍为合格。</li>
+<li><strong>关联性判断</strong>：结合非鳞状上皮细胞正常，排除膀胱、输尿管等尿路深部黏膜损伤脱落的可能。</li>
+</ul>
+<h2>三、与第1页结果的联合解读</h2>
+<ol>
+<li><strong>白细胞酯酶弱阳性的最终定性</strong>：第1页白细胞酯酶±，结合第2页尿白细胞计数8.6个/uL（正常范围）、细菌计数103.3个/uL（远低于上限）、亚硝酸盐阴性，可明确排除活动性尿路感染。该弱阳性仅提示泌尿系统黏膜存在极轻微的非特异性反应，或为标本留取过程中极少量白细胞溶解所致，无临床治疗意义。</li>
+<li><strong>结果可重复性验证</strong>：本页所有指标结果与同次就诊A组第2页完全一致，进一步证实本次尿常规检测结果准确可靠，无实验室误差。</li>
+</ol>
+<h2>四、整体系统功能评估</h2>
+<ol>
+<li><strong>感染相关指标</strong>：白细胞、细菌、真菌、亚硝酸盐均正常，完全排除细菌性尿路感染、真菌性尿路感染及无症状菌尿。</li>
+<li><strong>肾实质功能指标</strong>：透明管型、病理管型均为阴性，无蛋白尿、血尿，提示肾小球滤过功能及肾小管重吸收功能正常，无肾实质损伤证据。</li>
+<li><strong>尿路结石相关指标</strong>：草酸钙、尿酸、磷酸铵镁结晶均为阴性，无尿路结晶形成及结石风险提示。</li>
+<li><strong>标本质量终评</strong>：尿液外观清晰透明，鳞状上皮细胞仅轻度升高，无明显杂质及污染，标本质量优秀。</li>
+</ol>
+<h2>五、B组完整报告综合评估表</h2>
+<div class="table-wrap"><table>
+<tr><th>评估维度</th><th>评估结论</th></tr>
+<tr><td>泌尿系统感染</td><td>不支持</td></tr>
+<tr><td>肾实质器质性病变</td><td>不支持</td></tr>
+<tr><td>尿路结石形成风险</td><td>不支持</td></tr>
+<tr><td>标本质量等级</td><td>优秀</td></tr>
+<tr><td>整体结果判定</td><td>基本正常，无需要临床干预的异常指标</td></tr>
+</table></div>
+<h2>六、医学建议</h2>
+<ol>
+<li><strong>尿常规相关处理</strong>：无需针对本次尿常规结果使用任何药物。建议每日饮水量维持1500-2000ml，避免憋尿，保持外阴清洁干燥；留取后续尿液标本时，严格遵循中段尿留取规范，进一步减少标本污染可能。</li>
+<li><strong>原发病诊疗优先级</strong>：本次尿常规未发现与现有临床诊断相关的特异性异常，建议将诊疗重点转向：</li>
+</ol>
+<p>   - 完善甲状腺功能五项、甲状腺超声等检查，明确甲状腺功能亢进症的诊断</p>
+<p>   - 转诊妇科专科，通过妇科查体、盆腔超声等检查排查下腹痛及阴道脱垂的具体病因</p>
+<ol>
+<li><strong>随访指征</strong>：若出现尿频、尿急、尿痛、腰痛、肉眼血尿或下腹痛进行性加重等情况，请及时就医复查。</li>
+</ol>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次检验数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-06-18" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-06-18</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">尿常规B1</h4>
+    <img src="./20250618-尿常规B1-省妇幼.png" alt="尿常规B1" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>尿常规检验报告分析</h1>
+<blockquote><strong>原始报告核心信息</strong>
+报告出具时间：2025-06-18 09:27:12
+医疗机构：广东省妇幼保健院（越秀院区）临床检验中心
+患者信息：女，41岁
+送检科室：内科门诊（越秀）
+开单医生：何柳瑜
+检验项目：尿干化学11项+尿沉渣定量
+检测仪器：迈瑞EU8600(越秀)
+样本类型：尿液
+样本状态：合格
+采样时间：2025-06-18 08:41:45
+临床诊断：甲状腺功能亢进症？、下腹痛、阴道脱垂
+报告页码：第1页 / 共2页
+结果互认：本报告纳入广东省检验结果互认体系（粤HR）</blockquote>
+<h2>一、检验结果完整汇总</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目名称</th><th>结果</th><th>单位</th><th>参考区间</th><th>结果提示</th><th>检测方法</th></tr>
+<tr><td>1</td><td>颜色</td><td>淡黄色</td><td>-</td><td>淡黄色~深黄色</td><td>正常</td><td>-</td></tr>
+<tr><td>2</td><td>透明度</td><td>清晰透明</td><td>-</td><td>清晰透明</td><td>正常</td><td>-</td></tr>
+<tr><td>3</td><td>酸碱度(pH)</td><td>5.0</td><td>-</td><td>5.0~8.0</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>4</td><td>比重(SG)</td><td>1.008</td><td>-</td><td>1.003~1.030</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>5</td><td>蛋白(PRO)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>6</td><td>葡萄糖(GLU)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>7</td><td>白细胞酯酶(LEU)</td><td>±</td><td>-</td><td>阴性(-)</td><td>异常(*)</td><td>试纸条法</td></tr>
+<tr><td>8</td><td>胆红素(BIL)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>9</td><td>尿胆原(UBG)</td><td>正常</td><td>-</td><td>正常</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>10</td><td>亚硝酸盐(NIT)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>11</td><td>潜血(BLD)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>12</td><td>尿酮体(KET)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>13</td><td>维生素C(ASC)</td><td>阴性(-)</td><td>-</td><td>阴性(-)</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>14</td><td>尿红细胞计数(RBC)</td><td>0.6</td><td>个/uL</td><td>0~10</td><td>正常</td><td>-</td></tr>
+<tr><td>15</td><td>尿红细胞计数(HPF)</td><td>0.4</td><td>个/HPF</td><td>0~6</td><td>正常</td><td>-</td></tr>
+</table></div>
+<h2>二、异常指标专项分析</h2>
+<h3>白细胞酯酶(LEU) ±（弱阳性）</h3>
+<ul>
+<li><strong>生物学意义</strong>：白细胞酯酶是中性粒细胞特异性标志物，尿液中检出提示存在白细胞浸润。弱阳性结果提示尿液中仅含极少量中性粒细胞。</li>
+<li><strong>临床价值评估</strong>：单独该项弱阳性无明确尿路感染诊断意义，常见于以下情况：</li>
+</ul>
+<p>  1. 标本留取时外阴分泌物轻度污染</p>
+<p>  2. 泌尿系统黏膜极轻微的非特异性炎症反应</p>
+<p>  3. 尿液标本转运过程中少量白细胞自发溶解</p>
+<ul>
+<li><strong>排除性判断</strong>：结合亚硝酸盐阴性、尿红细胞正常，且无尿频、尿急、尿痛等典型尿路刺激症状，可基本排除细菌性尿路感染。</li>
+</ul>
+<h2>三、整体结果综合解读</h2>
+<ol>
+<li><strong>结果可靠性验证</strong>：本次为同次就诊平行B组样本检测，所有指标结果与A组第1页完全一致，证明本次检验结果具有良好的可重复性，排除单次检测的偶然误差。</li>
+<li><strong>标本质量评价</strong>：尿液颜色、透明度、比重均在理想范围，标本留取规范，无明显浓缩、稀释或污染，检验数据可信度高。较2025年2月20日"微浑"的标本状态有显著改善。</li>
+<li><strong>系统功能初步评估</strong>：</li>
+</ol>
+<p>   - 尿蛋白、潜血阴性，无红细胞升高，提示无明显肾小球或尿路损伤</p>
+<p>   - 尿糖、酮体阴性，排除糖尿病及酮症酸中毒线索</p>
+<p>   - 胆红素、尿胆原正常，无肝胆系统及溶血性疾病提示</p>
+<ol>
+<li><strong>与临床诊断的关联性</strong>：本次尿常规未发现与甲状腺功能亢进、下腹痛、阴道脱垂直接相关的特异性异常指标。</li>
+</ol>
+<h2>四、医学建议</h2>
+<ol>
+<li><strong>异常指标处理</strong>：无需针对白细胞酯酶弱阳性使用抗菌药物。建议每日饮水量维持1500-2000ml，保持外阴清洁，避免憋尿，1-2周后可复查尿常规观察变化。</li>
+<li><strong>原发病诊疗优先级</strong>：建议优先完善甲状腺功能相关检查明确甲亢诊断；下腹痛及阴道脱垂建议转诊妇科专科评估，排查盆腔脏器脱垂、盆腔炎等妇科病因。</li>
+<li><strong>报告完整性提示</strong>：本报告仅为第1页内容，需结合第2页尿沉渣定量（白细胞、上皮细胞、管型、结晶等）结果进行全面评估。</li>
+<li><strong>随访指征</strong>：若出现尿频、尿急、尿痛、腰痛、肉眼血尿或下腹痛加重等情况，请立即就医。</li>
+</ol>
+<blockquote><strong>免责声明</strong>：本报告仅基于本次检验数据进行客观分析，不构成最终医学诊断、治疗方案或用药建议。所有诊疗决策必须由执业医师结合患者临床症状、体征及其他辅助检查结果综合制定。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-06-18" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-06-18</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">尿常规A2</h4>
+    <img src="./20250618-尿常规A2-省妇幼.png" alt="尿常规A2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>尿常规检验报告专业解读（A组·第2页）</h1>
+<blockquote><strong>原始报告日期</strong>：2025-06-18 09:27:12
+<strong>采样时间</strong>：2025-06-18 08:41:45
+<strong>医疗机构</strong>：广东省妇幼保健院（越秀院区）临床检验中心
+<strong>检验仪器</strong>：迈瑞EU8600(越秀)
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：内科门诊（越秀院区）
+<strong>开单医生</strong>：何柳瑜
+<strong>检验项目</strong>：尿干化学11项+尿沉渣定量
+<strong>标本类型</strong>：尿液
+<strong>标本状态</strong>：合格
+<strong>临床诊断</strong>：[西]甲状腺功能亢进症？；[西]下腹痛；[西]阴道脱垂
+<strong>结果互认</strong>：本报告结果已实现广东省内互认（粤HR）
+<strong>页码</strong>：第2页 / 共2页</blockquote>
+<hr>
+<h2>一、检验概述</h2>
+<p>本页为<strong>尿沉渣定量分析</strong>部分，通过全自动尿沉渣分析仪对尿液中有形成分进行精准计数，是评估泌尿系统炎症、感染、肾脏实质损伤及结晶尿的核心依据。本页结果需与同组第1页尿干化学结果结合，进行完整的尿常规解读。</p>
+<blockquote><strong>备注</strong>：本报告仅适用于本次送检样本，如有疑问，请与实验室联系。</blockquote>
+<hr>
+<h2>二、检验结果</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目</th><th>结果</th><th>提示</th><th>单位</th><th>参考区间</th></tr>
+<tr><td>16</td><td>尿白细胞计数(WBC)</td><td>8.6</td><td>-</td><td>个/uL</td><td>0-16</td></tr>
+<tr><td>17</td><td>尿白细胞计数(HPF)</td><td>5.2</td><td>-</td><td>个/HPF</td><td>0-10</td></tr>
+<tr><td>18</td><td>透明管型(HYA)</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-1</td></tr>
+<tr><td>19</td><td>病理管型(PAT)</td><td>0</td><td>-</td><td>个/uL</td><td>0-0.5</td></tr>
+<tr><td>20</td><td>酵母样真菌(YEA)</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-1</td></tr>
+<tr><td>21</td><td>细菌(BACT)</td><td>103.3</td><td>-</td><td>个/uL</td><td>0-488</td></tr>
+<tr><td>22</td><td>尿粘液丝(MUC)</td><td>1.9</td><td>-</td><td>个/uL</td><td>0-137</td></tr>
+<tr><td>23</td><td>非鳞状上皮细胞(NEC)</td><td>0.5</td><td>-</td><td>个/uL</td><td>0-3</td></tr>
+<tr><td>24</td><td>鳞状上皮(SQEP)</td><td>20.0</td><td>-</td><td>个/uL</td><td>0-24</td></tr>
+<tr><td>25</td><td>草酸钙结晶</td><td>0.0</td><td>-</td><td>个/μL</td><td>0-14</td></tr>
+<tr><td>26</td><td>尿酸结晶</td><td>0.0</td><td>-</td><td>个/μL</td><td>0-14</td></tr>
+<tr><td>27</td><td>磷酸铵镁结晶</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-14</td></tr>
+</table></div>
+<hr>
+<h2>三、综合分析</h2>
+<ol>
+<li><strong>尿沉渣所有指标均在正常范围</strong>：白细胞、管型、真菌、细菌、上皮细胞及各类结晶计数均未超出参考区间，无明确泌尿系统感染、肾脏实质损伤或尿路结石的实验室证据。</li>
+<li><strong>白细胞酯酶弱阳性的合理解读</strong>：第1页白细胞酯酶±（弱阳性）与本页尿白细胞计数8.6个/uL（正常范围中高值）结果一致，提示尿中存在微量白细胞，处于生理临界状态。干化学试纸敏感度高于沉渣计数，因此出现弱阳性表现，不构成临床尿路感染诊断。</li>
+<li><strong>标本质量显著改善</strong>：鳞状上皮细胞20.0个/uL，处于正常范围高值，较2025年2月20日的39.9个/uL明显下降，提示本次尿液标本留取规范，阴道分泌物污染程度显著降低，结果可信度高。</li>
+<li><strong>细菌计数正常</strong>：细菌计数103.3个/uL远低于参考上限，结合白细胞正常及无感染症状，考虑为尿道口正常定植菌或极轻度污染，无临床意义。</li>
+</ol>
+<hr>
+<h2>四、A组两页报告综合评估</h2>
+<div class="table-wrap"><table>
+<tr><th>评估维度</th><th>结论</th></tr>
+<tr><td>细菌性尿路感染</td><td>不支持</td></tr>
+<tr><td>肾小球/肾小管实质性疾病</td><td>不支持</td></tr>
+<tr><td>糖尿病及代谢性疾病</td><td>不支持</td></tr>
+<tr><td>肝胆系统异常</td><td>不支持</td></tr>
+<tr><td>尿路结石形成风险</td><td>低</td></tr>
+<tr><td>标本质量</td><td>基本合格（鳞状上皮正常高值）</td></tr>
+<tr><td>整体结论</td><td>尿常规结果基本正常，白细胞酯酶弱阳性为生理性临界表现</td></tr>
+</table></div>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>无需抗感染治疗</strong>：本次检查无尿路感染的明确证据，禁止自行使用抗生素，以免破坏正常菌群平衡。</li>
+<li><strong>复查指征</strong>：若无尿频、尿急、尿痛、尿液浑浊、腰痛等不适症状，无需常规复查尿常规；若出现上述症状，及时按规范留取清洁中段尿复查，必要时行尿培养+药敏试验。</li>
+<li><strong>原发病排查</strong>：本次就诊主要目的为排查甲状腺功能亢进症，尿常规结果未提示甲亢相关肾损害。结合同日甲功三项+β-HCG报告（甲状腺功能正常），建议进一步排查心悸、多汗等症状的其他病因（如围绝经期综合征、自主神经功能紊乱）。</li>
+<li><strong>妇科相关评估</strong>：下腹痛及尿频症状与本次尿常规异常无关，明确与阴道脱垂导致的膀胱解剖位置改变、盆底功能障碍相关。建议妇科完善盆底功能评估，根据脱垂程度制定针对性治疗方案。</li>
+<li><strong>日常护理</strong>：每日饮水量保持1500-2000ml，避免憋尿；坚持盆底肌收缩训练，每日3组，每组10-15次；避免长期便秘、慢性咳嗽及重体力劳动，减少腹压增加对盆底的损伤。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-06-18" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-06-18</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">尿常规A1</h4>
+    <img src="./20250618-尿常规A1-省妇幼.png" alt="尿常规A1" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>尿常规检验报告专业解读（A组·第1页）</h1>
+<blockquote><strong>原始报告日期</strong>：2025-06-18 09:27:12
+<strong>采样时间</strong>：2025-06-18 08:41:45
+<strong>医疗机构</strong>：广东省妇幼保健院（越秀院区）临床检验中心
+<strong>检验仪器</strong>：迈瑞EU8600(越秀)
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：内科门诊（越秀院区）
+<strong>开单医生</strong>：何柳瑜
+<strong>检验项目</strong>：尿干化学11项+尿沉渣定量
+<strong>标本类型</strong>：尿液
+<strong>标本状态</strong>：合格
+<strong>临床诊断</strong>：[西]甲状腺功能亢进症？；[西]下腹痛；[西]阴道脱垂
+<strong>结果互认</strong>：本报告结果已实现广东省内互认（粤HR）
+<strong>页码</strong>：第1页 / 共2页</blockquote>
+<hr>
+<h2>一、检验概述</h2>
+<p>尿常规是泌尿系统疾病、代谢性疾病及全身健康状况的基础筛查项目，分为<strong>尿干化学分析</strong>和<strong>尿沉渣定量分析</strong>两部分。本页为尿干化学11项及尿沉渣红细胞计数结果，尿白细胞、上皮细胞、管型、细菌等完整沉渣数据见同组第2页。</p>
+<hr>
+<h2>二、检验结果</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目</th><th>结果</th><th>提示</th><th>单位</th><th>参考区间</th><th>检测方法</th></tr>
+<tr><td>1</td><td>颜色(color)</td><td>淡黄色</td><td>-</td><td>-</td><td>淡黄色-深黄色</td><td>-</td></tr>
+<tr><td>2</td><td>透明度</td><td>清晰透明</td><td>-</td><td>-</td><td>清晰透明</td><td>-</td></tr>
+<tr><td>3</td><td>☆酸碱度(pH)</td><td>5.0</td><td>-</td><td>-</td><td>5.0-8.0</td><td>试纸条法</td></tr>
+<tr><td>4</td><td>☆比重(SG)</td><td>1.008</td><td>-</td><td>-</td><td>1.003-1.030</td><td>试纸条法</td></tr>
+<tr><td>5</td><td>☆蛋白(PRO)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>6</td><td>☆葡萄糖(GLU)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>7</td><td>☆白细胞酯酶(LEU)</td><td>±</td><td>*</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>8</td><td>☆胆红素(BIL)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>9</td><td>☆尿胆原(UBG)</td><td>正常</td><td>-</td><td>-</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>10</td><td>☆亚硝酸盐(NIT)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>11</td><td>☆潜血(BLD)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>12</td><td>☆尿酮体(KET)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>13</td><td>维生素C(ASC)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>14</td><td>尿红细胞计数(RBC)</td><td>0.6</td><td>-</td><td>个/uL</td><td>0-10</td><td>-</td></tr>
+<tr><td>15</td><td>尿红细胞计数(HPF)</td><td>0.4</td><td>-</td><td>个/HPF</td><td>0-6</td><td>-</td></tr>
+</table></div>
+<blockquote><strong>备注</strong>：本报告仅适用于本次送检样本，如有疑问，请与实验室联系。</blockquote>
+<hr>
+<h2>三、异常指标提示与解读</h2>
+<div class="table-wrap"><table>
+<tr><th>异常项目</th><th>结果</th><th>参考区间</th><th>临床意义</th></tr>
+<tr><td>白细胞酯酶(LEU)</td><td>±（弱阳性）</td><td>阴性(-)</td><td>提示尿中存在微量中性粒细胞，为临界异常，无明确临床感染意义，需结合尿沉渣白细胞计数综合判断</td></tr>
+</table></div>
+<hr>
+<h2>四、综合分析</h2>
+<ol>
+<li><strong>核心指标基本正常</strong>：尿蛋白、葡萄糖、胆红素、潜血、亚硝酸盐、酮体均为阴性，尿红细胞计数在正常范围，提示目前无肾小球损伤、糖尿病酮症、肝胆系统异常、泌尿系统活动性出血及典型细菌性尿路感染证据。</li>
+<li><strong>尿液理化性质正常</strong>：pH 5.0、比重1.008在正常范围内，反映肾脏浓缩稀释功能及酸碱调节功能基本正常。</li>
+<li><strong>维生素C阴性</strong>：排除了维生素C对尿糖、潜血、亚硝酸盐等干化学项目的假阴性干扰，本页干化学结果可信度高。</li>
+<li><strong>白细胞酯酶弱阳性解读</strong>：</li>
+</ol>
+<p>    - 白细胞酯酶是中性粒细胞释放的特异性酶，弱阳性仅提示尿中存在极少量白细胞，未达到尿路感染的诊断标准；</p>
+<p>    - 亚硝酸盐阴性，提示无革兰阴性杆菌大量繁殖，进一步排除典型细菌性尿路感染；</p>
+<p>    - 可能原因包括：阴道分泌物轻度污染（患者存在阴道脱垂）、尿道黏膜轻微刺激、标本留取过程中的一过性污染。</p>
+<ol>
+<li><strong>标本质量评估</strong>：本次尿液透明度为清晰透明，标本质量优于2025年2月20日检查结果，污染程度显著降低。</li>
+</ol>
+<hr>
+<h2>五、医学建议</h2>
+<ol>
+<li><strong>完整报告解读</strong>：请务必结合同组第2页尿沉渣定量结果（白细胞、细菌、上皮细胞、管型等）进行全面评估。</li>
+<li><strong>针对性复查建议</strong>：</li>
+</ol>
+<p>    - 若第2页尿白细胞计数及细菌计数均正常，无需特殊治疗，暂不复查；</p>
+<p>    - 若第2页尿白细胞计数轻度升高，建议1-2周后按规范留取清洁中段尿复查；</p>
+<p>    - 若出现尿频、尿急、尿痛、尿液浑浊等症状，及时就诊并完善尿培养+药敏试验。</p>
+<ol>
+<li><strong>原发病相关检查</strong>：本次就诊主要排查甲状腺功能亢进症，尿常规结果未提示甲亢相关肾损害，建议尽快完善甲状腺功能及相关抗体检查，明确甲状腺功能状态。</li>
+<li><strong>下腹痛症状评估</strong>：下腹痛症状与本次尿常规轻度异常无明确关联，结合阴道脱垂病史，建议妇科联合泌尿外科进一步检查，排查妇科炎症、盆底功能障碍及泌尿系统其他疾病。</li>
+<li><strong>日常护理</strong>：每日饮水量保持1500-2000ml，避免憋尿；注意外阴清洁，排尿后从前向后擦拭，减少阴道分泌物污染尿道的风险。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-02-22" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-02-22</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">HPV检测</h4>
+    <img src="./20250222-HPV检测-省妇幼.png" alt="HPV检测" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>人乳头瘤病毒（HPV）核酸分型检测报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2025-02-22 09:01:05
+<strong>采样时间</strong>：2025-02-20 09:28:33
+<strong>医疗机构</strong>：广东省妇幼保健院（医学遗传中心）
+<strong>检测方法</strong>：PCR+膜杂交法
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：妇科门诊（越秀院区）
+<strong>开单医生</strong>：蔡仁燕
+<strong>标本类型</strong>：宫颈分泌物
+<strong>标本状态</strong>：合格
+<strong>临床诊断</strong>：[西]阴道脱垂；[西]尿频</blockquote>
+<hr>
+<h2>一、检查技术说明</h2>
+<p>本次采用<strong>聚合酶链反应（PCR）扩增联合膜杂交法</strong>进行HPV核酸分型检测，可特异性检测宫颈分泌物中HPV病毒的DNA，一次性覆盖临床常见的14种高危型、5种低危型及2种其他型HPV基因型。该方法灵敏度高、特异性强，是宫颈癌筛查及HPV感染状态追踪评估的核心手段。</p>
+<p><strong>补充说明</strong>：本检测为病毒核酸检测，仅反映当前宫颈部位的活动性HPV感染状态，不能提示既往感染或抗体水平。</p>
+<hr>
+<h2>二、检测结果</h2>
+<p>本次检测<strong>未检测到任何覆盖型别的HPV病毒核酸</strong>，所有检测型别均为阴性。</p>
+<div class="table-wrap"><table>
+<tr><th>病毒分型</th><th>检测覆盖型别</th><th>结果</th></tr>
+<tr><td>高危型（14种）</td><td>16, 18, 31, 33, 35, 39, 45, 51, 52, 56, 58, 59, 66, 68</td><td>全部阴性</td></tr>
+<tr><td>低危型（5种）</td><td>6, 11, 42, 43, 44</td><td>全部阴性</td></tr>
+<tr><td>其他型（2种）</td><td>53, 81(CP8304)</td><td>全部阴性</td></tr>
+</table></div>
+<hr>
+<h2>三、结果评估</h2>
+<div class="table-wrap"><table>
+<tr><th>评估维度</th><th>结论</th></tr>
+<tr><td>高危型HPV感染</td><td>阴性</td></tr>
+<tr><td>低危型HPV感染</td><td>阴性</td></tr>
+<tr><td>宫颈癌相关风险</td><td>当前极低</td></tr>
+<tr><td>生殖器疣相关风险</td><td>当前极低</td></tr>
+</table></div>
+<blockquote><strong>检测局限性说明</strong>：本结果仅适用于本次送检样本，不能完全排除病毒载量低于检测下限的隐匿感染、极罕见未覆盖型别的感染，或既往感染已清除的情况。</blockquote>
+<hr>
+<h2>四、综合分析</h2>
+<ol>
+<li><strong>无活动性HPV感染</strong>：本次检测覆盖了全球95%以上与宫颈癌及生殖器疣相关的HPV基因型，全部阴性提示当前宫颈部位无明确的HPV感染。</li>
+<li><strong>宫颈癌风险极低</strong>：HPV 16和18型是导致宫颈癌的最主要型别，占所有宫颈癌病例的70%以上。本次高危型全部阴性，结合患者年龄，未来3-5年内发生宫颈癌的风险极低。</li>
+<li><strong>无生殖器疣感染证据</strong>：低危型HPV 6、11型是生殖器尖锐湿疣的主要致病原，阴性提示目前无相关感染。</li>
+<li><strong>筛查意义</strong>：41岁女性处于宫颈癌筛查的重点年龄段，定期HPV联合TCT筛查是预防宫颈癌的最有效手段。</li>
+</ol>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>完善宫颈癌联合筛查</strong></li>
+</ol>
+<p>    - 建议尽快补做<strong>宫颈液基细胞学检查（TCT）</strong>，全面评估宫颈细胞形态学状态。</p>
+<p>    - 若TCT结果正常，按照国内外宫颈癌筛查指南，下一次HPV+TCT联合筛查可间隔<strong>3年</strong>进行。</p>
+<p>    - 若TCT结果异常，需遵医嘱进一步行阴道镜检查及宫颈活检。</p>
+<ol>
+<li><strong>HPV疫苗接种评估</strong></li>
+</ol>
+<p>    - 即使当前HPV阴性，仍建议接种HPV疫苗以预防未来可能的感染。41岁女性可选择接种<strong>二价、四价或九价HPV疫苗</strong>（国内九价疫苗已扩龄至9-45岁）。</p>
+<p>    - 疫苗不能治疗已有的HPV感染，但可有效预防疫苗覆盖型别的新发感染，降低后续患病风险。</p>
+<ol>
+<li><strong>日常防护与健康管理</strong></li>
+</ol>
+<p>    - 保持健康的性生活方式，使用安全套可有效降低HPV及其他性传播疾病的感染风险。</p>
+<p>    - 戒烟，吸烟会显著增加HPV持续感染及宫颈癌发生的风险。</p>
+<p>    - 均衡饮食、规律作息、适度运动，增强机体免疫力，有助于清除可能的潜在感染。</p>
+<ol>
+<li><strong>原发病管理</strong></li>
+</ol>
+<p>    - 阴道脱垂与HPV感染无直接关联，但脱垂导致的宫颈暴露增加、局部分泌物增多可能升高其他病原体感染风险。建议妇科定期评估脱垂程度，根据情况选择盆底康复治疗或手术矫治。</p>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-02-20" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-02-20</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">阴道微生态</h4>
+    <img src="./20250220-阴道微生态-省妇幼.png" alt="阴道微生态" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>阴道微生态综合评价报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2025-02-20 10:36:41
+<strong>采样时间</strong>：2025-02-20
+<strong>医疗机构</strong>：广东省妇幼保健院（越秀院区）
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：妇科门诊（越秀）
+<strong>送检医生</strong>：蔡仁燕
+<strong>检验项目</strong>：阴道微生态综合评价
+<strong>标本类型</strong>：阴道分泌物
+<strong>临床诊断</strong>：[西]阴道脱垂；[西]尿频
+<strong>标本状态</strong>：合格</blockquote>
+<hr>
+<h2>一、检查技术说明</h2>
+<p>本次采用阴道微生态综合评价系统，通过湿片显微镜检查、革兰染色形态学分析、Nugent评分、AV评分及化学酶谱检测，全面评估阴道菌群的种类、密度、多样性、优势菌占比，以及阴道局部免疫和生化功能状态，是诊断阴道炎症及微生态失衡的金标准。本检查在阴道未经用药及冲洗的情况下完成，结果准确可靠。</p>
+<hr>
+<h2>二、检验结果</h2>
+<h3>（一）形态学评价</h3>
+<div class="table-wrap"><table>
+<tr><th>项目</th><th>结果</th><th>参考范围</th><th>评估</th></tr>
+<tr><td>清洁度</td><td>II度</td><td>I~II度</td><td>✅ 正常</td></tr>
+<tr><td>白细胞</td><td>+</td><td>-</td><td>极少量</td></tr>
+<tr><td>上皮细胞</td><td>++</td><td>++~++++</td><td>✅ 正常</td></tr>
+<tr><td>菌群密集度</td><td>++</td><td>++~++++</td><td>✅ 正常</td></tr>
+<tr><td>菌群多样性</td><td>++</td><td>++~++++</td><td>✅ 正常</td></tr>
+<tr><td>革兰阳性大杆菌比例</td><td>95%</td><td>70%-95%</td><td>✅ 正常</td></tr>
+<tr><td>其他细菌比例</td><td>5%</td><td>5%-30%</td><td>✅ 正常</td></tr>
+<tr><td>线索细胞</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>形似加德纳菌/拟杆菌</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>形似动弯杆菌</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>革兰阳性球菌</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>革兰阴性杆菌</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>真菌孢子</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>芽生孢子</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>假菌丝</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>滴虫</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>细胞内G⁻双球菌</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+</table></div>
+<h3>（二）评分系统</h3>
+<div class="table-wrap"><table>
+<tr><th>项目</th><th>结果</th><th>参考范围</th><th>评估</th></tr>
+<tr><td>Nugent评分</td><td>0分</td><td>0~3分</td><td>✅ 正常（无细菌性阴道病）</td></tr>
+<tr><td>AV评分</td><td>0分</td><td>0~2分</td><td>✅ 正常（无需氧菌性阴道炎）</td></tr>
+</table></div>
+<h3>（三）化学分析</h3>
+<div class="table-wrap"><table>
+<tr><th>项目</th><th>结果</th><th>参考范围</th><th>评估</th></tr>
+<tr><td>pH值</td><td>3.8-4.5</td><td>3.8-4.5</td><td>✅ 正常</td></tr>
+<tr><td>过氧化氢</td><td>+</td><td>-</td><td>⚠️ 阳性</td></tr>
+<tr><td>白细胞酯酶</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>唾液酸苷酶</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>凝固酶</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+<tr><td>β-葡萄糖醛酸酶</td><td>-</td><td>-</td><td>✅ 阴性</td></tr>
+</table></div>
+<hr>
+<h2>三、异常指标提示与解读</h2>
+<div class="table-wrap"><table>
+<tr><th>异常项目</th><th>结果</th><th>临床意义</th></tr>
+<tr><td>过氧化氢</td><td>阳性</td><td>提示阴道内产过氧化氢的优势乳杆菌数量减少或功能下降，阴道局部生物防御能力轻度降低</td></tr>
+<tr><td>白细胞</td><td>+</td><td>阴道内存在极少量白细胞，为生理性或轻度局部刺激反应，未达到炎症诊断标准</td></tr>
+</table></div>
+<hr>
+<h2>四、综合分析</h2>
+<h3>核心评价结论</h3>
+<p><strong>阴道微生态平衡</strong></p>
+<h3>详细解读</h3>
+<ol>
+<li><strong>无明确阴道感染性疾病</strong>：Nugent评分0分、AV评分0分，完全排除细菌性阴道病、需氧菌性阴道炎；未检出真菌、滴虫及细胞内革兰阴性双球菌，排除外阴阴道假丝酵母菌病、滴虫性阴道炎及淋球菌感染。</li>
+<li><strong>菌群结构基本正常</strong>：革兰阳性大杆菌（乳杆菌）占比95%，处于正常高值，仍是阴道绝对优势菌群；菌群密集度、多样性正常，其他杂菌比例仅5%，阴道酸性环境（pH 3.8-4.5）维持良好。</li>
+<li><strong>局部防御功能轻度下降</strong>：过氧化氢阳性提示乳杆菌产过氧化氢的功能有所减弱，但尚未引起菌群失调及继发感染，属于微生态失衡的早期预警信号。</li>
+<li><strong>无急性阴道炎症</strong>：白细胞酯酶阴性，仅见极少量白细胞，无阴道黏膜充血、水肿等急性炎症表现，白细胞升高考虑与阴道脱垂导致的阴道黏膜长期暴露、轻度摩擦刺激有关。</li>
+</ol>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>无需抗感染药物治疗</strong>：本次检查未发现任何致病菌感染，禁止自行使用抗生素、抗真菌药物或阴道冲洗剂，以免进一步破坏阴道微生态。</li>
+<li><strong>阴道微生态维护</strong></li>
+</ol>
+<p>    - 日常用温水清洁外阴即可，避免阴道内冲洗及使用碱性洗液；</p>
+<p>    - 穿纯棉透气内裤，每日更换，避免久坐，保持外阴干燥；</p>
+<p>    - 可酌情使用阴道用乳杆菌活菌制剂，连续使用7-10天，帮助恢复产过氧化氢乳杆菌的功能。</p>
+<ol>
+<li><strong>原发病针对性处理</strong>：阴道脱垂是导致本次阴道局部微生态轻度异常及尿频症状的根本原因，建议妇科完善盆底功能评估，根据脱垂程度选择盆底肌康复训练（凯格尔运动、生物反馈治疗）、子宫托或手术矫治。</li>
+<li><strong>定期复查</strong>：建议3-6个月后复查阴道微生态，评估过氧化氢是否转阴及乳杆菌功能是否恢复；若出现阴道分泌物增多、异味、瘙痒等症状，及时就诊。</li>
+<li><strong>生活方式调整</strong>：避免长期便秘、慢性咳嗽及重体力劳动，减少腹压增加对盆底组织的损伤；均衡饮食，增强机体免疫力。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-02-20" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-02-20</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">尿常规2</h4>
+    <img src="./20250220-尿常规2-省妇幼.png" alt="尿常规2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>尿常规检验报告专业解读（第2页）</h1>
+<blockquote><strong>原始报告日期</strong>：2025-02-20 10:21:51
+<strong>采样时间</strong>：2025-02-20 09:14:53
+<strong>医疗机构</strong>：广东省妇幼保健院（越秀院区）临床检验中心
+<strong>检验仪器</strong>：迈瑞EU8600(越秀)
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：妇科门诊（越秀）
+<strong>开单医生</strong>：蔡仁燕
+<strong>检验项目</strong>：尿干化学11项+尿沉渣定量
+<strong>临床诊断</strong>：[西]阴道脱垂；[西]尿频
+<strong>样本状态</strong>：合格
+<strong>页码</strong>：第2页 / 共2页</blockquote>
+<hr>
+<h2>一、检验概述</h2>
+<p>本页为<strong>尿沉渣定量分析</strong>部分，通过全自动尿沉渣分析仪对尿液中有形成分进行精准计数，是评估泌尿系统炎症、感染、肾脏实质损伤及结晶尿的核心依据。本页结果需与第1页尿干化学结果结合，进行完整的尿常规解读。</p>
+<blockquote><strong>备注</strong>：本报告结果已实现广东省内互认（粤HR），仅适用于本次送检样本。</blockquote>
+<hr>
+<h2>二、检验结果</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目</th><th>结果</th><th>提示</th><th>单位</th><th>参考区间</th></tr>
+<tr><td>16</td><td>尿白细胞计数(WBC)</td><td>1.5</td><td>-</td><td>个/uL</td><td>0-16</td></tr>
+<tr><td>17</td><td>尿白细胞计数(HPF)</td><td>0.90</td><td>-</td><td>个/HPF</td><td>0-10</td></tr>
+<tr><td>18</td><td>透明管型(HYA)</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-1</td></tr>
+<tr><td>19</td><td>病理管型(PAT)</td><td>0</td><td>-</td><td>个/uL</td><td>0-0.5</td></tr>
+<tr><td>20</td><td>酵母样真菌(YEA)</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-1</td></tr>
+<tr><td>21</td><td>细菌(BACT)</td><td>48.8</td><td>-</td><td>个/uL</td><td>0-488</td></tr>
+<tr><td>22</td><td>尿粘液丝(MUC)</td><td>0.5</td><td>-</td><td>个/uL</td><td>0-137</td></tr>
+<tr><td>23</td><td>非鳞状上皮细胞(NEC)</td><td>1.5</td><td>-</td><td>个/uL</td><td>0-3</td></tr>
+<tr><td>24</td><td>鳞状上皮(SQEP)</td><td>39.9</td><td>↑</td><td>个/uL</td><td>0-24</td></tr>
+<tr><td>25</td><td>草酸钙结晶</td><td>0.0</td><td>-</td><td>个/μL</td><td>0-14</td></tr>
+<tr><td>26</td><td>尿酸结晶</td><td>0.0</td><td>-</td><td>个/μL</td><td>0-14</td></tr>
+<tr><td>27</td><td>磷酸铵镁结晶</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-14</td></tr>
+</table></div>
+<hr>
+<h2>三、异常指标提示与解读</h2>
+<div class="table-wrap"><table>
+<tr><th>异常项目</th><th>结果</th><th>参考区间</th><th>临床意义</th></tr>
+<tr><td>鳞状上皮细胞(SQEP)</td><td>39.9个/uL</td><td>0-24个/uL</td><td>轻度升高，高度提示尿液标本被阴道/外阴来源的鳞状上皮细胞污染</td></tr>
+</table></div>
+<hr>
+<h2>四、综合分析</h2>
+<ol>
+<li><strong>泌尿系统感染完全排除</strong>：尿白细胞计数、白细胞酯酶（第1页）均在正常范围，细菌计数48.8个/uL远低于参考上限，无尿频、尿急、尿痛等感染症状，可明确排除细菌性尿路感染。</li>
+<li><strong>肾脏实质功能正常</strong>：尿蛋白、红细胞、透明管型及病理管型均为阴性，无肾小球肾炎、肾小管损伤等肾脏实质性病变证据。</li>
+<li><strong>无结石及真菌感染征象</strong>：各类结晶、酵母样真菌计数均为0，排除结晶尿、尿路结石前期及真菌性尿路感染。</li>
+<li><strong>标本污染明确</strong>：鳞状上皮细胞升高与第1页尿液透明度微浑相互印证，结合患者阴道脱垂的临床诊断，尿道口与阴道口解剖位置改变，排尿时极易混入阴道分泌物及脱落上皮细胞，导致标本轻度污染。本次污染未影响核心指标的判读。</li>
+</ol>
+<hr>
+<h2>五、两页报告综合评估</h2>
+<div class="table-wrap"><table>
+<tr><th>评估维度</th><th>结论</th></tr>
+<tr><td>细菌性尿路感染</td><td>不支持</td></tr>
+<tr><td>肾脏实质性疾病</td><td>不支持</td></tr>
+<tr><td>糖尿病及代谢异常</td><td>不支持</td></tr>
+<tr><td>肝胆系统异常</td><td>不支持</td></tr>
+<tr><td>尿路结石风险</td><td>低</td></tr>
+<tr><td>标本质量</td><td>轻度污染（不影响核心结论）</td></tr>
+</table></div>
+<hr>
+<h2>六、个体化医学建议</h2>
+<ol>
+<li><strong>无需常规复查尿常规</strong>：本次核心指标均正常，标本轻度污染不影响诊断，无需因鳞状上皮升高单独复查。若后续出现尿痛、尿急、尿液浑浊等症状，再按规范留取中段尿复查。</li>
+<li><strong>规范标本留取方法</strong>：如需复查尿常规，先清洁外阴，排尿初期弃去前10-20ml尿液，留取中间段尿液送检，可显著降低标本污染率。</li>
+<li><strong>尿频症状针对性处理</strong>：尿频与泌尿系统感染无关，明确为阴道脱垂导致的膀胱解剖位置异常、膀胱容量减少及膀胱过度活动所致。建议妇科完善盆底功能评估及POP-Q分期，根据脱垂程度选择盆底肌康复训练、子宫托或手术矫治。</li>
+<li><strong>日常护理建议</strong>：每日饮水量保持1500-2000ml，避免憋尿；坚持盆底肌收缩训练（凯格尔运动），每日3组，每组10-15次，每次收缩保持5-10秒；避免长期便秘、慢性咳嗽及重体力劳动，减少腹压增加对盆底的损伤。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2025-02-20" data-year="2025">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2025-02-20</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">尿常规1</h4>
+    <img src="./20250220-尿常规1-省妇幼.png" alt="尿常规1" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>尿常规检验报告专业解读（第1页）</h1>
+<blockquote><strong>原始报告日期</strong>：2025-02-20 10:21:51
+<strong>采样时间</strong>：2025-02-20 09:14:53
+<strong>医疗机构</strong>：广东省妇幼保健院（越秀院区）临床检验中心
+<strong>检验仪器</strong>：迈瑞EU8600(越秀)
+<strong>患者信息</strong>：女，41岁
+<strong>送检科室</strong>：妇科门诊（越秀）
+<strong>开单医生</strong>：蔡仁燕
+<strong>检验项目</strong>：尿干化学11项+尿沉渣定量
+<strong>临床诊断</strong>：[西]阴道脱垂；[西]尿频
+<strong>样本状态</strong>：合格
+<strong>页码</strong>：第1页 / 共2页</blockquote>
+<hr>
+<h2>一、检验概述</h2>
+<p>尿常规是泌尿系统及全身代谢性疾病的基础筛查项目，分为<strong>尿干化学分析</strong>和<strong>尿沉渣定量</strong>两部分。尿干化学11项可快速检测尿液理化性质及蛋白质、糖、潜血等核心成分；尿沉渣定量对尿液中细胞、管型、结晶等有形成分进行精准计数。本页为尿干化学11项及尿沉渣红细胞计数结果，尿白细胞、上皮细胞、管型等完整沉渣数据见第2页。</p>
+<hr>
+<h2>二、检验结果</h2>
+<div class="table-wrap"><table>
+<tr><th>序号</th><th>项目</th><th>结果</th><th>提示</th><th>单位</th><th>参考区间</th><th>检测方法</th></tr>
+<tr><td>1</td><td>颜色</td><td>淡黄色</td><td>-</td><td>-</td><td>淡黄色-深黄色</td><td>-</td></tr>
+<tr><td>2</td><td>透明度</td><td>微浑</td><td>⚠️</td><td>-</td><td>清晰透明</td><td>-</td></tr>
+<tr><td>3</td><td>☆酸碱度(pH)</td><td>5.0</td><td>-</td><td>-</td><td>5.0-8.0</td><td>试纸条法</td></tr>
+<tr><td>4</td><td>☆比重(SG)</td><td>1.008</td><td>-</td><td>-</td><td>1.003-1.030</td><td>试纸条法</td></tr>
+<tr><td>5</td><td>☆蛋白(PRO)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>6</td><td>☆葡萄糖(GLU)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>7</td><td>☆白细胞酯酶(LEU)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>8</td><td>☆胆红素(BIL)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>9</td><td>☆尿胆原(UBG)</td><td>正常</td><td>-</td><td>-</td><td>正常</td><td>试纸条法</td></tr>
+<tr><td>10</td><td>☆亚硝酸盐(NIT)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>11</td><td>☆潜血(BLD)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>12</td><td>尿酮体(KET)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>13</td><td>维生素C(ASC)</td><td>阴性(-)</td><td>-</td><td>-</td><td>阴性(-)</td><td>试纸条法</td></tr>
+<tr><td>14</td><td>尿红细胞计数(RBC)</td><td>0.0</td><td>-</td><td>个/uL</td><td>0-10</td><td>-</td></tr>
+<tr><td>15</td><td>尿红细胞计数(HPF)</td><td>0.00</td><td>-</td><td>个/HPF</td><td>0-6</td><td>-</td></tr>
+</table></div>
+<blockquote><strong>备注</strong>：本报告结果仅适用于收到的样本，结果已实现广东省内互认（粤HR）。</blockquote>
+<hr>
+<h2>三、异常指标提示与解读</h2>
+<div class="table-wrap"><table>
+<tr><th>异常项目</th><th>结果</th><th>参考区间</th><th>临床意义</th></tr>
+<tr><td>尿液透明度</td><td>微浑</td><td>清晰透明</td><td>提示尿液中存在少量有形成分，透光度轻度下降，无明确病理性意义，需结合尿沉渣结果综合判断</td></tr>
+</table></div>
+<hr>
+<h2>四、综合分析</h2>
+<ol>
+<li><strong>核心指标全部正常</strong>：尿蛋白、葡萄糖、胆红素、潜血、亚硝酸盐、酮体、白细胞酯酶均为阴性，尿红细胞计数为0，提示目前无肾小球损伤、糖尿病酮症、肝胆系统异常、泌尿系统活动性出血及典型细菌性尿路感染证据。</li>
+<li><strong>尿液酸碱度与比重正常</strong>：pH 5.0、比重1.008在正常范围内，反映肾脏浓缩稀释功能及酸碱调节功能基本正常。</li>
+<li><strong>维生素C阴性</strong>：排除了维生素C对尿糖、潜血、亚硝酸盐等干化学项目的假阴性干扰，本页干化学结果可信度高。</li>
+<li><strong>透明度微浑的可能原因</strong>：</li>
+</ol>
+<p>    - 标本污染：患者存在阴道脱垂，留取尿液时极易混入阴道分泌物及脱落上皮细胞，是女性尿常规透明度异常最常见的原因；</p>
+<p>    - 少量生理性尿沉渣：如尿道脱落上皮细胞、少量盐类结晶；</p>
+<p>    - 标本放置时间影响：尿液排出后成分轻微氧化亦可导致透明度轻度下降。</p>
+<hr>
+<h2>五、医学建议</h2>
+<ol>
+<li><strong>完整报告解读</strong>：请结合第2页尿沉渣定量结果（白细胞、上皮细胞、管型、结晶等）进行全面评估。</li>
+<li><strong>规范标本留取复查</strong>：如需复查，建议在清洁外阴后留取<strong>中段尿</strong>（排尿初期弃去前10-20ml尿液，留取中间段），最大限度减少阴道分泌物污染；必要时可采用导尿法留取标本。</li>
+<li><strong>尿频症状评估</strong>：本次尿常规未发现尿路感染证据，尿频症状高度考虑与阴道脱垂导致的膀胱解剖位置改变、膀胱容量减少及膀胱过度活动有关，建议妇科联合泌尿外科进一步评估，制定针对性治疗方案。</li>
+<li><strong>日常护理</strong>：多饮水，每日饮水量1500-2000ml；避免憋尿，保持外阴清洁干燥。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始检验数据的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2024-12-11" data-year="2024">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2024-12-11</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">乳腺超声</h4>
+    <img src="./20241211-乳腺超声-省妇幼.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>乳腺超声检查报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2024-12-11
+<strong>医疗机构</strong>：广东省妇幼保健院（乳腺科门诊·越秀院区）
+<strong>患者信息</strong>：女，41岁
+<strong>检查技术</strong>：乳腺及其引流区淋巴结浅表器官彩色多普勒超声检查
+<strong>临床诊断</strong>：[西]右乳房肿块
+<strong>原始报告结论</strong>：双侧乳腺BI-RADS分级3级</blockquote>
+<hr>
+<h2>一、检查技术说明</h2>
+<p>乳腺超声是乳腺X线检查的核心互补手段，对致密型乳腺内的实性、囊性病灶检出率显著高于X线，可清晰显示病灶的大小、形态、边界、内部回声及后方回声特征。彩色多普勒血流成像（CDFI）能评估病灶内部及周边的血供情况，为良恶性鉴别提供重要依据。</p>
+<p><strong>补充说明</strong>：本次检查与同日乳腺断层X线检查形成互补，X线对钙化灶敏感，超声对软组织病灶分辨率高，两者结合可全面评估乳腺健康状况。</p>
+<hr>
+<h2>二、检查所见</h2>
+<ol>
+<li><strong>乳腺背景</strong>：双侧乳腺呈不均匀背景回声，符合不均匀致密型（c型）乳腺超声表现。</li>
+<li><strong>右侧乳腺病灶</strong>：右乳1点钟方向、距乳头20mm处可见1个椭圆形低回声区，大小约4mm（纵径）×8mm（横径），纵横比≈0.5；边缘清晰，内部回声均匀，后方回声无明显改变；CDFI示低回声区边缘及内部未检出血流信号。</li>
+<li><strong>左侧乳腺病灶</strong>：左乳3点钟方向、距乳头20mm处可见1个椭圆形低回声区，大小约4mm（纵径）×5mm（横径），纵横比≈0.8；边缘清晰，内部回声均匀，后方回声无明显改变；CDFI示低回声区边缘及内部未检出血流信号。</li>
+<li><strong>引流区淋巴结</strong>：双侧腋窝未探及肿大淋巴结回声，皮髓质结构清晰，未见异常血流信号。</li>
+</ol>
+<hr>
+<h2>三、BI-RADS分级与临床意义</h2>
+<div class="table-wrap"><table>
+<tr><th>评估部位</th><th>BI-RADS分级</th><th>恶性概率</th><th>专业解读</th></tr>
+<tr><td>双侧乳腺</td><td>3级</td><td>&lt;2%</td><td>符合可能良性影像学特征，典型表现为椭圆形、平行位（纵横比&lt;1）、边缘清晰、内部回声均匀、无异常血流信号，恶性风险极低</td></tr>
+</table></div>
+<hr>
+<h2>四、诊断提示与综合评估</h2>
+<h3>核心诊断</h3>
+<p>双侧乳腺实性小结节（BI-RADS 3级，可能良性）</p>
+<h3>综合风险评估</h3>
+<ol>
+<li>本次超声发现的双侧结节均具备完整的良性影像学特征，无边缘不规则、毛刺、纵横比>1、微钙化、丰富血流等恶性征象，腋窝淋巴结无异常，整体恶性风险<2%。</li>
+<li>右侧乳腺结节的位置、大小与患者主诉的"右乳房肿块"高度吻合，考虑为临床触诊病灶。</li>
+<li>结合同日乳腺断层X线检查结果（BI-RADS 2级，右乳单个良性钙化），两种检查手段均未发现恶性证据，进一步支持良性诊断。</li>
+</ol>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>规范短期随访</strong></li>
+</ol>
+<p>    - 建议于<strong>3-6个月后</strong>复查双侧乳腺及腋窝淋巴结超声，重点观察结节的大小、形态、边界、内部回声及血流信号变化。</p>
+<p>    - 若连续2次复查结节无明显变化，可延长随访间隔至6-12个月；若结节增大≥20%或出现任何恶性征象，需及时升级评估，必要时行超声引导下穿刺活检明确病理性质。</p>
+<ol>
+<li><strong>联合检查与资料管理</strong></li>
+</ol>
+<p>    - 保留本次及所有既往乳腺检查资料（X线、超声），每次复查时携带进行对比分析。</p>
+<p>    - 40岁以上女性建议每年进行一次乳腺X线联合超声的规范化筛查。</p>
+<ol>
+<li><strong>乳房自我检查</strong></li>
+</ol>
+<p>    - 每月月经结束后7-10天进行乳房自检，重点关注右乳1点钟方向区域有无肿块增大、变硬，以及乳头溢液、皮肤凹陷等异常改变，发现问题及时就诊。</p>
+<ol>
+<li><strong>生活方式调整</strong></li>
+</ol>
+<p>    - 保持规律作息，避免长期熬夜和过度劳累；保持情绪稳定，减少精神压力。</p>
+<p>    - 均衡饮食，减少高脂肪、高糖及含雌激素类食物的摄入；适度运动，控制体重在正常范围。</p>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始影像资料的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2024-12-11" data-year="2024">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2024-12-11</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">乳腺X线</h4>
+    <img src="./20241211-乳腺X线-省妇幼.png" alt="乳腺X线" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>乳腺X线检查报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2024-12-11 12:12:30
+<strong>医疗机构</strong>：广东省妇幼保健院（乳腺科门诊·越秀院区）
+<strong>患者信息</strong>：女，41岁
+<strong>检查技术</strong>：双乳腺断层检查（合成二维乳腺摄影SM+数字乳腺断层摄影DBT）
+<strong>临床诊断</strong>：[西]右乳房肿块
+<strong>原始报告结论</strong>：双侧乳腺实质呈c型；右乳符合BI-RADS 2级改变，左乳符合BI-RADS 2级改变</blockquote>
+<hr>
+<h2>一、检查技术说明</h2>
+<p>本次采用<strong>合成二维乳腺摄影（SM）联合数字乳腺断层摄影（DBT）</strong>技术，是目前乳腺疾病筛查与诊断的金标准之一。SM可提供常规乳腺X线全景图像，DBT通过多角度1mm薄层扫描重建，有效消除乳腺组织重叠伪影，显著提高微小肿块、微钙化及结构扭曲的检出率，尤其适用于致密型乳腺的评估。</p>
+<p><strong>补充说明</strong>：乳腺X线对钙化灶的检出具有不可替代的优势，但对致密型乳腺内的实性肿块敏感性有限，需联合乳腺超声进行互补评估。</p>
+<hr>
+<h2>二、影像所见</h2>
+<ol>
+<li><strong>扫描体位与参数</strong></li>
+</ol>
+<p>    - SM（合成2D）：右乳CC位+MLO位，左乳CC位+MLO位</p>
+<p>    - DBT（断层摄影）：右乳CC位（52层/1mm）+右乳MLO位（58层/1mm）；左乳CC位（52层/1mm）+左乳MLO位（48层/1mm）</p>
+<ol>
+<li><strong>乳腺实质与结构</strong></li>
+</ol>
+<p>    - 双侧乳腺实质呈<strong>c型（不均匀致密型）</strong>，双乳腺见多量不均匀致密的纤维腺体影</p>
+<p>    - SM及DBT图示：双乳未见明确肿块、结构扭曲及不对称征象</p>
+<p>    - 右乳见单个钙化灶，左乳未见钙化</p>
+<p>    - 双乳未见明显增粗的血管及导管影</p>
+<p>    - 双乳晕、乳头和皮肤形态正常，未见凹陷、增厚或橘皮样改变</p>
+<p>    - 双侧腋下未见明显肿大淋巴结影</p>
+<hr>
+<h2>三、BI-RADS分级与临床意义</h2>
+<div class="table-wrap"><table>
+<tr><th>评估部位</th><th>BI-RADS分级</th><th>恶性风险</th><th>专业解读</th></tr>
+<tr><td>右乳</td><td>2级</td><td>≈0%</td><td>明确良性改变，右乳单个钙化灶无簇状、细线样、多形性等恶性征象，考虑为良性钙化（如纤维腺瘤钙化、血管钙化或陈旧性钙化）</td></tr>
+<tr><td>左乳</td><td>2级</td><td>≈0%</td><td>明确良性改变，未见异常病灶</td></tr>
+</table></div>
+<hr>
+<h2>四、异常指标提示与风险评估</h2>
+<h3>核心异常</h3>
+<ol>
+<li><strong>双侧乳腺实质c型（不均匀致密型）</strong>：乳腺组织中纤维腺体占比51%-75%，属于致密型乳腺范畴。致密型乳腺会降低X线对微小病灶的检出敏感性，同时本身是乳腺癌的轻度危险因素，需常规联合乳腺超声检查。</li>
+<li><strong>右乳单个良性钙化灶</strong>：孤立、形态规则的单个钙化灶恶性风险极低，长期随访稳定即可确认良性。</li>
+</ol>
+<h3>专项风险评估</h3>
+<p>本次乳腺X线检查未发现任何恶性征象，整体恶性风险为0。患者因"右乳房肿块"就诊，X线未检出肿块，多为致密腺体组织重叠形成的假性肿块，或X线难以显示的小囊肿、纤维腺瘤，需通过乳腺超声进一步明确。</p>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>联合检查确诊</strong>：建议1个月内完善<strong>双侧乳腺及腋窝淋巴结彩色多普勒超声</strong>检查，明确临床触及的"右乳肿块"性质，排除X线漏诊的实性或囊性病灶。</li>
+<li><strong>规范随访计划</strong>：</li>
+</ol>
+<p>    - 若超声检查未见异常，每12个月进行一次乳腺X线联合超声的常规筛查</p>
+<p>    - 若超声发现良性病灶，遵医嘱每6-12个月复查一次</p>
+<p>    - 保留本次及所有既往影像资料，每次复查对比观察钙化灶大小、形态及乳腺结构变化</p>
+<ol>
+<li><strong>乳房自我检查</strong>：每月月经结束后7-10天进行乳房自检，观察有无新出现的肿块、乳头溢液、皮肤凹陷或橘皮样改变，发现异常及时就诊。</li>
+<li><strong>生活方式调整</strong>：保持规律作息，避免长期熬夜；减少高脂肪、高雌激素食物摄入；保持情绪稳定，避免长期精神紧张。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始影像资料的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2024-07-02" data-year="2024">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2024-07-02</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">胸部CT</h4>
+    <img src="./20240702-胸部CT-省妇幼.png" alt="胸部CT" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>胸部CT检查报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2024-07-02 17:18:17
+<strong>医疗机构</strong>：广东省妇幼保健院（内科门诊·越秀院区）
+<strong>患者信息</strong>：女，40岁
+<strong>检查技术</strong>：低剂量胸部CT平扫+三维重建
+<strong>临床诊断</strong>：[西]胸闷；[西]变应性鼻炎；[西]头痛；[中]鼻鼽；[证]脾胃虚证
+<strong>原始报告结论</strong>：1. 双肺多发小结节，Lung-RADS 2级，建议必要时复查；2. 甲状腺左侧叶病变，检查超声进一步检查</blockquote>
+<hr>
+<h2>一、检查技术说明</h2>
+<p>低剂量胸部CT（LDCT）是目前国际公认的肺癌筛查首选影像学手段，辐射剂量约为常规胸部CT的1/5～1/10，可在保证肺部结节检出灵敏度的同时显著降低辐射暴露风险。三维重建技术可多角度、立体化显示结节的位置、形态及与周围支气管、血管的毗邻关系，提高定位准确性。</p>
+<p><strong>补充说明</strong>：本次检查为胸部CT扫描，甲状腺为扫描野内附带观察结构，CT对甲状腺软组织的分辨率远低于超声，无法准确判断病变的囊实性、边界、血流及钙化特征，需进一步行超声检查定性。</p>
+<hr>
+<h2>二、影像所见</h2>
+<ol>
+<li><strong>胸廓与肺脏</strong>：两侧胸廓对称，纵隔气管居中；两肺野透亮度正常，双肺内支气管血管束清晰、走行自然；双肺下叶（Se5，Im161-163、Im198-203）见2个实性结节，较大者位于左肺下叶前内基底段，大小约7mm×4mm；气管及各叶段支气管开口通畅，管腔未见狭窄及扩张。</li>
+<li><strong>纵隔与心脏</strong>：纵隔结构清楚，心脏形态未见明显异常，未见纵隔淋巴结肿大征象。</li>
+<li><strong>胸膜与胸壁</strong>：双侧胸腔无积液，双侧胸膜无增厚、钙化；胸廓骨质及软组织未见异常密度灶。</li>
+<li><strong>附带发现</strong>：甲状腺左侧叶见稍低密度影，直径约0.9cm。</li>
+</ol>
+<hr>
+<h2>三、异常指标分级与临床意义</h2>
+<div class="table-wrap"><table>
+<tr><th>异常发现</th><th>风险分级</th><th>专业解读</th></tr>
+<tr><td>双肺下叶多发实性小结节</td><td>极低危（Lung-RADS 2级）</td><td>符合Lung-RADS 2级标准（实性结节平均直径&lt;6mm），恶性概率&lt;1%，多为炎性结节、肺内淋巴结或陈旧性纤维化病灶</td></tr>
+<tr><td>甲状腺左侧叶稍低密度影</td><td>待定性（CT附带发现）</td><td>CT无法明确病变性质，可能为良性囊肿、腺瘤、结节性甲状腺肿，少数为恶性结节，需超声进一步评估</td></tr>
+</table></div>
+<hr>
+<h2>四、诊断提示与风险评估</h2>
+<h3>核心诊断</h3>
+<ol>
+<li>双肺下叶多发实性小结节（Lung-RADS 2级）</li>
+<li>甲状腺左侧叶低密度病变（待查）</li>
+</ol>
+<h3>专项风险评估</h3>
+<ol>
+<li><strong>肺结节风险</strong>：本次发现的肺结节均为实性，最大结节平均直径约5.5mm，无分叶、毛刺、胸膜牵拉、空泡征等恶性影像学征象，结合患者40岁女性、无吸烟史等低危因素，恶性风险极低，无需过度焦虑。</li>
+<li><strong>甲状腺病变风险</strong>：甲状腺低密度影为胸部CT偶然发现，直径0.9cm，无钙化、边界不清等提示恶性的CT征象，良性可能性大，但需通过甲状腺超声明确TI-RADS分级，排除恶性可能。</li>
+<li><strong>症状关联性</strong>：本次CT未发现导致胸闷的器质性肺部、心脏病变，胸闷症状需结合变应性鼻炎病史，进一步排查气道高反应、胃食管反流或功能性因素。</li>
+</ol>
+<hr>
+<h2>五、个体化医学建议</h2>
+<h3>关于肺结节</h3>
+<ol>
+<li><strong>规范随访方案</strong>：严格遵循Lung-RADS 2级管理指南，于<strong>12个月后</strong>复查低剂量胸部CT；若复查结节无大小、形态变化，后续可延长至每2-3年复查一次；若结节增大≥2mm或出现恶性征象，及时缩短随访间隔或进一步行增强CT、穿刺活检等检查。</li>
+<li><strong>危险因素干预</strong>：避免主动吸烟及二手烟、三手烟暴露；减少厨房油烟、工业粉尘、有害气体接触；保持规律作息，适当运动增强免疫力。</li>
+<li><strong>症状预警</strong>：出现持续超过2周的刺激性干咳、痰中带血或咯血、持续性胸痛、不明原因体重下降时，无需等待定期复查，立即前往呼吸内科或胸外科就诊。</li>
+</ol>
+<h3>关于甲状腺</h3>
+<ol>
+<li><strong>优先检查</strong>：建议1个月内完善<strong>甲状腺及颈部淋巴结彩色多普勒超声</strong>检查，明确病变的囊实性、边界、形态、血流信号及有无钙化，获取TI-RADS分级评估良恶性风险。</li>
+<li><strong>功能评估</strong>：若超声提示结节性病变，同时完善甲状腺功能及自身抗体检查（TSH、FT3、FT4、TPOAb、TgAb），评估甲状腺功能状态。</li>
+<li><strong>后续处理</strong>：根据超声及甲功结果，由内分泌科或甲状腺外科医生制定后续随访或治疗方案；若超声提示TI-RADS 4类及以上可疑恶性结节，遵医嘱进一步行细针穿刺细胞学检查明确病理性质。</li>
+</ol>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始影像资料的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2024-02-23" data-year="2024">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">2024-02-23</span>
+      <span class="timeline-tag">省妇幼</span>
+    </div>
+    <h4 class="timeline-title">颈椎CT</h4>
+    <img src="./20240223-颈椎CT-省妇幼.png" alt="颈椎CT" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>颈椎CT检查报告专业解读</h1>
+<blockquote><strong>原始报告日期</strong>：2024-02-23 12:20:12
+<strong>医疗机构</strong>：广东省妇幼保健院（内科门诊·越秀院区）
+<strong>患者信息</strong>：女，40岁
+<strong>检查技术</strong>：颈椎CT轴位薄层平扫+三维重建
+<strong>临床诊断</strong>：[西]健康查体
+<strong>原始报告结论</strong>：C2/3椎间盘中央后型突出</blockquote>
+<hr>
+<h2>一、检查技术说明</h2>
+<p>本次采用颈椎轴位薄层扫描联合三维重建技术，是颈椎骨质结构评估的首选影像学方法之一。该技术可清晰显示椎体、附件、椎间盘、椎管骨性边界及周围软组织密度，三维重建能多角度直观评估颈椎序列、生理曲度，以及椎间盘突出对硬膜囊、骨性椎管的压迫范围。</p>
+<p>CT对骨质病变（骨折、增生、破坏）的分辨率优于MRI，但对脊髓、神经根、椎间盘髓核等软组织的细节显示不如MRI，因此后续随访优先推荐MRI检查。</p>
+<hr>
+<h2>二、影像所见</h2>
+<ol>
+<li><strong>颈椎序列与曲度</strong>：颈椎生理曲度变直，各椎体排列整齐，未见椎体滑脱、移位或序列不稳。</li>
+<li><strong>骨质结构</strong>：各颈椎椎体及附件（椎弓根、椎板、棘突等）骨质密度均匀，未见明确骨折线、骨质破坏、骨质增生硬化或先天性发育畸形。</li>
+<li><strong>椎间盘与椎管</strong>：</li>
+</ol>
+<p>    - C2/3节段椎间盘向后方中央型突出，相应水平硬膜囊前缘受压凹陷；双侧侧隐窝无明显变窄，骨性椎管未见狭窄。</p>
+<p>    - 余C3/4至C7/T1各节段椎间盘形态正常，未见膨出或突出征象，相应水平硬膜囊无受压。</p>
+<ol>
+<li><strong>颈部软组织</strong>：颈部皮下脂肪、肌肉、筋膜层次清晰，未见异常密度灶。</li>
+</ol>
+<hr>
+<h2>三、异常指标分级与临床意义</h2>
+<div class="table-wrap"><table>
+<tr><th>异常发现</th><th>临床分级（参考）</th><th>专业解读</th></tr>
+<tr><td>颈椎生理曲度变直</td><td>轻度（姿势性/早期退行性改变）</td><td>正常颈椎呈向前的生理前凸，长期低头伏案、颈部肌肉慢性劳损是最常见诱因，可导致颈肩部肌肉紧张、酸痛，是颈椎病的早期预警信号。</td></tr>
+<tr><td>C2/3椎间盘中央后型突出</td><td>轻-中度（影像分级）</td><td>该节段为高位颈椎，椎间盘突出相对少见；仅压迫硬膜囊（脊髓外层包膜），未累及神经根及骨性椎管，目前无脊髓受压的直接影像证据。</td></tr>
+</table></div>
+<hr>
+<h2>四、诊断提示与风险评估</h2>
+<h3>核心诊断</h3>
+<p>C2/3椎间盘中央后型突出；颈椎生理曲度异常（变直）。</p>
+<h3>专项风险评估</h3>
+<ol>
+<li><strong>高位颈椎病变特点</strong>：C2/3节段紧邻延髓生命中枢，理论上严重突出可能压迫脊髓导致四肢无力、行走不稳，但本次影像仅见硬膜囊轻度受压，无脊髓信号异常（CT无法显示脊髓内部信号，需MRI确认），发生严重神经损伤的风险极低。</li>
+<li><strong>症状关联性</strong>：</li>
+</ol>
+<p>    - 可能出现的相关症状：颈枕部僵硬、酸胀疼痛，部分患者可出现枕部放射性头痛。</p>
+<p>    - 头晕、恶心等症状需首先排除前庭系统、脑血管、血压异常等其他病因，颈椎源性头晕为排他性诊断，不能仅凭本次CT结果归因。</p>
+<ol>
+<li><strong>进展风险</strong>：单纯中央型突出在无明显外伤、持续不良姿势的情况下，进展速度较慢，无需过度焦虑。</li>
+</ol>
+<hr>
+<h2>五、个体化医学建议</h2>
+<ol>
+<li><strong>核心姿势干预</strong></li>
+</ol>
+<p>    - 避免连续低头超过30分钟，使用电脑时保持视线与屏幕上缘平齐，使用手机时举高至胸前水平。</p>
+<p>    - 坐姿时在腰部放置靠垫，保持脊柱整体生理曲度，避免含胸驼背。</p>
+<ol>
+<li><strong>颈部功能锻炼（安全优先）</strong></li>
+</ol>
+<p>    - 推荐动作：缓慢颈部前屈、后伸（幅度≤30°）、左右侧屈及旋转，每个动作保持5秒，每组10次，每日2-3组。</p>
+<p>    - 禁止快速甩头、过度后仰及大幅度颈部活动，高位颈椎病变患者剧烈颈部活动可能加重硬膜囊压迫，诱发不适。</p>
+<p>    - 重点强化颈后肌群力量：可进行靠墙收下颌、改良版小燕飞（避免腰部过度发力）等训练。</p>
+<ol>
+<li><strong>睡眠与日常护理</strong></li>
+</ol>
+<p>    - 枕头高度以8-10cm为宜（仰卧时），侧卧时枕头高度与肩宽相当，避免使用过高或过软的枕头。</p>
+<p>    - 避免颈部直接吹风，受凉可诱发肌肉痉挛加重疼痛。</p>
+<ol>
+<li><strong>症状预警与就诊指征</strong></li>
+</ol>
+<p>    出现以下任何症状时，立即前往脊柱外科或神经外科就诊：</p>
+<p>    - 上肢麻木、疼痛、无力，持物不稳；</p>
+<p>    - 下肢行走不稳、踩棉花感；</p>
+<p>    - 持续性剧烈头痛、头晕伴恶心呕吐；</p>
+<p>    - 大小便功能异常。</p>
+<ol>
+<li><strong>随访计划</strong></li>
+</ol>
+<p>    - 无症状或症状轻微者：无需药物治疗，1-2年后复查颈椎MRI（优先选择），评估突出是否进展及脊髓内部信号。</p>
+<p>    - 若症状进行性加重或出现上述预警信号：无需等待定期复查，及时就诊完善MRI检查。</p>
+<hr>
+<blockquote><strong>免责声明</strong>：本报告仅为原始影像资料的专业解读与临床参考，不构成最终医学诊断及治疗方案。所有诊疗决策必须在执业医师面对面评估后制定，请勿自行根据本报告进行治疗或用药。</blockquote></div>
+    </div>
+  </div>
+</div>
+    </div>
+  </section>
 
-      function updateLogo() {
-        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var ratio = Math.min(scrollY / vh, 1);
-        var opacity = 1 - ratio * 0.7;
-        if (logo) {
-          logo.style.opacity = opacity;
-          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
-        }
+  <div style="text-align:center;">
+    <a class="back-link" href="../index.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      返回健康档案
+    </a>
+  </div>
+
+</div>
+
+<!-- Image Modal -->
+<div class="modal" id="imgModal" onclick="closeModal()">
+  <button class="modal-close" onclick="closeModal()">&times;</button>
+  <img id="modalImg" src="" alt="报告图片">
+</div>
+
+<footer>
+  <p>XBrain &copy; 2026</p>
+  <p>个人健康档案 · 仅供家庭参考</p>
+</footer>
+
+<script>
+(function(){
+  // Logo scroll fade
+  var logo=document.querySelector('.xbrain-brand');
+  function updLogo(){
+    var sy=window.pageYOffset||0,vh=window.innerHeight||600;
+    var r=Math.min(sy/vh,1);
+    if(logo){logo.style.opacity=1-r*0.7;logo.classList.toggle('scrolled',sy>vh*0.3);}
+  }
+  window.addEventListener('scroll',function(){requestAnimationFrame(updLogo);},{passive:true});
+  updLogo();
+
+  // Timeline reveal
+  var items=document.querySelectorAll('.timeline-item');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e,i){
+      if(e.isIntersecting){
+        setTimeout(function(){e.target.classList.add('visible');},i*80);
+        obs.unobserve(e.target);
       }
+    });
+  },{threshold:0.1});
+  items.forEach(function(it){obs.observe(it);});
 
-      window.addEventListener('scroll', function () {
-        if (!ticking) {
-          window.requestAnimationFrame(function () {
-            updateLogo();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
+  // Toggle report detail
+  window.toggleReport=function(btn){
+    var detail=btn.parentElement.nextElementSibling;
+    var show=detail.style.display==='none';
+    detail.style.display=show?'block':'none';
+    btn.textContent=show?'收起报告':'查看完整报告';
+  };
 
-      window.addEventListener('touchmove', function () {
-        if (!ticking) {
-          window.requestAnimationFrame(function () {
-            updateLogo();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
+  // Search
+  var searchBox=document.getElementById('searchBox');
+  searchBox.addEventListener('input',function(){
+    var q=this.value.toLowerCase();
+    items.forEach(function(it){
+      var txt=it.textContent.toLowerCase();
+      it.style.display=txt.includes(q)?'':'none';
+    });
+  });
 
-      updateLogo();
-
-      // ===== Card Reveal on Scroll =====
-      var cards = document.querySelectorAll('.site-card');
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry, index) {
-          if (entry.isIntersecting) {
-            setTimeout(function () {
-              entry.target.classList.add('visible');
-            }, index * 150);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-      cards.forEach(function (card) {
-        observer.observe(card);
+  // Year filter
+  var yearBtns=document.querySelectorAll('.year-tag');
+  yearBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      yearBtns.forEach(function(b){b.classList.remove('active');});
+      this.classList.add('active');
+      var y=this.dataset.year;
+      items.forEach(function(it){
+        it.style.display=(y==='all'||it.dataset.year===y)?'':'none';
       });
-    })();
-  </script>
+    });
+  });
+
+  // Image modal
+  window.openModal=function(src){
+    document.getElementById('modalImg').src=src;
+    document.getElementById('imgModal').classList.add('active');
+  };
+  window.closeModal=function(){
+    document.getElementById('imgModal').classList.remove('active');
+  };
+})();
+</script>
 
 </body>
-
 </html>
