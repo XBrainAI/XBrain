@@ -52,7 +52,7 @@ def md_to_html(text):
         html_lines.append('<div class="table-wrap"><table>')
         for idx, (orig_idx, cells) in enumerate(header_rows):
             tag = "th" if idx == 0 else "td"
-            html_lines.append("<tr>" + "".join(f"<{tag}>{escape_html(c)}</{tag}>" for c in cells) + "</tr>")
+            html_lines.append("<tr>" + "".join(f"<{tag}>{inline_format(escape_html(c))}</{tag}>" for c in cells) + "</tr>")
         html_lines.append('</table></div>')
         in_table = False
         table_rows = []
@@ -532,7 +532,7 @@ footer{{
   <!-- 深度分析报告 -->
   <section>
     <h2 class="section-title">深度医学分析报告</h2>
-    <div class="card">
+    <div class="card report-body">
       {main_html}
     </div>
   </section>
