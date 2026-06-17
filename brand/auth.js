@@ -13,7 +13,16 @@
   authStyle.id = 'xbrain-auth-style';
   authStyle.textContent = 'html.xbrain-auth-hidden body > *:not(#xbrain-auth-overlay) { display: none !important; }';
   document.head.appendChild(authStyle);
-  document.documentElement.classList.add('xbrain-auth-hidden');
+
+  // document.body 在 <head> 中尚不存在，需等待 DOM 就绪
+  function hideBody() {
+    document.documentElement.classList.add('xbrain-auth-hidden');
+  }
+  if (document.body) {
+    hideBody();
+  } else {
+    document.addEventListener('DOMContentLoaded', hideBody);
+  }
 
   // ===== SHA-256 =====
   async function sha256(message) {
