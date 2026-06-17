@@ -1293,27 +1293,30 @@
         <!-- Desktop -->
         <div class="flowchart">
           <div class="flow-row">
-            <div class="flow-node decision">四项症状同时出现<br>S1 + S2 + S3 + S4</div>
+            <div class="flow-node decision">四项症状同时出现<br>S1+S2+S3+S4</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node decision">S4 为核心鉴别症状<br>制冷量与频率强依赖</div>
+            <div class="flow-node decision">核心鉴别症状 S4<br>制冷量与频率强依赖</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node">高频运行：制冷剂循环量达最大<br>蒸发器勉强建立温差</div>
+            <div class="flow-node">高频：循环量达余量上限<br>&rarr; 勉强制冷</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node">低频运行：循环量骤减<br>低压升至临界值以上</div>
+            <div class="flow-node">低频：循环量骤减<br>&rarr; 低压无法维持</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node result">蒸发温度回升至室温附近<br>系统等效于"仅循环空气"</div>
+            <div class="flow-node result">蒸发温度回升至室温<br>&rarr; 等效仅循环空气</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node decision" style="background:rgba(100,180,255,0.15);">高度指向：制冷剂不足</div>
+            <div class="flow-node final-result">
+              <span class="result-label">结论</span><br>
+              高度指向制冷剂不足
+            </div>
           </div>
         </div>
 
@@ -1322,11 +1325,11 @@
           <div class="flow-step">
             <div class="flow-step-dot decision"></div>
             <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">四项症状同时出现 S1+S2+S3+S4</span>
+              <span class="flow-step-label">四项症状同时出现</span>
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>出风常温(S1)、无除湿(S2)、噪音偏大(S3)、频率依赖(S4) 四项症状同时存在，构成完整证据链。</p>
+              <p>S1 出风常温 + S2 无除湿 + S3 噪音偏大 + S4 频率依赖，构成完整证据链。</p>
             </div>
           </div>
           <div class="flow-step">
@@ -1336,47 +1339,27 @@
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>制冷量与压缩机频率呈强依赖关系，这是制冷剂不足的典型特征，其他病因不表现此特性。</p>
+              <p>制冷量与压缩机频率强依赖是制冷剂不足的典型特征，其他病因不表现此特性。</p>
             </div>
           </div>
           <div class="flow-step">
             <div class="flow-step-dot"></div>
             <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">高频运行：循环量达最大</span>
+              <span class="flow-step-label">高频勉强制冷，低频失效</span>
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>压缩机满负荷驱动，制冷剂循环量达到当前余量下最大值，蒸发器勉强建立温差，故低温设定时偶可制冷。</p>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-dot"></div>
-            <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">低频运行：循环量骤减</span>
-              <span class="flow-step-toggle">&#9660;</span>
-            </div>
-            <div class="flow-step-body">
-              <p>压缩机降频后制冷剂循环量骤减，低压侧压力升至临界值以上，蒸发温度回升至室温附近。</p>
+              <p>高频时循环量达余量上限勉强制冷；低频时循环量骤减，低压无法维持，蒸发温度回升。</p>
             </div>
           </div>
           <div class="flow-step">
             <div class="flow-step-dot result"></div>
             <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">系统等效于"仅循环空气"</span>
+              <span class="flow-step-label" style="color:var(--xb-accent);font-weight:700;">结论：制冷剂不足</span>
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>蒸发温度回升至室温附近，叠加风扇电机持续发热，出风体感越来越暖，房间闷热加重。</p>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-dot decision"></div>
-            <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label" style="color:var(--xb-accent);font-weight:700;">高度指向：制冷剂不足</span>
-              <span class="flow-step-toggle">&#9660;</span>
-            </div>
-            <div class="flow-step-body">
-              <p>全部症状均获合理解释，S4 为高度特异性表现，指向制冷剂慢性泄漏。</p>
+              <p>全部症状获合理解释，S4 为高度特异性表现，进入故障排查流程验证。</p>
             </div>
           </div>
         </div>
@@ -1542,7 +1525,7 @@
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node"><strong>第一级：目视排查</strong><br>检查冷凝器翅片、喇叭口接头、阀门温度</div>
+            <div class="flow-node"><strong>第一级：目视排查</strong><br>检查翅片、喇叭口、阀门温度</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
@@ -1550,29 +1533,27 @@
           </div>
           <div class="flow-branch-wrap">
             <div class="flow-branch-connector">
-              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> 否</div>
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> &#10060; 否</div>
               <div class="flow-node branch-no">
-                <span class="branch-tag no">NO</span>
-                <span class="branch-condition">无油渍且阀门温度正常</span>
-                <span class="branch-result">未发现泄漏迹象</span>
-                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&rarr;
-                  进入第二级：专业检测</span>
+                <span class="branch-tag no">&#10060; NO</span>
+                <span class="branch-condition">未发现泄漏</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  进入第二级</span>
               </div>
             </div>
             <div class="flow-branch-connector">
-              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> 是</div>
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> &#9989; 是</div>
               <div class="flow-node branch-yes">
-                <span class="branch-tag yes">YES</span>
-                <span class="branch-condition">发现油渍或阀门温度异常</span>
-                <span class="branch-result">确认泄漏迹象</span>
-                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&rarr;
-                  进入第二级：专业检测</span>
+                <span class="branch-tag yes">&#9989; YES</span>
+                <span class="branch-condition">确认泄漏</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  进入第二级</span>
               </div>
             </div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node"><strong>第二级：专业检测</strong><br>双压力表测压、钳形表测电流、保压测试</div>
+            <div class="flow-node"><strong>第二级：专业检测</strong><br>双压力表 / 钳形表 / 保压测试</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
@@ -1580,30 +1561,27 @@
           </div>
           <div class="flow-branch-wrap">
             <div class="flow-branch-connector">
-              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> 否</div>
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> &#10060; 否</div>
               <div class="flow-node branch-no terminate">
-                <span class="branch-tag no">NO</span>
-                <span class="branch-condition">压力在正常范围内</span>
-                <span class="branch-result">制冷剂充足</span>
-                <span class="terminate-label">⛔ 终止排查</span>
-                <span class="branch-condition" style="margin-top:8px;color:#ff8a8a;font-weight:600;">&rarr;
-                  需排查其他病因（如压缩机老化等）</span>
+                <span class="branch-tag no">&#10060; NO</span>
+                <span class="branch-condition">制冷剂充足</span>
+                <span class="terminate-label">&#9940; 终止</span>
+                <span class="branch-condition" style="margin-top:8px;color:#ff8a8a;font-weight:600;">排查其他病因</span>
               </div>
             </div>
             <div class="flow-branch-connector">
-              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> 是</div>
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> &#9989; 是</div>
               <div class="flow-node branch-yes">
-                <span class="branch-tag yes">YES</span>
-                <span class="branch-condition">压力显著低于正常值</span>
-                <span class="branch-result">确认制冷剂不足</span>
-                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&rarr;
-                  进入第三级：修复</span>
+                <span class="branch-tag yes">&#9989; YES</span>
+                <span class="branch-condition">确认制冷剂不足</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  进入第三级</span>
               </div>
             </div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node"><strong>第三级：修复</strong><br>查漏 &rarr; 修复漏点 &rarr; 抽真空 &rarr; 定量加注 &rarr; 清洗外机</div>
+            <div class="flow-node"><strong>第三级：修复</strong><br>查漏 &rarr; 修复 &rarr; 抽真空 &rarr; 加注</div>
           </div>
         </div>
 
@@ -1616,7 +1594,7 @@
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>检查室外机冷凝器翅片积灰程度、四个喇叭口接头有无油渍、运行15分钟后阀门温度是否正常。</p>
+              <p>检查冷凝器翅片、喇叭口接头油渍、阀门温度。</p>
             </div>
           </div>
           <div class="flow-step">
@@ -1627,19 +1605,19 @@
             </div>
             <div class="flow-step-body">
               <div class="flow-step-branches">
-                <div class="flow-step-branch no">否 &rarr; 未发现泄漏迹象，继续进入第二级</div>
-                <div class="flow-step-branch yes">是 &rarr; 确认泄漏迹象，继续进入第二级</div>
+                <div class="flow-step-branch no">&#10060; 未发现泄漏，&#10132; 继续</div>
+                <div class="flow-step-branch yes">&#9989; 确认泄漏，&#10132; 继续</div>
               </div>
             </div>
           </div>
           <div class="flow-step">
             <div class="flow-step-dot decision"></div>
             <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">第二级：专业检测（持证技师）</span>
+              <span class="flow-step-label">第二级：专业检测</span>
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>接双压力表测量运行压力（R410A: 0.8-1.0MPa; R32: 0.9-1.1MPa）、钳形表测电流、氮气保压测试。</p>
+              <p>双压力表测压、钳形表测电流、氮气保压测试。</p>
             </div>
           </div>
           <div class="flow-step">
@@ -1650,8 +1628,8 @@
             </div>
             <div class="flow-step-body">
               <div class="flow-step-branches">
-                <div class="flow-step-branch no terminate"> 终止：制冷剂充足，排查其他病因</div>
-                <div class="flow-step-branch yes">是 &rarr; 确认制冷剂不足，进入第三级：修复</div>
+                <div class="flow-step-branch no terminate">&#10060; 制冷剂充足 &#9940; 终止</div>
+                <div class="flow-step-branch yes">&#9989; 确认不足，&#10132; 进入修复</div>
               </div>
             </div>
           </div>
@@ -1662,7 +1640,7 @@
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>电子检漏仪查漏 &rarr; 修复漏点（重新扩口/换阀芯）&rarr; 双级泵抽真空(&le;60Pa, &ge;30min) &rarr; 电子秤定量加注 &rarr; 清洗外机。</p>
+              <p>查漏 &rarr; 修复漏点 &rarr; 抽真空 &rarr; 定量加注。</p>
             </div>
           </div>
         </div>
@@ -1983,19 +1961,35 @@
         <!-- Desktop -->
         <div class="flowchart">
           <div class="flow-row">
-            <div class="flow-node">上门诊断<br>测温差/电流/压力</div>
+            <div class="flow-node">上门诊断<br>测温差 / 电流 / 压力</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node">电子检漏<br>逐点排查漏点</div>
+            <div class="flow-node">电子检漏<br>逐点排查</div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
             <div class="flow-node decision">检出漏点？</div>
           </div>
-          <div class="flow-branch">
-            <div class="flow-node">喇叭口/阀芯漏<br>&rarr; 重新扩口/换阀芯</div>
-            <div class="flow-node result-neg">无可见漏点<br>&rarr; 标记"自然逸散"</div>
+          <div class="flow-branch-wrap">
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> &#10060; 未检出</div>
+              <div class="flow-node branch-no">
+                <span class="branch-tag no">&#10060; NO</span>
+                <span class="branch-condition">无可见漏点</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  标记自然逸散</span>
+              </div>
+            </div>
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> &#9989; 检出</div>
+              <div class="flow-node branch-yes">
+                <span class="branch-tag yes">&#9989; YES</span>
+                <span class="branch-condition">喇叭口 / 阀芯漏</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  修复漏点</span>
+              </div>
+            </div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
@@ -2011,7 +2005,10 @@
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
-            <div class="flow-node result">性能验证<br>温差 &ge;8&#8451; 合格</div>
+            <div class="flow-node final-result">
+              <span class="result-label">完成</span><br>
+              性能验证，温差 &ge;8&#8451; 合格
+            </div>
           </div>
         </div>
 
@@ -2024,7 +2021,7 @@
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>开机运行，测量进出风温差、运行电流、高低压，确认制冷剂不足的诊断。耗时 20-30min。</p>
+              <p>测温差、电流、压力，确认制冷剂不足。耗时 20-30min。</p>
             </div>
           </div>
           <div class="flow-step">
@@ -2034,7 +2031,7 @@
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>电子检漏仪逐点排查：喇叭口 &rarr; 截止阀芯 &rarr; 蒸发器管板 &rarr; 冷凝器管板。常见漏点在前两项。耗时 15-30min。</p>
+              <p>逐点排查：喇叭口 &rarr; 阀芯 &rarr; 管板。耗时 15-30min。</p>
             </div>
           </div>
           <div class="flow-step">
@@ -2045,49 +2042,29 @@
             </div>
             <div class="flow-step-body">
               <div class="flow-step-branches">
-                <div class="flow-step-branch yes">喇叭口/阀芯漏 &rarr; 重新扩口/换阀芯</div>
-                <div class="flow-step-branch no">无可见漏点 &rarr; 标记"自然逸散"</div>
+                <div class="flow-step-branch no">&#10060; 未检出，&#10132; 标记自然逸散</div>
+                <div class="flow-step-branch yes">&#9989; 检出，&#10132; 修复漏点</div>
               </div>
             </div>
           </div>
           <div class="flow-step">
             <div class="flow-step-dot"></div>
             <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">4. 氮气保压验证</span>
+              <span class="flow-step-label">4. 保压 &rarr; 抽真空 &rarr; 加注</span>
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>系统充氮气至试验压力（R410A: 3.8MPa; R32: 4.2MPa），保压 &ge;10 分钟。压力表回落值即泄漏量。耗时 20-30min。</p>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-dot"></div>
-            <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">5. 双级泵抽真空</span>
-              <span class="flow-step-toggle">&#9660;</span>
-            </div>
-            <div class="flow-step-body">
-              <p>双级真空泵从高低压双侧同时抽空，真空度 &le;60Pa，保压 15 分钟无回升，总抽空 &ge;30min。</p>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-step-dot"></div>
-            <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label">6. 电子秤定量加注</span>
-              <span class="flow-step-toggle">&#9660;</span>
-            </div>
-            <div class="flow-step-body">
-              <p>按室外机铭牌标注量与类型，电子秤精准加注。严禁凭经验或压力表补加。耗时 10-15min。</p>
+              <p>氮气保压 &ge;10min &rarr; 双级泵抽真空 &le;60Pa &rarr; 电子秤定量加注。</p>
             </div>
           </div>
           <div class="flow-step">
             <div class="flow-step-dot result"></div>
             <div class="flow-step-header" onclick="toggleStep(this)">
-              <span class="flow-step-label" style="color:#64ffb4;font-weight:700;">7. 性能验证</span>
+              <span class="flow-step-label" style="color:#64ffb4;font-weight:700;">5. 性能验证</span>
               <span class="flow-step-toggle">&#9660;</span>
             </div>
             <div class="flow-step-body">
-              <p>开机运行，复测进出风温差、运行压力、电流。进出风温差 &ge;8&#8451; 为合格（正常新机 &ge;12&#8451;）。耗时 15-20min。</p>
+              <p>复测温差 &ge;8&#8451; 合格。耗时 15-20min。</p>
             </div>
           </div>
         </div>
@@ -2307,22 +2284,71 @@
           <div class="flow-row">
             <div class="flow-node decision">检出漏点位置</div>
           </div>
-          <div class="flow-branch">
-            <div class="flow-node">喇叭口/阀芯<br>（可修复型）</div>
-            <div class="flow-node">管板焊接处<br>（需换总成）</div>
+          <div class="flow-branch-wrap">
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> &#9989; 喇叭口/阀芯</div>
+              <div class="flow-node branch-yes">
+                <span class="branch-tag yes">&#9989; 可修复</span>
+                <span class="branch-condition">重新扩口 / 换阀芯</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  评估费用</span>
+              </div>
+            </div>
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> &#10060; 管板焊接处</div>
+              <div class="flow-node branch-no">
+                <span class="branch-tag no">&#10060; 需换总成</span>
+                <span class="branch-condition">更换换热器总成</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  评估费用</span>
+              </div>
+            </div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
           <div class="flow-row">
             <div class="flow-node decision">维修总费用 &gt; 2500 元？</div>
           </div>
-          <div class="flow-branch">
-            <div class="flow-node result-neg">否 &rarr; 优先维修<br>3 年节省约 3000 元</div>
-            <div class="flow-node decision">压缩机电流偏离<br>铭牌 &gt;15%？</div>
+          <div class="flow-branch-wrap">
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> &#10060; 否</div>
+              <div class="flow-node branch-yes final-result">
+                <span class="result-label">&#127937; 结论</span>
+                <span class="branch-condition">优先维修</span>
+                <span class="branch-condition" style="margin-top:8px;color:#64ffb4;font-weight:600;">3 年节省约 3000
+                  元</span>
+              </div>
+            </div>
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> &#9989; 是</div>
+              <div class="flow-node branch-no">
+                <span class="branch-tag no">&#9989; 费用过高</span>
+                <span class="branch-condition">维修总费用 &gt; 2500 元</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&#10132;
+                  评估压缩机</span>
+              </div>
+            </div>
           </div>
           <div class="flow-arrow-down">&#8595;</div>
-          <div class="flow-branch">
-            <div class="flow-node result">是 &rarr; 直接换新<br>避免持续投入</div>
-            <div class="flow-node result-neg">否 &rarr; 仍可维修<br>评估性价比后决定</div>
+          <div class="flow-row">
+            <div class="flow-node decision">压缩机电流偏离铭牌 &gt;15%？</div>
+          </div>
+          <div class="flow-branch-wrap">
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> &#9989; 是</div>
+              <div class="flow-node branch-yes terminate">
+                <span class="terminate-label">&#9940; 终止：直接换新</span>
+                <span class="branch-condition">压缩机已老化</span>
+                <span class="branch-condition" style="margin-top:8px;color:#ff8a8a;font-weight:600;">避免持续投入</span>
+              </div>
+            </div>
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> &#10060; 否</div>
+              <div class="flow-node branch-no final-result">
+                <span class="result-label">&#127937; 结论</span>
+                <span class="branch-condition">仍可维修</span>
+                <span class="branch-condition" style="margin-top:8px;color:#64ffb4;font-weight:600;">评估性价比后决定</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2336,8 +2362,8 @@
             </div>
             <div class="flow-step-body">
               <div class="flow-step-branches">
-                <div class="flow-step-branch yes">喇叭口/阀芯（可修复型）</div>
-                <div class="flow-step-branch no">管板焊接处（需换总成）</div>
+                <div class="flow-step-branch yes">&#9989; 喇叭口/阀芯，&#10132; 可修复</div>
+                <div class="flow-step-branch no">&#10060; 管板焊接处，&#10132; 需换总成</div>
               </div>
             </div>
           </div>
@@ -2349,8 +2375,10 @@
             </div>
             <div class="flow-step-body">
               <div class="flow-step-branches">
-                <div class="flow-step-branch yes">否 &rarr; 优先维修，3年节省约3000元</div>
-                <div class="flow-step-branch no">是 &rarr; 继续评估</div>
+                <div class="flow-step-branch yes"
+                  style="border-left-color:#64ffb4;background:rgba(100,255,180,0.08);color:#64ffb4;">&#10060;
+                  否，&#127937; 优先维修（3年省3000元）</div>
+                <div class="flow-step-branch no">&#9989; 是，&#10132; 评估压缩机</div>
               </div>
             </div>
           </div>
@@ -2362,8 +2390,11 @@
             </div>
             <div class="flow-step-body">
               <div class="flow-step-branches">
-                <div class="flow-step-branch yes">是 &rarr; 直接换新，避免持续投入</div>
-                <div class="flow-step-branch no">否 &rarr; 仍可维修，评估性价比后决定</div>
+                <div class="flow-step-branch no terminate">&#9989; 是，&#9940; 终止：直接换新</div>
+                <div class="flow-step-branch yes"
+                  style="border-left-color:#64ffb4;background:rgba(100,255,180,0.08);color:#64ffb4;">&#10060;
+                  否，&#127937; 结论：仍可维修
+                </div>
               </div>
             </div>
           </div>
