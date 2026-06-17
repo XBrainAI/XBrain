@@ -237,6 +237,8 @@ def build_html(main_html, reports):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../brand/auth.css">
+<script src="../brand/auth.js"></script>
 <style>
 *,*::before,*::after{{margin:0;padding:0;box-sizing:border-box}}
 :root{{
@@ -635,6 +637,25 @@ footer{{
   window.closeModal=function(){{
     document.getElementById('imgModal').classList.remove('active');
   }};
+}})();
+</script>
+
+<script>
+(function(){{
+  // Sub-site authentication (妈)
+  if (window.XBrainAuth) {{
+    XBrainAuth.init({{
+      level: 'sub',
+      subSiteName: 'mom',
+      configPath: './auth.config.json',
+      onAuthSuccess: function() {{
+        console.log('[XBrainAuth] Sub-site authentication successful');
+      }},
+      onAuthFail: function() {{
+        console.log('[XBrainAuth] Sub-site authentication failed');
+      }}
+    }});
+  }}
 }})();
 </script>
 

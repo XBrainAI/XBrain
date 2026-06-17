@@ -1,0 +1,32 @@
+{
+  "main": {
+    "enabled": true,
+    "password": "xbrain2024",
+    "sessionDuration": 7,
+    "sessionUnit": "days",
+    "lockout": {
+      "enabled": true,
+      "maxAttempts": 5,
+      "lockoutDuration": 15,
+      "lockoutUnit": "minutes"
+    },
+    "ui": {
+      "title": "XBrain",
+      "subtitle": "请输入访问密码",
+      "placeholder": "输入密码",
+      "errorText": "密码错误，请重试",
+      "lockedText": "尝试次数过多，请 {minutes} 分钟后重试",
+      "loginButtonText": "进入"
+    }
+  },
+  "defaults": {
+    "sessionDuration": 30,
+    "sessionUnit": "minutes",
+    "lockout": {
+      "enabled": true,
+      "maxAttempts": 5,
+      "lockoutDuration": 15,
+      "lockoutUnit": "minutes"
+    }
+  }
+}
