@@ -420,3 +420,77 @@ Logo 由固定定位的 SVG 图标 + 品牌文字组成，支持滚动淡出交�
 5. **设计增强**：在品牌底座上应用 `frontend-design` 技能提升视觉层次
 6. **移动端适配**：添加 `@media` 查询，优化 Logo + 导航布局、压缩尺寸
 7. **验证**：在桌面端和手机端分别测试，确保品牌一致性和用户体验
+
+---
+
+### 9.7 流程图分支标识规范
+
+在流程图中涉及分支判断时，应遵循以下统一标识规范，确保用户能直观区分各路径的走向和状态。
+
+#### 9.7.1 Emoji 标识体系
+
+| 标识 | 含义 | 使用场景 | 颜色 |
+|------|------|----------|------|
+| ✅ | 是 / YES | 所有"是"路径分支 | 绿色 |
+| ❌ | 否 / NO | 所有"否"路径分支 | 红色 |
+| ➡️ | 继续执行 | 需要进入下一步的分支 | 蓝色 |
+| 🏁 | 结论 | 流程终点（非终止的决策结果） | 绿色 |
+| ⛔ | 终止 | 流程中途终止 | 红色 |
+
+**注意：**
+- "是"路径始终使用 ✅ 绿色标识，"否"路径始终使用 ❌ 红色标识，与实际逻辑（继续/终止）无关。
+- ➡️ 用于标注需要继续执行的分支，⛔ 用于标注需要终止的分支，🏁 用于标注最终结论。
+
+#### 9.7.2 桌面端分支节点规范
+
+```html
+<!-- 是路径 -->
+<div class="flow-branch-label yes-label">&#8595; ✅ 是</div>
+<div class="flow-node branch-yes">
+  <span class="branch-tag yes">✅ YES</span>
+  <span class="branch-condition">判断结果</span>
+  <span class="branch-condition" style="color:var(--xb-accent);">➡️ 进入下一步</span>
+</div>
+
+<!-- 否路径（终止） -->
+<div class="flow-branch-label no-label">&#8595; ❌ 否</div>
+<div class="flow-node branch-no terminate">
+  <span class="branch-tag no">❌ NO</span>
+  <span class="branch-condition">判断结果</span>
+  <span class="terminate-label">⛔ 终止</span>
+  <span class="branch-condition" style="color:#ff8a8a;">终止原因</span>
+</div>
+
+<!-- 否路径（结论） -->
+<div class="flow-branch-label no-label">&#8595; ❌ 否</div>
+<div class="flow-node branch-no final-result">
+  <span class="result-label">🏁 结论</span>
+  <span class="branch-condition">结论内容</span>
+</div>
+```
+
+#### 9.7.3 移动端分支卡片规范
+
+```html
+<div class="flow-step-branches">
+  <div class="flow-step-branch no">❌ 判断结果，➡️ 继续</div>
+  <div class="flow-step-branch yes">✅ 判断结果，➡️ 继续</div>
+  <div class="flow-step-branch no terminate">❌⛔ 终止：终止原因</div>
+  <div class="flow-step-branch yes" style="border-left-color:#64ffb4;">❌ 否，🏁 结论内容</div>
+</div>
+```
+
+#### 9.7.4 精简原则
+
+- 去除 `&rarr; 继续：` / `&rarr; 终止：` 等冗余前缀，改用 ➡️ emoji 直接表达流向。
+- 分支节点文字控制在 15 字以内，仅保留判断结果和下一步动作。
+- 终止节点必须同时包含 ❌（分支标识）和 ⛔（终止标识），视觉双重确认。
+
+#### 9.7.5 CSS 类名规范
+
+| 类名 | 用途 | 样式特征 |
+|------|------|----------|
+| `.branch-yes` | 是路径节点 | 绿色边框 + 绿色文字 |
+| `.branch-no` | 否路径节点 | 红色边框 + 红色文字 |
+| `.terminate` | 终止节点 | 红色脉冲动画 + `⛔` 标签 |
+| `.final-result` | 结论节点 | 绿色边框 + `🏁` 标签 |
