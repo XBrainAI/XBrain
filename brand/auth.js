@@ -1,28 +1,22 @@
 /**
- * XBrain Authentication Module v1.1
+ * XBrain Authentication Module v1.2
  * 共享认证模块 - 支持主站登录 + 子站独立验证
- * 在 <head> 中加载，防止内容闪烁
+ * 必须在 </body> 前加载，确保 document.body 已存在
  */
 (function () {
   'use strict';
 
-  var XBrainAuth = window.XBrainAuth || {};
+  // 防止重复初始化
+  if (window.XBrainAuth && window.XBrainAuth.__initialized) return;
+  var XBrainAuth = {};
+  XBrainAuth.__initialized = true;
 
   // ===== 立即隐藏 body 内容（防止闪烁） =====
   var authStyle = document.createElement('style');
   authStyle.id = 'xbrain-auth-style';
   authStyle.textContent = 'html.xbrain-auth-hidden body > *:not(#xbrain-auth-overlay) { display: none !important; }';
   document.head.appendChild(authStyle);
-
-  // document.body 在 <head> 中尚不存在，需等待 DOM 就绪
-  function hideBody() {
-    document.documentElement.classList.add('xbrain-auth-hidden');
-  }
-  if (document.body) {
-    hideBody();
-  } else {
-    document.addEventListener('DOMContentLoaded', hideBody);
-  }
+  document.documentElement.classList.add('xbrain-auth-hidden');
 
   // ===== SHA-256 =====
   async function sha256(message) {
