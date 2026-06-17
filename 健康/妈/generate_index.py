@@ -238,6 +238,8 @@ def build_html(main_html, reports):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../brand/auth.css">
+<!-- 立即隐藏内容，防止 auth 加载期间的闪烁 -->
+<style>body > *:not(script):not(style):not(link):not(meta):not(title){display:none !important}</style>
 <script src="../brand/auth.js"></script>
 <style>
 *,*::before,*::after{{margin:0;padding:0;box-sizing:border-box}}

@@ -9,11 +9,25 @@
   var XBrainAuth = window.XBrainAuth || {};
 
   // ===== 立即隐藏 body 内容（防止闪烁） =====
+  // 仅主站使用全局隐藏，子站使用 overlay 覆盖（内容可见但模糊）
   var authStyle = document.createElement('style');
   authStyle.id = 'xbrain-auth-style';
   authStyle.textContent = 'html.xbrain-auth-hidden body > *:not(#xbrain-auth-overlay) { display: none !important; }';
   document.head.appendChild(authStyle);
-  document.documentElement.classList.add('xbrain-auth-hidden');
+  
+  // 注册 init 函数，根据 level 决定是否隐藏
+  var initLevel = null;
+  var initSubSiteName = '';
+  var initConfigPath = '';
+  var initOnAuthSuccess = function(){};
+  var initOnAuthFail = function(){};
+
+  function applyHiddenClass() {
+    if (initLevel === 'main') {
+      document.documentElement.classList.add('xbrain-auth-hidden');
+    }
+    // sub 级别不隐藏 body，而是显示 blur overlay
+  }
 
   // ===== SHA-256 =====
   async function sha256(message) {
@@ -186,8 +200,14 @@
     var onAuthSuccess = options.onAuthSuccess || function () {};
     var onAuthFail = options.onAuthFail || function () {};
 
+    // 主站需要隐藏内容，子站使用 overlay 覆盖
+    if (level === 'main') {
+      document.documentElement.classList.add('xbrain-auth-hidden');
+    }
+
     // Check for existing session first
     var existingSession = getSession(level, subSiteName);
+    console.log('[XBrainAuth] Level:', level, 'SubSite:', subSiteName, 'SessionKey:', getSessionKey(level, subSiteName), 'HasSession:', !!existingSession);
     if (existingSession) {
       revealContent();
       onAuthSuccess();
