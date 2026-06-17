@@ -9,25 +9,11 @@
   var XBrainAuth = window.XBrainAuth || {};
 
   // ===== 立即隐藏 body 内容（防止闪烁） =====
-  // 仅主站使用全局隐藏，子站使用 overlay 覆盖（内容可见但模糊）
   var authStyle = document.createElement('style');
   authStyle.id = 'xbrain-auth-style';
   authStyle.textContent = 'html.xbrain-auth-hidden body > *:not(#xbrain-auth-overlay) { display: none !important; }';
   document.head.appendChild(authStyle);
-  
-  // 注册 init 函数，根据 level 决定是否隐藏
-  var initLevel = null;
-  var initSubSiteName = '';
-  var initConfigPath = '';
-  var initOnAuthSuccess = function(){};
-  var initOnAuthFail = function(){};
-
-  function applyHiddenClass() {
-    if (initLevel === 'main') {
-      document.documentElement.classList.add('xbrain-auth-hidden');
-    }
-    // sub 级别不隐藏 body，而是显示 blur overlay
-  }
+  document.documentElement.classList.add('xbrain-auth-hidden');
 
   // ===== SHA-256 =====
   async function sha256(message) {
@@ -141,15 +127,15 @@
 
     overlay.innerHTML =
       '<div class="xbrain-auth-card">' +
-        logoHtml +
-        '<h2 class="xbrain-auth-title">' + title + '</h2>' +
-        '<p class="xbrain-auth-subtitle">' + subtitle + '</p>' +
-        '<form class="xbrain-auth-form" onsubmit="return false;">' +
-          '<input type="password" class="xbrain-auth-input" id="xbrain-auth-pwd" placeholder="' + placeholder + '" autocomplete="off">' +
-          '<button type="submit" class="xbrain-auth-btn" id="xbrain-auth-btn">' + btnText + '</button>' +
-        '</form>' +
-        '<div class="xbrain-auth-error" id="xbrain-auth-error"></div>' +
-        '<div class="xbrain-auth-lockout" id="xbrain-auth-lockout" style="display:none;"></div>' +
+      logoHtml +
+      '<h2 class="xbrain-auth-title">' + title + '</h2>' +
+      '<p class="xbrain-auth-subtitle">' + subtitle + '</p>' +
+      '<form class="xbrain-auth-form" onsubmit="return false;">' +
+      '<input type="password" class="xbrain-auth-input" id="xbrain-auth-pwd" placeholder="' + placeholder + '" autocomplete="off">' +
+      '<button type="submit" class="xbrain-auth-btn" id="xbrain-auth-btn">' + btnText + '</button>' +
+      '</form>' +
+      '<div class="xbrain-auth-error" id="xbrain-auth-error"></div>' +
+      '<div class="xbrain-auth-lockout" id="xbrain-auth-lockout" style="display:none;"></div>' +
       '</div>';
 
     return overlay;
@@ -197,102 +183,121 @@
     var level = options.level || 'main';
     var subSiteName = options.subSiteName || '';
     var configPath = options.configPath || './auth.config.json';
-    var onAuthSuccess = options.onAuthSuccess || function () {};
-    var onAuthFail = options.onAuthFail || function () {};
-
-    // 主站需要隐藏内容，子站使用 overlay 覆盖
-    if (level === 'main') {
-      document.documentElement.classList.add('xbrain-auth-hidden');
-    }
+    var onAuthSuccess = options.onAuthSuccess || function () { };
+    var onAuthFail = options.onAuthFail || function () { };
 
     // Check for existing session first
     var existingSession = getSession(level, subSiteName);
-    console.log('[XBrainAuth] Level:', level, 'SubSite:', subSiteName, 'SessionKey:', getSessionKey(level, subSiteName), 'HasSession:', !!existingSession);
     if (existingSession) {
       revealContent();
       onAuthSuccess();
       return Promise.resolve();
     }
 
-    // Fetch config
-    return fetch(configPath)
-      .then(function (res) { return res.json(); })
-      .then(function (config) {
-        var mainConfig = config.main || {};
-        var defaults = config.defaults || {};
+    // Wait for DOM to be ready before fetching config
+    function doInit() {
+      // Fetch config
+      return fetch(configPath)
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (config) {
+          var mainConfig = config.main || {};
+          var defaults = config.defaults || {};
 
-        var enabled = level === 'main' ? mainConfig.enabled : config.enabled;
-        if (!enabled) {
-          revealContent();
-          onAuthSuccess();
-          return;
-        }
+          var enabled = level === 'main' ? mainConfig.enabled : config.enabled;
+          if (!enabled) {
+            revealContent();
+            onAuthSuccess();
+            return;
+          }
 
-        var password = level === 'main' ? mainConfig.password : config.password;
-        var sessionDuration = level === 'main' ? mainConfig.sessionDuration : (config.sessionDuration || defaults.sessionDuration);
-        var sessionUnit = level === 'main' ? mainConfig.sessionUnit : (config.sessionUnit || defaults.sessionUnit);
-        var lockoutEnabled = level === 'main' ? mainConfig.lockout.enabled : (config.lockout ? config.lockout.enabled : defaults.lockout.enabled);
-        var maxAttempts = level === 'main' ? mainConfig.lockout.maxAttempts : (config.lockout ? config.lockout.maxAttempts : defaults.lockout.maxAttempts);
-        var lockoutDuration = level === 'main' ? mainConfig.lockout.lockoutDuration : (config.lockout ? config.lockout.lockoutDuration : defaults.lockout.lockoutDuration);
-        var lockoutUnit = level === 'main' ? mainConfig.lockout.lockoutUnit : (config.lockout ? config.lockout.lockoutUnit : defaults.lockout.lockoutUnit);
-        var ui = level === 'main' ? mainConfig.ui : (config.ui || {});
+          var password = level === 'main' ? mainConfig.password : config.password;
+          var sessionDuration = level === 'main' ? mainConfig.sessionDuration : (config.sessionDuration || defaults.sessionDuration);
+          var sessionUnit = level === 'main' ? mainConfig.sessionUnit : (config.sessionUnit || defaults.sessionUnit);
+          var lockoutEnabled = level === 'main' ? mainConfig.lockout.enabled : (config.lockout ? config.lockout.enabled : defaults.lockout.enabled);
+          var maxAttempts = level === 'main' ? mainConfig.lockout.maxAttempts : (config.lockout ? config.lockout.maxAttempts : defaults.lockout.maxAttempts);
+          var lockoutDuration = level === 'main' ? mainConfig.lockout.lockoutDuration : (config.lockout ? config.lockout.lockoutDuration : defaults.lockout.lockoutDuration);
+          var lockoutUnit = level === 'main' ? mainConfig.lockout.lockoutUnit : (config.lockout ? config.lockout.lockoutUnit : defaults.lockout.lockoutUnit);
+          var ui = level === 'main' ? mainConfig.ui : (config.ui || {});
 
-        // Create and inject overlay
-        var overlay = createOverlay({ ui: ui }, level);
-        document.body.appendChild(overlay);
+          // Create and inject overlay
+          var overlay = createOverlay({ ui: ui }, level);
+          document.body.appendChild(overlay);
 
-        // Check lockout
-        var lockoutRemaining = isLockedOut(level, subSiteName);
-        if (lockoutRemaining > 0) {
-          showLockoutMessage(overlay, lockoutRemaining, ui.lockedText || '尝试次数过多，请 {minutes} 分钟后重试');
-          return;
-        }
+          // Check lockout
+          var lockoutRemaining = isLockedOut(level, subSiteName);
+          if (lockoutRemaining > 0) {
+            showLockoutMessage(overlay, lockoutRemaining, ui.lockedText || '尝试次数过多，请 {minutes} 分钟后重试');
+            return;
+          }
 
-        // Focus input
-        setTimeout(function () {
-          overlay.querySelector('#xbrain-auth-pwd').focus();
-        }, 100);
+          // Focus input
+          setTimeout(function () {
+            overlay.querySelector('#xbrain-auth-pwd').focus();
+          }, 100);
 
-        // Handle submit
-        var form = overlay.querySelector('.xbrain-auth-form');
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          var pwdInput = overlay.querySelector('#xbrain-auth-pwd');
-          var pwd = pwdInput.value;
-          if (!pwd) return;
+          // Handle submit
+          var form = overlay.querySelector('.xbrain-auth-form');
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var pwdInput = overlay.querySelector('#xbrain-auth-pwd');
+            var pwd = pwdInput.value;
+            if (!pwd) return;
 
-          sha256(pwd).then(function (hash) {
-            sha256(password).then(function (expectedHash) {
-              if (hash === expectedHash) {
-                resetAttempts(level, subSiteName);
-                saveSession(level, hash, sessionDuration, sessionUnit, subSiteName);
-                overlay.remove();
-                revealContent();
-                onAuthSuccess();
-              } else {
-                if (lockoutEnabled) {
-                  recordFailedAttempt(level, maxAttempts, lockoutDuration, lockoutUnit, subSiteName);
-                  var lockoutRem = isLockedOut(level, subSiteName);
-                  if (lockoutRem > 0) {
-                    showLockoutMessage(overlay, lockoutRem, ui.lockedText || '尝试次数过多，请 {minutes} 分钟后重试');
-                    return;
+            sha256(pwd).then(function (hash) {
+              sha256(password).then(function (expectedHash) {
+                if (hash === expectedHash) {
+                  resetAttempts(level, subSiteName);
+                  saveSession(level, hash, sessionDuration, sessionUnit, subSiteName);
+                  overlay.remove();
+                  revealContent();
+                  onAuthSuccess();
+                } else {
+                  if (lockoutEnabled) {
+                    recordFailedAttempt(level, maxAttempts, lockoutDuration, lockoutUnit, subSiteName);
+                    var lockoutRem = isLockedOut(level, subSiteName);
+                    if (lockoutRem > 0) {
+                      showLockoutMessage(overlay, lockoutRem, ui.lockedText || '尝试次数过多，请 {minutes} 分钟后重试');
+                      return;
+                    }
                   }
+                  showError(overlay, ui.errorText || '密码错误，请重试');
+                  pwdInput.value = '';
+                  pwdInput.focus();
+                  onAuthFail();
                 }
-                showError(overlay, ui.errorText || '密码错误，请重试');
-                pwdInput.value = '';
-                pwdInput.focus();
-                onAuthFail();
-              }
+              });
             });
           });
+        })
+        .catch(function (err) {
+          console.error('[XBrainAuth] Failed to load config:', err);
+          // Config load failed - show error overlay
+          if (document.body) {
+            var errorOverlay = document.createElement('div');
+            errorOverlay.id = 'xbrain-auth-overlay';
+            errorOverlay.className = level === 'main' ? 'xbrain-auth-main' : 'xbrain-auth-sub';
+            errorOverlay.innerHTML =
+              '<div class="xbrain-auth-card">' +
+              '<h2 class="xbrain-auth-title">认证配置加载失败</h2>' +
+              '<p class="xbrain-auth-subtitle">无法加载认证配置文件</p>' +
+              '<p class="xbrain-auth-error" style="display:block;margin-top:1rem;">' + err.message + '</p>' +
+              '<button class="xbrain-auth-btn" style="margin-top:1rem;" onclick="location.reload()">刷新页面</button>' +
+              '</div>';
+            document.body.appendChild(errorOverlay);
+          }
+          onAuthFail();
         });
-      })
-      .catch(function (err) {
-        console.error('[XBrainAuth] Failed to load config:', err);
-        // Config load failed - reveal content to avoid permanent lock
-        revealContent();
-        onAuthFail();
-      });
+    }
+
+    // If DOM is ready, run immediately; otherwise wait
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', doInit);
+    } else {
+      doInit();
+    }
   };
 
   XBrainAuth.logout = function (level, subSiteName) {
