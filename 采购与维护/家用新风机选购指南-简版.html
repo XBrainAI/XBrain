@@ -3,31 +3,44 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1b4332">
-  <title>家用新风机选购指南（简版）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#0a0a1a">
+  <title>家用新风机选购指南（简版） | XBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
     rel="stylesheet">
   <style>
     :root {
-      --bg: #faf9f7;
-      --card: #ffffff;
-      --accent: #2d6a4f;
-      --accent-light: #e8f5ee;
-      --text: #1a1a1a;
-      --text-muted: #3a3a3a;
-      --text-light: #666;
-      --border: #e8e4dd;
-      --danger: #c0392b;
-      --warning: #e67e22;
-      --success: #27ae60;
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-surface: rgba(26, 16, 48, 0.65);
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-glow-strong: rgba(100, 180, 255, 0.6);
+      --xb-border: rgba(100, 180, 255, 0.18);
+      --xb-border-dim: rgba(100, 180, 255, 0.08);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+      --xb-text-muted: rgba(200, 210, 230, 0.38);
+      --xb-success: #4ade80;
+      --xb-success-dim: rgba(74, 222, 128, 0.15);
+      --xb-warning: #fbbf24;
+      --xb-warning-dim: rgba(251, 191, 36, 0.15);
+      --xb-danger: #f87171;
+      --xb-danger-dim: rgba(248, 113, 113, 0.15);
+      --shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.5);
+      --shadow-hover: 0 12px 64px rgba(0, 0, 0, 0.6);
       --radius: 12px;
       --radius-sm: 8px;
-      --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --radius-xs: 4px;
+      --display: 'Noto Serif SC', serif;
+      --body: 'Noto Sans SC', -apple-system, sans-serif;
+      --mono: 'SF Mono', 'Cascadia Code', monospace;
     }
 
     * {
@@ -39,35 +52,168 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 56px;
+      scroll-padding-top: 100px;
     }
 
     body {
-      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: var(--body);
       font-size: 16px;
-      line-height: 1.7;
-      color: var(--text);
-      background: var(--bg);
+      line-height: 1.8;
+      color: var(--xb-text);
+      background: var(--xb-deep);
       -webkit-text-size-adjust: 100%;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
-    /* ===== 顶部导航 ===== */
+    /* Deep space background with subtle nebula */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 30%, rgba(45, 27, 78, 0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 80% 70%, rgba(100, 180, 255, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, var(--xb-deep) 0%, var(--xb-mid) 50%, var(--xb-deep) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+
+    .xbrain-brand .xb-ring {
+      stroke-width: 4;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-glow-bg {
+      opacity: 0.40;
+    }
+
+    .xbrain-brand .xb-center-ring {
+      stroke-width: 3;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-x-line {
+      opacity: 0.9;
+      stroke-width: 2.5;
+    }
+
+    .xbrain-brand .xb-core {
+      r: 12;
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-ttai {
+      fill: #4a70c0;
+      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
+    }
+
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 {
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-bar-group {
+      opacity: 0.75;
+    }
+
+    .xbrain-brand .xb-bar {
+      fill: #5a90e0;
+    }
+
+    .xbrain-brand .xb-bar-glow {
+      opacity: 0.9;
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== TOP NAV ===== */
     .top-nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 100;
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 8px 12px;
+      background: rgba(10, 10, 26, 0.75);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid var(--xb-border);
+      border-radius: 12px;
+      padding: 6px;
       display: flex;
-      gap: 6px;
+      gap: 4px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       white-space: nowrap;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(100, 180, 255, 0.05);
+      max-width: calc(100% - 120px);
     }
 
     .top-nav::-webkit-scrollbar {
@@ -77,82 +223,197 @@
     .nav-chip {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      background: var(--accent-light);
-      color: var(--accent);
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--xb-text-dim);
+      font-family: var(--body);
       font-size: 13px;
       font-weight: 500;
+      letter-spacing: 0.3px;
       text-decoration: none;
-      transition: all .2s;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       flex-shrink: 0;
+      border: 1px solid transparent;
+      position: relative;
     }
 
-    .nav-chip:active {
-      transform: scale(0.96);
+    .nav-chip:hover {
+      color: var(--xb-text);
+      background: rgba(100, 180, 255, 0.08);
     }
 
     .nav-chip.active {
-      background: var(--accent);
-      color: #fff;
+      color: var(--xb-deep);
+      background: var(--xb-accent);
+      box-shadow: 0 0 20px var(--xb-glow);
+      border-color: var(--xb-accent);
     }
 
-    /* ===== 主体容器 ===== */
+    .nav-chip .nav-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      opacity: 0.6;
+    }
+
+    /* ===== MAIN ===== */
     main {
-      max-width: 800px;
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
       margin: 0 auto;
-      padding: 56px 16px 100px;
+      padding: 120px 20px 100px;
     }
 
-    /* ===== 标题区 ===== */
+    /* ===== HERO ===== */
     .hero {
       text-align: center;
-      padding: 24px 0 20px;
-    }
-
-    .hero h1 {
-      font-family: 'Noto Serif SC', serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: #1b4332;
-      line-height: 1.3;
+      padding: 48px 0 40px;
+      position: relative;
       margin-bottom: 8px;
     }
 
+    .hero .hero-pretitle {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--xb-accent);
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-shadow: 0 0 20px var(--xb-glow);
+    }
+
+    .hero .hero-pretitle::before,
+    .hero .hero-pretitle::after {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--xb-accent);
+      opacity: 0.4;
+      box-shadow: 0 0 8px var(--xb-glow);
+    }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(28px, 6vw, 48px);
+      font-weight: 700;
+      color: var(--xb-text);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 24px rgba(100, 180, 255, 0.15);
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--xb-accent);
+      text-shadow: 0 0 30px var(--xb-glow);
+    }
+
     .hero .subtitle {
-      font-size: 13px;
-      color: #555;
-      line-height: 1.5;
+      font-family: var(--body);
+      font-size: 14px;
+      color: var(--xb-text-dim);
+      line-height: 1.6;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .hero .subtitle span {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero .subtitle span:not(:last-child)::after {
+      content: '';
       display: inline-block;
-      margin: 0 4px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--xb-accent);
+      opacity: 0.5;
+      box-shadow: 0 0 6px var(--xb-glow);
     }
 
-    /* ===== 声明条 ===== */
+    /* ===== ALERT BAR ===== */
     .alert-bar {
-      background: #fff8e6;
-      border: 1px solid #f0d78c;
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      font-size: 12px;
-      color: #8a6d20;
-      text-align: center;
-      margin-bottom: 20px;
+      padding: 14px 18px;
+      font-family: var(--body);
+      font-size: 13px;
+      color: var(--xb-text-dim);
+      margin-bottom: 40px;
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: var(--shadow);
     }
 
-    /* ===== 章节标题 ===== */
-    .section-title {
-      font-family: 'Noto Serif SC', serif;
-      font-size: 20px;
+    .alert-bar::before {
+      content: 'i';
+      font-family: var(--mono);
+      font-size: 11px;
       font-weight: 700;
-      color: #1b4332;
-      margin: 32px 0 16px;
-      padding-left: 12px;
-      border-left: 3px solid var(--accent);
-      line-height: 1.4;
+      color: var(--xb-accent);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--xb-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      box-shadow: 0 0 8px var(--xb-glow);
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(22px, 4.5vw, 32px);
+      font-weight: 700;
+      color: var(--xb-text);
+      margin: 64px 0 28px;
+      line-height: 1.25;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      position: relative;
+    }
+
+    .section-title::before {
+      content: attr(data-num);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--xb-accent);
+      letter-spacing: 0;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--xb-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0.7;
+      box-shadow: 0 0 12px var(--xb-glow);
     }
 
     .section-title:first-of-type {
@@ -160,66 +421,85 @@
     }
 
     .sub-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-      margin: 20px 0 10px;
+      font-family: var(--body);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--xb-text);
+      margin: 28px 0 14px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      letter-spacing: 0.3px;
     }
 
     .sub-title .dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--xb-accent);
       flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(100, 180, 255, 0.15), 0 0 12px var(--xb-glow);
     }
 
-    /* ===== 普通文本 ===== */
+    /* ===== TYPOGRAPHY ===== */
     p {
-      margin-bottom: 10px;
-      color: #2a2a2a;
+      margin-bottom: 14px;
+      color: var(--xb-text-dim);
       font-size: 16px;
+      line-height: 1.8;
     }
 
     strong {
-      color: var(--text);
-      font-weight: 600;
+      color: var(--xb-text);
+      font-weight: 700;
     }
 
     ul,
     ol {
-      margin: 8px 0 14px 20px;
-      color: #333;
+      margin: 10px 0 18px 24px;
+      color: var(--xb-text-dim);
       font-size: 15px;
     }
 
     li {
-      margin: 6px 0;
+      margin: 8px 0;
+      line-height: 1.7;
+    }
+
+    li::marker {
+      color: var(--xb-accent);
     }
 
     hr {
       border: none;
-      border-top: 1px solid var(--border);
-      margin: 24px 0;
+      border-top: 1px solid var(--xb-border);
+      margin: 48px 0;
     }
 
-    /* ===== 卡片容器 ===== */
+    /* ===== CARDS ===== */
     .card {
-      background: var(--card);
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius);
+      padding: 22px;
+      margin: 16px 0;
       box-shadow: var(--shadow);
-      padding: 16px;
-      margin: 12px 0;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover), 0 0 0 1px var(--xb-border);
+      border-color: var(--xb-accent);
     }
 
     .card-compact {
-      padding: 14px;
+      padding: 16px 18px;
     }
 
-    /* ===== 信息条（横排标签） ===== */
+    /* ===== INFO ROW / TAGS ===== */
     .info-row {
       display: flex;
       align-items: center;
@@ -231,196 +511,323 @@
     .tag {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 500;
+      gap: 4px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-family: var(--body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
 
     .tag-green {
-      background: var(--accent-light);
-      color: var(--accent);
+      background: var(--xb-success-dim);
+      color: var(--xb-success);
+      border: 1px solid rgba(74, 222, 128, 0.2);
     }
 
     .tag-amber {
-      background: #fff3cd;
-      color: #856404;
+      background: var(--xb-warning-dim);
+      color: var(--xb-warning);
+      border: 1px solid rgba(251, 191, 36, 0.2);
     }
 
     .tag-red {
-      background: #fde2e2;
-      color: var(--danger);
+      background: var(--xb-danger-dim);
+      color: var(--xb-danger);
+      border: 1px solid rgba(248, 113, 113, 0.2);
     }
 
     .tag-gray {
-      background: #f0f0f0;
-      color: #555;
+      background: rgba(200, 210, 230, 0.06);
+      color: var(--xb-text-muted);
+      border: 1px solid var(--xb-border-dim);
     }
 
-    /* ===== 方案选择器 ===== */
+    .tag-accent {
+      background: rgba(100, 180, 255, 0.1);
+      color: var(--xb-accent);
+      border: 1px solid rgba(100, 180, 255, 0.2);
+    }
+
+    /* ===== SOLUTION CARD ===== */
     .solution-card {
-      background: var(--card);
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
       padding: 0;
-      margin: 12px 0;
+      margin: 16px 0;
       overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease;
+    }
+
+    .solution-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover), 0 0 0 1px var(--xb-border);
+      border-color: var(--xb-accent);
     }
 
     .solution-card .sol-header {
-      padding: 14px 16px;
-      background: var(--accent-light);
+      padding: 16px 22px;
+      background: rgba(100, 180, 255, 0.08);
+      border-bottom: 1px solid var(--xb-border);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .solution-card .sol-header .icon {
       font-size: 20px;
+      line-height: 1;
     }
 
     .solution-card .sol-header .sol-title {
+      font-family: var(--body);
       font-weight: 700;
-      color: var(--accent);
-      font-size: 15px;
+      color: var(--xb-accent);
+      font-size: 14px;
+      letter-spacing: 0.5px;
     }
 
     .solution-card .sol-body {
-      padding: 14px 16px;
+      padding: 18px 22px;
     }
 
     .solution-card .sol-price {
-      font-size: 22px;
+      font-family: var(--display);
+      font-size: 26px;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--xb-accent);
       margin: 4px 0;
+      text-shadow: 0 0 20px var(--xb-glow);
     }
 
     .solution-card .sol-note {
       font-size: 14px;
-      color: #555;
+      color: var(--xb-text-dim);
     }
 
-    /* ===== 参数速览 ===== */
+    /* ===== SPEC GRID ===== */
     .spec-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 10px 0;
+      gap: 14px;
+      margin: 16px 0;
     }
 
     .spec-item {
-      background: #f8f8f6;
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius-sm);
-      padding: 12px;
+      padding: 22px 14px;
       text-align: center;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .spec-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover), 0 0 0 1px var(--xb-border);
+      border-color: var(--xb-accent);
     }
 
     .spec-item .spec-label {
-      font-size: 12px;
-      color: #666;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--xb-text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
     }
 
     .spec-item .spec-value {
-      font-size: 15px;
+      font-family: var(--display);
+      font-size: 17px;
       font-weight: 600;
-      color: var(--text);
+      color: var(--xb-text);
+      line-height: 1.4;
     }
 
     .spec-item .spec-value.good {
-      color: var(--success);
+      color: var(--xb-success);
+      text-shadow: 0 0 12px rgba(74, 222, 128, 0.3);
     }
 
-    /* ===== 产品卡片（手机端竖版） ===== */
+    /* ===== PRODUCT CARDS ===== */
     .product-card {
-      background: var(--card);
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius);
+      padding: 22px;
+      margin: 14px 0;
       box-shadow: var(--shadow);
-      padding: 16px;
-      margin: 12px 0;
-      border-left: 3px solid var(--border);
-      transition: border-color .2s;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--xb-border);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover), 0 0 0 1px var(--xb-border);
+      border-color: var(--xb-accent);
     }
 
     .product-card.recommended {
-      border-left-color: var(--accent);
+      border-color: var(--xb-accent);
+    }
+
+    .product-card.recommended::before {
+      background: var(--xb-accent);
+      box-shadow: 0 0 12px var(--xb-glow);
     }
 
     .product-card .prod-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .product-card .prod-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--xb-text);
       line-height: 1.3;
     }
 
     .product-card .prod-badge {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: 500;
+      font-family: var(--body);
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
       flex-shrink: 0;
     }
 
     .product-card .prod-price {
-      font-size: 18px;
+      font-family: var(--display);
+      font-size: 22px;
       font-weight: 700;
-      color: var(--accent);
-      margin: 4px 0 8px;
+      color: var(--xb-accent);
+      margin: 6px 0 10px;
+      text-shadow: 0 0 20px var(--xb-glow);
     }
 
     .product-card .prod-specs {
-      font-size: 14px;
-      color: #2a2a2a;
-      line-height: 1.6;
-      background: #f8f8f6;
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      margin: 8px 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--xb-text-dim);
+      line-height: 1.8;
+      background: rgba(100, 180, 255, 0.04);
+      border: 1px solid var(--xb-border-dim);
+      border-radius: var(--radius-xs);
+      padding: 12px 14px;
+      margin: 10px 0;
+      letter-spacing: 0.2px;
     }
 
     .product-card .prod-review {
       font-size: 14px;
-      color: #2a2a2a;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed var(--border);
+      color: var(--xb-text-dim);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--xb-border);
+      line-height: 1.7;
     }
 
     .product-card .prod-review strong {
-      color: var(--warning);
+      color: var(--xb-accent);
       font-weight: 600;
     }
 
-    /* ===== 对比表格（保留桌面端，手机端隐藏，用卡片替代） ===== */
+    /* ===== DESKTOP TABLE ===== */
     .desktop-table {
       display: none;
     }
 
-    /* ===== 图片展示 ===== */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--xb-border);
+      box-shadow: var(--shadow);
+    }
+
+    .table-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      font-family: var(--body);
+      background: var(--xb-surface);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--xb-border-dim);
+    }
+
+    .table-wrap th {
+      font-weight: 600;
+      color: var(--xb-accent);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: rgba(100, 180, 255, 0.06);
+      font-family: var(--mono);
+    }
+
+    .table-wrap tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-wrap tr:hover td {
+      background: rgba(100, 180, 255, 0.05);
+    }
+
+    /* ===== IMAGE GRID ===== */
     .img-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 12px 0;
+      gap: 14px;
+      margin: 16px 0;
     }
 
     .img-grid .img-item {
-      background: var(--card);
+      background: var(--xb-surface);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius-sm);
-      box-shadow: var(--shadow);
       overflow: hidden;
       text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+    }
+
+    .img-grid .img-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover), 0 0 0 1px var(--xb-border);
+      border-color: var(--xb-accent);
     }
 
     .img-grid .img-item img {
@@ -428,23 +835,36 @@
       height: 140px;
       object-fit: cover;
       display: block;
+      filter: saturate(0.85) contrast(1.02) brightness(0.9);
+      transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .img-grid .img-item:hover img {
+      filter: saturate(1) contrast(1.05) brightness(1);
+      transform: scale(1.03);
     }
 
     .img-grid .img-item .img-label {
-      padding: 7px 8px;
+      padding: 10px 12px;
+      font-family: var(--body);
       font-size: 12px;
-      color: #555;
-      background: #fafafa;
+      color: var(--xb-text-muted);
+      background: rgba(100, 180, 255, 0.04);
+      letter-spacing: 0.3px;
+      font-weight: 500;
     }
 
-    /* ===== 推荐方案大图卡 ===== */
+    /* ===== HERO REC (dark featured card) ===== */
     .hero-rec {
-      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+      background: var(--xb-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--xb-accent);
       border-radius: var(--radius);
-      color: #fff;
-      padding: 20px;
-      margin: 16px 0;
-      box-shadow: var(--shadow-lg);
+      color: var(--xb-text);
+      padding: 32px 26px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-lg), 0 0 40px rgba(100, 180, 255, 0.1), inset 0 1px 0 rgba(100, 180, 255, 0.1);
       position: relative;
       overflow: hidden;
     }
@@ -452,51 +872,76 @@
     .hero-rec::before {
       content: '';
       position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 140px;
-      height: 140px;
-      background: rgba(255, 255, 255, 0.04);
+      top: -80px;
+      right: -80px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(100, 180, 255, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-rec::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(128, 192, 255, 0.08) 0%, transparent 70%);
       border-radius: 50%;
     }
 
     .hero-rec .rec-tag {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.18);
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      margin-bottom: 10px;
-      color: rgba(255, 255, 255, 0.95);
+      font-family: var(--mono);
+      background: rgba(100, 180, 255, 0.12);
+      padding: 6px 14px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: var(--xb-accent2);
+      border-radius: 8px;
+      border: 1px solid rgba(100, 180, 255, 0.2);
+      box-shadow: 0 0 12px rgba(100, 180, 255, 0.1);
     }
 
     .hero-rec .rec-title {
-      font-size: 22px;
+      font-family: var(--display);
+      font-size: 26px;
       font-weight: 700;
-      margin-bottom: 4px;
-      color: #fff;
+      margin-bottom: 6px;
+      color: var(--xb-text);
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 16px rgba(100, 180, 255, 0.2);
     }
 
     .hero-rec .rec-sub {
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.88);
-      margin-bottom: 14px;
+      color: var(--xb-text-dim);
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-rec .rec-list {
       list-style: none;
       margin: 0;
       padding: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-rec .rec-list li {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--xb-border);
       font-size: 15px;
-      color: #fff;
+      color: var(--xb-text-dim);
     }
 
     .hero-rec .rec-list li:last-child {
@@ -504,103 +949,155 @@
     }
 
     .hero-rec .rec-list .room {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 13px;
-      width: 44px;
+      color: var(--xb-text-muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      width: 48px;
       flex-shrink: 0;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     .hero-rec .rec-list .model {
       font-weight: 600;
       flex: 1;
-      color: #fff;
+      color: var(--xb-text);
     }
 
     .hero-rec .rec-list .price {
+      font-family: var(--display);
       font-weight: 700;
       font-size: 16px;
-      color: #fff;
+      color: var(--xb-accent);
+      text-shadow: 0 0 12px var(--xb-glow);
     }
 
     .hero-rec .rec-total {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--xb-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-rec .rec-total .total-label {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.75);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--xb-text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
     .hero-rec .rec-total .total-price {
-      font-size: 28px;
+      font-family: var(--display);
+      font-size: 30px;
       font-weight: 700;
-      color: #fff;
+      color: var(--xb-accent);
+      text-shadow: 0 0 24px var(--xb-glow);
     }
 
-    /* ===== 备选方案（浅色卡） ===== */
+    /* ===== ALT CARDS ===== */
     .alt-card {
-      background: var(--card);
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius);
+      padding: 22px;
+      margin: 14px 0;
       box-shadow: var(--shadow);
-      padding: 16px;
-      margin: 12px 0;
-      border: 1px solid var(--border);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .alt-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--xb-border);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .alt-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover), 0 0 0 1px var(--xb-border);
+      border-color: var(--xb-accent);
+    }
+
+    .alt-card:hover::before {
+      background: var(--xb-accent);
+      box-shadow: 0 0 12px var(--xb-glow);
     }
 
     .alt-card .alt-header {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .alt-card .alt-header .alt-icon {
-      font-size: 18px;
+      font-size: 20px;
+      line-height: 1;
     }
 
     .alt-card .alt-header .alt-title {
-      font-weight: 700;
-      font-size: 15px;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--xb-text);
     }
 
     .alt-card .alt-price {
-      font-size: 20px;
+      font-family: var(--display);
+      font-size: 22px;
       font-weight: 700;
-      color: var(--accent);
-      margin: 4px 0 8px;
+      color: var(--xb-accent);
+      margin: 6px 0 10px;
+      text-shadow: 0 0 16px var(--xb-glow);
     }
 
     .alt-card .alt-detail {
       font-size: 14px;
-      color: #2a2a2a;
-      line-height: 1.7;
+      color: var(--xb-text-dim);
+      line-height: 1.75;
     }
 
     .alt-card .alt-detail strong {
-      color: #1a1a1a;
+      color: var(--xb-text);
     }
 
-    /* ===== 验证清单 ===== */
+    /* ===== CHECKLIST ===== */
     .checklist {
-      background: var(--card);
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
       overflow: hidden;
-      margin: 12px 0;
+      margin: 16px 0;
+      box-shadow: var(--shadow);
     }
 
     .checklist .check-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--xb-border-dim);
       font-size: 15px;
+      transition: background 0.2s ease;
+    }
+
+    .checklist .check-item:hover {
+      background: rgba(100, 180, 255, 0.03);
     }
 
     .checklist .check-item:last-child {
@@ -608,40 +1105,68 @@
     }
 
     .checklist .check-icon {
-      font-size: 18px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--xb-success);
+      color: var(--xb-success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
       flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.2);
     }
 
     .checklist .check-label {
       flex: 1;
-      color: #2a2a2a;
+      color: var(--xb-text-dim);
+      line-height: 1.5;
     }
 
     .checklist .check-label small {
-      color: #555;
+      color: var(--xb-text-muted);
       font-size: 12px;
     }
 
     .checklist .check-value {
-      font-weight: 600;
-      color: var(--success);
+      font-family: var(--mono);
+      font-weight: 500;
+      color: var(--xb-success);
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.5;
+      text-shadow: 0 0 8px rgba(74, 222, 128, 0.2);
     }
 
-    /* ===== 步骤列表 ===== */
+    /* ===== STEP LIST ===== */
     .step-list {
       counter-reset: step;
       list-style: none;
       margin: 0;
       padding: 0;
+      background: var(--xb-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--xb-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
     .step-list li {
       display: flex;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--xb-border-dim);
       font-size: 15px;
-      color: #333;
+      color: var(--xb-text-dim);
+      transition: background 0.2s ease;
+    }
+
+    .step-list li:hover {
+      background: rgba(100, 180, 255, 0.03);
     }
 
     .step-list li:last-child {
@@ -649,67 +1174,113 @@
     }
 
     .step-list .step-num {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--accent-light);
-      color: var(--accent);
-      font-size: 13px;
+      background: rgba(100, 180, 255, 0.08);
+      color: var(--xb-accent);
+      font-family: var(--mono);
+      font-size: 14px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      margin-top: 2px;
+      border: 1.5px solid var(--xb-accent);
+      opacity: 0.8;
+      box-shadow: 0 0 12px var(--xb-glow);
     }
 
     .step-list .step-text {
       flex: 1;
-      line-height: 1.6;
+      line-height: 1.7;
       padding-top: 2px;
     }
 
     .step-list .step-text strong {
-      color: var(--text);
+      color: var(--xb-text);
     }
 
-    /* ===== 底部结论 ===== */
+    /* ===== CONCLUSION ===== */
     .conclusion {
-      background: var(--accent-light);
+      background: var(--xb-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--xb-border);
       border-radius: var(--radius);
-      padding: 20px;
-      margin: 24px 0;
+      padding: 44px 28px;
+      margin: 40px 0;
       text-align: center;
+      box-shadow: var(--shadow-lg), 0 0 40px rgba(100, 180, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .conclusion::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 4px;
+      background: var(--xb-accent);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 0 16px var(--xb-glow);
+    }
+
+    .conclusion::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(100, 180, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
     }
 
     .conclusion .con-emoji {
-      font-size: 32px;
-      margin-bottom: 8px;
+      font-size: 40px;
+      margin-bottom: 16px;
+      line-height: 1;
     }
 
     .conclusion p {
-      font-size: 15px;
-      color: var(--text);
-      margin-bottom: 6px;
+      font-size: 16px;
+      color: var(--xb-text-dim);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .conclusion p:last-child {
       margin-bottom: 0;
-      font-size: 14px;
-      color: #555;
+      font-size: 13px;
+      color: var(--xb-text-muted);
+      font-family: var(--body);
+      margin-top: 16px;
     }
 
-    /* ===== 回到顶部 ===== */
+    .conclusion strong {
+      color: var(--xb-accent);
+      text-shadow: 0 0 12px var(--xb-glow);
+    }
+
+    /* ===== BACK TO TOP ===== */
     .back-top {
       position: fixed;
-      bottom: 20px;
-      right: 16px;
+      bottom: 28px;
+      right: 24px;
       z-index: 99;
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: var(--card);
-      color: var(--accent);
-      border: 1px solid var(--border);
+      background: var(--xb-surface);
+      color: var(--xb-text);
+      border: 1px solid var(--xb-border);
       box-shadow: var(--shadow-lg);
       display: flex;
       align-items: center;
@@ -718,7 +1289,9 @@
       text-decoration: none;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .3s;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .back-top.visible {
@@ -726,18 +1299,79 @@
       pointer-events: auto;
     }
 
-    /* ===== 桌面端适配 ===== */
+    .back-top:hover {
+      background: var(--xb-accent);
+      color: var(--xb-deep);
+      border-color: var(--xb-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px var(--xb-glow);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--xb-border);
+      margin-top: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer p {
+      font-family: var(--body);
+      font-size: 13px;
+      color: var(--xb-text-muted);
+      margin: 6px 0;
+    }
+
+    footer a {
+      color: var(--xb-accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, text-shadow 0.2s;
+    }
+
+    footer a:hover {
+      border-bottom-color: var(--xb-accent);
+      text-shadow: 0 0 8px var(--xb-glow);
+    }
+
+    /* ===== SCROLL REVEAL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.12s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.24s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.36s;
+    }
+
+    /* ===== DESKTOP ===== */
     @media (min-width: 641px) {
       main {
-        padding: 80px 24px 60px;
+        padding: 140px 32px 120px;
       }
 
-      .hero h1 {
-        font-size: 32px;
+      .hero {
+        padding: 64px 0 48px;
       }
 
       .section-title {
-        font-size: 24px;
+        margin: 72px 0 32px;
       }
 
       .desktop-table {
@@ -759,32 +1393,106 @@
       .spec-grid {
         grid-template-columns: repeat(4, 1fr);
       }
+
+      .hero-rec {
+        padding: 40px 32px;
+      }
+
+      .hero-rec .rec-title {
+        font-size: 32px;
+      }
     }
 
-    /* ===== 小屏手机适配 ===== */
+    /* ===== SMALL SCREEN ===== */
+    @media (max-width: 640px) {
+      .top-nav {
+        top: 10px;
+        left: auto;
+        right: 10px;
+        transform: none;
+        max-width: calc(100% - 110px);
+        padding: 4px;
+        gap: 2px;
+      }
+
+      .nav-chip {
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+
+      .nav-chip .nav-num {
+        display: none;
+      }
+
+      main {
+        padding: 100px 14px 80px;
+      }
+    }
+
     @media (max-width: 400px) {
       body {
         font-size: 15px;
       }
 
+      .top-nav {
+        max-width: calc(100% - 100px);
+        padding: 3px;
+        gap: 1px;
+      }
+
+      .nav-chip {
+        padding: 5px 7px;
+        font-size: 11px;
+      }
+
+      main {
+        padding: 90px 14px 80px;
+      }
+
       .hero h1 {
-        font-size: 22px;
+        font-size: 26px;
       }
 
       .section-title {
-        font-size: 18px;
+        font-size: 20px;
+        gap: 12px;
+      }
+
+      .section-title::before {
+        min-width: 32px;
+        height: 32px;
+        font-size: 12px;
       }
 
       .product-card {
-        padding: 14px;
+        padding: 18px;
+      }
+
+      .hero-rec {
+        padding: 24px 20px;
       }
 
       .hero-rec .rec-title {
-        font-size: 18px;
+        font-size: 22px;
       }
 
       .hero-rec .rec-total .total-price {
-        font-size: 22px;
+        font-size: 24px;
+      }
+
+      .xbrain-brand {
+        top: 10px;
+        left: 10px;
+        padding: 5px 10px 5px 6px;
+      }
+
+      .xbrain-brand svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .xbrain-brand .xbrain-text {
+        font-size: 13px;
       }
     }
   </style>
@@ -792,56 +1500,112 @@
 
 <body>
 
+  <!-- ===== XBrain Brand Logo (Fixed) ===== -->
+  <a class="xbrain-brand" href="#top" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+        opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+          opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
   <!-- 顶部导航 -->
   <nav class="top-nav" id="topNav">
     <a href="#s1" class="nav-chip active" onclick="setActive(this)">
-      <span>📋</span>几台
+      <span class="nav-num">01</span>几台
     </a>
     <a href="#s2" class="nav-chip" onclick="setActive(this)">
-      <span>⚙️</span>参数
+      <span class="nav-num">02</span>参数
     </a>
     <a href="#s3" class="nav-chip" onclick="setActive(this)">
-      <span>🏷️</span>品牌
+      <span class="nav-num">03</span>品牌
     </a>
     <a href="#s4" class="nav-chip" onclick="setActive(this)">
-      <span>🏆</span>推荐
+      <span class="nav-num">04</span>推荐
     </a>
     <a href="#s5" class="nav-chip" onclick="setActive(this)">
-      <span>🔧</span>安装
+      <span class="nav-num">05</span>安装
     </a>
     <a href="#s6" class="nav-chip" onclick="setActive(this)">
-      <span>🚫</span>避坑
+      <span class="nav-num">06</span>避坑
     </a>
   </nav>
 
-  <main>
+  <main id="top">
 
     <!-- 声明 -->
-    <div class="alert-bar">
+    <div class="alert-bar reveal">
       <strong>声明：</strong>本文为个人调研整理，仅供选购参考，不构成商业推荐或推广。
     </div>
 
     <!-- 标题区 -->
-    <div class="hero">
-      <h1>家用新风机选购指南</h1>
+    <div class="hero reveal">
+      <div class="hero-pretitle">Buying Guide</div>
+      <h1>家用新风机<em>选购指南</em></h1>
       <div class="subtitle">
-        <span>90㎡ 两房</span> · <span>关门开空调睡觉</span> · <span>隔音玻璃窗</span>
+        <span>90㎡ 两房</span>
+        <span>关门开空调睡觉</span>
+        <span>隔音玻璃窗</span>
       </div>
     </div>
 
     <!-- ===== 一、一台还是三台 ===== -->
-    <h2 class="section-title" id="s1">一台还是三台？</h2>
+    <h2 class="section-title reveal" id="s1" data-num="01">一台还是三台？</h2>
 
-    <div class="sub-title"><span class="dot"></span>核心逻辑</div>
-    <ul>
-      <li><strong>白天</strong>：房门都开着 → 客厅一台覆盖全屋</li>
-      <li><strong>晚上</strong>：卧室门一关、空调一开 → 每间卧室都是密闭盒子，<strong>新风进不去</strong></li>
+    <div class="sub-title reveal reveal-delay-1"><span class="dot"></span>核心逻辑</div>
+    <ul class="reveal reveal-delay-1">
+      <li><strong>白天</strong>：房门都开着 &rarr; 客厅一台覆盖全屋</li>
+      <li><strong>晚上</strong>：卧室门一关、空调一开 &rarr; 每间卧室都是密闭盒子，<strong>新风进不去</strong></li>
       <li><strong>结论</strong>：每间晚上有人关门睡的卧室，都需要自己的新风机</li>
     </ul>
 
-    <div class="solution-card">
+    <div class="solution-card reveal reveal-delay-2">
       <div class="sol-header">
-        <span class="icon">🧮</span>
+        <span class="icon">&#127968;</span>
         <span class="sol-title">按你的情况选方案</span>
       </div>
       <div class="sol-body">
@@ -849,14 +1613,14 @@
           <span class="tag tag-green">主卧 + 次卧都有人睡</span>
           <strong>三机方案</strong>
         </div>
-        <p style="font-size:14px;color:#444;margin-bottom:12px;">
+        <p style="font-size:14px;color:var(--xb-text-dim);margin-bottom:14px;">
           客厅 1 台 + 主卧 1 台 + 次卧 1 台
         </p>
         <div class="info-row" style="margin-bottom:8px;">
           <span class="tag tag-amber">只有主卧有人睡</span>
           <strong>双机方案</strong>
         </div>
-        <p style="font-size:14px;color:#444;margin-bottom:12px;">
+        <p style="font-size:14px;color:var(--xb-text-dim);margin-bottom:14px;">
           客厅 1 台 + 主卧 1 台
         </p>
         <div class="info-row">
@@ -866,60 +1630,60 @@
       </div>
     </div>
 
-    <div class="card card-compact" style="border-left:3px solid var(--warning);">
-      <p style="margin:0;font-size:14px;">
-        <strong>💡 装修期建议：</strong>如果正在装修，优先考虑<strong>吊顶中央新风</strong>（约 8000-15000 元），管道送风到每个房间，一劳永逸。
+    <div class="card card-compact reveal" style="border-left:3px solid var(--xb-accent);padding-left:20px;">
+      <p style="margin:0;font-size:14px;color:var(--xb-text-dim);">
+        <strong>装修期建议：</strong>如果正在装修，优先考虑<strong>吊顶中央新风</strong>（约 8000-15000 元），管道送风到每个房间，一劳永逸。
       </p>
     </div>
 
     <hr>
 
     <!-- ===== 二、必懂的四个参数 ===== -->
-    <h2 class="section-title" id="s2">必懂的四个参数</h2>
-    <p>不用全懂。看这四个就够了：</p>
+    <h2 class="section-title reveal" id="s2" data-num="02">必懂的四个参数</h2>
+    <p class="reveal">不用全懂。看这四个就够了：</p>
 
-    <div class="spec-grid">
+    <div class="spec-grid reveal reveal-delay-1">
       <div class="spec-item">
-        <div class="spec-label">风量</div>
+        <div class="spec-label">Airflow</div>
         <div class="spec-value">客厅 150-200<br>卧室 60-100</div>
       </div>
       <div class="spec-item">
-        <div class="spec-label">睡眠噪音</div>
-        <div class="spec-value good">客厅 ≤25dB<br>卧室 ≤20dB ⭐</div>
+        <div class="spec-label">Noise Level</div>
+        <div class="spec-value good">客厅 &le;25dB<br>卧室 &le;20dB</div>
       </div>
       <div class="spec-item">
-        <div class="spec-label">全热交换</div>
-        <div class="spec-value good">必须 ≥65%</div>
+        <div class="spec-label">Heat Recovery</div>
+        <div class="spec-value good">必须 &ge;65%</div>
       </div>
       <div class="spec-item">
-        <div class="spec-label">滤网等级</div>
+        <div class="spec-label">Filter Grade</div>
         <div class="spec-value good">H13 必须</div>
       </div>
     </div>
 
-    <div class="card card-compact" style="border-left:3px solid var(--danger);">
-      <p style="margin:0;font-size:14px;">
-        <strong>⚠️ 注意：</strong>商家说"有热交换"不等于"全热交换"。<strong>必须确认是"全热交换 Enthalpy Exchange"</strong>。
+    <div class="card card-compact reveal" style="border-left:3px solid var(--xb-accent);padding-left:20px;">
+      <p style="margin:0;font-size:14px;color:var(--xb-text-dim);">
+        <strong>注意：</strong>商家说"有热交换"不等于"全热交换"。<strong>必须确认是"全热交换 Enthalpy Exchange"</strong>。
       </p>
     </div>
 
     <hr>
 
     <!-- ===== 三、品牌与口碑 ===== -->
-    <h2 class="section-title" id="s3">品牌与真实口碑</h2>
+    <h2 class="section-title reveal" id="s3" data-num="03">品牌与真实口碑</h2>
 
-    <div class="sub-title"><span class="dot"></span>客厅机（150-220 m³/h）</div>
+    <div class="sub-title reveal reveal-delay-1"><span class="dot"></span>客厅机（150-220 m&sup3;/h）</div>
 
     <!-- 手机端：卡片布局 -->
     <div class="mobile-cards">
-      <div class="product-card recommended">
+      <div class="product-card recommended reveal">
         <div class="prod-header">
-          <div class="prod-name">⭐ 第五季 BG160</div>
+          <div class="prod-name">第五季 BG160</div>
           <span class="prod-badge tag-green">推荐</span>
         </div>
-        <div class="prod-price">≈ 2,980 元</div>
+        <div class="prod-price">&asymp; 2,980 元</div>
         <div class="prod-specs">
-          风量 200m³/h · H13 滤网 · 全热 70% · 噪音 20dB
+          风量 200m&sup3;/h &middot; H13 滤网 &middot; 全热 70% &middot; 噪音 20dB
         </div>
         <div class="prod-review">
           <strong>优点：</strong>静音表现突出，性价比优秀<br>
@@ -927,14 +1691,14 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-1">
         <div class="prod-header">
           <div class="prod-name">松下 FY-15ZDP1C</div>
           <span class="prod-badge tag-gray">日系</span>
         </div>
-        <div class="prod-price">≈ 3,700 元</div>
+        <div class="prod-price">&asymp; 3,700 元</div>
         <div class="prod-specs">
-          风量 150m³/h · H12 滤网 · 全热 70% · 噪音 22dB
+          风量 150m&sup3;/h &middot; H12 滤网 &middot; 全热 70% &middot; 噪音 22dB
         </div>
         <div class="prod-review">
           <strong>优点：</strong>省心稳定，安装服务好<br>
@@ -942,14 +1706,14 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-2">
         <div class="prod-header">
           <div class="prod-name">果麦 GM280Pro</div>
           <span class="prod-badge tag-amber">大风量</span>
         </div>
-        <div class="prod-price">≈ 2,800 元</div>
+        <div class="prod-price">&asymp; 2,800 元</div>
         <div class="prod-specs">
-          风量 220m³/h · H13 滤网 · 全热 65% · 噪音 24dB
+          风量 220m&sup3;/h &middot; H13 滤网 &middot; 全热 65% &middot; 噪音 24dB
         </div>
         <div class="prod-review">
           <strong>优点：</strong>风量最大、价格最低<br>
@@ -957,14 +1721,14 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-3">
         <div class="prod-header">
           <div class="prod-name">造梦者 M200</div>
           <span class="prod-badge tag-gray">德系</span>
         </div>
-        <div class="prod-price">≈ 3,900 元</div>
+        <div class="prod-price">&asymp; 3,900 元</div>
         <div class="prod-specs">
-          风量 200m³/h · H13 滤网 · 全热 68% · 噪音 23dB
+          风量 200m&sup3;/h &middot; H13 滤网 &middot; 全热 68% &middot; 噪音 23dB
         </div>
         <div class="prod-review">
           <strong>优点：</strong>德国EBM电机，口碑较好<br>
@@ -974,7 +1738,7 @@
     </div>
 
     <!-- 桌面端：表格 -->
-    <div class="desktop-table">
+    <div class="desktop-table reveal">
       <div class="table-wrap">
         <table>
           <thead>
@@ -987,27 +1751,27 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>⭐ 第五季 BG160</strong></td>
-              <td>≈2,980</td>
-              <td>200m³/h，H13，全热70%，20dB</td>
+              <td><strong style="color:var(--xb-accent);">第五季 BG160</strong></td>
+              <td>&asymp;2,980</td>
+              <td>200m&sup3;/h，H13，全热70%，20dB</td>
               <td>静音突出，性价比高。短板：品牌名气不大</td>
             </tr>
             <tr>
               <td><strong>松下 FY-15ZDP1C</strong></td>
-              <td>≈3,700</td>
-              <td>150m³/h，H12，全热70%，22dB</td>
+              <td>&asymp;3,700</td>
+              <td>150m&sup3;/h，H12，全热70%，22dB</td>
               <td>省心稳定。短板：贵、H12、滤芯不通用</td>
             </tr>
             <tr>
               <td><strong>果麦 GM280Pro</strong></td>
-              <td>≈2,800</td>
-              <td>220m³/h，H13，全热65%，24dB</td>
+              <td>&asymp;2,800</td>
+              <td>220m&sup3;/h，H13，全热65%，24dB</td>
               <td>风量最大。短板：电机衰减、部分地区无安装</td>
             </tr>
             <tr>
               <td><strong>造梦者 M200</strong></td>
-              <td>≈3,900</td>
-              <td>200m³/h，H13，全热68%，23dB</td>
+              <td>&asymp;3,900</td>
+              <td>200m&sup3;/h，H13，全热68%，23dB</td>
               <td>EBM电机好。短板：贵、体积大</td>
             </tr>
           </tbody>
@@ -1015,23 +1779,23 @@
       </div>
     </div>
 
-    <div class="card card-compact" style="border-left:3px solid var(--danger);">
-      <p style="margin:0;font-size:14px;">
+    <div class="card card-compact reveal" style="border-left:3px solid var(--xb-accent);padding-left:20px;">
+      <p style="margin:0;font-size:14px;color:var(--xb-text-dim);">
         <strong>不推荐：</strong>远大 FE6-PRO（无全热交换）；百朗 E150（噪音超标、H12、用户反馈一般）
       </p>
     </div>
 
-    <div class="sub-title"><span class="dot"></span>卧室机（60-100 m³/h，静音第一）</div>
+    <div class="sub-title reveal"><span class="dot"></span>卧室机（60-100 m&sup3;/h，静音第一）</div>
 
     <div class="mobile-cards">
-      <div class="product-card recommended">
+      <div class="product-card recommended reveal">
         <div class="prod-header">
-          <div class="prod-name">⭐ 第五季 BM80</div>
+          <div class="prod-name">第五季 BM80</div>
           <span class="prod-badge tag-green">最静音</span>
         </div>
-        <div class="prod-price">≈ 2,200 元</div>
+        <div class="prod-price">&asymp; 2,200 元</div>
         <div class="prod-specs">
-          风量 100m³/h · H13 · 全热 70% · <strong>噪音 18dB</strong>
+          风量 100m&sup3;/h &middot; H13 &middot; 全热 70% &middot; <strong>噪音 18dB</strong>
         </div>
         <div class="prod-review">
           <strong>优点：</strong>同品牌联动，极致静音<br>
@@ -1039,14 +1803,14 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-1">
         <div class="prod-header">
           <div class="prod-name">松下 FY-10ZDP1C</div>
           <span class="prod-badge tag-gray">日系</span>
         </div>
-        <div class="prod-price">≈ 2,900 元</div>
+        <div class="prod-price">&asymp; 2,900 元</div>
         <div class="prod-specs">
-          风量 100m³/h · H12 · 全热 70% · 噪音 19dB
+          风量 100m&sup3;/h &middot; H12 &middot; 全热 70% &middot; 噪音 19dB
         </div>
         <div class="prod-review">
           <strong>优点：</strong>松下品质，同品牌联动<br>
@@ -1054,14 +1818,14 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-2">
         <div class="prod-header">
           <div class="prod-name">造梦者 DM100</div>
           <span class="prod-badge tag-gray">德系</span>
         </div>
-        <div class="prod-price">≈ 3,000 元</div>
+        <div class="prod-price">&asymp; 3,000 元</div>
         <div class="prod-specs">
-          风量 100m³/h · H13 · 全热 68% · 噪音 20dB
+          风量 100m&sup3;/h &middot; H13 &middot; 全热 68% &middot; 噪音 20dB
         </div>
         <div class="prod-review">
           <strong>优点：</strong>EBM电机<br>
@@ -1070,7 +1834,7 @@
       </div>
     </div>
 
-    <div class="desktop-table">
+    <div class="desktop-table reveal">
       <div class="table-wrap">
         <table>
           <thead>
@@ -1083,21 +1847,21 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>⭐ 第五季 BM80</strong></td>
-              <td>≈2,200</td>
-              <td>100m³/h，H13，全热70%，<strong>18dB</strong></td>
+              <td><strong style="color:var(--xb-accent);">第五季 BM80</strong></td>
+              <td>&asymp;2,200</td>
+              <td>100m&sup3;/h，H13，全热70%，<strong>18dB</strong></td>
               <td>静音突出，同品牌联动</td>
             </tr>
             <tr>
               <td><strong>松下 FY-10ZDP1C</strong></td>
-              <td>≈2,900</td>
-              <td>100m³/h，H12，全热70%，19dB</td>
+              <td>&asymp;2,900</td>
+              <td>100m&sup3;/h，H12，全热70%，19dB</td>
               <td>松下品质。短板：贵、H12</td>
             </tr>
             <tr>
               <td><strong>造梦者 DM100</strong></td>
-              <td>≈3,000</td>
-              <td>100m³/h，H13，全热68%，20dB</td>
+              <td>&asymp;3,000</td>
+              <td>100m&sup3;/h，H13，全热68%，20dB</td>
               <td>EBM电机。短板：最贵、体积大</td>
             </tr>
           </tbody>
@@ -1105,31 +1869,31 @@
       </div>
     </div>
 
-    <div class="sub-title"><span class="dot"></span>次卧经济机</div>
+    <div class="sub-title reveal"><span class="dot"></span>次卧经济机</div>
     <div class="mobile-cards">
-      <div class="product-card recommended">
+      <div class="product-card recommended reveal">
         <div class="prod-header">
-          <div class="prod-name">⭐ 第五季 BM60</div>
+          <div class="prod-name">第五季 BM60</div>
           <span class="prod-badge tag-green">推荐</span>
         </div>
-        <div class="prod-price">≈ 1,900 元</div>
+        <div class="prod-price">&asymp; 1,900 元</div>
         <div class="prod-specs">
-          风量 60m³/h · H13 · 全热 68% · 噪音 19dB — 同品牌联动
+          风量 60m&sup3;/h &middot; H13 &middot; 全热 68% &middot; 噪音 19dB &mdash; 同品牌联动
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card reveal reveal-delay-1">
         <div class="prod-header">
           <div class="prod-name">米家 C1 60</div>
           <span class="prod-badge tag-amber">最便宜</span>
         </div>
-        <div class="prod-price">≈ 1,800 元</div>
+        <div class="prod-price">&asymp; 1,800 元</div>
         <div class="prod-specs">
-          风量 60m³/h · H13 · 全热 60% · 噪音 22dB — 噪音争议大
+          风量 60m&sup3;/h &middot; H13 &middot; 全热 60% &middot; 噪音 22dB &mdash; 噪音争议大
         </div>
       </div>
     </div>
 
-    <div class="desktop-table">
+    <div class="desktop-table reveal">
       <div class="table-wrap">
         <table>
           <thead>
@@ -1141,14 +1905,14 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>⭐ 第五季 BM60</strong></td>
-              <td>≈1,900</td>
-              <td>60m³/h，H13，全热68%，19dB — 同品牌联动</td>
+              <td><strong style="color:var(--xb-accent);">第五季 BM60</strong></td>
+              <td>&asymp;1,900</td>
+              <td>60m&sup3;/h，H13，全热68%，19dB &mdash; 同品牌联动</td>
             </tr>
             <tr>
               <td><strong>米家 C1 60</strong></td>
-              <td>≈1,800</td>
-              <td>60m³/h，H13，全热60%，22dB — 最便宜，噪音争议</td>
+              <td>&asymp;1,800</td>
+              <td>60m&sup3;/h，H13，全热60%，22dB &mdash; 最便宜，噪音争议</td>
             </tr>
           </tbody>
         </table>
@@ -1156,9 +1920,9 @@
     </div>
 
     <!-- 图片 -->
-    <div class="sub-title"><span class="dot"></span>部分机型外观参考</div>
+    <div class="sub-title reveal"><span class="dot"></span>部分机型外观参考</div>
 
-    <div class="img-grid">
+    <div class="img-grid reveal">
       <div class="img-item">
         <img alt="松下" src="https://2c.zol-img.com.cn/product/204_320x200/356/ceY9JLG4L62.jpg">
         <div class="img-label">松下 FY-15ZDP1C</div>
@@ -1194,125 +1958,125 @@
       </div>
     </div>
 
-    <div class="card card-compact" style="margin-top:8px;">
-      <p style="margin:0;font-size:13px;color:#555;">
-        📷 图片来自中关村在线、新浪众测等公开评测来源。第五季 BM80/BM60 外观图暂缺。
+    <div class="card card-compact reveal" style="margin-top:12px;">
+      <p style="margin:0;font-size:13px;color:var(--xb-text-muted);font-family:var(--body);">
+        图片来自中关村在线、新浪众测等公开评测来源。第五季 BM80/BM60 外观图暂缺。
       </p>
     </div>
 
     <hr>
 
     <!-- ===== 四、最终推荐 ===== -->
-    <h2 class="section-title" id="s4">最终推荐</h2>
+    <h2 class="section-title reveal" id="s4" data-num="04">最终推荐</h2>
 
     <!-- 首选方案 -->
-    <div class="hero-rec">
-      <div class="rec-tag">🏆 首选方案 · 同品牌三机联动</div>
+    <div class="hero-rec reveal">
+      <div class="rec-tag">首选方案 &middot; 同品牌三机联动</div>
       <div class="rec-title">第五季 BG160 + BM80 + BM60</div>
       <div class="rec-sub">同品牌一套 APP，滤芯统一囤货，售后不扯皮</div>
       <ul class="rec-list">
-        <li><span class="room">客厅</span><span class="model">第五季 BG160</span><span class="price">≈2,980</span></li>
-        <li><span class="room">主卧</span><span class="model">第五季 BM80</span><span class="price">≈2,200</span></li>
-        <li><span class="room">次卧</span><span class="model">第五季 BM60</span><span class="price">≈1,900</span></li>
+        <li><span class="room">客厅</span><span class="model">第五季 BG160</span><span class="price">&asymp;2,980</span></li>
+        <li><span class="room">主卧</span><span class="model">第五季 BM80</span><span class="price">&asymp;2,200</span></li>
+        <li><span class="room">次卧</span><span class="model">第五季 BM60</span><span class="price">&asymp;1,900</span></li>
       </ul>
       <div class="rec-total">
         <span class="total-label">三台合计</span>
-        <span class="total-price">≈7,080 元</span>
+        <span class="total-price">&asymp;7,080 元</span>
       </div>
     </div>
 
-    <p>BG160 是客厅机中静音和性价比的综合表现突出（20dB + 全热70% + H13 = 2,980元），BM80 是卧室机静音表现突出（18dB），BM60 次卧够用不浪费。</p>
+    <p class="reveal">BG160 是客厅机中静音和性价比的综合表现突出（20dB + 全热70% + H13 = 2,980元），BM80 是卧室机静音表现突出（18dB），BM60 次卧够用不浪费。</p>
 
     <!-- 备选方案 -->
-    <div class="sub-title"><span class="dot"></span>备选方案</div>
+    <div class="sub-title reveal"><span class="dot"></span>备选方案</div>
 
-    <div class="alt-card">
+    <div class="alt-card reveal">
       <div class="alt-header">
-        <span class="alt-icon">🇯🇵</span>
+        <span class="alt-icon">&#127757;</span>
         <span class="alt-title">日系品质方案</span>
       </div>
-      <div class="alt-price">≈ 8,500 元</div>
+      <div class="alt-price">&asymp; 8,500 元</div>
       <div class="alt-detail">
-        松下 FY-15ZDP1C（客厅 ≈3,700）+ 松下 FY-10ZDP1C（主卧 ≈2,900）+ 第五季 BM60（次卧 ≈1,900）<br>
+        松下 FY-15ZDP1C（客厅 &asymp;3,700）+ 松下 FY-10ZDP1C（主卧 &asymp;2,900）+ 第五季 BM60（次卧 &asymp;1,900）<br>
         <strong>适用：</strong>预算宽裕、信赖松下品牌、不介意 H12 滤网
       </div>
     </div>
 
-    <div class="alt-card">
+    <div class="alt-card reveal reveal-delay-1">
       <div class="alt-header">
-        <span class="alt-icon">🇩🇪</span>
+        <span class="alt-icon">&#9874;</span>
         <span class="alt-title">德系电机方案</span>
       </div>
-      <div class="alt-price">≈ 8,800 元</div>
+      <div class="alt-price">&asymp; 8,800 元</div>
       <div class="alt-detail">
-        造梦者 M200（客厅 ≈3,900）+ 造梦者 DM100（主卧 ≈3,000）+ 第五季 BM60（次卧 ≈1,900）<br>
+        造梦者 M200（客厅 &asymp;3,900）+ 造梦者 DM100（主卧 &asymp;3,000）+ 第五季 BM60（次卧 &asymp;1,900）<br>
         <strong>适用：</strong>重视电机寿命、愿意为德国制造溢价的用户
       </div>
     </div>
 
-    <div class="alt-card">
+    <div class="alt-card reveal reveal-delay-2">
       <div class="alt-header">
-        <span class="alt-icon">💰</span>
+        <span class="alt-icon">&#128208;</span>
         <span class="alt-title">双机方案（次卧不住人）</span>
       </div>
-      <div class="alt-price">≈ 5,000 ~ 5,180 元</div>
+      <div class="alt-price">&asymp; 5,000 ~ 5,180 元</div>
       <div class="alt-detail">
-        <strong>经济：</strong>果麦 GM280Pro（客厅 ≈2,800）+ 第五季 BM80（主卧 ≈2,200）= <strong>≈5,000</strong><br>
-        <strong>品质：</strong>第五季 BG160（客厅 ≈2,980）+ 第五季 BM80（主卧 ≈2,200）= <strong>≈5,180</strong>
+        <strong>经济：</strong>果麦 GM280Pro（客厅 &asymp;2,800）+ 第五季 BM80（主卧 &asymp;2,200）= <strong>&asymp;5,000</strong><br>
+        <strong>品质：</strong>第五季 BG160（客厅 &asymp;2,980）+ 第五季 BM80（主卧 &asymp;2,200）= <strong>&asymp;5,180</strong>
       </div>
     </div>
 
     <!-- 逐项验证 -->
-    <div class="sub-title"><span class="dot"></span>为什么是这个推荐？逐项验证</div>
+    <div class="sub-title reveal"><span class="dot"></span>为什么是这个推荐？逐项验证</div>
 
-    <div class="checklist">
+    <div class="checklist reveal">
       <div class="check-item">
-        <span class="check-icon">💨</span>
-        <span class="check-label">风量达标<br><small>客厅≥150 / 卧室≥60</small></span>
-        <span class="check-value">200 ✅<br>100 ✅<br>60 ✅</span>
+        <span class="check-icon">&#10003;</span>
+        <span class="check-label">风量达标<br><small>客厅&ge;150 / 卧室&ge;60</small></span>
+        <span class="check-value">200<br>100<br>60</span>
       </div>
       <div class="check-item">
-        <span class="check-icon">♻️</span>
-        <span class="check-label">全热交换 ≥65%</span>
-        <span class="check-value">70% ✅<br>70% ✅<br>68% ✅</span>
+        <span class="check-icon">&#10003;</span>
+        <span class="check-label">全热交换 &ge;65%</span>
+        <span class="check-value">70%<br>70%<br>68%</span>
       </div>
       <div class="check-item">
-        <span class="check-icon">🔒</span>
+        <span class="check-icon">&#10003;</span>
         <span class="check-label">滤网 H13</span>
-        <span class="check-value">H13 ✅<br>H13 ✅<br>H13 ✅</span>
+        <span class="check-value">H13<br>H13<br>H13</span>
       </div>
       <div class="check-item">
-        <span class="check-icon">🔇</span>
-        <span class="check-label">噪音达标<br><small>客厅≤25 / 卧室≤20</small></span>
-        <span class="check-value">20dB ✅<br>18dB ✅<br>19dB ✅</span>
+        <span class="check-icon">&#10003;</span>
+        <span class="check-label">噪音达标<br><small>客厅&le;25 / 卧室&le;20</small></span>
+        <span class="check-value">20dB<br>18dB<br>19dB</span>
       </div>
       <div class="check-item">
-        <span class="check-icon">🛡️</span>
-        <span class="check-label">质保 ≥2年</span>
-        <span class="check-value">2年 ✅<br>2年 ✅<br>2年 ✅</span>
+        <span class="check-icon">&#10003;</span>
+        <span class="check-label">质保 &ge;2年</span>
+        <span class="check-value">2年<br>2年<br>2年</span>
       </div>
       <div class="check-item">
-        <span class="check-icon">👍</span>
+        <span class="check-icon">&#10003;</span>
         <span class="check-label">用户口碑</span>
-        <span class="check-value">良好 ✅<br>良好 ✅<br>稳定 ✅</span>
+        <span class="check-value">良好<br>良好<br>稳定</span>
       </div>
     </div>
 
-    <p><strong>所以这不是主观偏好——每个参数都跑通了条件。</strong> 唯一的短板是第五季品牌知名度不如松下/百朗，但不影响机器本身的性能。</p>
+    <p class="reveal"><strong>所以这不是主观偏好&mdash;&mdash;每个参数都跑通了条件。</strong> 唯一的短板是第五季品牌知名度不如松下/百朗，但不影响机器本身的性能。</p>
 
     <hr>
 
     <!-- ===== 五、安装与维护 ===== -->
-    <h2 class="section-title" id="s5">安装与维护</h2>
+    <h2 class="section-title reveal" id="s5" data-num="05">安装与维护</h2>
 
-    <ol class="step-list">
+    <ol class="step-list reveal">
       <li>
         <span class="step-num">1</span>
         <span class="step-text"><strong>先问物业</strong>：外墙能打孔吗？不能就定制带孔隔音玻璃替换（每块约 500-1000 元）</span>
       </li>
       <li>
         <span class="step-num">2</span>
-        <span class="step-text"><strong>隔音玻璃注意</strong>：不能在现有隔音玻璃上直接开孔——会报废隔音。要么走外墙孔，要么换玻璃</span>
+        <span class="step-text"><strong>隔音玻璃注意</strong>：不能在现有隔音玻璃上直接开孔&mdash;&mdash;会报废隔音。要么走外墙孔，要么换玻璃</span>
       </li>
       <li>
         <span class="step-num">3</span>
@@ -1335,48 +2099,53 @@
     <hr>
 
     <!-- ===== 六、避坑速查 ===== -->
-    <h2 class="section-title" id="s6">避坑速查</h2>
+    <h2 class="section-title reveal" id="s6" data-num="06">避坑速查</h2>
 
-    <div class="checklist">
-      <div class="check-item" style="border-left:3px solid var(--danger);padding-left:12px;">
-        <span class="check-icon">🔇</span>
+    <div class="checklist reveal">
+      <div class="check-item" style="border-left:3px solid var(--xb-danger);padding-left:18px;margin-left:-1px;">
+        <span class="check-icon"
+          style="border-color:var(--xb-danger);color:var(--xb-danger);box-shadow:0 0 8px rgba(248,113,113,0.3);">!</span>
         <span class="check-label"><strong>卧室机静音第一</strong><br><small>25dB 装卧室 = 花钱买失眠</small></span>
       </div>
-      <div class="check-item" style="border-left:3px solid var(--danger);padding-left:12px;">
-        <span class="check-icon">♻️</span>
+      <div class="check-item" style="border-left:3px solid var(--xb-danger);padding-left:18px;margin-left:-1px;">
+        <span class="check-icon"
+          style="border-color:var(--xb-danger);color:var(--xb-danger);box-shadow:0 0 8px rgba(248,113,113,0.3);">!</span>
         <span class="check-label"><strong>必须全热交换</strong><br><small>空调 + 无全热交换 = 边制冷边灌热风</small></span>
       </div>
-      <div class="check-item" style="border-left:3px solid var(--danger);padding-left:12px;">
-        <span class="check-icon">🔒</span>
+      <div class="check-item" style="border-left:3px solid var(--xb-danger);padding-left:18px;margin-left:-1px;">
+        <span class="check-icon"
+          style="border-color:var(--xb-danger);color:var(--xb-danger);box-shadow:0 0 8px rgba(248,113,113,0.3);">!</span>
         <span class="check-label"><strong>滤网选 H13 不选 H12</strong><br><small>PM0.3 过滤效率 99.95% vs 99.5%</small></span>
       </div>
-      <div class="check-item" style="border-left:3px solid var(--warning);padding-left:12px;">
-        <span class="check-icon">⚡</span>
+      <div class="check-item" style="border-left:3px solid var(--xb-warning);padding-left:18px;margin-left:-1px;">
+        <span class="check-icon"
+          style="border-color:var(--xb-warning);color:var(--xb-warning);box-shadow:0 0 8px rgba(251,191,36,0.3);">?</span>
         <span class="check-label"><strong>别被 UV 灯、负离子带偏</strong><br><small>核心看风量、噪音、全热、滤网四个参数</small></span>
       </div>
-      <div class="check-item" style="border-left:3px solid var(--warning);padding-left:12px;">
-        <span class="check-icon">📝</span>
-        <span class="check-label"><strong>"有热交换" ≠ "全热交换"</strong><br><small>买前确认是 Enthalpy Exchange</small></span>
+      <div class="check-item" style="border-left:3px solid var(--xb-warning);padding-left:18px;margin-left:-1px;">
+        <span class="check-icon"
+          style="border-color:var(--xb-warning);color:var(--xb-warning);box-shadow:0 0 8px rgba(251,191,36,0.3);">?</span>
+        <span class="check-label"><strong>"有热交换" &ne; "全热交换"</strong><br><small>买前确认是 Enthalpy Exchange</small></span>
       </div>
     </div>
 
     <!-- 结论 -->
-    <div class="conclusion">
-      <div class="con-emoji">✅</div>
+    <div class="conclusion reveal">
+      <div class="con-emoji">&#127968;</div>
       <p><strong>简版结论</strong></p>
       <p>如果你不想纠结，直接买<br><strong>第五季 BG160 + BM80 + BM60</strong></p>
-      <p>三台 ≈7,080 元，是目前 90㎡ 两房场景下<br>参数、口碑、价格综合最优的选择。</p>
-      <p style="margin-top:12px;"><em>声明：本文为个人调研整理，仅供选购参考，不构成商业推荐。</em></p>
+      <p>三台 &asymp;7,080 元，是目前 90㎡ 两房场景下<br>参数、口碑、价格综合最优的选择。</p>
+      <p style="margin-top:16px;"><em>声明：本文为个人调研整理，仅供选购参考，不构成商业推荐。</em></p>
     </div>
 
   </main>
 
   <!-- 回到顶部 -->
-  <a href="#" class="back-top" id="backTop">↑</a>
+  <a href="#" class="back-top" id="backTop">&uarr;</a>
 
   <footer>
     <p>产品图片来自公开评测来源。本文不含商业推广链接。</p>
-    <p style="margin-top:4px;">详细数据请参阅 <a href="家用新风机选购指南-完整版.html" style="color:var(--accent);">完整版指南</a></p>
+    <p>详细数据请参阅 <a href="家用新风机选购指南-完整版.html">完整版指南</a></p>
   </footer>
 
   <script>
@@ -1386,13 +2155,27 @@
       el.classList.add('active');
     }
 
-    // 滚动时更新导航
+    // 滚动时更新导航 + Logo 淡出
     const sections = document.querySelectorAll('h2[id]');
     const navItems = document.querySelectorAll('.nav-chip');
+    const logo = document.querySelector('.xbrain-brand');
+    let ticking = false;
+
+    function updateLogo() {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const ratio = Math.min(scrollY / vh, 1);
+      const opacity = 1 - ratio * 0.7;
+      if (logo) {
+        logo.style.opacity = opacity;
+        logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+      }
+    }
+
     window.addEventListener('scroll', () => {
       let current = '';
       sections.forEach(sec => {
-        const top = sec.offsetTop - 80;
+        const top = sec.offsetTop - 120;
         if (scrollY >= top) current = sec.getAttribute('id');
       });
       navItems.forEach(item => {
@@ -1400,9 +2183,28 @@
         if (item.getAttribute('href') === '#' + current) item.classList.add('active');
       });
 
-      // 回到顶部按钮
       document.getElementById('backTop').classList.toggle('visible', scrollY > 400);
+
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateLogo();
+          ticking = false;
+        });
+        ticking = true;
+      }
     });
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   </script>
 
 </body>
