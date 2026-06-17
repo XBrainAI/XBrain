@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>大金空调制冷异常诊断报告 — XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-xs: 4px;
+      --font-display: 'Noto Serif SC', serif;
+      --font-body: 'Noto Sans SC', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'DM Sans', monospace;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.7;
+    }
+
+    /* ===== Atmospheric Background ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(45, 27, 78, 0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(26, 58, 92, 0.3) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== Noise Texture Overlay ===== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), 0 0 40px rgba(80, 140, 255, 0.35), 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+
+    .xbrain-brand:hover {
+      box-shadow: 0 0 24px rgba(80, 140, 255, 0.40), 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+
+    .xbrain-brand .xb-ring {
+      stroke-width: 4;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-glow-bg {
+      opacity: 0.40;
+    }
+
+    .xbrain-brand .xb-center-ring {
+      stroke-width: 3;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-x-line {
+      opacity: 0.9;
+      stroke-width: 2.5;
+    }
+
+    .xbrain-brand .xb-core {
+      r: 12;
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-ttai {
+      fill: #4a70c0;
+      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
+    }
+
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 {
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-bar-group {
+      opacity: 0.75;
+    }
+
+    .xbrain-brand .xb-bar {
+      fill: #5a90e0;
+    }
+
+    .xbrain-brand .xb-bar-glow {
+      opacity: 0.9;
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== Top Navigation ===== */
+    .top-nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.75) 0%, rgba(40, 30, 80, 0.70) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(100, 180, 255, 0.12);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      max-width: 90vw;
+      overflow-x: auto;
+      transition: opacity 0.6s ease, background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
+    }
+
+    .top-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .top-nav.scrolled {
+      background: rgba(15, 10, 40, 0.30);
+      border-color: rgba(100, 180, 255, 0.06);
+      box-shadow: none;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .top-nav.scrolled:hover {
+      opacity: 0.9;
+      background: rgba(15, 10, 40, 0.55);
+      border-color: rgba(100, 180, 255, 0.12);
+      pointer-events: auto;
+    }
+
+    .nav-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      color: var(--xb-text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .nav-chip:hover,
+    .nav-chip.active {
+      color: var(--xb-text);
+      background: rgba(100, 180, 255, 0.15);
+    }
+
+    .nav-chip.active {
+      color: var(--xb-accent);
+      background: rgba(100, 180, 255, 0.2);
+    }
+
+    .nav-num {
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.5;
+      font-family: var(--font-mono);
+    }
+
+    /* ===== Main Content ===== */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 120px 24px 80px;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      text-align: center;
+      padding: 2rem 0 3rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 20px;
+      border: 1px solid var(--xb-border);
+      border-radius: 100px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--xb-accent);
+      margin-bottom: 1.5rem;
+      background: rgba(100, 180, 255, 0.05);
+      font-family: var(--font-mono);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 em {
+      color: var(--xb-accent);
+      font-style: normal;
+      text-shadow: 0 0 30px rgba(100, 180, 255, 0.4);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 14px;
+      color: var(--xb-text-dim);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-line {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--xb-accent), transparent);
+      margin: 2rem auto 0;
+    }
+
+    /* ===== Section ===== */
+    .section {
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s var(--ease-out);
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--xb-border);
+    }
+
+    .section-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--xb-accent);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--xb-accent);
+      box-shadow: 0 0 12px rgba(100, 180, 255, 0.2);
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+    }
+
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+      font-weight: 700;
+    }
+
+    /* ===== Cards ===== */
+    .card {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(100, 180, 255, 0.4);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(100, 180, 255, 0.08);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--xb-accent);
+    }
+
+    /* ===== Tables ===== */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1.2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--xb-border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background: rgba(100, 180, 255, 0.1);
+      color: var(--xb-accent);
+      font-weight: 600;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--xb-border);
+      white-space: nowrap;
+      font-family: var(--font-body);
+    }
+
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(100, 180, 255, 0.08);
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(100, 180, 255, 0.04);
+    }
+
+    .highlight-row td {
+      background: rgba(100, 180, 255, 0.08) !important;
+      font-weight: 600;
+    }
+
+    /* ===== Probability Bar ===== */
+    .prob-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--xb-accent);
+      font-family: var(--font-mono);
+    }
+
+    .prob-track {
+      width: 80px;
+      height: 6px;
+      background: rgba(100, 180, 255, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .prob-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--xb-accent), var(--xb-accent2));
+      border-radius: 3px;
+      transition: width 1s var(--ease-out);
+    }
+
+    /* ===== Flowchart — Desktop ===== */
+    .flowchart {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: rgba(10, 10, 26, 0.6);
+      border: 1px solid var(--xb-border);
+      border-radius: var(--radius);
+    }
+
+    .flow-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      position: relative;
+    }
+
+    .flow-node {
+      flex: 1;
+      padding: 12px 16px;
+      background: rgba(100, 180, 255, 0.08);
+      border: 1px solid var(--xb-border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      text-align: center;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      line-height: 1.5;
+    }
+
+    .flow-node:hover {
+      border-color: var(--xb-accent);
+      background: rgba(100, 180, 255, 0.12);
+    }
+
+    .flow-node.decision {
+      border-color: rgba(100, 180, 255, 0.4);
+      background: rgba(100, 180, 255, 0.12);
+    }
+
+    .flow-node.result {
+      border-color: rgba(100, 255, 180, 0.3);
+      background: rgba(100, 255, 180, 0.06);
+    }
+
+    .flow-node.result-neg {
+      border-color: rgba(255, 100, 100, 0.3);
+      background: rgba(255, 100, 100, 0.06);
+    }
+
+    .flow-arrow-down {
+      display: flex;
+      justify-content: center;
+      padding: 4px 0;
+      color: var(--xb-accent);
+      font-size: 18px;
+      opacity: 0.6;
+    }
+
+    /* ===== Desktop Branch Connectors ===== */
+    .flow-branch-wrap {
+      display: flex;
+      gap: 0;
+      margin-top: 0;
+      position: relative;
+    }
+
+    .flow-branch-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 16px;
+      background: var(--xb-border);
+    }
+
+    .flow-branch-connector {
+      flex: 1;
+      position: relative;
+      padding-top: 16px;
+    }
+
+    .flow-branch-connector::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--xb-border);
+    }
+
+    .flow-branch-connector:first-child::before {
+      left: 50%;
+    }
+
+    .flow-branch-connector:last-child::before {
+      right: 50%;
+    }
+
+    .flow-branch-connector::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 12px;
+      background: var(--xb-border);
+    }
+
+    .flow-branch-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 4px 0 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+    }
+
+    .flow-branch-label.yes-label {
+      color: #64ffb4;
+    }
+
+    .flow-branch-label.no-label {
+      color: #ff8a8a;
+    }
+
+    .flow-branch-label .branch-arrow {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    .flow-branch {
+      display: flex;
+      gap: 12px;
+      margin-top: 0;
+    }
+
+    .flow-branch .flow-node {
+      flex: 1;
+    }
+
+    .flow-node.branch-yes {
+      border-color: rgba(100, 255, 180, 0.35);
+      background: rgba(100, 255, 180, 0.06);
+    }
+
+    .flow-node.branch-no {
+      border-color: rgba(255, 100, 100, 0.25);
+      background: rgba(255, 100, 100, 0.04);
+    }
+
+    .flow-node .branch-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .branch-tag.yes {
+      background: rgba(100, 255, 180, 0.15);
+      color: #64ffb4;
+      border: 1px solid rgba(100, 255, 180, 0.3);
+    }
+
+    .branch-tag.no {
+      background: rgba(255, 100, 100, 0.12);
+      color: #ff8a8a;
+      border: 1px solid rgba(255, 100, 100, 0.2);
+    }
+
+    /* ===== Flow Termination Nodes ===== */
+    .flow-node.terminate {
+      border-color: rgba(255, 100, 100, 0.4);
+      background: rgba(255, 50, 50, 0.08);
+      box-shadow: 0 0 20px rgba(255, 50, 50, 0.1);
+      animation: termPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes termPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 12px rgba(255, 50, 50, 0.08);
+      }
+
+      50% {
+        box-shadow: 0 0 24px rgba(255, 50, 50, 0.18);
+      }
+    }
+
+    .flow-node.terminate .branch-condition {
+      color: #ff8a8a !important;
+      font-weight: 700 !important;
+    }
+
+    .flow-node.terminate .branch-tag.no {
+      background: rgba(255, 50, 50, 0.25);
+      border-color: rgba(255, 100, 100, 0.5);
+      color: #fff;
+    }
+
+    .flow-node.terminate .terminate-label {
+      display: inline-block;
+      padding: 3px 10px;
+      background: rgba(255, 50, 50, 0.3);
+      border: 1px solid rgba(255, 100, 100, 0.6);
+      border-radius: 4px;
+      color: #ff6b6b;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      letter-spacing: 2px;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .flow-node.final-result {
+      border-color: rgba(100, 255, 180, 0.35);
+      background: rgba(100, 255, 180, 0.06);
+    }
+
+    .flow-node.final-result .result-label {
+      display: inline-block;
+      padding: 3px 10px;
+      background: rgba(100, 255, 180, 0.2);
+      border: 1px solid rgba(100, 255, 180, 0.4);
+      border-radius: 4px;
+      color: #64ffb4;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      letter-spacing: 2px;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .flow-node .branch-condition {
+      display: block;
+      font-size: 11px;
+      color: var(--xb-text-dim);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .flow-node .branch-result {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .branch-yes .branch-result {
+      color: #64ffb4;
+    }
+
+    .branch-no .branch-result {
+      color: #ff8a8a;
+    }
+
+    /* ===== Flowchart — Mobile Interactive Steps ===== */
+    .flow-steps-mobile {
+      display: none;
+    }
+
+    .flow-step {
+      position: relative;
+      padding: 0 0 0 40px;
+      margin-bottom: 0;
+    }
+
+    .flow-step::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--xb-border);
+    }
+
+    .flow-step:last-child::before {
+      display: none;
+    }
+
+    .flow-step-dot {
+      position: absolute;
+      left: 6px;
+      top: 16px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--xb-accent);
+      background: var(--xb-deep);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow-step-dot::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--xb-accent);
+    }
+
+    .flow-step-dot.decision::after {
+      background: var(--xb-accent2);
+      box-shadow: 0 0 8px var(--xb-glow);
+    }
+
+    .flow-step-dot.result::after {
+      background: #64ffb4;
+    }
+
+    .flow-step-dot.result-neg::after {
+      background: #ff6b6b;
+    }
+
+    .flow-step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: rgba(100, 180, 255, 0.06);
+      border: 1px solid var(--xb-border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: all 0.3s ease;
+      margin-bottom: 0;
+    }
+
+    .flow-step-header:hover {
+      border-color: rgba(100, 180, 255, 0.4);
+      background: rgba(100, 180, 255, 0.1);
+    }
+
+    .flow-step-header.open {
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      border-bottom-color: transparent;
+      background: rgba(100, 180, 255, 0.1);
+    }
+
+    .flow-step-label {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .flow-step-toggle {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s var(--ease-out);
+      color: var(--xb-accent);
+      font-size: 12px;
+    }
+
+    .flow-step-header.open .flow-step-toggle {
+      transform: rotate(180deg);
+    }
+
+    .flow-step-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s var(--ease-out), padding 0.3s ease;
+      background: rgba(10, 10, 26, 0.5);
+      border: 1px solid var(--xb-border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      padding: 0 16px;
+    }
+
+    .flow-step-body.open {
+      max-height: 300px;
+      padding: 12px 16px;
+    }
+
+    .flow-step-body p {
+      font-size: 13px;
+      color: var(--xb-text-dim);
+      line-height: 1.6;
+    }
+
+    .flow-step-branches {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .flow-step-branch {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: var(--radius-xs);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .flow-step-branch.yes {
+      background: rgba(100, 255, 180, 0.08);
+      border: 1px solid rgba(100, 255, 180, 0.2);
+      color: #64ffb4;
+    }
+
+    .flow-step-branch.no {
+      background: rgba(255, 100, 100, 0.06);
+      border: 1px solid rgba(255, 100, 100, 0.15);
+      color: #ff8a8a;
+    }
+
+    .flow-step-branch.terminate {
+      border-color: rgba(255, 50, 50, 0.5) !important;
+      background: rgba(255, 50, 50, 0.18) !important;
+      color: #ff6b6b !important;
+      font-weight: 700;
+      animation: termPulseMob 3s ease-in-out infinite;
+    }
+
+    @keyframes termPulseMob {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 rgba(255, 50, 50, 0);
+      }
+
+      50% {
+        box-shadow: 0 0 10px rgba(255, 50, 50, 0.15);
+      }
+    }
+
+    /* ===== Blockquote ===== */
+    blockquote {
+      border-left: 3px solid var(--xb-accent);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      background: rgba(100, 180, 255, 0.05);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    blockquote strong {
+      color: var(--xb-accent);
+    }
+
+    /* ===== Risk List ===== */
+    .risk-list {
+      list-style: none;
+      counter-reset: risk;
+    }
+
+    .risk-list li {
+      counter-increment: risk;
+      padding: 1rem 1.5rem 1rem 3.5rem;
+      position: relative;
+      margin-bottom: 0.8rem;
+      background: rgba(255, 100, 100, 0.04);
+      border: 1px solid rgba(255, 100, 100, 0.15);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .risk-list li::before {
+      content: counter(risk);
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 100, 100, 0.2);
+      color: #ff6b6b;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+    }
+
+    .risk-list li strong {
+      color: #ff8a8a;
+    }
+
+    /* ===== Back to Top ===== */
+    .back-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--xb-border);
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.9), rgba(40, 30, 80, 0.85));
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--xb-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .back-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-top:hover {
+      border-color: var(--xb-accent);
+      box-shadow: 0 0 16px rgba(100, 180, 255, 0.3);
+    }
+
+    .back-top svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--xb-border);
+      margin: 0 auto 1rem;
+    }
+
+    /* ===== Table Scrollbar Hide ===== */
+    .table-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .table-wrap {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+
+      /* Nav: same line as Logo, matching 新风机 page */
+      .top-nav {
+        top: 10px;
+        left: auto;
+        right: 10px;
+        transform: none;
+        max-width: calc(100% - 110px);
+        padding: 4px;
+        gap: 2px;
+      }
+
+      .nav-chip {
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+
+      .nav-chip .nav-num {
+        display: none;
+      }
+
+      main {
+        padding: 100px 14px 60px;
+      }
+
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+
+      .section-header {
+        gap: 12px;
+      }
+
+      .section-num {
+        min-width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+
+      /* Flowchart: hide desktop, show mobile interactive */
+      .flowchart {
+        display: none;
+      }
+
+      .flow-steps-mobile {
+        display: block;
+      }
+
+      .xbrain-brand {
+        top: 10px;
+        left: 10px;
+        padding: 5px 10px 5px 6px;
+      }
+
+      .xbrain-brand svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      .xbrain-brand .xbrain-text {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .top-nav {
+        max-width: calc(100% - 100px);
+        padding: 3px;
+        gap: 1px;
+      }
+
+      .nav-chip {
+        padding: 5px 7px;
+        font-size: 11px;
+      }
+
+      main {
+        padding: 90px 12px 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== XBrain Brand Logo ===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+        opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+          opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== Top Navigation ===== -->
+  <nav class="top-nav" id="topNav">
+    <a class="nav-chip" href="#sec1"><span class="nav-num">01</span>设备概况</a>
+    <a class="nav-chip" href="#sec2"><span class="nav-num">02</span>故障现象</a>
+    <a class="nav-chip" href="#sec3"><span class="nav-num">03</span>行业数据</a>
+    <a class="nav-chip" href="#sec4"><span class="nav-num">04</span>症状分析</a>
+    <a class="nav-chip" href="#sec5"><span class="nav-num">05</span>诊断结论</a>
+    <a class="nav-chip" href="#sec6"><span class="nav-num">06</span>排查步骤</a>
+    <a class="nav-chip" href="#sec7"><span class="nav-num">07</span>维修流程</a>
+    <a class="nav-chip" href="#sec8"><span class="nav-num">08</span>费用评估</a>
+    <a class="nav-chip" href="#sec9"><span class="nav-num">09</span>风险提示</a>
+  </nav>
+
+  <main id="top">
+
+    <!-- ===== Hero ===== -->
+    <div class="hero section visible">
+      <div class="hero-badge">DIAGNOSTIC REPORT</div>
+      <h1>大金家用挂机空调<br><em>制冷异常诊断报告</em></h1>
+      <div class="hero-meta">
+        <span>DAIKIN 分体变频挂机</span>
+        <span>使用约 6 年</span>
+        <span>R410A / R32</span>
+      </div>
+      <div class="hero-line"></div>
+    </div>
+
+    <!-- ===== Section 1: 设备概况 ===== -->
+    <div class="section" id="sec1">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <h2>设备概况</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>信息</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>品牌 / 型式</td>
+              <td>大金（DAIKIN）/ 家用分体变频挂机</td>
+            </tr>
+            <tr>
+              <td>使用年限</td>
+              <td>约 6 年</td>
+            </tr>
+            <tr>
+              <td>制冷剂类型</td>
+              <td>R410A 或 R32（视具体型号，2020年前后为过渡期）</td>
+            </tr>
+            <tr>
+              <td>维护记录</td>
+              <td>无维护、无维修、无故障史；故障后已清洗内机（蒸发器+滤网），未改善</td>
+            </tr>
+            <tr>
+              <td>故障代码</td>
+              <td>内机面板无显示，遥控器查询亦无历史故障代码</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== Section 2: 故障现象 ===== -->
+    <div class="section" id="sec2">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2>故障现象</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>症状描述</th>
+              <th>特征归纳</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>S1</strong></td>
+              <td>出风口吹出常温风，长时间运行后室内闷热</td>
+              <td>制冷量严重不足</td>
+            </tr>
+            <tr>
+              <td><strong>S2</strong></td>
+              <td>出风无凉感，空气无除湿后的干燥感</td>
+              <td>蒸发温度高于露点，除湿功能失效；进、出风温差极小</td>
+            </tr>
+            <tr>
+              <td><strong>S3</strong></td>
+              <td>室内机运行声音较正常时偏大</td>
+              <td>气路或压缩机运行状态异常</td>
+            </tr>
+            <tr>
+              <td><strong>S4</strong></td>
+              <td>设定低温时偶可正常制冷；温度调高后立即恢复常温出风，持续时间越长出风体感越暖</td>
+              <td>制冷量与压缩机频率呈强依赖关系；低频工况下出风温度持续升高</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Flowchart: 问题分析 -->
+      <div class="card">
+        <div class="card-title">问题分析流程图</div>
+
+        <!-- Desktop -->
+        <div class="flowchart">
+          <div class="flow-row">
+            <div class="flow-node decision">四项症状同时出现<br>S1 + S2 + S3 + S4</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node decision">S4 为核心鉴别症状<br>制冷量与频率强依赖</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node">高频运行：制冷剂循环量达最大<br>蒸发器勉强建立温差</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node">低频运行：循环量骤减<br>低压升至临界值以上</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node result">蒸发温度回升至室温附近<br>系统等效于"仅循环空气"</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node decision" style="background:rgba(100,180,255,0.15);">高度指向：制冷剂不足</div>
+          </div>
+        </div>
+
+        <!-- Mobile Interactive Steps -->
+        <div class="flow-steps-mobile">
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">四项症状同时出现 S1+S2+S3+S4</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>出风常温(S1)、无除湿(S2)、噪音偏大(S3)、频率依赖(S4) 四项症状同时存在，构成完整证据链。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">S4 为核心鉴别症状</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>制冷量与压缩机频率呈强依赖关系，这是制冷剂不足的典型特征，其他病因不表现此特性。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">高频运行：循环量达最大</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>压缩机满负荷驱动，制冷剂循环量达到当前余量下最大值，蒸发器勉强建立温差，故低温设定时偶可制冷。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">低频运行：循环量骤减</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>压缩机降频后制冷剂循环量骤减，低压侧压力升至临界值以上，蒸发温度回升至室温附近。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot result"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">系统等效于"仅循环空气"</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>蒸发温度回升至室温附近，叠加风扇电机持续发热，出风体感越来越暖，房间闷热加重。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label" style="color:var(--xb-accent);font-weight:700;">高度指向：制冷剂不足</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>全部症状均获合理解释，S4 为高度特异性表现，指向制冷剂慢性泄漏。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Section 3: 行业数据 ===== -->
+    <div class="section" id="sec3">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2>行业数据与用户反馈对照</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">3.1 行业数据</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>数据来源</th>
+                <th>关键发现</th>
+                <th>与本案例关联</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>大金官方技术文献</td>
+                <td>R32 正常年泄漏率约 2%；R410A 对充注量偏差敏感</td>
+                <td>6 年累计正常逸散可达 12%，已接近临界阈值</td>
+              </tr>
+              <tr>
+                <td>维修行业统计</td>
+                <td>使用 3-4 年以上空调制冷不良，制冷剂不足为最常见原因</td>
+                <td>本机 6 年远超该阈值</td>
+              </tr>
+              <tr>
+                <td>知乎专业解读</td>
+                <td>变频系统缺制冷剂：进出风温差小、高低压均偏低、排气温度升高</td>
+                <td>完全匹配 S2（无除湿、无温差）</td>
+              </tr>
+              <tr>
+                <td>家电维修论坛</td>
+                <td>大金电子膨胀阀为已知易损件；故障通常伴随故障代码</td>
+                <td>本机无故障代码，S4 与膨胀阀故障不符</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">3.2 用户投诉特征</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>来源</th>
+                <th>典型投诉</th>
+                <th>根因</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>百度贴吧 / 黑猫投诉</td>
+                <td>大金制冷效果差，室温降不下来（使用 3-6 年后集中出现）</td>
+                <td>安装匹配不当、长期缺维护导致制冷剂不足</td>
+              </tr>
+              <tr>
+                <td>知乎 / 维修论坛</td>
+                <td>用户自行补加制冷剂后短期恢复、数月复发</td>
+                <td>未查漏即补加</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Section 4: 症状逻辑分析 ===== -->
+    <div class="section" id="sec4">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2>症状逻辑分析</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">4.1 核心鉴别症状 S4 的机理</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>运行工况</th>
+                <th>系统状态</th>
+                <th>物理机制</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>设定低温 &rarr; 高频运行</td>
+                <td>压缩机满负荷驱动，制冷剂循环量达当前余量下最大值</td>
+                <td>大流量下低压侧压力尚可达到制冷基准</td>
+              </tr>
+              <tr>
+                <td>调高温度 &rarr; 低频运行</td>
+                <td>压缩机降频，制冷剂循环量骤减，低压侧压力升至临界值以上</td>
+                <td>小流量下低压无法维持，系统等效于"仅循环空气"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">4.2 竞争病因排除</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>可能病因</th>
+                <th>排除依据</th>
+                <th>来源支持</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>冷凝器脏堵</td>
+                <td>脏堵致高压升 &rarr; 降频/停机，无法解释低频时出风反而升温</td>
+                <td>维修论坛多位技师确认</td>
+              </tr>
+              <tr>
+                <td>电子膨胀阀故障</td>
+                <td>无故障代码；膨胀阀故障通常伴代码或升频异常停机</td>
+                <td>dzdu 论坛确认</td>
+              </tr>
+              <tr>
+                <td>四通阀串气</td>
+                <td>持续无制冷，不存在"偶可制冷"工况</td>
+                <td>基础制冷原理</td>
+              </tr>
+              <tr>
+                <td>内机蒸发器脏堵</td>
+                <td>已清洗内机（蒸发器+滤网），故障无改善</td>
+                <td>实测排除</td>
+              </tr>
+              <tr>
+                <td>压缩机老化</td>
+                <td>效率下降为全频段均匀衰减，无频率依赖性</td>
+                <td>6 年不在故障高发期</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Flowchart: 故障排查 -->
+      <div class="card">
+        <div class="card-title">故障排查流程图</div>
+
+        <!-- Desktop -->
+        <div class="flowchart">
+          <div class="flow-row">
+            <div class="flow-node decision">开始排查</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node"><strong>第一级：目视排查</strong><br>检查冷凝器翅片、喇叭口接头、阀门温度</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node decision">发现油渍或阀门温度异常？</div>
+          </div>
+          <div class="flow-branch-wrap">
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> 否</div>
+              <div class="flow-node branch-no">
+                <span class="branch-tag no">NO</span>
+                <span class="branch-condition">无油渍且阀门温度正常</span>
+                <span class="branch-result">未发现泄漏迹象</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&rarr;
+                  进入第二级：专业检测</span>
+              </div>
+            </div>
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> 是</div>
+              <div class="flow-node branch-yes">
+                <span class="branch-tag yes">YES</span>
+                <span class="branch-condition">发现油渍或阀门温度异常</span>
+                <span class="branch-result">确认泄漏迹象</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&rarr;
+                  进入第二级：专业检测</span>
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node"><strong>第二级：专业检测</strong><br>双压力表测压、钳形表测电流、保压测试</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node decision">压力显著偏低？</div>
+          </div>
+          <div class="flow-branch-wrap">
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label no-label"><span class="branch-arrow">&#8595;</span> 否</div>
+              <div class="flow-node branch-no terminate">
+                <span class="branch-tag no">NO</span>
+                <span class="branch-condition">压力在正常范围内</span>
+                <span class="branch-result">制冷剂充足</span>
+                <span class="terminate-label">⛔ 终止排查</span>
+                <span class="branch-condition" style="margin-top:8px;color:#ff8a8a;font-weight:600;">&rarr;
+                  需排查其他病因（如压缩机老化等）</span>
+              </div>
+            </div>
+            <div class="flow-branch-connector">
+              <div class="flow-branch-label yes-label"><span class="branch-arrow">&#8595;</span> 是</div>
+              <div class="flow-node branch-yes">
+                <span class="branch-tag yes">YES</span>
+                <span class="branch-condition">压力显著低于正常值</span>
+                <span class="branch-result">确认制冷剂不足</span>
+                <span class="branch-condition" style="margin-top:8px;color:var(--xb-accent);font-weight:600;">&rarr;
+                  进入第三级：修复</span>
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node"><strong>第三级：修复</strong><br>查漏 &rarr; 修复漏点 &rarr; 抽真空 &rarr; 定量加注 &rarr; 清洗外机</div>
+          </div>
+        </div>
+
+        <!-- Mobile Interactive Steps -->
+        <div class="flow-steps-mobile">
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">第一级：目视排查</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>检查室外机冷凝器翅片积灰程度、四个喇叭口接头有无油渍、运行15分钟后阀门温度是否正常。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">发现油渍或阀门温度异常？</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <div class="flow-step-branches">
+                <div class="flow-step-branch no">否 &rarr; 未发现泄漏迹象，继续进入第二级</div>
+                <div class="flow-step-branch yes">是 &rarr; 确认泄漏迹象，继续进入第二级</div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">第二级：专业检测（持证技师）</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>接双压力表测量运行压力（R410A: 0.8-1.0MPa; R32: 0.9-1.1MPa）、钳形表测电流、氮气保压测试。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">压力显著偏低？</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <div class="flow-step-branches">
+                <div class="flow-step-branch no terminate"> 终止：制冷剂充足，排查其他病因</div>
+                <div class="flow-step-branch yes">是 &rarr; 确认制冷剂不足，进入第三级：修复</div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot result"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label" style="color:#64ffb4;font-weight:700;">第三级：修复</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>电子检漏仪查漏 &rarr; 修复漏点（重新扩口/换阀芯）&rarr; 双级泵抽真空(&le;60Pa, &ge;30min) &rarr; 电子秤定量加注 &rarr; 清洗外机。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Section 5: 诊断结论 ===== -->
+    <div class="section" id="sec5">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2>诊断结论</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">5.1 概率评估</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>诊断项</th>
+                <th>概率</th>
+                <th>判定依据</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="highlight-row">
+                <td><strong>制冷剂慢性泄漏</strong></td>
+                <td>
+                  <div class="prob-bar"><span>&asymp;85%</span>
+                    <div class="prob-track">
+                      <div class="prob-fill" style="width:85%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>6 年累计逸散约 12%；全部四项症状获合理解释；S4 为高度特异性表现；无故障代码排除电控故障</td>
+              </tr>
+              <tr>
+                <td>冷凝器脏堵（并存因素）</td>
+                <td>
+                  <div class="prob-bar"><span>&asymp;10%</span>
+                    <div class="prob-track">
+                      <div class="prob-fill" style="width:10%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>6 年未清洗外机为客观事实，但不足以独立解释全套症状</td>
+              </tr>
+              <tr>
+                <td>电子膨胀阀故障</td>
+                <td>
+                  <div class="prob-bar"><span>&asymp;3%</span>
+                    <div class="prob-track">
+                      <div class="prob-fill" style="width:3%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>内机+遥控查询均无故障代码，大金电控自诊断体系完善</td>
+              </tr>
+              <tr>
+                <td>压缩机老化</td>
+                <td>
+                  <div class="prob-bar"><span>&asymp;2%</span>
+                    <div class="prob-track">
+                      <div class="prob-fill" style="width:2%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>设计寿命 10-15 年，6 年远未达故障高发期</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <blockquote>
+        <strong>诊断结论：</strong>制冷剂慢性泄漏（含自然逸散与可能存在的微漏点共同作用）为高度疑似病因。最可能的泄漏点为室内外机连接铜管喇叭口接头。
+      </blockquote>
+
+      <div class="card">
+        <div class="card-title">5.2 新补充信息的排除效应</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>补充信息</th>
+                <th>排除的竞争诊断</th>
+                <th>概率影响</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>已清洗内机，制冷无改善</td>
+                <td>排除内机蒸发器脏堵</td>
+                <td>冷凝器脏堵 15% &rarr; 10%</td>
+              </tr>
+              <tr>
+                <td>内机面板无错误码；遥控查询亦无历史代码</td>
+                <td>排除膨胀阀、变频板、传感器、通信等电控故障</td>
+                <td>膨胀阀 7% &rarr; 3%；压缩机 3% &rarr; 2%</td>
+              </tr>
+              <tr>
+                <td>&mdash;</td>
+                <td>以上排除对象所释放的概率汇集至制冷剂泄漏</td>
+                <td>制冷剂泄漏 75% &rarr; 85%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">5.3 与大金 R32 技术特性关联</div>
+        <p style="font-size:14px;line-height:1.8;color:var(--xb-text-dim);">R32 冷媒专利属于大金，大金自 2013 年起逐步推广 R32 机型。大金官方数据表明
+          R32 正常年泄漏率约 2%，6 年累计约 12%。若为更早期的 R410A 机型，其对充注量偏差更为敏感，少量泄漏即可引起制冷性能显著衰减。结合 6 年无维护史，仅正常逸散即可使制冷剂总量逼近功能临界值。</p>
+      </div>
+    </div>
+
+    <!-- ===== Section 6: 排查步骤 ===== -->
+    <div class="section" id="sec6">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <h2>排查步骤</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">第一级：目视排查</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>步骤</th>
+                <th>操作</th>
+                <th>判定标准</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>检查室外机冷凝器翅片</td>
+                <td>目视判断积灰/柳絮覆盖程度</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>检查连接管路四个喇叭口接头</td>
+                <td>有油渍即冷冻油伴随制冷剂泄漏的确定证据</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>运行 15 分钟后触摸室外机阀门</td>
+                <td>正常：细管温热、粗管冰凉；异常：两者均为常温或仅微凉</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">第二级：专业检测（持证技师）</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>步骤</th>
+                <th>操作</th>
+                <th>判定标准</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>4</td>
+                <td>接双压力表测量运行压力</td>
+                <td>R410A 低压 0.8-1.0MPa；R32 低压 0.9-1.1MPa；显著偏低 &rarr; 确认</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>钳形表测量压缩机运行电流</td>
+                <td>对比铭牌额定值，显著偏低 &rarr; 佐证制冷剂负荷不足</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>管路保压测试</td>
+                <td>氮气加压至铭牌标识试验压力，保压 &ge;10 分钟，压力表回落 &rarr; 确认漏点存在</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">第三级：修复</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>序</th>
+                <th>操作</th>
+                <th>技术要求</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&#9312;</td>
+                <td>查漏</td>
+                <td>电子检漏仪逐一排查四个喇叭口接头、截止阀芯、内外机管板焊接处</td>
+              </tr>
+              <tr>
+                <td>&#9313;</td>
+                <td>修复漏点</td>
+                <td>喇叭口漏 &rarr; 重新扩口；管板漏 &rarr; 更换对应换热器总成</td>
+              </tr>
+              <tr>
+                <td>&#9314;</td>
+                <td>抽真空</td>
+                <td>双级真空泵，真空度 &le;60Pa 后保压 15 分钟无回升，总抽空 &ge;30 分钟</td>
+              </tr>
+              <tr>
+                <td>&#9315;</td>
+                <td>定量加注</td>
+                <td>按室外机铭牌标注量与类型，电子秤精准加注</td>
+              </tr>
+              <tr>
+                <td>&#9316;</td>
+                <td>清洗外机</td>
+                <td>同步清洗室外机冷凝器翅片</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Section 7: 维修流程 ===== -->
+    <div class="section" id="sec7">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <h2>维修流程</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">7.1 标准化维修流程</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>阶段</th>
+                <th>步骤</th>
+                <th>操作内容</th>
+                <th>预计耗时</th>
+                <th>关键要求</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>上门诊断</td>
+                <td>1</td>
+                <td>开机运行，测量进出风温差、运行电流、高低压</td>
+                <td>20-30min</td>
+                <td>确认制冷剂不足的诊断</td>
+              </tr>
+              <tr>
+                <td>查漏</td>
+                <td>2</td>
+                <td>电子检漏仪逐点排查：喇叭口 &rarr; 阀芯 &rarr; 蒸发器管板 &rarr; 冷凝器管板</td>
+                <td>15-30min</td>
+                <td>常见漏点在前两项</td>
+              </tr>
+              <tr>
+                <td>保压验证</td>
+                <td>3</td>
+                <td>系统充氮气至试验压力（R410A: 3.8MPa; R32: 4.2MPa），保压 &ge;10 分钟</td>
+                <td>20-30min</td>
+                <td>压力表回落值即泄漏量</td>
+              </tr>
+              <tr>
+                <td>修复漏点</td>
+                <td>4</td>
+                <td>喇叭口漏 &rarr; 割管重新扩口；阀芯漏 &rarr; 更换阀芯；管板漏 &rarr; 评估更换总成</td>
+                <td>20-60min</td>
+                <td>视漏点位置与数量</td>
+              </tr>
+              <tr>
+                <td>抽真空</td>
+                <td>5</td>
+                <td>双级真空泵从高低压双侧同时抽空</td>
+                <td>&ge;30min</td>
+                <td>真空度 &le;60Pa，保压 15 分钟无回升</td>
+              </tr>
+              <tr>
+                <td>定量加注</td>
+                <td>6</td>
+                <td>电子秤按铭牌标注量精准加注制冷剂</td>
+                <td>10-15min</td>
+                <td>严禁凭经验/压力表补加</td>
+              </tr>
+              <tr>
+                <td>性能验证</td>
+                <td>7</td>
+                <td>开机运行，复测进出风温差、运行压力、电流</td>
+                <td>15-20min</td>
+                <td>进出风温差 &ge;8&#8451; 为合格</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>全过程合计</strong></td>
+                <td></td>
+                <td></td>
+                <td><strong>约 2.5-3.5 小时</strong></td>
+                <td>不含需更换换热器总成的特殊情况</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Flowchart: 维修流程 -->
+      <div class="card">
+        <div class="card-title">维修流程图</div>
+
+        <!-- Desktop -->
+        <div class="flowchart">
+          <div class="flow-row">
+            <div class="flow-node">上门诊断<br>测温差/电流/压力</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node">电子检漏<br>逐点排查漏点</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node decision">检出漏点？</div>
+          </div>
+          <div class="flow-branch">
+            <div class="flow-node">喇叭口/阀芯漏<br>&rarr; 重新扩口/换阀芯</div>
+            <div class="flow-node result-neg">无可见漏点<br>&rarr; 标记"自然逸散"</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node">氮气保压验证<br>&ge;10 分钟</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node">双级泵抽真空<br>&le;60Pa, &ge;30min</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node">电子秤定量加注<br>按铭牌标注量</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node result">性能验证<br>温差 &ge;8&#8451; 合格</div>
+          </div>
+        </div>
+
+        <!-- Mobile Interactive Steps -->
+        <div class="flow-steps-mobile">
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">1. 上门诊断</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>开机运行，测量进出风温差、运行电流、高低压，确认制冷剂不足的诊断。耗时 20-30min。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">2. 电子检漏</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>电子检漏仪逐点排查：喇叭口 &rarr; 截止阀芯 &rarr; 蒸发器管板 &rarr; 冷凝器管板。常见漏点在前两项。耗时 15-30min。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">3. 检出漏点？</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <div class="flow-step-branches">
+                <div class="flow-step-branch yes">喇叭口/阀芯漏 &rarr; 重新扩口/换阀芯</div>
+                <div class="flow-step-branch no">无可见漏点 &rarr; 标记"自然逸散"</div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">4. 氮气保压验证</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>系统充氮气至试验压力（R410A: 3.8MPa; R32: 4.2MPa），保压 &ge;10 分钟。压力表回落值即泄漏量。耗时 20-30min。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">5. 双级泵抽真空</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>双级真空泵从高低压双侧同时抽空，真空度 &le;60Pa，保压 15 分钟无回升，总抽空 &ge;30min。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">6. 电子秤定量加注</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>按室外机铭牌标注量与类型，电子秤精准加注。严禁凭经验或压力表补加。耗时 10-15min。</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot result"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label" style="color:#64ffb4;font-weight:700;">7. 性能验证</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <p>开机运行，复测进出风温差、运行压力、电流。进出风温差 &ge;8&#8451; 为合格（正常新机 &ge;12&#8451;）。耗时 15-20min。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">7.2 场景分支说明</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>场景</th>
+                <th>触发条件</th>
+                <th>处理路径</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>标准修复</td>
+                <td>喇叭口接头或阀芯微漏，保压验证确认单一漏点</td>
+                <td>完整流程，一次修复</td>
+              </tr>
+              <tr>
+                <td>无可见漏点</td>
+                <td>电子检漏+肥皂水+保压均未检出明确漏点，但压力偏低</td>
+                <td>抽真空后定量加注，标记"自然逸散"</td>
+              </tr>
+              <tr>
+                <td>管板泄漏</td>
+                <td>蒸发器或冷凝器管板焊接处检出泄漏</td>
+                <td>更换换热器总成，评估维修性价比</td>
+              </tr>
+              <tr>
+                <td>多处微漏</td>
+                <td>检出 &ge;2 处独立漏点</td>
+                <td>逐一修复后延长保压时间至 30 分钟</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Section 8: 费用评估 ===== -->
+    <div class="section" id="sec8">
+      <div class="section-header">
+        <div class="section-num">08</div>
+        <h2>费用评估与性价比分析</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">8.1 按场景分项费用（广州地区参考）</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>费用项目</th>
+                <th>标准修复</th>
+                <th>无可见漏点</th>
+                <th>管板泄漏</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>上门诊断费</td>
+                <td>50-100</td>
+                <td>50-100</td>
+                <td>50-100</td>
+              </tr>
+              <tr>
+                <td>查漏+保压</td>
+                <td>100-200</td>
+                <td>100-200</td>
+                <td>100-200</td>
+              </tr>
+              <tr>
+                <td>修复漏点</td>
+                <td>100-200</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td>换热器总成</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>600-1200</td>
+              </tr>
+              <tr>
+                <td>更换总成人工</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>300-500</td>
+              </tr>
+              <tr>
+                <td>抽真空</td>
+                <td>80-150</td>
+                <td>80-150</td>
+                <td>80-150</td>
+              </tr>
+              <tr>
+                <td>制冷剂加注</td>
+                <td>100-300</td>
+                <td>100-300</td>
+                <td>100-300</td>
+              </tr>
+              <tr>
+                <td>室外机清洗</td>
+                <td>80-150</td>
+                <td>80-150</td>
+                <td>80-150</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>合计</strong></td>
+                <td><strong>510-1200</strong></td>
+                <td><strong>330-900</strong></td>
+                <td><strong>1310-2600</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">8.3 维修 vs. 换新 性价比对比</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>对比维度</th>
+                <th>维修（标准修复）</th>
+                <th>换新机（同档次 1.5P）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>一次性支出</td>
+                <td>510-1200 元</td>
+                <td>3500-6000 元（含安装）</td>
+              </tr>
+              <tr>
+                <td>预计恢复性能</td>
+                <td>恢复至新机 80%-90%</td>
+                <td>100% 新机性能</td>
+              </tr>
+              <tr>
+                <td>后续使用年限</td>
+                <td>预计 3-5 年</td>
+                <td>新机预期 8-12 年</td>
+              </tr>
+              <tr>
+                <td>年均使用成本</td>
+                <td>约 170-400 元/年</td>
+                <td>约 290-500 元/年</td>
+              </tr>
+              <tr>
+                <td>能效对比</td>
+                <td>APF 约 4.2-4.8</td>
+                <td>APF 约 5.0-5.8，省电 10%-15%</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>综合建议</strong></td>
+                <td><strong>优先维修</strong>，年均成本更低</td>
+                <td>仅当管板泄漏且费用 &gt;2000 元时考虑换新</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">8.4 两种决策路径的 3 年总成本对比</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>成本项</th>
+                <th>路径一：维修后继续使用</th>
+                <th>路径二：直接换新</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>初始支出</td>
+                <td>800 元（取中值）</td>
+                <td>4500 元（取中值）</td>
+              </tr>
+              <tr>
+                <td>3 年电费差额</td>
+                <td>+300 元（每年约多 100 元）</td>
+                <td>0（基准）</td>
+              </tr>
+              <tr>
+                <td>3 年内可能的维修/保养</td>
+                <td>约 400 元</td>
+                <td>通常无额外费用</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>3 年总成本</strong></td>
+                <td><strong>约 1500 元</strong></td>
+                <td><strong>约 4500 元</strong></td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>3 年节省</strong></td>
+                <td colspan="2" style="text-align:center;"><strong>维修路径节省约 3000 元</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Flowchart: 决策流程 -->
+      <div class="card">
+        <div class="card-title">维修 vs. 换新 决策流程图</div>
+
+        <!-- Desktop -->
+        <div class="flowchart">
+          <div class="flow-row">
+            <div class="flow-node decision">检出漏点位置</div>
+          </div>
+          <div class="flow-branch">
+            <div class="flow-node">喇叭口/阀芯<br>（可修复型）</div>
+            <div class="flow-node">管板焊接处<br>（需换总成）</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-row">
+            <div class="flow-node decision">维修总费用 &gt; 2500 元？</div>
+          </div>
+          <div class="flow-branch">
+            <div class="flow-node result-neg">否 &rarr; 优先维修<br>3 年节省约 3000 元</div>
+            <div class="flow-node decision">压缩机电流偏离<br>铭牌 &gt;15%？</div>
+          </div>
+          <div class="flow-arrow-down">&#8595;</div>
+          <div class="flow-branch">
+            <div class="flow-node result">是 &rarr; 直接换新<br>避免持续投入</div>
+            <div class="flow-node result-neg">否 &rarr; 仍可维修<br>评估性价比后决定</div>
+          </div>
+        </div>
+
+        <!-- Mobile Interactive Steps -->
+        <div class="flow-steps-mobile">
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">检出漏点位置</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <div class="flow-step-branches">
+                <div class="flow-step-branch yes">喇叭口/阀芯（可修复型）</div>
+                <div class="flow-step-branch no">管板焊接处（需换总成）</div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">维修总费用 &gt; 2500 元？</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <div class="flow-step-branches">
+                <div class="flow-step-branch yes">否 &rarr; 优先维修，3年节省约3000元</div>
+                <div class="flow-step-branch no">是 &rarr; 继续评估</div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-dot decision"></div>
+            <div class="flow-step-header" onclick="toggleStep(this)">
+              <span class="flow-step-label">压缩机电流偏离铭牌 &gt;15%？</span>
+              <span class="flow-step-toggle">&#9660;</span>
+            </div>
+            <div class="flow-step-body">
+              <div class="flow-step-branches">
+                <div class="flow-step-branch yes">是 &rarr; 直接换新，避免持续投入</div>
+                <div class="flow-step-branch no">否 &rarr; 仍可维修，评估性价比后决定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">8.5 换新决策触发条件</div>
+        <p style="font-size:14px;line-height:1.8;color:var(--xb-text-dim);margin-bottom:0.8rem;">仅当<strong
+            style="color:var(--xb-accent);">同时满足</strong>以下条件时，建议放弃维修、直接换新：</p>
+        <ol style="font-size:14px;line-height:2;color:var(--xb-text-dim);padding-left:1.5rem;">
+          <li>漏点位于蒸发器或冷凝器管板焊接处（非喇叭口可修复型）；</li>
+          <li>更换换热器总成 + 制冷剂 + 人工合计超过 2500 元；</li>
+          <li>压缩机运行电流已偏离铭牌额定值 15% 以上（表明压缩机存在额外老化）。</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ===== Section 9: 风险提示 ===== -->
+    <div class="section" id="sec9">
+      <div class="section-header">
+        <div class="section-num">09</div>
+        <h2>风险提示</h2>
+      </div>
+
+      <ol class="risk-list">
+        <li><strong>严禁不查漏即补加制冷剂。</strong>维修行业普遍反映：仅补加不查漏的修复方式在数月后必然复发，反复补加增加压缩机液击风险，同时逐渐流失的冷冻油将恶化润滑条件。</li>
+        <li><strong>R32 制冷剂安全。</strong>若机型使用 R32（2015 年后大金主力系列），属 A2L 微可燃工质，操作须由持 R32 资质人员执行，操作现场严禁明火，抽真空须彻底。</li>
+        <li><strong>广东地区维修市场参考。</strong>广州空调维修市场竞争充分，建议选择大金授权服务商或口碑良好的持证技师，要求维修前出具检测数据（压力、电流、温差），维修后出具维修工单。</li>
+        <li><strong>预防建议。</strong>维修完成后建议每 2 年进行一次制冷剂压力检测与系统清洗，大金 R32 系统正常损耗下每 4-6 年可能需要补充微量制冷剂以维持最佳性能。</li>
+      </ol>
+    </div>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <p>XBrain &copy; 2026</p>
+    <p>探索未知，连接世界</p>
+  </footer>
+
+  <!-- ===== Back to Top ===== -->
+  <a class="back-top" id="backTop" href="#top" title="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </a>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    (function () {
+      // ===== Logo Scroll Fade + Nav Fade =====
+      var logo = document.querySelector('.xbrain-brand');
+      var topNav = document.querySelector('.top-nav');
+      var ticking = false;
+
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+        if (topNav) {
+          topNav.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () { updateLogo(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () { updateLogo(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateLogo();
+
+      // ===== Section Reveal on Scroll =====
+      var sections = document.querySelectorAll('.section:not(.visible)');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+      sections.forEach(function (s) { observer.observe(s); });
+
+      // ===== Nav Active State =====
+      var navChips = document.querySelectorAll('.nav-chip');
+      var secObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.id;
+            navChips.forEach(function (c) {
+              c.classList.toggle('active', c.getAttribute('href') === '#' + id);
+            });
+          }
+        });
+      }, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+
+      document.querySelectorAll('.section[id]').forEach(function (s) { secObserver.observe(s); });
+
+      // ===== Back to Top =====
+      var backTop = document.getElementById('backTop');
+      window.addEventListener('scroll', function () {
+        if (backTop) backTop.classList.toggle('show', window.pageYOffset > 400);
+      }, { passive: true });
+    })();
+
+    // ===== Mobile Flow Step Toggle =====
+    function toggleStep(header) {
+      var body = header.nextElementSibling;
+      var isOpen = header.classList.contains('open');
+
+      // Close all siblings in the same flow-steps-mobile container
+      var container = header.closest('.flow-steps-mobile');
+      if (container) {
+        container.querySelectorAll('.flow-step-header.open').forEach(function (h) {
+          h.classList.remove('open');
+          h.nextElementSibling.classList.remove('open');
+        });
+      }
+
+      if (!isOpen) {
+        header.classList.add('open');
+        body.classList.add('open');
+      }
+    }
+  </script>
+
+</body>
+
+</html>
