@@ -2,7 +2,7 @@
   "main": {
     "enabled": true,
     "password": "xbrain2026",
-    "sessionDuration": 7,
+    "sessionDuration": 1,
     "sessionUnit": "days",
     "lockout": {
       "enabled": true,
