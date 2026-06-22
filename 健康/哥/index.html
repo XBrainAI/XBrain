@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<title>哥 — 健康档案 — XBrain</title>
+<title>哥 · 个人健康档案 — XBrain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -14,293 +14,292 @@
   --xb-deep:#0a0a1a;--xb-mid:#1a1030;--xb-light:#2d1b4e;--xb-accent:#64b4ff;
   --xb-accent2:#80c0ff;--xb-glow:rgba(100,180,255,0.35);--xb-border:rgba(100,180,255,0.2);
   --xb-text:#e8ecf4;--xb-text-dim:rgba(200,210,230,0.6);
+  --xb-card-bg:linear-gradient(135deg,rgba(20,20,50,0.6) 0%,rgba(30,20,60,0.5) 100%);
+  --success:#2ed573;--warning:#ffa502;--danger:#ff6b6b;
 }
 html{scroll-behavior:smooth}
 body{
   font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:var(--xb-deep);color:var(--xb-text);overflow-x:hidden;-webkit-text-size-adjust:100%;
+  background:var(--xb-deep);color:var(--xb-text);line-height:1.7;overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
 }
 
-/* ===== XBrain Brand Logo (Fixed) ===== */
+/* ===== XBrain Logo ===== */
 .xbrain-brand{
   position:fixed;top:16px;left:16px;z-index:100;display:flex;align-items:center;gap:8px;
   background:linear-gradient(135deg,rgba(20,15,50,0.94) 0%,rgba(40,30,80,0.92) 100%);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border:1.5px solid rgba(180,210,255,0.55);border-radius:12px;padding:6px 14px 6px 8px;
   box-shadow:0 0 12px rgba(255,255,255,0.15),0 0 40px rgba(80,140,255,0.35),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);
-  text-decoration:none;transition:opacity 0.6s ease,box-shadow 0.6s ease,border-color 0.6s ease;
+  text-decoration:none;transition:opacity 0.6s ease,box-shadow 0.6s ease;
 }
-.xbrain-brand:hover{
-  box-shadow:0 0 24px rgba(80,140,255,0.40),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.15);
-  transform:translateY(-1px);border-color:rgba(180,210,255,0.70);
-}
+.xbrain-brand:hover{box-shadow:0 0 24px rgba(80,140,255,0.40),0 4px 20px rgba(0,0,0,0.5);transform:translateY(-1px)}
 .xbrain-brand.scrolled{
-  background:rgba(15,10,40,0.4);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-  border-color:rgba(100,180,255,0.08);box-shadow:none;
+  background:rgba(15,10,40,0.4);backdrop-filter:blur(4px);border-color:rgba(100,180,255,0.08);box-shadow:none;
 }
 .xbrain-brand.scrolled:hover{opacity:0.7 !important;border-color:rgba(100,180,255,0.2)}
 .xbrain-brand svg{width:32px;height:32px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(100,180,255,0.55))}
 .xbrain-brand .xbrain-text{font-size:15px;font-weight:800;letter-spacing:1.5px;color:#e8ecf4;text-shadow:0 0 12px rgba(100,180,255,0.55)}
 .xbrain-brand .xbrain-text span{color:#64b4ff;text-shadow:0 0 18px rgba(100,180,255,0.9)}
 
-/* ===== HERO ===== */
-.hero{
-  position:relative;z-index:1;min-height:60vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem;
+/* ===== Layout ===== */
+.container{max-width:900px;margin:0 auto;padding:5rem 1.2rem 2rem}
+
+/* ===== Hero ===== */
+.hero{text-align:center;padding:2rem 0 1.5rem}
+.hero h1{
+  font-family:'Noto Serif SC',serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;
+  letter-spacing:2px;margin-bottom:0.5rem;
 }
-.hero-title{
-  font-family:'Noto Serif SC',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;
-  letter-spacing:4px;margin-bottom:1rem;
-}
-.hero-title span{color:var(--xb-accent);text-shadow:0 0 30px rgba(100,180,255,0.5)}
-.hero-subtitle{
-  font-size:clamp(0.9rem,1.8vw,1.2rem);font-weight:300;color:var(--xb-text-dim);
-  letter-spacing:4px;margin-bottom:1rem;
-}
-.hero-line{
-  width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--xb-accent),transparent);margin:0 auto;
+.hero h1 span{color:var(--xb-accent);text-shadow:0 0 30px rgba(100,180,255,0.5)}
+.hero .meta{
+  color:var(--xb-text-dim);font-size:0.85rem;letter-spacing:1px;
 }
 
-/* ===== SITES GRID ===== */
-.sites-section{
-  position:relative;z-index:1;padding:2rem 2rem 4rem;max-width:1200px;margin:0 auto;
-}
-.sites-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;
-}
-.site-card{
-  position:relative;display:block;text-decoration:none;color:inherit;border-radius:16px;
-  overflow:hidden;background:linear-gradient(135deg,rgba(20,20,50,0.6) 0%,rgba(30,20,60,0.5) 100%);
-  border:1px solid var(--xb-border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease,border-color 0.4s ease;
-  opacity:0;transform:translateY(40px);
-}
-.site-card.visible{
-  opacity:1;transform:translateY(0);
-  transition:opacity 0.8s ease,transform 0.8s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease,border-color 0.4s ease;
-}
-.site-card:hover{
-  transform:translateY(-8px);border-color:rgba(100,180,255,0.5);
-  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(100,180,255,0.15);
-}
-.site-card-image{
-  width:100%;height:220px;background-size:cover;background-position:center;position:relative;
-}
-.site-card-image::after{
-  content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 0%,rgba(10,10,26,0.9) 100%);
-}
-.site-card-image.fallback{
-  background:linear-gradient(135deg,#1a1030 0%,#2d1b4e 50%,#1a3a5c 100%);
-  display:flex;align-items:center;justify-content:center;
-}
-.site-card-image.fallback::after{
-  background:linear-gradient(to bottom,transparent 0%,rgba(10,10,26,0.7) 100%);
-}
-.site-card-image.fallback svg{width:80px;height:80px;opacity:0.3;filter:drop-shadow(0 0 20px rgba(100,180,255,0.3))}
-.site-card-content{padding:1.5rem;position:relative}
-.site-card-tag{
-  display:inline-block;padding:0.2rem 0.8rem;border:1px solid var(--xb-accent);
-  color:var(--xb-accent);font-size:0.7rem;letter-spacing:2px;border-radius:4px;margin-bottom:0.8rem;
-}
-.site-card h3{
-  font-family:'Noto Serif SC',serif;font-size:1.3rem;font-weight:700;margin-bottom:0.5rem;color:var(--xb-text);
-}
-.site-card p{
-  font-size:0.9rem;color:var(--xb-text-dim);line-height:1.6;
-}
-.site-card-arrow{
-  position:absolute;right:1.5rem;bottom:1.5rem;width:32px;height:32px;border-radius:50%;
-  border:1px solid var(--xb-border);display:flex;align-items:center;justify-content:center;
-  color:var(--xb-accent);transition:all 0.3s ease;
-}
-.site-card:hover .site-card-arrow{
-  background:var(--xb-accent);color:var(--xb-deep);border-color:var(--xb-accent);
-  box-shadow:0 0 16px rgba(100,180,255,0.4);
-}
-
-/* ===== REPORT SECTION ===== */
-.reports-section{
-  position:relative;z-index:1;padding:2rem 2rem 4rem;max-width:900px;margin:0 auto;
-}
+/* ===== Section Title ===== */
 .section-title{
   font-family:'Noto Serif SC',serif;font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;
-  margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid var(--xb-border);
+  margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--xb-border);
   display:flex;align-items:center;gap:0.5rem;
 }
 .section-title::before{
   content:'';width:4px;height:1.2rem;background:var(--xb-accent);border-radius:2px;
 }
-.report-card{
-  background:linear-gradient(135deg,rgba(20,20,50,0.6) 0%,rgba(30,20,60,0.5) 100%);
-  border:1px solid var(--xb-border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+
+/* ===== Timeline Controls ===== */
+.timeline-controls{
+  position:sticky;top:0;z-index:90;background:linear-gradient(to bottom,var(--xb-deep) 80%,transparent);
+  padding:0.8rem 0;margin-bottom:1rem;
 }
-.report-header{
-  margin-bottom:1rem;
+.search-box{
+  width:100%;padding:0.7rem 1rem;border-radius:10px;border:1px solid var(--xb-border);
+  background:rgba(20,20,50,0.6);color:var(--xb-text);font-size:0.95rem;outline:none;
+  margin-bottom:0.6rem;
 }
-.report-header h3{
-  font-family:'Noto Serif SC',serif;font-size:1.2rem;font-weight:700;color:var(--xb-text);
-  margin-top:0.5rem;
+.search-box::placeholder{color:var(--xb-text-dim)}
+.search-box:focus{border-color:var(--xb-accent);box-shadow:0 0 12px rgba(100,180,255,0.2)}
+.year-filters{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.year-tag{
+  padding:0.35rem 0.9rem;border-radius:20px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.08);color:var(--xb-text-dim);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
 }
-.report-body{
-  line-height:1.8;color:var(--xb-text-dim);
+.year-tag.active,.year-tag:hover{
+  background:var(--xb-accent);color:var(--xb-deep);border-color:var(--xb-accent);
+  box-shadow:0 0 12px rgba(100,180,255,0.3);
 }
-.report-body h1,.report-body h2,.report-body h3,.report-body h4{
-  color:var(--xb-text);margin:1.2rem 0 0.6rem;font-family:'Noto Serif SC',serif;
+
+/* ===== Timeline ===== */
+.timeline{
+  position:relative;padding-left:1.5rem;
 }
-.report-body p{margin-bottom:0.8rem}
-.report-body ul,.report-body ol{margin-left:1.5rem;margin-bottom:0.8rem}
-.report-body li{margin-bottom:0.3rem}
-.report-body table{
-  width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;
+.timeline::before{
+  content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,var(--xb-accent),transparent);
 }
-.report-body th,.report-body td{
-  border:1px solid var(--xb-border);padding:0.6rem 0.8rem;text-align:left;
+.timeline-item{
+  position:relative;margin-bottom:1.2rem;opacity:0;transform:translateY(30px);
+  transition:opacity 0.6s ease,transform 0.6s ease;
 }
-.report-body th{
-  background:rgba(100,180,255,0.1);color:var(--xb-accent);font-weight:600;
+.timeline-item.visible{opacity:1;transform:translateY(0)}
+.timeline-dot{
+  position:absolute;left:-1.5rem;top:1.2rem;width:14px;height:14px;border-radius:50%;
+  background:var(--xb-deep);border:2px solid var(--xb-accent);
+  box-shadow:0 0 8px rgba(100,180,255,0.4);
 }
-.report-body tr:nth-child(even){
-  background:rgba(100,180,255,0.03);
+.timeline-card{
+  background:var(--xb-card-bg);border:1px solid var(--xb-border);border-radius:14px;
+  padding:1rem;backdrop-filter:blur(10px);
 }
-.report-body hr{
-  border:none;border-top:1px solid var(--xb-border);margin:1.5rem 0;
+.timeline-header{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;
 }
-.report-body img{
-  max-width:100%;border-radius:8px;margin:1rem 0;
+.timeline-date{
+  font-size:0.85rem;color:var(--xb-accent);font-weight:600;
+}
+.timeline-tag{
+  font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;
+  background:rgba(100,180,255,0.1);color:var(--xb-accent2);border:1px solid var(--xb-border);
+}
+.timeline-title{
+  font-size:1rem;font-weight:700;margin-bottom:0.5rem;
+}
+.thumb-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.5rem;margin:0.5rem 0;
+}
+.report-thumb{
+  width:100%;max-width:320px;border-radius:8px;margin:0.5rem 0;
+  border:1px solid var(--xb-border);cursor:pointer;
+}
+.thumb-grid .report-thumb{
+  margin:0;max-width:100%;
+}
+.timeline-actions{
+  display:flex;gap:0.5rem;margin-top:0.5rem;
+}
+.btn-expand,.btn-link{
+  padding:0.4rem 0.9rem;border-radius:6px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.1);color:var(--xb-accent);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;
+}
+.btn-expand:hover,.btn-link:hover{
+  background:var(--xb-accent);color:var(--xb-deep);
+}
+.timeline-detail{
+  margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
+  animation:fadeIn 0.3s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ===== Report Body (md converted) ===== */
+.report-body h1,.report-body h2{
+  font-family:'Noto Serif SC',serif;font-size:1.1rem;font-weight:700;margin:1rem 0 0.5rem;
+  color:var(--xb-accent2);
+}
+.report-body h3{
+  font-size:0.95rem;font-weight:700;margin:0.8rem 0 0.4rem;color:var(--xb-accent);
+}
+.report-body h4{
+  font-size:0.9rem;font-weight:600;margin:0.6rem 0 0.3rem;color:var(--xb-text);
+}
+.report-body p{
+  margin-bottom:0.5rem;color:var(--xb-text-dim);font-size:0.9rem;
+}
+.report-body ul,.report-body ol{
+  margin:0.4rem 0 0.6rem 1.2rem;color:var(--xb-text-dim);font-size:0.9rem;
+}
+.report-body li{
+  margin:0.2rem 0;
 }
 .report-body blockquote{
-  border-left:3px solid var(--xb-accent);padding-left:1rem;margin:1rem 0;
-  color:var(--xb-text-dim);font-style:italic;
+  border-left:3px solid var(--xb-accent);padding-left:0.8rem;margin:0.6rem 0;
+  color:var(--xb-text-dim);font-size:0.9rem;
 }
 .report-body strong{
   color:var(--xb-text);
 }
-
-/* ===== FOOTER ===== */
-footer{
-  position:relative;z-index:1;text-align:center;padding:3rem 2rem;
-  color:var(--xb-text-dim);font-size:0.85rem;letter-spacing:1px;
+.report-body hr{
+  border:none;border-top:1px solid var(--xb-border);margin:1rem 0;
 }
-footer .footer-line{
-  width:30px;height:1px;background:var(--xb-border);margin:0 auto 1rem;
+.report-body .table-wrap{
+  overflow-x:auto;margin:0.6rem 0;
+}
+.report-body table{
+  width:100%;border-collapse:collapse;font-size:0.85rem;
+  background:rgba(100,180,255,0.03);border-radius:8px;overflow:hidden;
+}
+.report-body th,.report-body td{
+  padding:0.5rem 0.6rem;border:1px solid var(--xb-border);text-align:left;
+}
+.report-body th{
+  background:rgba(100,180,255,0.1);color:var(--xb-accent);font-weight:600;
+}
+.report-body img.report-img{
+  max-width:100%;border-radius:8px;margin:0.5rem 0;border:1px solid var(--xb-border);
+}
+.report-body code{
+  background:rgba(100,180,255,0.1);padding:0.1rem 0.3rem;border-radius:4px;
+  font-size:0.85rem;color:var(--xb-accent2);
+}
+.subdir-section{
+  margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--xb-border);
+}
+.subdir-section:last-child{
+  border-bottom:none;margin-bottom:0;padding-bottom:0;
 }
 
-/* ===== BACK BUTTON ===== */
+/* ===== Modal ===== */
+.modal{
+  display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal.active{display:flex}
+.modal img{
+  max-width:100%;max-height:90vh;border-radius:8px;box-shadow:0 0 40px rgba(0,0,0,0.5);
+}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);
+  font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+
+/* ===== Back link ===== */
 .back-link{
-  position:relative;z-index:1;display:inline-flex;align-items:center;gap:0.5rem;
-  margin:2rem auto 0;padding:0.6rem 1.2rem;color:var(--xb-accent);text-decoration:none;
-  border:1px solid var(--xb-border);border-radius:8px;font-size:0.9rem;transition:all 0.3s ease;
+  display:inline-flex;align-items:center;gap:0.5rem;margin:2rem auto 0;
+  padding:0.6rem 1.2rem;color:var(--xb-accent);text-decoration:none;
+  border:1px solid var(--xb-border);border-radius:8px;font-size:0.9rem;
+  transition:all 0.3s ease;
 }
 .back-link:hover{
   background:rgba(100,180,255,0.1);border-color:var(--xb-accent);
 }
-.back-link svg{width:16px;height:16px}
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-  .sites-grid{grid-template-columns:1fr;gap:1.5rem}
-  .hero-title{letter-spacing:2px}
-  .sites-section,.reports-section{padding:2rem 1rem 3rem}
+/* ===== Footer ===== */
+footer{
+  text-align:center;padding:2rem 1rem;color:var(--xb-text-dim);font-size:0.8rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width:640px){
+  .container{padding:4.5rem 0.8rem 1.5rem}
+  .timeline{padding-left:1.2rem}
+  .timeline-dot{left:-1.2rem;width:12px;height:12px}
+  .thumb-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== XBrain Brand Logo (Fixed) ===== -->
+<!-- XBrain Logo -->
 <a class="xbrain-brand" href="../index.html" title="XBrain">
-  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
     <defs>
-      <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#64b4ff" stop-opacity="1"/>
-        <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6"/>
-        <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0"/>
-      </radialGradient>
-      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#80c0ff"/>
-        <stop offset="50%" stop-color="#4a90e2"/>
-        <stop offset="100%" stop-color="#80c0ff"/>
-      </linearGradient>
-      <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
+      <radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#64b4ff" stop-opacity="1"/><stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6"/><stop offset="100%" stop-color="#1a2a5e" stop-opacity="0"/></radialGradient>
+      <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#80c0ff"/><stop offset="50%" stop-color="#4a90e2"/><stop offset="100%" stop-color="#80c0ff"/></linearGradient>
+      <filter id="gf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
-    <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12"/>
-    <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)"/>
-    <g transform="matrix(0 -1 1 0 30 300)">
-      <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4"/>
-      <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9"/>
-      <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6"/>
-    </g>
-    <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
-      <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3"/>
-      <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5"/>
-    </g>
-    <g transform="matrix(0 -1 1 0 30 230)">
-      <circle cx="50" cy="50" r="50" fill="#0d1636"/>
-      <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8"/>
-      <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)"/>
-      <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45"/>
-      <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/>
-      <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/>
-      <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9"/>
-      <circle cx="50" cy="50" r="4" fill="#ffffff"/>
-    </g>
-    <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
-      <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1"/>
-      <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4"/>
-    </g>
+    <circle cx="176" cy="180" r="170" fill="url(#cg)" opacity="0.12"/>
+    <circle cx="176" cy="180" r="168" fill="none" stroke="url(#lg)" stroke-width="2" opacity="0.55" filter="url(#gf)"/>
+    <g transform="matrix(0 -1 1 0 30 300)"><rect fill="#2a4080" width="240" height="36" rx="4"/><rect fill="url(#lg)" width="240" height="3" rx="1.5" y="4" opacity="0.9"/><rect fill="url(#lg)" width="240" height="3" rx="1.5" y="29" opacity="0.6"/></g>
+    <g transform="matrix(0 -1 1 0 66 200)" opacity="0.35"><rect fill="#3a60a0" width="40" height="280" rx="3"/><rect fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5"/></g>
+    <g transform="matrix(0 -1 1 0 30 230)"><circle cx="50" cy="50" r="50" fill="#0d1636"/><circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8"/><circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#gf)"/><circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45"/><line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#gf)" opacity="0.9"/><circle cx="50" cy="50" r="4" fill="#fff"/></g>
   </svg>
   <div class="xbrain-text"><span>X</span>Brain</div>
 </a>
 
-<!-- ===== HERO ===== -->
-<section class="hero" id="top">
-  <h1 class="hero-title">哥<span>健康档案</span></h1>
-  <p class="hero-subtitle">就诊记录 · 检查报告 · 病情分析</p>
-  <div class="hero-line"></div>
-</section>
+<div class="container">
 
-<!-- ===== SUBDIRS ===== -->
-<section class="sites-section">
-  <div class="sites-grid">
-<a class="site-card" href="./20260614.发烧腹股沟尿道肿胀肾结石/index.html">
-        <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
-          </svg>
-        </div>
-        <div class="site-card-content">
-          <span class="site-card-tag">2026-06-14</span>
-          <h3>发烧腹股沟尿道肿胀肾结石</h3>
-          <p>0613晚发烧，伴有腹股沟尿道肿胀</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-  </div>
-</section>
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <h1>哥<span>个人健康档案</span></h1>
+    <p class="meta">就诊记录 · 检查报告 · 病情分析 · 共2份</p>
+  </section>
 
-<!-- ===== REPORTS ===== -->
-<section class="reports-section">
-  <h2 class="section-title">健康报告</h2>
-<div class="report-card" id="report-20260622-脚趾甲情况-md">
-        <div class="report-header">
-          <span class="site-card-tag">2026-06-22</span>
-          <h3>脚趾甲情况</h3>
-        </div>
-        <div class="report-body"><h1>初三学生甲真菌病（灰指甲）诊疗与防护全指南</h1>
+  <!-- 时间线 -->
+  <section>
+    <h2 class="section-title">健康档案时间线</h2>
+    <div class="timeline-controls">
+      <input type="text" class="search-box" id="searchBox" placeholder="搜索检查项目、关键词...">
+      <div class="year-filters">
+        <button class="year-tag active" data-year="all">全部</button>
+        <button class="year-tag" data-year="2026">2026</button>
+      </div>
+    </div>
+    <div class="timeline" id="timeline">
+  <div class="timeline-item" data-date="2026-06-22" data-year="2026">
+    <div class="timeline-dot"></div>
+    <div class="timeline-card">
+      <div class="timeline-header">
+        <span class="timeline-date">2026-06-22</span>
+        <span class="timeline-tag">健康报告</span>
+      </div>
+      <h4 class="timeline-title">脚趾甲情况</h4>
+      <img src="./image.png" alt="脚趾甲情况" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+      <div class="timeline-actions">
+        <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      </div>
+      <div class="timeline-detail" style="display:none;">
+  <div class="report-body"><h1>初三学生甲真菌病（灰指甲）诊疗与防护全指南</h1>
 <p><strong>患者情况</strong>：初三男性学生，双足多枚趾甲受累</p>
 <p><strong>初步诊断</strong>：远端侧位甲下型甲真菌病（中度进展期）</p>
 <p><strong>核心原则</strong>：先确诊再规范治疗，外用为主安全优先，同步阻断传染防止复发</p>
@@ -320,6 +319,21 @@ footer .footer-line{
 <tr><td>第二梯队</td><td>中山大学孙逸仙纪念医院</td><td>老牌感染性皮肤病强科，诊疗经验充足</td><td>越秀区沿江西路107号</td></tr>
 <tr><td>第三梯队（就近）</td><td>广东省人民医院、广州市第一人民医院、广医二院</td><td>市属正规三甲，适合轻症就近就诊</td><td>-</td></tr>
 </table></div>
+<hr>
+<h4>南方医科大学皮肤病医院（广东省皮肤病医院·省皮）最容易和 广州市皮肤病医院（广州市皮肤病防治所） 搞混的</h4>
+<p>这是<strong>另一家完全不同的医院</strong>，属于<strong>市级</strong>（广州市卫健委直属），不是省级的：</p>
+<div class="table-wrap"><table>
+<tr><th>南方医科大学皮肤病医院</th><th>广州市皮肤病医院（广州市皮肤病防治所）</th></tr>
+<tr><td><strong>隶属</strong></td><td>广东省卫健委 / 南方医科大学</td><td>广州市卫健委</td></tr>
+<tr><td><strong>级别</strong></td><td><strong>三甲</strong>（专科医院）</td><td>市级专科医疗机构</td></tr>
+<tr><td><strong>地址</strong></td><td>越秀区<strong>麓景路2号</strong></td><td>越秀区<strong>恒福路56号</strong>（另有中山四路、黄埔院区）</td></tr>
+<tr><td><strong>成立</strong></td><td>1964年</td><td>1958年</td></tr>
+<tr><td><strong>年门诊量</strong></td><td>~100万+</td><td>~80万+</td></tr>
+<tr><td><strong>特色</strong></td><td>华南皮肤科「复旦榜」第1名、国家临床重点专科、全省性病/麻风防控中心</td><td>广州市皮肤病/性病防治网核心单位、院内制剂有特色</td></tr>
+<tr><td><strong>官网</strong></td><td>gdskin.com</td><td>gzpfs.com</td></tr>
+</table></div>
+<p><strong>关键区分口诀</strong>：一个在<strong>麓景路</strong>，一个在<strong>恒福路</strong>——名字像但路都不一样。</p>
+<hr>
 <h3>就诊必做项目</h3>
 <ol>
 <li><strong>真菌镜检</strong>：刮取少量甲下碎屑，显微镜下观察，5-10分钟出结果，费用约30元（确诊金标准）</li>
@@ -415,64 +429,333 @@ footer .footer-line{
 <li>确诊后按医嘱开药，同时购买指甲锉和酒精棉片</li>
 <li>回家后立即开始日常防护，同步治疗脚气</li>
 </ol></div>
+</div>
+    </div>
+  </div>
+  <div class="timeline-item" data-date="2026-06-14" data-year="2026">
+    <div class="timeline-dot"></div>
+    <div class="timeline-card">
+      <div class="timeline-header">
+        <span class="timeline-date">2026-06-14</span>
+        <span class="timeline-tag">就诊记录</span>
       </div>
+      <h4 class="timeline-title">发烧腹股沟尿道肿胀肾结石</h4>
+      <div class="thumb-grid"><img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (1).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+<img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (2).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+<img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (3).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+<img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (4).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+<img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析.png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
+      <div class="timeline-actions">
+        <a href="./20260614.发烧腹股沟尿道肿胀肾结石/index.html" class="btn-link">查看详情页</a>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      </div>
+      <div class="timeline-detail" style="display:none;">
+  <div class="report-body"><div class="subdir-section"><h1>右肾3mm微小结石专属生活方式调整方案</h1>
+<p>（专为15岁青少年设计，核心目标：促进结石自行排出、防止结石增大、预防新结石形成）</p>
+<h2>一、核心饮水方案（最重要，决定结石能否排出）</h2>
+<h3>1. 每日饮水量标准</h3>
+<ul>
+<li><strong>基础量</strong>：每天保证 <strong>2000-2500ml</strong> 总饮水量（约4-5瓶500ml矿泉水）</li>
+<li><strong>感染期加量</strong>：当前合并细菌感染期间，可增加至2500-3000ml/天，同时有助于尿道感染恢复</li>
+<li><strong>换算参考</strong>：普通一次性纸杯≈200ml，保温杯≈500ml，每天至少喝10杯或5杯</li>
+</ul>
+<h3>2. 科学饮水时段（避免一次性猛灌）</h3>
+<div class="table-wrap"><table>
+<tr><th>时段</th><th>饮水量</th><th>作用</th></tr>
+<tr><td>晨起空腹</td><td>300-500ml</td><td>稀释夜间浓缩尿液，冲刷尿路</td></tr>
+<tr><td>上午9-11点</td><td>500-700ml</td><td>分多次饮用，保持持续尿量</td></tr>
+<tr><td>下午2-5点</td><td>500-700ml</td><td>全天尿量高峰时段，最利于排石</td></tr>
+<tr><td>晚餐前30分钟</td><td>200-300ml</td><td>避免餐后血液浓缩</td></tr>
+<tr><td>睡前1小时</td><td>200ml</td><td>防止夜间尿液过度浓缩（不要喝太多，避免影响睡眠）</td></tr>
+</table></div>
+<h3>3. 饮水选择</h3>
+<ul>
+<li>✅ <strong>首选</strong>：白开水、淡柠檬水（1片柠檬泡500ml水）、淡茶水（淡绿茶，避免浓茶）</li>
+<li>❌ <strong>严格限制</strong>：可乐、雪碧等碳酸饮料；奶茶、果汁、运动饮料等高糖饮料</li>
+<li>❌ <strong>绝对避免</strong>：浓茶、咖啡（每天不超过1杯）、酒精类饮品</li>
+</ul>
+<h3>4. 排石强化饮水法（每周1-2次，选周末进行）</h3>
+<ul>
+<li>上午9点开始，1小时内喝完1000ml白开水</li>
+<li>休息20分钟后，进行跳绳或蹦跳运动15分钟</li>
+<li>之后再喝500ml水，观察排尿时有无细小结石排出</li>
+</ul>
+<h2>二、精准饮食调整（针对最常见的草酸钙结石）</h2>
+<h3>1. 无需忌口、鼓励正常摄入的食物</h3>
+<ul>
+<li><strong>牛奶/酸奶/奶酪</strong>：每天300-500ml正常喝。<strong>误区纠正</strong>：适量钙摄入会在肠道与草酸结合，减少草酸吸收，反而能预防结石，青少年生长发育也需要充足钙</li>
+<li><strong>蔬菜水果</strong>：绝大多数蔬菜水果可正常吃，富含水分和膳食纤维</li>
+<li><strong>优质蛋白</strong>：鸡蛋、瘦肉、鱼肉等正常摄入，每天保证一个鸡蛋、100-150g肉类</li>
+</ul>
+<h3>2. 需要适量限制的食物（不是完全不吃，而是不要过量）</h3>
+<div class="table-wrap"><table>
+<tr><th>食物类别</th><th>具体食物</th><th>限制量</th></tr>
+<tr><td>高草酸食物</td><td>菠菜、苋菜、空心菜、竹笋、茭白</td><td>每周不超过2次，每次不超过100g；吃前用开水焯烫3分钟，可去除70%草酸</td></tr>
+<tr><td>高草酸零食</td><td>巧克力、可可、坚果（核桃、杏仁、花生）</td><td>巧克力每周不超过1小块；坚果每天不超过1小把（约10g）</td></tr>
+<tr><td>高盐食物</td><td>咸菜、腌制品、加工肉类、外卖快餐</td><td>每天食盐摄入量不超过5g（约一啤酒瓶盖）；少用酱油、蚝油等含盐调味品</td></tr>
+<tr><td>动物内脏</td><td>猪肝、牛肝、鸡肾等</td><td>每月不超过1次，每次不超过50g</td></tr>
+</table></div>
+<h3>3. 应该避免的食物</h3>
+<ul>
+<li>各种含糖饮料、碳酸饮料（会显著增加尿钙排泄，促进结石形成）</li>
+<li>油炸食品、肥肉等高脂肪食物</li>
+<li>过咸的零食（薯片、辣条、方便面等）</li>
+</ul>
+<h2>三、促进排石的运动方案</h2>
+<h3>1. 最佳排石运动（每天15-20分钟）</h3>
+<ul>
+<li><strong>跳绳</strong>：原地双脚跳，每次100-200下，分3-4组完成，是最有效的排石运动</li>
+<li><strong>蹦台阶</strong>：双脚交替蹦下台阶（从2-3阶高度开始），每次10分钟</li>
+<li><strong>跑步</strong>：慢跑或快走，每次20分钟</li>
+<li><strong>篮球/羽毛球</strong>：跳跃较多的球类运动，每周3-4次</li>
+</ul>
+<h3>2. 运动注意事项</h3>
+<ul>
+<li>运动前一定要喝300ml水，运动中少量多次补水</li>
+<li>避免剧烈运动后立即大量饮水</li>
+<li>运动后排尿时注意观察有无细小结石排出（可能感觉有轻微刺痛）</li>
+<li>感染期症状明显时，暂停剧烈运动，以散步为主</li>
+</ul>
+<h2>四、日常排尿习惯</h2>
+<ol>
+<li><strong>绝对不要憋尿</strong>：有尿意立即排尿，憋尿会导致尿液浓缩，晶体沉淀形成结石</li>
+<li><strong>排尿要排干净</strong>：每次排尿尽量排空膀胱，不要中断</li>
+<li><strong>注意排尿卫生</strong>：当前尿道口炎症期间，排尿后用干净纸巾从前向后擦拭，保持尿道口清洁</li>
+</ol>
+<h2>五、定期复查与监测</h2>
+<ol>
+<li><strong>首次复查</strong>：6个月后复查泌尿系彩超，观察结石大小和位置变化</li>
+<li><strong>后续复查</strong>：如果结石无变化或已排出，改为每年复查一次</li>
+<li><strong>复查前准备</strong>：复查前1小时喝500ml水，憋尿后检查，图像更清晰</li>
+</ol>
+<h2>六、需要立即就医的结石相关症状</h2>
+<p>虽然当前结石无症状，但如果出现以下情况，可能是结石掉入输尿管，需立即就医：</p>
+<ol>
+<li>突发一侧腰腹部剧烈绞痛，疼痛向下腹部、大腿内侧放射</li>
+<li>伴随恶心、呕吐、出冷汗</li>
+<li>出现肉眼血尿（尿液呈粉红色或红色）</li>
+<li>发热、寒战（提示结石合并感染）</li>
+</ol>
+<h2>七、重要提醒</h2>
+<ol>
+<li>这个3mm的结石90%以上可以通过上述生活方式调整自行排出，<strong>不需要吃任何排石药物</strong>，也不需要体外碎石或手术</li>
+<li>青少年代谢能力强，只要坚持良好的饮水和饮食习惯，不仅能排出现有结石，还能有效预防未来再长结石</li>
+<li>上述生活方式调整对当前的尿道感染和上呼吸道感染也有帮助，可同步执行</li>
+</ol></div>
+<div class="subdir-section"><h1>15岁男性患者病情综合分析报告</h1>
+<h2>一、基本信息</h2>
+<div class="table-wrap"><table>
+<tr><th>项目</th><th>内容</th></tr>
+<tr><td>患者姓名</td><td>（已脱敏）</td></tr>
+<tr><td>性别</td><td>男</td></tr>
+<tr><td>年龄</td><td>15岁</td></tr>
+<tr><td>就诊科室</td><td>儿科门诊（越秀院区）</td></tr>
+<tr><td>临床主诉</td><td>咽喉不适、尿道红肿疼痛、腹股沟肿胀</td></tr>
+<tr><td>完成检查项目</td><td>1. 末梢血血常规五分类+超敏C反应蛋白（hs-CRP）&lt;br&gt;2. 甲/乙型流感病毒抗原检测&lt;br&gt;3. 尿干化学11项+尿沉渣定量&lt;br&gt;4. 小儿泌尿系彩色多普勒超声检查</td></tr>
+<tr><td>报告日期</td><td>2026年06月14日</td></tr>
+</table></div>
+<h2>二、核心诊断结论</h2>
+<ol>
+<li><strong>急性细菌性上呼吸道感染</strong>（已排除流感病毒感染）</li>
+<li><strong>急性尿道口炎</strong>（表浅黏膜感染，未累及尿路深部）</li>
+<li><strong>双侧腹股沟淋巴结反应性增生</strong>（继发于局部黏膜感染）</li>
+<li><strong>右肾微小结石</strong>（3mm×3mm，无症状、无梗阻，偶然发现）</li>
+</ol>
+<p><strong>整体病情评估</strong>：轻中度全身性细菌感染，感染灶局限于咽喉部与尿道口黏膜表层，无深部泌尿生殖系统感染、无血液系统基础疾病、无尿路梗阻或肾损伤，规范治疗后预后良好。</p>
+<h2>三、各项检查结果汇总与专业解读</h2>
+<h3>3.1 血液感染指标（血常规+超敏CRP）</h3>
+<h4>异常指标汇总</h4>
+<div class="table-wrap"><table>
+<tr><th>检验项目</th><th>结果</th><th>参考区间</th><th>异常提示</th><th>临床意义</th></tr>
+<tr><td>超敏C-反应蛋白（hs-CRP）</td><td>14.65mg/l</td><td>0.00-6.00mg/l</td><td>↑</td><td>体内存在明确急性炎症反应，升高幅度提示轻中度炎症</td></tr>
+<tr><td>白细胞计数（WBC）</td><td>14.79×10^9/L</td><td>4.60-11.30×10^9/L</td><td>↑</td><td>机体免疫系统激活，提示细菌感染</td></tr>
+<tr><td>中性粒细胞数（#NEUT）</td><td>11.68×10^9/L</td><td>1.90-7.90×10^9/L</td><td>↑</td><td>细菌性感染的特异性指标，中性粒细胞是对抗细菌的核心免疫细胞</td></tr>
+<tr><td>中性粒细胞百分比（%NEUT）</td><td>79.0%</td><td>33.0-74.0%</td><td>↑</td><td>同上，感染越重，升高越明显</td></tr>
+<tr><td>单核细胞数量（#MONO）</td><td>1.14×10^9/L</td><td>0.15-0.89×10^9/L</td><td>↑</td><td>感染应激下免疫系统激活的辅助表现</td></tr>
+<tr><td>淋巴细胞百分比（%LYMPH）</td><td>12.5%</td><td>20.0-54.0%</td><td>↓</td><td>相对性降低，因中性粒细胞占比大幅升高挤占比例所致，非淋巴细胞本身减少</td></tr>
+</table></div>
+<h4>正常指标解读</h4>
+<p>红细胞系统（红细胞计数、血红蛋白、红细胞比容等）、血小板系统（血小板计数、血小板比容等）所有指标均在参考区间内，提示患者无贫血、凝血功能异常等血液系统基础疾病，当前血象异常为感染导致的一过性改变，感染控制后可自行恢复正常。</p>
+<h3>3.2 甲/乙型流感病毒抗原检测</h3>
+<div class="table-wrap"><table>
+<tr><th>检验项目</th><th>结果</th><th>参考区间</th><th>临床意义</th></tr>
+<tr><td>甲型流感病毒抗原</td><td>阴性(-)</td><td>阴性(-)</td><td>排除甲型流感病毒感染</td></tr>
+<tr><td>乙型流感病毒抗原</td><td>阴性(-)</td><td>阴性(-)</td><td>排除乙型流感病毒感染</td></tr>
+</table></div>
+<p><strong>解读</strong>：进一步确认上呼吸道感染的病原体为细菌而非病毒，与血液感染指标结果一致。</p>
+<h3>3.3 尿液检查（尿干化学+尿沉渣定量）</h3>
+<h4>核心结果解读</h4>
+<ul>
+<li>尿路感染特异性标志物：白细胞酯酶、亚硝酸盐均为阴性；尿沉渣白细胞计数0个/μL（参考值0-16个/μL），完全正常</li>
+<li>尿细菌计数：25.8个/μL（参考值0-488个/μL），在正常范围内，无细菌尿表现</li>
+<li>肾功能相关指标：尿蛋白、尿潜血、尿葡萄糖、酸碱度、比重均正常</li>
+<li>其他指标：红细胞、管型、真菌、结晶、上皮细胞等全部在参考区间内</li>
+</ul>
+<p><strong>专业结论</strong>：尿液检查完全正常，标本质量可靠（鳞状上皮细胞计数为0，无明显外阴污染），明确排除膀胱炎、肾盂肾炎等深部尿路感染，证明炎症仅局限于尿道口黏膜表层，未侵入尿液流经的尿路内部。</p>
+<h3>3.4 泌尿系彩色多普勒超声检查</h3>
+<h4>检查所见</h4>
+<ul>
+<li>左肾：大小正常，肾实质回声均匀，肾窦部未见占位，肾盂肾盏未见扩张</li>
+<li>右肾：大小正常，肾实质回声均匀，肾窦部见1个强回声光团，大小约3mm×3mm，肾盂肾盏未见扩张</li>
+<li>双侧输尿管上段：未见扩张</li>
+<li>膀胱：充盈佳，内未见异常回声</li>
+</ul>
+<h4>超声提示</h4>
+<ul>
+<li>右肾结石声像（3mm×3mm）</li>
+<li>左肾、膀胱未见异常</li>
+<li>双侧输尿管上段未见扩张</li>
+</ul>
+<p><strong>专业解读</strong>：</p>
+<ol>
+<li>右肾3mm微小结石为本次检查的<strong>偶然发现</strong>，与当前尿道红肿、咽痛、腹股沟肿胀等症状无任何因果关系</li>
+<li>结石体积微小，未引起肾积水、输尿管梗阻或肾实质损伤，无任何临床症状，不具备医疗干预指征</li>
+<li>无尿路梗阻、肾积水征象，进一步排除深部尿路感染及尿路解剖结构异常</li>
+</ol>
+<h2>四、症状与检验结果的关联解读</h2>
+<h3>4.1 腹股沟肿胀的本质</h3>
+<p>腹股沟肿胀为<strong>淋巴结反应性增生</strong>，是机体免疫系统对抗局部感染的正常生理应答。尿道及会阴部的淋巴液主要引流至腹股沟淋巴结，当尿道口黏膜发生细菌感染时，淋巴结会肿大以拦截和清除病原体。待局部感染控制后，肿大的淋巴结会在1-2周内逐步自行消退，无需针对淋巴结进行单独治疗。</p>
+<h3>4.2 两处感染的因果关系</h3>
+<p>不存在“尿道感染导致上呼吸道感染”的可能，最符合临床逻辑的发病机制为：</p>
+<ol>
+<li>患者先发生急性细菌性上呼吸道感染，导致全身免疫力短暂下降</li>
+<li>感染期可能伴随发热、饮水偏少，尿道黏膜局部抵抗力降低，原本定植于尿道口的正常菌群趁机突破黏膜屏障，引发表浅的尿道口炎</li>
+<li>免疫力下降作为共同诱因，同时诱发了两个黏膜薄弱部位的细菌感染</li>
+</ol>
+<h3>4.3 为什么有尿道症状但尿常规正常</h3>
+<p>尿常规检测的是尿液中的成分，只能反映尿液流经部位（膀胱、输尿管、肾脏）的病变。当感染仅局限于尿道口黏膜表层时，炎症细胞和细菌不会进入尿液中，因此尿常规会表现为完全正常。这种表浅黏膜感染在青少年男性中较为常见，多与局部卫生状况不佳、包皮过长等因素相关。</p>
+<h2>五、治疗与护理建议</h2>
+<h3>5.1 全身抗感染治疗（核心）</h3>
+<ul>
+<li>遵医嘱口服抗生素，所选药物需同时覆盖上呼吸道与尿道口常见致病菌（如链球菌、葡萄球菌等）</li>
+<li><strong>严格按疗程足量服药</strong>，不可因症状减轻就自行停药，避免感染残留、反复发作或产生耐药性</li>
+<li>用药期间注意观察有无药物过敏反应，如出现皮疹、瘙痒、恶心呕吐等不适，立即停药并就医</li>
+</ul>
+<h3>5.2 对症治疗</h3>
+<ul>
+<li>发热、咽痛、尿道疼痛明显时，可按需服用对乙酰氨基酚或布洛芬缓解症状</li>
+<li>若尿道口红肿疼痛持续明显，可在医生指导下配合外用抗菌药膏局部涂抹，加快局部炎症消退</li>
+</ul>
+<h3>5.3 局部护理（尿道口炎重点）</h3>
+<ul>
+<li>每日用温水清洗外阴1-2次，清洗后用干净软布轻轻擦干，保持局部干燥清洁</li>
+<li>穿宽松透气的棉质内裤，每日更换，避免穿紧身牛仔裤等不透气衣物</li>
+<li>多喝水、多排尿，每日饮水量建议1500-2000ml，通过尿液冲刷尿道口辅助排出病菌</li>
+<li>避免搔抓红肿部位，防止皮肤破损继发感染</li>
+</ul>
+<h3>5.4 右肾微小结石相关生活方式调整</h3>
+<ul>
+<li>无需药物或手术治疗，日常保证充足饮水，避免长期憋尿</li>
+<li>减少高草酸食物（如菠菜、苋菜、巧克力、浓茶）的过量摄入</li>
+<li>适当增加运动，如跳绳、跑步等，有助于微小结石自行排出</li>
+<li>半年到1年复查一次泌尿系彩超，观察结石大小及位置变化</li>
+</ul>
+<h2>六、随访与预警指标</h2>
+<h3>6.1 常规随访</h3>
+<ul>
+<li>感染症状：服药后2-3天体温应逐渐恢复正常，咽痛、尿道红肿疼痛逐步减轻</li>
+<li>结石随访：6-12个月复查泌尿系彩超</li>
+<li>若感染症状完全缓解，无需复查血常规和尿常规</li>
+</ul>
+<h3>6.2 需立即就医的预警情况</h3>
+<p>出现以下任何一种情况，请立即前往医院复诊：</p>
+<ol>
+<li>持续高热超过3天不退，或体温超过39℃伴随寒战、头痛、全身酸痛</li>
+<li>腹股沟肿胀快速加重，皮肤发红发烫、疼痛剧烈，或出现化脓破溃</li>
+<li>排尿困难、尿道口出现大量脓性分泌物、肉眼血尿</li>
+<li>出现腰痛、恶心呕吐、尿频尿急尿痛加重等症状</li>
+<li>服药后出现严重药物过敏反应</li>
+</ol>
+<hr></div></div>
+</div>
+    </div>
+  </div>
+    </div>
+  </section>
+
   <div style="text-align:center;">
     <a class="back-link" href="../index.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       返回健康档案
     </a>
   </div>
-</section>
 
-<!-- ===== FOOTER ===== -->
+</div>
+
+<!-- Image Modal -->
+<div class="modal" id="imgModal" onclick="closeModal()">
+  <button class="modal-close" onclick="closeModal()">&times;</button>
+  <img id="modalImg" src="" alt="报告图片">
+</div>
+
 <footer>
-  <div class="footer-line"></div>
   <p>XBrain &copy; 2026</p>
-  <p>探索未知，连接世界</p>
+  <p>个人健康档案 · 仅供家庭参考</p>
 </footer>
 
-<!-- ===== Scripts ===== -->
 <script>
 (function(){
-  var logo = document.querySelector('.xbrain-brand');
-  var ticking = false;
-  function updateLogo(){
-    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var ratio = Math.min(scrollY / vh, 1);
-    var opacity = 1 - ratio * 0.7;
-    if (logo) {
-      logo.style.opacity = opacity;
-      logo.classList.toggle('scrolled', scrollY > vh * 0.3);
-    }
+  // Logo scroll fade
+  var logo=document.querySelector('.xbrain-brand');
+  function updLogo(){
+    var sy=window.pageYOffset||0,vh=window.innerHeight||600;
+    var r=Math.min(sy/vh,1);
+    if(logo){logo.style.opacity=1-r*0.7;logo.classList.toggle('scrolled',sy>vh*0.3);}
   }
-  window.addEventListener('scroll', function(){
-    if (!ticking) {
-      window.requestAnimationFrame(function(){ updateLogo(); ticking = false; });
-      ticking = true;
-    }
-  }, { passive: true });
-  window.addEventListener('touchmove', function(){
-    if (!ticking) {
-      window.requestAnimationFrame(function(){ updateLogo(); ticking = false; });
-      ticking = true;
-    }
-  }, { passive: true });
-  updateLogo();
+  window.addEventListener('scroll',function(){requestAnimationFrame(updLogo);},{passive:true});
+  updLogo();
 
-  var cards = document.querySelectorAll('.site-card');
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry, index){
-      if (entry.isIntersecting) {
-        setTimeout(function(){ entry.target.classList.add('visible'); }, index * 150);
-        observer.unobserve(entry.target);
+  // Timeline reveal
+  var items=document.querySelectorAll('.timeline-item');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e,i){
+      if(e.isIntersecting){
+        setTimeout(function(){e.target.classList.add('visible');},i*80);
+        obs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-  cards.forEach(function(card){ observer.observe(card); });
+  },{threshold:0.1});
+  items.forEach(function(it){obs.observe(it);});
+
+  // Toggle report detail
+  window.toggleReport=function(btn){
+    var detail=btn.parentElement.nextElementSibling;
+    var show=detail.style.display==='none';
+    detail.style.display=show?'block':'none';
+    btn.textContent=show?'收起报告':'查看完整报告';
+  };
+
+  // Search
+  var searchBox=document.getElementById('searchBox');
+  searchBox.addEventListener('input',function(){
+    var q=this.value.toLowerCase();
+    items.forEach(function(it){
+      var txt=it.textContent.toLowerCase();
+      it.style.display=txt.includes(q)?'':'none';
+    });
+  });
+
+  // Year filter
+  var yearBtns=document.querySelectorAll('.year-tag');
+  yearBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      yearBtns.forEach(function(b){b.classList.remove('active');});
+      this.classList.add('active');
+      var y=this.dataset.year;
+      items.forEach(function(it){
+        it.style.display=(y==='all'||it.dataset.year===y)?'':'none';
+      });
+    });
+  });
+
+  // Image modal
+  window.openModal=function(src){
+    document.getElementById('modalImg').src=src;
+    document.getElementById('imgModal').classList.add('active');
+  };
+  window.closeModal=function(){
+    document.getElementById('imgModal').classList.remove('active');
+  };
 })();
 </script>
 
