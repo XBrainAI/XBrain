@@ -145,6 +145,17 @@ body{
 .btn-expand:hover,.btn-link:hover{
   background:var(--xb-accent);color:var(--xb-deep);
 }
+.btn-img-toggle{
+  padding:0.4rem 0.9rem;border-radius:6px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.06);color:var(--xb-text-dim);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.btn-img-toggle:hover{
+  background:rgba(100,180,255,0.15);color:var(--xb-accent);border-color:var(--xb-accent);
+}
+.img-fold{
+  display:none;animation:fadeIn 0.3s ease;
+}
 .timeline-detail{
   margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
   animation:fadeIn 0.3s ease;
@@ -294,9 +305,10 @@ footer{
         <span class="timeline-tag">健康报告</span>
       </div>
       <h4 class="timeline-title">脚趾甲情况</h4>
-      <img src="./image.png" alt="脚趾甲情况" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+      <div class="img-fold" style="display:none;"><img src="./image.png" alt="脚趾甲情况" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
       <div class="timeline-actions">
-        <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+        <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
       </div>
       <div class="timeline-detail" style="display:none;">
   <div class="report-body"><h1>初三学生甲真菌病（灰指甲）诊疗与防护全指南</h1>
@@ -440,13 +452,14 @@ footer{
         <span class="timeline-tag">就诊记录</span>
       </div>
       <h4 class="timeline-title">发烧腹股沟尿道肿胀肾结石</h4>
-      <div class="thumb-grid"><img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (1).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+      <div class="img-fold" style="display:none;"><div class="thumb-grid"><img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (1).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (2).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (3).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (4).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
-<img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析.png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
+<img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析.png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div></div>
       <div class="timeline-actions">
-        <a href="./20260614.发烧腹股沟尿道肿胀肾结石/index.html" class="btn-link">查看详情页</a>
+        <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<a href="./20260614.发烧腹股沟尿道肿胀肾结石/index.html" class="btn-link">查看详情页</a>
 <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
       </div>
       <div class="timeline-detail" style="display:none;">
@@ -723,6 +736,15 @@ footer{
     var show=detail.style.display==='none';
     detail.style.display=show?'block':'none';
     btn.textContent=show?'收起报告':'查看完整报告';
+  };
+
+  // Toggle images fold
+  window.toggleImages=function(btn){
+    var fold=btn.parentElement.previousElementSibling;
+    if(!fold||!fold.classList.contains('img-fold')) return;
+    var show=fold.style.display==='none';
+    fold.style.display=show?'block':'none';
+    btn.textContent=show?'收起图片':'查看图片';
   };
 
   // Search

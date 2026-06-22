@@ -7,7 +7,7 @@ import os
 import re
 from pathlib import Path
 
-BASE = Path(r"d:\data\wy25311753\workspace\github\XBrainAI\XBrain\健康\妈")
+BASE = Path(r"d:\data\wy25311753\workspace\git\github\XBrain\home\健康\妈")
 OUTPUT = BASE / "index.html"
 
 
@@ -206,7 +206,12 @@ def build_html(main_html, reports):
         date_display = r["date"]
         project = r["project"]
         hospital = r["hospital"]
-        img_html = f'<img src="./{r["img_name"]}" alt="{project}" class="report-thumb" loading="lazy" onclick="openModal(this.src)">' if r["has_img"] else ""
+        img_section = f'<div class="img-fold" style="display:none;"><img src="./{r["img_name"]}" alt="{project}" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>' if r["has_img"] else ""
+        actions = []
+        if img_section:
+            actions.append('<button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>')
+        actions.append('<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>')
+        actions_html = "\n".join(actions)
         item = f"""<div class="timeline-item" data-date="{r["date"]}" data-year="{r["date"][:4]}">
   <div class="timeline-dot"></div>
   <div class="timeline-card">
@@ -215,9 +220,9 @@ def build_html(main_html, reports):
       <span class="timeline-tag">{hospital}</span>
     </div>
     <h4 class="timeline-title">{project}</h4>
-    {img_html}
+    {img_section}
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      {actions_html}
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body">{r["content_html"]}</div>
@@ -387,6 +392,17 @@ body{{
 }}
 .btn-expand:hover{{
   background:var(--xb-accent);color:var(--xb-deep);
+}}
+.btn-img-toggle{{
+  padding:0.4rem 0.9rem;border-radius:6px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.06);color:var(--xb-text-dim);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
+}}
+.btn-img-toggle:hover{{
+  background:rgba(100,180,255,0.15);color:var(--xb-accent);border-color:var(--xb-accent);
+}}
+.img-fold{{
+  display:none;animation:fadeIn 0.3s ease;
 }}
 .timeline-detail{{
   margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
@@ -604,6 +620,15 @@ footer{{
     var show=detail.style.display==='none';
     detail.style.display=show?'block':'none';
     btn.textContent=show?'收起报告':'查看完整报告';
+  }};
+
+  // Toggle images fold
+  window.toggleImages=function(btn){{
+    var fold=btn.parentElement.previousElementSibling;
+    if(!fold||!fold.classList.contains('img-fold')) return;
+    var show=fold.style.display==='none';
+    fold.style.display=show?'block':'none';
+    btn.textContent=show?'收起图片':'查看图片';
   }};
 
   // Search

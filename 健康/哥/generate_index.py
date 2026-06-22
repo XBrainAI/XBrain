@@ -276,19 +276,21 @@ def build_html(items):
         title = item["title"]
         tag = item["tag"]
 
-        # 图片 HTML
-        img_html = ""
+        # 图片 HTML（默认折叠）
+        img_section = ""
         if item["type"] == "subdir" and item["images"]:
             thumbs = "\n".join(
                 f'<img src="{src}" alt="{title}" class="report-thumb" loading="lazy" onclick="openModal(this.src)">'
                 for src in item["images"]
             )
-            img_html = f'<div class="thumb-grid">{thumbs}</div>'
+            img_section = f'<div class="img-fold" style="display:none;"><div class="thumb-grid">{thumbs}</div></div>'
         elif item["type"] == "md" and item.get("img_path"):
-            img_html = f'<img src="{item["img_path"]}" alt="{title}" class="report-thumb" loading="lazy" onclick="openModal(this.src)">'
+            img_section = f'<div class="img-fold" style="display:none;"><img src="{item["img_path"]}" alt="{title}" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>'
 
         # 操作按钮
         actions = []
+        if img_section:
+            actions.append('<button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>')
         if item["type"] == "subdir":
             actions.append(f'<a href="{item["link"]}" class="btn-link">查看详情页</a>')
         if item.get("detail_html") or item.get("content_html"):
@@ -309,7 +311,7 @@ def build_html(items):
         <span class="timeline-tag">{tag}</span>
       </div>
       <h4 class="timeline-title">{title}</h4>
-      {img_html}
+      {img_section}
       <div class="timeline-actions">
         {actions_html}
       </div>
@@ -467,6 +469,17 @@ body{{
 }}
 .btn-expand:hover,.btn-link:hover{{
   background:var(--xb-accent);color:var(--xb-deep);
+}}
+.btn-img-toggle{{
+  padding:0.4rem 0.9rem;border-radius:6px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.06);color:var(--xb-text-dim);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
+}}
+.btn-img-toggle:hover{{
+  background:rgba(100,180,255,0.15);color:var(--xb-accent);border-color:var(--xb-accent);
+}}
+.img-fold{{
+  display:none;animation:fadeIn 0.3s ease;
 }}
 .timeline-detail{{
   margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
@@ -663,6 +676,15 @@ footer{{
     var show=detail.style.display==='none';
     detail.style.display=show?'block':'none';
     btn.textContent=show?'收起报告':'查看完整报告';
+  }};
+
+  // Toggle images fold
+  window.toggleImages=function(btn){{
+    var fold=btn.parentElement.previousElementSibling;
+    if(!fold||!fold.classList.contains('img-fold')) return;
+    var show=fold.style.display==='none';
+    fold.style.display=show?'block':'none';
+    btn.textContent=show?'收起图片':'查看图片';
   }};
 
   // Search

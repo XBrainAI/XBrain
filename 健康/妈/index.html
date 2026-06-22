@@ -158,6 +158,17 @@ body{
 .btn-expand:hover{
   background:var(--xb-accent);color:var(--xb-deep);
 }
+.btn-img-toggle{
+  padding:0.4rem 0.9rem;border-radius:6px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.06);color:var(--xb-text-dim);font-size:0.8rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.btn-img-toggle:hover{
+  background:rgba(100,180,255,0.15);color:var(--xb-accent);border-color:var(--xb-accent);
+}
+.img-fold{
+  display:none;animation:fadeIn 0.3s ease;
+}
 .timeline-detail{
   margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
   animation:fadeIn 0.3s ease;
@@ -279,7 +290,7 @@ footer{
   <!-- Hero -->
   <section class="hero" id="top">
     <h1>妈<span>个人健康档案</span></h1>
-    <p class="meta">广东省妇幼保健院 · 2024年2月 ~ 2026年5月 · 共44份检查报告</p>
+    <p class="meta">广东省妇幼保健院 · 2024年2月 ~ 2026年5月 · 共45份检查报告</p>
   </section>
 
   <!-- 健康总览 -->
@@ -635,7 +646,8 @@ footer{
       <input type="text" class="search-box" id="searchBox" placeholder="搜索检查项目、医院、关键词...">
       <div class="year-filters">
         <button class="year-tag active" data-year="all">全部</button>
-        <button class="year-tag" data-year="2026">2026</button>
+        <button class="year-tag" data-year="READ">READ</button>
+<button class="year-tag" data-year="2026">2026</button>
 <button class="year-tag" data-year="2025">2025</button>
 <button class="year-tag" data-year="2024">2024</button>
 <button class="year-tag" data-year="2023">2023</button>
@@ -643,7 +655,79 @@ footer{
       </div>
     </div>
     <div class="timeline" id="timeline">
-      <div class="timeline-item" data-date="2026-05-29" data-year="2026">
+      <div class="timeline-item" data-date="READ-ME-" data-year="READ">
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-header">
+      <span class="timeline-date">READ-ME-</span>
+      <span class="timeline-tag"></span>
+    </div>
+    <h4 class="timeline-title"></h4>
+    
+    <div class="timeline-actions">
+      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+    </div>
+    <div class="timeline-detail" style="display:none;">
+      <div class="report-body"><h1>妈 · 个人健康档案子站点</h1>
+<p>本目录为 XBrain 健康子站点下的"妈"个人健康档案页面，由脚本自动生成。</p>
+<hr>
+<h2>一、文件说明</h2>
+<div class="table-wrap"><table>
+<tr><th>文件/目录</th><th>说明</th></tr>
+<tr><td><code>generate_index.py</code></td><td><strong>生成脚本</strong> — 运行后自动生成 <code>index.html</code></td></tr>
+<tr><td><code>index.html</code></td><td><strong>自动生成</strong> — 禁止手动编辑，由脚本全量生成</td></tr>
+<tr><td><code>个人健康档案与深度医学分析报告.md</code></td><td>深度医学分析报告（嵌入页面顶部）</td></tr>
+<tr><td><code>p.report.md</code></td><td>分析报告生成提示词（不纳入页面）</td></tr>
+<tr><td><code>auth.config.json</code></td><td>子站独立访问密码配置</td></tr>
+<tr><td><code>MR-无需建立子站点/</code></td><td>MRI 原始 DICOM 文件（不纳入页面）</td></tr>
+<tr><td><code>YYYYMMDD-项目-医院.md</code></td><td>单份检查报告（自动纳入时间线）</td></tr>
+<tr><td><code>YYYYMMDD-项目-医院.png</code></td><td>对应报告图片（自动关联）</td></tr>
+</table></div>
+<hr>
+<h2>二、更新流程</h2>
+<h3>新增检查报告</h3>
+<ol>
+<li>将报告 <code>.md</code> 文件和对应 <code>.png</code> 图片放入本目录</li>
+<li>文件名格式：<code>YYYYMMDD-项目名称-医院.md</code>（如 <code>20260618-血常规-省妇幼.md</code>）</li>
+<li>更新 <code>个人健康档案与深度医学分析报告.md</code>（如需要）</li>
+<li>运行生成脚本：</li>
+</ol>
+<p>   <code></code>`bash</p>
+<p>   cd 健康/妈</p>
+<p>   python generate_index.py</p>
+<p>   <code></code>`</p>
+<ol>
+<li>验证 <code>index.html</code> 输出，推送代码</li>
+</ol>
+<h3>修改深度分析报告</h3>
+<ol>
+<li>直接编辑 <code>个人健康档案与深度医学分析报告.md</code></li>
+<li>运行生成脚本重新生成 <code>index.html</code></li>
+<li>推送代码</li>
+</ol>
+<h3>排除文件</h3>
+<p>以下文件不会被纳入生成：</p>
+<ul>
+<li><code>个人健康档案与深度医学分析报告.md</code>（作为深度报告单独展示）</li>
+<li><code>p.report.md</code>（提示词文档）</li>
+<li><code>MR-无需建立子站点/</code> 目录（原始 DICOM 文件）</li>
+</ul>
+<p>如需新增排除文件，修改 <code>generate_index.py</code> 中的 <code>EXCLUDE_FILES</code> 集合。</p>
+<hr>
+<h2>三、禁止事项</h2>
+<ul>
+<li><strong>禁止直接编辑 <code>index.html</code></strong> — 会被下次脚本运行覆盖</li>
+<li><strong>禁止重新编写生成逻辑</strong> — 脚本已存在，直接调用即可</li>
+<li><strong>禁止使用中文文件名</strong> — 报告文件名必须为英文（日期+项目+医院）</li>
+</ul>
+<hr>
+<h2>四、访问密码</h2>
+<p>本页面设有独立访问密码，配置见 <code>auth.config.json</code>。</p>
+<p>通过主站登录后仍需输入子站密码方可访问。</p></div>
+    </div>
+  </div>
+</div>
+<div class="timeline-item" data-date="2026-05-29" data-year="2026">
   <div class="timeline-dot"></div>
   <div class="timeline-card">
     <div class="timeline-header">
@@ -651,9 +735,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">妇科超声</h4>
-    <img src="./20260529-妇科超声-省妇幼.png" alt="妇科超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260529-妇科超声-省妇幼.png" alt="妇科超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>妇科超声复查报告解读</h1>
@@ -725,9 +810,10 @@ footer{
       <span class="timeline-tag">反流胃炎开药</span>
     </div>
     <h4 class="timeline-title">消化门诊</h4>
-    <img src="./20260521-消化门诊-反流胃炎开药-中山一院.png" alt="消化门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260521-消化门诊-反流胃炎开药-中山一院.png" alt="消化门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院消化专科复诊病历专业分析报告</h1>
@@ -837,9 +923,10 @@ footer{
       <span class="timeline-tag">中山一院</span>
     </div>
     <h4 class="timeline-title">胃镜</h4>
-    <img src="./20260515-胃镜-中山一院.png" alt="胃镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260515-胃镜-中山一院.png" alt="胃镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>麻醉胃镜检查报告解读</h1>
@@ -914,9 +1001,10 @@ footer{
       <span class="timeline-tag">中山一院</span>
     </div>
     <h4 class="timeline-title">肠镜</h4>
-    <img src="./20260515-肠镜-中山一院.png" alt="肠镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260515-肠镜-中山一院.png" alt="肠镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>麻醉结肠镜检查报告解读</h1>
@@ -1012,9 +1100,10 @@ footer{
       <span class="timeline-tag">中山一院</span>
     </div>
     <h4 class="timeline-title">直肠病理</h4>
-    <img src="./20260515-直肠病理-中山一院.png" alt="直肠病理" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260515-直肠病理-中山一院.png" alt="直肠病理" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>直肠息肉病理活体组织诊断报告解读</h1>
@@ -1085,9 +1174,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">阴道微生态2</h4>
-    <img src="./20260512-阴道微生态2-省妇幼.png" alt="阴道微生态2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260512-阴道微生态2-省妇幼.png" alt="阴道微生态2" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>阴道微生态综合评价报告分析</h1>
@@ -1212,9 +1302,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">阴道微生态</h4>
-    <img src="./20260512-阴道微生态-省妇幼.png" alt="阴道微生态" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260512-阴道微生态-省妇幼.png" alt="阴道微生态" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>阴道微生态综合评价报告解读</h1>
@@ -1338,9 +1429,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">妇科超声</h4>
-    <img src="./20260512-妇科超声-省妇幼.png" alt="妇科超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260512-妇科超声-省妇幼.png" alt="妇科超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>经阴道妇科彩色多普勒超声检查报告分析</h1>
@@ -1440,9 +1532,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">乳腺超声</h4>
-    <img src="./20260512-乳腺超声-省妇幼.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260512-乳腺超声-省妇幼.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>乳腺及其引流区淋巴结彩色多普勒超声检查报告分析</h1>
@@ -1542,9 +1635,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">耳内镜</h4>
-    <img src="./20260413-耳内镜-省妇幼.png" alt="耳内镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260413-耳内镜-省妇幼.png" alt="耳内镜" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>耳内镜检查报告分析</h1>
@@ -1630,9 +1724,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">听力报告</h4>
-    <img src="./20260413-听力报告-省妇幼.png" alt="听力报告" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260413-听力报告-省妇幼.png" alt="听力报告" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>纯音裸耳听力报告分析</h1>
@@ -1730,9 +1825,10 @@ footer{
       <span class="timeline-tag">胃食管反流病</span>
     </div>
     <h4 class="timeline-title">麻醉评估</h4>
-    <img src="./20260409-麻醉评估-胃食管反流病-中山一院.png" alt="麻醉评估" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260409-麻醉评估-胃食管反流病-中山一院.png" alt="麻醉评估" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院麻醉评估门诊病历专业分析报告</h1>
@@ -1851,9 +1947,10 @@ footer{
       <span class="timeline-tag">胃食管反流病</span>
     </div>
     <h4 class="timeline-title">消化门诊</h4>
-    <img src="./20260409-消化门诊-胃食管反流病-中山一院.png" alt="消化门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20260409-消化门诊-胃食管反流病-中山一院.png" alt="消化门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院消化专科门诊病历专业分析报告</h1>
@@ -1971,9 +2068,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">甲功三项</h4>
-    <img src="./20250618-甲功三项-省妇幼.png" alt="甲功三项" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250618-甲功三项-省妇幼.png" alt="甲功三项" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>甲功三项+β-HCG检验报告专业解读</h1>
@@ -2056,9 +2154,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">尿常规B2</h4>
-    <img src="./20250618-尿常规B2-省妇幼.png" alt="尿常规B2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250618-尿常规B2-省妇幼.png" alt="尿常规B2" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>尿常规检验报告分析（B组 · 第2页）</h1>
@@ -2142,9 +2241,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">尿常规B1</h4>
-    <img src="./20250618-尿常规B1-省妇幼.png" alt="尿常规B1" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250618-尿常规B1-省妇幼.png" alt="尿常规B1" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>尿常规检验报告分析</h1>
@@ -2224,9 +2324,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">尿常规A2</h4>
-    <img src="./20250618-尿常规A2-省妇幼.png" alt="尿常规A2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250618-尿常规A2-省妇幼.png" alt="尿常规A2" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>尿常规检验报告专业解读（A组·第2页）</h1>
@@ -2306,9 +2407,10 @@ footer{
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">尿常规A1</h4>
-    <img src="./20250618-尿常规A1-省妇幼.png" alt="尿常规A1" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250618-尿常规A1-省妇幼.png" alt="尿常规A1" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>尿常规检验报告专业解读（A组·第1页）</h1>
@@ -2396,9 +2498,10 @@ footer{
       <span class="timeline-tag">躯体化障碍焦虑抑郁</span>
     </div>
     <h4 class="timeline-title">神经门诊</h4>
-    <img src="./20250522-神经门诊-躯体化障碍焦虑抑郁-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250522-神经门诊-躯体化障碍焦虑抑郁-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经科教授诊门诊病历专业分析报告</h1>
@@ -2535,9 +2638,10 @@ footer{
       <span class="timeline-tag">数据表格</span>
     </div>
     <h4 class="timeline-title">肌电图</h4>
-    <img src="./20250514-肌电图-数据表格-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250514-肌电图-数据表格-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院肌电图检查数据表格专业分析报告</h1>
@@ -2675,9 +2779,10 @@ footer{
       <span class="timeline-tag">报告单</span>
     </div>
     <h4 class="timeline-title">肌电图</h4>
-    <img src="./20250514-肌电图-报告单-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250514-肌电图-报告单-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经电生理室肌电图检查报告单专业分析报告</h1>
@@ -2790,9 +2895,10 @@ footer{
       <span class="timeline-tag">EMG波形2</span>
     </div>
     <h4 class="timeline-title">肌电图</h4>
-    <img src="./20250514-肌电图-EMG波形2-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250514-肌电图-EMG波形2-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院针极肌电图（EMG）第2页专业分析报告</h1>
@@ -2892,9 +2998,10 @@ footer{
       <span class="timeline-tag">EMG波形1</span>
     </div>
     <h4 class="timeline-title">肌电图</h4>
-    <img src="./20250514-肌电图-EMG波形1-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250514-肌电图-EMG波形1-中山一院.png" alt="肌电图" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院针极肌电图（EMG）专业分析报告</h1>
@@ -3019,9 +3126,10 @@ footer{
       <span class="timeline-tag">头晕躯体化障碍开药</span>
     </div>
     <h4 class="timeline-title">神经门诊</h4>
-    <img src="./20250402-神经门诊-头晕躯体化障碍开药-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250402-神经门诊-头晕躯体化障碍开药-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经科教授诊门诊病历专业分析报告</h1>
@@ -3136,9 +3244,10 @@ footer{
       <span class="timeline-tag">椎角炎复查</span>
     </div>
     <h4 class="timeline-title">腰椎MR</h4>
-    <img src="./20250401-腰椎MR-椎角炎复查-中山一院.png" alt="腰椎MR" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250401-腰椎MR-椎角炎复查-中山一院.png" alt="腰椎MR" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院腰椎MRI复查数字化放射诊断报告专业分析报告</h1>
@@ -3245,9 +3354,10 @@ MR号：1863853
       <span class="timeline-tag">头晕躯体化障碍</span>
     </div>
     <h4 class="timeline-title">神经门诊</h4>
-    <img src="./20250329-神经门诊-头晕躯体化障碍-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250329-神经门诊-头晕躯体化障碍-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经科教授诊门诊病历专业分析报告</h1>
@@ -3376,9 +3486,10 @@ MR号：1863853
       <span class="timeline-tag">周围神经病</span>
     </div>
     <h4 class="timeline-title">血常规五分类</h4>
-    <img src="./20250325-血常规五分类-周围神经病-中山一院.png" alt="血常规五分类" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250325-血常规五分类-周围神经病-中山一院.png" alt="血常规五分类" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院血常规五分类检验报告专业分析报告</h1>
@@ -3514,9 +3625,10 @@ MR号：1863853
       <span class="timeline-tag">周围神经病</span>
     </div>
     <h4 class="timeline-title">肌酸激酶</h4>
-    <img src="./20250325-肌酸激酶-周围神经病-中山一院.png" alt="肌酸激酶" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250325-肌酸激酶-周围神经病-中山一院.png" alt="肌酸激酶" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院肌酸激酶检验报告专业分析报告</h1>
@@ -3619,9 +3731,10 @@ MR号：1863853
       <span class="timeline-tag">下肢麻木周围神经病</span>
     </div>
     <h4 class="timeline-title">神经门诊</h4>
-    <img src="./20250325-神经门诊-下肢麻木周围神经病-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250325-神经门诊-下肢麻木周围神经病-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经综合专科门诊病历专业分析报告</h1>
@@ -3749,9 +3862,10 @@ MR号：1863853
       <span class="timeline-tag">囊肿BI</span>
     </div>
     <h4 class="timeline-title">乳腺超声</h4>
-    <img src="./20250317-乳腺超声-囊肿BI-RADS2-中山一院.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250317-乳腺超声-囊肿BI-RADS2-中山一院.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院乳腺超声检查报告专业分析报告</h1>
@@ -3858,9 +3972,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">HPV检测</h4>
-    <img src="./20250222-HPV检测-省妇幼.png" alt="HPV检测" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250222-HPV检测-省妇幼.png" alt="HPV检测" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>人乳头瘤病毒（HPV）核酸分型检测报告专业解读</h1>
@@ -3941,9 +4056,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">阴道微生态</h4>
-    <img src="./20250220-阴道微生态-省妇幼.png" alt="阴道微生态" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250220-阴道微生态-省妇幼.png" alt="阴道微生态" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>阴道微生态综合评价报告专业解读</h1>
@@ -4044,9 +4160,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">尿常规2</h4>
-    <img src="./20250220-尿常规2-省妇幼.png" alt="尿常规2" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250220-尿常规2-省妇幼.png" alt="尿常规2" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>尿常规检验报告专业解读（第2页）</h1>
@@ -4128,9 +4245,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">尿常规1</h4>
-    <img src="./20250220-尿常规1-省妇幼.png" alt="尿常规1" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20250220-尿常规1-省妇幼.png" alt="尿常规1" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>尿常规检验报告专业解读（第1页）</h1>
@@ -4207,9 +4325,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">乳腺超声</h4>
-    <img src="./20241211-乳腺超声-省妇幼.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20241211-乳腺超声-省妇幼.png" alt="乳腺超声" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>乳腺超声检查报告专业解读</h1>
@@ -4281,9 +4400,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">乳腺X线</h4>
-    <img src="./20241211-乳腺X线-省妇幼.png" alt="乳腺X线" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20241211-乳腺X线-省妇幼.png" alt="乳腺X线" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>乳腺X线检查报告专业解读</h1>
@@ -4355,9 +4475,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">胸部CT</h4>
-    <img src="./20240702-胸部CT-省妇幼.png" alt="胸部CT" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20240702-胸部CT-省妇幼.png" alt="胸部CT" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>胸部CT检查报告专业解读</h1>
@@ -4426,9 +4547,10 @@ MR号：1863853
       <span class="timeline-tag">省妇幼</span>
     </div>
     <h4 class="timeline-title">颈椎CT</h4>
-    <img src="./20240223-颈椎CT-省妇幼.png" alt="颈椎CT" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20240223-颈椎CT-省妇幼.png" alt="颈椎CT" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>颈椎CT检查报告专业解读</h1>
@@ -4519,9 +4641,10 @@ MR号：1863853
       <span class="timeline-tag">足部麻木复诊</span>
     </div>
     <h4 class="timeline-title">外科门诊</h4>
-    <img src="./20240222-外科门诊-足部麻木复诊-中山一院.png" alt="外科门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20240222-外科门诊-足部麻木复诊-中山一院.png" alt="外科门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院外科教授门诊复诊病历专业分析报告</h1>
@@ -4629,9 +4752,10 @@ MR号：1863853
       <span class="timeline-tag">骨质增生椎角炎</span>
     </div>
     <h4 class="timeline-title">腰椎MR</h4>
-    <img src="./20240207-腰椎MR-骨质增生椎角炎-中山一院.png" alt="腰椎MR" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20240207-腰椎MR-骨质增生椎角炎-中山一院.png" alt="腰椎MR" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院腰椎MRI数字化放射诊断报告专业分析报告</h1>
@@ -4753,9 +4877,10 @@ MR号：1863853
       <span class="timeline-tag">足部麻木</span>
     </div>
     <h4 class="timeline-title">外科门诊</h4>
-    <img src="./20240207-外科门诊-足部麻木-中山一院.png" alt="外科门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20240207-外科门诊-足部麻木-中山一院.png" alt="外科门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院外科教授门诊病历专业分析报告</h1>
@@ -4877,9 +5002,10 @@ MR号：1863853
       <span class="timeline-tag">上颌窦囊肿</span>
     </div>
     <h4 class="timeline-title">颅脑MRA</h4>
-    <img src="./20230428-颅脑MRA-上颌窦囊肿-中山一院.png" alt="颅脑MRA" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20230428-颅脑MRA-上颌窦囊肿-中山一院.png" alt="颅脑MRA" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院颅脑MRI+MRA数字化放射诊断报告专业分析报告</h1>
@@ -4982,9 +5108,10 @@ MR号：1863853
       <span class="timeline-tag">头痛焦虑抑郁</span>
     </div>
     <h4 class="timeline-title">神经门诊</h4>
-    <img src="./20230418-神经门诊-头痛焦虑抑郁-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20230418-神经门诊-头痛焦虑抑郁-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经科教授诊门诊病历专业分析报告</h1>
@@ -5094,9 +5221,10 @@ MR号：1863853
       <span class="timeline-tag">头痛头麻</span>
     </div>
     <h4 class="timeline-title">神经门诊</h4>
-    <img src="./20220608-神经门诊-头痛头麻-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
+    <div class="img-fold" style="display:none;"><img src="./20220608-神经门诊-头痛头麻-中山一院.png" alt="神经门诊" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>
     <div class="timeline-actions">
-      <button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
+      <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
+<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>
     </div>
     <div class="timeline-detail" style="display:none;">
       <div class="report-body"><h1>中山大学附属第一医院神经综合专科门诊病历专业分析报告</h1>
@@ -5247,6 +5375,15 @@ MR号：1863853
     var show=detail.style.display==='none';
     detail.style.display=show?'block':'none';
     btn.textContent=show?'收起报告':'查看完整报告';
+  };
+
+  // Toggle images fold
+  window.toggleImages=function(btn){
+    var fold=btn.parentElement.previousElementSibling;
+    if(!fold||!fold.classList.contains('img-fold')) return;
+    var show=fold.style.display==='none';
+    fold.style.display=show?'block':'none';
+    btn.textContent=show?'收起图片':'查看图片';
   };
 
   // Search
