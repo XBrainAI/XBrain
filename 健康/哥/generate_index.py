@@ -210,7 +210,19 @@ def get_items():
         for md_file in detail_md_files:
             if md_file.name in {"README.md", "README.MD"}:
                 continue
-            section_html = md_to_html(md_file.read_text(encoding="utf-8"))
+            md_text = md_file.read_text(encoding="utf-8")
+            section_html = md_to_html(md_text)
+            # 修正子目录内 HTML 图片的相对路径，使其相对于 index.html 生效
+            def _fix_html_img(m):
+                prefix, src, suffix = m.group(1), m.group(2), m.group(3)
+                if src.startswith(("http://", "https://", "/", "./", "../")):
+                    return m.group(0)
+                return f'{prefix}./{entry.name}/{src}{suffix}'
+            section_html = re.sub(
+                r'(<img[^>]*?src=")([^"/][^"]*?)("[^>]*?>)',
+                _fix_html_img,
+                section_html
+            )
             detail_html_parts.append(f'<div class="subdir-section">{section_html}</div>')
         detail_html = "\n".join(detail_html_parts)
 
