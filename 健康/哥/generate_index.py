@@ -230,6 +230,7 @@ def get_items():
         images = sorted(entry.glob("*.png")) + sorted(entry.glob("*.jpg")) + sorted(entry.glob("*.jpeg"))
         img_paths = [f"./{entry.name}/{img.name}" for img in images]
 
+        has_index = (entry / "index.html").exists()
         items.append({
             "type": "subdir",
             "date": date,
@@ -238,7 +239,7 @@ def get_items():
             "desc": desc,
             "detail_html": detail_html,
             "images": img_paths,
-            "link": f"./{entry.name}/index.html",
+            "link": f"./{entry.name}/index.html" if has_index else "",
             "sort_key": date,
         })
 
@@ -303,7 +304,7 @@ def build_html(items):
         actions = []
         if img_section:
             actions.append('<button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>')
-        if item["type"] == "subdir":
+        if item["type"] == "subdir" and item.get("link"):
             actions.append(f'<a href="{item["link"]}" class="btn-link">查看详情页</a>')
         if item.get("detail_html") or item.get("content_html"):
             actions.append('<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>')
