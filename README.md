@@ -185,7 +185,7 @@ Logo 由固定定位的 SVG 图标 + 品牌文字组成，支持滚动淡出交�
 - "叠加 XBrain"
 - "让 HTML 带上 XBrain"
 
-完整代码模板见 `.trae/skills/xbrain-logo-injector/SKILL.md`。
+完整代码模板与插入规范见 `brand/XBRAIN-LOGO-IP.md`（Logo 组件 IP 规范文件，单一来源）。
 
 ---
 
