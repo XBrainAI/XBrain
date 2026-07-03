@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>增高方案 — 弟 — 健康档案 — XBrain</title>
+  <title>换牙记录 — 弟 — 健康档案 — XBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -217,13 +217,6 @@
       color: var(--xb-text);
     }
 
-    .content h4 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 1.5rem 0 0.8rem;
-      color: var(--xb-text-dim);
-    }
-
     .content p {
       margin-bottom: 1rem;
       color: var(--xb-text);
@@ -241,38 +234,6 @@
     .content strong {
       color: var(--xb-accent);
       font-weight: 600;
-    }
-
-    .content table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
-    }
-
-    .content th,
-    .content td {
-      padding: 0.8rem 1rem;
-      text-align: left;
-      border: 1px solid var(--xb-border);
-    }
-
-    .content th {
-      background: rgba(100, 180, 255, 0.1);
-      color: var(--xb-accent);
-      font-weight: 600;
-    }
-
-    .content tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .content blockquote {
-      margin: 1.5rem 0;
-      padding: 1rem 1.5rem;
-      border-left: 3px solid var(--xb-accent);
-      background: rgba(100, 180, 255, 0.05);
-      color: var(--xb-text-dim);
     }
 
     .content hr {
@@ -315,6 +276,39 @@
 
     .report-images img:hover {
       transform: scale(1.02);
+    }
+
+    .image-caption {
+      text-align: center;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== IMAGE MODAL ===== */
+    .image-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .image-modal.active {
+      display: flex;
+    }
+
+    .image-modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 0 40px rgba(100, 180, 255, 0.2);
     }
 
     /* ===== BACK BUTTON ===== */
@@ -369,15 +363,6 @@
 
       .content {
         padding: 2rem 1rem;
-      }
-
-      .content table {
-        font-size: 0.8rem;
-      }
-
-      .content th,
-      .content td {
-        padding: 0.5rem;
       }
     }
   </style>
@@ -440,9 +425,9 @@
 
   <!-- ===== HEADER ===== -->
   <header class="page-header" id="top">
-    <span class="date-tag">日常调理</span>
-    <h1>小学生身高增长科学调节方案</h1>
-    <p class="summary">遗传因素决定身高潜力的70%，科学的生活方式决定剩余30%的实现程度。6-12岁是生长发育的黄金期。</p>
+    <span class="date-tag">2026年7月4日</span>
+    <h1>换牙记录</h1>
+    <p class="summary">成长历程中的里程碑——乳牙自然脱落，恒牙即将萌出，标志着从幼儿迈向少年的重要一步。</p>
   </header>
 
   <!-- ===== CONTENT ===== -->
@@ -457,166 +442,49 @@
       返回弟健康档案
     </a>
 
-    <h2>一、核心原则</h2>
-    <p>本方案基于儿童生长发育规律制定，<strong>遗传因素决定身高潜力的70%，科学的生活方式决定剩余30%的实现程度</strong>。小学生正处于生长发育的黄金期，每年应增长5-7厘米。若连续6个月身高增长不足2厘米，需及时就医检查。</p>
+    <h2>一、事件概述</h2>
+    <p>2026年7月4日，弟迎来了成长历程中的一项重要里程碑——<strong>换牙</strong>！乳牙自然脱落，恒牙即将萌出，标志着从幼儿阶段迈向少年阶段的关键一步。</p>
 
     <div class="highlight-box">
-      <p><strong>核心要点</strong>：遗传因素决定身高潜力的70%，科学的生活方式决定剩余30%的实现程度。小学生正处于生长发育的黄金期，每年应增长5-7厘米。若连续6个月身高增长不足2厘米，需及时就医检查。</p>
+      <p><strong>成长里程碑</strong>：乳牙脱落是儿童正常的生理发育过程，通常在6-7岁开始。换牙期间需要特别关注口腔卫生和饮食，确保恒牙健康萌出。</p>
     </div>
 
-    <h2>二、科学营养方案（身高增长的物质基础）</h2>
-
-    <h3>每日必吃营养素及食物来源</h3>
-    <table>
-      <tr>
-        <th>营养素</th>
-        <th>每日推荐量</th>
-        <th>最佳食物来源</th>
-        <th>关键作用</th>
-      </tr>
-      <tr>
-        <td>优质蛋白质</td>
-        <td>1.2-1.5g/kg体重</td>
-        <td>鸡蛋(1-2个/天)、牛奶(500ml/天)、瘦牛肉、鱼虾、豆制品</td>
-        <td>构成骨骼和肌肉的主要成分</td>
-      </tr>
-      <tr>
-        <td>钙</td>
-        <td>800-1200mg</td>
-        <td>牛奶、酸奶、奶酪、西兰花、小油菜、芝麻酱</td>
-        <td>骨骼的主要组成成分</td>
-      </tr>
-      <tr>
-        <td>维生素D</td>
-        <td>400-600IU</td>
-        <td>多晒太阳(15-20分钟/天)、蛋黄、深海鱼</td>
-        <td>促进钙的吸收</td>
-      </tr>
-      <tr>
-        <td>锌</td>
-        <td>5-10mg</td>
-        <td>牡蛎、瘦红肉、坚果(磨碎食用)、南瓜籽</td>
-        <td>促进生长激素合成</td>
-      </tr>
-      <tr>
-        <td>铁</td>
-        <td>10-15mg</td>
-        <td>红肉、动物肝脏(每周1-2次)、菠菜、黑木耳</td>
-        <td>预防贫血，保障氧气运输</td>
-      </tr>
-    </table>
-
-    <h3>三餐黄金搭配</h3>
+    <h2>二、换牙过程</h2>
     <ul>
-      <li><strong>早餐(7:00-8:00)</strong>：主食+蛋白质+少量蔬菜/水果<br>示例：全麦面包2片+水煮蛋1个+牛奶250ml+小番茄5个</li>
-      <li><strong>午餐(11:30-12:30)</strong>：主食+优质蛋白+大量蔬菜<br>示例：杂粮饭1碗+清蒸鲈鱼100g+清炒西兰花+豆腐汤</li>
-      <li><strong>晚餐(17:30-18:30)</strong>：主食+蛋白质+蔬菜(比午餐量少)<br>示例：小米粥1碗+炒鸡胸肉+凉拌黄瓜+蒸山药</li>
+      <li><strong>日期</strong>：2026年7月4日</li>
+      <li><strong>事件</strong>：下前牙区域乳牙自然松动脱落</li>
+      <li><strong>脱落方式</strong>：自然脱落，无外伤</li>
+      <li><strong>出血情况</strong>：极少，无异常</li>
+      <li><strong>恒牙萌出状态</strong>：对应位置已可见恒牙牙冠边缘开始萌出</li>
     </ul>
 
-    <h3>饮食禁忌</h3>
+    <h2>三、图片记录</h2>
+    <p>两张照片记录了这次换牙的重要时刻：</p>
+    <div class="report-images">
+      <div>
+        <img src="./换牙记录1.jpg" alt="弟在浴室展示缺牙" onclick="openModal(this.src)">
+        <p class="image-caption">弟在浴室镜子前展示缺牙的样子</p>
+      </div>
+      <div>
+        <img src="./换牙记录2.jpg" alt="脱落的乳牙" onclick="openModal(this.src)">
+        <p class="image-caption">自然脱落的乳牙</p>
+      </div>
+    </div>
+
+    <h2>四、注意事项</h2>
     <ol>
-      <li><strong>严格限制</strong>：含糖饮料、油炸食品、膨化食品、糖果巧克力</li>
-      <li><strong>避免</strong>：睡前1小时内进食，以免影响睡眠和生长激素分泌</li>
-      <li><strong>不盲目</strong>：不要给孩子吃人参、蜂王浆等补品，可能导致性早熟，反而缩短生长周期</li>
-    </ol>
-
-    <h2>三、睡眠优化方案（生长激素分泌的关键）</h2>
-
-    <h3>睡眠时长要求</h3>
-    <ul>
-      <li>6-7岁：11-12小时/天</li>
-      <li>8-10岁：10-11小时/天</li>
-      <li>11-12岁：9-10小时/天</li>
-    </ul>
-
-    <h3>黄金睡眠时段</h3>
-    <p><strong>生长激素在夜间深度睡眠时分泌最旺盛</strong>，尤其是：</p>
-    <ul>
-      <li>22:00-凌晨2:00：分泌量达到全天峰值</li>
-      <li>凌晨5:00-7:00：另一个分泌小高峰</li>
-    </ul>
-
-    <h3>睡前准备流程</h3>
-    <ol>
-      <li><strong>固定作息</strong>：每天21:00前上床，21:30前入睡，7:00-7:30起床，周末也不例外</li>
-      <li><strong>睡前1小时</strong>：关闭所有电子产品，避免蓝光刺激</li>
-      <li><strong>睡前活动</strong>：温水泡脚(5-10分钟)、听轻柔音乐、读纸质书</li>
-      <li><strong>睡眠环境</strong>：保持卧室黑暗、安静、温度适宜(20-24℃)</li>
-    </ol>
-
-    <h2>四、运动锻炼方案（刺激骨骼生长）</h2>
-
-    <h3>最有效的增高运动类型</h3>
-    <ol>
-      <li><strong>纵向跳跃类</strong>：跳绳、摸高跳、打篮球、打排球</li>
-      <li><strong>伸展类</strong>：游泳、瑜伽、引体向上、悬挂</li>
-      <li><strong>全身性运动</strong>：跑步、骑自行车、踢足球</li>
-    </ol>
-
-    <h3>每周运动计划</h3>
-    <ul>
-      <li><strong>频率</strong>：每周运动5-7天，每天累计60分钟以上</li>
-      <li><strong>强度</strong>：中等强度，运动后心率达到120-140次/分钟</li>
-      <li><strong>示例安排</strong>：
-        <ul>
-          <li>周一至周五：每天跳绳10分钟(分2-3组)，摸高跳20次，户外活动30分钟</li>
-          <li>周末：游泳1小时或打篮球/羽毛球1.5小时</li>
-        </ul>
-      </li>
-    </ul>
-
-    <h3>运动注意事项</h3>
-    <ol>
-      <li>运动前做5-10分钟热身，运动后做5-10分钟拉伸</li>
-      <li>避免过度负重运动，如大重量深蹲、举重等，可能压迫骨骺</li>
-      <li>保证运动安全，避免摔倒、碰撞导致骨骼损伤</li>
-    </ol>
-
-    <h2>五、情绪与心理调节</h2>
-    <ol>
-      <li><strong>营造轻松家庭氛围</strong>：长期精神紧张、焦虑会抑制生长激素分泌</li>
-      <li><strong>减少学习压力</strong>：保证每天有1小时以上的自由玩耍时间</li>
-      <li><strong>鼓励孩子</strong>：多表扬、少批评，增强孩子的自信心</li>
-      <li><strong>保证社交活动</strong>：让孩子多与同龄人交往，保持愉快心情</li>
-    </ol>
-
-    <h2>六、良好生活习惯</h2>
-    <ol>
-      <li><strong>正确姿势</strong>：保持正确的坐姿、站姿和走姿，避免驼背、低头玩手机</li>
-      <li><strong>充足光照</strong>：每天保证1-2小时的户外活动时间，阳光促进维生素D合成</li>
-      <li><strong>控制电子产品使用</strong>：每天累计不超过1小时，且每使用20分钟休息10分钟</li>
-      <li><strong>不挑食偏食</strong>：养成良好的饮食习惯，保证营养均衡</li>
-      <li><strong>多喝水</strong>：每天喝1000-1500ml白开水，促进新陈代谢</li>
-    </ol>
-
-    <h2>七、定期监测与评估</h2>
-    <ol>
-      <li><strong>身高测量</strong>：每月固定时间(如每月1日)、固定地点、由同一人测量</li>
-      <li><strong>记录生长曲线</strong>：绘制身高增长曲线图，与国家标准生长曲线对比</li>
-      <li><strong>体重监测</strong>：保持体重在正常范围内，避免肥胖影响身高增长</li>
-      <li><strong>定期体检</strong>：每年进行一次全面体检，检查生长发育情况</li>
-    </ol>
-
-    <h2>八、特别提醒</h2>
-    <ol>
-      <li><strong>不要轻信增高产品</strong>：市面上绝大多数增高药、增高鞋垫等产品都没有科学依据，甚至可能含有激素，对孩子身体造成伤害</li>
-      <li><strong>不要盲目补钙</strong>：过量补钙可能导致骨骺提前闭合，反而影响最终身高</li>
-      <li><strong>个体差异</strong>：每个孩子的生长发育速度不同，只要在正常范围内即可，不必过分焦虑</li>
-      <li><strong>及时就医</strong>：如果孩子出现以下情况，应及时到儿科或内分泌科就诊：
-        <ul>
-          <li>身高明显低于同龄儿童(低于第3百分位)</li>
-          <li>连续6个月身高增长不足2厘米</li>
-          <li>过早出现第二性征(女孩8岁前、男孩9岁前)</li>
-        </ul>
-      </li>
+      <li><strong>保持口腔清洁</strong>：换牙期间注意刷牙方法，脱落处轻柔刷洗</li>
+      <li><strong>饮食调整</strong>：避免过硬食物，减少对正在萌出恒牙的压力</li>
+      <li><strong>观察恒牙生长</strong>：关注新恒牙萌出位置和方向是否正常</li>
+      <li><strong>定期检查</strong>：建议半年做一次口腔检查，确保换牙过程顺利</li>
     </ol>
 
     <div class="highlight-box">
-      <p><strong>特别提醒</strong></p>
-      <p>1. 不要轻信增高产品：市面上绝大多数增高药、增高鞋垫等产品都没有科学依据，甚至可能含有激素，对孩子身体造成伤害</p>
-      <p>2. 不要盲目补钙：过量补钙可能导致骨骺提前闭合，反而影响最终身高</p>
-      <p>3. 个体差异：每个孩子的生长发育速度不同，只要在正常范围内即可，不必过分焦虑</p>
-      <p>4. 及时就医：如果孩子出现身高明显低于同龄儿童、连续6个月身高增长不足2厘米、过早出现第二性征等情况，应及时到儿科或内分泌科就诊</p>
+      <p><strong>温馨提示</strong></p>
+      <p>1. 保持口腔清洁：换牙期间注意刷牙方法，脱落处轻柔刷洗</p>
+      <p>2. 饮食调整：避免过硬食物，减少对正在萌出恒牙的压力</p>
+      <p>3. 观察恒牙生长：关注新恒牙萌出位置和方向是否正常</p>
+      <p>4. 定期检查：建议半年做一次口腔检查，确保换牙过程顺利</p>
     </div>
 
     <a class="back-link" href="../index.html">
@@ -629,6 +497,11 @@
     </a>
 
   </main>
+
+  <!-- ===== IMAGE MODAL ===== -->
+  <div class="image-modal" id="imageModal" onclick="closeModal()">
+    <img id="modalImg" src="" alt="大图预览">
+  </div>
 
   <!-- ===== FOOTER ===== -->
   <footer>
@@ -667,6 +540,25 @@
 
       updateLogo();
     })();
+
+    // ===== Image Modal =====
+    function openModal(src) {
+      var modal = document.getElementById('imageModal');
+      var img = document.getElementById('modalImg');
+      img.src = src;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      var modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
   </script>
 
 </body>
