@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>深圳家庭周末游攻略 — XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+      --xb-success: #5ee4a0;
+      --xb-warn: #ffd166;
+      --xb-danger: #ff6b6b;
+      --xb-pink: #ff8fab;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+
+    .xbrain-brand.scrolled:hover {
+      opacity: 0.7 !important;
+      border-color: rgba(100, 180, 255, 0.2);
+    }
+
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(45, 27, 78, 0.4) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--xb-accent);
+      color: var(--xb-accent);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      border-radius: 20px;
+      margin-bottom: 1.2rem;
+      background: rgba(100, 180, 255, 0.08);
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title span {
+      color: var(--xb-accent);
+      text-shadow: 0 0 30px rgba(100, 180, 255, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+      font-weight: 300;
+      color: var(--xb-text-dim);
+      letter-spacing: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--xb-text-dim);
+    }
+
+    .hero-info span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.8rem;
+      background: rgba(100, 180, 255, 0.08);
+      border: 1px solid var(--xb-border);
+      border-radius: 6px;
+    }
+
+    .hero-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--xb-accent), transparent);
+      margin: 0 auto;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-title .icon {
+      width: 28px;
+      height: 28px;
+      color: var(--xb-accent);
+      flex-shrink: 0;
+    }
+
+    .section-desc {
+      color: var(--xb-text-dim);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      padding-left: 2.4rem;
+    }
+
+    /* ===== Q&A CARDS ===== */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .qa-card {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .qa-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .qa-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(100, 180, 255, 0.4);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .qa-card h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1rem;
+      color: var(--xb-accent);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .qa-card p {
+      font-size: 0.85rem;
+      color: var(--xb-text-dim);
+      line-height: 1.8;
+    }
+
+    .qa-card .highlight {
+      color: var(--xb-warn);
+      font-weight: 600;
+    }
+
+    .qa-card .green {
+      color: var(--xb-success);
+      font-weight: 600;
+    }
+
+    /* ===== ROUTE CARD ===== */
+    .route-card {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .route-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .route-info-item {
+      text-align: center;
+    }
+
+    .route-info-item .label {
+      font-size: 0.75rem;
+      color: var(--xb-text-dim);
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+
+    .route-info-item .value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--xb-accent);
+    }
+
+    .route-arrow {
+      color: var(--xb-text-dim);
+      font-size: 1.2rem;
+    }
+
+    .route-tips {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--xb-border);
+      font-size: 0.85rem;
+      color: var(--xb-text-dim);
+      line-height: 1.8;
+    }
+
+    .route-tips strong {
+      color: var(--xb-accent);
+    }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .plan-btn {
+      flex: 1;
+      min-width: 200px;
+      padding: 1rem 1.5rem;
+      border: 1px solid var(--xb-border);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%);
+      color: var(--xb-text);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+
+    .plan-btn:hover {
+      border-color: var(--xb-accent);
+      box-shadow: 0 0 20px rgba(100, 180, 255, 0.15);
+    }
+
+    .plan-btn.active {
+      border-color: var(--xb-accent);
+      background: linear-gradient(135deg, rgba(100, 180, 255, 0.15) 0%, rgba(100, 180, 255, 0.05) 100%);
+      box-shadow: 0 0 20px rgba(100, 180, 255, 0.2);
+    }
+
+    .plan-btn .plan-name {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--xb-accent);
+    }
+
+    .plan-btn .plan-desc {
+      font-size: 0.8rem;
+      color: var(--xb-text-dim);
+    }
+
+    .plan-content {
+      display: none;
+    }
+
+    .plan-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--xb-accent), transparent);
+      opacity: 0.4;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: 0.2rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--xb-deep);
+      border: 2px solid var(--xb-accent);
+      box-shadow: 0 0 10px rgba(100, 180, 255, 0.4);
+    }
+
+    .timeline-time {
+      font-size: 0.8rem;
+      color: var(--xb-accent);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-content {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .timeline-content h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.9rem;
+      color: var(--xb-text-dim);
+      line-height: 1.7;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+
+    .timeline-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(100, 180, 255, 0.1);
+      color: var(--xb-accent);
+      border: 1px solid var(--xb-border);
+    }
+
+    .timeline-tag.food { background: rgba(94, 228, 160, 0.1); color: var(--xb-success); border-color: rgba(94, 228, 160, 0.3); }
+    .timeline-tag.drive { background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border-color: rgba(255, 209, 102, 0.3); }
+    .timeline-tag.hotel { background: rgba(255, 107, 107, 0.1); color: var(--xb-danger); border-color: rgba(255, 107, 107, 0.3); }
+    .timeline-tag.kid { background: rgba(255, 143, 171, 0.1); color: var(--xb-pink); border-color: rgba(255, 143, 171, 0.3); }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .spot-card {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .spot-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .spot-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(100, 180, 255, 0.5);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(100, 180, 255, 0.12);
+    }
+
+    .spot-card-image {
+      width: 100%;
+      height: 170px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .spot-card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(10, 10, 26, 0.85) 100%);
+    }
+
+    .spot-card-header {
+      padding: 1.2rem 1.5rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .spot-card-header h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+    }
+
+    .spot-card-dist {
+      font-size: 0.75rem;
+      color: var(--xb-text-dim);
+      background: rgba(100, 180, 255, 0.08);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--xb-border);
+    }
+
+    .spot-card-body {
+      padding: 0 1.5rem 1.2rem;
+      font-size: 0.85rem;
+      color: var(--xb-text-dim);
+      line-height: 1.7;
+    }
+
+    .spot-card-footer {
+      padding: 0 1.5rem 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .spot-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(100, 180, 255, 0.08);
+      color: var(--xb-accent);
+      border: 1px solid var(--xb-border);
+    }
+
+    .spot-tag.recommended { background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border-color: rgba(255, 209, 102, 0.3); }
+    .spot-tag.free { background: rgba(94, 228, 160, 0.1); color: var(--xb-success); border-color: rgba(94, 228, 160, 0.3); }
+    .spot-tag.kid { background: rgba(255, 143, 171, 0.1); color: var(--xb-pink); border-color: rgba(255, 143, 171, 0.3); }
+    .spot-tag.new { background: rgba(255, 107, 107, 0.1); color: var(--xb-danger); border-color: rgba(255, 107, 107, 0.3); }
+
+    /* ===== HOTEL CARDS ===== */
+    .hotel-card {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
+      border: 1px solid var(--xb-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .hotel-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(100, 180, 255, 0.4);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .hotel-card-image {
+      width: 100%;
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .hotel-card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(10, 10, 26, 0.85) 100%);
+    }
+
+    .hotel-card-content {
+      padding: 1.2rem 1.5rem 1.5rem;
+    }
+
+    .hotel-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+
+    .hotel-card-header h4 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+    }
+
+    .hotel-stars {
+      color: var(--xb-warn);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    .hotel-card p {
+      font-size: 0.85rem;
+      color: var(--xb-text-dim);
+      line-height: 1.7;
+    }
+
+    .hotel-card .tips {
+      margin-top: 0.6rem;
+      padding: 0.6rem 0.8rem;
+      background: rgba(100, 180, 255, 0.06);
+      border-left: 3px solid var(--xb-accent);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.8rem;
+      color: var(--xb-text-dim);
+    }
+
+    .hotel-card .tips strong {
+      color: var(--xb-accent);
+    }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box {
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.08) 0%, rgba(255, 209, 102, 0.03) 100%);
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tips-box-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      color: var(--xb-warn);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tips-box ul {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--xb-text-dim);
+      line-height: 2;
+    }
+
+    .tips-box ul li {
+      position: relative;
+      padding-left: 1.2rem;
+    }
+
+    .tips-box ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--xb-warn);
+      font-weight: bold;
+    }
+
+    /* ===== BUDGET TABLE ===== */
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .budget-table th,
+    .budget-table td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--xb-border);
+    }
+
+    .budget-table th {
+      color: var(--xb-accent);
+      font-weight: 600;
+      background: rgba(100, 180, 255, 0.06);
+    }
+
+    .budget-table td {
+      color: var(--xb-text-dim);
+    }
+
+    .budget-table tr:hover td {
+      background: rgba(100, 180, 255, 0.04);
+    }
+
+    .budget-table .total-row {
+      font-weight: 700;
+      color: var(--xb-accent);
+    }
+
+    .budget-table .total-row td {
+      border-top: 2px solid var(--xb-border);
+      border-bottom: none;
+    }
+
+    /* ===== DAY DIVIDER ===== */
+    .day-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 1.5rem;
+    }
+
+    .day-divider .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--xb-border), transparent);
+    }
+
+    .day-divider .day-badge {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--xb-accent);
+      padding: 0.4rem 1.2rem;
+      border: 1px solid var(--xb-border);
+      border-radius: 20px;
+      background: rgba(100, 180, 255, 0.08);
+      white-space: nowrap;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--xb-border);
+      margin: 0 auto 1rem;
+    }
+
+    .back-link {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 2rem auto 0;
+      padding: 0.6rem 1.2rem;
+      color: var(--xb-accent);
+      text-decoration: none;
+      border: 1px solid var(--xb-border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(100, 180, 255, 0.1);
+      border-color: var(--xb-accent);
+    }
+
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .section { padding: 2rem 1rem; }
+      .hero-title { letter-spacing: 2px; }
+      .route-card { padding: 1.2rem; }
+      .route-info { gap: 1rem; width: 100%; justify-content: center; }
+      .spots-grid { grid-template-columns: 1fr; }
+      .qa-grid { grid-template-columns: 1fr; }
+      .plan-selector { flex-direction: column; }
+      .plan-btn { min-width: 100%; }
+      .budget-table { font-size: 0.75rem; }
+      .budget-table th, .budget-table td { padding: 0.5rem; }
+    }
+    /* ===== IMAGE GALLERY LIGHTBOX ===== */
+    .spot-card-image, .hotel-card-image { position: relative; cursor: pointer; }
+    .gallery-btn {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      padding: 4px 10px;
+      background: rgba(10,10,26,0.85);
+      border: 1px solid rgba(100,180,255,0.4);
+      border-radius: 6px;
+      color: var(--xb-accent);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 2;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .gallery-btn:hover {
+      background: rgba(100,180,255,0.2);
+      border-color: var(--xb-accent);
+    }
+    .gallery-btn svg { width: 14px; height: 14px; }
+
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,5,15,0.95);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox-overlay.active { display: flex; opacity: 1; }
+
+    .lightbox-container {
+      position: relative;
+      width: 90vw;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      overflow: hidden;
+    }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .lightbox-img.switching { opacity: 0.4; transform: scale(0.95); }
+
+    .lightbox-title {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--xb-text-dim);
+      text-align: center;
+    }
+    .lightbox-counter {
+      font-size: 0.8rem;
+      color: var(--xb-accent);
+      margin-top: 4px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: var(--xb-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+    .lightbox-close:hover { background: rgba(255,107,107,0.3); border-color: var(--xb-danger); color: var(--xb-danger); }
+    .lightbox-close svg { width: 20px; height: 20px; }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: var(--xb-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+    .lightbox-nav:hover { background: rgba(100,180,255,0.2); border-color: var(--xb-accent); }
+    .lightbox-nav svg { width: 20px; height: 20px; }
+    .lightbox-nav.prev { left: -60px; }
+    .lightbox-nav.next { right: -60px; }
+
+    .lightbox-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 4px;
+    }
+    .lightbox-thumb {
+      width: 60px;
+      height: 45px;
+      border-radius: 6px;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      opacity: 0.6;
+    }
+    .lightbox-thumb:hover, .lightbox-thumb.active {
+      border-color: var(--xb-accent);
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-nav.prev { left: 10px; background: rgba(0,0,0,0.4); }
+      .lightbox-nav.next { right: 10px; background: rgba(0,0,0,0.4); }
+      .lightbox-container { width: 95vw; height: 80vh; }
+      .lightbox-close { top: 10px; right: 10px; background: rgba(0,0,0,0.5); }
+      .lightbox-thumb { width: 48px; height: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== XBrain Brand Logo (Fixed) ===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      4口之家 · 2天1夜 · 自驾攻略
+    </div>
+    <h1 class="hero-title">深圳<span>家庭游</span></h1>
+    <p class="hero-subtitle">广州荔湾西村 → 深圳 · 海滨+世界之窗亲子之旅</p>
+    <div class="hero-line"></div>
+    <div class="hero-info">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        2大人 + 2小孩
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        广州荔湾西村出发
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+        自驾（约150km）
+      </span>
+    </div>
+  </section>
+
+  <!-- ===== Q&A SECTION ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      您的疑问 · 解答
+    </h2>
+    <p class="section-desc">基于您的家庭情况和核心需求，先解答最关心的几个问题</p>
+
+    <div class="qa-grid">
+      <div class="qa-card">
+        <h4>🐬 海洋世界 vs 海滨乐园</h4>
+        <p><span class="highlight">两者相邻，门票已捆绑！</span>小梅沙海洋世界的门票<span class="green">免费包含</span>小梅沙海滨乐园（沙滩）。不用单独买沙滩票，玩完海洋世界直接走过去踏浪即可，步行约3分钟。这是2024年升级后的新规则，性价比很高。</p>
+      </div>
+
+      <div class="qa-card">
+        <h4>🏨 酒店联票优惠</h4>
+        <p><span class="highlight">有！建议买套餐。</span>深圳美高梅酒店提供"房+海洋世界门票"套餐，比单独订房+单独买门票<span class="green">节省约100-200元/间</span>。周末节假日涨价明显，淡季更划算。京基洲际也有含餐饮/门票的组合。</p>
+      </div>
+
+      <div class="qa-card">
+        <h4>🏖️ 大小梅沙能一起玩吗？</h4>
+        <p><span class="highlight">可以！距离很近。</span>大梅沙海滨公园（免费）和小梅沙（海洋世界内含）相距仅<span class="green">约3公里</span>，开车5分钟。大梅沙沙滩更大、水上项目更多；小梅沙更精致、配套海洋世界。建议Day1玩小梅沙，Day2上午玩大梅沙。</p>
+      </div>
+
+      <div class="qa-card">
+        <h4>🎢 世界之窗能安排吗？</h4>
+        <p><span class="highlight">可以，但位置较远。</span>世界之窗在南山（深圳西侧），小梅沙在盐田（深圳东侧），两地相距<span class="highlight">约40公里</span>，车程1小时。建议Day1从广州顺路先玩世界之窗，再前往盐田；或Day2从大梅沙退房后去世界之窗，再返程广州。</p>
+      </div>
+
+      <div class="qa-card">
+        <h4>🚗 自驾路线怎么规划？</h4>
+        <p>广州西村→世界之窗（约2小时，120km，顺路）→小梅沙（约1小时，40km，穿市区）。返程：小梅沙→广州（约2.5小时，150km，直接上盐坝高速转沿江高速）。高速费单程约<span class="green">60-80元</span>。</p>
+      </div>
+
+      <div class="qa-card">
+        <h4>💰 4口之家大概花多少？</h4>
+        <p>以推荐方案A估算：门票约<span class="highlight">¥1,000</span>（世界之窗+海洋世界，小孩半价），住宿约<span class="highlight">¥1,200-2,500</span>（1晚），餐饮约<span class="highlight">¥800</span>（2天4人），高速油费约<span class="highlight">¥400</span>。总预算<span class="green">¥3,400-4,700</span>（经济型）到<span class="green">¥6,000+</span>（品质型）。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ROUTE OVERVIEW ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      路线概览
+    </h2>
+    <p class="section-desc">广州荔湾区西村自驾至深圳，4口之家周末出行路线</p>
+
+    <div class="route-card">
+      <div class="route-info">
+        <div class="route-info-item">
+          <div class="label">出发</div>
+          <div class="value">广州荔湾</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-info-item">
+          <div class="label">世界之窗</div>
+          <div class="value">~120km</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-info-item">
+          <div class="label">小梅沙</div>
+          <div class="value">~40km</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-info-item">
+          <div class="label">返程</div>
+          <div class="value">~150km</div>
+        </div>
+      </div>
+      <div class="route-tips">
+        <strong>推荐路线：</strong>西村 → 广园快速路 → 广深沿江高速/S3 → 深圳湾/南山方向（世界之窗）→ 北环大道 → 罗沙路 → 盐坝高速 → 小梅沙出口<br>
+        <strong>全程高速费用：</strong>约120-160元（往返）&nbsp;&nbsp;|&nbsp;&nbsp;<strong>油费估算：</strong>约200-300元（往返）<br>
+        <strong>停车提示：</strong>世界之窗停车场约20-30元/天；酒店住客一般免停车费；大梅沙/小梅沙景区停车场约10-20元/小时<br>
+        <strong style="color:var(--xb-warn)">⚡ 避堵策略：</strong>早出发（7:00-7:30）避开出城高峰 + 下午返程（14:00-15:00）避开返城晚高峰，双向错峰
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLAN SELECTOR ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      方案选择
+    </h2>
+    <p class="section-desc">针对4口之家，提供两个经过路线优化的可行方案，点击下方切换查看</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案A · 全能亲子</span>
+        <span class="plan-desc">世界之窗 + 海洋世界 + 大小梅沙<br>早出发，下午3点返程避堵</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案B · 海滨休闲</span>
+        <span class="plan-desc">纯海滨度假，不去世界之窗<br>更轻松，下午2点返程避堵</span>
+      </button>
+    </div>
+
+    <!-- ===== PLAN A ===== -->
+    <div class="plan-content active" id="planA">
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 1 · 周六</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:00</div>
+          <div class="timeline-content">
+            <h4>🚗 广州出发</h4>
+            <p>4口之家从荔湾西村驾车出发，建议提前加满油。早出发避开8:30-9:30出城高峰。车上备好零食、水和简单玩具，让小孩补觉。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag drive">自驾</span>
+              <span class="timeline-tag">约2小时</span>
+              <span class="timeline-tag kid">亲子</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 - 12:30</div>
+          <div class="timeline-content">
+            <h4>🌍 深圳世界之窗</h4>
+            <p><strong>满足小孩心愿第一站！</strong>世界之窗是大型微缩景观主题公园，展示全球130余处著名景点。推荐带小孩重点游玩：欧洲区微缩建筑群（适合拍照）、动感游乐区（旋转木马、小火车等亲子项目）、环球舞台表演。周一到周五10:00开园，周末09:00开园，早到不用排队。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">小孩最爱</span>
+              <span class="timeline-tag">门票~220元/成人</span>
+              <span class="timeline-tag">约3.5小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:30 - 13:30</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>在世界之窗附近（华侨城/白石洲片区）用餐。推荐带小孩吃茶餐厅、必胜客或海底捞，快速解决后前往盐田。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:30 - 14:30</div>
+          <div class="timeline-content">
+            <h4>🚗 前往小梅沙</h4>
+            <p>从世界之窗驱车前往盐田小梅沙，约40公里，车程约1小时（周末下午可能略堵）。让小孩在车内休息午睡，恢复体力。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag drive">自驾</span>
+              <span class="timeline-tag">约1小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:30</div>
+          <div class="timeline-content">
+            <h4>🏨 酒店入住</h4>
+            <p>抵达小梅沙/大梅沙片区，办理酒店入住。推荐<strong>深圳美高梅酒店</strong>（步行到海洋世界）或<strong>京基洲际</strong>（私家海滩+儿童俱乐部）。放下行李，轻装去海边。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">入住</span>
+              <span class="timeline-tag">午休</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:30 - 17:00</div>
+          <div class="timeline-content">
+            <h4>🏖️ 小梅沙海滨乐园</h4>
+            <p>下午3点半后太阳不再暴晒，正是沙滩游玩好时段。带小孩踏浪、堆沙堡、玩海水。沙滩入口有彩色"XIAOMEISHA"字母标识，很好拍照。凭海洋世界门票即可进入（不用额外购票）。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag free">海洋世界含</span>
+              <span class="timeline-tag">日落</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">17:00 - 18:00</div>
+          <div class="timeline-content">
+            <h4>🗼 背仔角灯塔日落</h4>
+            <p>沿盐田海滨栈道往东步行约15分钟，到达<strong>背仔角灯塔</strong>。红白相间的灯塔矗立在海边礁石上，日落时分金色阳光洒在碧蓝海面上，是深圳最出片的海景打卡点。带小孩注意安全，不要攀爬礁石。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag free">免费</span>
+              <span class="timeline-tag">绝美日落</span>
+              <span class="timeline-tag">网红打卡</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">18:00</div>
+          <div class="timeline-content">
+            <h4>🍽️ 晚餐</h4>
+            <p>返回酒店附近或盐田海鲜食街用晚餐。带小孩推荐选择有儿童餐的餐厅，或酒店自助（洲际/美高梅自助品质较好）。海鲜街人均80-150元。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">晚餐</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 2 · 周日</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:30</div>
+          <div class="timeline-content">
+            <h4>🍳 酒店早餐</h4>
+            <p>在酒店享用早餐。美高梅和洲际的早餐品质都不错，有儿童友好的选择。补充能量，准备海洋世界行程。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">早餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:30 - 12:00</div>
+          <div class="timeline-content">
+            <h4>🐬 小梅沙海洋世界</h4>
+            <p><strong>核心亲子行程！</strong>入口处的巨大白色海神雕塑群极具视觉冲击力。推荐亲子游览路线：极地动物馆（企鹅、北极熊）→ 海底隧道（鲨鱼、海龟）→ 海豚表演（提前查时间表占座）→ 水母宫→ 互动触摸池。园区内有亲子休息区和儿童餐食。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子核心</span>
+              <span class="timeline-tag">门票~220元/成人</span>
+              <span class="timeline-tag">约3.5小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:00 - 13:00</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>海洋世界附近或大梅沙片区用午餐。推荐大梅沙奥特莱斯美食街，选择多且环境好，适合带小孩。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:00 - 15:00</div>
+          <div class="timeline-content">
+            <h4>🌊 大梅沙海滨公园</h4>
+            <p>大小梅沙一起打卡！大梅沙沙滩面积更大，设有专门的游泳区和儿童戏水区，沙滩更平缓，适合带小孩玩。还有摩托艇、帆板等水上项目（大人可玩）。完全免费，但周末需提前在"i深圳"APP预约入场。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag free">免费</span>
+              <span class="timeline-tag">约2小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:00</div>
+          <div class="timeline-content">
+            <h4>🚗 返程广州</h4>
+            <p><strong>提前返程，避开晚高峰！</strong>15:00准时出发，沿盐坝高速→广深沿江高速，避开深圳17:00-19:00的晚高峰。预计17:30回到荔湾西村，小孩正好在车上补觉。结束充实的周末之旅！</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag drive">返程</span>
+              <span class="timeline-tag">约2.5小时</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PLAN B ===== -->
+    <div class="plan-content" id="planB">
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 1 · 周六</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:30</div>
+          <div class="timeline-content">
+            <h4>🚗 广州出发</h4>
+            <p>4口之家从荔湾西村直接驱车前往小梅沙，不绕路去世界之窗。全程约2.5小时，早出发避开出城高峰。车上备好零食和玩具，小孩可在车上补觉。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag drive">自驾</span>
+              <span class="timeline-tag">约2.5小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">10:00</div>
+          <div class="timeline-content">
+            <h4>🏨 抵达酒店 · 寄存行李</h4>
+            <p>到达盐田后先前往酒店办理入住手续。一般酒店标准入住时间为14:00，此时可能房间尚未打扫完毕，可先<strong>寄存行李</strong>，轻装出游。如有空房，酒店通常会配合<strong>提前入住</strong>（尤其带小孩的家庭）。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">寄存行李</span>
+              <span class="timeline-tag">视房态提前入住</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:30 - 12:30</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>在大梅沙奥特莱斯或盐田海鲜食街用午餐。推荐适合小孩的餐厅，如茶餐厅、潮汕牛肉火锅等。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:00 - 17:00</div>
+          <div class="timeline-content">
+            <h4>🐬 小梅沙海洋世界</h4>
+            <p>下午重点游玩海洋世界。入口白色海神雕塑、海底隧道、海豚表演、极地动物都是小孩的最爱。不用赶时间，慢慢玩。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子核心</span>
+              <span class="timeline-tag">门票~220元/成人</span>
+              <span class="timeline-tag">约4小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">17:00 - 18:00</div>
+          <div class="timeline-content">
+            <h4>🏖️ 小梅沙沙滩</h4>
+            <p>海洋世界出来后直接进沙滩（凭门票免费）。傍晚不晒，带小孩踏浪、堆沙堡，玩累了回酒店。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag free">含门票内</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">18:30</div>
+          <div class="timeline-content">
+            <h4>🍽️ 晚餐 + 休息</h4>
+            <p>酒店附近或海鲜街晚餐。晚上可以在酒店泳池/儿童乐园放松，让小孩充分休息，为第二天做准备。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">晚餐</span>
+              <span class="timeline-tag hotel">酒店休闲</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 2 · 周日</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:30</div>
+          <div class="timeline-content">
+            <h4>🍳 酒店早餐</h4>
+            <p>悠闲享用酒店早餐，不用赶时间。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">早餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:00 - 09:00</div>
+          <div class="timeline-content">
+            <h4>🗼 背仔角灯塔 · 海滨栈道</h4>
+            <p><strong>上午凉快时去！</strong>7月深圳下午13:00气温可达30-35°C，背仔角无遮挡会非常晒。改到上午8点出发，沿盐田海滨栈道步行约15分钟，海风习习，温度宜人。红白灯塔在晨光下格外清新，海水呈现迷人的蓝绿色，正是拍照好时机。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag free">免费</span>
+              <span class="timeline-tag">上午凉爽</span>
+              <span class="timeline-tag">约1小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:30 - 12:00</div>
+          <div class="timeline-content">
+            <h4>🌊 大梅沙海滨公园</h4>
+            <p>大梅沙沙滩面积更大，设有专门的游泳区和儿童戏水区，沙滩更平缓，适合带小孩玩。上午阳光柔和，正是玩水好时段。还有摩托艇、帆板等水上项目（大人可玩）。完全免费，但周末需提前在"i深圳"APP预约入场。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag free">免费</span>
+              <span class="timeline-tag">约2.5小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:00 - 13:00</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>在大梅沙/盐田用午餐，推荐茶餐厅或客家菜，简单快捷。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:00</div>
+          <div class="timeline-content">
+            <h4>🚗 返程广州</h4>
+            <p><strong>下午2点出发，完美避开晚高峰！</strong>预计16:30回到荔湾西村，小孩可以回家吃晚饭，不耽误第二天上学。整个行程轻松惬意。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag drive">返程</span>
+              <span class="timeline-tag">约2.5小时</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPOTS ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      景点推荐
+    </h2>
+    <p class="section-desc">所有您关心和提到的景点，按亲子友好度排序</p>
+
+    <div class="spots-grid">
+      <div class="spot-card">
+        <div class="spot-card-image" style="background-image: url('小梅沙海洋世界/image.png')" onclick="openGallery('oceanworld')">
+          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('oceanworld')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            13张
+          </button>
+        </div>
+        <div class="spot-card-header">
+          <h4>🐬 小梅沙海洋世界</h4>
+          <span class="spot-card-dist">核心</span>
+        </div>
+        <div class="spot-card-body">
+          您最想去的景点！入口处的巨大白色海神与海马雕塑群极具视觉冲击力。园内有海豚表演、海底隧道、极地动物馆（企鹅、北极熊）、水母宫、互动触摸池。2024年焕新升级后体验更佳，<strong>4口之家必玩</strong>。
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">强烈推荐</span>
+          <span class="spot-tag kid">亲子</span>
+          <span class="spot-tag">门票~220元</span>
+          <span class="spot-tag free">含沙滩</span>
+        </div>
+      </div>
+
+      <div class="spot-card">
+        <div class="spot-card-image" style="background-image: url('深圳世界之窗/image.png')" onclick="openGallery('window')">
+          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('window')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            4张
+          </button>
+        </div>
+        <div class="spot-card-header">
+          <h4>🌍 深圳世界之窗</h4>
+          <span class="spot-card-dist">南山</span>
+        </div>
+        <div class="spot-card-body">
+          <strong>小孩想去的地方！</strong>大型微缩景观主题公园，展示全球130余处著名景点——埃菲尔铁塔、金字塔、科隆大教堂（如图）、尼亚加拉大瀑布等。动感游乐区有旋转木马、小火车等亲子项目，环球舞台有表演。适合开拓小孩眼界。
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">小孩最爱</span>
+          <span class="spot-tag kid">亲子</span>
+          <span class="spot-tag">门票~220元</span>
+        </div>
+      </div>
+
+      <div class="spot-card">
+        <div class="spot-card-image" style="background-image: url('小梅沙海滨乐园(小梅沙沙滩)/image.png')" onclick="openGallery('beach')">
+          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('beach')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            5张
+          </button>
+        </div>
+        <div class="spot-card-header">
+          <h4>🏖️ 小梅沙海滨乐园</h4>
+          <span class="spot-card-dist">紧邻海洋世界</span>
+        </div>
+        <div class="spot-card-body">
+          和海洋世界是一体的！沙滩入口有彩色<strong>"XIAOMEISHA"</strong>立体字母标识，辨识度高。沙质细腻洁白，海水清澈，配蓝色遮阳伞和休闲躺椅。凭海洋世界门票<strong>免费进入</strong>，不用额外花钱。傍晚踏浪不晒，亲子友好。
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">推荐</span>
+          <span class="spot-tag free">海洋世界含</span>
+          <span class="spot-tag kid">亲子</span>
+        </div>
+      </div>
+
+      <div class="spot-card">
+        <div class="spot-card-image" style="background-image: url('背仔角灯塔/image.png')" onclick="openGallery('lighthouse')">
+          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('lighthouse')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            11张
+          </button>
+        </div>
+        <div class="spot-card-header">
+          <h4>🗼 背仔角灯塔</h4>
+          <span class="spot-card-dist">距小梅沙1.5km</span>
+        </div>
+        <div class="spot-card-body">
+          <strong>新增推荐！</strong>盐田海滨栈道东端尽头的网红灯塔，红白相间的塔身矗立在海边礁石上，通过白色栈道可达。日落时分金色阳光洒在碧蓝海面上，与灯塔交相辉映，是深圳<strong>最出片</strong>的海景打卡点。完全免费，带小孩需注意礁石安全。
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag new">新增</span>
+          <span class="spot-tag free">免费</span>
+          <span class="spot-tag recommended">日落绝美</span>
+        </div>
+      </div>
+
+      <div class="spot-card">
+        <div class="spot-card-header">
+          <h4>🌊 大梅沙海滨公园</h4>
+          <span class="spot-card-dist">距小梅沙3km</span>
+        </div>
+        <div class="spot-card-body">
+          深圳最著名的免费海滩，<strong>大小梅沙可以一起玩</strong>！大梅沙沙滩面积更大，设有专门的游泳区和儿童戏水区，还有摩托艇、帆板等水上项目。周边商业配套成熟（奥特莱斯），餐饮购物便利。周末需提前在"i深圳"预约。
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">推荐</span>
+          <span class="spot-tag free">免费</span>
+          <span class="spot-tag kid">亲子</span>
+        </div>
+      </div>
+
+      <div class="spot-card">
+        <div class="spot-card-header">
+          <h4>🌿 盐田海滨栈道</h4>
+          <span class="spot-card-dist">贯穿</span>
+        </div>
+        <div class="spot-card-body">
+          全长19.5公里的海边步道，白色护栏沿海岸线延伸。串联大梅沙、小梅沙、背仔角灯塔。其中<strong>大梅沙-背仔角段</strong>风景最佳，夜晚灯光璀璨。适合散步、骑行，带小孩可走短段，量力而行。
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">推荐</span>
+          <span class="spot-tag free">免费</span>
+          <span class="spot-tag">夜景</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOTELS ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      酒店推荐
+    </h2>
+    <p class="section-desc">针对4口之家的亲子酒店选择，含联票优惠说明</p>
+
+    <div class="spots-grid">
+      <div class="hotel-card">
+        <div class="hotel-card-image" style="background-image: url('酒店/深圳美高梅酒店/image.png')" onclick="openGallery('mgm')">
+          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('mgm')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            3张
+          </button>
+        </div>
+        <div class="hotel-card-content">
+          <div class="hotel-card-header">
+            <h4>深圳美高梅酒店</h4>
+            <span class="hotel-stars">★★★★★</span>
+          </div>
+          <p>位于小梅沙海滨，<strong>步行3分钟</strong>可达海洋世界和沙滩。高层弧形建筑，海滨沙滩配有粉色遮阳伞。海景房视野开阔，无边泳池是网红打卡点。<strong>含海洋世界门票的套餐</strong>比单买更省，周末需提前预订。</p>
+          <div class="tips">
+            <strong>省钱贴士：</strong>订"房+海洋世界门票"套餐，4口之家（2大2小）比单独订房+单独买票<strong>节省约200-400元</strong>。小孩早餐政策提前确认。
+          </div>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-card-image" style="background-image: url('酒店/深圳大梅沙京基洲际度假酒店/image.png')" onclick="openGallery('intercontinental')">
+          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('intercontinental')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            5张
+          </button>
+        </div>
+        <div class="hotel-card-content">
+          <div class="hotel-card-header">
+            <h4>深圳大梅沙京基洲际度假酒店</h4>
+            <span class="hotel-stars">★★★★★</span>
+          </div>
+          <p>大梅沙片区顶级亲子度假酒店，<strong>私家海滩+棕榈园林</strong>+儿童俱乐部。穹顶大堂采用玻璃钢结构，极为华丽。有专门的儿童泳池和亲子活动，适合带小孩的家庭。距小梅沙约5分钟车程。</p>
+          <div class="tips">
+            <strong>参考价格：</strong>淡季约1200-1800元/晚，旺季约2000-3000元/晚。洲际会员可享积分兑换和房型升级。小孩加床/早餐政策需提前确认。
+          </div>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-card-content">
+          <div class="hotel-card-header">
+            <h4>深圳大梅沙京基海湾大酒店</h4>
+            <span class="hotel-stars">★★★★★</span>
+          </div>
+          <p>与洲际同处大梅沙片区，<strong>性价比更高</strong>。酒店依山面海，房间宽敞，部分带阳台海景。楼下即有沙滩入口，餐饮选择丰富。适合追求品质但预算有限的家庭。</p>
+          <div class="tips">
+            <strong>参考价格：</strong>淡季约800-1200元/晚，旺季约1500-2200元/晚。建议关注携程/美团促销套餐，有时含早餐+景区门票。
+          </div>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-card-content">
+          <div class="hotel-card-header">
+            <h4>大梅沙/小梅沙民宿公寓</h4>
+            <span class="hotel-stars">经济型</span>
+          </div>
+          <p>片区有大量民宿、公寓式酒店，价格亲民。部分高层公寓可看海景，适合<strong>预算有限</strong>的家庭。建议通过美团、途家筛选高评分房源，注意查看实拍图和亲子设施。</p>
+          <div class="tips">
+            <strong>参考价格：</strong>约300-600元/晚（可住4人）。注意确认床型（是否适合2大2小），避免照骗。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        4口之家酒店选购建议
+      </div>
+      <ul>
+        <li><strong>追求最佳体验：</strong>京基洲际（私家海滩+儿童俱乐部）或美高梅（步行到海洋世界），小孩体验最佳</li>
+        <li><strong>追求性价比：</strong>京基海湾大酒店，设施不错且价格更亲民</li>
+        <li><strong>预算有限：</strong>大梅沙/小梅沙民宿公寓，400-600元可住4人，但需确认床型和亲子设施</li>
+        <li><strong>省钱关键：</strong>直接订含海洋世界门票的酒店套餐，4口之家比单买更省200-400元</li>
+        <li><strong>小孩政策：</strong>预订前确认酒店的小孩早餐政策（1.2m以下是否免费）、加床费用</li>
+        <li><strong>预订时机：</strong>周末至少提前1周，节假日提前2周</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== BUDGET ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      费用预算（4口之家）
+    </h2>
+    <p class="section-desc">以方案A（世界之窗+海洋世界+大小梅沙）为基准估算</p>
+
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>经济型</th>
+          <th>舒适型</th>
+          <th>品质型</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>住宿（1晚）</strong></td>
+          <td>民宿/公寓 400元</td>
+          <td>海湾大酒店 1,200元</td>
+          <td>美高梅/洲际 2,500元</td>
+        </tr>
+        <tr>
+          <td><strong>门票</strong></td>
+          <td colspan="3" style="text-align:center">世界之窗（2大2小约660元）+ 海洋世界（2大2小约660元）= <strong>约1,320元</strong></td>
+        </tr>
+        <tr>
+          <td><strong>餐饮（2天）</strong></td>
+          <td>茶餐厅/快餐 600元</td>
+          <td>海鲜街+茶餐厅 1,000元</td>
+          <td>酒店餐厅+海鲜街 1,500元</td>
+        </tr>
+        <tr>
+          <td><strong>高速+油费</strong></td>
+          <td colspan="3" style="text-align:center">往返高速约140元 + 油费约300元 = <strong>约440元</strong></td>
+        </tr>
+        <tr>
+          <td><strong>停车+杂费</strong></td>
+          <td>100元</td>
+          <td>200元</td>
+          <td>300元</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>合计</strong></td>
+          <td>约2,860元</td>
+          <td>约4,160元</td>
+          <td>约6,060元</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tips-box" style="margin-top: 1rem; background: linear-gradient(135deg, rgba(94, 228, 160, 0.08) 0%, rgba(94, 228, 160, 0.03) 100%); border-color: rgba(94, 228, 160, 0.25);">
+      <div class="tips-box-title" style="color: var(--xb-success);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        省钱技巧
+      </div>
+      <ul>
+        <li>酒店订含海洋世界门票的套餐，4口之家可省200-400元</li>
+        <li>世界之窗和海洋世界的门票提前1天在美团/携程购买，比现场便宜约10-20元/张</li>
+        <li>小孩门票：多数景点1.2m以下免费，1.2-1.5m半价，提前确认</li>
+        <li>大梅沙海滨公园免费（需预约），小梅沙沙滩含在海洋世界门票内</li>
+        <li>海鲜街用餐前先问清价格，选择明码标价的餐厅</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== PRACTICAL TIPS ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">4口之家带小孩出行，这些细节很重要</p>
+
+    <div class="tips-box">
+      <div class="tips-box-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        出发前准备（带小孩必看）
+      </div>
+      <ul>
+        <li>提前检查车况（轮胎、油量、冷却液），车上备好<strong>儿童安全座椅</strong></li>
+        <li>车上备足零食、水、湿巾、充电宝、简单玩具（车程较长，小孩易无聊）</li>
+        <li>海洋世界+世界之窗门票提前1天在美团/携程购买，比现场便宜且免排队</li>
+        <li>夏季必备：防晒霜、墨镜、遮阳帽、<strong>儿童泳衣</strong>、沙滩鞋、驱蚊水、换洗衣物</li>
+        <li>大梅沙海滨公园需提前在<strong>"i深圳"APP</strong>预约（周末必须）</li>
+        <li>背仔角灯塔步行需15-20分钟，给小孩穿<strong>舒适运动鞋</strong>，带好饮用水</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top: 1rem; background: linear-gradient(135deg, rgba(94, 228, 160, 0.08) 0%, rgba(94, 228, 160, 0.03) 100%); border-color: rgba(94, 228, 160, 0.25);">
+      <div class="tips-box-title" style="color: var(--xb-success);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        亲子游玩注意事项
+      </div>
+      <ul>
+        <li>小梅沙沙滩凭海洋世界门票<strong>免费进入</strong>，不要重复购买沙滩票</li>
+        <li>海洋世界+世界之窗都是大型园区，需要大量步行。给小孩穿舒适运动鞋，可带轻便婴儿车/推车</li>
+        <li>海边紫外线强烈，小孩皮肤更娇嫩，务必做好防晒（SPF50+），定时补涂</li>
+        <li>盐田海滨栈道部分路段<strong>无护栏</strong>，带小孩必须看护好，不要靠近边缘</li>
+        <li>背仔角灯塔区域有礁石，小孩不要攀爬，注意安全</li>
+        <li>海鲜街用餐前先问清价格，避免被宰；推荐选择有菜单标价的餐厅</li>
+        <li>建议Day1下午让小孩在车内午睡1小时，恢复体力再玩沙滩</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top: 1rem; background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 107, 107, 0.03) 100%); border-color: rgba(255, 107, 107, 0.25);">
+      <div class="tips-box-title" style="color: var(--xb-danger);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        避坑提醒
+      </div>
+      <ul>
+        <li><strong>⚡ 堵车高峰必避：</strong>周六上午8:30-10:00出城高峰，周日下午17:00-20:00返城高峰。方案A 15:00 / 方案B 14:00 返程可完美避开，早出发也能避开出城堵</li>
+        <li>大梅沙/小梅沙周末停车位紧张，建议住酒店利用<strong>酒店免费停车场</strong>，或停在奥特莱斯步行前往</li>
+        <li>海边有人兜售"快速通道"或"低价门票"，多为骗局，请通过官方渠道购票</li>
+        <li>海鲜街部分餐厅存在"宰客"现象，点菜前确认价格和斤两，保留小票</li>
+        <li>民宿预订注意查看实拍图，避免被精修图误导，优先选择评分4.5以上且评价中提及亲子体验的房源</li>
+        <li>世界之窗到盐田的车程约1小时，周末下午可能堵车，预留充足时间</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== BACK LINK ===== -->
+  <section class="section" style="text-align:center; padding-top: 1rem;">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      返回四季景点
+    </a>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <p>XBrain &copy; 2026</p>
+    <p>探索未知，连接世界</p>
+  </footer>
+
+  <!-- ===== LIGHTBOX ===== -->
+  <div class="lightbox-overlay" id="lightbox" onclick="closeGallery(event)">
+    <div class="lightbox-container" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeGallery()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="lightbox-nav prev" onclick="prevImage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="lightbox-img-wrap">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="">
+      </div>
+      <button class="lightbox-nav next" onclick="nextImage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="lightbox-title" id="lightboxTitle"></div>
+      <div class="lightbox-counter" id="lightboxCounter"></div>
+      <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // Logo scroll fade
+      var logo = document.querySelector('.xbrain-brand');
+      var ticking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () { updateLogo(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+      updateLogo();
+
+      // Plan switcher
+      window.switchPlan = function(planId) {
+        document.querySelectorAll('.plan-btn').forEach(function(btn) { btn.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function(content) { content.classList.remove('active'); });
+        document.getElementById(planId).classList.add('active');
+        event.currentTarget.classList.add('active');
+      };
+
+      // IntersectionObserver for reveals
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+      document.querySelectorAll('.spot-card, .hotel-card, .qa-card').forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // Image Gallery
+      var galleries = {
+        oceanworld: {
+          title: '小梅沙海洋世界',
+          images: (function() {
+            var arr = ['小梅沙海洋世界/image.png'];
+            for (var i = 2; i <= 12; i++) arr.push('小梅沙海洋世界/image copy ' + i + '.png');
+            arr.splice(1, 0, '小梅沙海洋世界/image copy.png');
+            return arr;
+          })()
+        },
+        window: {
+          title: '深圳世界之窗',
+          images: ['深圳世界之窗/image.png', '深圳世界之窗/image copy.png', '深圳世界之窗/image copy 2.png', '深圳世界之窗/image copy 3.png']
+        },
+        beach: {
+          title: '小梅沙海滨乐园',
+          images: ['小梅沙海滨乐园(小梅沙沙滩)/image.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 2.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 3.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 4.png']
+        },
+        lighthouse: {
+          title: '背仔角灯塔',
+          images: (function() {
+            var arr = ['背仔角灯塔/image.png'];
+            for (var i = 2; i <= 10; i++) arr.push('背仔角灯塔/image copy ' + i + '.png');
+            arr.splice(1, 0, '背仔角灯塔/image copy.png');
+            return arr;
+          })()
+        },
+        mgm: {
+          title: '深圳美高梅酒店',
+          images: ['酒店/深圳美高梅酒店/image.png', '酒店/深圳美高梅酒店/image copy.png', '酒店/深圳美高梅酒店/image copy 2.png']
+        },
+        intercontinental: {
+          title: '深圳大梅沙京基洲际度假酒店',
+          images: ['酒店/深圳大梅沙京基洲际度假酒店/image.png', '酒店/深圳大梅沙京基洲际度假酒店/image copy.png', '酒店/深圳大梅沙京基洲际度假酒店/image copy 2.png', '酒店/深圳大梅沙京基洲际度假酒店/image copy 3.png', '酒店/深圳大梅沙京基洲际度假酒店/image copy 4.png']
+        }
+      };
+
+      var currentGallery = null;
+      var currentIndex = 0;
+
+      window.openGallery = function(name) {
+        currentGallery = galleries[name];
+        if (!currentGallery) return;
+        currentIndex = 0;
+        updateLightbox();
+        var lb = document.getElementById('lightbox');
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
+      window.closeGallery = function(e) {
+        if (e && e.target !== e.currentTarget) return;
+        var lb = document.getElementById('lightbox');
+        lb.classList.remove('active');
+        document.body.style.overflow = '';
+        currentGallery = null;
+      };
+
+      window.nextImage = function() {
+        if (!currentGallery) return;
+        currentIndex = (currentIndex + 1) % currentGallery.images.length;
+        updateLightbox();
+      };
+
+      window.prevImage = function() {
+        if (!currentGallery) return;
+        currentIndex = (currentIndex - 1 + currentGallery.images.length) % currentGallery.images.length;
+        updateLightbox();
+      };
+
+      function updateLightbox() {
+        if (!currentGallery) return;
+        var img = document.getElementById('lightboxImg');
+        img.classList.add('switching');
+        setTimeout(function() {
+          img.src = currentGallery.images[currentIndex];
+          img.classList.remove('switching');
+        }, 150);
+        document.getElementById('lightboxTitle').textContent = currentGallery.title;
+        document.getElementById('lightboxCounter').textContent = (currentIndex + 1) + ' / ' + currentGallery.images.length;
+        var thumbs = document.getElementById('lightboxThumbs');
+        thumbs.innerHTML = '';
+        currentGallery.images.forEach(function(src, i) {
+          var div = document.createElement('div');
+          div.className = 'lightbox-thumb' + (i === currentIndex ? ' active' : '');
+          div.style.backgroundImage = 'url(' + src + ')';
+          div.onclick = function() { currentIndex = i; updateLightbox(); };
+          thumbs.appendChild(div);
+        });
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (!currentGallery) return;
+        if (e.key === 'Escape') closeGallery();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+      });
+    })();
+  </script>
+</body>
+</html>
