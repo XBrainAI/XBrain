@@ -954,6 +954,117 @@
       .lightbox-close { top: 10px; right: 10px; background: rgba(0,0,0,0.5); }
       .lightbox-thumb { width: 48px; height: 36px; }
     }
+  
+    /* ===== WATERFALL OVERLAY ===== */
+    .waterfall-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(10, 10, 26, 0.95);
+      display: none; flex-direction: column;
+      padding: 1rem 1.5rem;
+    }
+    .waterfall-overlay.active { display: flex; }
+    .waterfall-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0 1rem; border-bottom: 1px solid var(--xb-border);
+      flex-shrink: 0;
+    }
+    .waterfall-header h3 { color: var(--xb-text); font-size: 1.1rem; margin: 0; }
+    .waterfall-close {
+      background: none; border: 1px solid var(--xb-border); color: var(--xb-text);
+      padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .waterfall-close:hover { border-color: var(--xb-accent); color: var(--xb-accent); }
+    .waterfall-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      padding: 1rem 0;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .waterfall-grid img {
+      width: 100%; border-radius: 10px; cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--xb-border);
+    }
+    .waterfall-grid img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(100, 180, 255, 0.2);
+      border-color: var(--xb-accent);
+    }
+    @media (max-width: 640px) {
+      .waterfall-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+    }
+
+    /* ===== TIMELINE SPOT CARD ===== */
+    .timeline-spot-card {
+      margin-top: 0.8rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--xb-border);
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .timeline-spot-card:hover {
+      border-color: var(--xb-accent);
+      box-shadow: 0 0 15px rgba(100, 180, 255, 0.15);
+    }
+    .timeline-spot-card-img {
+      width: 100%; height: 180px;
+      background-size: cover; background-position: center;
+      position: relative;
+    }
+    .timeline-spot-card-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(10, 10, 26, 0.8) 100%);
+    }
+    .timeline-spot-card-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      z-index: 2;
+    }
+    .timeline-spot-card-bar span {
+      font-size: 0.85rem; color: var(--xb-text); font-weight: 600;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+    .timeline-spot-card-bar .view-btn {
+      font-size: 0.8rem; color: var(--xb-accent);
+      background: rgba(10,10,26,0.8); padding: 3px 10px;
+      border-radius: 6px; border: 1px solid var(--xb-border);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .timeline-spot-card-bar .view-btn svg { width: 14px; height: 14px; }
+    @media (max-width: 640px) {
+      .timeline-spot-card-img { height: 150px; }
+    }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.5rem; }
+    .plan-summary .day-label {
+      font-size: 0.8rem; color: var(--xb-accent); font-weight: 700;
+      margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .plan-summary-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.85rem; margin-bottom: 1rem;
+      border: 1px solid var(--xb-border); border-radius: 10px; overflow: hidden;
+    }
+    .plan-summary-table th {
+      background: rgba(100, 180, 255, 0.08);
+      color: var(--xb-accent); padding: 0.6rem 0.8rem;
+      text-align: left; font-weight: 600; border-bottom: 1px solid var(--xb-border);
+    }
+    .plan-summary-table td {
+      padding: 0.5rem 0.8rem; color: var(--xb-text);
+      border-bottom: 1px solid rgba(100, 180, 255, 0.08);
+    }
+    .plan-summary-table tr:last-child td { border-bottom: none; }
+    .plan-summary-table tr:nth-child(even) { background: rgba(100, 180, 255, 0.03); }
+    .plan-summary-table td:last-child { color: var(--xb-accent); font-weight: 600; white-space: nowrap; }
+
   </style>
 </head>
 <body>
@@ -1060,12 +1171,12 @@
 
       <div class="qa-card">
         <h4>🎢 世界之窗能安排吗？</h4>
-        <p><span class="highlight">可以，但位置较远。</span>世界之窗在南山（深圳西侧），小梅沙在盐田（深圳东侧），两地相距<span class="highlight">约40公里</span>，车程1小时。方案A建议Day1从广州顺路先玩世界之窗，再前往盐田；方案B/C不去世界之窗，专注海滨/大鹏深度体验。</p>
+        <p><span class="highlight">可以，但位置较远。</span>世界之窗在南山（深圳西侧），小梅沙在盐田（深圳东侧），两地相距<span class="highlight">约40公里</span>，车程1小时。方案A建议Day1从广州顺路先玩世界之窗，再前往盐田；方案B1/B2/C不去世界之窗，专注海滨/大鹏深度体验。</p>
       </div>
 
       <div class="qa-card">
         <h4>🏝️ 三个方案怎么选？</h4>
-        <p><span class="highlight">看您的偏好！</span>方案A适合"一次玩遍"（世界之窗+海洋世界+沙滩）；方案B适合<span class="green">悠闲度假</span>（酒店设施+海洋世界+沙滩，节奏最慢）；方案C适合<span class="green">自然人文</span>（大鹏所城+人鱼洞+桔钓沙，花费最低）。倾向悠闲舒适选方案B。</p>
+        <p><span class="highlight">看您的偏好！</span>方案A适合"一次玩遍"（世界之窗+海洋世界+沙滩）；<strong>方案B1</strong>适合<span class="green">自驾悠闲度假</span>（酒店+海洋世界+沙滩，周末2天1夜）；<strong>方案B2</strong>适合<span class="green">高铁深度度假</span>（周三出发3天2晚，节奏最慢、体验最沉浸）；方案C适合<span class="green">自然人文</span>（所城+人鱼洞+桔钓沙，花费最低）。倾向悠闲舒适选B1/B2。</p>
       </div>
 
       <div class="qa-card">
@@ -1128,9 +1239,13 @@
         <span class="plan-name">方案A · 全能亲子</span>
         <span class="plan-desc">世界之窗 + 海洋世界 + 大小梅沙<br>早出发，下午3点返程避堵</span>
       </button>
-      <button class="plan-btn" onclick="switchPlan('planB')">
-        <span class="plan-name">方案B · 海滨度假</span>
-        <span class="plan-desc">酒店深度体验 + 海洋世界 + 沙滩<br>慢节奏，不赶时间，下午2点返程</span>
+      <button class="plan-btn" onclick="switchPlan('planB1')">
+        <span class="plan-name">方案B1 · 海滨度假·自驾</span>
+        <span class="plan-desc">酒店深度体验 + 海洋世界 + 沙滩<br>自驾，周末2天1夜，慢节奏</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB2')">
+        <span class="plan-name">方案B2 · 海滨度假·高铁</span>
+        <span class="plan-desc">酒店深度体验 + 海洋世界 + 沙滩<br>高铁+打车，周三出发3天2晚</span>
       </button>
       <button class="plan-btn" onclick="switchPlan('planC')">
         <span class="plan-name">方案C · 大鹏半岛</span>
@@ -1140,6 +1255,33 @@
 
     <!-- ===== PLAN A ===== -->
     <div class="plan-content active" id="planA">
+<div class="plan-summary">
+<div class="day-label">DAY 1 · 周六</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>07:00</td><td>约2h</td><td>广州出发</td><td>2h</td></tr>
+<tr><td>09:00</td><td>12:30</td><td>深圳世界之窗</td><td>3.5h</td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>13:30</td><td>14:30</td><td>前往小梅沙</td><td>1h</td></tr>
+<tr><td>14:30</td><td></td><td>酒店入住</td><td></td></tr>
+<tr><td>15:30</td><td>17:00</td><td>小梅沙海滨乐园</td><td></td></tr>
+<tr><td>17:00</td><td>18:00</td><td>背仔角灯塔日落</td><td></td></tr>
+<tr><td>18:00</td><td></td><td>晚餐</td><td></td></tr>
+</tbody>
+</table>
+<div class="day-label">DAY 2 · 周日</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>07:30</td><td></td><td>酒店早餐</td><td></td></tr>
+<tr><td>08:30</td><td>12:00</td><td>小梅沙海洋世界</td><td>3.5h</td></tr>
+<tr><td>12:00</td><td>13:00</td><td>午餐</td><td></td></tr>
+<tr><td>13:00</td><td>15:00</td><td>大梅沙海滨公园</td><td>2h</td></tr>
+<tr><td>15:00</td><td>约2.5h</td><td>返程广州</td><td>2.5h</td></tr>
+</tbody>
+</table>
+</div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周六</div>
@@ -1172,6 +1314,14 @@
               <span class="timeline-tag">门票~220元/成人</span>
               <span class="timeline-tag">约3.5小时</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('window')">
+            <div class="timeline-spot-card-img" style="background-image: url('深圳世界之窗/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 4张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1224,6 +1374,14 @@
               <span class="timeline-tag free">海洋世界含</span>
               <span class="timeline-tag">日落</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('beach')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海滨乐园(小梅沙沙滩)/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1238,6 +1396,14 @@
               <span class="timeline-tag">绝美日落</span>
               <span class="timeline-tag">网红打卡</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('lighthouse')">
+            <div class="timeline-spot-card-img" style="background-image: url('背仔角灯塔/image.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 11张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1284,6 +1450,14 @@
               <span class="timeline-tag">门票~220元/成人</span>
               <span class="timeline-tag">约3.5小时</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('oceanworld')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海洋世界/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 13张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1310,6 +1484,14 @@
               <span class="timeline-tag free">免费</span>
               <span class="timeline-tag">约2小时</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('beach')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海滨乐园(小梅沙沙滩)/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1328,8 +1510,35 @@
       </div>
     </div>
 
-    <!-- ===== PLAN B ===== -->
-    <div class="plan-content" id="planB">
+    <!-- ===== PLAN B1 ===== -->
+    <div class="plan-content" id="planB1">
+<div class="plan-summary">
+<div class="day-label">DAY 1 · 周六</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>07:00</td><td>约2.5h</td><td>广州出发</td><td>2.5h</td></tr>
+<tr><td>09:30</td><td>12:30</td><td>小梅沙海洋世界（开园即入）</td><td>3h</td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>13:30</td><td>15:00</td><td>海洋世界午后深度游（灵活安排）</td><td>1.5h</td></tr>
+<tr><td>15:00</td><td>16:00</td><td>前往酒店 · 入住休整</td><td></td></tr>
+<tr><td>16:00</td><td>17:00</td><td>小梅沙沙滩（傍晚戏水）</td><td></td></tr>
+<tr><td>17:00</td><td>18:30</td><td>背仔角灯塔 · 日落漫步</td><td></td></tr>
+<tr><td>18:30</td><td></td><td>晚餐</td><td></td></tr>
+<tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td></td></tr>
+</tbody>
+</table>
+<div class="day-label">DAY 2 · 周日</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>08:00</td><td>09:30</td><td>悠闲早餐</td><td></td></tr>
+<tr><td>09:30</td><td>12:00</td><td>酒店深度体验</td><td>2.5h</td></tr>
+<tr><td>12:00</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>14:00</td><td>约2.5h</td><td>返程广州</td><td>2.5h</td></tr>
+</tbody>
+</table>
+</div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周六</div>
@@ -1361,6 +1570,14 @@
               <span class="timeline-tag">门票~220元/成人</span>
               <span class="timeline-tag">约3小时</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('oceanworld')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海洋世界/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 13张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1414,6 +1631,14 @@
               <span class="timeline-tag free">含门票内</span>
               <span class="timeline-tag">日落</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('beach')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海滨乐园(小梅沙沙滩)/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1428,6 +1653,14 @@
               <span class="timeline-tag">绝美日落</span>
               <span class="timeline-tag">网红打卡</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('lighthouse')">
+            <div class="timeline-spot-card-img" style="background-image: url('背仔角灯塔/image.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 11张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1517,8 +1750,434 @@
       </div>
     </div>
 
+    <!-- ===== PLAN B2 ===== -->
+    <div class="plan-content" id="planB2">
+<div class="plan-summary">
+<div class="day-label">DAY 1 · 周三</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>08:30</td><td></td><td>广州南站出发</td><td></td></tr>
+<tr><td>09:20</td><td></td><td>高铁广州南 → 深圳北</td><td></td></tr>
+<tr><td>10:00</td><td></td><td>深圳北 → 小梅沙</td><td></td></tr>
+<tr><td>11:00</td><td>11:30</td><td>酒店寄存行李</td><td></td></tr>
+<tr><td>11:30</td><td>12:30</td><td>午餐</td><td></td></tr>
+<tr><td>13:00</td><td>16:30</td><td>小梅沙海洋世界</td><td>3.5h</td></tr>
+<tr><td>17:00</td><td>18:00</td><td>小梅沙沙滩（傍晚戏水）</td><td></td></tr>
+<tr><td>18:00</td><td>19:30</td><td>背仔角灯塔 · 日落漫步</td><td></td></tr>
+<tr><td>19:30</td><td></td><td>晚餐</td><td></td></tr>
+<tr><td>20:30</td><td></td><td>酒店入住 + 休息</td><td></td></tr>
+</tbody>
+</table>
+<div class="day-label">DAY 2 · 周四</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td></td></tr>
+<tr><td>09:30</td><td>12:00</td><td>酒店深度体验</td><td>2.5h</td></tr>
+<tr><td>12:00</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>14:00</td><td>17:00</td><td>大梅沙海滨公园（下午戏水）</td><td>3h</td></tr>
+<tr><td>17:30</td><td>18:30</td><td>晚餐</td><td></td></tr>
+<tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td></td></tr>
+</tbody>
+</table>
+<div class="day-label">DAY 3 · 周五</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td></td></tr>
+<tr><td>09:30</td><td>11:30</td><td>自由活动（补玩或休息）</td><td></td></tr>
+<tr><td>12:00</td><td>13:00</td><td>午餐</td><td></td></tr>
+<tr><td>13:00</td><td></td><td>退房</td><td></td></tr>
+<tr><td>13:30</td><td>14:30</td><td>小梅沙 → 深圳北站</td><td></td></tr>
+<tr><td>15:00</td><td></td><td>高铁深圳北 → 广州南</td><td></td></tr>
+<tr><td>15:40</td><td></td><td>抵达广州南 → 回家</td><td></td></tr>
+</tbody>
+</table>
+</div>
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 1 · 周三</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:30</div>
+          <div class="timeline-content">
+            <h4>🚄 广州南站出发</h4>
+            <p>4口之家从荔湾西村出发前往<strong>广州南站</strong>（地铁1号线西村→公园前转2号线直达南站，约45分钟；或打车约30分钟/40元）。建议提前45分钟到站，取好纸质票或刷身份证直接进站。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">高铁</span>
+              <span class="timeline-tag">提前到站</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:20</div>
+          <div class="timeline-content">
+            <h4>🚄 高铁：广州南 → 深圳北</h4>
+            <p><strong>推荐车次：</strong>G6201/G6203/G6205 等广深城际高铁，约30-40分钟。成人二等座约75-100元，儿童（1.2-1.5m）半价，1.2m以下免费。4口之家（2大2小）单程约220-300元。车次密集，可当天购买或提前一晚在12306/携程订票。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">高铁</span>
+              <span class="timeline-tag">约35分钟</span>
+              <span class="timeline-tag">成人~80元</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">10:00</div>
+          <div class="timeline-content">
+            <h4>🚇 深圳北 → 小梅沙</h4>
+            <p><strong>方案一（地铁，约1.5h，省钱）：</strong>深圳北站乘5号线→黄贝岭站换乘2号线→小梅沙站，步行10分钟。约7元/人，4口约28元。<br><br><strong>方案二（打车，约1h，舒适）：</strong>直接打车至小梅沙，约40公里，费用约150-200元。带小孩和行李推荐打车。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">地铁/打车</span>
+              <span class="timeline-tag">地铁~1.5h</span>
+              <span class="timeline-tag">打车~1h</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:00 - 11:30</div>
+          <div class="timeline-content">
+            <h4>🏨 酒店寄存行李</h4>
+            <p>抵达酒店后先<strong>寄存行李</strong>（房间通常14:00后才能入住）。确认酒店儿童俱乐部开放时间并预约当天/次日活动。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">入住</span>
+              <span class="timeline-tag">行李寄存</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:30 - 12:30</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>大梅沙奥特莱斯美食街或酒店附近餐厅用午餐。推荐茶餐厅或简餐，快速解决。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:00 - 16:30</div>
+          <div class="timeline-content">
+            <h4>🐬 小梅沙海洋世界</h4>
+            <p><strong>周三人流比周末少很多，体验更佳！</strong>寄存行李后轻松入园。推荐深度亲子路线：极地动物馆（企鹅、北极熊）→ 海底隧道（鲨鱼、海龟）→ 海豚表演（提前查时间表占座）→ 水母宫 → 互动触摸池。小朋友精力充沛，慢慢玩不用赶。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子核心</span>
+              <span class="timeline-tag">门票~220元/成人</span>
+              <span class="timeline-tag">约3.5小时</span>
+            </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('oceanworld')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海洋世界/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 13张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">17:00 - 18:00</div>
+          <div class="timeline-content">
+            <h4>🏖️ 小梅沙沙滩（傍晚戏水）</h4>
+            <p><strong>下午4点后太阳不再暴晒</strong>，气温回落，海风习习，正是踏浪好时段。带小孩堆沙堡、捡贝壳、玩海水。沙滩入口有彩色<strong>"XIAOMEISHA"</strong>字母标识，很好拍照。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag free">含门票内</span>
+              <span class="timeline-tag">日落</span>
+            </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('beach')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海滨乐园(小梅沙沙滩)/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">18:00 - 19:30</div>
+          <div class="timeline-content">
+            <h4>🗼 背仔角灯塔 · 日落漫步</h4>
+            <p><strong>Day1 傍晚重头戏！</strong>沿盐田海滨栈道往东步行约15分钟，到达背仔角灯塔。红白相间的灯塔矗立在海边礁石上，日落时分金色阳光洒在碧蓝海面上，是深圳最出片的海景打卡点。带小孩慢慢走，沿途看海吹风非常惬意。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag free">免费</span>
+              <span class="timeline-tag">绝美日落</span>
+              <span class="timeline-tag">网红打卡</span>
+            </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('lighthouse')">
+            <div class="timeline-spot-card-img" style="background-image: url('背仔角灯塔/image.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 11张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">19:30</div>
+          <div class="timeline-content">
+            <h4>🍽️ 晚餐</h4>
+            <p>从灯塔返回酒店附近或海鲜街用晚餐。推荐选择有儿童餐的餐厅，或酒店自助（洲际/美高梅自助品质较好）。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">晚餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">20:30</div>
+          <div class="timeline-content">
+            <h4>🏨 酒店入住 + 休息</h4>
+            <p>晚餐后回到酒店办理入住，此时房间已收拾好。让小孩洗个热水澡，换上干净衣服，在熟悉的环境中好好休息。酒店儿童俱乐部和亲子活动可能有名额限制，建议入住时就预约好第二天的活动。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">入住</span>
+              <span class="timeline-tag">休息</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 2 · 周四</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:30 - 09:30</div>
+          <div class="timeline-content">
+            <h4>🍳 悠闲早餐</h4>
+            <p>睡到自然醒，悠闲享用酒店早餐。美高梅和洲际的早餐品质都不错，有儿童友好的选择。不用赶时间。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">早餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:30 - 12:00</div>
+          <div class="timeline-content">
+            <h4>🏨 酒店深度体验</h4>
+            <p><strong>酒店本身就是目的地！</strong>京基洲际：私家海滩漫步 → 儿童俱乐部（亲子手工/游戏）→ 恒温泳池戏水 → 棕榈园林拍照。美高梅：无边泳池 → 海滨沙滩吧 → 儿童活动区。不急着出门，让小孩在酒店就能玩得尽兴。这才是<strong>度假的真谛</strong>。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">酒店深度</span>
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag">约2.5小时</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:00 - 13:30</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>大梅沙奥特莱斯美食街或酒店餐厅用午餐。选择丰富，环境舒适，适合带小孩慢慢吃。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:00 - 17:00</div>
+          <div class="timeline-content">
+            <h4>🌊 大梅沙海滨公园（下午戏水）</h4>
+            <p>酒店休息后，打车或步行前往<strong>大梅沙海滨公园</strong>（距离约3公里，打车约15元）。沙滩面积更大，设有专门的游泳区和儿童戏水区，沙滩更平缓。完全免费，工作日无需预约。还有摩托艇、帆板等水上项目（大人可玩）。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag free">免费</span>
+              <span class="timeline-tag">约3小时</span>
+            </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('beach')">
+            <div class="timeline-spot-card-img" style="background-image: url('小梅沙海滨乐园(小梅沙沙滩)/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">17:30 - 18:30</div>
+          <div class="timeline-content">
+            <h4>🍽️ 晚餐</h4>
+            <p>大梅沙奥特莱斯或海鲜街用晚餐。工作日餐厅不排队，可慢慢选。推荐有儿童餐的餐厅。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">晚餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">19:30 - 21:00</div>
+          <div class="timeline-content">
+            <h4>🏨 酒店设施体验</h4>
+            <p>晚上享受<strong>酒店配套设施</strong>。京基洲际：儿童俱乐部（亲子游戏/手工）→ 恒温泳池 → 私家海滩夜景漫步。美高梅：无边泳池 → 海滨吧。让小孩在熟悉安全的酒店环境中放松，大人也能休息。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">酒店设施</span>
+              <span class="timeline-tag kid">亲子</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-divider">
+        <div class="line"></div>
+        <div class="day-badge">DAY 3 · 周五</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:30 - 09:30</div>
+          <div class="timeline-content">
+            <h4>🍳 悠闲早餐</h4>
+            <p>最后一天，睡到自然醒，悠闲享用早餐。不用赶时间，慢慢吃，享受最后的度假时光。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">早餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:30 - 11:30</div>
+          <div class="timeline-content">
+            <h4>🏖️ 自由活动（补玩或休息）</h4>
+            <p>根据小孩兴趣灵活安排：二刷海洋世界喜欢的区域、酒店泳池再玩一次、或沙滩最后踏浪。周三周四玩累了，周五上午正好放松。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag kid">亲子</span>
+              <span class="timeline-tag">灵活安排</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:00 - 13:00</div>
+          <div class="timeline-content">
+            <h4>🍜 午餐</h4>
+            <p>酒店附近或奥特莱斯用午餐，简单快捷。吃完后回酒店收拾行李。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag food">午餐</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:00</div>
+          <div class="timeline-content">
+            <h4>🏨 退房</h4>
+            <p>办理退房手续，确认没有遗漏物品。酒店前台可帮忙叫出租车。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag hotel">退房</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:30 - 14:30</div>
+          <div class="timeline-content">
+            <h4>🚕 小梅沙 → 深圳北站</h4>
+            <p><strong>方案一（地铁，约1.5h）：</strong>小梅沙站乘2号线→黄贝岭站换乘5号线→深圳北站。约7元/人，4口约28元。<br><br><strong>方案二（打车，约1h）：</strong>直接打车至深圳北站，费用约150-200元。带小孩和行李推荐打车。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">地铁/打车</span>
+              <span class="timeline-tag">地铁~1.5h</span>
+              <span class="timeline-tag">打车~1h</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:00</div>
+          <div class="timeline-content">
+            <h4>🚄 高铁：深圳北 → 广州南</h4>
+            <p><strong>推荐车次：</strong>G6208/G6210/G6212 等，约30-40分钟。提前在12306购买返程票，建议买15:00-15:30之间的车次。周四周五非高峰，票源充足。</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">高铁</span>
+              <span class="timeline-tag">约35分钟</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:40</div>
+          <div class="timeline-content">
+            <h4>🚇 抵达广州南 → 回家</h4>
+            <p>抵达广州南站后，地铁2号线转1号线回西村（约45分钟），或打车约30分钟/40元。预计<strong>16:30回到荔湾西村</strong>，结束愉快的3天2晚海滨度假之旅！</p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">返程</span>
+              <span class="timeline-tag">约45分钟</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- ===== PLAN C ===== -->
     <div class="plan-content" id="planC">
+<div class="plan-summary">
+<div class="day-label">DAY 1 · 周六</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>07:00</td><td>约3h</td><td>广州出发</td><td>3h</td></tr>
+<tr><td>10:00</td><td>12:30</td><td>人鱼洞（鹿嘴山庄）· 上午最凉爽</td><td></td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>13:30</td><td>15:30</td><td>大鹏所城（下午遮阴漫游）</td><td></td></tr>
+<tr><td>16:00</td><td>17:30</td><td>桔钓沙（傍晚戏水）</td><td></td></tr>
+<tr><td>18:30</td><td></td><td>晚餐</td><td></td></tr>
+<tr><td>19:30</td><td>20:30</td><td>前往酒店 · 入住休息</td><td></td></tr>
+</tbody>
+</table>
+<div class="day-label">DAY 2 · 周日</div>
+<table class="plan-summary-table">
+<thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+<tbody>
+<tr><td>07:30</td><td></td><td>酒店早餐</td><td></td></tr>
+<tr><td>08:30</td><td>10:30</td><td>深圳天文台（海边栈道）</td><td></td></tr>
+<tr><td>11:00</td><td>12:30</td><td>大鹏半岛国家地质公园博物馆</td><td>1.5h</td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>14:00</td><td>约3h</td><td>返程广州</td><td>3h</td></tr>
+</tbody>
+</table>
+</div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周六</div>
@@ -1550,6 +2209,14 @@
               <span class="timeline-tag free">免费</span>
               <span class="timeline-tag">上午凉爽</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('mermaid')">
+            <div class="timeline-spot-card-img" style="background-image: url('深圳大鹏半岛/人鱼洞/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 4张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1576,6 +2243,14 @@
               <span class="timeline-tag free">免费</span>
               <span class="timeline-tag">遮阴避暑</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('dapeng')">
+            <div class="timeline-spot-card-img" style="background-image: url('深圳大鹏半岛/大鹏所城/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 3张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1590,6 +2265,14 @@
               <span class="timeline-tag free">免费</span>
               <span class="timeline-tag">傍晚舒适</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('jds')">
+            <div class="timeline-spot-card-img" style="background-image: url('深圳大鹏半岛/桔钓沙/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1650,6 +2333,14 @@
               <span class="timeline-tag">绝美海景</span>
               <span class="timeline-tag">需预约</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('observatory')">
+            <div class="timeline-spot-card-img" style="background-image: url('深圳大鹏半岛/深圳天文台/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 5张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -1664,6 +2355,14 @@
               <span class="timeline-tag free">免费</span>
               <span class="timeline-tag">约1.5小时</span>
             </div>
+          <div class="timeline-spot-card" onclick="openWaterfall('geopark')">
+            <div class="timeline-spot-card-img" style="background-image: url('深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/index.png')">
+              <div class="timeline-spot-card-bar">
+                <span>📷 10张</span>
+                <span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -2056,7 +2755,8 @@
         <tr>
           <th>项目</th>
           <th>方案A（全能亲子）</th>
-          <th>方案B（海滨度假）</th>
+          <th>方案B1（海滨度假·自驾）</th>
+          <th>方案B2（海滨度假·高铁）</th>
           <th>方案C（大鹏半岛）</th>
         </tr>
       </thead>
@@ -2064,37 +2764,43 @@
         <tr>
           <td><strong>住宿（1晚）</strong></td>
           <td>美高梅/洲际 1,500-2,500元</td>
-          <td>美高梅/洲际 1,500-2,500元<br><em>（酒店是核心体验）</em></td>
+          <td>美高梅/洲际 1晚 1,500-2,500元<br><em>（酒店是核心体验）</em></td>
+          <td>美高梅/洲际 2晚 3,000-5,000元<br><em>（周三非周末 价更优）</em></td>
           <td>大鹏民宿/客栈 400-1,000元</td>
         </tr>
         <tr>
           <td><strong>门票</strong></td>
           <td>世界之窗+海洋世界<br>约1,320元</td>
           <td>海洋世界<br>约660元</td>
+          <td>海洋世界<br>约660元</td>
           <td> mostly免费<br>约0-200元</td>
         </tr>
         <tr>
           <td><strong>餐饮（2天）</strong></td>
           <td>800-1,200元</td>
-          <td>800-1,200元</td>
-          <td>600-1,000元</td>
+          <td>2天约800-1,200元</td>
+          <td>3天约1,200-1,800元</td>
+          <td>2天约600-1,000元</td>
         </tr>
         <tr>
           <td><strong>高速+油费</strong></td>
           <td>约440元</td>
-          <td>约440元</td>
-          <td>约500元（更远）</td>
+          <td>高速+油费约440元</td>
+          <td>高铁往返约400-600元<br>市内打车约300-500元</td>
+          <td>高速+油费约500元（更远）</td>
         </tr>
         <tr>
           <td><strong>停车+杂费</strong></td>
           <td>200元</td>
           <td>200元</td>
+          <td>约100元（无停车）</td>
           <td>150元</td>
         </tr>
         <tr class="total-row">
           <td><strong>合计</strong></td>
           <td>约3,260-4,660元</td>
           <td>约3,100-4,000元</td>
+          <td>约5,400-8,060元</td>
           <td>约1,650-2,850元</td>
         </tr>
       </tbody>
@@ -2103,7 +2809,8 @@
     <div style="margin-top:1rem; padding:1rem; background:rgba(100,180,255,0.06); border:1px solid var(--xb-border); border-radius:12px; font-size:0.85rem; color:var(--xb-text-dim); line-height:1.8;">
       <strong style="color:var(--xb-accent);">💡 方案选择建议：</strong><br>
       • <strong>方案A</strong>：适合"一次玩遍"的打卡型家庭，门票花费最高但体验最丰富<br>
-      • <strong>方案B</strong>：适合追求品质度假的家庭，酒店费用占比高但深度体验最佳，节奏最舒服<br>
+      • <strong>方案B1</strong>：适合自驾、周末出发、追求品质度假的家庭，节奏舒服，2天1夜<br>
+      • <strong>方案B2</strong>：适合非自驾、时间充裕（周三出发3天2晚）的家庭，高铁+打车，深度体验最佳，周三非周末酒店更优惠<br>
       • <strong>方案C</strong>：适合预算有限且偏好自然人文的家庭，花费最低，免费景点多
     </div>
 
@@ -2113,7 +2820,7 @@
         省钱技巧
       </div>
       <ul>
-        <li>方案B住酒店建议订<strong>含海洋世界门票的套餐</strong>，4口之家可省200-400元</li>
+        <li>方案B1/B2住酒店建议订<strong>含海洋世界门票的套餐</strong>，4口之家可省200-400元。B2周三非周末房价更优惠</li>
         <li>方案A的世界之窗和海洋世界门票提前1天在美团/携程购买，比现场便宜约10-20元/张</li>
         <li>小孩门票：多数景点1.2m以下免费，1.2-1.5m半价，提前确认</li>
         <li>方案C大鹏半岛 mostly免费，只需承担油费和食宿，性价比最高</li>
@@ -2157,7 +2864,7 @@
         <li>盐田海滨栈道部分路段<strong>无护栏</strong>，带小孩必须看护好，不要靠近边缘</li>
         <li>背仔角灯塔区域有礁石，小孩不要攀爬，注意安全</li>
         <li>海鲜街用餐前先问清价格，避免被宰；推荐选择有菜单标价的餐厅</li>
-        <li><strong>方案B酒店深度游建议：</strong>提前了解酒店儿童俱乐部开放时间和活动安排，部分酒店需预约亲子活动</li>
+        <li><strong>方案B1/B2酒店深度游建议：</strong>提前了解酒店儿童俱乐部开放时间和活动安排，部分酒店需预约亲子活动</li>
       </ul>
     </div>
 
@@ -2167,9 +2874,9 @@
         避坑提醒
       </div>
       <ul>
-        <li><strong>⚡ 堵车高峰必避：</strong>周六上午8:30-10:00出城高峰，周日下午17:00-20:00返城高峰。方案A 15:00 / 方案B 14:00 / 方案C 14:00 返程可完美避开，早出发也能避开出城堵</li>
+        <li><strong>⚡ 堵车高峰必避：</strong>周六上午8:30-10:00出城高峰，周日下午17:00-20:00返城高峰。方案A 15:00 / 方案B1 14:00 / 方案C 14:00 返程可完美避开。方案B2高铁+周三出发，完全避开周末堵车，早出发也能避开出城堵</li>
         <li><strong>大鹏半岛车辆预约（方案C必看）：</strong>周末及节假日进入大鹏半岛需提前在<strong>"深圳交警"公众号</strong>预约车辆通行，未预约可能被劝返。建议出发前一天完成预约</li>
-        <li><strong>方案B酒店深度游提醒：</strong>酒店儿童俱乐部和亲子活动可能有名额限制，建议入住时就预约好第二天的活动</li>
+        <li><strong>方案B1/B2酒店深度游提醒：</strong>酒店儿童俱乐部和亲子活动可能有名额限制，建议入住时就预约好第二天的活动</li>
         <li>大梅沙/小梅沙周末停车位紧张，建议住酒店利用<strong>酒店免费停车场</strong>，或停在奥特莱斯步行前往</li>
         <li>海边有人兜售"快速通道"或"低价门票"，多为骗局，请通过官方渠道购票</li>
         <li>海鲜街部分餐厅存在"宰客"现象，点菜前确认价格和斤两，保留小票</li>
@@ -2269,19 +2976,19 @@
         oceanworld: {
           title: '小梅沙海洋世界',
           images: (function() {
-            var arr = ['小梅沙海洋世界/image.png'];
-            for (var i = 2; i <= 12; i++) arr.push('小梅沙海洋世界/image copy ' + i + '.png');
-            arr.splice(1, 0, '小梅沙海洋世界/image copy.png');
+            var arr = ['小梅沙海洋世界/image.png', '小梅沙海洋世界/image copy.png'];
+            for (var i = 2; i <= 8; i++) arr.push('小梅沙海洋世界/image copy ' + i + '.png');
+            for (var i = 10; i <= 12; i++) arr.push('小梅沙海洋世界/image copy ' + i + '.png');
             return arr;
           })()
         },
         window: {
           title: '深圳世界之窗',
-          images: ['深圳世界之窗/image.png', '深圳世界之窗/image copy.png', '深圳世界之窗/image copy 2.png', '深圳世界之窗/image copy 3.png']
+          images: ['深圳世界之窗/index.png', '深圳世界之窗/image copy.png', '深圳世界之窗/image copy 2.png', '深圳世界之窗/image copy 3.png']
         },
         beach: {
           title: '小梅沙海滨乐园',
-          images: ['小梅沙海滨乐园(小梅沙沙滩)/image.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 2.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 3.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 4.png']
+          images: ['小梅沙海滨乐园(小梅沙沙滩)/image.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 2.png', '小梅沙海滨乐园(小梅沙沙滩)/image copy 4.png', '小梅沙海滨乐园(小梅沙沙滩)/index.png']
         },
         lighthouse: {
           title: '背仔角灯塔',
@@ -2302,7 +3009,7 @@
         },
         observatory: {
           title: '深圳天文台',
-          images: ['深圳大鹏半岛/深圳天文台/index.png', '深圳大鹏半岛/深圳天文台/image.png', '深圳大鹏半岛/深圳天文台/image copy 2.png', '深圳大鹏半岛/深圳天文台/image copy 3.png']
+          images: ['深圳大鹏半岛/深圳天文台/index.png', '深圳大鹏半岛/深圳天文台/image.png', '深圳大鹏半岛/深圳天文台/image copy 2.png', '深圳大鹏半岛/深圳天文台/image copy 3.png', '深圳大鹏半岛/深圳天文台/image copy 5.png']
         },
         jds: {
           title: '桔钓沙',
@@ -2311,9 +3018,9 @@
         geopark: {
           title: '大鹏半岛国家地质公园博物馆',
           images: (function() {
-            var arr = ['深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/index.png'];
-            for (var i = 2; i <= 10; i++) arr.push('深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy ' + i + '.png');
-            arr.splice(1, 0, '深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy.png');
+            var arr = ['深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/index.png', '深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy.png'];
+            for (var i = 2; i <= 5; i++) arr.push('深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy ' + i + '.png');
+            for (var i = 7; i <= 10; i++) arr.push('深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy ' + i + '.png');
             return arr;
           })()
         },
@@ -2387,7 +3094,44 @@
         if (e.key === 'ArrowRight') nextImage();
         if (e.key === 'ArrowLeft') prevImage();
       });
+      // Waterfall gallery
+      window.openWaterfall = function(name) {
+        var gallery = galleries[name];
+        if (!gallery) return;
+        var overlay = document.getElementById('waterfallOverlay');
+        document.getElementById('waterfallTitle').textContent = gallery.title;
+        var grid = document.getElementById('waterfallGrid');
+        grid.innerHTML = '';
+        gallery.images.forEach(function(src) {
+          var img = document.createElement('img');
+          img.src = src;
+          img.alt = gallery.title;
+          img.onclick = function(e) { e.stopPropagation(); window.open(src, '_blank'); };
+          grid.appendChild(img);
+        });
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+      window.closeWaterfall = function(e) {
+        if (e && e.target !== e.currentTarget && !e.target.closest('.waterfall-close')) return;
+        document.getElementById('waterfallOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+      };
     })();
-  </script>
+
+</script>
+
+  <!-- ===== WATERFALL OVERLAY ===== -->
+  <div class="waterfall-overlay" id="waterfallOverlay" onclick="closeWaterfall(event)">
+    <div class="waterfall-header">
+      <h3 id="waterfallTitle">图集</h3>
+      <button class="waterfall-close" onclick="closeWaterfall()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        关闭
+      </button>
+    </div>
+    <div class="waterfall-grid" id="waterfallGrid"></div>
+  </div>
+
 </body>
 </html>
