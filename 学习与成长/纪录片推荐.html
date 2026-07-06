@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>暑假纪录片推荐 - 五年级 & 初三</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #181a20;
+    --card-hover: #1e2030;
+    --text: #e1e4e8;
+    --text-secondary: #8b949e;
+    --accent-nature: #3fb950;
+    --accent-history: #f0883e;
+    --accent-space: #58a6ff;
+    --accent-mind: #bc8cff;
+    --accent-society: #f97583;
+    --border: #30363d;
+    --tag-bg: #21262d;
+    --grade5: #58a6ff;
+    --grade9: #f0883e;
+    --both: #3fb950;
+    --duration: #8b949e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding-top: 64px;
+  }
+
+  /* ===== XBrain Brand Logo (Fixed) ===== */
+  .xbrain-brand {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(180, 210, 255, 0.55);
+    border-radius: 12px;
+    padding: 6px 14px 6px 8px;
+    box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.15),
+      0 0 40px rgba(80, 140, 255, 0.35),
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    text-decoration: none;
+    transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+  }
+
+  .xbrain-brand:hover {
+    box-shadow:
+      0 0 24px rgba(80, 140, 255, 0.40),
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    border-color: rgba(180, 210, 255, 0.70);
+  }
+
+  .xbrain-brand.scrolled {
+    background: rgba(15, 10, 40, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-color: rgba(100, 180, 255, 0.08);
+    box-shadow: none;
+  }
+
+  .xbrain-brand.scrolled:hover {
+    opacity: 0.7 !important;
+    border-color: rgba(100, 180, 255, 0.2);
+  }
+
+  .xbrain-brand svg {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+  }
+
+  .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+  .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+  .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+  .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+  .xbrain-brand .xb-core { r: 12; opacity: 1; }
+  .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45)); }
+  .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+  .xbrain-brand .xb-bar-group { opacity: 0.75; }
+  .xbrain-brand .xb-bar { fill: #5a90e0; }
+  .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+
+  .xbrain-brand .xbrain-text {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #e8ecf4;
+    line-height: 1;
+    text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  }
+
+  .xbrain-brand .xbrain-text span {
+    color: #64b4ff;
+    text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+  }
+
+  /* ===== Back Navigation ===== */
+  .back-nav {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: #8b949e;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    margin-top: -8px;
+    margin-bottom: 16px;
+  }
+
+  .back-nav:hover {
+    background: rgba(88, 166, 255, 0.08);
+    border-color: rgba(88, 166, 255, 0.3);
+    color: #58a6ff;
+  }
+
+  .back-nav svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (max-width: 700px) {
+    body { padding-top: 56px; }
+    .xbrain-brand {
+      top: 10px; left: 10px;
+      padding: 5px 10px 5px 6px;
+    }
+    .xbrain-brand svg { width: 26px; height: 26px; }
+    .xbrain-brand .xbrain-text { font-size: 13px; }
+    .hero h1 { font-size: 1.6em; }
+    .card-grid { grid-template-columns: 1fr; }
+    .hero { padding: 40px 16px 32px; }
+    .container { padding: 16px; }
+    .tips ul { grid-template-columns: 1fr; }
+  }
+
+  .hero {
+    text-align: center;
+    padding: 64px 24px 48px;
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-size: 2.4em;
+    font-weight: 800;
+    background: linear-gradient(135deg, #58a6ff, #3fb950, #f0883e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .hero p {
+    color: var(--text-secondary);
+    font-size: 1.1em;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .hero .subtitle { margin-top: 16px; font-size: 0.95em; color: #6e7681; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* Tags filter */
+  .filter-bar {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin-bottom: 40px;
+  }
+  .filter-tag {
+    padding: 6px 18px; border-radius: 20px;
+    border: 1px solid var(--border); background: var(--tag-bg);
+    color: var(--text-secondary); cursor: pointer;
+    font-size: 0.9em; transition: all .2s;
+    user-select: none;
+  }
+  .filter-tag:hover { border-color: #58a6ff; color: #58a6ff; }
+  .filter-tag.active {
+    background: rgba(88,166,255,.15); border-color: #58a6ff; color: #58a6ff;
+  }
+
+  /* Section */
+  .section-title {
+    font-size: 1.5em; font-weight: 700; margin: 48px 0 8px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .icon { font-size: 1.3em; }
+  .section-desc {
+    color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95em;
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all .25s;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .card:hover {
+    background: var(--card-hover);
+    border-color: #484f58;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    border-radius: 12px 0 0 12px;
+  }
+  .card.nature::before { background: var(--accent-nature); }
+  .card.history::before { background: var(--accent-history); }
+  .card.space::before { background: var(--accent-space); }
+  .card.mind::before { background: var(--accent-mind); }
+  .card.society::before { background: var(--accent-society); }
+
+  .card-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .card-name {
+    font-size: 1.15em; font-weight: 700; line-height: 1.3;
+  }
+  .card-name small {
+    display: block; font-weight: 400; font-size: 0.75em;
+    color: var(--text-secondary); margin-top: 2px;
+  }
+
+  .card-tags {
+    display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .grade-tag {
+    font-size: 0.72em; padding: 2px 10px;
+    border-radius: 10px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .grade-tag.g5 { background: rgba(88,166,255,.15); color: #58a6ff; }
+  .grade-tag.g9 { background: rgba(240,136,62,.15); color: #f0883e; }
+  .grade-tag.both { background: rgba(63,185,80,.15); color: #3fb950; }
+
+  .card-desc {
+    color: var(--text-secondary); font-size: 0.9em;
+    margin-bottom: 12px; flex: 1;
+  }
+  .card-reason {
+    background: rgba(255,255,255,.03);
+    border-left: 3px solid rgba(255,255,255,.1);
+    padding: 8px 12px; border-radius: 0 6px 6px 0;
+    font-size: 0.85em; color: #b0b8c1;
+    margin-bottom: 12px;
+  }
+  .card-meta {
+    display: flex; gap: 16px; font-size: 0.8em;
+    color: var(--duration); flex-wrap: wrap;
+  }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; margin-bottom: 32px; }
+  .tab {
+    padding: 10px 28px; cursor: pointer;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--text-secondary); font-size: 0.95em;
+    transition: all .2s; user-select: none;
+  }
+  .tab:first-child { border-radius: 8px 0 0 8px; }
+  .tab:last-child { border-radius: 0 8px 8px 0; }
+  .tab.active { background: rgba(88,166,255,.12); color: #58a6ff; border-color: rgba(88,166,255,.3); }
+
+  /* Tips section */
+  .tips {
+    background: linear-gradient(135deg, rgba(88,166,255,.08), rgba(63,185,80,.08));
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px; margin-top: 48px;
+  }
+  .tips h3 { font-size: 1.2em; margin-bottom: 16px; }
+  .tips ul { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .tips li {
+    padding: 10px 14px; background: rgba(255,255,255,.03);
+    border-radius: 8px; font-size: 0.9em;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .tips li .num {
+    flex-shrink: 0; width: 24px; height: 24px;
+    background: var(--tag-bg); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8em; font-weight: 700; color: var(--accent-mind);
+  }
+
+  .footer {
+    text-align: center; padding: 32px;
+    color: #484f58; font-size: 0.85em;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  .count-badge {
+    display: inline-block; font-size: 0.65em; padding: 2px 8px;
+    border-radius: 10px; background: var(--tag-bg);
+    color: var(--text-secondary); margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== XBrain Brand Logo (Fixed) ===== -->
+<a class="xbrain-brand" href="../index.html" title="XBrain">
+  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+        <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#80c0ff" />
+        <stop offset="50%" stop-color="#4a90e2" />
+        <stop offset="100%" stop-color="#80c0ff" />
+      </linearGradient>
+      <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+    <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+      opacity="0.55" filter="url(#glow)" />
+    <g transform="matrix(0 -1 1 0 30 300)">
+      <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+      <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+      <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+    </g>
+    <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+      <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+      <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+    </g>
+    <g transform="matrix(0 -1 1 0 30 230)">
+      <circle cx="50" cy="50" r="50" fill="#0d1636" />
+      <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+      <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+        opacity="0.7" filter="url(#glow)" />
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+      <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+      <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+      <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+      <circle cx="50" cy="50" r="4" fill="#ffffff" />
+    </g>
+    <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+      <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+      <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+    </g>
+  </svg>
+  <div class="xbrain-text"><span>X</span>Brain</div>
+</a>
+
+<div class="hero">
+  <h1>🌍 暑假纪录片推荐</h1>
+  <p>为小学五年级 &amp; 初三学生精心挑选 · 拓宽视野 · 增广见闻 · 培养习惯</p>
+  <div class="subtitle">共精选 22 部高质量纪录片，按年级和类别整理</div>
+</div>
+
+<div style="text-align: center; padding: 0 24px;">
+  <a class="back-nav" href="./index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    返回学习与成长
+  </a>
+</div>
+
+<div class="container">
+
+  <!-- Grade Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('all')">📋 全部推荐 <span class="count-badge">22</span></div>
+    <div class="tab" onclick="switchTab('g5')">🎒 五年级 <span class="count-badge">12</span></div>
+    <div class="tab" onclick="switchTab('g9')">📚 初三 <span class="count-badge">16</span></div>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="filter-bar">
+    <div class="filter-tag active" onclick="filterCategory('all')">全部类别</div>
+    <div class="filter-tag" onclick="filterCategory('nature')">🌿 自然科学</div>
+    <div class="filter-tag" onclick="filterCategory('history')">🏛️ 历史人文</div>
+    <div class="filter-tag" onclick="filterCategory('space')">🚀 宇宙探索</div>
+    <div class="filter-tag" onclick="filterCategory('mind')">🧠 思维习惯</div>
+    <div class="filter-tag" onclick="filterCategory('society')">🌏 社会思考</div>
+  </div>
+
+  <!-- ==================== 自然科学 ==================== -->
+  <div class="section-title"><span class="icon">🌿</span> 自然科学</div>
+  <div class="section-desc">探索地球生命的奇迹，从深海到极地，从昆虫到巨兽</div>
+  <div class="card-grid">
+
+    <!-- 地球脉动 -->
+    <div class="card nature g5 g9">
+      <div class="card-header">
+        <div class="card-name">地球脉动 / Planet Earth<small>BBC · 2006-2016 · 共两季</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">BBC自然纪录片的巅峰之作，从未有人涉足的蛮荒之地到繁华都市，展现地球上最壮丽的自然奇观与动物生存故事。第二季采用4K超高清拍摄。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>视觉震撼力极强，五年级看画面就能沉浸；初三可结合生物地理知识理解生态系统，英文旁白还能练听力。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 B站 / 腾讯视频</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 蓝色星球 -->
+    <div class="card nature g5 g9">
+      <div class="card-header">
+        <div class="card-name">蓝色星球 / Blue Planet<small>BBC · 2001-2017 · 共两季</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">深入海洋世界，揭示从海岸到深海、从热带到极地的海洋生物奇观。第二季拍摄了众多前所未见的深海物种和行为。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>海洋覆盖地球71%的面积却最不为人知。培养对海洋生态的关注，初三可联系气候变暖、海洋污染等现实议题。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 腾讯视频 / B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 微观世界 -->
+    <div class="card nature g5">
+      <div class="card-header">
+        <div class="card-name">微观世界 / Microcosmos<small>法国 · 1996</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g5">五年级</span></div>
+      <div class="card-desc">用显微镜头和微距摄影展现草丛中的昆虫世界——蜗牛的缠绵、蚂蚁的协作、蜘蛛的捕猎，一个被我们忽视的宇宙。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>几乎没有旁白，完全靠画面讲述，五年级孩子不需要语言门槛就能沉浸。激发对大自然的观察力和好奇心。</div>
+      <div class="card-meta">
+        <span>⏱ 73分钟</span><span>📺 B站</span><span>🌐 极少旁白</span>
+      </div>
+    </div>
+
+    <!-- 迁徙的鸟 -->
+    <div class="card nature g5">
+      <div class="card-header">
+        <div class="card-name">迁徙的鸟 / Winged Migration<small>法国 · 2001</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g5">五年级</span></div>
+      <div class="card-desc">历时4年、横跨7大洲拍摄，从飞行中的候鸟视角展现壮丽的迁徙之旅。每一帧都像一幅油画，配乐由Bruno Coulais操刀。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>画面诗意唯美，培养审美能力。让孩子理解"坚持"的意义——候鸟每年飞行数万公里只为生存繁衍。</div>
+      <div class="card-meta">
+        <span>⏱ 98分钟</span><span>📺 B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 我们的星球 -->
+    <div class="card nature g5 g9">
+      <div class="card-header">
+        <div class="card-name">我们的星球 / Our Planet<small>Netflix · 2019</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">由David Attenborough解说，横跨50个国家拍摄。不仅有绝美画面，更直白展现气候变化对自然生态的冲击。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>在欣赏自然之美的同时建立环保意识。初三可结合地理课本中的环境问题深入思考。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 生命 -->
+    <div class="card nature g9">
+      <div class="card-header">
+        <div class="card-name">生命 / Life<small>BBC · 2009</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">记录地球上生命的多样性与生存策略，从植物到灵长类，展示了大自然最精巧的生存设计和最激烈的竞争。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>与初中生物课程高度契合——进化论、生物多样性、适应性演化，看纪录片等于在复习生物。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 B站 / 腾讯视频</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 王朝 -->
+    <div class="card nature g9">
+      <div class="card-header">
+        <div class="card-name">王朝 / Dynasties<small>BBC · 2018-2022 · 共两季</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">以"家族"为叙事主线，讲述黑猩猩、帝企鹅、狮子、老虎、鬣狗等动物家族的权力、斗争与生存故事，充满戏剧张力。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>像看动物版《权力的游戏》，叙事性强、代入感高。初三孩子能从中感悟领导力、合作与家族传承。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 B站 / 腾讯视频</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== 宇宙探索 ==================== -->
+  <div class="section-title"><span class="icon">🚀</span> 宇宙探索</div>
+  <div class="section-desc">从地球出发，理解人类在宇宙中的位置</div>
+  <div class="card-grid">
+
+    <!-- 宇宙时空之旅 -->
+    <div class="card space g9">
+      <div class="card-header">
+        <div class="card-name">宇宙时空之旅 / Cosmos<small>FOX/NatGeo · 2014</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">天体物理学家Neil deGrasse Tyson主持，从宇宙大爆炸讲到生命的诞生，用"想象之船"穿越时空，将复杂的科学概念化为诗意画面。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>与初三物理（力学、光学、宇宙）完美衔接，培养科学思维。不是灌输知识，而是激发对宇宙的好奇与敬畏。</div>
+      <div class="card-meta">
+        <span>⏱ 每集44分钟</span><span>📺 B站 / 腾讯视频</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 行星 -->
+    <div class="card space g5 g9">
+      <div class="card-header">
+        <div class="card-name">行星 / The Planets<small>BBC · 2019</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">用最新科研成果和震撼CGI，讲述太阳系八大行星的诞生、演化与命运。每一颗行星都是一部史诗。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>画面极其震撼，五年级可建立基础天文概念；初三可结合物理知识理解引力、轨道、行星形成。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 腾讯视频 / B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 旅行到宇宙边缘 -->
+    <div class="card space g9">
+      <div class="card-header">
+        <div class="card-name">旅行到宇宙边缘<small>NatGeo · 2008</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">从月球出发，一路飞越太阳系、银河系，直达已知宇宙的边缘。用CGI呈现黑洞、超新星、星云等壮丽景象。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>90分钟宇宙穿越之旅，信息密度高但节奏紧凑。帮初三生建立宇宙尺度感，理解"人类有多渺小又有多伟大"。</div>
+      <div class="card-meta">
+        <span>⏱ 90分钟</span><span>📺 B站</span><span>🌐 中文字幕</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== 历史人文 ==================== -->
+  <div class="section-title"><span class="icon">🏛️</span> 历史人文</div>
+  <div class="section-desc">理解文明的来处，看见世界的广度</div>
+  <div class="card-grid">
+
+    <!-- 如果国宝会说话 -->
+    <div class="card history g5 g9">
+      <div class="card-header">
+        <div class="card-name">如果国宝会说话<small>央视 · 2018-2023 · 共四季</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">每集5分钟，让文物"开口说话"。从新石器时代的陶罐到明清瓷器，用年轻化的旁白和动画让国宝活起来。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>短小精悍不费眼，每天一两集轻松无压力。五年级培养文化自信，初三直接助攻历史中考古诗文理解。</div>
+      <div class="card-meta">
+        <span>⏱ 每集5分钟</span><span>📺 B站 / 央视频</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+    <!-- 河西走廊 -->
+    <div class="card history g5 g9">
+      <div class="card-header">
+        <div class="card-name">河西走廊<small>央视 · 2015</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">以丝绸之路的黄金段——河西走廊为线索，讲述从汉代到新中国两千年的历史变迁、文化交融与风云人物。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>央视出品的历史纪录片标杆，雅尼作曲的配乐气势恢宏。初三可与历史课中的丝绸之路、张骞出使西域直接呼应。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 B站 / 央视频</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+    <!-- 我在故宫修文物 -->
+    <div class="card history g5 g9">
+      <div class="card-header">
+        <div class="card-name">我在故宫修文物<small>央视 · 2016</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">记录故宫文物修复师们的日常工作——修复钟表、书画、青铜器、陶瓷。展现中国传统手艺的极致追求与匠人精神。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>最好的"专注力"教材——修复师们一坐就是几小时。让孩子理解什么是真正的"认真"，对浮躁时代的年轻人尤其珍贵。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 B站</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+    <!-- 航拍中国 -->
+    <div class="card history g5 g9">
+      <div class="card-header">
+        <div class="card-name">航拍中国<small>央视 · 2017-2022 · 共四季</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">全航拍视角展现中国各省的自然地理、历史人文和现代发展。从黑龙江的雪原到海南的珊瑚礁，从新疆的戈壁到上海的摩天大楼。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>画面极美，配合解说轻松涨知识。初三对应地理课的中国地理部分，五年级拓展对祖国山河的认知。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 央视频 / B站</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+    <!-- 文明 -->
+    <div class="card history g9">
+      <div class="card-header">
+        <div class="card-name">文明 / Civilisations<small>BBC · 2018</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">横跨六大洲31国，讲述人类艺术与文明的演进——从史前洞穴壁画到当代艺术，探讨人类创造力的起源与演变。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>视野极其宏大，培养全球文明观。初三生正处于世界观形成期，这部片子帮他们跳出"考试思维"看待人类文明。</div>
+      <div class="card-meta">
+        <span>⏱ 每集53分钟</span><span>📺 腾讯视频 / B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 西南联大 -->
+    <div class="card history g9">
+      <div class="card-header">
+        <div class="card-name">西南联大<small>央视 · 2018</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">抗战时期，北大、清华、南开南迁昆明组成西南联大。在炮火中培养出2位诺奖得主、8位两弹一星元勋、171位院士。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>最好的"为什么要读书"的答案。初三面临升学压力时看这部片子，会重新理解学习的意义——不是为考试，而是为民族脊梁。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 腾讯视频 / B站</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== 思维习惯 ==================== -->
+  <div class="section-title"><span class="icon">🧠</span> 思维与学习习惯</div>
+  <div class="section-desc">学会学习本身，建立受益终身的思维框架</div>
+  <div class="card-grid">
+
+    <!-- 像乌鸦一样思考 -->
+    <div class="card mind g5">
+      <div class="card-header">
+        <div class="card-name">像乌鸦一样思考<small>NHK · 2013</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g5">五年级</span></div>
+      <div class="card-desc">日本NHK出品的神级科学思维启蒙片。每集10分钟，通过有趣的实验和生活现象，教孩子"观察—假设—实验—验证"的科学方法。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>不是在教知识，而是在教"怎么思考"。每集结尾留一个悬念不给答案，逼孩子自己去想——这才是真正的学习。</div>
+      <div class="card-meta">
+        <span>⏱ 每集10分钟</span><span>📺 B站</span><span>🌐 中文字幕</span>
+      </div>
+    </div>
+
+    <!-- 学习的人 -->
+    <div class="card mind g9">
+      <div class="card-header">
+        <div class="card-name">学习的人 / Learning<small>KBS · 2013</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">韩国KBS摄制组走遍中国、日本、韩国、印度、以色列、法国、美国、英国，探索不同文化中"学习"的方式与意义。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>初三正处于高强度学习期，看这部片子能跳出"刷题"思维，理解学习的本质。犹太人怎么学？印度IIT的竞争有多残酷？眼界大开。</div>
+      <div class="card-meta">
+        <span>⏱ 每集48分钟</span><span>📺 B站</span><span>🌐 中文字幕</span>
+      </div>
+    </div>
+
+    <!-- 脑力大挑战 -->
+    <div class="card mind g5 g9">
+      <div class="card-header">
+        <div class="card-name">脑力大挑战 / Brain Games<small>NatGeo · 2011-2020</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag both">五年级+初三</span></div>
+      <div class="card-desc">用互动游戏和实验揭示大脑的运作机制——注意力、记忆、错觉、决策。观众可以跟着做实验，体验大脑被"骗"的瞬间。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>边看边玩的纪录片！帮孩子理解"注意力是怎么工作的""记忆有哪些技巧"，直接提升学习效率。</div>
+      <div class="card-meta">
+        <span>⏱ 每集25分钟</span><span>📺 B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 习惯的力量 -->
+    <div class="card mind g9">
+      <div class="card-header">
+        <div class="card-name">习惯的力量 / The Power of Habit<small>基于同名畅销书改编内容</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">基于Charles Duhigg的同名畅销书，揭示习惯形成的神经科学——"暗示→惯常行为→奖励"回路。如何用新习惯替代旧习惯。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>初三暑假正是建立新学习习惯的黄金窗口。理解习惯的底层机制，比任何"学习方法"都管用。推荐配合原作书籍阅读。</div>
+      <div class="card-meta">
+        <span>⏱ 约45分钟</span><span>📺 YouTube / B站</span><span>🌐 中文字幕</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== 社会思考 ==================== -->
+  <div class="section-title"><span class="icon">🌏</span> 社会思考</div>
+  <div class="section-desc">走出课堂，理解真实世界的复杂与多元</div>
+  <div class="card-grid">
+
+    <!-- 他乡的童年 -->
+    <div class="card society g9">
+      <div class="card-header">
+        <div class="card-name">他乡的童年<small>优酷 · 2019</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">周轶君走访芬兰、日本、印度、以色列、英国，探访不同国家的教育方式和童年样貌——芬兰没有考试，日本强调集体，印度在混乱中创新。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>让初三生跳出自己的教育环境，看看"学习"可以是完全不同的样子。对即将面临高中选择的他们尤其有启发。</div>
+      <div class="card-meta">
+        <span>⏱ 每集50分钟</span><span>📺 优酷</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+    <!-- 人生七年 -->
+    <div class="card society g9">
+      <div class="card-header">
+        <div class="card-name">人生七年 / Up Series<small>英国 · 1964-2019</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">纪录片史上最伟大的社会实验：追踪14个英国孩子，从7岁到63岁，每7年回访一次。看阶层、教育、性格如何塑造一生。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>初三正是"人生七年"中极其关键的节点。看别人一生的轨迹，会让孩子更认真对待当下的每一个选择。建议家长陪同观看。</div>
+      <div class="card-meta">
+        <span>⏱ 每集约100分钟</span><span>📺 B站</span><span>🌐 中英字幕</span>
+      </div>
+    </div>
+
+    <!-- 大国崛起 -->
+    <div class="card history g9">
+      <div class="card-header">
+        <div class="card-name">大国崛起<small>央视 · 2006</small></div>
+      </div>
+      <div class="card-tags"><span class="grade-tag g9">初三</span></div>
+      <div class="card-desc">讲述葡萄牙、西班牙、荷兰、英国、法国、德国、日本、俄罗斯、美国九个世界大国崛起的历史，探讨大国兴衰的规律。</div>
+      <div class="card-reason">🎯 <strong>推荐理由：</strong>初三历史课讲世界史，这部纪录片是最好的课外补充。从制度、科技、文化多维度理解国家发展，为高中历史与政治打下框架。</div>
+      <div class="card-meta">
+        <span>⏱ 每集45分钟</span><span>📺 B站 / 央视频</span><span>🌐 中文</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== 观看建议 ==================== -->
+  <div class="tips">
+    <h3>📋 暑假观看建议</h3>
+    <ul>
+      <li><span class="num">1</span><span><strong>控制时长：</strong>每天不超过1集（约50分钟），中间休息远眺。保护视力，避免一次性刷太多导致"消化不良"。</span></li>
+      <li><span class="num">2</span><span><strong>带着问题看：</strong>看前花2分钟想"我希望从这部片子了解什么"，看完后花5分钟口述或写下3个印象最深的点。</span></li>
+      <li><span class="num">3</span><span><strong>中英结合：</strong>BBC/NatGeo的纪录片建议第一遍看中文字幕，第二遍看英文字幕，既能学知识又能练英语。</span></li>
+      <li><span class="num">4</span><span><strong>亲子共赏：</strong>每周选1部作为家庭观影，看后讨论。父母的视角与解读会极大丰富孩子的理解深度。</span></li>
+      <li><span class="num">5</span><span><strong>延伸阅读：</strong>看完一部片子后，找相关的书籍或文章来读。纪录片是"引子"，深入探索才是真正的学习。</span></li>
+      <li><span class="num">6</span><span><strong>输出倒逼输入：</strong>鼓励孩子给家人/朋友讲一遍看过的纪录片。能讲清楚才是真懂了——费曼学习法的精髓。</span></li>
+      <li><span class="num">7</span><span><strong>建立观影笔记：</strong>准备一个本子，每看完一部纪录关键信息、画出最震撼的画面、写一两句感受。积累下来就是一本知识地图。</span></li>
+      <li><span class="num">8</span><span><strong>初三专属建议：</strong>优先看与中考科目相关的纪录片（历史→《河西走廊》、地理→《航拍中国》、物理→《宇宙时空之旅》），寓学于乐。</span></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  暑假纪录片推荐 · 2026年7月 · 用心挑选，陪伴成长
+</div>
+
+<script>
+  // ===== Logo Scroll Fade =====
+  (function () {
+    var logo = document.querySelector('.xbrain-brand');
+    var ticking = false;
+
+    function updateLogo() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var ratio = Math.min(scrollY / vh, 1);
+      var opacity = 1 - ratio * 0.7;
+      if (logo) {
+        logo.style.opacity = opacity;
+        logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+      }
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateLogo();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateLogo();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateLogo();
+  })();
+
+  // Tab switching
+  function switchTab(grade) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('.card').forEach(card => {
+      if (grade === 'all') {
+        card.style.display = '';
+      } else if (grade === 'g5') {
+        card.style.display = card.classList.contains('g5') ? '' : 'none';
+      } else if (grade === 'g9') {
+        card.style.display = card.classList.contains('g9') ? '' : 'none';
+      }
+    });
+  }
+
+  // Category filter
+  function filterCategory(cat) {
+    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('.card').forEach(card => {
+      if (cat === 'all') {
+        card.style.display = '';
+      } else {
+        card.style.display = card.classList.contains(cat) ? '' : 'none';
+      }
+    });
+
+    // Also reset tab to "all" when filtering by category
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab').classList.add('active');
+  }
+</script>
+
+</body>
+</html>

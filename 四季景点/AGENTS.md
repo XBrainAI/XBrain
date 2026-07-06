@@ -264,3 +264,316 @@
 - **封面图统一**：各景点使用 `index.png` 作为封面图（hero 背景 + 卡片封面）。
 - **图片画廊**：景点支持点击封面图查看所有图片，全屏 lightbox + 左右切换 + 缩略图导航。
 - **三方案设计**：提供 A（全能打卡）、B（悠闲度假）、C（纯深度/另一区域）三种方案，费用横向对比。
+
+---
+
+## 12. 深圳子站建设经验沉淀
+
+> 深圳子站（`四季景点/深圳/`）采用多方案切换架构，是"攻略型子站"的参考范式。以下经验提炼自该站的完整建设过程，适用于后续类似的多方案亲子旅游攻略子站。
+
+### 12.1 文件与图片结构
+
+```
+四季景点/深圳/
+├── index.html                    # 唯一页面，方案切换全部在此实现
+├── index.png                     # 子站封面（导航首页卡片引用）
+├── 小梅沙海洋世界/               # 景点图片目录
+│   ├── index.png                 # 封面图（spot-card + 卡片）
+│   └── image*.png × N            # 画廊图片
+├── 背仔角灯塔/image*.png
+├── 深圳大鹏半岛/                 # 含多景点子目录
+│   ├── 人鱼洞/
+│   ├── 大鹏所城/
+│   ├── 深圳天文台/
+│   ├── 桔钓沙/
+│   └── 深圳大鹏半岛国家地质公园博物馆/
+├── 小梅沙海滨乐园(小梅沙沙滩)/   # 注意：目录名含括号
+└── 酒店/
+```
+
+**规则：**
+- **封面图统一命名 `index.png`**：每个景点目录下用 `index.png` 作为封面图（spot-card 背景和 plan-summary 表格缩略图均引用此文件）。
+- **画廊图片命名自由**：其余图片可沿用原始文件名，无需统一。
+- **注意目录名中的特殊字符**：如 `小梅沙海滨乐园(小梅沙沙滩)` 含括号，JS 字符串引用时需原样保留。
+
+### 12.2 多方案切换架构
+
+深圳子站核心特点是单一页面承载 4 个旅行方案（A / B1 自驾 / B2 高铁 / C），通过 JS 切换显示。
+
+#### 12.2.1 HTML 结构
+
+```html
+<section class="section" id="plans">
+  <!-- 方案选择按钮 -->
+  <div class="plan-selector">
+    <button class="plan-btn active" onclick="switchPlan('planA')">方案A</button>
+    <button class="plan-btn" onclick="switchPlan('planB1')">方案B1</button>
+    <button class="plan-btn" onclick="switchPlan('planB2')">方案B2</button>
+    <button class="plan-btn" onclick="switchPlan('planC')">方案C</button>
+  </div>
+
+  <!-- 方案内容 -->
+  <div class="plan-content active" id="planA">
+    <div class="plan-summary">...</div>
+    <div class="day-divider">...</div>
+    <div class="timeline">...</div>
+  </div>
+
+  <div class="plan-content" id="planB1">...</div>
+  <div class="plan-content" id="planB2">...</div>
+  <div class="plan-content" id="planC">...</div>
+</section>
+```
+
+#### 12.2.2 CSS 规则
+
+```css
+.plan-content { display: none; }
+.plan-content.active { display: block; animation: fadeIn 0.5s ease; }
+```
+
+#### 12.2.3 JS 切换函数
+
+```javascript
+window.switchPlan = function(planId) {
+  document.querySelectorAll('.plan-btn').forEach(function(btn) { btn.classList.remove('active'); });
+  document.querySelectorAll('.plan-content').forEach(function(content) { content.classList.remove('active'); });
+  document.getElementById(planId).classList.add('active');
+  event.currentTarget.classList.add('active');
+};
+```
+
+#### 12.2.4 ⚠️ 关键陷阱：plan-content div 过早闭合
+
+**这是建设过程中最频繁出错的点。** 每个 `plan-content` 的 HTML 结构必须是一个完整自封闭的 `<div>`，不能出现多一个或少一个 `</div>`。
+
+**典型错误 1 — plan-summary 末尾多闭合：**
+```html
+<!-- 错误：plan-summary 末尾多一个 </div>，提前关闭了 plan-content -->
+</table>
+</div></div>       <!-- 第二个 </div> 错误地关闭了 plan-content！ -->
+<div class="day-divider">
+```
+应改为：
+```html
+</table>
+</div>             <!-- 仅关闭 plan-summary -->
+<div class="day-divider">
+```
+
+**典型错误 2 — timeline DAY 间多闭合：**
+```html
+<!-- 错误：DAY 1 timeline 闭合后多一个 </div> -->
+      </div>     <!-- 关闭 timeline -->
+      </div>     <!-- ⚠️ 多余的 </div>，提前关闭 plan-content！ -->
+<div class="day-divider">
+```
+应改为：
+```html
+      </div>     <!-- 关闭 timeline -->
+<!-- 不额外闭合，plan-content 继续打开 -->
+<div class="day-divider">
+```
+
+**验证方法：** 每次修改后运行以下命令确保全局 `<div>` 与 `</div>` 数量相等：
+```bash
+python -c "with open('index.html') as f: c=f.read(); print(c.count('<div'), c.count('</div'))"
+```
+也可以分 plan 区域检查是否有异常差值。**全局差值非零必有问题。**
+
+#### 12.2.5 方案数量与按钮/预算同步
+
+当方案拆分（如 B → B1 + B2）时，须同步更新：
+1. `.plan-selector` 按钮（HTML + `onclick` 参数）
+2. `id="planB"` → `id="planB1"` 重命名
+3. 预算对比表的列数（`<th>` 和所有 `<tr>` 的 `<td>` 数量对齐）
+4. QA / 贴士 / 避坑段落中的方案名称引用
+5. HTML 注释标记（`<!-- ===== PLAN B ===== -->`）
+
+### 12.3 行程总表（plan-summary）
+
+每个方案的 `plan-content` 开头放置 `<div class="plan-summary">`，包含按 day 分组的行程总表。
+
+#### 12.3.1 表格规范
+
+| 出发 | 到达 | 目的地或项目 | 耗时 |
+|------|------|-------------|------|
+| 07:00 | 09:00 | 广州出发（自驾） | 2h |
+| 09:00 | 12:30 | 深圳世界之窗 | 3.5h |
+
+```html
+<div class="plan-summary">
+  <div class="day-label">DAY 1 · 周六</div>
+  <table class="plan-summary-table">
+    <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+    <tbody>
+      <tr><td>07:00</td><td>09:00</td><td>广州出发（自驾）</td><td>2h</td></tr>
+      ...
+    </tbody>
+  </table>
+  <div class="day-label">DAY 2 · 周日</div>
+  <table class="plan-summary-table">...</table>
+</div>
+```
+
+#### 12.3.2 ⚠️ 四列必须填满
+
+每个 `<tr>` 必须有 4 个 `<td>`，**不能为空**：
+- **出发**：开始时间（如 `07:00`）
+- **到达**：预估到达/结束时间（如 `09:00`），不能用"约2h"之类模糊表述
+- **目的地或项目**：简要描述（如 `广州出发（自驾）`、`午餐`）
+- **耗时**：合理估算时长（如 `2h`、`1h`、`0.5h`），单位统一用 `h`
+
+**就餐/入住等短时活动也需要填写耗时**：午餐 `1h`、入住 `0.5h`、退房 `0.5h`。
+
+**验证方法：**
+```bash
+grep -c '<td></td>' index.html  # 应为 0
+```
+
+### 12.4 景点图片卡片 + 瀑布式画廊
+
+#### 12.4.1 spot-card 嵌入 timeline
+
+在 timeline-item 末尾（`timeline-tags</div>` 之后）嵌入：
+
+```html
+<div class="timeline-spot-card" onclick="openWaterfall('oceanworld')">
+  <div class="timeline-spot-card-img" style="background-image: url('小梅沙海洋世界/index.png')">
+    <div class="timeline-spot-card-bar">
+      <span>📷 13张</span>
+      <span class="view-btn">查看全部 <svg>...</svg></span>
+    </div>
+  </div>
+</div>
+```
+
+**规则：**
+- 仅在对应【景点推荐】的 timeline-item 上加 spot-card，交通/餐饮/酒店等行程不加。
+- spot-card 的 `📷 N张` 数字必须与 galleries 数据中的实际图片数一致。
+- 封面图统一用该景点目录下的 `index.png`。
+
+#### 12.4.2 galleries 数据定义
+
+```javascript
+var galleries = {
+  oceanworld: {
+    title: '小梅沙海洋世界',
+    images: ['小梅沙海洋世界/image.png', '小梅沙海洋世界/image copy.png', ...]
+  },
+  // 每个景点一个 key
+};
+```
+
+#### 12.4.3 ⚠️ 图片路径验证
+
+**插入 galleries 数据后必须验证所有图片路径是否存在**，否则瀑布式展开后会有空白/裂图。
+
+```python
+import os, re
+base_dir = '四季景点/深圳'
+with open(f'{base_dir}/index.html', 'r', encoding='utf-8') as f:
+    c = f.read()
+paths = re.findall(r"'([^']+\.png)'", c)
+for p in paths:
+    if not os.path.exists(os.path.join(base_dir, p)):
+        print(f'MISSING: {p}')
+```
+
+**常见问题：**
+- 画廊引用了不存在的 `image copy N.png`（编号跳跃，如缺 9、缺 6）
+- 首图引用 `image.png` 但实际只有 `index.png`
+- 目录下实际文件比画廊数据多（遗漏了某张图片没加入 galleries）
+
+#### 12.4.4 瀑布式画廊 JS
+
+`openWaterfall` 和 `galleries` 变量**必须在 IIFE 内部、且在变量声明之后**定义，否则函数内无法访问 `galleries`——这是早期 bug 根源（点击无反应）。
+
+### 12.5 导航栏（Top Navigation）
+
+长页面（如深圳多方案页面超过 3000 行）应添加固定顶部导航栏。
+
+#### 12.5.1 桌面端
+
+```html
+<nav class="top-nav" id="topNav">
+  <div class="nav-inner">
+    <a href="#top">首页</a>
+    <a href="#route">路线</a>
+    <a href="#plans">方案</a>
+    ...
+  </div>
+  <button class="nav-hamburger" id="navToggle">...</button>
+</nav>
+```
+
+- 使用 `scroll-spy`：监听 scroll 事件，根据各 section 的 `offsetTop` 高亮当前导航项。
+- 各 section 需添加 `id` 属性，并设置 `scroll-margin-top: 60px` 防止被固定导航栏遮挡。
+
+#### 12.5.2 移动端
+
+```css
+@media (max-width: 640px) {
+  .top-nav .nav-inner { display: none; }
+  .top-nav .nav-hamburger { display: flex; }
+  .nav-mobile-dropdown { display: flex; }
+}
+```
+
+移动端关键交互：
+- 隐藏横向链接，显示汉堡按钮 + 下拉面板
+- 下拉面板用 `transform: translateY` 实现展开/收起动画
+- **点击链接后自动关闭菜单**：抽取共享的 `closeMenu()` 函数，同时重置 `menuOpen` 状态、移除 CSS `open` 类、恢复汉堡图标为 ☰
+- 点击面板外部也需关闭菜单
+- 汉堡图标需在 ☰（展开前）和 ✕（展开后）之间切换
+
+#### 12.5.3 ⚠️ 移动端 Logo 位置
+
+导航栏 `position: fixed; top: 0; z-index: 99`，XBrain Logo `position: fixed; z-index: 100`。移动端须调整 Logo 使其与导航栏同行、不与汉堡按钮重叠：
+
+```css
+@media (max-width: 640px) {
+  .xbrain-brand { top: 8px; padding: 4px 10px 4px 6px; }
+  .xbrain-brand svg { width: 24px; height: 24px; }
+  .xbrain-brand .xbrain-text { font-size: 13px; }
+}
+```
+
+### 12.6 版本号
+
+每个页面页脚添加版本号，格式 `vYYYYMMDD-HHMMSS`（最后更新时间）：
+
+```html
+<footer>
+  ...
+  <p class="footer-version">v20260706-104854</p>
+</footer>
+```
+
+```css
+footer .footer-version {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: rgba(200, 210, 230, 0.3);
+  font-family: 'Courier New', monospace;
+}
+```
+
+用命令获取当前时间戳：`date +%Y%m%d-%H%M%S`
+
+### 12.7 完整验证清单（攻略型子站）
+
+新增或修改攻略型子站后，逐项确认：
+
+- [ ] 每个方案 `plan-content` div 完整闭合（全局 `<div>` 数 = `</div>` 数）
+- [ ] 方案切换按钮的 `onclick` 参数与 `plan-content` 的 `id` 一致
+- [ ] 行程总表每行 4 列全部填满（无空 `<td></td>`）
+- [ ] 封面图统一使用各景点目录下的 `index.png`
+- [ ] galleries 数据中所有图片路径真实存在（用脚本验证）
+- [ ] spot-card 的 `📷 N张` 与 galleries 实际图片数一致
+- [ ] 瀑布式画廊 JS（`openWaterfall`/`galleries`）在 IIFE 内且在变量声明之后
+- [ ] 预算表列数与方案数对齐
+- [ ] 导航栏 section `id` 与 `href` 一致，各 section 有 `scroll-margin-top`
+- [ ] 移动端 Logo 与导航栏同行不重叠
+- [ ] 移动端导航链接点击后自动关闭菜单（需同时重置 `menuOpen` 和汉堡图标）
+- [ ] 页脚含版本号 `vYYYYMMDD-HHMMSS`
