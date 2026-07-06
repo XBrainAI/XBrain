@@ -1065,6 +1065,111 @@
     .plan-summary-table tr:nth-child(even) { background: rgba(100, 180, 255, 0.03); }
     .plan-summary-table td:last-child { color: var(--xb-accent); font-weight: 600; white-space: nowrap; }
 
+
+    /* ===== TOP NAV ===== */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(10, 10, 26, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(100, 180, 255, 0.18);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      transition: transform 0.35s ease;
+    }
+    .top-nav.hidden { transform: translateY(-100%); }
+    .top-nav .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .top-nav .nav-inner::-webkit-scrollbar { display: none; }
+    .top-nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.875rem; font-weight: 500;
+      color: var(--xb-text-dim);
+      text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+    .top-nav a:hover { color: var(--xb-text); background: rgba(100,180,255,0.08); }
+    .top-nav a.active {
+      color: var(--xb-accent);
+      background: rgba(100, 180, 255, 0.12);
+    }
+    .top-nav a.active::after {
+      content: '';
+      position: absolute; bottom: 4px; left: 50%;
+      transform: translateX(-50%);
+      width: 16px; height: 2px;
+      background: var(--xb-accent);
+      border-radius: 1px;
+    }
+    .top-nav .nav-hamburger {
+      display: none;
+      background: none; border: none;
+      cursor: pointer; padding: 6px;
+      color: var(--xb-text);
+      flex-shrink: 0;
+    }
+    .top-nav .nav-hamburger svg { width: 22px; height: 22px; }
+
+    /* Mobile dropdown */
+    .nav-mobile-dropdown {
+      display: none;
+      position: fixed; top: 52px; left: 0; right: 0;
+      background: rgba(10, 10, 26, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--xb-border);
+      z-index: 98;
+      padding: 0.75rem 1.5rem;
+      flex-direction: column;
+      gap: 0.35rem;
+      transform: translateY(-110%);
+      transition: transform 0.3s ease;
+    }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .nav-mobile-dropdown a {
+      display: block;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem; font-weight: 500;
+      color: var(--xb-text-dim);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-mobile-dropdown a:hover,
+    .nav-mobile-dropdown a.active {
+      color: var(--xb-accent);
+      background: rgba(100, 180, 255, 0.1);
+    }
+
+    @media (max-width: 640px) {
+      .top-nav { padding: 0 0.75rem; justify-content: flex-end; }
+      .top-nav .nav-inner { display: none; }
+      .top-nav .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .xbrain-brand { top: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 24px; height: 24px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+
+    /* Offset scroll target for fixed header */
+    section[id] { scroll-margin-top: 60px; }
+
   </style>
 </head>
 <body>
@@ -1120,6 +1225,33 @@
     <div class="xbrain-text"><span>X</span>Brain</div>
   </a>
 
+
+  <!-- ===== TOP NAVIGATION ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a href="#top">首页</a>
+      <a href="#route">路线</a>
+      <a href="#plans">方案</a>
+      <a href="#spots">景点</a>
+      <a href="#hotels">酒店</a>
+      <a href="#budget">预算</a>
+      <a href="#tips">贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+  <div class="nav-mobile-dropdown" id="navMobile">
+    <a href="#route">路线概览</a>
+    <a href="#plans">出行方案</a>
+    <a href="#spots">景点推荐</a>
+    <a href="#hotels">酒店推荐</a>
+    <a href="#budget">预算对比</a>
+    <a href="#tips">实用贴士</a>
+  </div>
+
   <!-- ===== HERO ===== -->
   <section class="hero" id="top">
     <div class="hero-badge">
@@ -1146,7 +1278,7 @@
   </section>
 
   <!-- ===== Q&A SECTION ===== -->
-  <section class="section">
+  <section class="section" id="qa">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       您的疑问 · 解答
@@ -1187,7 +1319,7 @@
   </section>
 
   <!-- ===== ROUTE OVERVIEW ===== -->
-  <section class="section">
+  <section class="section" id="route">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
       路线概览
@@ -1227,7 +1359,7 @@
   </section>
 
   <!-- ===== PLAN SELECTOR ===== -->
-  <section class="section">
+  <section class="section" id="plans">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       方案选择
@@ -1260,28 +1392,28 @@
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>07:00</td><td>约2h</td><td>广州出发</td><td>2h</td></tr>
+<tr><td>07:00</td><td>09:00</td><td>广州出发（自驾）</td><td>2h</td></tr>
 <tr><td>09:00</td><td>12:30</td><td>深圳世界之窗</td><td>3.5h</td></tr>
-<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
-<tr><td>13:30</td><td>14:30</td><td>前往小梅沙</td><td>1h</td></tr>
-<tr><td>14:30</td><td></td><td>酒店入住</td><td></td></tr>
-<tr><td>15:30</td><td>17:00</td><td>小梅沙海滨乐园</td><td></td></tr>
-<tr><td>17:00</td><td>18:00</td><td>背仔角灯塔日落</td><td></td></tr>
-<tr><td>18:00</td><td></td><td>晚餐</td><td></td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+<tr><td>13:30</td><td>14:30</td><td>前往小梅沙（自驾）</td><td>1h</td></tr>
+<tr><td>14:30</td><td>15:00</td><td>酒店入住</td><td>0.5h</td></tr>
+<tr><td>15:30</td><td>17:00</td><td>小梅沙海滨乐园</td><td>1.5h</td></tr>
+<tr><td>17:00</td><td>18:00</td><td>背仔角灯塔日落</td><td>1h</td></tr>
+<tr><td>18:00</td><td>19:00</td><td>晚餐</td><td>1h</td></tr>
 </tbody>
 </table>
 <div class="day-label">DAY 2 · 周日</div>
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>07:30</td><td></td><td>酒店早餐</td><td></td></tr>
+<tr><td>07:30</td><td>08:30</td><td>酒店早餐</td><td>1h</td></tr>
 <tr><td>08:30</td><td>12:00</td><td>小梅沙海洋世界</td><td>3.5h</td></tr>
-<tr><td>12:00</td><td>13:00</td><td>午餐</td><td></td></tr>
+<tr><td>12:00</td><td>13:00</td><td>午餐</td><td>1h</td></tr>
 <tr><td>13:00</td><td>15:00</td><td>大梅沙海滨公园</td><td>2h</td></tr>
-<tr><td>15:00</td><td>约2.5h</td><td>返程广州</td><td>2.5h</td></tr>
+<tr><td>15:00</td><td>17:30</td><td>返程广州（自驾）</td><td>2.5h</td></tr>
 </tbody>
 </table>
-</div>
+</div></div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周六</div>
@@ -1517,28 +1649,28 @@
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>07:00</td><td>约2.5h</td><td>广州出发</td><td>2.5h</td></tr>
+<tr><td>07:00</td><td>09:30</td><td>广州出发（自驾）</td><td>2.5h</td></tr>
 <tr><td>09:30</td><td>12:30</td><td>小梅沙海洋世界（开园即入）</td><td>3h</td></tr>
-<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
 <tr><td>13:30</td><td>15:00</td><td>海洋世界午后深度游（灵活安排）</td><td>1.5h</td></tr>
-<tr><td>15:00</td><td>16:00</td><td>前往酒店 · 入住休整</td><td></td></tr>
-<tr><td>16:00</td><td>17:00</td><td>小梅沙沙滩（傍晚戏水）</td><td></td></tr>
-<tr><td>17:00</td><td>18:30</td><td>背仔角灯塔 · 日落漫步</td><td></td></tr>
-<tr><td>18:30</td><td></td><td>晚餐</td><td></td></tr>
-<tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td></td></tr>
+<tr><td>15:00</td><td>16:00</td><td>前往酒店 · 入住休整</td><td>1h</td></tr>
+<tr><td>16:00</td><td>17:00</td><td>小梅沙沙滩（傍晚戏水）</td><td>1h</td></tr>
+<tr><td>17:00</td><td>18:30</td><td>背仔角灯塔 · 日落漫步</td><td>1.5h</td></tr>
+<tr><td>18:30</td><td>19:30</td><td>晚餐</td><td>1h</td></tr>
+<tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td>1.5h</td></tr>
 </tbody>
 </table>
 <div class="day-label">DAY 2 · 周日</div>
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>08:00</td><td>09:30</td><td>悠闲早餐</td><td></td></tr>
+<tr><td>08:00</td><td>09:30</td><td>悠闲早餐</td><td>1.5h</td></tr>
 <tr><td>09:30</td><td>12:00</td><td>酒店深度体验</td><td>2.5h</td></tr>
-<tr><td>12:00</td><td>13:30</td><td>午餐</td><td></td></tr>
-<tr><td>14:00</td><td>约2.5h</td><td>返程广州</td><td>2.5h</td></tr>
+<tr><td>12:00</td><td>13:30</td><td>午餐</td><td>1.5h</td></tr>
+<tr><td>14:00</td><td>16:30</td><td>返程广州（自驾）</td><td>2.5h</td></tr>
 </tbody>
 </table>
-</div>
+</div></div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周六</div>
@@ -1757,44 +1889,44 @@
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>08:30</td><td></td><td>广州南站出发</td><td></td></tr>
-<tr><td>09:20</td><td></td><td>高铁广州南 → 深圳北</td><td></td></tr>
-<tr><td>10:00</td><td></td><td>深圳北 → 小梅沙</td><td></td></tr>
-<tr><td>11:00</td><td>11:30</td><td>酒店寄存行李</td><td></td></tr>
-<tr><td>11:30</td><td>12:30</td><td>午餐</td><td></td></tr>
+<tr><td>08:30</td><td>09:15</td><td>广州南站出发（地铁/打车）</td><td>0.75h</td></tr>
+<tr><td>09:20</td><td>09:55</td><td>高铁广州南 → 深圳北</td><td>0.6h</td></tr>
+<tr><td>10:00</td><td>11:00</td><td>深圳北 → 小梅沙（地铁/打车）</td><td>1h</td></tr>
+<tr><td>11:00</td><td>11:30</td><td>酒店寄存行李</td><td>0.5h</td></tr>
+<tr><td>11:30</td><td>12:30</td><td>午餐</td><td>1h</td></tr>
 <tr><td>13:00</td><td>16:30</td><td>小梅沙海洋世界</td><td>3.5h</td></tr>
-<tr><td>17:00</td><td>18:00</td><td>小梅沙沙滩（傍晚戏水）</td><td></td></tr>
-<tr><td>18:00</td><td>19:30</td><td>背仔角灯塔 · 日落漫步</td><td></td></tr>
-<tr><td>19:30</td><td></td><td>晚餐</td><td></td></tr>
-<tr><td>20:30</td><td></td><td>酒店入住 + 休息</td><td></td></tr>
+<tr><td>17:00</td><td>18:00</td><td>小梅沙沙滩（傍晚戏水）</td><td>1h</td></tr>
+<tr><td>18:00</td><td>19:30</td><td>背仔角灯塔 · 日落漫步</td><td>1.5h</td></tr>
+<tr><td>19:30</td><td>20:30</td><td>晚餐</td><td>1h</td></tr>
+<tr><td>20:30</td><td>21:00</td><td>酒店入住 + 休息</td><td>0.5h</td></tr>
 </tbody>
 </table>
 <div class="day-label">DAY 2 · 周四</div>
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td></td></tr>
+<tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td>1h</td></tr>
 <tr><td>09:30</td><td>12:00</td><td>酒店深度体验</td><td>2.5h</td></tr>
-<tr><td>12:00</td><td>13:30</td><td>午餐</td><td></td></tr>
+<tr><td>12:00</td><td>13:30</td><td>午餐</td><td>1.5h</td></tr>
 <tr><td>14:00</td><td>17:00</td><td>大梅沙海滨公园（下午戏水）</td><td>3h</td></tr>
-<tr><td>17:30</td><td>18:30</td><td>晚餐</td><td></td></tr>
-<tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td></td></tr>
+<tr><td>17:30</td><td>18:30</td><td>晚餐</td><td>1h</td></tr>
+<tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td>1.5h</td></tr>
 </tbody>
 </table>
 <div class="day-label">DAY 3 · 周五</div>
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td></td></tr>
-<tr><td>09:30</td><td>11:30</td><td>自由活动（补玩或休息）</td><td></td></tr>
-<tr><td>12:00</td><td>13:00</td><td>午餐</td><td></td></tr>
-<tr><td>13:00</td><td></td><td>退房</td><td></td></tr>
-<tr><td>13:30</td><td>14:30</td><td>小梅沙 → 深圳北站</td><td></td></tr>
-<tr><td>15:00</td><td></td><td>高铁深圳北 → 广州南</td><td></td></tr>
-<tr><td>15:40</td><td></td><td>抵达广州南 → 回家</td><td></td></tr>
+<tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td>1h</td></tr>
+<tr><td>09:30</td><td>11:30</td><td>自由活动（补玩或休息）</td><td>2h</td></tr>
+<tr><td>12:00</td><td>13:00</td><td>午餐</td><td>1h</td></tr>
+<tr><td>13:00</td><td>13:30</td><td>退房</td><td>0.5h</td></tr>
+<tr><td>13:30</td><td>14:30</td><td>小梅沙 → 深圳北站（地铁/打车）</td><td>1h</td></tr>
+<tr><td>15:00</td><td>15:35</td><td>高铁深圳北 → 广州南</td><td>0.6h</td></tr>
+<tr><td>15:40</td><td>16:25</td><td>广州南 → 荔湾西村（回家）</td><td>0.75h</td></tr>
 </tbody>
 </table>
-</div>
+</div></div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周三</div>
@@ -2157,27 +2289,27 @@
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>07:00</td><td>约3h</td><td>广州出发</td><td>3h</td></tr>
-<tr><td>10:00</td><td>12:30</td><td>人鱼洞（鹿嘴山庄）· 上午最凉爽</td><td></td></tr>
-<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
-<tr><td>13:30</td><td>15:30</td><td>大鹏所城（下午遮阴漫游）</td><td></td></tr>
-<tr><td>16:00</td><td>17:30</td><td>桔钓沙（傍晚戏水）</td><td></td></tr>
-<tr><td>18:30</td><td></td><td>晚餐</td><td></td></tr>
-<tr><td>19:30</td><td>20:30</td><td>前往酒店 · 入住休息</td><td></td></tr>
+<tr><td>07:00</td><td>10:00</td><td>广州出发（自驾）</td><td>3h</td></tr>
+<tr><td>10:00</td><td>12:30</td><td>人鱼洞（鹿嘴山庄）· 上午最凉爽</td><td>2.5h</td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+<tr><td>13:30</td><td>15:30</td><td>大鹏所城（下午遮阴漫游）</td><td>2h</td></tr>
+<tr><td>16:00</td><td>17:30</td><td>桔钓沙（傍晚戏水）</td><td>1.5h</td></tr>
+<tr><td>18:30</td><td>19:30</td><td>晚餐</td><td>1h</td></tr>
+<tr><td>19:30</td><td>20:30</td><td>前往酒店 · 入住休息</td><td>1h</td></tr>
 </tbody>
 </table>
 <div class="day-label">DAY 2 · 周日</div>
 <table class="plan-summary-table">
 <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
 <tbody>
-<tr><td>07:30</td><td></td><td>酒店早餐</td><td></td></tr>
-<tr><td>08:30</td><td>10:30</td><td>深圳天文台（海边栈道）</td><td></td></tr>
+<tr><td>07:30</td><td>08:30</td><td>酒店早餐</td><td>1h</td></tr>
+<tr><td>08:30</td><td>10:30</td><td>深圳天文台（海边栈道）</td><td>2h</td></tr>
 <tr><td>11:00</td><td>12:30</td><td>大鹏半岛国家地质公园博物馆</td><td>1.5h</td></tr>
-<tr><td>12:30</td><td>13:30</td><td>午餐</td><td></td></tr>
-<tr><td>14:00</td><td>约3h</td><td>返程广州</td><td>3h</td></tr>
+<tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+<tr><td>14:00</td><td>17:00</td><td>返程广州（自驾）</td><td>3h</td></tr>
 </tbody>
 </table>
-</div>
+</div></div>
       <div class="day-divider">
         <div class="line"></div>
         <div class="day-badge">DAY 1 · 周六</div>
@@ -2395,7 +2527,7 @@
   </section>
 
   <!-- ===== SPOTS ===== -->
-  <section class="section">
+  <section class="section" id="spots">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
       景点推荐
@@ -2626,7 +2758,7 @@
   </section>
 
   <!-- ===== HOTELS ===== -->
-  <section class="section">
+  <section class="section" id="hotels">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       酒店推荐
@@ -2743,7 +2875,7 @@
   </section>
 
   <!-- ===== BUDGET ===== -->
-  <section class="section">
+  <section class="section" id="budget">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       费用预算（4口之家）
@@ -2830,7 +2962,7 @@
   </section>
 
   <!-- ===== PRACTICAL TIPS ===== -->
-  <section class="section">
+  <section class="section" id="tips">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       实用贴士
@@ -2956,6 +3088,87 @@
         document.getElementById(planId).classList.add('active');
         event.currentTarget.classList.add('active');
       };
+
+
+      // ===== NAVIGATION =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function(a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function(s) {
+          if (scrollY >= s.el.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        mobileLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+
+      var navTicking = false;
+      window.addEventListener('scroll', function() {
+        if (!navTicking) {
+          window.requestAnimationFrame(function() { setActiveNav(); navTicking = false; });
+          navTicking = true;
+        }
+      }, { passive: true });
+      setActiveNav();
+
+      // Hamburger toggle
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        navMobile.classList.remove('open');
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      }
+
+      navToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        } else {
+          hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        }
+      });
+
+      // Smooth scroll for nav links (desktop + mobile)
+      function smoothNav(links) {
+        links.forEach(function(a) {
+          a.addEventListener('click', function(e) {
+            e.preventDefault();
+            var target = document.getElementById(this.getAttribute('href').substring(1));
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              closeMenu();
+            }
+          });
+        });
+      }
+      smoothNav(navLinks);
+      smoothNav(mobileLinks);
+
+      // Close mobile menu on outside click
+      document.addEventListener('click', function(e) {
+        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
+          closeMenu();
+        }
+      });
 
       // IntersectionObserver for reveals
       var observer = new IntersectionObserver(function (entries) {
