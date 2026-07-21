@@ -579,24 +579,24 @@ describe('回归测试 - 全筛选条件组合与数据源一致性验证', () =
     describe('L1. 送生记录基础统计', () => {
       it('有 xieheSendingRecords 的学校总数应在合理范围内', () => {
         const withSending = allData.filter(r => r.xieheSendingRecords && r.xieheSendingRecords.length > 0);
-        // 实际19所学校（三年合并去重后的不同目标学校数）
+        // 实际20所学校（四年合并去重后的不同目标学校数，2026新增清华附中湾区学校）
         expect(withSending.length).toBeGreaterThanOrEqual(15);
-        expect(withSending.length).toBeLessThanOrEqual(22);
+        expect(withSending.length).toBeLessThanOrEqual(24);
       });
 
-      it('送生记录总条数 = 39（12+13+14，含null记录）', () => {
+      it('送生记录总条数 = 54（12+14+15+15，含null记录）', () => {
         const totalRecords = allData.reduce(
           (sum, r) => sum + (r.xieheSendingRecords?.length || 0), 0
         );
-        expect(totalRecords).toBe(39);
+        expect(totalRecords).toBe(54);
       });
 
-      it('有效送生记录（minScore非null）总数 = 37', () => {
+      it('有效送生记录（minScore非null）总数 = 52', () => {
         const validRecords = allData.reduce(
           (sum, r) => sum + (r.xieheSendingRecords?.filter(s => s.minScore !== null).length || 0), 0
         );
-        // 2023:12 + 2024:12(排除协和无录取) + 2025:13(排除六中花都无录取) = 37
-        expect(validRecords).toBe(37);
+        // 2023:12 + 2024:13(排除协和无录取) + 2025:14(排除六中花都无录取) + 2026:15(全部有效) = 54-2=52
+        expect(validRecords).toBe(52);
       });
     });
 
@@ -721,14 +721,15 @@ describe('回归测试 - 全筛选条件组合与数据源一致性验证', () =
         expect(scores).toContain(740);
       });
 
-      it('广雅花都应有3条送生记录（三年各一），分数含751/725/749', () => {
+      it('广雅花都应有4条送生记录（四年各一），分数含751/725/749/692', () => {
         const school = allData.find(r => r.schoolName.includes('广雅') && r.schoolName.includes('花都'));
         expect(school).toBeDefined();
-        expect(school!.xieheSendingRecords!.length).toBe(3);
+        expect(school!.xieheSendingRecords!.length).toBe(4);
         const scores = school!.xieheSendingRecords!.map(s => s.minScore).filter((s): s is number => s !== null);
         expect(scores).toContain(751);
         expect(scores).toContain(725);
         expect(scores).toContain(749);
+        expect(scores).toContain(692);
       });
 
       it('协和学校应有3条送生记录（666/null/665）', () => {
@@ -741,16 +742,20 @@ describe('回归测试 - 全筛选条件组合与数据源一致性验证', () =
         expect(scores).toContain(665);
       });
 
-      it('六中花都应有1条送生记录且为null（无录取）', () => {
+      it('六中花都应有2条送生记录（2025为null，2026为657）', () => {
         const school = allData.find(r => r.schoolName.includes('六中') && r.schoolName.includes('花都'));
         expect(school).toBeDefined();
-        expect(school!.xieheSendingRecords!.length).toBe(1);
-        expect(school!.xieheSendingRecords![0].minScore).toBeNull();
+        expect(school!.xieheSendingRecords!.length).toBe(2);
+        const nullRec = school!.xieheSendingRecords!.find(s => s.minScore === null);
+        expect(nullRec).toBeDefined();
+        const rec26 = school!.xieheSendingRecords!.find(s => s.year === 2026);
+        expect(rec26).toBeDefined();
+        expect(rec26!.minScore).toBe(657);
       });
     });
 
-    describe('L6. 三年送生记录覆盖度统计', () => {
-      it('全部38个(target,score)组合应与数据源完全一致', () => {
+    describe('L6. 四年送生记录覆盖度统计', () => {
+      it('全部52个(target,score)组合应与数据源完全一致', () => {
         const allPairs = new Set(
           allData.flatMap(r =>
             (r.xieheSendingRecords || [])
@@ -758,8 +763,8 @@ describe('回归测试 - 全筛选条件组合与数据源一致性验证', () =
               .map(s => `${s.targetSchool}:${s.minScore}`)
           )
         );
-        // 2023年12个 + 2024年12个 + 2025年13个 = 37个有效组合
-        expect(allPairs.size).toBe(37);
+        // 2023年12个 + 2024年13个 + 2025年14个 + 2026年15个 = 54-2(null)=52个有效组合
+        expect(allPairs.size).toBe(52);
       });
     });
   });
@@ -828,11 +833,11 @@ describe('回归测试 - 全筛选条件组合与数据源一致性验证', () =
         expect(count).toBe(15);
       });
 
-      it('有 xieheSendingRecords 的学校数 = 19', () => {
+      it('有 xieheSendingRecords 的学校数 = 20', () => {
         const count = allData.filter(r =>
           r.xieheSendingRecords && r.xieheSendingRecords.length > 0
         ).length;
-        expect(count).toBe(19);
+        expect(count).toBe(20);
       });
     });
 

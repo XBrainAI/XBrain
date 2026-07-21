@@ -297,7 +297,7 @@ const HEADER_GROUPS = [
   { key: 'volunteer', label: '志愿', fields: ['volunteerOrder'] },
   { key: 'base', label: '基础信息', fields: ['schoolName', 'schoolNature', 'schoolCategory', 'locationDistrict', 'admissionBatches'] },
   { key: 'gradient', label: '梯度', fields: ['gradient2025'] },
-  { key: 'batch2', label: '第二批（名额分配）', fields: ['xieheQuota26', 'xieheQuotaNum', 'quotaCompare25', 'batch2Score2025', 'xieheSendLast25', 'xieheSendLastVol25', 'xieheQuotaNum25', 'quotaChangeValue', 'b2Min3y', 'b2MinAvg', 'b2Last3y', 'b2LastAvg', 'b2LastVol3y'] },
+  { key: 'batch2', label: '第二批（名额分配）', fields: ['xieheQuota26', 'xieheSendMin26', 'xieheSendLast26', 'xieheSendLastVol26', 'xieheQuotaNum', 'quotaCompare25', 'batch2Score2025', 'xieheSendLast25', 'xieheSendLastVol25', 'xieheQuotaNum25', 'quotaChangeValue', 'b2Min3y', 'b2MinAvg', 'b2Last3y', 'b2LastAvg', 'b2LastVol3y'] },
   { key: 'batch3', label: '第三批（统招）', fields: ['b3_2025hujiMin', 'b3_2025hujiLast', 'b3_2025hujiLastVol', 'b3_2025waiquMin', 'b3_2025waiquLast', 'b3_2025waiquLastVol', 'b3_2024hujiMin', 'b3_2024hujiLast', 'b3_2024hujiLastVol', 'b3_2024waiquMin', 'b3_2024waiquLast', 'b3_2024waiquLastVol', 'b3_2023hujiMin', 'b3_2023hujiLast', 'b3_2023hujiLastVol', 'b3_2023waiquMin', 'b3_2023waiquLast', 'b3_2023waiquLastVol', 'b3HujiMinAvg', 'b3HujiLastAvg', 'b3WaiquMinAvg', 'b3WaiquLastAvg'] },
   { key: 'batch4', label: '第四批（常规兜底）', fields: ['b4_2025min', 'b4_2025last', 'b4_2025lastVol', 'b4_2024min', 'b4_2024last', 'b4_2024lastVol', 'b4_2023min', 'b4_2023last', 'b4_2023lastVol'] },
   { key: 'makeup', label: '补录', fields: ['makeupNormal', 'makeupScore', 'makeupDiff', 'makeupPlan2025', 'makeupControlLine2025'] },
@@ -545,6 +545,15 @@ export default function ResultTable({ data, onSelectSchool, keyword, onKeywordCh
       } else if (sortField === 'quotaChangeValue') {
         va = a.quotaCompare2526?.changeValue ?? -999;
         vb = b.quotaCompare2526?.changeValue ?? -999;
+      } else if (sortField === 'xieheSendMin26') {
+        va = a.xieheSendingRecords?.find(s => s.year === 2026)?.minScore ?? -999;
+        vb = b.xieheSendingRecords?.find(s => s.year === 2026)?.minScore ?? -999;
+      } else if (sortField === 'xieheSendLast26') {
+        va = a.xieheSendingRecords?.find(s => s.year === 2026)?.lastScore ?? -999;
+        vb = b.xieheSendingRecords?.find(s => s.year === 2026)?.lastScore ?? -999;
+      } else if (sortField === 'xieheSendLastVol26') {
+        va = a.xieheSendingRecords?.find(s => s.year === 2026)?.lastVolunteerOrder ?? -999;
+        vb = b.xieheSendingRecords?.find(s => s.year === 2026)?.lastVolunteerOrder ?? -999;
       } else if (sortField === 'xieheSendLast25') {
         va = a.xieheSendingRecords?.find(s => s.year === 2025)?.lastScore ?? -999;
         vb = b.xieheSendingRecords?.find(s => s.year === 2025)?.lastScore ?? -999;
@@ -555,14 +564,16 @@ export default function ResultTable({ data, onSelectSchool, keyword, onKeywordCh
         va = a.xieheQuota2025 ?? -999;
         vb = b.xieheQuota2025 ?? -999;
       } else if (sortField === 'b2MinAvg') {
+        // 录分·四年均值：四年 (2026/2025/2024/2023) 有数据的年份参与计算
         const getAvg = (rec: SchoolRecord) => {
-          const vals = [2025, 2024, 2023].map(y => rec.xieheSendingRecords?.find(s => s.year === y)?.minScore).filter((v): v is number => v != null);
+          const vals = [2026, 2025, 2024, 2023].map(y => rec.xieheSendingRecords?.find(s => s.year === y)?.minScore).filter((v): v is number => v != null);
           return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : -999;
         };
         va = getAvg(a); vb = getAvg(b);
       } else if (sortField === 'b2LastAvg') {
+        // 末分·四年均值：四年 (2026/2025/2024/2023) 有数据的年份参与计算
         const getAvg = (rec: SchoolRecord) => {
-          const vals = [2025, 2024, 2023].map(y => rec.xieheSendingRecords?.find(s => s.year === y)?.lastScore).filter((v): v is number => v != null);
+          const vals = [2026, 2025, 2024, 2023].map(y => rec.xieheSendingRecords?.find(s => s.year === y)?.lastScore).filter((v): v is number => v != null);
           return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : -999;
         };
         va = getAvg(a); vb = getAvg(b);
@@ -886,59 +897,62 @@ export default function ResultTable({ data, onSelectSchool, keyword, onKeywordCh
             <SortHeader field="admissionBatches" colIdx={5} className="c-base">批次</SortHeader>
             <SortHeader field="gradient2025" colIdx={6} className="col-gradient c-gradient th-2line">梯度<br />·25</SortHeader>
             <SortHeader field="xieheQuota26" colIdx={7} className="c-batch2">控·26</SortHeader>
-            <SortHeader field="xieheQuotaNum" colIdx={8} className="c-batch2">名额数·26</SortHeader>
-            <SortHeader field="quotaCompare25" colIdx={9} className="c-batch2">控·25</SortHeader>
-            <SortHeader field="batch2Score2025" colIdx={10} className="c-batch2">录·25</SortHeader>
-            <SortHeader field="xieheSendLast25" colIdx={11} className="c-batch2">末分·25</SortHeader>
-            <SortHeader field="xieheSendLastVol25" colIdx={12} className="c-batch2 th-2line">末<br />志·25</SortHeader>
-            <SortHeader field="xieheQuotaNum25" colIdx={13} className="c-batch2">名额数·25</SortHeader>
-            <SortHeader field="quotaChangeValue" colIdx={14} className="c-batch2">控变化·26vs25</SortHeader>
-            <SortHeader field="b2Min3y" colIdx={15} className="c-batch2">录分·三年</SortHeader>
-            <SortHeader field="b2MinAvg" colIdx={16} className="c-batch2">录分·均值</SortHeader>
-            <SortHeader field="b2Last3y" colIdx={17} className="c-batch2">末分·三年</SortHeader>
-            <SortHeader field="b2LastAvg" colIdx={18} className="c-batch2">末分·均值</SortHeader>
-            <SortHeader field="b2LastVol3y" colIdx={19} className="c-batch2">末志·三年</SortHeader>
-            <SortHeader field="b3_2025hujiMin" colIdx={20} className="c-b3-25">户·录分25</SortHeader>
-            <SortHeader field="b3_2025hujiLast" colIdx={21} className="c-b3-25">户·末分25</SortHeader>
-            <SortHeader field="b3_2025hujiLastVol" colIdx={22} className="c-b3-25 th-2line">户·末<br />志25</SortHeader>
-            <SortHeader field="b3_2025waiquMin" colIdx={23} className="c-b3-25">外·录分25</SortHeader>
-            <SortHeader field="b3_2025waiquLast" colIdx={24} className="c-b3-25">外·末分25</SortHeader>
-            <SortHeader field="b3_2025waiquLastVol" colIdx={25} className="c-b3-25 th-2line">外·末<br />志25</SortHeader>
-            <SortHeader field="b3_2024hujiMin" colIdx={26} className="c-b3-24">户·录分24</SortHeader>
-            <SortHeader field="b3_2024hujiLast" colIdx={27} className="c-b3-24">户·末分24</SortHeader>
-            <SortHeader field="b3_2024hujiLastVol" colIdx={28} className="c-b3-24 th-2line">户·末<br />志24</SortHeader>
-            <SortHeader field="b3_2024waiquMin" colIdx={29} className="c-b3-24">外·录分24</SortHeader>
-            <SortHeader field="b3_2024waiquLast" colIdx={30} className="c-b3-24">外·末分24</SortHeader>
-            <SortHeader field="b3_2024waiquLastVol" colIdx={31} className="c-b3-24 th-2line">外·末<br />志24</SortHeader>
-            <SortHeader field="b3_2023hujiMin" colIdx={32} className="c-b3-23">户·录分23</SortHeader>
-            <SortHeader field="b3_2023hujiLast" colIdx={33} className="c-b3-23">户·末分23</SortHeader>
-            <SortHeader field="b3_2023hujiLastVol" colIdx={34} className="c-b3-23 th-2line">户·末<br />志23</SortHeader>
-            <SortHeader field="b3_2023waiquMin" colIdx={35} className="c-b3-23">外·录分23</SortHeader>
-            <SortHeader field="b3_2023waiquLast" colIdx={36} className="c-b3-23">外·末分23</SortHeader>
-            <SortHeader field="b3_2023waiquLastVol" colIdx={37} className="c-b3-23 th-2line">外·末<br />志23</SortHeader>
-            <SortHeader field="b3HujiMinAvg" colIdx={38} className="c-b3-25">户录·均值</SortHeader>
-            <SortHeader field="b3HujiLastAvg" colIdx={39} className="c-b3-25">户末分·均值</SortHeader>
-            <SortHeader field="b3WaiquMinAvg" colIdx={40} className="c-b3-25">外录·均值</SortHeader>
-            <SortHeader field="b3WaiquLastAvg" colIdx={41} className="c-b3-25">外末分·均值</SortHeader>
-            <SortHeader field="b4_2025min" colIdx={42} className="c-b4-25">录分25</SortHeader>
-            <SortHeader field="b4_2025last" colIdx={43} className="c-b4-25">末分25</SortHeader>
-            <SortHeader field="b4_2025lastVol" colIdx={44} className="c-b4-25 th-2line">末<br />志25</SortHeader>
-            <SortHeader field="b4_2024min" colIdx={45} className="c-b4-24">录分24</SortHeader>
-            <SortHeader field="b4_2024last" colIdx={46} className="c-b4-24">末分24</SortHeader>
-            <SortHeader field="b4_2024lastVol" colIdx={47} className="c-b4-24 th-2line">末<br />志24</SortHeader>
-            <SortHeader field="b4_2023min" colIdx={48} className="c-b4-23">录分23</SortHeader>
-            <SortHeader field="b4_2023last" colIdx={49} className="c-b4-23">末分23</SortHeader>
-            <SortHeader field="b4_2023lastVol" colIdx={50} className="c-b4-23 th-2line">末<br />志23</SortHeader>
-            <SortHeader field="makeupNormal" colIdx={51} className="c-makeup">补正常分</SortHeader>
-            <SortHeader field="makeupScore" colIdx={52} className="c-makeup">补录分</SortHeader>
-            <SortHeader field="makeupDiff" colIdx={53} className="c-makeup">补差值</SortHeader>
-            <SortHeader field="makeupPlan2025" colIdx={54} className="c-makeup th-2line">补录<br />计划</SortHeader>
-            <SortHeader field="makeupControlLine2025" colIdx={55} className="c-makeup th-2line">补录<br />控制线</SortHeader>
-            <SortHeader field="enrollmentPlan2026" colIdx={56} className="c-plan th-2line">批三<br />计划</SortHeader>
-            <SortHeader field="maxWaiquPlan2026" colIdx={57} className="c-plan">外区人数</SortHeader>
-            <SortHeader field="totalPlan2026" colIdx={58} className="c-plan">总计划</SortHeader>
-            <SortHeader field="totalDormitory2026" colIdx={59} className="c-plan">总宿位</SortHeader>
-            <th className="col-action c-base" data-col-index="60"></th>
+            <SortHeader field="xieheSendMin26" colIdx={8} className="c-batch2">录·26</SortHeader>
+            <SortHeader field="xieheSendLast26" colIdx={9} className="c-batch2">末分·26</SortHeader>
+            <SortHeader field="xieheSendLastVol26" colIdx={10} className="c-batch2 th-2line">末<br />志·26</SortHeader>
+            <SortHeader field="xieheQuotaNum" colIdx={11} className="c-batch2">名额数·26</SortHeader>
+            <SortHeader field="quotaCompare25" colIdx={12} className="c-batch2">控·25</SortHeader>
+            <SortHeader field="batch2Score2025" colIdx={13} className="c-batch2">录·25</SortHeader>
+            <SortHeader field="xieheSendLast25" colIdx={14} className="c-batch2">末分·25</SortHeader>
+            <SortHeader field="xieheSendLastVol25" colIdx={15} className="c-batch2 th-2line">末<br />志·25</SortHeader>
+            <SortHeader field="xieheQuotaNum25" colIdx={16} className="c-batch2">名额数·25</SortHeader>
+            <SortHeader field="quotaChangeValue" colIdx={17} className="c-batch2">控变化·26vs25</SortHeader>
+            <SortHeader field="b2Min3y" colIdx={18} className="c-batch2">录分·四年</SortHeader>
+            <SortHeader field="b2MinAvg" colIdx={19} className="c-batch2">录分·均值</SortHeader>
+            <SortHeader field="b2Last3y" colIdx={20} className="c-batch2">末分·四年</SortHeader>
+            <SortHeader field="b2LastAvg" colIdx={21} className="c-batch2">末分·均值</SortHeader>
+            <SortHeader field="b2LastVol3y" colIdx={22} className="c-batch2">末志·四年</SortHeader>
+            <SortHeader field="b3_2025hujiMin" colIdx={23} className="c-b3-25">户·录分25</SortHeader>
+            <SortHeader field="b3_2025hujiLast" colIdx={24} className="c-b3-25">户·末分25</SortHeader>
+            <SortHeader field="b3_2025hujiLastVol" colIdx={25} className="c-b3-25 th-2line">户·末<br />志25</SortHeader>
+            <SortHeader field="b3_2025waiquMin" colIdx={26} className="c-b3-25">外·录分25</SortHeader>
+            <SortHeader field="b3_2025waiquLast" colIdx={27} className="c-b3-25">外·末分25</SortHeader>
+            <SortHeader field="b3_2025waiquLastVol" colIdx={28} className="c-b3-25 th-2line">外·末<br />志25</SortHeader>
+            <SortHeader field="b3_2024hujiMin" colIdx={29} className="c-b3-24">户·录分24</SortHeader>
+            <SortHeader field="b3_2024hujiLast" colIdx={30} className="c-b3-24">户·末分24</SortHeader>
+            <SortHeader field="b3_2024hujiLastVol" colIdx={31} className="c-b3-24 th-2line">户·末<br />志24</SortHeader>
+            <SortHeader field="b3_2024waiquMin" colIdx={32} className="c-b3-24">外·录分24</SortHeader>
+            <SortHeader field="b3_2024waiquLast" colIdx={33} className="c-b3-24">外·末分24</SortHeader>
+            <SortHeader field="b3_2024waiquLastVol" colIdx={34} className="c-b3-24 th-2line">外·末<br />志24</SortHeader>
+            <SortHeader field="b3_2023hujiMin" colIdx={35} className="c-b3-23">户·录分23</SortHeader>
+            <SortHeader field="b3_2023hujiLast" colIdx={36} className="c-b3-23">户·末分23</SortHeader>
+            <SortHeader field="b3_2023hujiLastVol" colIdx={37} className="c-b3-23 th-2line">户·末<br />志23</SortHeader>
+            <SortHeader field="b3_2023waiquMin" colIdx={38} className="c-b3-23">外·录分23</SortHeader>
+            <SortHeader field="b3_2023waiquLast" colIdx={39} className="c-b3-23">外·末分23</SortHeader>
+            <SortHeader field="b3_2023waiquLastVol" colIdx={40} className="c-b3-23 th-2line">外·末<br />志23</SortHeader>
+            <SortHeader field="b3HujiMinAvg" colIdx={41} className="c-b3-25">户录·均值</SortHeader>
+            <SortHeader field="b3HujiLastAvg" colIdx={42} className="c-b3-25">户末分·均值</SortHeader>
+            <SortHeader field="b3WaiquMinAvg" colIdx={43} className="c-b3-25">外录·均值</SortHeader>
+            <SortHeader field="b3WaiquLastAvg" colIdx={44} className="c-b3-25">外末分·均值</SortHeader>
+            <SortHeader field="b4_2025min" colIdx={45} className="c-b4-25">录分25</SortHeader>
+            <SortHeader field="b4_2025last" colIdx={46} className="c-b4-25">末分25</SortHeader>
+            <SortHeader field="b4_2025lastVol" colIdx={47} className="c-b4-25 th-2line">末<br />志25</SortHeader>
+            <SortHeader field="b4_2024min" colIdx={48} className="c-b4-24">录分24</SortHeader>
+            <SortHeader field="b4_2024last" colIdx={49} className="c-b4-24">末分24</SortHeader>
+            <SortHeader field="b4_2024lastVol" colIdx={50} className="c-b4-24 th-2line">末<br />志24</SortHeader>
+            <SortHeader field="b4_2023min" colIdx={51} className="c-b4-23">录分23</SortHeader>
+            <SortHeader field="b4_2023last" colIdx={52} className="c-b4-23">末分23</SortHeader>
+            <SortHeader field="b4_2023lastVol" colIdx={53} className="c-b4-23 th-2line">末<br />志23</SortHeader>
+            <SortHeader field="makeupNormal" colIdx={54} className="c-makeup">补正常分</SortHeader>
+            <SortHeader field="makeupScore" colIdx={55} className="c-makeup">补录分</SortHeader>
+            <SortHeader field="makeupDiff" colIdx={56} className="c-makeup">补差值</SortHeader>
+            <SortHeader field="makeupPlan2025" colIdx={57} className="c-makeup th-2line">补录<br />计划</SortHeader>
+            <SortHeader field="makeupControlLine2025" colIdx={58} className="c-makeup th-2line">补录<br />控制线</SortHeader>
+            <SortHeader field="enrollmentPlan2026" colIdx={59} className="c-plan th-2line">批三<br />计划</SortHeader>
+            <SortHeader field="maxWaiquPlan2026" colIdx={60} className="c-plan">外区人数</SortHeader>
+            <SortHeader field="totalPlan2026" colIdx={61} className="c-plan">总计划</SortHeader>
+            <SortHeader field="totalDormitory2026" colIdx={62} className="c-plan">总宿位</SortHeader>
+            <th className="col-action c-base" data-col-index="63"></th>
           </tr>
         </thead>
         <tbody ref={tbodyRef} className={`${collapsedGroups.has('batch2') ? 'hide-batch2' : ''} ${collapsedGroups.has('batch3') ? 'hide-batch3' : ''} ${collapsedGroups.has('batch4') ? 'hide-batch4' : ''} ${collapsedGroups.has('makeup') ? 'hide-makeup' : ''}`.trim()}>
@@ -980,138 +994,145 @@ export default function ResultTable({ data, onSelectSchool, keyword, onKeywordCh
                       <span className="quota-line">{r.xieheControlLine2026}</span>
                     ) : '--'}
                   </>)}
-                  {renderCollapsibleTd('xieheQuotaNum', 'd-batch2', 8, <>
+                  {/* 2026年送生录取数据（录·26、末分·26、末志·26） */}
+                  {renderCollapsibleTd('xieheSendMin26', 'd-batch2', 8, <ScoreBadge score={r.xieheSendingRecords?.find(s => s.year === 2026)?.minScore} />)}
+                  {renderCollapsibleTd('xieheSendLast26', 'd-batch2', 9, <ScoreBadge score={r.xieheSendingRecords?.find(s => s.year === 2026)?.lastScore} />)}
+                  {renderCollapsibleTd('xieheSendLastVol26', 'd-batch2', 10, <>{r.xieheSendingRecords?.find(s => s.year === 2026)?.lastVolunteerOrder ?? '--'}</>)}
+                  {renderCollapsibleTd('xieheQuotaNum', 'd-batch2', 11, <>
                     {r.xieheQuota2026 != null ? (
                       <span className="quota-num">{r.xieheQuota2026.provinceQuota}</span>
                     ) : '--'}
                   </>)}
-                  {renderCollapsibleTd('quotaCompare25', 'd-batch2', 9, <ScoreBadge score={r.quotaCompare2526?.controlLine2025} />)}
-                  {renderCollapsibleTd('batch2Score2025', 'd-batch2', 10, <ScoreBadge score={r.batch2Score2025} />)}
-                  {renderCollapsibleTd('xieheSendLast25', 'd-batch2', 11, <ScoreBadge score={r.xieheSendingRecords?.find(s => s.year === 2025)?.lastScore} />)}
-                  {renderCollapsibleTd('xieheSendLastVol25', 'd-batch2', 12, <>{r.xieheSendingRecords?.find(s => s.year === 2025)?.lastVolunteerOrder ?? '--'}</>)}
-                  {renderCollapsibleTd('xieheQuotaNum25', 'd-batch2', 13, <>{r.xieheQuota2025 != null ? r.xieheQuota2025 : '--'}</>)}
-                  {renderCollapsibleTd('quotaChangeValue', 'd-batch2', 14, <>{r.quotaCompare2526?.changeValue != null ? (
+                  {renderCollapsibleTd('quotaCompare25', 'd-batch2', 12, <ScoreBadge score={r.quotaCompare2526?.controlLine2025} />)}
+                  {renderCollapsibleTd('batch2Score2025', 'd-batch2', 13, <ScoreBadge score={r.batch2Score2025} />)}
+                  {renderCollapsibleTd('xieheSendLast25', 'd-batch2', 14, <ScoreBadge score={r.xieheSendingRecords?.find(s => s.year === 2025)?.lastScore} />)}
+                  {renderCollapsibleTd('xieheSendLastVol25', 'd-batch2', 15, <>{r.xieheSendingRecords?.find(s => s.year === 2025)?.lastVolunteerOrder ?? '--'}</>)}
+                  {renderCollapsibleTd('xieheQuotaNum25', 'd-batch2', 16, <>{r.xieheQuota2025 != null ? r.xieheQuota2025 : '--'}</>)}
+                  {renderCollapsibleTd('quotaChangeValue', 'd-batch2', 17, <>{r.quotaCompare2526?.changeValue != null ? (
                     <span className={r.quotaCompare2526.changeValue >= 0 ? 'change-pos' : 'change-neg'}>
                       {r.quotaCompare2526.changeValue > 0 ? '+' : ''}{r.quotaCompare2526.changeValue}
                     </span>
                   ) : '--'}</>)}
-                  {/* 第二批 三年汇总 */}
+                  {/* 第二批 四年汇总（2026/2025/2024/2023） */}
                   {((): React.ReactElement => {
                     const recs = r.xieheSendingRecords ?? [];
                     const s23 = recs.find(s => s.year === 2023)?.minScore;
                     const s24 = recs.find(s => s.year === 2024)?.minScore;
                     const s25 = recs.find(s => s.year === 2025)?.minScore;
-                    return <>{renderCollapsibleTd('b2Min3y', 'd-batch2', 15, <div className="three-year-row">
-                      <ScoreBadge score={s23} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s24} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s25} />
+                    const s26 = recs.find(s => s.year === 2026)?.minScore;
+                    return <>{renderCollapsibleTd('b2Min3y', 'd-batch2', 18, <div className="three-year-row">
+                      <ScoreBadge score={s23} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s24} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s25} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s26} />
                     </div>)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const recs = r.xieheSendingRecords ?? [];
-                    const vals = [2025, 2024, 2023].map(y => recs.find(s => s.year === y)?.minScore).filter((v): v is number => v != null);
+                    const vals = [2026, 2025, 2024, 2023].map(y => recs.find(s => s.year === y)?.minScore).filter((v): v is number => v != null);
                     const avg = vals.length > 0 ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : null;
-                    return <>{renderCollapsibleTd('b2MinAvg', 'd-batch2', 16, <ScoreBadge score={avg} />)}</>;
+                    return <>{renderCollapsibleTd('b2MinAvg', 'd-batch2', 19, <ScoreBadge score={avg} />)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const recs = r.xieheSendingRecords ?? [];
                     const s23 = recs.find(s => s.year === 2023)?.lastScore;
                     const s24 = recs.find(s => s.year === 2024)?.lastScore;
                     const s25 = recs.find(s => s.year === 2025)?.lastScore;
-                    return <>{renderCollapsibleTd('b2Last3y', 'd-batch2', 17, <div className="three-year-row">
-                      <ScoreBadge score={s23} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s24} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s25} />
+                    const s26 = recs.find(s => s.year === 2026)?.lastScore;
+                    return <>{renderCollapsibleTd('b2Last3y', 'd-batch2', 20, <div className="three-year-row">
+                      <ScoreBadge score={s23} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s24} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s25} /><span className="three-year-sep">{'->'}</span><ScoreBadge score={s26} />
                     </div>)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const recs = r.xieheSendingRecords ?? [];
-                    const vals = [2025, 2024, 2023].map(y => recs.find(s => s.year === y)?.lastScore).filter((v): v is number => v != null);
+                    const vals = [2026, 2025, 2024, 2023].map(y => recs.find(s => s.year === y)?.lastScore).filter((v): v is number => v != null);
                     const avg = vals.length > 0 ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : null;
-                    return <>{renderCollapsibleTd('b2LastAvg', 'd-batch2', 18, <ScoreBadge score={avg} />)}</>;
+                    return <>{renderCollapsibleTd('b2LastAvg', 'd-batch2', 21, <ScoreBadge score={avg} />)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const recs = r.xieheSendingRecords ?? [];
                     const s23 = recs.find(s => s.year === 2023)?.lastVolunteerOrder;
                     const s24 = recs.find(s => s.year === 2024)?.lastVolunteerOrder;
                     const s25 = recs.find(s => s.year === 2025)?.lastVolunteerOrder;
-                    const text = [s23, s24, s25].map(s => s ?? '--').join('->');
-                    return <>{renderCollapsibleTd('b2LastVol3y', 'd-batch2', 19, <span title={text}>{text}</span>)}</>;
+                    const s26 = recs.find(s => s.year === 2026)?.lastVolunteerOrder;
+                    const text = [s23, s24, s25, s26].map(s => s ?? '--').join('->');
+                    return <>{renderCollapsibleTd('b2LastVol3y', 'd-batch2', 22, <span title={text}>{text}</span>)}</>;
                   })()}
                   {/* 第三批2025 (6列) */}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'hujiMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2025hujiMin', 'd-b3-25', 20, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'hujiLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2025hujiLast', 'd-b3-25', 21, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'hujiLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2025hujiLastVol', 'd-b3-25', 22, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'waiquMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2025waiquMin', 'd-b3-25', 23, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'waiquLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2025waiquLast', 'd-b3-25', 24, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'waiquLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2025waiquLastVol', 'd-b3-25', 25, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'hujiMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2025hujiMin', 'd-b3-25', 23, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'hujiLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2025hujiLast', 'd-b3-25', 24, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'hujiLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2025hujiLastVol', 'd-b3-25', 25, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'waiquMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2025waiquMin', 'd-b3-25', 26, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'waiquLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2025waiquLast', 'd-b3-25', 27, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2025, 'waiquLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2025waiquLastVol', 'd-b3-25', 28, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
                   {/* 第三批2024 (6列) */}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'hujiMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2024hujiMin', 'd-b3-24', 26, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'hujiLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2024hujiLast', 'd-b3-24', 27, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'hujiLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2024hujiLastVol', 'd-b3-24', 28, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'waiquMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2024waiquMin', 'd-b3-24', 29, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'waiquLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2024waiquLast', 'd-b3-24', 30, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'waiquLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2024waiquLastVol', 'd-b3-24', 31, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'hujiMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2024hujiMin', 'd-b3-24', 29, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'hujiLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2024hujiLast', 'd-b3-24', 30, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'hujiLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2024hujiLastVol', 'd-b3-24', 31, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'waiquMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2024waiquMin', 'd-b3-24', 32, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'waiquLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2024waiquLast', 'd-b3-24', 33, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2024, 'waiquLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2024waiquLastVol', 'd-b3-24', 34, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
                   {/* 第三批2023 (6列) */}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'hujiMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2023hujiMin', 'd-b3-23', 32, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'hujiLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2023hujiLast', 'd-b3-23', 33, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'hujiLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2023hujiLastVol', 'd-b3-23', 34, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'waiquMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2023waiquMin', 'd-b3-23', 35, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'waiquLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2023waiquLast', 'd-b3-23', 36, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
-                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'waiquLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2023waiquLastVol', 'd-b3-23', 37, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'hujiMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2023hujiMin', 'd-b3-23', 35, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'hujiLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2023hujiLast', 'd-b3-23', 36, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'hujiLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2023hujiLastVol', 'd-b3-23', 37, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'waiquMin', distinguishOutside); return <>{renderCollapsibleTd('b3_2023waiquMin', 'd-b3-23', 38, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'waiquLast', distinguishOutside); return <>{renderCollapsibleTd('b3_2023waiquLast', 'd-b3-23', 39, <ScoreBadge score={f.value} masked={f.masked} />)}</>; })()}
+                  {((): React.ReactElement => { const f = getB3Field(r, 2023, 'waiquLastVol', distinguishOutside); return <>{renderCollapsibleTd('b3_2023waiquLastVol', 'd-b3-23', 40, <span className={f.masked ? 'score-masked' : ''}>{f.value ?? '--'}</span>)}</>; })()}
                   {/* 第三批 均值列 */}
                   {((): React.ReactElement => {
                     const vals = [2025, 2024, 2023].map(y => getB3Field(r, y, 'hujiMin', distinguishOutside));
                     const valid = vals.filter(v => v.value != null);
                     const avg = valid.length > 0 ? Math.round(valid.reduce((a, v) => a + (v.value ?? 0), 0) / valid.length) : null;
                     const masked = vals.some(v => v.masked);
-                    return <>{renderCollapsibleTd('b3HujiMinAvg', 'd-b3-25', 38, <ScoreBadge score={avg} masked={masked} />)}</>;
+                    return <>{renderCollapsibleTd('b3HujiMinAvg', 'd-b3-25', 41, <ScoreBadge score={avg} masked={masked} />)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const vals = [2025, 2024, 2023].map(y => getB3Field(r, y, 'hujiLast', distinguishOutside));
                     const valid = vals.filter(v => v.value != null);
                     const avg = valid.length > 0 ? Math.round(valid.reduce((a, v) => a + (v.value ?? 0), 0) / valid.length) : null;
                     const masked = vals.some(v => v.masked);
-                    return <>{renderCollapsibleTd('b3HujiLastAvg', 'd-b3-25', 39, <ScoreBadge score={avg} masked={masked} />)}</>;
+                    return <>{renderCollapsibleTd('b3HujiLastAvg', 'd-b3-25', 42, <ScoreBadge score={avg} masked={masked} />)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const vals = [2025, 2024, 2023].map(y => getB3Field(r, y, 'waiquMin', distinguishOutside));
                     const valid = vals.filter(v => v.value != null);
                     const avg = valid.length > 0 ? Math.round(valid.reduce((a, v) => a + (v.value ?? 0), 0) / valid.length) : null;
                     const masked = vals.some(v => v.masked);
-                    return <>{renderCollapsibleTd('b3WaiquMinAvg', 'd-b3-25', 40, <ScoreBadge score={avg} masked={masked} />)}</>;
+                    return <>{renderCollapsibleTd('b3WaiquMinAvg', 'd-b3-25', 43, <ScoreBadge score={avg} masked={masked} />)}</>;
                   })()}
                   {((): React.ReactElement => {
                     const vals = [2025, 2024, 2023].map(y => getB3Field(r, y, 'waiquLast', distinguishOutside));
                     const valid = vals.filter(v => v.value != null);
                     const avg = valid.length > 0 ? Math.round(valid.reduce((a, v) => a + (v.value ?? 0), 0) / valid.length) : null;
                     const masked = vals.some(v => v.masked);
-                    return <>{renderCollapsibleTd('b3WaiquLastAvg', 'd-b3-25', 41, <ScoreBadge score={avg} masked={masked} />)}</>;
+                    return <>{renderCollapsibleTd('b3WaiquLastAvg', 'd-b3-25', 44, <ScoreBadge score={avg} masked={masked} />)}</>;
                   })()}
                   {/* 第四批2025 (3列) */}
-                  {renderCollapsibleTd('b4_2025min', 'd-b4-25', 42, <ScoreBadge score={getB4Field(r, 2025, 'min')} />)}
-                  {renderCollapsibleTd('b4_2025last', 'd-b4-25', 43, <ScoreBadge score={getB4Field(r, 2025, 'last')} />)}
-                  {renderCollapsibleTd('b4_2025lastVol', 'd-b4-25', 44, <>{getB4Field(r, 2025, 'lastVol') ?? '--'}</>)}
+                  {renderCollapsibleTd('b4_2025min', 'd-b4-25', 45, <ScoreBadge score={getB4Field(r, 2025, 'min')} />)}
+                  {renderCollapsibleTd('b4_2025last', 'd-b4-25', 46, <ScoreBadge score={getB4Field(r, 2025, 'last')} />)}
+                  {renderCollapsibleTd('b4_2025lastVol', 'd-b4-25', 47, <>{getB4Field(r, 2025, 'lastVol') ?? '--'}</>)}
                   {/* 第四批2024 (3列) */}
-                  {renderCollapsibleTd('b4_2024min', 'd-b4-24', 45, <ScoreBadge score={getB4Field(r, 2024, 'min')} />)}
-                  {renderCollapsibleTd('b4_2024last', 'd-b4-24', 46, <ScoreBadge score={getB4Field(r, 2024, 'last')} />)}
-                  {renderCollapsibleTd('b4_2024lastVol', 'd-b4-24', 47, <>{getB4Field(r, 2024, 'lastVol') ?? '--'}</>)}
+                  {renderCollapsibleTd('b4_2024min', 'd-b4-24', 48, <ScoreBadge score={getB4Field(r, 2024, 'min')} />)}
+                  {renderCollapsibleTd('b4_2024last', 'd-b4-24', 49, <ScoreBadge score={getB4Field(r, 2024, 'last')} />)}
+                  {renderCollapsibleTd('b4_2024lastVol', 'd-b4-24', 50, <>{getB4Field(r, 2024, 'lastVol') ?? '--'}</>)}
                   {/* 第四批2023 (3列) */}
-                  {renderCollapsibleTd('b4_2023min', 'd-b4-23', 48, <ScoreBadge score={getB4Field(r, 2023, 'min')} />)}
-                  {renderCollapsibleTd('b4_2023last', 'd-b4-23', 49, <ScoreBadge score={getB4Field(r, 2023, 'last')} />)}
-                  {renderCollapsibleTd('b4_2023lastVol', 'd-b4-23', 50, <>{getB4Field(r, 2023, 'lastVol') ?? '--'}</>)}
+                  {renderCollapsibleTd('b4_2023min', 'd-b4-23', 51, <ScoreBadge score={getB4Field(r, 2023, 'min')} />)}
+                  {renderCollapsibleTd('b4_2023last', 'd-b4-23', 52, <ScoreBadge score={getB4Field(r, 2023, 'last')} />)}
+                  {renderCollapsibleTd('b4_2023lastVol', 'd-b4-23', 53, <>{getB4Field(r, 2023, 'lastVol') ?? '--'}</>)}
                   {/* 补录 */}
-                  {renderCollapsibleTd('makeupNormal', 'd-makeup', 51, <ScoreBadge score={r.makeupScore?.normalScore} />)}
-                  {renderCollapsibleTd('makeupScore', 'd-makeup', 52, <ScoreBadge score={r.makeupScore?.makeupScore} />)}
-                  {renderCollapsibleTd('makeupDiff', 'd-makeup', 53, <>{r.makeupScore?.diff != null ? (
+                  {renderCollapsibleTd('makeupNormal', 'd-makeup', 54, <ScoreBadge score={r.makeupScore?.normalScore} />)}
+                  {renderCollapsibleTd('makeupScore', 'd-makeup', 55, <ScoreBadge score={r.makeupScore?.makeupScore} />)}
+                  {renderCollapsibleTd('makeupDiff', 'd-makeup', 56, <>{r.makeupScore?.diff != null ? (
                     <span className={r.makeupScore.diff >= 0 ? 'change-pos' : 'change-neg'}>
                       {r.makeupScore.diff > 0 ? '+' : ''}{r.makeupScore.diff}
                     </span>
                   ) : '--'}</>)}
-                  {renderCollapsibleTd('makeupPlan2025', 'd-makeup', 54, <>{r.makeupPlan2025?.makeupPlan ?? '--'}</>)}
-                  {renderCollapsibleTd('makeupControlLine2025', 'd-makeup', 55, <ScoreBadge score={r.makeupPlan2025?.makeupControlLine} />)}
+                  {renderCollapsibleTd('makeupPlan2025', 'd-makeup', 57, <>{r.makeupPlan2025?.makeupPlan ?? '--'}</>)}
+                  {renderCollapsibleTd('makeupControlLine2025', 'd-makeup', 58, <ScoreBadge score={r.makeupPlan2025?.makeupControlLine} />)}
                   {/* 计划信息 */}
-                  {renderCollapsibleTd('enrollmentPlan2026', 'd-plan', 56, <>{r.enrollmentPlan2026 && r.enrollmentPlan2026 !== '-' ? r.enrollmentPlan2026 : '--'}</>)}
-                  {renderCollapsibleTd('maxWaiquPlan2026', 'd-plan', 57, <>{r.maxWaiquPlan2026 && r.maxWaiquPlan2026 !== '-' ? r.maxWaiquPlan2026 : '--'}</>)}
-                  {renderCollapsibleTd('totalPlan2026', 'd-plan', 58, <>{r.totalPlan2026 != null ? r.totalPlan2026 : '--'}</>)}
-                  {renderCollapsibleTd('totalDormitory2026', 'd-plan', 59, <>{r.totalDormitory2026 != null ? r.totalDormitory2026 : '--'}</>)}
-                  {renderCollapsibleTd('action', 'col-action d-base', 60, <button
+                  {renderCollapsibleTd('enrollmentPlan2026', 'd-plan', 59, <>{r.enrollmentPlan2026 && r.enrollmentPlan2026 !== '-' ? r.enrollmentPlan2026 : '--'}</>)}
+                  {renderCollapsibleTd('maxWaiquPlan2026', 'd-plan', 60, <>{r.maxWaiquPlan2026 && r.maxWaiquPlan2026 !== '-' ? r.maxWaiquPlan2026 : '--'}</>)}
+                  {renderCollapsibleTd('totalPlan2026', 'd-plan', 61, <>{r.totalPlan2026 != null ? r.totalPlan2026 : '--'}</>)}
+                  {renderCollapsibleTd('totalDormitory2026', 'd-plan', 62, <>{r.totalDormitory2026 != null ? r.totalDormitory2026 : '--'}</>)}
+                  {renderCollapsibleTd('action', 'col-action d-base', 63, <button
                     className="btn-detail"
                     onClick={() => onSelectSchool(r)}
                   >详情</button>)}

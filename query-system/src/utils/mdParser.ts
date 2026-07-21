@@ -218,16 +218,18 @@ export function parseXieheSendingDetails(md: string): XieheSendingRecord[] {
   const sectionStart = md.indexOf('一、广州协和学校作为送生学校');
   if (sectionStart === -1) return [];
 
-  const sectionEnd = md.indexOf('### 1.4', sectionStart);
+  // 截止到"### 1.5 四年对比"之前的部分（含2023/2024/2025/2026四年送生明细表）
+  const sectionEnd = md.indexOf('### 1.5', sectionStart);
   const section = md.slice(sectionStart, sectionEnd === -1 ? undefined : sectionEnd);
 
   const tables = extractAllTables(section);
   const results: XieheSendingRecord[] = [];
-  const TABLE_YEARS = [2023, 2024, 2025];
+  // 四年送生明细表，按出现顺序对应 2023/2024/2025/2026
+  const TABLE_YEARS = [2023, 2024, 2025, 2026];
 
   for (let ti = 0; ti < tables.length; ti++) {
     const table = tables[ti];
-    const currentYear = TABLE_YEARS[ti] ?? 2025;
+    const currentYear = TABLE_YEARS[ti] ?? 2026;
 
     const rows = parseMdTable(table);
     for (const row of rows) {
@@ -250,7 +252,10 @@ export function parseXieheSendingDetails(md: string): XieheSendingRecord[] {
 }
 
 export function parseXieheControlLines(md: string): XieheControlLine2026[] {
-  const sectionStart = md.indexOf('### 1.5 控制线对比');
+  // 兼容旧版（### 1.5 控制线对比）与新版（### 1.6 控制线对比）文档结构
+  const sectionStart = md.indexOf('### 1.6 控制线对比') !== -1
+    ? md.indexOf('### 1.6 控制线对比')
+    : md.indexOf('### 1.5 控制线对比');
   if (sectionStart === -1) return [];
 
   const section = md.slice(sectionStart);
