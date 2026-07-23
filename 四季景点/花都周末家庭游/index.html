@@ -282,7 +282,7 @@
       .xbrain-brand svg { width: 24px; height: 24px; }
       .xbrain-brand .xbrain-text { font-size: 13px; }
     }
-    section[id] { scroll-margin-top: 60px; }
+    section[id], .culture-card[id] { scroll-margin-top: 80px; }
 
     /* ===== FOOTER / BACK LINK ===== */
     footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--xb-text-dim); font-size: 0.85rem; letter-spacing: 1px; }
@@ -320,6 +320,12 @@
     .waterfall-grid { width: 100%; max-width: 1100px; flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; padding: 0 1.5rem 2rem; }
     .waterfall-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--xb-border); }
     .waterfall-grid img:hover { transform: scale(1.03); box-shadow: 0 0 20px rgba(100,180,255,0.25); }
+    /* ===== 页内锚点链接（交叉引用 + 返回顶部） ===== */
+    .in-doc-link { color: var(--xb-accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; font-weight: 600; cursor: pointer; }
+    .in-doc-link:hover { color: var(--xb-accent2); text-decoration-thickness: 2px; }
+    .section-backtop { text-align: center; margin-top: 1.6rem; }
+    .section-backtop a { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--xb-text-dim); font-size: 0.88rem; padding: 0.45rem 1rem; border: 1px solid var(--xb-border); border-radius: 20px; transition: 0.2s; }
+    .section-backtop a:hover { color: var(--xb-accent); border-color: var(--xb-accent); background: rgba(100,180,255,0.08); }
   </style>
 </head>
 <body>
@@ -1224,7 +1230,7 @@
           <div class="timeline-time">08:00 - 09:30</div>
           <div class="timeline-content">
             <h4>☯️ 圆玄道观</h4>
-            <p>约8:00开园，正好趁早晨凉爽先逛——它是花都景点里<strong>唯一 10:00 前开门</strong>的，也是本次四大兴趣点之一。主体仿北京天坛祈年殿的"三清殿"（广州小天坛）、18.8米老子青铜像、元辰宝殿六十甲子。<strong>可给孩子讲</strong>：道教是中国本土宗教、古人"天圆地方"、太极图黑白互化、十二生肖喷泉找自己的属相（详见「人文背景·给孩子的解说」）。</p>
+            <p>约8:00开园，正好趁早晨凉爽先逛——它是花都景点里<strong>唯一 10:00 前开门</strong>的，也是本次四大兴趣点之一。主体仿北京天坛祈年殿的"三清殿"（广州小天坛）、18.8米老子青铜像、元辰宝殿六十甲子。<strong>可给孩子讲</strong>：道教是中国本土宗教、古人"天圆地方"、太极图黑白互化、十二生肖喷泉找自己的属相（详见 <a class="in-doc-link" href="#culture-yuanxuan">人文背景·给孩子的解说</a>）。</p>
             <div class="timeline-tags">
               <span class="timeline-tag recommended">道教文化</span>
               <span class="timeline-tag free">古建</span>
@@ -1294,7 +1300,7 @@
           <div class="timeline-time">14:30 - 17:00</div>
           <div class="timeline-content">
             <h4>💎 石头记矿物园（AAAA）</h4>
-            <p>下午转场矿物科普（9:00–18:00，驾车约20分钟）。地上奇石公园+地下宝藏宫殿，夜明珠、满汉全席奇石宴、世界最大天然水晶观音。亲子可玩矿物科普 DIY，小孩对"会发光的石头""石头长成六角柱"最着迷。<strong>可给孩子讲</strong>：岩石分岩浆岩/沉积岩/变质岩、水晶是二氧化硅的晶体、化石是远古动植物的"石头照片"（详见下方「人文背景·给孩子的解说」）。</p>
+            <p>下午转场矿物科普（9:00–18:00，驾车约20分钟）。地上奇石公园+地下宝藏宫殿，夜明珠、满汉全席奇石宴、世界最大天然水晶观音。亲子可玩矿物科普 DIY，小孩对"会发光的石头""石头长成六角柱"最着迷。<strong>可给孩子讲</strong>：岩石分岩浆岩/沉积岩/变质岩、水晶是二氧化硅的晶体、化石是远古动植物的"石头照片"（详见下方 <a class="in-doc-link" href="#culture-stone">人文背景·给孩子的解说</a>）。</p>
             <div class="timeline-tags">
               <span class="timeline-tag recommended">矿物科普</span>
               <span class="timeline-tag free">亲子</span>
@@ -1337,7 +1343,7 @@
           <div class="timeline-time">19:00 - 21:00</div>
           <div class="timeline-content">
             <h4>🛕 曼古园夜景（免费）</h4>
-            <p>晚餐后驾车约20分钟到曼古园（9:00–22:00，免费）。金碧辉煌的泰式佛塔、四面佛、大象雕塑，夜灯亮起宛如曼谷街头，是全程最佳夜拍点。<strong>可给孩子讲</strong>：泰国主要信佛教、四面佛代表平安/事业/爱情/健康、金色和故宫红墙金瓦一样表示"重要"（详见「人文背景·给孩子的解说」）。</p>
+            <p>晚餐后驾车约20分钟到曼古园（9:00–22:00，免费）。金碧辉煌的泰式佛塔、四面佛、大象雕塑，夜灯亮起宛如曼谷街头，是全程最佳夜拍点。<strong>可给孩子讲</strong>：泰国主要信佛教、四面佛代表平安/事业/爱情/健康、金色和故宫红墙金瓦一样表示"重要"（详见 <a class="in-doc-link" href="#culture-mangu">人文背景·给孩子的解说</a>）。</p>
             <div class="timeline-tags">
               <span class="timeline-tag free">免费</span>
               <span class="timeline-tag">夜景</span>
@@ -1389,7 +1395,7 @@
           <div class="timeline-time">10:00 - 12:00</div>
           <div class="timeline-content">
             <h4>🏛️ 洪秀全故居（AAA）</h4>
-            <p>9:00–17:00（16:30停入），<strong>周一闭馆</strong>——本次周日出行无碍，免费。这里是太平天国领袖洪秀全的出生地与少年读书处，书房"书房阁"、古榕、文物陈列。上午凉爽、游人少，逛得从容。<strong>可给孩子讲</strong>：洪秀全从这儿走出、发动金田起义建立太平天国（1851–1864）、屡试不第仍不甘心，是"从书生到改天换地"的真实历史（详见「人文背景·给孩子的解说」）。</p>
+            <p>9:00–17:00（16:30停入），<strong>周一闭馆</strong>——本次周日出行无碍，免费。这里是太平天国领袖洪秀全的出生地与少年读书处，书房"书房阁"、古榕、文物陈列。上午凉爽、游人少，逛得从容。<strong>可给孩子讲</strong>：洪秀全从这儿走出、发动金田起义建立太平天国（1851–1864）、屡试不第仍不甘心，是"从书生到改天换地"的真实历史（详见 <a class="in-doc-link" href="#culture-hongxiuquan">人文背景·给孩子的解说</a>）。</p>
             <div class="timeline-tags">
               <span class="timeline-tag recommended">近代史</span>
               <span class="timeline-tag free">免费</span>
@@ -1411,7 +1417,7 @@
           <div class="timeline-time">12:00 - 13:30</div>
           <div class="timeline-content">
             <h4>🏯 资政大夫祠</h4>
-            <p>与洪秀全故居同在新华街方向（驾车约10分钟），约9:00–17:00，<strong>周一闭馆</strong>。岭南民间艺术建筑典型，灰塑、砖雕、木雕"三雕"荟萃，现为花都博物馆。顺路串联不绕路。<strong>可给孩子讲</strong>：什么是祠堂（宗族祭祀议事）、灰塑为何几百年不怕风吹雨打（石灰+稻草+糖油，像"石头糖"）、砖雕木雕怎么刻出来（详见「人文背景·给孩子的解说」）。</p>
+            <p>与洪秀全故居同在新华街方向（驾车约10分钟），约9:00–17:00，<strong>周一闭馆</strong>。岭南民间艺术建筑典型，灰塑、砖雕、木雕"三雕"荟萃，现为花都博物馆。顺路串联不绕路。<strong>可给孩子讲</strong>：什么是祠堂（宗族祭祀议事）、灰塑为何几百年不怕风吹雨打（石灰+稻草+糖油，像"石头糖"）、砖雕木雕怎么刻出来（详见 <a class="in-doc-link" href="#culture-zizheng">人文背景·给孩子的解说</a>）。</p>
             <div class="timeline-tags">
               <span class="timeline-tag recommended">岭南古建</span>
               <span class="timeline-tag free">非遗</span>
@@ -1455,6 +1461,7 @@
         </div>
       </div>
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== HOURS & REVIEW SECTION ===== -->
@@ -1496,6 +1503,7 @@
         <li><strong>避坑：</strong>水世界为室内恒温水乐园，冬季或部分日期可能限开，出行前请在官方渠道确认当日是否开放。</li>
       </ul>
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== SPOTS SECTION ===== -->
@@ -1627,6 +1635,7 @@
         <li>💡 以上景点本次五个方案一律不安排，避免重复；若想替换为曼古园/宝桑园，可自由替换对应方案的周边段。</li>
       </ul>
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== CULTURE SECTION ===== -->
@@ -1640,7 +1649,7 @@
     <div class="culture-grid">
 
       <!-- 洪秀全故居 -->
-      <div class="culture-card">
+      <div class="culture-card" id="culture-hongxiuquan">
         <div class="culture-card-head">
           <div class="c-icon">🏛️</div>
           <h4>洪秀全故居</h4>
@@ -1658,7 +1667,7 @@
       </div>
 
       <!-- 资政大夫祠 -->
-      <div class="culture-card">
+      <div class="culture-card" id="culture-zizheng">
         <div class="culture-card-head">
           <div class="c-icon">🏯</div>
           <h4>资政大夫祠</h4>
@@ -1677,7 +1686,7 @@
       </div>
 
       <!-- 圆玄道观 -->
-      <div class="culture-card">
+      <div class="culture-card" id="culture-yuanxuan">
         <div class="culture-card-head">
           <div class="c-icon">☯️</div>
           <h4>圆玄道观</h4>
@@ -1696,7 +1705,7 @@
       </div>
 
       <!-- 石头记矿物园 -->
-      <div class="culture-card">
+      <div class="culture-card" id="culture-stone">
         <div class="culture-card-head">
           <div class="c-icon">💎</div>
           <h4>石头记矿物园</h4>
@@ -1715,7 +1724,7 @@
       </div>
 
       <!-- 曼古园 -->
-      <div class="culture-card">
+      <div class="culture-card" id="culture-mangu">
         <div class="culture-card-head">
           <div class="c-icon">🛕</div>
           <h4>广州曼古园</h4>
@@ -1734,6 +1743,7 @@
       </div>
 
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== HOTELS SECTION ===== -->
@@ -1781,6 +1791,7 @@
         </div>
       </div>
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== BUDGET SECTION ===== -->
@@ -1806,6 +1817,7 @@
       </tbody>
     </table>
     <p class="budget-note">注：门票为 2大2小 估算（雪世界/水世界/体育世界按成人+儿童优惠计，乐园免费入园、石头记/圆玄/洪秀全/资政/香草/七溪地多为低价或免费，大马戏单列）。住宿按融创周边亲子酒店平日价估算，节假日上浮明显。所有数字为出行参考，预订请以各平台当日为准。</p>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== TIPS SECTION ===== -->
@@ -1843,6 +1855,7 @@
         <li><strong>天气备选：</strong>若遇雨天，雪世界/水世界/体育世界均为室内，可把室外乐园/周边段替换为室内馆。</li>
       </ul>
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
   <!-- ===== BACK LINK ===== -->
@@ -1861,7 +1874,7 @@
     <div class="footer-line"></div>
     <p>XBrain &copy; 2026</p>
     <p>探索未知，连接世界</p>
-    <p class="footer-version">v20260723-180711</p>
+    <p class="footer-version">v20260723-183210</p>
   </footer>
 
   <!-- ===== LIGHTBOX (openGallery) ===== -->
@@ -1986,20 +1999,38 @@
         }
       });
 
-      function smoothNav(links) {
-        links.forEach(function(a) {
+      // 统一页内锚点导航：平滑滚动 + 显式更新 URL 片段(#hash) + 支持深链分享
+      function initAnchors() {
+        var anchors = document.querySelectorAll('a[href^="#"]');
+        anchors.forEach(function(a) {
           a.addEventListener('click', function(e) {
+            var hash = a.getAttribute('href');
+            if (!hash || hash.length < 2) return;            // 忽略裸 "#"
+            var id = hash.substring(1);
+            var target = document.getElementById(id);
+            if (!target) return;                              // 未知目标交给浏览器默认行为
             e.preventDefault();
-            var target = document.getElementById(this.getAttribute('href').substring(1));
-            if (target) {
-              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              closeMenu();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.history && window.history.pushState) {
+              window.history.pushState(null, '', hash);       // 显式写入 URL 片段，便于复制深链
+            } else {
+              window.location.hash = id;
             }
+            closeMenu();
           });
         });
       }
-      smoothNav(navLinks);
-      smoothNav(mobileLinks);
+      initAnchors();
+
+      // 深链：若以 #section 打开页面（如分享链接），加载后自动定位到该章节
+      if (window.location.hash && window.location.hash.length > 1) {
+        var deep = document.getElementById(window.location.hash.substring(1));
+        if (deep) {
+          window.addEventListener('load', function () {
+            setTimeout(function () { deep.scrollIntoView({ block: 'start' }); }, 450);
+          });
+        }
+      }
 
       document.addEventListener('click', function(e) {
         if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {

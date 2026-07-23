@@ -643,3 +643,21 @@ footer .footer-version {
 - [ ] **有图无卡的景点已补 `spot-card`**，`spot-card` 数量与推荐清单一致
 - [ ] 含「人文背景·给孩子的解说」章节（`#culture`），`culture-card` 含【背景】+【讲给孩子听】两部分
 - [ ] 导航含 `#hours` / `#culture` 锚点，`IntersectionObserver` 观察器覆盖 `.culture-card`
+- [ ] **正文交叉引用已改为可点击锚点**：时间轴/景点卡里"详见 XX"等引用用 `<a class="in-doc-link" href="#目标id">` 实现，每个大章节结尾有"返回顶部"（`#top`），无死链（详见 §13.7）
+
+### 13.7 页内锚点链接（交叉引用 + 返回顶部）
+
+长图文攻略页必须有"可跳转"的内部导航，避免读者在大段内容里迷路。统一规则：
+
+- **正文交叉引用必须可点击**：行程时间轴/景点卡里出现的"详见「人文背景·给孩子的解说」"等引用，不能写成纯文本，必须改为 `<a class="in-doc-link" href="#目标锚点">文字</a>`，跳转到对应章节或卡片。
+- **被引用元素要带 `id`**：目标章节/卡片须有 `id`（如人文卡 `id="culture-yuanxuan"`、`id="culture-stone"`），锚点精确指向具体卡片而非整节；跳转体验更准。
+- **每个大章节结尾加"返回顶部"**：在 `<section>` 闭合前插入 `<div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>`。页面 hero 区须有 `id="top"`（顶部导航"首页"也指向 `#top`），形成"读到底一键回顶"的闭环。
+- **URL 必须显式带片段（#hash）**：锚点点击不能只滚动、不更新地址栏。统一用一段 JS 接管所有 `a[href^="#"]`（`initAnchors`）：`e.preventDefault()` → `target.scrollIntoView({behavior:'smooth'})` → `history.pushState(null,'',hash)` 把 `#片段` 写进 URL。这样点击后地址栏可见 `index.html#culture-stone`，且能把带 `#片段` 的链接复制给别人直接深链到该章节。**注意**：在 WorkBuddy 预览面板（iframe 渲染）里，片段只更新 iframe 内部地址、顶部预览地址栏不变属正常；用浏览器直接打开或部署到 Netlify 后顶部地址栏即显示片段。
+- **打开即定位（深链）**：页面加载时若 `location.hash` 非空，监听 `load` 后 `setTimeout(...scrollIntoView, 450)` 自动滚到该章节，保证分享链接一打开就到正确位置。
+- **跳转不被吸顶导航遮挡**：给 `section[id], .culture-card[id]` 加 `scroll-margin-top: 80px`（吸顶导航高度余量），避免锚点落点被固定导航盖住。
+- **样式复用**：`.in-doc-link`（强调色 + 下划线）、`.section-backtop`（居中圆角描边按钮、hover 高亮）的 CSS 见 `花都周末家庭游/index.html` `<style>` 内的「页内锚点链接」段，新增子站直接复用同款，无需重新设计。
+- **验证**：发布前确认① 所有 `in-doc-link` 的 `href` 都能在页面内找到对应 `id`（无死链）；② `section-backtop` 数量 = 大章节数；③ 点击任一锚点后地址栏出现 `#片段` 且平滑滚动到位、无吸顶遮挡；④ 直接以 `index.html#某id` 打开能自动定位。
+
+> 目的：让分散在各方案、各章节的信息能**双向跳转**——从时间轴跳到详解，读完详解一键回顶部继续浏览，且每段都可生成可分享的深链 URL（"方向链接"）。
+
+> **规则已上升为项目级**：本条锚点链接规范已提炼并上升为仓库根 `AGENTS.md` 的 **§13 页内锚点链接规范（通用，所有 HTML 必遵循）**，作为全仓库 HTML 的通用强制规范。本 §13.7 仅保留攻略页场景的补充说明；权威来源与最新版本以项目级 **§13** 为准，后续新增/改动任何 HTML 页面均须遵循根级 §13。
