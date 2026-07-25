@@ -266,6 +266,30 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 
 ---
 
+### 6.9 移动端优先设计（全局，所有新页面必遵循）
+
+**适用范围：** 本项目所有 HTML 页面（门户首页、各子站点静态页、query-system 组件等），**设计阶段即以移动端为首要目标**，桌面端在此基础上增强。
+
+**强制项（新页面必过）：**
+
+| # | 规则 | 说明 |
+|---|------|------|
+| ① | **`viewport` meta** | 每页 `<head>` 必须含 `<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">`，禁止 `user-scalable=no` |
+| ② | **响应式断点** | 基础样式以 320–480px 为起点，用 `@media (min-width: 640px)` / `768px` / `1024px` 逐步增强桌面端；不要反过来"桌面写完再缩" |
+| ③ | **触摸目标 ≥44px** | 所有可点击元素（按钮、链接、关闭图标等）在 ≤640px 视口下最小 44×44px；手机端操作区不得遮挡、不得过密 |
+| ④ | **安全区域避让** | 固定/绝对定位元素（如光箱关闭按钮、浮层导航）须加 `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` 避让 iPhone 刘海屏与小白条 |
+| ⑤ | **字体不小于 16px** | 移动端正文最小 16px，防止 iOS 在 `<input>`/文本区聚焦时自动缩放 |
+| ⑥ | **触摸手势** | 图片轮播/光箱/画廊等交互组件须支持触摸滑动（`touchstart` + `touchend` 方向判断）；重要操作需有双击回退/重置 |
+
+**参照实现：** `四季景点/花都周末家庭游/index.html` 的游记 lightbox 段——含 viewport meta、`@media (max-width:640px)` 重写按钮布局、`touchstart`/`touchend` 左右滑+下滑关闭、`env(safe-area-inset-*)`、提示语同时覆盖桌面/移动操作。
+
+**验证（新页面提交前）：**
+- [ ] 在 Chrome DevTools Device Toolbar 中选 iPhone SE（375×667）逐段滚动，布局无溢出、按钮可单手点按、文字不溢出
+- [ ] 光箱/模态层/浮层在 iPhone 刘海屏上关闭/切图按钮不被硬件遮挡
+- [ ] 图片/表格在小屏上不超出视口、不强制水平滚动（除不得已的宽表格可 `overflow-x:auto`）
+
+---
+
 ## 7. 认证系统（XBrainAuth v1.2）
 
 - 模块：`brand/auth.js`，`</body>` 前加载，`XBrainAuth.init({level, configPath, ...})`。
@@ -339,6 +363,10 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - [ ] 门户首页 `.sites-grid` 已加卡片入口，href 正确
 - [ ] 本地浏览器验证卡片→子站点→返回全链路跳转
 - [ ] 移动端抽查（≤640px）布局与 Logo 不遮挡内容
+- [ ] 触摸手势就位：光箱/轮播支持左右滑切图、下滑关闭（`touchstart`/`touchend`）
+- [ ] 固定定位元素已加 `env(safe-area-inset-top/bottom)` 避让 iPhone 刘海屏/小白条
+- [ ] 可点击元素在 ≤640px 下最小 44×44px，按钮不过密
+- [ ] 移动端正文字号 ≥16px，图片/表格不溢出视口
 - [ ] 页内交叉引用已改为可点击锚点（§13），无纯文本"详见/返回"死链
 - [ ] 每个大章节结尾有"返回顶部"链接，点击后地址栏显式带 `#片段`（可深链分享）
 
