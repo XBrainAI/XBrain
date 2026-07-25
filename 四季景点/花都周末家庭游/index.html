@@ -1978,17 +1978,40 @@
       @media (max-width: 640px) {
         .travelogue-grid { gap: 10px; }
         .travelogue-photo-cap { font-size: 11px; padding: 18px 8px 6px; }
-        .lightbox-close { top: max(12px, env(safe-area-inset-top)); right: 12px; width: 48px; height: 48px; font-size: 32px; }
-        .lightbox-prev, .lightbox-next {
-          width: 48px; height: 48px;
-          font-size: 26px;
-          top: auto; bottom: max(70px, env(safe-area-inset-bottom)); transform: none;
+        .travelogue-lightbox { padding: 0; }
+        .lightbox-img {
+          max-width: 100vw;
+          max-height: 100vh;
         }
-        .lightbox-prev { left: 12px; }
-        .lightbox-next { right: 12px; }
-        .lightbox-img { max-height: 70vh; }
-        .lightbox-caption { font-size: 13px; padding: 0 16px; }
-        .lightbox-zoom-tip { font-size: 11px; bottom: max(14px, env(safe-area-inset-bottom)); }
+        .lightbox-caption {
+          position: absolute;
+          bottom: max(64px, env(safe-area-inset-bottom));
+          left: 50%; transform: translateX(-50%);
+          margin-top: 0;
+          font-size: 13px;
+          padding: 0 20px;
+          text-align: center;
+          max-width: calc(100vw - 80px);
+          pointer-events: none;
+          text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+        }
+        .lightbox-close {
+          top: max(12px, env(safe-area-inset-top));
+          right: 12px;
+          width: 48px; height: 48px;
+          font-size: 32px;
+        }
+        .lightbox-prev, .lightbox-next {
+          width: 44px; height: 44px;
+          font-size: 24px;
+          top: 50%; transform: translateY(-50%);
+        }
+        .lightbox-prev { left: 8px; }
+        .lightbox-next { right: 8px; }
+        .lightbox-zoom-tip {
+          font-size: 11px;
+          bottom: max(12px, env(safe-area-inset-bottom));
+        }
       }
     </style>
 
@@ -2485,7 +2508,7 @@
     <div class="footer-line"></div>
     <p>XBrain &copy; 2026</p>
     <p>探索未知，连接世界</p>
-    <p class="footer-version">v20260725-220007</p>
+    <p class="footer-version">v20260725-221457</p>
   </footer>
 
   <!-- ===== LIGHTBOX (openGallery) ===== -->
