@@ -1861,6 +1861,10 @@
       <div class="lightbox-backdrop"></div>
       <div class="lightbox-stage">
         <img class="lightbox-img" src="" alt="">
+        <div class="lightbox-spinner">
+          <svg class="spinner-ring" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke-width="3" stroke="currentColor" stroke-dasharray="80" stroke-dashoffset="0" stroke-linecap="round"></circle></svg>
+          <span>图片加载中...</span>
+        </div>
       </div>
       <button class="lightbox-close" aria-label="关闭">×</button>
       <button class="lightbox-prev" aria-label="上一张">‹</button>
@@ -1914,42 +1918,65 @@
       }
       .travelogue-lightbox {
         position: fixed;
-        inset: 0;
+        top: 0; left: 0; right: 0; bottom: 0;
         display: none;
-        align-items: center;
-        justify-content: center;
         z-index: 9999;
       }
       .travelogue-lightbox.open { display: flex; }
       .lightbox-backdrop {
         position: absolute;
-        inset: 0;
-        background: rgba(0,0,0,0.94);
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: #000;
+        z-index: 0;
       }
       .lightbox-stage {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 16px;
         box-sizing: border-box;
         z-index: 1;
+        overflow: hidden;
       }
       .lightbox-img {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
+        width: 100%;
+        height: 100%;
         object-fit: contain;
-        border-radius: 10px;
+        border-radius: 8px;
         box-shadow: 0 0 40px rgba(0,0,0,0.6);
-        transition: transform .15s ease, opacity .2s ease;
+        transition: transform .15s ease;
         user-select: none;
         -webkit-user-drag: none;
+        display: block;
       }
-      .lightbox-img.loading { opacity: 0; }
+      .lightbox-img[hidden] { display: none !important; }
+      .lightbox-spinner {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        color: rgba(255,255,255,0.7);
+        font-size: 13px;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .lightbox-spinner.active { display: flex; }
+      .spinner-ring {
+        width: 36px; height: 36px;
+        animation: spinner-rotate 1s linear infinite;
+        color: rgba(255,255,255,0.6);
+      }
+      @keyframes spinner-rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
       .lightbox-caption {
         position: absolute;
         bottom: max(64px, env(safe-area-inset-bottom));
@@ -2007,8 +2034,6 @@
         .travelogue-photo-cap { font-size: 11px; padding: 18px 8px 6px; }
         .lightbox-stage { padding: 0; }
         .lightbox-img {
-          max-width: 100vw;
-          max-height: 100vh;
           border-radius: 0;
           box-shadow: none;
         }
@@ -2053,27 +2078,50 @@
         current = i;
         var item = items[i];
         var src = item.dataset.fullsrc || '';
-        img.classList.add('loading');
-        img.onload = function() { img.classList.remove('loading'); };
-        img.onerror = function() {
-          img.classList.remove('loading');
-          caption.textContent = (item.dataset.caption || '') + ' （图片加载失败，请检查文件路径）';
-        };
-        img.src = src;
-        img.alt = item.dataset.caption || '';
-        caption.textContent = item.dataset.caption || '';
+        var spinner = lb.querySelector('.lightbox-spinner');
+
+        // Reset state
         scale = 1;
         img.style.transform = '';
+        img.alt = item.dataset.caption || '';
+        caption.textContent = item.dataset.caption || '';
+
+        // Show lightbox immediately
         lb.classList.add('open');
         lb.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+
+        // If same src already loaded (cached), show directly
+        if (img.src === src && img.complete && img.naturalWidth > 0) {
+          img.hidden = false;
+          if (spinner) spinner.classList.remove('active');
+          return;
+        }
+
+        // Show spinner, hide img until loaded
+        img.hidden = true;
+        if (spinner) spinner.classList.add('active');
+
+        // Preload with a new Image object
+        var preloader = new Image();
+        preloader.onload = function() {
+          img.src = src;
+          img.hidden = false;
+          if (spinner) spinner.classList.remove('active');
+        };
+        preloader.onerror = function() {
+          img.hidden = true;
+          if (spinner) spinner.classList.remove('active');
+          caption.textContent = (item.dataset.caption || '') + ' （图片加载失败，请检查文件路径）';
+        };
+        preloader.src = src;
       }
       function close() {
         lb.classList.remove('open');
         lb.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
-        img.onload = null;
-        img.onerror = null;
+        var spinner = lb.querySelector('.lightbox-spinner');
+        if (spinner) spinner.classList.remove('active');
       }
       function next() { open((current + 1) % items.length); }
       function prev() { open((current - 1 + items.length) % items.length); }
@@ -2541,7 +2589,7 @@
     <div class="footer-line"></div>
     <p>XBrain &copy; 2026</p>
     <p>探索未知，连接世界</p>
-    <p class="footer-version">v20260725-222144</p>
+    <p class="footer-version">v20260725-224004</p>
   </footer>
 
   <!-- ===== LIGHTBOX (openGallery) ===== -->
