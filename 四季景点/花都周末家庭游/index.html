@@ -304,6 +304,7 @@
     .lightbox-nav.next { right: 0; }
     .lightbox-title { margin-top: 0.8rem; color: var(--xb-accent); font-family: 'Noto Serif SC', serif; font-size: 0.95rem; text-align: center; }
     .lightbox-counter { color: var(--xb-text-dim); font-size: 13px; margin-top: 0.2rem; }
+    .lightbox-caption { color: rgba(232,236,244,0.85); font-size: 13px; text-align: center; margin-top: .35rem; max-width: 720px; line-height: 1.5; padding: 0 .5rem; }
     .lightbox-thumbs { display: flex; gap: 6px; margin-top: 0.6rem; flex-wrap: wrap; justify-content: center; max-width: 90vw; }
     .lightbox-thumb { width: 48px; height: 34px; background-size: cover; background-position: center; border-radius: 4px; cursor: pointer; border: 2px solid transparent; opacity: 0.55; transition: opacity 0.2s, border-color 0.2s; }
     .lightbox-thumb.active { border-color: var(--xb-accent); opacity: 1; }
@@ -1916,319 +1917,116 @@
           <li><b>出发前必查：</b>看「广州天气」「广东天气」官方预警；若25日广州升级发布台风黄/橙或雷雨大风橙以上，户外段（圆玄）也取消，只留雪世界室内。融创若闭园会官方通知，出行前确认开放。</li>
         </ul>
       </div>
+
+      <!-- ===== 方案E1 实况游记（7/25 当天往返） ===== -->
+      <div class="travel-log" id="travel-log-e1">
+        <style>
+          .travel-log { margin-top: 1.6rem; padding: 1.2rem 1rem 1.4rem; border: 1px solid rgba(100,180,255,0.22); border-radius: 16px; background: linear-gradient(180deg, rgba(20,16,40,0.55) 0%, rgba(12,12,28,0.45) 100%); }
+          .travel-log-header { margin-bottom: 1rem; }
+          .travel-log-header h3 { font-family: 'Noto Serif SC', serif; font-size: 1.18rem; color: var(--xb-accent); margin: 0 0 .35rem; display: flex; align-items: center; gap: .45rem; }
+          .travel-log-header h3::before { content: ''; display: inline-block; width: 5px; height: 1.1em; border-radius: 3px; background: linear-gradient(180deg, var(--xb-accent), var(--xb-accent2)); }
+          .travel-log-header p { color: rgba(200,210,230,0.75); font-size: .86rem; line-height: 1.6; margin: 0; }
+          .travel-log-route { display: flex; flex-wrap: wrap; gap: .35rem; margin: .65rem 0 .25rem; }
+          .travel-log-route span { font-size: .75rem; padding: .18rem .55rem; border-radius: 999px; background: rgba(100,180,255,0.12); color: var(--xb-text); border: 1px solid rgba(100,180,255,0.2); }
+          .travel-log-stop { margin: 1.3rem 0; padding: 1rem; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(100,180,255,0.1); }
+          .travel-log-stop h4 { font-size: 1rem; color: #fff; margin: 0 0 .45rem; font-weight: 700; display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
+          .travel-log-stop h4 .time { color: var(--xb-accent2); font-weight: 600; font-size: .9rem; }
+          .travel-log-stop p { color: #e8ecf4; font-size: .9rem; line-height: 1.75; margin: .4rem 0; }
+          .travel-log-hero { width: 100%; border-radius: 12px; overflow: hidden; margin: .7rem 0 1rem; cursor: pointer; border: 1px solid var(--xb-border); background-size: cover; background-position: center; position: relative; }
+          .travel-log-hero::after { content: '点击放大'; position: absolute; inset: auto auto 10px 10px; background: rgba(0,0,0,0.55); color: #fff; padding: .25rem .55rem; border-radius: 6px; font-size: .72rem; pointer-events: none; }
+          .travel-log-hero--portrait { aspect-ratio: 9/16; max-height: 460px; }
+          .travel-log-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: .7rem 0; }
+          .travel-log-thumb { aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; cursor: pointer; border: 1px solid var(--xb-border); background-size: cover; background-position: center; position: relative; }
+          .travel-log-thumb::after { content: '+'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.38); opacity: 0; transition: opacity .2s ease; font-size: 1.4rem; color: #fff; }
+          .travel-log-thumb:hover::after, .travel-log-thumb:active::after { opacity: 1; }
+          .travel-log-all-btn { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; margin-top: .8rem; padding: .65rem 1.1rem; border-radius: 10px; border: 1px solid var(--xb-border); background: rgba(100,180,255,0.12); color: var(--xb-text); font-size: .88rem; cursor: pointer; transition: background .2s; }
+          .travel-log-all-btn:hover, .travel-log-all-btn:active { background: rgba(100,180,255,0.22); }
+          @media (min-width: 640px) { .travel-log-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; } .travel-log { padding: 1.4rem 1.3rem 1.6rem; } }
+          @media (min-width: 1024px) { .travel-log-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
+        </style>
+        <div class="travel-log-header">
+          <h3>方案E1 实况游记（7/25 当天往返）</h3>
+          <p>根据粤A·713KW 的 7/25 行车记录修正后的真实执行记录。当天 06:52 从荔湾区西村街道退役军人服务站出发，经西湾大厦短暂停留后北上花都；先后停靠圆玄道观、石头文化广场、融创茂，17:27 回到荔湾。全天驾驶里程约 91.4 km，车载记录与实地照片相互印证。</p>
+          <div class="travel-log-route">
+            <span>06:52 出发</span>
+            <span>06:54 西湾大厦</span>
+            <span>07:41 圆玄道观</span>
+            <span>10:02 石头文化广场</span>
+            <span>12:21 融创茂</span>
+            <span>17:27 到家</span>
+            <span>91.4 km</span>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">06:52</span> 出发 · 粤A·713KW</h4>
+          <p>06:52 从荔湾区西村街道退役军人服务站启程，比原计划 07:00 还早 8 分钟。06:54 经停西湾大厦（仅 0.1 km，可能是临时接人或取物），随后直上花都。天刚亮，晨风清凉，台风外围下沉让天空格外通透，一路车流顺畅。</p>
+          <div class="travel-log-hero travel-log-hero--portrait" style="background-image: url('游记.20260725/713/713行车记录0725.jpg')" onclick="openGallery('e1travel',1)" role="button" aria-label="查看 713 行车记录"></div>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/713/01-0654_出发_粤A713KW.jpeg')" onclick="openGallery('e1travel',0)" role="button" aria-label="查看 06:54 出发照片"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">07:41–09:30</span> 圆玄道观 · 晨游牌坊</h4>
+          <p>07:41 抵达广东圆玄道观东门停车场，行车记录显示从西湾大厦过来 32.8 km。趁早晨凉爽、游客稀少，在「圆玄道观」牌坊下拍了左哥右爸合影。台风外围下沉气流让天空湛蓝，比计划中 08:00 还早到近 20 分钟。09:30 离开道观，实际停留约 1 小时 50 分钟，比原计划的 1 小时更从容。</p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/圆玄道观/01-0800_圆玄道观牌坊_左哥右爸.png')" onclick="openGallery('e1travel',2)" role="button" aria-label="查看圆玄道观牌坊照片"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">10:02–11:56</span> 石头文化广场 / 石头记矿物园 · 地下宝藏</h4>
+          <p>09:30 离开圆玄道观，10:02 到达石头文化广场（行车记录 9.7 km）。为避开台风和节省时间，当天仍跳过资政大夫祠，直接扎进石头记矿物园。从 AAAA 大门进入，经岩拱、地下「神秘宝藏」馆，看石笋、矿物晶体、太空服、肉石、蓝宝石瀑布假山，在光影隧道和星空投影里把科普变成沉浸式电影。</p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/01-1000_矿物园入口_AAAA大门.jpeg')" onclick="openGallery('e1travel',3)" role="button" aria-label="查看矿物园入口照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/02-1002_大门石碑.png')" onclick="openGallery('e1travel',4)" role="button" aria-label="查看大门石碑照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/03-1003_正门岩拱.jpeg')" onclick="openGallery('e1travel',5)" role="button" aria-label="查看正门岩拱照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/04-1008_地下博物馆入口_神秘宝藏.jpeg')" onclick="openGallery('e1travel',6)" role="button" aria-label="查看地下博物馆入口照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/05-1010_大型石笋矿物晶体.png')" onclick="openGallery('e1travel',7)" role="button" aria-label="查看大型石笋矿物晶体照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/06-1015_月球打卡点_左哥右爸.png')" onclick="openGallery('e1travel',8)" role="button" aria-label="查看月球打卡点照片"></div>
+          </div>
+          <p>11:56 离开石头文化广场，在馆内实际停留约 1 小时 54 分钟。哥哥看展特别认真，最后在彩虹投影下给兄弟俩留了影。</p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/07-1020_太空服模型.jpeg')" onclick="openGallery('e1travel',9)" role="button" aria-label="查看太空服模型照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/08-1030_肉石_桃花源主题.png')" onclick="openGallery('e1travel',10)" role="button" aria-label="查看肉石照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/09-1040_蓝宝石瀑布假山.jpeg')" onclick="openGallery('e1travel',11)" role="button" aria-label="查看蓝宝石瀑布假山照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/10-1050_物质诞生光影隧道.jpeg')" onclick="openGallery('e1travel',12)" role="button" aria-label="查看物质诞生光影隧道照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/11-1055_物质诞生_哥哥看展.png')" onclick="openGallery('e1travel',13)" role="button" aria-label="查看哥哥看展照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/12-1105_三大标本墙.jpeg')" onclick="openGallery('e1travel',14)" role="button" aria-label="查看三大标本墙照片"></div>
+          </div>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/13-1115_星空_太空服.jpeg')" onclick="openGallery('e1travel',15)" role="button" aria-label="查看星空太空服照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/14-1125_紫色星云投影.jpeg')" onclick="openGallery('e1travel',16)" role="button" aria-label="查看紫色星云投影照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/15-1135_彩虹投影_兄弟.jpeg')" onclick="openGallery('e1travel',17)" role="button" aria-label="查看彩虹投影兄弟照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/16-1145_巨型鹦鹉螺化石.jpeg')" onclick="openGallery('e1travel',18)" role="button" aria-label="查看巨型鹦鹉螺化石照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/17-1150_多彩玛瑙标本墙.jpeg')" onclick="openGallery('e1travel',19)" role="button" aria-label="查看多彩玛瑙标本墙照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/石头记矿物园/18-1155_绿色葡萄玛瑙晶簇.jpeg')" onclick="openGallery('e1travel',20)" role="button" aria-label="查看绿色葡萄玛瑙晶簇照片"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">12:21–16:23</span> 融创茂 · KK 台球 + 飞越大冒险 + VR 射击</h4>
+          <p>11:56 离开石头文化广场，12:21 到达融创茂（行车记录 9.7 km）。行车记录将目的地记为「KK 台球（融创茂）」，但现场照片显示还玩了飞越大冒险的弹跳球池和 VR 射击。原计划的热雪奇迹被替换成更灵活的室内项目——不用雪服、不用实名证件，孩子们可以在商场里切换项目，风雨无忧。在这里从中午一直玩到下午 4 点多。</p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/融创茂/01-1230_飞越大冒险_弹跳球池.png')" onclick="openGallery('e1travel',21)" role="button" aria-label="查看飞越大冒险照片"></div>
+            <div class="travel-log-thumb" style="background-image: url('游记.20260725/融创茂/02-1430_VR射击游戏.png')" onclick="openGallery('e1travel',22)" role="button" aria-label="查看VR射击游戏照片"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">16:23–17:27</span> 返程 · 91.4 km 闭环</h4>
+          <p>16:23 从融创茂启程返程，行车记录显示 39.1 km 后于 17:27 回到荔湾区西村街道退役军人服务站。回程才是「红霞」真正发威的路段——高速大部分路程都泡在台风里：超大风、大雨、能见度极低，车流明显放慢、车速大幅下降。其实这台 XT6 就算不切四驱，本身底子就很稳；当时切到四驱，是考虑到现场路况——风雨里多一分抓地，心里更踏实。过水幕和横风时车身姿态稳得住，一点不慌。有意思的是，刚进到白云新市一带，突然像换了个世界——无风也无雨，台风的边界清晰得像被刀切过。一天下来，圆玄的晨光、石头记的冷气、融创茂的欢笑，连同回程这场台风考验，都被 713 的行车记录串成了一条完整的 91.4 km 闭环。</p>
+        </div>
+
+        <button class="travel-log-all-btn" onclick="openGallery('e1travel',0)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          查看全部 23 张 E1 实况照片
+        </button>
+      </div>
     </div>
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
-
-  <!-- ===== TRAVELOGUE 2026-07-25 (mobile-first rebuild) ===== -->
-  <style>
-    /* 游记样式 — 移动端优先 */
-    .tl-section { padding: 2.5rem 0; max-width: 1100px; margin: 0 auto; }
-    .tl-section .section-title,
-    .tl-section .section-desc { padding: 0 1.25rem; }
-    @media (min-width: 640px) {
-      .tl-section .section-title,
-      .tl-section .section-desc { padding: 0 1.5rem; }
-    }
-    @media (min-width: 1024px) {
-      .tl-section { padding: 3rem 2rem; }
-      .tl-section .section-title,
-      .tl-section .section-desc { padding: 0; }
-    }
-
-    /* 调整说明 */
-    .tl-notes { margin: 0 1.25rem 1.2rem; }
-    @media (min-width: 640px) { .tl-notes { margin: 0 1.5rem 1.2rem; } }
-    @media (min-width: 1024px) { .tl-notes { margin: 0 0 1.5rem; } }
-
-    /* 照片流 — 移动端全宽单列 */
-    .tl-stream { display: flex; flex-direction: column; gap: 4px; margin: 1rem 0 1.5rem; }
-    @media (min-width: 640px) {
-      .tl-stream { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 1rem 1.5rem 1.5rem; }
-    }
-    @media (min-width: 1024px) {
-      .tl-stream { grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1rem 0 1.5rem; }
-    }
-
-    .tl-photo {
-      position: relative; overflow: hidden; cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      background: rgba(0,0,0,0.4); border: 1px solid rgba(100,180,255,0.15);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .tl-photo:active { transform: scale(.98); }
-    @media (min-width: 1024px) {
-      .tl-photo { border-radius: 6px; }
-      .tl-photo:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(100,180,255,0.2); border-color: rgba(100,180,255,0.35); }
-      .tl-photo:active { transform: scale(1); }
-    }
-
-    .tl-photo img { width: 100%; display: block; }
-    @media (max-width: 639px) {
-      .tl-photo img { aspect-ratio: 4/3; object-fit: cover; }
-      .tl-photo:first-child img { aspect-ratio: 16/9; }
-      .tl-photo, .tl-photo img { border-radius: 0; }
-    }
-    @media (min-width: 640px) {
-      .tl-photo img { aspect-ratio: 4/3; object-fit: cover; }
-    }
-
-    .tl-photo-cap {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-      color: #fff; padding: 28px 12px 10px; font-size: 13px; font-weight: 500;
-      line-height: 1.4; pointer-events: none;
-    }
-    @media (min-width: 1024px) { .tl-photo-cap { font-size: 12px; padding: 22px 10px 8px; } }
-
-    /* ===== LIGHTBOX ===== */
-    .tl-lb {
-      position: fixed; inset: 0; z-index: 9999;
-      display: none; flex-direction: column;
-      background: #000;
-      touch-action: pan-x pan-y pinch-zoom;
-    }
-    .tl-lb.open { display: flex; }
-    .tl-lb-img-wrap {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-      padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
-    }
-    .tl-lb-img {
-      display: block; width: 100%; height: 100%;
-      object-fit: contain; user-select: none; -webkit-user-drag: none;
-      transition: transform .15s ease, opacity .2s ease;
-    }
-    .tl-lb-img.loading { opacity: .35; }
-    /* 关闭按钮 */
-    .tl-lb-close {
-      position: absolute; top: max(10px, env(safe-area-inset-top, 10px)); right: 10px; z-index: 10;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #fff;
-      font-size: 28px; line-height: 1; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    }
-    /* 导航箭头 */
-    .tl-lb-prev, .tl-lb-next {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #fff;
-      font-size: 24px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    }
-    .tl-lb-prev { left: 8px; }
-    .tl-lb-next { right: 8px; }
-    @media (min-width: 1024px) {
-      .tl-lb-close:hover, .tl-lb-prev:hover, .tl-lb-next:hover { background: rgba(255,255,255,0.25); }
-      .tl-lb-prev { left: 18px; }
-      .tl-lb-next { right: 18px; }
-    }
-    /* 标题栏 */
-    .tl-lb-bar {
-      position: absolute; bottom: 0; left: 0; right: 0; z-index: 10;
-      background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3) 70%, transparent);
-      padding: 36px 16px max(14px, env(safe-area-inset-bottom, 14px));
-      text-align: center; color: #fff; font-size: 13px; line-height: 1.5;
-      pointer-events: none;
-    }
-    .tl-lb-counter { opacity: .6; font-size: 11px; }
-  </style>
-
-  <section class="tl-section" id="travelogue-20260725">
-    <h2 class="section-title">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      2026-07-25 出行游记 · 方案E1（当天往返）
-    </h2>
-    <p class="section-desc">2026年7月25日（周六）按方案E1当天往返执行。22 张实拍图按时间顺序记录全天——从清晨出发到台风中返程。点按任意照片全屏查看，可左右滑动切换、下滑关闭。</p>
-
-    <div class="tips-box tl-notes">
-      <div class="tips-box-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        临时调整说明（对比方案E1原计划）
-      </div>
-      <ul>
-        <li><strong>圆玄道观（07:41–09:30）：</strong>实际停留约1h49min，超原计划1h。06:54出发仅47分钟即达，趁早晨凉爽多逛；牌坊前与三清殿前各合影，09:30转场。</li>
-        <li><strong>石头记矿物园（10:02–11:56）：</strong>原只排1h室内，实际约1h54min（18张打卡）——矿物标本+星空主题+光影隧道+太空服+桃花源肉石+三大标本墙，地下宝藏馆内容丰富。</li>
-        <li><strong>融创茂室内娱乐（12:21–16:23）：</strong>因台风外围+35℃高温，临时将雪世界改为「飞越大冒险」弹跳球池+VR射击，玩了约4h02min，比原计划更尽兴。</li>
-        <li><strong>资政大夫祠：</strong>原排在圆玄后，因孩子想多逛石头记而取消。</li>
-        <li><strong>返程：</strong>16:23离融创茂→17:27抵荔湾（39.1km，1h04min），当日合计 <strong>91.3km</strong>。高速上正遇台风「红霞」外围风雨，近三元里时风雨骤然停止——一条明显的台风影响边界。</li>
-      </ul>
-    </div>
-
-    <!-- 照片流 -->
-    <div class="tl-stream" id="tl-stream">
-      <div class="tl-photo" data-src="游记.20260725/713/01-0654_出发_粤A713KW.jpeg" data-cap="🚗 06:54 出发 · 粤A·713KW（黑色凯迪拉克XT6停在楼下，晨光里启程）"><img src="游记.20260725/713/01-0654_出发_粤A713KW.jpeg" alt="出发" loading="lazy"><div class="tl-photo-cap">🚗 06:54 出发 · 粤A·713KW</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/圆玄道观/01-0800_圆玄道观牌坊_左哥右爸.png" data-cap="08:00 圆玄道观牌坊前 · 仿天坛三清殿金碧辉煌，左哥右爸合影，第一次近距离看道教宫观"><img src="游记.20260725/圆玄道观/01-0800_圆玄道观牌坊_左哥右爸.png" alt="圆玄道观牌坊" loading="lazy"><div class="tl-photo-cap">⛩️ 08:00 圆玄道观牌坊前（左哥右爸）</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/01-1000_矿物园入口_AAAA大门.jpeg" data-cap="10:00 石头记矿物园入口 · AAAA国家级旅游景区大门，两侧金象守门、中央金色塔群"><img src="游记.20260725/石头记矿物园/01-1000_矿物园入口_AAAA大门.jpeg" alt="石头记矿物园入口" loading="lazy"><div class="tl-photo-cap">🚪 10:00 石头记矿物园入口</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/02-1002_大门石碑.png" data-cap="10:02 石头记大门石碑 · 「STONE MINERAL PARK」正式开启地下宝藏之旅"><img src="游记.20260725/石头记矿物园/02-1002_大门石碑.png" alt="��头记大门" loading="lazy"><div class="tl-photo-cap">🪨 10:02 石头记大门石碑</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/03-1003_正门岩拱.jpeg" data-cap="10:03 石头记正门 · 巨型橙红色岩拱自然桥，标志性拍照点"><img src="游记.20260725/石头记矿物园/03-1003_正门岩拱.jpeg" alt="石头记正门" loading="lazy"><div class="tl-photo-cap">🪨 10:03 石头记正门岩拱</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/04-1008_地下博物馆入口_神秘宝藏.jpeg" data-cap="10:08 地下博物馆入口 · 「神秘宝藏」洞口造景，闸机+洞穴场景"><img src="游记.20260725/石头记矿物园/04-1008_地下博物馆入口_神秘宝藏.jpeg" alt="地下博物馆入口" loading="lazy"><div class="tl-photo-cap">🕳️ 10:08 「神秘宝藏」入口</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/05-1010_大型石笋矿物晶体.png" data-cap="10:10 大型石笋矿物晶体 · 迎宾展品，孩子第一次见这么高的石笋"><img src="游记.20260725/石头记矿物园/05-1010_大型石笋矿物晶体.png" alt="石笋矿物晶体" loading="lazy"><div class="tl-photo-cap">💎 10:10 大型石笋矿物晶体</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/06-1015_月球打卡点_左哥右爸.png" data-cap="10:15 月球打卡点 · 「我在月球很想你」路牌，左哥手靠头比打电话、右爸比V"><img src="游记.20260725/石头记矿物园/06-1015_月球打卡点_左哥右爸.png" alt="月球合影" loading="lazy"><div class="tl-photo-cap">🌙 10:15 月球打卡点（左哥右爸）</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/07-1020_太空服模型.jpeg" data-cap="10:20 太空服模型合影 · 弟弟戴头盔试穿，背后土星与星云投影"><img src="游记.20260725/石头记矿物园/07-1020_太空服模型.jpeg" alt="太空服模型" loading="lazy"><div class="tl-photo-cap">🚀 10:20 太空服模型</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/08-1030_肉石_桃花源主题.png" data-cap="10:30 肉石+桃花源主题展 · 一家三人在草屋灯笼前，清明上河图式阡陌交通背景"><img src="游记.20260725/石头记矿物园/08-1030_肉石_桃花源主题.png" alt="肉石桃花源" loading="lazy"><div class="tl-photo-cap">🍖 10:30 肉石+桃花源主题</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/09-1040_蓝宝石瀑布假山.jpeg" data-cap="10:40 蓝宝石瀑布假山 · 大型蓝色岩石假山，地下室中另一处标志性景观"><img src="游记.20260725/石头记矿物园/09-1040_蓝宝石瀑布假山.jpeg" alt="蓝宝石假山" loading="lazy"><div class="tl-photo-cap">💧 10:40 蓝宝石瀑布假山</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/10-1050_物质诞生光影隧道.jpeg" data-cap="10:50 物质诞生光影隧道 · 全沉浸投影，绿/橙爆炸场景，孩子在光影里奔跑"><img src="游记.20260725/石头记矿物园/10-1050_物质诞生光影隧道.jpeg" alt="物质诞生光影隧道" loading="lazy"><div class="tl-photo-cap">🔥 10:50 物质诞生光影隧道</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/11-1055_物质诞生_哥哥看展.png" data-cap="10:55 物质诞生·哥哥看展 · 暗光里驻足凝视红字「物质诞生 Big Bang」"><img src="游记.20260725/石头记矿物园/11-1055_物质诞生_哥哥看展.png" alt="物质诞生哥哥" loading="lazy"><div class="tl-photo-cap">🌌 10:55 物质诞生·哥哥</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/12-1105_三大标本墙.jpeg" data-cap="11:05 三大巨型标本墙 · 中间树化玉（数千万年硅化木），两侧青金石和绿玛瑙"><img src="游记.20260725/石头记矿物园/12-1105_三大标本墙.jpeg" alt="三大标本墙" loading="lazy"><div class="tl-photo-cap">💎 11:05 三大标本墙</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/13-1115_星空_太空服.jpeg" data-cap="11:15 星空+太空服 · 哥哥在紫色星空前拍照，宇航员模型像守门员"><img src="游记.20260725/石头记矿物园/13-1115_星空_太空服.jpeg" alt="星空太空服" loading="lazy"><div class="tl-photo-cap">🛸 11:15 星空+太空服</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/14-1125_紫色星云投影.jpeg" data-cap="11:25 紫色星云投影 · 弟弟独自走入粉紫色星云，像小小宇航员漫游太空"><img src="游记.20260725/石头记矿物园/14-1125_紫色星云投影.jpeg" alt="紫色星云" loading="lazy"><div class="tl-photo-cap">💜 11:25 紫色星云投影</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/15-1135_彩虹投影_兄弟.jpeg" data-cap="11:35 彩虹投影 · 兄弟俩走入彩色光影，地面镜面把画面延伸到脚下"><img src="游记.20260725/石头记矿物园/15-1135_彩虹投影_兄弟.jpeg" alt="彩虹投影" loading="lazy"><div class="tl-photo-cap">🌈 11:35 彩虹投影（兄弟）</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/16-1145_巨型鹦鹉螺化石.jpeg" data-cap="11:45 巨型鹦鹉螺化石 · 数千万年前海洋生物化石，漩涡形纹理清晰可见"><img src="游记.20260725/石头记矿物园/16-1145_巨型鹦鹉螺化石.jpeg" alt="鹦鹉螺化石" loading="lazy"><div class="tl-photo-cap">🐚 11:45 巨型鹦鹉螺化石</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/17-1150_多彩玛瑙标本墙.jpeg" data-cap="11:50 多彩玛瑙标本墙 · 弟弟站在绿玛瑙与多彩玛瑙之间，半身剪影很有意境"><img src="游记.20260725/石头记矿物园/17-1150_多彩玛瑙标本墙.jpeg" alt="多彩玛瑙标本墙" loading="lazy"><div class="tl-photo-cap">💎 11:50 多彩玛瑙标本墙</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/石头记矿物园/18-1155_绿色葡萄玛瑙晶簇.jpeg" data-cap="11:55 绿色葡萄玛瑙晶簇 · 灰白岩壁里挤满碧绿球状晶体，像满满一捧绿葡萄"><img src="游记.20260725/石头记矿物园/18-1155_绿色葡萄玛瑙晶簇.jpeg" alt="葡萄玛瑙晶簇" loading="lazy"><div class="tl-photo-cap">🟢 11:55 绿色葡萄玛瑙晶簇</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/融创茂/01-1230_飞越大冒险_弹跳球池.png" data-cap="12:30 飞越大冒险（融创茂室内弹跳）· 球池+滑梯+大蹦床，孩子玩得不肯走"><img src="游记.20260725/融创茂/01-1230_飞越大冒险_弹跳球池.png" alt="飞越大冒险" loading="lazy"><div class="tl-photo-cap">🎪 12:30 飞越大冒险（弹跳球池）</div></div>
-
-      <div class="tl-photo" data-src="游记.20260725/融创茂/02-1430_VR射击游戏.png" data-cap="14:30 VR 射击游戏 · 兄弟俩并肩作战，瞄准屏幕上的目标"><img src="游记.20260725/融创茂/02-1430_VR射击游戏.png" alt="VR射击" loading="lazy"><div class="tl-photo-cap">🎯 14:30 VR 射击游戏</div></div>
-    </div>
-
-    <!-- 全屏灯箱 -->
-    <div class="tl-lb" id="tl-lb" aria-hidden="true">
-      <button class="tl-lb-close" id="tl-lb-close" aria-label="关闭">&times;</button>
-      <button class="tl-lb-prev" id="tl-lb-prev" aria-label="上一张">&lsaquo;</button>
-      <button class="tl-lb-next" id="tl-lb-next" aria-label="下一张">&rsaquo;</button>
-      <div class="tl-lb-img-wrap" id="tl-lb-wrap">
-        <img class="tl-lb-img" id="tl-lb-img" src="" alt="">
-      </div>
-      <div class="tl-lb-bar">
-        <div id="tl-lb-cap"></div>
-        <div class="tl-lb-counter" id="tl-lb-counter"></div>
-      </div>
-    </div>
-
-    <script>
-    (function(){
-      var photos = Array.from(document.querySelectorAll('#tl-stream .tl-photo'));
-      if (!photos.length) return;
-      var lb = document.getElementById('tl-lb');
-      var img = document.getElementById('tl-lb-img');
-      var capEl = document.getElementById('tl-lb-cap');
-      var counter = document.getElementById('tl-lb-counter');
-      var idx = 0, scale = 1, tx = 0, ty = 0;
-
-      function setTransform() {
-        var t = '';
-        if (scale !== 1) t = 'scale(' + scale + ')';
-        if (tx || ty) t += ' translate(' + tx + 'px,' + ty + 'px)';
-        img.style.transform = t || '';
-      }
-
-      function resetZoom() { scale = 1; tx = 0; ty = 0; setTransform(); }
-
-      function show(i) {
-        idx = i; resetZoom();
-        var p = photos[i];
-        var src = p.getAttribute('data-src');
-        capEl.textContent = p.getAttribute('data-cap') || '';
-        counter.textContent = (i + 1) + ' / ' + photos.length;
-        lb.classList.add('open');
-        lb.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        if (img.src !== src) {
-          img.classList.add('loading');
-          var preload = new Image();
-          preload.onload = function() { img.src = src; img.classList.remove('loading'); };
-          preload.onerror = function() { img.src = src; img.classList.remove('loading'); capEl.textContent += ' （加载失败）'; };
-          preload.src = src;
-        }
-      }
-
-      function close() {
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        resetZoom();
-        img.classList.remove('loading');
-      }
-
-      function next() { show((idx + 1) % photos.length); }
-      function prev() { show((idx - 1 + photos.length) % photos.length); }
-
-      // 点击照片打开
-      photos.forEach(function(p, i) { p.addEventListener('click', function() { show(i); }); });
-
-      // 按钮
-      document.getElementById('tl-lb-close').addEventListener('click', close);
-      document.getElementById('tl-lb-prev').addEventListener('click', function(e) { e.stopPropagation(); prev(); });
-      document.getElementById('tl-lb-next').addEventListener('click', function(e) { e.stopPropagation(); next(); });
-
-      // 键盘
-      document.addEventListener('keydown', function(e) {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape') close();
-        else if (e.key === 'ArrowRight') next();
-        else if (e.key === 'ArrowLeft') prev();
-      });
-
-      // 双击缩放
-      img.addEventListener('dblclick', function(e) {
-        e.preventDefault();
-        if (scale > 1) resetZoom();
-        else { scale = 2; setTransform(); }
-      });
-
-      // 滚轮/双指缩放
-      var wrap = document.getElementById('tl-lb-wrap');
-      wrap.addEventListener('wheel', function(e) {
-        e.preventDefault();
-        var ds = e.deltaY < 0 ? 0.2 : -0.2;
-        scale = Math.min(Math.max(1, scale + ds), 4);
-        setTransform();
-      }, { passive: false });
-
-      // 触摸滑动
-      var tSX = 0, tSY = 0, tST = 0, tMoved = false;
-      lb.addEventListener('touchstart', function(e) {
-        if (scale > 1 || !e.touches || e.touches.length !== 1) return;
-        tSX = e.touches[0].clientX; tSY = e.touches[0].clientY;
-        tST = Date.now(); tMoved = false;
-      }, { passive: true });
-
-      lb.addEventListener('touchmove', function(e) {
-        if (scale > 1) return;
-        tMoved = true;
-      }, { passive: true });
-
-      lb.addEventListener('touchend', function(e) {
-        if (scale > 1 || !e.changedTouches || e.changedTouches.length !== 1 || !tMoved) return;
-        var dx = e.changedTouches[0].clientX - tSX;
-        var dy = e.changedTouches[0].clientY - tSY;
-        var dt = Date.now() - tST;
-        if (dt > 600) return;
-        // 下滑关闭
-        if (dy > 70 && Math.abs(dy) > Math.abs(dx)) { close(); return; }
-        // 左右切换
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-          if (dx > 0) prev(); else next();
-        }
-      });
-    })();
-    </script>
-
-    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-  </section>
-
-  <!-- ===== HOURS & REVIEW SECTION ===== -->
   <section class="section" id="hours">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -2638,7 +2436,7 @@
     <div class="footer-line"></div>
     <p>XBrain &copy; 2026</p>
     <p>探索未知，连接世界</p>
-    <p class="footer-version">v20260726-mobile</p>
+    <p class="footer-version">v20260726-travelogue-removed</p>
   </footer>
 
   <!-- ===== LIGHTBOX (openGallery) ===== -->
@@ -2658,6 +2456,7 @@
       </button>
       <div class="lightbox-title" id="lightboxTitle"></div>
       <div class="lightbox-counter" id="lightboxCounter"></div>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
       <div class="lightbox-thumbs" id="lightboxThumbs"></div>
     </div>
   </div>
@@ -2858,16 +2657,69 @@
         hotelJinshan: { title: '广州融创堇山酒店', images: ['酒店/堇山.png'] },
         hotelShibage: { title: '广州施柏阁大观酒店', images: ['酒店/施柏阁大观.png'] },
         hotelHuajiantang: { title: '广州融创花间堂·悦雪', images: ['酒店/花间堂悦雪.png'] },
-        hotelCrowne: { title: '广州花都皇冠假日酒店', images: ['酒店/皇冠假日.png'] }
+        hotelCrowne: { title: '广州花都皇冠假日酒店', images: ['酒店/皇冠假日.png'] },
+        e1travel: {
+          title: '方案E1 实况游记 · 7/25 当天往返',
+          images: [
+            '游记.20260725/713/01-0654_出发_粤A713KW.jpeg',
+            '游记.20260725/713/713行车记录0725.jpg',
+            '游记.20260725/圆玄道观/01-0800_圆玄道观牌坊_左哥右爸.png',
+            '游记.20260725/石头记矿物园/01-1000_矿物园入口_AAAA大门.jpeg',
+            '游记.20260725/石头记矿物园/02-1002_大门石碑.png',
+            '游记.20260725/石头记矿物园/03-1003_正门岩拱.jpeg',
+            '游记.20260725/石头记矿物园/04-1008_地下博物馆入口_神秘宝藏.jpeg',
+            '游记.20260725/石头记矿物园/05-1010_大型石笋矿物晶体.png',
+            '游记.20260725/石头记矿物园/06-1015_月球打卡点_左哥右爸.png',
+            '游记.20260725/石头记矿物园/07-1020_太空服模型.jpeg',
+            '游记.20260725/石头记矿物园/08-1030_肉石_桃花源主题.png',
+            '游记.20260725/石头记矿物园/09-1040_蓝宝石瀑布假山.jpeg',
+            '游记.20260725/石头记矿物园/10-1050_物质诞生光影隧道.jpeg',
+            '游记.20260725/石头记矿物园/11-1055_物质诞生_哥哥看展.png',
+            '游记.20260725/石头记矿物园/12-1105_三大标本墙.jpeg',
+            '游记.20260725/石头记矿物园/13-1115_星空_太空服.jpeg',
+            '游记.20260725/石头记矿物园/14-1125_紫色星云投影.jpeg',
+            '游记.20260725/石头记矿物园/15-1135_彩虹投影_兄弟.jpeg',
+            '游记.20260725/石头记矿物园/16-1145_巨型鹦鹉螺化石.jpeg',
+            '游记.20260725/石头记矿物园/17-1150_多彩玛瑙标本墙.jpeg',
+            '游记.20260725/石头记矿物园/18-1155_绿色葡萄玛瑙晶簇.jpeg',
+            '游记.20260725/融创茂/01-1230_飞越大冒险_弹跳球池.png',
+            '游记.20260725/融创茂/02-1430_VR射击游戏.png'
+          ],
+          captions: [
+            '06:52 出发 · 06:54 经停西湾大厦',
+            '07/25 行车记录 · 当日 91.4 km · 荔湾→花都往返',
+            '07:41 抵达圆玄道观 · 09:30 离开 · 左哥右爸牌坊合影',
+            '10:02 到达石头记矿物园 AAAA 大门',
+            '大门石碑',
+            '正门岩拱',
+            '地下博物馆入口「神秘宝藏」',
+            '大型石笋矿物晶体',
+            '月球打卡点 · 左哥右爸',
+            '太空服模型',
+            '肉石 · 桃花源主题',
+            '蓝宝石瀑布假山',
+            '物质诞生光影隧道',
+            '物质诞生展区 · 哥哥看展',
+            '三大标本墙',
+            '星空与太空服',
+            '紫色星云投影',
+            '11:35 彩虹投影 · 兄弟合影',
+            '巨型鹦鹉螺化石',
+            '多彩玛瑙标本墙',
+            '11:55 绿色葡萄玛瑙晶簇',
+            '12:21 到达融创茂 · 飞越大冒险弹跳球池',
+            '14:30 VR 射击游戏'
+          ]
+        }
       };
 
       var currentGallery = null;
       var currentIndex = 0;
 
-      window.openGallery = function(name) {
+      window.openGallery = function(name, startIndex) {
         currentGallery = galleries[name];
         if (!currentGallery) return;
-        currentIndex = 0;
+        currentIndex = (typeof startIndex === 'number') ? startIndex : 0;
         updateLightbox();
         var lb = document.getElementById('lightbox');
         lb.classList.add('active');
@@ -2904,6 +2756,8 @@
         }, 150);
         document.getElementById('lightboxTitle').textContent = currentGallery.title;
         document.getElementById('lightboxCounter').textContent = (currentIndex + 1) + ' / ' + currentGallery.images.length;
+        var captionEl = document.getElementById('lightboxCaption');
+        if (captionEl) captionEl.textContent = (currentGallery.captions && currentGallery.captions[currentIndex]) ? currentGallery.captions[currentIndex] : '';
         var thumbs = document.getElementById('lightboxThumbs');
         thumbs.innerHTML = '';
         currentGallery.images.forEach(function(src, i) {
