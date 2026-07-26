@@ -339,6 +339,7 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **认证配置加载失败有兜底**：`auth.js` 会渲染错误遮罩并提供刷新；勿删该兜底。
 - **中文目录名**：`健康/四季景点/采购与维护` 为中文路径，shell 命令与 href 须正确处理（PowerShell 用单引号包裹）。
 - **改动后必跑测试**：`query-system` 有 6 个测试套件，含 regression，回归测试是数据管线改动的安全网。
+- **移动端灯箱禁用 `body.style.overflow='hidden'` 锁滚动**：iOS Safari 上给 `body` 设 `overflow` 会让 `position:fixed` 的灯箱遮罩锚定到 `body` 盒子（页面有横向溢出时被撑宽），表现为「点开灯箱黑屏、要把屏幕拖到右边才看到」。改用遮罩自身 `touch-action:none` + `overscroll-behavior:contain` 阻止手势穿透。铁律与代码模板见 **§14**。
 
 ---
 
@@ -420,6 +421,152 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **验证（发布前必过）**：① 所有 `in-doc-link` 的 `href` 都能在页面内找到对应 `id`（无死链）；② `section-backtop` 数量 = 大章节数；③ 点击任一锚点后地址栏出现 `#片段` 且平滑滚动到位、无吸顶遮挡；④ 直接以 `index.html#某id` 打开能自动定位。
 
 > 目的：让分散在页面各部分的信息能**双向跳转**——从列表/时间轴跳到详解，读完详解一键回顶部继续浏览，且每段都可生成可分享的深链 URL（"方向链接"）。本规范由 `四季景点/AGENTS.md` §13.7 经验提炼并上升为项目级通用强制项。
+
+---
+
+## 14. 移动端适配与灯箱（lightbox）规范
+
+> 由 `四季景点/花都周末家庭游/index.html` 的游记灯箱实践提炼，已在 iOS Safari / 移动端 Chrome / PC 真机验证。凡仓库内任何含图片画廊、游记、图文详情页的子站点（四季景点、健康、采购与维护、学习与成长等）均须遵循。与 §11.2 移动端验证清单互为补充。
+
+### 14.1 适用范围
+- 任何 `position: fixed` 全屏遮罩：灯箱大图、图集瀑布流（`.waterfall-overlay`）、弹层、菜单。
+- 任何 `background-image` 缩略图网格 / 图文时间线（如 `.travel-log-*`）。
+- 完整可运行实现见 `四季景点/花都周末家庭游/index.html` 的 `.lightbox-*` / `.waterfall-*` / `.travel-log-*` 段，新增页面可整段复制后改路径。
+
+### 14.2 不可妥协的铁律
+1. **禁止用 `document.body.style.overflow = 'hidden'` 锁背景滚动。** iOS Safari 上给 `body` 设 `overflow` 会让 `position:fixed` 遮罩不再锚定视口，而是锚定 `body` 盒子；页面一旦存在横向溢出（`overflow-x:hidden` 也救不了），`body` 被撑宽，遮罩 `inset:0` 居中后即整体右移，表现为「点开灯箱黑屏、要把屏幕拖到右边才看到」。PC 端走另一渲染路径不受影响，故只在移动端暴露。→ 改用遮罩自身的 `touch-action: none` + `overscroll-behavior: contain` 阻止手势穿透（遮罩不透明，背景滚动视觉上不可见，无需锁 body）。
+2. **遮罩定位必须显式写满**：`position: fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%`。不要只写 `inset:0`（部分 WebView/老内核需要显式 width/height 才 100% 覆盖）。
+3. **导航箭头必须明显且恒在可视区**：禁止用负 `left/right`（如 `-50px/-64px`）把箭头推出屏外——鼠标移到边缘才浮现的写法在移动端无解。用 ≥48px、带描边/辉光、半透明深色底的圆钮，贴在容器内侧（`left/right: 6~12px`），`z-index` 高于图片。
+4. **移动端交互只信 `touch*` 事件 + `:active` 反馈**，不要依赖 `:hover`（触屏无 hover）。左右切换必须支持手势滑动，不能只靠点按钮。
+5. **可点击元素 ≥44×44px**（iOS 最小触控目标），按钮不过密；移动端正文字号 ≥16px；图片/表格不得溢出视口（用 `100vw` / `max-width:100%` + `object-fit:contain`）。
+6. **固定定位元素加 `env(safe-area-inset-*)`**：遮罩内 close/nav 距顶/底留 `env(safe-area-inset-top/bottom)` 余地，避让 iPhone 刘海/小白条。
+
+### 14.3 灯箱遮罩 + 滚动锁（CSS）
+```css
+.lightbox-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  z-index: 210;
+  background: rgba(5,5,15,0.97);
+  display: none; align-items: center; justify-content: center;
+  flex-direction: column; padding: 0.5rem;
+  overscroll-behavior: contain;   /* 阻止手势穿透到背景 */
+  -webkit-overflow-scrolling: touch;
+  touch-action: none;             /* 关键：遮罩自身吞掉触摸，背景不滚动 */
+}
+.lightbox-overlay.active { display: flex; }
+```
+> 同类 `.waterfall-overlay`（图集瀑布流）用完全相同的定位与 `overscroll-behavior/touch-action` 写法（见源文件 `.waterfall-overlay`）。
+
+### 14.4 导航箭头（明显、恒在屏内）
+```css
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(10,14,32,0.72);
+  border: 2px solid rgba(100,180,255,0.55);
+  color: #fff;
+  width: 52px; height: 52px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 18px rgba(100,180,255,0.4);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  transition: background .2s, box-shadow .2s, transform .12s;
+  z-index: 5;                      /* 永远压在图片之上 */
+}
+.lightbox-nav svg { width: 24px; height: 24px; }
+.lightbox-nav.prev { left: 6px; }   /* 容器内侧，不推出屏外 */
+.lightbox-nav.next { right: 6px; }
+.lightbox-nav:hover, .lightbox-nav:active {
+  background: rgba(100,180,255,0.28);
+  box-shadow: 0 0 26px rgba(100,180,255,0.65);
+}
+.lightbox-nav:active { transform: translateY(-50%) scale(0.92); }
+```
+> ❌ 废弃写法「`.lightbox-nav.prev { left: -50px }`」：箭头被推到屏外，移动端完全找不到。
+
+### 14.5 图文网格移动优先（缩略图墙）
+```css
+.travel-log-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+@media (min-width: 640px)  { .travel-log-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
+@media (min-width: 1024px) { .travel-log-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
+```
+- 缩略图用 `aspect-ratio` 固定比例（如 `4/3`），`background-size: cover`；点击 `onclick="openGallery('galleryName', index)"` 直跳对应大图。
+- 竖向 hero 图用 `aspect-ratio: 9/16; max-height: 460px`。
+
+### 14.6 灯箱 JS：openGallery 支持起始索引 + 图注
+```js
+var currentGallery = null, currentIndex = 0;
+
+window.openGallery = function(name, startIndex) {
+  currentGallery = galleries[name];
+  if (!currentGallery) return;
+  currentIndex = (typeof startIndex === 'number') ? startIndex : 0;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('active');
+  // ⚠️ 不要设 document.body.style.overflow='hidden'（见 §14.2 第 1 条 iOS Bug）
+};
+
+function updateLightbox() {
+  if (!currentGallery) return;
+  var img = document.getElementById('lightboxImg');
+  img.classList.add('switching');
+  setTimeout(function(){ img.src = currentGallery.images[currentIndex]; img.classList.remove('switching'); }, 150);
+  document.getElementById('lightboxTitle').textContent = currentGallery.title;
+  document.getElementById('lightboxCounter').textContent =
+    (currentIndex + 1) + ' / ' + currentGallery.images.length;
+  var cap = document.getElementById('lightboxCaption');
+  if (cap) cap.textContent =
+    (currentGallery.captions && currentGallery.captions[currentIndex]) ? currentGallery.captions[currentIndex] : '';
+  // 缩略图条 render（略，见源文件 updateLightbox）
+}
+window.nextImage = function(){ if(!currentGallery) return; currentIndex = (currentIndex+1)%currentGallery.images.length; updateLightbox(); };
+window.prevImage = function(){ if(!currentGallery) return; currentIndex = (currentIndex-1+currentGallery.images.length)%currentGallery.images.length; updateLightbox(); };
+```
+- 图库数据结构：`{ title, images:[...], captions:[...] }`，`captions` 与 `images` 等长；`openGallery(name, idx)` 第二个参数让缩略图点哪张就从哪张开始。
+
+### 14.7 移动端手势滑动切换（左右滑切图）
+在大图区域监听 `touch*`，**横向位移 > 45px 且明显大于纵向**才判定为切换，单次滑动只触发一次：
+```js
+(function initSwipe(){
+  var wrap = document.querySelector('.lightbox-img-wrap');
+  if (!wrap) return;
+  var startX = 0, startY = 0, tracking = false, swiped = false;
+  wrap.addEventListener('touchstart', function(e){
+    if (!currentGallery) return;
+    var t = e.changedTouches[0];
+    startX = t.clientX; startY = t.clientY; tracking = true; swiped = false;
+  }, { passive: true });
+  wrap.addEventListener('touchmove', function(e){
+    if (!tracking || swiped) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - startX, dy = t.clientY - startY;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+      swiped = true;
+      if (dx < 0) nextImage(); else prevImage();   // 左滑→下一张，右滑→上一张
+    }
+  }, { passive: true });
+  wrap.addEventListener('touchend', function(){ tracking = false; }, { passive: true });
+})();
+```
+- 用 `Math.abs(dx) > Math.abs(dy)` 区分横滑/竖滑，避免看长图上下滑时误翻页。
+- 桌面端另支持键盘 `←/→/Esc`（已存在于 `keydown` 监听，无需新增）。
+
+### 14.8 移动端滑动提示（推荐）
+```html
+<div class="lightbox-hint">← 左右滑动屏幕，或点按两侧箭头切换 →</div>
+```
+```css
+.lightbox-hint { margin-top: .55rem; font-size: 12px; color: var(--xb-text-dim); text-align: center; }
+@media (min-width: 640px) { .lightbox-hint { display: none; } }  /* 桌面端隐藏 */
+```
+
+### 14.9 验证清单（发布前必过）
+- [ ] 移动端（真机或 DevTools 设备模拟，≤640px）点击缩略图 → 灯箱**直接满屏居中**，无需拖动。
+- [ ] 灯箱内左右箭头明显可见、可点；点按两侧区域/箭头可切换上一张下一张。
+- [ ] 移动端在图上左右滑动可切图；上下滑不误翻。
+- [ ] 全文无 `document.body.style.overflow = 'hidden'`（或已确认不影响定位）。
+- [ ] `<html>` 已 `overflow-x: hidden`（双保险，防横向溢出撑宽 body）。
+- [ ] 内嵌 JS 经 `node --check` 通过；图片路径全部存在。
+- [ ] 固定定位 close/nav 已避让 `env(safe-area-inset-*)`。
 
 ---
 
