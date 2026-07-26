@@ -298,10 +298,14 @@
     .lightbox-img.switching { opacity: 0; }
     .lightbox-close { position: absolute; top: -40px; right: 0; background: rgba(100,180,255,0.15); border: 1px solid var(--xb-border); color: var(--xb-text); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
     .lightbox-close svg { width: 20px; height: 20px; }
-    .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(100,180,255,0.12); border: 1px solid var(--xb-border); color: var(--xb-text); width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .lightbox-nav svg { width: 22px; height: 22px; }
-    .lightbox-nav.prev { left: 0; }
-    .lightbox-nav.next { right: 0; }
+    .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(10,14,32,0.72); border: 2px solid rgba(100,180,255,0.55); color: #fff; width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 18px rgba(100,180,255,0.4); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); transition: background .2s, box-shadow .2s, transform .12s; z-index: 5; }
+    .lightbox-nav svg { width: 24px; height: 24px; }
+    .lightbox-nav.prev { left: 6px; }
+    .lightbox-nav.next { right: 6px; }
+    .lightbox-nav:hover, .lightbox-nav:active { background: rgba(100,180,255,0.28); box-shadow: 0 0 26px rgba(100,180,255,0.65); }
+    .lightbox-nav:active { transform: translateY(-50%) scale(0.92); }
+    .lightbox-hint { margin-top: .55rem; font-size: 12px; color: var(--xb-text-dim); text-align: center; letter-spacing: 1px; }
+    @media (min-width: 640px) { .lightbox-hint { display: none; } }
     .lightbox-title { margin-top: 0.8rem; color: var(--xb-accent); font-family: 'Noto Serif SC', serif; font-size: 0.95rem; text-align: center; }
     .lightbox-counter { color: var(--xb-text-dim); font-size: 13px; margin-top: 0.2rem; }
     .lightbox-caption { color: rgba(232,236,244,0.85); font-size: 13px; text-align: center; margin-top: .35rem; max-width: 720px; line-height: 1.5; padding: 0 .5rem; }
@@ -357,8 +361,8 @@
       .waterfall-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 1rem 2rem; }
 
       .lightbox-container { max-width: 85vw; }
-      .lightbox-nav.prev { left: -50px; }
-      .lightbox-nav.next { right: -50px; }
+      .lightbox-nav.prev { left: 10px; }
+      .lightbox-nav.next { right: 10px; }
       .lightbox-img { max-height: 65vh; max-height: 65dvh; }
     }
 
@@ -446,8 +450,8 @@
       .in-doc-link:hover { color: var(--xb-accent2); text-decoration-thickness: 2px; }
 
       .lightbox-container { max-width: 80vw; }
-      .lightbox-nav.prev { left: -64px; }
-      .lightbox-nav.next { right: -64px; }
+      .lightbox-nav.prev { left: 12px; }
+      .lightbox-nav.next { right: 12px; }
       .lightbox-thumb:hover { opacity: 0.8; }
       .lightbox-close:hover { background: rgba(100,180,255,0.2); }
 
@@ -2458,6 +2462,7 @@
       <div class="lightbox-counter" id="lightboxCounter"></div>
       <div class="lightbox-caption" id="lightboxCaption"></div>
       <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+      <div class="lightbox-hint">← 左右滑动屏幕，或点按两侧箭头切换 →</div>
     </div>
   </div>
 
@@ -2777,6 +2782,31 @@
         if (e.key === 'ArrowRight') nextImage();
         if (e.key === 'ArrowLeft') prevImage();
       });
+
+      // 移动端手势滑动切换（左右滑动大图区域切换上一张/下一张）
+      (function initSwipe() {
+        var wrap = document.querySelector('.lightbox-img-wrap');
+        if (!wrap) return;
+        var startX = 0, startY = 0, tracking = false, swiped = false;
+        wrap.addEventListener('touchstart', function(e) {
+          if (!currentGallery) return;
+          var t = e.changedTouches[0];
+          startX = t.clientX; startY = t.clientY;
+          tracking = true; swiped = false;
+        }, { passive: true });
+        wrap.addEventListener('touchmove', function(e) {
+          if (!tracking || swiped) return;
+          var t = e.changedTouches[0];
+          var dx = t.clientX - startX;
+          var dy = t.clientY - startY;
+          // 以横向滑动为主（横向位移明显大于纵向，且超过阈值）才判定为切换手势
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+            swiped = true;
+            if (dx < 0) nextImage(); else prevImage();
+          }
+        }, { passive: true });
+        wrap.addEventListener('touchend', function() { tracking = false; }, { passive: true });
+      })();
 
       // Waterfall gallery
       window.openWaterfall = function(name) {
