@@ -158,36 +158,92 @@
       text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
     }
 
-    /* ===== Breadcrumb ===== */
-    .breadcrumb {
+    /* ===== Top Nav (ported from 花都周末家庭游 pattern) ===== */
+    .top-nav {
       position: fixed;
-      top: 70px;
+      top: 0;
       left: 0;
       right: 0;
-      z-index: 90;
+      z-index: 99;
+      background: rgba(10, 10, 26, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(100, 180, 255, 0.18);
+      padding: 0 1.5rem;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 1rem 0.5rem 76px;
-      font-size: 0.8rem;
+      justify-content: center;
+      height: 52px;
+    }
+
+    .top-nav .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .top-nav .nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav .nav-hamburger {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
+      color: var(--xb-text);
+    }
+
+    .top-nav .nav-hamburger svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .top-nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--xb-text-dim);
-      background: rgba(10, 10, 26, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(100, 180, 255, 0.1);
-    }
-
-    .breadcrumb a {
-      color: var(--xb-accent2);
       text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: color 0.25s ease, background 0.25s ease;
     }
 
-    .breadcrumb a:hover {
-      text-decoration: underline;
+    .top-nav a:hover {
+      color: var(--xb-text);
+      background: rgba(100, 180, 255, 0.08);
     }
 
-    .breadcrumb .sep {
-      opacity: 0.4;
+    .top-nav a.active {
+      color: var(--xb-accent);
+      background: rgba(100, 180, 255, 0.12);
+    }
+
+    .top-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 2px;
+      background: var(--xb-accent);
+      border-radius: 1px;
+    }
+
+    .nav-mobile-dropdown {
+      display: none;
     }
 
     /* ===== Article Layout ===== */
@@ -196,12 +252,13 @@
       z-index: 1;
       max-width: 860px;
       margin: 0 auto;
-      padding: 9rem 1.5rem 4rem;
+      padding: 7rem 1.5rem 4rem;
     }
 
     .article-hero {
       text-align: center;
       margin-bottom: 2.5rem;
+      scroll-margin-top: 70px;
     }
 
     .article-hero h1 {
@@ -611,11 +668,69 @@
       }
 
       .article {
-        padding: 8.5rem 1rem 3rem;
+        padding: 6.5rem 1rem 3rem;
       }
 
-      .breadcrumb {
-        padding-left: 72px;
+      .top-nav {
+        justify-content: flex-end;
+        padding: 0 12px;
+        height: 48px;
+      }
+
+      .top-nav .nav-inner {
+        display: none;
+      }
+
+      .top-nav .nav-hamburger {
+        display: flex;
+      }
+
+      .top-nav a {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
+
+      .nav-mobile-dropdown {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        position: fixed;
+        top: 48px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 26, 0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--xb-border);
+        z-index: 98;
+        padding: 8px 12px;
+        transform: translateY(-120%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+      }
+
+      .nav-mobile-dropdown.open {
+        transform: translateY(0);
+      }
+
+      .nav-mobile-dropdown a {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--xb-text-dim);
+        text-decoration: none;
+        border-radius: 10px;
+        transition: color 0.2s, background 0.2s;
+        min-height: 44px;
+      }
+
+      .nav-mobile-dropdown a:active,
+      .nav-mobile-dropdown a.active {
+        color: var(--xb-accent);
+        background: rgba(100, 180, 255, 0.1);
       }
 
       .gk-tag {
@@ -683,19 +798,45 @@
     <div class="xbrain-text"><span>X</span>Brain</div>
   </a>
 
-  <!-- ===== Breadcrumb ===== -->
-  <nav class="breadcrumb">
-    <a href="../../index.html">首页</a>
-    <span class="sep">/</span>
-    <a href="../index.html">学习与成长</a>
-    <span class="sep">/</span>
-    <span>高考</span>
+  <!-- ===== TOP NAVIGATION (ported from 花都周末家庭游) ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a href="#top">顶部</a>
+      <a href="#why">为什么</a>
+      <a href="#what">认知</a>
+      <a href="#xuekao">学考</a>
+      <a href="#roadmap">三年路线</a>
+      <a href="#timeline">时间轴</a>
+      <a href="#paths">升学路径</a>
+      <a href="#volunteer">志愿填报</a>
+      <a href="#admission">录取</a>
+      <a href="#action">行动清单</a>
+      <a href="#glossary">速查</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
   </nav>
+  <div class="nav-mobile-dropdown" id="navMobile">
+    <a href="#top">顶部</a>
+    <a href="#why">为什么提前了解</a>
+    <a href="#what">高考是什么</a>
+    <a href="#xuekao">学业水平考试</a>
+    <a href="#roadmap">高中三年路线</a>
+    <a href="#timeline">全年时间轴</a>
+    <a href="#paths">多元升学路径</a>
+    <a href="#volunteer">志愿填报</a>
+    <a href="#admission">录取流程</a>
+    <a href="#action">高一行动清单</a>
+    <a href="#glossary">名词速查</a>
+  </div>
 
   <!-- ===== Article ===== -->
   <article class="article">
 
-    <header class="article-hero">
+    <header class="article-hero" id="top">
       <h1><span>高考</span>完全指南</h1>
       <p class="sub">从高一到大学录取 · 一次讲清楚</p>
     </header>
@@ -1153,6 +1294,87 @@
         }
       }, { passive: true });
       updateLogo();
+    })();
+
+    // ===== Top Nav (ported from 花都周末家庭游) =====
+    (function () {
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) {
+          if (scrollY >= s.el.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        mobileLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+
+      var navTicking = false;
+      window.addEventListener('scroll', function () {
+        if (!navTicking) {
+          window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
+          navTicking = true;
+        }
+      }, { passive: true });
+      setActiveNav();
+
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        navMobile.classList.remove('open');
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      }
+
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        } else {
+          hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        }
+      });
+
+      var anchors = document.querySelectorAll('a[href^="#"]');
+      anchors.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          var id = hash.substring(1);
+          var target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', hash);
+          }
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
+          closeMenu();
+        }
+      });
     })();
   </script>
 
