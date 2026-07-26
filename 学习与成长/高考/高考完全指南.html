@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>高考完全指南 — XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.9;
+      font-size: 17px;
+    }
+
+    /* ===== Reading Progress ===== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--xb-accent), var(--xb-accent2));
+      z-index: 200;
+      box-shadow: 0 0 12px rgba(100, 180, 255, 0.6);
+      transition: width 0.1s linear;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+
+    .xbrain-brand svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
+    }
+
+    .xbrain-brand .xb-ring {
+      stroke-width: 4;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-glow-bg {
+      opacity: 0.40;
+    }
+
+    .xbrain-brand .xb-center-ring {
+      stroke-width: 3;
+      opacity: 0.95;
+    }
+
+    .xbrain-brand .xb-x-line {
+      opacity: 0.9;
+      stroke-width: 2.5;
+    }
+
+    .xbrain-brand .xb-core {
+      r: 12;
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-ttai {
+      fill: #4a70c0;
+      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
+    }
+
+    .xbrain-brand .xb-ttai-line1,
+    .xbrain-brand .xb-ttai-line2 {
+      opacity: 1;
+    }
+
+    .xbrain-brand .xb-bar-group {
+      opacity: 0.75;
+    }
+
+    .xbrain-brand .xb-bar {
+      fill: #5a90e0;
+    }
+
+    .xbrain-brand .xb-bar-glow {
+      opacity: 0.9;
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #e8ecf4;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
+    }
+
+    /* ===== Breadcrumb ===== */
+    .breadcrumb {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem 0.5rem 76px;
+      font-size: 0.8rem;
+      color: var(--xb-text-dim);
+      background: rgba(10, 10, 26, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(100, 180, 255, 0.1);
+    }
+
+    .breadcrumb a {
+      color: var(--xb-accent2);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb .sep {
+      opacity: 0.4;
+    }
+
+    /* ===== Article Layout ===== */
+    .article {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 9rem 1.5rem 4rem;
+    }
+
+    .article-hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .article-hero h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 1.35;
+      margin-bottom: 0.8rem;
+    }
+
+    .article-hero h1 span {
+      color: var(--xb-accent);
+      text-shadow: 0 0 30px rgba(100, 180, 255, 0.4);
+    }
+
+    .article-hero .sub {
+      color: var(--xb-text-dim);
+      font-weight: 300;
+      letter-spacing: 2px;
+      font-size: 0.95rem;
+    }
+
+    /* ===== Intro / Parent Callout ===== */
+    .intro-callout {
+      border-left: 3px solid var(--xb-accent);
+      background: rgba(100, 180, 255, 0.07);
+      border-radius: 0 14px 14px 0;
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.98rem;
+    }
+
+    .intro-callout .label {
+      display: inline-block;
+      color: var(--xb-accent2);
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== TOC ===== */
+    .toc {
+      background: rgba(45, 27, 78, 0.4);
+      border: 1px solid var(--xb-border);
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .toc .toc-title {
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 700;
+      color: var(--xb-accent2);
+      margin-bottom: 0.9rem;
+      font-size: 1.05rem;
+    }
+
+    .toc-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .toc-chips a {
+      display: inline-block;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--xb-border);
+      border-radius: 20px;
+      color: var(--xb-text-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.25s ease;
+    }
+
+    .toc-chips a:hover {
+      color: var(--xb-deep);
+      background: var(--xb-accent);
+      border-color: var(--xb-accent);
+    }
+
+    /* ===== Sections ===== */
+    .section {
+      margin-bottom: 3rem;
+      scroll-margin-top: 110px;
+    }
+
+    .section > h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--xb-border);
+      color: var(--xb-text);
+    }
+
+    .section > h2 .num {
+      color: var(--xb-accent);
+      margin-right: 0.4rem;
+    }
+
+    .section h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.7rem;
+      color: var(--xb-accent2);
+    }
+
+    .section p {
+      margin-bottom: 0.9rem;
+      color: #d8deea;
+    }
+
+    .section ul,
+    .section ol {
+      margin: 0 0 1rem 1.4rem;
+      color: #d8deea;
+    }
+
+    .section li {
+      margin-bottom: 0.5rem;
+    }
+
+    .section strong {
+      color: #fff;
+    }
+
+    /* ===== Callout ===== */
+    .callout {
+      border-left: 3px solid var(--xb-accent);
+      background: rgba(100, 180, 255, 0.06);
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.3rem;
+      margin: 1.2rem 0;
+      font-size: 0.95rem;
+      color: #d8deea;
+    }
+
+    .callout.soft {
+      border-left-color: var(--xb-accent2);
+      background: rgba(128, 192, 255, 0.08);
+    }
+
+    .callout .c-label {
+      color: var(--xb-accent2);
+      font-weight: 700;
+      margin-right: 0.4rem;
+    }
+
+    /* ===== Tables ===== */
+    .tbl-wrap {
+      overflow-x: auto;
+      margin: 1.2rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 480px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--xb-border);
+      padding: 0.7rem 0.9rem;
+      text-align: left;
+      color: #d8deea;
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(45, 27, 78, 0.7);
+      color: var(--xb-accent2);
+      font-weight: 700;
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(100, 180, 255, 0.04);
+    }
+
+    /* ===== 3+1+2 Diagram ===== */
+    .gk-diagram {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .gk-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .gk-tag {
+      flex: 0 0 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.8), rgba(45, 27, 78, 0.7));
+      border: 1px solid var(--xb-border);
+      border-radius: 10px;
+      padding: 0.6rem;
+      text-align: center;
+    }
+
+    .gk-tag .big {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--xb-accent);
+    }
+
+    .gk-tag .small {
+      font-size: 0.7rem;
+      color: var(--xb-text-dim);
+    }
+
+    .gk-items {
+      flex: 1;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .gk-item {
+      flex: 1 1 120px;
+      background: rgba(100, 180, 255, 0.06);
+      border: 1px solid var(--xb-border);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      text-align: center;
+    }
+
+    .gk-item .name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--xb-text);
+    }
+
+    .gk-item .score {
+      font-size: 0.78rem;
+      color: var(--xb-accent2);
+    }
+
+    .gk-item .note {
+      font-size: 0.72rem;
+      color: var(--xb-text-dim);
+    }
+
+    .gk-total {
+      text-align: center;
+      font-family: 'Noto Serif SC', serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--xb-accent);
+      margin-top: 0.3rem;
+    }
+
+    /* ===== Grade Cards (3 years) ===== */
+    .grade-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .grade-card {
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6), rgba(45, 27, 78, 0.5));
+      border: 1px solid var(--xb-border);
+      border-radius: 14px;
+      padding: 1.2rem;
+    }
+
+    .grade-card .gy {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--xb-accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .grade-card .gt {
+      font-size: 0.8rem;
+      color: var(--xb-text-dim);
+      margin-bottom: 0.7rem;
+    }
+
+    .grade-card ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.88rem;
+    }
+
+    .grade-card li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* ===== Paths List ===== */
+    .path-block {
+      border: 1px solid var(--xb-border);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.9rem;
+      background: rgba(45, 27, 78, 0.25);
+    }
+
+    .path-block .pt {
+      font-weight: 700;
+      color: var(--xb-accent2);
+      font-size: 1.02rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .path-block .pd {
+      font-size: 0.9rem;
+      color: #d8deea;
+    }
+
+    /* ===== Flow Steps ===== */
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      margin: 1.2rem 0;
+      font-size: 0.85rem;
+    }
+
+    .flow .step {
+      background: rgba(100, 180, 255, 0.08);
+      border: 1px solid var(--xb-border);
+      border-radius: 8px;
+      padding: 0.5rem 0.8rem;
+      color: var(--xb-text);
+    }
+
+    .flow .arrow {
+      color: var(--xb-accent);
+    }
+
+    .flow .step.alt {
+      background: rgba(128, 192, 255, 0.05);
+    }
+
+    /* ===== Back link ===== */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 2rem 0 0;
+      padding: 0.6rem 1.2rem;
+      color: var(--xb-accent);
+      text-decoration: none;
+      border: 1px solid var(--xb-border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(100, 180, 255, 0.1);
+      border-color: var(--xb-accent);
+    }
+
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--xb-border);
+      margin: 0 auto 1rem;
+    }
+
+    .disclaimer {
+      max-width: 760px;
+      margin: 0 auto 1rem;
+      font-size: 0.82rem;
+      color: var(--xb-text-dim);
+      line-height: 1.7;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      body {
+        font-size: 16px;
+      }
+
+      .article {
+        padding: 8.5rem 1rem 3rem;
+      }
+
+      .breadcrumb {
+        padding-left: 72px;
+      }
+
+      .gk-tag {
+        flex-basis: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== Reading Progress ===== -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- ===== XBrain Brand Logo (Fixed) ===== -->
+  <a class="xbrain-brand" href="../../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2"
+        opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2"
+          opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== Breadcrumb ===== -->
+  <nav class="breadcrumb">
+    <a href="../../index.html">首页</a>
+    <span class="sep">/</span>
+    <a href="../index.html">学习与成长</a>
+    <span class="sep">/</span>
+    <span>高考</span>
+  </nav>
+
+  <!-- ===== Article ===== -->
+  <article class="article">
+
+    <header class="article-hero">
+      <h1><span>高考</span>完全指南</h1>
+      <p class="sub">从高一到大学录取 · 一次讲清楚</p>
+    </header>
+
+    <div class="intro-callout">
+      <span class="label">给全家的说明</span>
+      <p style="margin:0;">这份指南既是给<strong>即将升高一的孩子</strong>的地图，也是给<strong>爸爸妈妈的"陪跑手册"</strong>。高考和你们熟悉的中考很不一样——它是一场贯穿三年的信息战。了解规则，才能在孩子每个关键节点给出对的支持，而不是临到高三才手忙脚乱。文中以<strong>广东省"3+1+2"新高考</strong>为范本。</p>
+    </div>
+
+    <!-- ===== TOC ===== -->
+    <nav class="toc">
+      <div class="toc-title">本文导读</div>
+      <div class="toc-chips">
+        <a href="#why">为什么提前了解</a>
+        <a href="#what">高考是什么</a>
+        <a href="#xuekao">学业水平考试</a>
+        <a href="#roadmap">高中三年路线</a>
+        <a href="#timeline">全年时间轴</a>
+        <a href="#paths">多元升学路径</a>
+        <a href="#volunteer">志愿填报</a>
+        <a href="#admission">录取流程</a>
+        <a href="#action">高一行动清单</a>
+        <a href="#glossary">名词速查</a>
+      </div>
+    </nav>
+
+    <!-- ===== 1 ===== -->
+    <section class="section" id="why">
+      <h2><span class="num">一、</span>为什么现在就要了解高考</h2>
+      <p>你可能觉得：刚中考完，高考还有三年，急什么？恰恰相反。<strong>高考和你们熟悉的中考，本质完全不同：</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>维度</th>
+              <th>中考</th>
+              <th>高考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>决策复杂度</td>
+              <td>志愿相对简单，主要看分数排位</td>
+              <td>选科、专业、院校、城市、批次，环环相扣</td>
+            </tr>
+            <tr>
+              <td>关键节点</td>
+              <td>基本集中在初三下</td>
+              <td>贯穿高中三年（选科在高一/高二，强基/综评报名在高三上）</td>
+            </tr>
+            <tr>
+              <td>信息差影响</td>
+              <td>较小，规则透明</td>
+              <td><strong>极大</strong>，很多人输在不了解路径而非分数不够</td>
+            </tr>
+            <tr>
+              <td>容错空间</td>
+              <td>有补录、中职等多条退路</td>
+              <td>一锤定音色彩更浓，退档代价高</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <span class="c-label">结论</span>高中三年最大的"隐性考试"是<strong>信息战</strong>。提前三年建立框架，才能在高一选科、高二分流、高三冲刺时做出不后悔的决策。
+      </div>
+    </section>
+
+    <!-- ===== 2 ===== -->
+    <section class="section" id="what">
+      <h2><span class="num">二、</span>高考是什么（基础认知）</h2>
+      <h3>2.1 一句话定义</h3>
+      <p>普通高考（普通高等学校招生全国统一考试）是合格的高中毕业生参加的选拔性考试，成绩是绝大多数中国学生进入本科 / 专科院校的主要依据。</p>
+
+      <h3>2.2 广东新高考"3+1+2"模式</h3>
+      <p>广东自 <strong>2021 年起</strong>实行新高考，模式为 <strong>"3+1+2"</strong>：</p>
+      <div class="gk-diagram">
+        <div class="gk-row">
+          <div class="gk-tag"><span class="big">3</span><span class="small">必考</span></div>
+          <div class="gk-items">
+            <div class="gk-item"><div class="name">语文</div><div class="score">150 分</div><div class="note">原始分</div></div>
+            <div class="gk-item"><div class="name">数学</div><div class="score">150 分</div><div class="note">原始分</div></div>
+            <div class="gk-item"><div class="name">外语</div><div class="score">150 分</div><div class="note">原始分</div></div>
+          </div>
+        </div>
+        <div class="gk-row">
+          <div class="gk-tag"><span class="big">1</span><span class="small">首选</span></div>
+          <div class="gk-items">
+            <div class="gk-item"><div class="name">物理</div><div class="score">100 分</div><div class="note">二选一 · 原始分</div></div>
+            <div class="gk-item"><div class="name">历史</div><div class="score">100 分</div><div class="note">二选一 · 原始分</div></div>
+          </div>
+        </div>
+        <div class="gk-row">
+          <div class="gk-tag"><span class="big">2</span><span class="small">再选</span></div>
+          <div class="gk-items">
+            <div class="gk-item"><div class="name">化学</div><div class="score">100 分</div><div class="note">四选二</div></div>
+            <div class="gk-item"><div class="name">生物</div><div class="score">100 分</div><div class="note">四选二</div></div>
+            <div class="gk-item"><div class="name">思想政治</div><div class="score">100 分</div><div class="note">四选二</div></div>
+            <div class="gk-item"><div class="name">地理</div><div class="score">100 分</div><div class="note">四选二</div></div>
+          </div>
+        </div>
+        <div class="gk-total">总分 = 750 分</div>
+      </div>
+      <div class="callout">
+        <span class="c-label">关键规则</span>
+        <ul style="margin:0.4rem 0 0 1.2rem;">
+          <li><strong>物理类 / 历史类分开划线、分开投档、分开录取。</strong>选了物理就是"物理类考生"，选了历史就是"历史类考生"，两类互不影响、分别竞争。</li>
+          <li>传统的"文科/理科"已取消，但物理类 ≈ 原理科大范畴，历史类 ≈ 原文科大范畴。</li>
+          <li>外语：广东英语科总分 150，<strong>含听说考试 20 分</strong>（笔试 130 + 听说 20），听说一般在高三上学期（约 3 月）单独进行。</li>
+        </ul>
+      </div>
+
+      <h3>2.3 分数构成一览</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>科目</th>
+              <th>分值</th>
+              <th>计分方式</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>语文</td><td>150</td><td>原始分</td><td></td></tr>
+            <tr><td>数学</td><td>150</td><td>原始分</td><td>物理类/历史类同卷</td></tr>
+            <tr><td>外语</td><td>150</td><td>原始分</td><td>含听说 20 分（英语）</td></tr>
+            <tr><td>物理 或 历史</td><td>100</td><td>原始分</td><td>首选科目</td></tr>
+            <tr><td>再选科目①</td><td>100</td><td><strong>等级赋分</strong></td><td>化学/生物/政/地 4选2</td></tr>
+            <tr><td>再选科目②</td><td>100</td><td><strong>等级赋分</strong></td><td></td></tr>
+            <tr><td><strong>合计</strong></td><td><strong>750</strong></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2.4 等级赋分制（必须理解！）</h3>
+      <p>再选科目（化/生/政/地）<strong>不直接用卷面分，而是按排名转换</strong>。原因：四科难度不同，直接比原始分不公平。</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>等级</th><th>人数比例</th><th>赋分区间</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A</td><td>约 15%</td><td>100 ~ 86</td></tr>
+            <tr><td>B</td><td>约 35%</td><td>85 ~ 71</td></tr>
+            <tr><td>C</td><td>约 35%</td><td>70 ~ 56</td></tr>
+            <tr><td>D</td><td>约 13%</td><td>55 ~ 41</td></tr>
+            <tr><td>E</td><td>约 2%</td><td>40 ~ 30</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <span class="c-label">含义</span>哪怕某科卷面只考了 60 分，只要排名靠前，赋分后可能变成 80+；反之亦然。<strong>再选科目拼的是"相对排名"而非绝对分数。</strong>
+      </div>
+    </section>
+
+    <!-- ===== 3 ===== -->
+    <section class="section" id="xuekao">
+      <h2><span class="num">三、</span>高中学业水平考试（学考）</h2>
+      <p>很多人误以为"高考成绩"就是全部。实际上，高中还有一套<strong>学业水平考试（学考）</strong>，分两类：</p>
+      <h3>3.1 合格性考试（合格考）</h3>
+      <ul>
+        <li>科目：语文、数学、外语、思想政治、历史、地理、物理、化学、生物、信息技术、通用技术、音乐、美术、体育与健康（共 14 门）。</li>
+        <li>作用：<strong>毕业前提 + 录取参考</strong>。不合格可能影响高中毕业，部分特殊招生（如综评）看合格考等级。</li>
+        <li>时间：一般从高一期末开始分批考，不合格可补考。</li>
+      </ul>
+      <h3>3.2 选择考（选考）</h3>
+      <ul>
+        <li>即上面"3+1+2"中的"1+2"四门（物理/历史 + 两门再选），在高考时一并考试、计分。</li>
+        <li>选考科目必须已在合格考中"合格"，才能作为高考选考科目。</li>
+      </ul>
+      <div class="callout soft">
+        <span class="c-label">一句话</span>合格考保证你"能毕业、能报考"，选考决定你"高考怎么算分"。
+      </div>
+    </section>
+
+    <!-- ===== 4 ===== -->
+    <section class="section" id="roadmap">
+      <h2><span class="num">四、</span>高中三年路线图</h2>
+      <div class="grade-grid">
+        <div class="grade-card">
+          <div class="gy">高一</div>
+          <div class="gt">探索与奠基（最关键的一年）</div>
+          <ul>
+            <li>先稳住语数外基础</li>
+            <li>物色选科方向（理工→物理；人文→历史）</li>
+            <li>常见组合：物化政/物化地（覆盖专业最广约 95%+）、物化生、史政地</li>
+            <li>参加竞赛/社团/科创，为综评强基积累素材</li>
+          </ul>
+        </div>
+        <div class="grade-card">
+          <div class="gy">高二</div>
+          <div class="gt">分化与深化</div>
+          <ul>
+            <li>确定并锁定选科组合（一般高二上分班）</li>
+            <li>主攻选考科目深度（赋分竞争战场）</li>
+            <li>竞赛获奖→强基/保送敲门砖</li>
+            <li>研究性学习、社会实践→综评材料</li>
+          </ul>
+        </div>
+        <div class="grade-card">
+          <div class="gy">高三</div>
+          <div class="gt">冲刺与决胜</div>
+          <ul>
+            <li>上：英语听说(3月)、期中期末、11月强基/综评报名</li>
+            <li>下：一模(2-3月)、二模(4月)、三模(5月)</li>
+            <li>6月7-9日高考</li>
+            <li>6月25日前后出分，6月底填志愿，7月录取</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5 ===== -->
+    <section class="section" id="timeline">
+      <h2><span class="num">五、</span>关键考试与时间轴（全年大事记）</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>时间</th><th>事件</th><th>意义</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>高三上 3 月</td><td>英语听说考试</td><td>占外语 20 分</td></tr>
+            <tr><td>高三上 11 月</td><td>强基/综评简章发布</td><td>特殊路径报名起点</td></tr>
+            <tr><td>高三下 2-3 月</td><td>一模</td><td>首次全省定位</td></tr>
+            <tr><td>高三下 4 月</td><td>二模</td><td>修正志愿预期</td></tr>
+            <tr><td>高三下 5 月</td><td>三模</td><td>考前状态校准</td></tr>
+            <tr><td><strong>6 月 7-9 日</strong></td><td><strong>高考</strong></td><td>核心一仗</td></tr>
+            <tr><td>6 月 25 日前后</td><td>出分 + 省控线 + 一分一段表</td><td>志愿填报依据</td></tr>
+            <tr><td>6 月底-7 月初</td><td>志愿填报</td><td>录取关键决策</td></tr>
+            <tr><td>7 月</td><td>投档、录取、征集志愿</td><td>尘埃落定</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <span class="c-label">提醒</span>中考你只熟悉"考试→填志愿→录取"三步走；高考是<strong>长周期、多战役、路径并行</strong>的体系战。
+      </div>
+    </section>
+
+    <!-- ===== 6 ===== -->
+    <section class="section" id="paths">
+      <h2><span class="num">六、</span>多元升学路径（不只看分数）</h2>
+      <p>很多人以为"高考 = 6 月那场考试 + 填志愿"。实际上，通往大学的路至少有以下几条，它们<strong>并行存在</strong>，越早知道越主动：</p>
+
+      <div class="path-block">
+        <div class="pt">① 普通高考统招（主路径）</div>
+        <div class="pd">占绝大多数，按高考成绩 + 志愿填报录取。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">② 强基计划（39 所双一流高校）</div>
+        <div class="pd">面向基础学科（数/理/化/生/历史/哲学/古文字等）。流程：报名→高考→校测（笔试+面试+体测）→录取。<strong>高考成绩占 85% 以上</strong>。本硕博衔接，低分上名校机会，但专业锁定。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">③ 综合评价录取（广东多校参与）</div>
+        <div class="pd">代表：中大、华工、南科大、浙大、北外、港中文(深圳)、UIC、西浦、上纽、昆杜、深北莫等。典型"631"模式：<strong>高考 60% + 校测 30% + 学考 10%</strong>。适合综合素质强、面试好的同学。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">④ 专项计划（面向农村/脱贫地区）</div>
+        <div class="pd">国家专项（广东多数不符合）；地方专项（广东农村户籍可降分录省内重点）；高校专项（农村学生单独招生）。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">⑤ 保送生</div>
+        <div class="pd">外国语学校优秀学生、五大学科奥赛国家集训队成员可免高考保送。普通考生基本无缘，但竞赛路线值得天赋型学生关注。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">⑥ 艺术 / 体育类</div>
+        <div class="pd">需参加省级统考（或校考）+ 文化高考，按综合分录取。文化分要求相对低，但专业训练强度大。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">⑦ 军队 / 公安 / 师范 / 医学定向</div>
+        <div class="pd">军校、公安院校（提前批，有政审体检）；公费师范生/卫生专项：免学费、包就业，但需定向服务若干年。</div>
+      </div>
+      <div class="path-block">
+        <div class="pt">⑧ 港澳及中外合作办学</div>
+        <div class="pd">港澳高校（港大、港中文、澳大等）可独立报名，与高考志愿不冲突；中外合作办学走综评或统招。</div>
+      </div>
+      <div class="callout">
+        <span class="c-label">策略提示</span>强基、综评、专项的报名材料（自述、获奖、实践证明）需要<strong>高一高二提前积累</strong>，高三临时抱佛脚基本来不及。
+      </div>
+      <div class="callout soft">
+        <span class="c-label">给家长的话</span>如果孩子在竞赛、科创、社会实践上有特长或兴趣，<strong>从高一就鼓励并留好记录</strong>——这是高三时"多一条路"的本金，比高三临时冲刺更划算。
+      </div>
+    </section>
+
+    <!-- ===== 7 ===== -->
+    <section class="section" id="volunteer">
+      <h2><span class="num">七、</span>志愿填报：录取的核心环节</h2>
+      <p>志愿填报的重要性不亚于考试本身。每年都有高分滑档、退档的案例。</p>
+      <h3>7.1 必须懂的核心概念</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>名词</th><th>含义</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>省控线（批次线）</strong></td><td>各批次录取的最低资格线（如本科线、特殊类型招生线），过线才有对应批次投档资格</td></tr>
+            <tr><td><strong>一分一段表</strong></td><td>显示"每一分有多少人、累计排位多少"，是定位自己全省位次的核心工具</td></tr>
+            <tr><td><strong>位次（排名）</strong></td><td>比绝对分数更可靠——每年试卷难度不同，但院校录取的"位次区间"相对稳定</td></tr>
+            <tr><td><strong>院校专业组</strong></td><td>广东志愿单位：同一院校按选科要求把专业打包成"组"，你按组填报</td></tr>
+            <tr><td><strong>退档</strong></td><td>投档进某组后，因不服从调剂/身体条件/单科成绩等被退回，本批次其余志愿失效</td></tr>
+            <tr><td><strong>滑档（掉档）</strong></td><td>所有填报的志愿都没投出去（分数不够），只能等征集志愿或下一批次</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>7.2 平行志愿规则（广东本科批）</h3>
+      <div class="callout">
+        <span class="c-label">核心三句话</span><strong>分数优先、遵循志愿、一轮投档。</strong>
+        <ul style="margin:0.4rem 0 0 1.2rem;">
+          <li><strong>分数优先</strong>：系统按全省排位从高到低依次处理，高分者先挑。</li>
+          <li><strong>遵循志愿</strong>：轮到你时，按你填的 1→2→3… 顺序检索，第一个够线的组就投出。</li>
+          <li><strong>一轮投档</strong>：每批次只有一次投档机会。一旦投出，后续志愿作废；若被退档，只能走征集志愿或下一批。</li>
+        </ul>
+      </div>
+      <div class="callout soft">
+        <span class="c-label">重要</span>广东本科批一般可填 <strong>45 个院校专业组志愿</strong>，每组可填 6 个专业 + 是否服从调剂。<strong>务必勾选"服从调剂"以降低退档风险</strong>（除非坚决不接受某些专业）。
+      </div>
+
+      <h3>7.3 录取批次（简化）</h3>
+      <ol>
+        <li><strong>提前批本科</strong>：军检、非军检、教师专项、卫生专项、强基、综评等。</li>
+        <li><strong>本科批次</strong>：普通类主体（45 个专业组志愿）。</li>
+        <li><strong>提前批专科 / 专科批次</strong>：高职高专。</li>
+      </ol>
+
+      <h3>7.4 填报策略（通用）</h3>
+      <ul>
+        <li><strong>冲稳保梯度</strong>：前 1/3 冲高、中 1/3 稳妥、后 1/3 保底。</li>
+        <li><strong>以位次定校，不以分数定校</strong>：查近三年目标院校专业的录取位次区间。</li>
+        <li><strong>读懂选科要求</strong>：每个专业组对再选科目有要求（如"物+化"），不符合不能报。</li>
+        <li><strong>研究专业内涵</strong>：同名专业不同学校方向差异大，别只看名字。</li>
+      </ul>
+    </section>
+
+    <!-- ===== 8 ===== -->
+    <section class="section" id="admission">
+      <h2><span class="num">八、</span>录取流程与时间</h2>
+      <div class="flow">
+        <span class="step">高考</span><span class="arrow">→</span>
+        <span class="step">出分/位次</span><span class="arrow">→</span>
+        <span class="step">填志愿</span><span class="arrow">→</span>
+        <span class="step">投档</span><span class="arrow">→</span>
+        <span class="step">高校阅档</span><span class="arrow">→</span>
+        <span class="step">录取/退档</span>
+      </div>
+      <div class="flow">
+        <span class="step alt">退档</span><span class="arrow">→</span>
+        <span class="step alt">征集志愿（补录）</span><span class="arrow">→</span>
+        <span class="step alt">下一批次</span>
+      </div>
+      <ul>
+        <li><strong>投档</strong>：考试院按规则把档案投给院校专业组。</li>
+        <li><strong>阅档/录取</strong>：高校审核专业、身体条件等，决定录取或退档。</li>
+        <li><strong>征集志愿（补录）</strong>：某批次未完成计划，向未录取考生再次开放填报，常是"捡漏"机会，但剩余多为冷门或高学费专业。</li>
+        <li><strong>录取通知书</strong>：7 月底至 8 月陆续发放。</li>
+      </ul>
+    </section>
+
+    <!-- ===== 9 ===== -->
+    <section class="section" id="action">
+      <h2><span class="num">九、</span>给高一新生的行动清单</h2>
+      <p><strong>现在（暑假 + 高一上）就能做的：</strong></p>
+      <ol>
+        <li><strong>研究选科</strong>：结合兴趣、优势学科、目标专业倒推选科组合（推荐先想"我想学什么专业"）。</li>
+        <li><strong>建立信息源</strong>：关注「广东省教育考试院」官网/官微等权威渠道。</li>
+        <li><strong>保持语数外领先</strong>：这三科 450 分是基本盘，永远不嫌早。</li>
+        <li><strong>适度拓展</strong>：竞赛、科创、志愿服务、研究性学习——为综评/强基埋点。</li>
+        <li><strong>了解路径</strong>：每年抽空看几所目标大学的招生简章，知道"别人怎么录的"。</li>
+      </ol>
+      <p><strong>常见误区：</strong></p>
+      <ul>
+        <li>❌ "等高三再想志愿" → 选科错一步，很多专业直接关上门。</li>
+        <li>❌ "只看分数不看位次" → 分数会通胀/通缩，位次才稳。</li>
+        <li>❌ "不服从调剂更保险" → 反而大大增加退档风险。</li>
+        <li>❌ "只知道统招一条路" → 强基/综评/专项是大量"低分上名校"的合法通道。</li>
+      </ul>
+    </section>
+
+    <!-- ===== Appendix ===== -->
+    <section class="section" id="glossary">
+      <h2>附录：重要名词速查 & 权威信息源</h2>
+      <h3>名词速查</h3>
+      <ul>
+        <li><strong>3+1+2</strong>：广东新高考科目结构。</li>
+        <li><strong>首选科目</strong>：物理或历史，二选一。</li>
+        <li><strong>再选科目</strong>：化/生/政/地，四选二，等级赋分。</li>
+        <li><strong>赋分制</strong>：再选科目按排名换算成 30~100 分的机制。</li>
+        <li><strong>特殊类型招生控制线</strong>：原"一本线"的近似参照，用于强基、综评、高校专项等资格线。</li>
+        <li><strong>院校专业组</strong>：广东志愿填报与投档的基本单位。</li>
+        <li><strong>一分一段表</strong>：定位全省排位的核心工具。</li>
+      </ul>
+      <h3>权威信息源（务必收藏）</h3>
+      <ul>
+        <li><strong>广东省教育考试院</strong>：https://eea.gd.gov.cn/ （政策、日程、分数线唯一官方来源）</li>
+        <li><strong>广东省教育考试院微信公众号</strong>："广东省教育考试院"</li>
+        <li><strong>阳光高考平台</strong>（教育部）：https://gaokao.chsi.com.cn/ （强基、综评、专项报名入口）</li>
+        <li><strong>目标高校本科招生网</strong>：查最新招生简章、专业选科要求、历年录取分数</li>
+      </ul>
+    </section>
+
+    <div class="callout">
+      <span class="c-label">最后提醒</span>本文是<strong>认知框架</strong>，不是填报操作手册。高三填志愿前，务必以当年官方发布的《招生专业目录》《志愿填报指南》和考试院公告为准。祝高中三年从容不慌，高考如愿以偿。
+    </div>
+
+    <a class="back-link" href="./index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      返回高考子站
+    </a>
+  </article>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="disclaimer">
+      政策逐年微调，本文以广东省"3+1+2"新高考模式为范本，一切以当年广东省教育考试院发布的官方文件为准。
+    </div>
+    <div class="footer-line"></div>
+    <p>XBrain &copy; 2026</p>
+    <p>探索未知，连接世界</p>
+  </footer>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    (function () {
+      // ===== Reading Progress =====
+      var bar = document.getElementById('progressBar');
+      function updateProgress() {
+        var h = document.documentElement;
+        var scrolled = h.scrollTop || document.body.scrollTop;
+        var height = h.scrollHeight - h.clientHeight;
+        var pct = height > 0 ? (scrolled / height) * 100 : 0;
+        if (bar) bar.style.width = pct + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+
+      // ===== Logo Scroll Fade =====
+      var logo = document.querySelector('.xbrain-brand');
+      var ticking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.65;
+        if (logo) logo.style.opacity = opacity;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () { updateLogo(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+      updateLogo();
+    })();
+  </script>
+
+</body>
+
+</html>

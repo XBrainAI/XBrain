@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>学习与成长 — XBrain</title>
+  <title>高考 — XBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -160,7 +160,7 @@
     .hero {
       position: relative;
       z-index: 1;
-      min-height: 60vh;
+      min-height: 55vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -327,6 +327,25 @@
       box-shadow: 0 0 16px rgba(100, 180, 255, 0.4);
     }
 
+    /* ===== UPDATE NOTE ===== */
+    .update-note {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto 3rem;
+      padding: 1.2rem 1.5rem;
+      border-left: 3px solid var(--xb-accent);
+      background: rgba(100, 180, 255, 0.06);
+      border-radius: 0 12px 12px 0;
+      color: var(--xb-text-dim);
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    .update-note strong {
+      color: var(--xb-accent2);
+    }
+
     /* ===== FOOTER ===== */
     footer {
       position: relative;
@@ -393,7 +412,7 @@
 <body>
 
   <!-- ===== XBrain Brand Logo (Fixed) ===== -->
-  <a class="xbrain-brand" href="../index.html" title="XBrain">
+  <a class="xbrain-brand" href="../../index.html" title="XBrain">
     <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
@@ -447,16 +466,16 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="top">
-    <h1 class="hero-title">学习<span>与</span>成长</h1>
-    <p class="hero-subtitle">求知 · 探索 · 成长</p>
+    <h1 class="hero-title">高<span>考</span></h1>
+    <p class="hero-subtitle">从高一到大学录取 · 一次讲清楚</p>
     <div class="hero-line"></div>
   </section>
 
-  <!-- ===== SITES ===== -->
+  <!-- ===== ARTICLES ===== -->
   <section class="sites-section">
     <div class="sites-grid">
 
-      <a class="site-card" href="./纪录片推荐.html">
+      <a class="site-card" href="./高考完全指南.html">
         <div class="site-card-image fallback">
           <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
             <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
@@ -469,36 +488,9 @@
           </svg>
         </div>
         <div class="site-card-content">
-          <span class="site-card-tag">资源推荐</span>
-          <h3>暑假纪录片推荐</h3>
-          <p>为小学五年级与初三学生精选22部高质量纪录片，涵盖自然科学、历史人文、宇宙探索、思维习惯、社会思考五大类别。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <!-- 子站点：高考 -->
-      <a class="site-card" href="./高考/index.html">
-        <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
-          </svg>
-        </div>
-        <div class="site-card-content">
-          <span class="site-card-tag">子站点</span>
-          <h3>高考</h3>
-          <p>从高一选科到志愿填报、多元升学，系统科普高考全流程，帮全家建立完整认知框架。</p>
+          <span class="site-card-tag">科普指南</span>
+          <h3>高考完全指南</h3>
+          <p>从高一选科、学考，到志愿填报、多元升学路径，系统梳理高考全流程，帮孩子和家长建立完整认知框架。</p>
           <div class="site-card-arrow">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -511,6 +503,10 @@
 
     </div>
 
+    <div class="update-note">
+      <strong>子站持续更新中。</strong> 后续将根据深入研究，陆续上线更多专题：志愿填报实战、强基 / 综合评价准备、选科决策方法、分数线与位次分析等。本文为第一批科普学习文章，以广东省"3+1+2"新高考模式为范本。
+    </div>
+
     <div style="text-align:center;">
       <a class="back-link" href="../index.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -518,7 +514,7 @@
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        返回首页
+        返回学习与成长
       </a>
     </div>
   </section>
