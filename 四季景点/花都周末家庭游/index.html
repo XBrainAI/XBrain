@@ -134,11 +134,32 @@
 
     /* ===== PLAN SELECTOR (mobile-first: 2-col grid) ===== */
     .plan-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
-    .plan-btn { padding: 0.8rem 0.6rem; border: 1px solid var(--xb-border); border-radius: 10px; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); color: var(--xb-text); cursor: pointer; transition: all 0.25s ease; text-align: center; font-family: 'Noto Sans SC', sans-serif; min-height: 44px; display: flex; flex-direction: column; justify-content: center; }
+    .plan-btn { position: relative; padding: 0.8rem 0.6rem; border: 1px solid var(--xb-border); border-radius: 10px; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); color: var(--xb-text); cursor: pointer; transition: all 0.25s ease; text-align: center; font-family: 'Noto Sans SC', sans-serif; min-height: 44px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
     .plan-btn:active { transform: scale(0.96); }
     .plan-btn.active { border-color: var(--xb-accent); background: linear-gradient(135deg, rgba(100, 180, 255, 0.15) 0%, rgba(100, 180, 255, 0.05) 100%); box-shadow: 0 0 20px rgba(100, 180, 255, 0.15); }
     .plan-btn .plan-name { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.2rem; color: var(--xb-accent); }
     .plan-btn .plan-desc { font-size: 11px; color: var(--xb-text-dim); line-height: 1.3; }
+
+    /* 已完成印章 */
+    .plan-btn .stamp {
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 42px; height: 42px;
+      border: 2.5px solid #e74c3c;
+      border-radius: 50%;
+      color: #e74c3c;
+      background: rgba(231, 76, 60, 0.06);
+      font-size: 11px; font-weight: 900;
+      font-family: 'Noto Serif SC', serif;
+      display: flex; align-items: center; justify-content: center;
+      transform: rotate(-15deg);
+      opacity: 0.72;
+      pointer-events: none;
+      text-align: center; line-height: 1.15;
+      letter-spacing: 1px;
+      user-select: none;
+      z-index: 2;
+    }
 
     .plan-content { display: none; }
     .plan-content.active { display: block; animation: fadeIn 0.5s ease; }
@@ -419,6 +440,7 @@
       .plan-btn:active { transform: scale(1); }
       .plan-btn .plan-name { font-size: 1.1rem; }
       .plan-btn .plan-desc { font-size: 13px; }
+      .plan-btn .stamp { width: 50px; height: 50px; font-size: 13px; top: 6px; right: 6px; }
 
       .route-card { padding: 1.5rem 2rem; }
       .route-info { gap: 2rem; }
@@ -687,6 +709,7 @@
       <button class="plan-btn" onclick="switchPlan('planE1')">
         <span class="plan-name">方案E1 · 雪世界+矿物(当天往返)</span>
         <span class="plan-desc">雪世界 + 石头记室内<br>+ 圆玄·资政古建 · 当天往返避台风</span>
+        <span class="stamp">已完成</span>
       </button>
     </div>
 

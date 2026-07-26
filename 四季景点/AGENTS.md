@@ -128,6 +128,60 @@
 - **安全区避让**：固定定位 close/nav 加 `env(safe-area-inset-*)`。
 - **可直接复制的代码**：`花都周末家庭游/index.html` 的 `.lightbox-*` / `.waterfall-*` / `.travel-log-*` 段为已验证的范本，新增游记/画廊页应整段复用后再改路径，避免重复踩坑。
 
+### 5.7 方案已完成印章
+
+当出行方案已被**实际执行并补充游记**后，在方案选择按钮（`.plan-btn`）右上角打上红色圆形"已完成"印章，让读者一目了然哪些方案已经过实地验证。
+
+**使用前提**：
+- 方案已被实际出行执行（非纸面规划）
+- 已有对应的游记段落（含真实照片 / 行车记录）
+
+**HTML 模板**：
+```html
+<button class="plan-btn" onclick="switchPlan('planXX')">
+  <span class="plan-name">方案XX · 方案名称</span>
+  <span class="plan-desc">方案简述</span>
+  <span class="stamp">已完成</span>
+</button>
+```
+
+**CSS 模板**（移动优先，需 `.plan-btn { position: relative; overflow: hidden; }`）：
+
+```css
+.plan-btn .stamp {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 42px; height: 42px;
+  border: 2.5px solid #e74c3c;
+  border-radius: 50%;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.06);
+  font-size: 11px; font-weight: 900;
+  font-family: 'Noto Serif SC', serif;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-15deg);
+  opacity: 0.72;
+  pointer-events: none;          /* 不干扰按钮点击 */
+  text-align: center; line-height: 1.15;
+  letter-spacing: 1px;
+  user-select: none;
+  z-index: 2;
+}
+
+@media (min-width: 640px) {
+  .plan-btn .stamp { width: 50px; height: 50px; font-size: 13px; top: 6px; right: 6px; }
+}
+```
+
+**印章本身要求**：
+- **不干扰交互**：`pointer-events: none` 确保点击穿透到按钮
+- **不可选中**：`user-select: none` 避免拖选
+- **适度醒目但不刺眼**：红色描边 + 极浅红底 + 0.72 透明度，倾斜 -15° 营造邮戳感
+- **添加的条件**：仅当方案已被实际执行并写了游记时才添加 `stamp` span
+
+**已知已打标的方案**：
+- 花都周末家庭游 → 方案E1（2026-07-25 已执行，有完整游记含行车记录）
+
 ---
 
 ## 6. MD 资讯汇总与 HTML 的关系

@@ -570,4 +570,51 @@ window.prevImage = function(){ if(!currentGallery) return; currentIndex = (curre
 
 ---
 
+## 15. 子站点方案已完成印章
+
+当出行方案已被**实际执行并补充游记**后，在方案选择按钮上打上红色圆形"已完成"印章，供读者快速识别哪些方案已经过实地验证。
+
+### 15.1 核心规则
+
+- **仅当方案已被执行 + 已有游记(含真实照片/行车记录)时才打标**。纸面规划不加印章。
+- 印章为红色圆形、轻微倾斜的邮戳风格，用 `<span class="stamp">已完成</span>` 放在 `.plan-btn` 内。
+- `.plan-btn` 必须设 `position: relative; overflow: hidden;`
+- 印章自身 `pointer-events: none` 不干扰按钮点击，`user-select: none` 不可选中。
+
+### 15.2 代码模板
+
+```css
+.plan-btn .stamp {
+  position: absolute; top: 4px; right: 4px;
+  width: 42px; height: 42px;
+  border: 2.5px solid #e74c3c; border-radius: 50%;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.06);
+  font-size: 11px; font-weight: 900;
+  font-family: 'Noto Serif SC', serif;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-15deg);
+  opacity: 0.72;
+  pointer-events: none; text-align: center;
+  line-height: 1.15; letter-spacing: 1px;
+  user-select: none; z-index: 2;
+}
+@media (min-width: 640px) {
+  .plan-btn .stamp { width: 50px; height: 50px; font-size: 13px; top: 6px; right: 6px; }
+}
+```
+
+**HTML 用法**（在方案按钮末尾插入）：
+```html
+<button class="plan-btn" onclick="switchPlan('planXX')">
+  <span class="plan-name">方案XX</span>
+  <span class="plan-desc">简述</span>
+  <span class="stamp">已完成</span>
+</button>
+```
+
+详细规范见 `四季景点/AGENTS.md` **§5.7**。
+
+---
+
 *维护：当架构、命令、数据管线或规范发生结构性变化时，须同步更新本文件，保持与 `README.md` 一致。*
