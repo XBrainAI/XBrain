@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XBrain 顶部导航 top-nav 标准模板（可预览 / 可复制）</title>
+  <style>
+    /* ============================================================
+       本文件是 XBrain「文章页顶部导航 top-nav」标准模板。
+       - 可直接用浏览器打开预览交互效果（滚动高亮 + 手机汉堡菜单）。
+       - 新建长文 / 文章页时，按下方「COPY BLOCK」三段复制到新页面即可。
+       来源：四季景点/花都周末家庭游 的顶部导航，已统一为 XBrain 深色主题。
+       ============================================================ */
+
+    /* ===== COPY BLOCK 1/3 · 基础变量与全局（如新页面已有 :root 变量可省略重复） ===== */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(1200px 800px at 70% -10%, var(--xb-mid), var(--xb-deep) 60%);
+      color: var(--xb-text);
+      -webkit-font-smoothing: antialiased;
+    }
+    /* ===== END COPY BLOCK 1/3 ===== */
+
+
+    /* ===== COPY BLOCK 2/3 · 品牌 Logo（固定角标）+ 顶部导航 CSS ===== */
+    /* —— 品牌 Logo：固定左上角，点击回门户。完整 IP 规范见 brand/XBRAIN-LOGO-IP.md —— */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px; font-weight: 800; letter-spacing: 1.5px;
+      color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100, 180, 255, 0.9); }
+
+    /* —— 顶部导航：固定顶栏，桌面居中章节锚点，当前章节高亮 —— */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(10, 10, 26, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(100, 180, 255, 0.18);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+    }
+    .top-nav .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .top-nav .nav-inner::-webkit-scrollbar { display: none; }
+    .top-nav .nav-hamburger {
+      display: none;
+      align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      min-width: 44px; min-height: 44px; color: var(--xb-text);
+    }
+    .top-nav .nav-hamburger svg { width: 24px; height: 24px; }
+    .top-nav a {
+      position: relative;
+      display: inline-flex; align-items: center;
+      padding: 6px 14px;
+      font-size: 14px; font-weight: 500;
+      color: var(--xb-text-dim);
+      text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+    .top-nav a:hover { color: var(--xb-text); background: rgba(100, 180, 255, 0.08); }
+    .top-nav a.active { color: var(--xb-accent); background: rgba(100, 180, 255, 0.12); }
+    .top-nav a.active::after {
+      content: ''; position: absolute; bottom: 2px; left: 50%;
+      transform: translateX(-50%);
+      width: 14px; height: 2px; background: var(--xb-accent); border-radius: 1px;
+    }
+    .nav-mobile-dropdown { display: none; }
+    /* ===== END COPY BLOCK 2/3 ===== */
+
+
+    /* ===== COPY BLOCK 3/3 · 移动端响应式（放在 <style> 末尾的媒体查询内） ===== */
+    @media (max-width: 768px) {
+      .top-nav { justify-content: flex-end; padding: 0 12px; height: 48px; }
+      .top-nav .nav-inner { display: none; }
+      .top-nav .nav-hamburger { display: flex; }
+      .top-nav a { padding: 6px 12px; font-size: 13px; }
+      .nav-mobile-dropdown {
+        display: flex; flex-direction: column; gap: 2px;
+        position: fixed; top: 48px; left: 0; right: 0;
+        background: rgba(10, 10, 26, 0.97);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--xb-border);
+        z-index: 98; padding: 8px 12px;
+        transform: translateY(-120%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-height: calc(100vh - 48px); overflow-y: auto;
+      }
+      .nav-mobile-dropdown.open { transform: translateY(0); }
+      .nav-mobile-dropdown a {
+        display: flex; align-items: center;
+        padding: 12px 16px; font-size: 16px; font-weight: 500;
+        color: var(--xb-text-dim); text-decoration: none;
+        border-radius: 10px; transition: color 0.2s, background 0.2s; min-height: 44px;
+      }
+      .nav-mobile-dropdown a:active, .nav-mobile-dropdown a.active {
+        color: var(--xb-accent); background: rgba(100, 180, 255, 0.1);
+      }
+    }
+    /* ===== END COPY BLOCK 3/3 ===== */
+
+
+    /* ===== 以下仅为本预览页的演示版式，复制到正式页面时不需要 ===== */
+    .demo-hero { height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 1.5rem; }
+    .demo-hero h1 { font-size: 2.4rem; margin: 0 0 0.5rem; }
+    .demo-hero p { color: var(--xb-text-dim); max-width: 600px; }
+    .demo-section { max-width: 860px; margin: 0 auto; padding: 6rem 1.5rem; border-top: 1px solid var(--xb-border); }
+    .demo-section h2 { color: var(--xb-accent2); }
+    .demo-tag { display: inline-block; font-size: 0.75rem; color: var(--xb-accent); border: 1px solid var(--xb-border); border-radius: 999px; padding: 2px 10px; margin-bottom: 0.5rem; }
+  </style>
+</head>
+
+<body>
+  <!-- ===== COPY · 品牌 Logo（固定角标）。⚠️ 按页面层级改 href 深度 =====
+       层级深度（相对于仓库根 index.html）：
+         子站点/index.html              → href="../index.html"
+         子站点/文章/index.html         → href="../../index.html"
+         子站点/分类/文章/index.html     → href="../../../index.html"
+       也可用 href 指向父级导航页（如 ../index.html 或 ../../学习与成长/index.html）。 -->
+  <a class="xbrain-brand" href="../../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== COPY · 顶部导航 HTML。nav-inner 与 nav-mobile-dropdown 的链接须保持一致 =====
+       规则：
+       1) 每条 <a href="#id"> 对应正文一个 id="id" 的章节（锚点名自定义，中英文均可）。
+       2) 桌面端标签宜短（如「认知」），移动端下拉可写全（如「高考是什么」）。
+       3) 如需「返回上一级」链接，可在 nav-inner / nav-mobile-dropdown 最前插入：
+            <a href="../index.html">← 返回子站</a>
+       4) 顶部锚点：正文首个区块加 id="top"（如 hero 区），对应 <a href="#top">顶部</a>。 -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a href="#top">顶部</a>
+      <a href="#s1">章节一</a>
+      <a href="#s2">章节二</a>
+      <a href="#s3">章节三</a>
+      <a href="#s4">章节四</a>
+      <a href="#glossary">速查</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+  <div class="nav-mobile-dropdown" id="navMobile">
+    <a href="#top">顶部</a>
+    <a href="#s1">第一章节</a>
+    <a href="#s2">第二章节</a>
+    <a href="#s3">第三章节</a>
+    <a href="#s4">第四章节</a>
+    <a href="#glossary">名词速查</a>
+  </div>
+
+  <!-- ===== 以下仅为预览演示正文，复制时删除 ===== -->
+  <header class="demo-hero" id="top">
+    <span class="demo-tag">XBrain 顶部导航模板 · 可预览</span>
+    <h1>top-nav 标准模板</h1>
+    <p>向下滚动，观察顶部导航的「当前章节高亮」；缩小浏览器窗口到手机宽度，右上角会出现汉堡菜单。复制三段 COPY BLOCK 即可套用到任意新页面。</p>
+  </header>
+  <section class="demo-section" id="s1"><h2>第一章节</h2><p>这是演示内容。真实页面里替换为你的章节正文。</p></section>
+  <section class="demo-section" id="s2"><h2>第二章节</h2><p>每个章节的 id 必须与导航 href="#id" 对应。</p></section>
+  <section class="demo-section" id="s3"><h2>第三章节</h2><p>移动端下拉菜单与桌面端导航项保持一致即可。</p></section>
+  <section class="demo-section" id="s4"><h2>第四章节</h2><p>品牌 Logo 固定左上角，点击回门户（按层级改 href 深度）。</p></section>
+  <section class="demo-section" id="glossary"><h2>名词速查</h2><p>导航锚点、滚动高亮、汉堡菜单均已就位。</p></section>
+
+  <!-- ===== COPY · 顶部导航 JS（放在 </body> 前）。依赖 id：topNav/navInner/navMobile/navToggle/hamburgerIcon ===== -->
+  <script>
+    (function () {
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) {
+          if (scrollY >= s.el.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        mobileLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+
+      var navTicking = false;
+      window.addEventListener('scroll', function () {
+        if (!navTicking) {
+          window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
+          navTicking = true;
+        }
+      }, { passive: true });
+      setActiveNav();
+
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        navMobile.classList.remove('open');
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      }
+
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        } else {
+          hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        }
+      });
+
+      var anchors = document.querySelectorAll('a[href^="#"]');
+      anchors.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          var id = hash.substring(1);
+          var target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', hash);
+          }
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

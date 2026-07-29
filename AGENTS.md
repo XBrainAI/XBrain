@@ -113,6 +113,34 @@ home/
 - 门户首页 `index.html` 的 `.sites-grid` 必须新增对应卡片入口。
 - SPA 子站点必须在 `netlify.toml` 配置 history fallback，否则刷新 404。
 
+**长文 / 文章页导航标准（新增页面必须遵守）：**
+
+仓库内所有**长文 / 文章页**（科普文章、景点/家庭游攻略等需章节内跳转的页面），统一使用固定顶部章节导航（top-nav），不得再用「面包屑」式无意义导航或 `position: sticky` 的简易标签栏。
+
+**权威模板：** `brand/top-nav-template.html`，内含 `COPY BLOCK 1/3 · 2/3 · 3/3` 三段注释标注可复制代码，实际应用参考 `四季景点/花都周末家庭游/index.html` 和 `四季景点/香港周末家庭游/index.html` 的实现。
+
+### top-nav 技术规格
+
+#### CSS（COPY BLOCK 2/3）
+- `.top-nav` 为 `position: fixed; top: 0; left: 0; right: 0; z-index: 99`，桌面端 `height: 52px`、居中排列，移动端 `height: 48px`、靠右排列。
+- 桌面端 `.nav-inner` 内链接横向排列，`overflow-x: auto` 可横滑，隐藏滚动条。
+- 移动端 `.nav-inner { display: none }`，`.nav-hamburger` 按钮出现（最小触控面积 `44×44px`）。
+- 链接 `.top-nav a.active` 高亮当前章节：文字变 `--xb-accent`，底边 `2px` 色条。
+- 移动端下拉菜单 `.nav-mobile-dropdown`：`position: fixed; top: 48px`，默认 `translateY(-120%)` 隐藏在屏幕上方，`.open` 时 `translateY(0)` 滑入，`transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)`。
+- **锚点偏移**：`section[id] { scroll-margin-top: 72px }`（桌面）和 `64px`（移动端），确保锚点不被固定导航遮挡。
+- z-index 层次：top-nav `99` < 品牌 Logo `100` < 灯箱遮罩 `200+`。
+
+#### HTML（COPY BLOCK 3/3）
+- `<nav class="top-nav" id="topNav">` 内含 `<div class="nav-inner" id="navInner">`（桌面链接）+ `<button class="nav-hamburger" id="navToggle">`（汉堡按钮，含 SVG 三横线图标）。
+- `<div class="nav-mobile-dropdown" id="navMobile">` 紧随其后，内含移动端全文字链接（与 navInner 条目一致但文字可略长）。
+- 导航链接须覆盖页面所有章节，首条固定为 `<a href="#top">`，页面首屏元素必须有 `id="top"`。
+- 如需返回上级，在 navInner/navMobile 最前插入 `<a href="../index.html">← 返回</a>`。
+
+#### JavaScript（模板底部）
+- **滚动高亮**：遍历 `#navInner a` 取 `href` → 找对应 `section[id]` → 滚动时比较 `offsetTop - 100` 判定当前章节 → 同时更新 navInner 和 navMobile 的 `.active` 类。
+- **汉堡菜单**：`navToggle` 点击切换 `navMobile.classList.toggle('open')`，图标在三横线（☰）与叉号（✕）间切换。点击下拉菜单项 → 关闭。点击菜单外区域 → 关闭。
+- **平滑锚点跳转**：接管所有 `a[href^="#"]`，`preventDefault()` → `scrollIntoView({ behavior:'smooth', block:'start' })` → `history.pushState(null, '', hash)` 写入 URL 片段以支持深链分享。
+
 ---
 
 ## 4. 门户首页与卡片入口
