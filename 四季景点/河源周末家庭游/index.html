@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>河源周末家庭游 · 中华恐龙之乡 — XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #1a1030;
+      --xb-light: #2d1b4e;
+      --xb-accent: #64b4ff;
+      --xb-accent2: #80c0ff;
+      --xb-glow: rgba(100, 180, 255, 0.35);
+      --xb-border: rgba(100, 180, 255, 0.2);
+      --xb-text: #e8ecf4;
+      --xb-text-dim: rgba(200, 210, 230, 0.6);
+      --xb-success: #5ee4a0;
+      --xb-warn: #ffd166;
+      --xb-danger: #ff6b6b;
+      --amber: #e8a850;
+      --amber-dim: rgba(232, 168, 80, 0.5);
+      --amber-glow: rgba(232, 168, 80, 0.2);
+      --earth: #8b6914;
+      --fossil: #c4a46c;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed, mobile-first) ===== */
+    .xbrain-brand {
+      position: fixed; top: 8px; left: 8px; z-index: 100;
+      display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 10px; padding: 4px 10px 4px 6px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover { opacity: 0.7 !important; border-color: rgba(100, 180, 255, 0.2); }
+    .xbrain-brand svg { width: 24px; height: 24px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55)); }
+    .xbrain-brand .xbrain-text { font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100, 180, 255, 0.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100, 180, 255, 0.9); }
+
+    /* ===== HERO (mobile-first) ===== */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 80vh; min-height: 80dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 5rem 1.25rem 2.5rem;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(139, 105, 20, 0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 100%, rgba(232, 168, 80, 0.12) 0%, transparent 45%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border: 1px solid var(--amber); color: var(--amber);
+      font-size: 12px; letter-spacing: 1.5px; border-radius: 20px; margin-bottom: 1.2rem;
+      background: rgba(232, 168, 80, 0.08);
+    }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 8vw, 3.5rem); font-weight: 900; letter-spacing: 2px; margin-bottom: 0.8rem; line-height: 1.2; }
+    .hero-title span { color: var(--amber); text-shadow: 0 0 30px rgba(232, 168, 80, 0.5); }
+    .hero-subtitle { font-size: 14px; font-weight: 300; color: var(--xb-text-dim); letter-spacing: 1px; margin-bottom: 0.8rem; padding: 0 0.5rem; }
+    .hero-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.2rem; font-size: 12px; color: var(--xb-text-dim); }
+    .hero-info span { display: inline-flex; align-items: center; gap: 0.4rem; padding: 5px 10px; background: rgba(232, 168, 80, 0.08); border: 1px solid rgba(232, 168, 80, 0.25); border-radius: 6px; }
+    .hero-line { width: 50px; height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); margin: 0 auto; }
+
+    /* ===== SECTIONS (mobile-first) ===== */
+    .section { position: relative; z-index: 1; padding: 2.5rem 1.25rem; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+    .section-title .icon { width: 24px; height: 24px; color: var(--amber); flex-shrink: 0; }
+    .section-desc { color: var(--xb-text-dim); font-size: 14px; margin-bottom: 1.2rem; padding-left: 2rem; line-height: 1.6; }
+
+    /* ===== GEO / HISTORY CARDS ===== */
+    .info-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .info-card { background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; padding: 1.25rem; opacity: 0; transform: translateY(30px); }
+    .info-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .info-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: var(--amber); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+    .info-card p { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; }
+    .info-card ul { margin: 0.3rem 0 0; padding-left: 1.1rem; }
+    .info-card ul li { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; margin-bottom: 0.3rem; }
+    .info-card ul li b { color: var(--amber); }
+
+    .highlight-box {
+      margin-top: 1rem; padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(232, 168, 80, 0.08) 0%, rgba(232, 168, 80, 0.03) 100%);
+      border: 1px solid rgba(232, 168, 80, 0.25);
+      border-radius: 10px;
+    }
+    .highlight-box h5 { font-size: 13px; color: var(--amber); margin-bottom: 0.5rem; letter-spacing: 1px; }
+    .highlight-box p, .highlight-box li { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .culture-card { background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; padding: 1.25rem; opacity: 0; transform: translateY(30px); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .culture-card-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+    .culture-card-head .c-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(232, 168, 80, 0.1); border: 1px solid rgba(232, 168, 80, 0.25); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .culture-card-head h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: var(--amber); }
+    .culture-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border: 1px solid rgba(255, 209, 102, 0.3); margin-left: auto; white-space: nowrap; }
+    .culture-card h5 { font-size: 13px; color: var(--xb-success); margin: 0.7rem 0 0.3rem; letter-spacing: 1px; }
+    .culture-card p { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; }
+    .culture-card ul { margin: 0.3rem 0 0; padding-left: 1.1rem; }
+    .culture-card ul li { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; margin-bottom: 0.3rem; }
+    .culture-card ul li b { color: var(--xb-text); }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .spot-card { background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(30px); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .spot-card-image { width: 100%; height: 160px; background-size: cover; background-position: center; position: relative; }
+    .spot-card-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(10, 10, 26, 0.85) 100%); }
+    .spot-card-header { padding: 1rem 1.1rem 0.6rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; }
+    .spot-card-header h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; }
+    .spot-card-dist { font-size: 11px; color: var(--xb-text-dim); background: rgba(100, 180, 255, 0.08); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--xb-border); }
+    .spot-card-body { padding: 0 1.1rem 0.9rem; font-size: 13px; color: var(--xb-text-dim); line-height: 1.7; }
+    .spot-card-footer { padding: 0 1.1rem 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .spot-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(232, 168, 80, 0.1); color: var(--amber); border: 1px solid rgba(232, 168, 80, 0.3); }
+    .spot-tag.recommended { background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border-color: rgba(255, 209, 102, 0.3); }
+    .spot-tag.free { background: rgba(94, 228, 160, 0.1); color: var(--xb-success); border-color: rgba(94, 228, 160, 0.3); }
+    .spot-tag.kid { background: rgba(255, 143, 171, 0.1); color: #ff8fab; border-color: rgba(255, 143, 171, 0.3); }
+    .spot-hours { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px solid var(--xb-border); font-size: 12px; color: var(--xb-text-dim); line-height: 1.6; }
+    .spot-hours b { color: var(--xb-success); }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; padding: 0.8rem 0.6rem; border: 1px solid var(--xb-border); border-radius: 10px; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); color: var(--xb-text); cursor: pointer; transition: all 0.25s ease; text-align: center; font-family: 'Noto Sans SC', sans-serif; min-height: 44px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .plan-btn:active { transform: scale(0.96); }
+    .plan-btn.active { border-color: var(--amber); background: linear-gradient(135deg, rgba(232, 168, 80, 0.15) 0%, rgba(232, 168, 80, 0.05) 100%); box-shadow: 0 0 20px rgba(232, 168, 80, 0.15); }
+    .plan-btn .plan-name { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.2rem; color: var(--amber); }
+    .plan-btn .plan-desc { font-size: 11px; color: var(--xb-text-dim); line-height: 1.3; }
+
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .plan-summary .day-label { font-size: 12px; color: var(--amber); font-weight: 700; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; background: rgba(232,168,80,0.06); border-radius: 4px; display: inline-block; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1rem; border: 1px solid var(--xb-border); border-radius: 10px; overflow: hidden; }
+    .plan-summary-table th { background: rgba(232, 168, 80, 0.08); color: var(--amber); padding: 0.6rem 0.7rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--xb-border); white-space: nowrap; }
+    .plan-summary-table td { padding: 0.6rem 0.7rem; color: var(--xb-text); border-bottom: 1px solid rgba(100, 180, 255, 0.08); }
+    .plan-summary-table tr:last-child td { border-bottom: none; }
+    .plan-summary-table tr:nth-child(even) { background: rgba(100, 180, 255, 0.03); }
+    .plan-summary-table td:last-child { color: var(--amber); font-weight: 600; white-space: nowrap; }
+    .plan-summary-table.hours-table td:last-child { color: var(--xb-text-dim); font-weight: 400; white-space: normal; }
+    .plan-summary-table.hours-table td:nth-child(2) { color: var(--xb-success); font-weight: 600; white-space: nowrap; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; border: 1px solid var(--xb-border); border-radius: 10px; }
+    .table-scroll::-webkit-scrollbar { height: 4px; }
+    .table-scroll::-webkit-scrollbar-thumb { background: rgba(100,180,255,0.3); border-radius: 2px; }
+    .table-scroll .plan-summary-table { border: none; border-radius: 0; margin-bottom: 0; }
+
+    /* ===== TIMELINE ===== */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--amber), transparent); opacity: 0.4; }
+    .timeline-item { position: relative; padding-bottom: 1.5rem; }
+    .timeline-dot { position: absolute; left: -1.5rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--xb-deep); border: 2px solid var(--amber); box-shadow: 0 0 10px rgba(232, 168, 80, 0.4); }
+    .timeline-time { font-size: 12px; color: var(--amber); font-weight: 700; letter-spacing: 1px; margin-bottom: 0.3rem; }
+    .timeline-content { background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); border: 1px solid var(--xb-border); border-radius: 10px; padding: 1rem 1.1rem; }
+    .timeline-content h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .timeline-content p { font-size: 14px; color: var(--xb-text-dim); line-height: 1.7; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .timeline-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(100, 180, 255, 0.1); color: var(--xb-accent); border: 1px solid var(--xb-border); }
+    .timeline-tag.food { background: rgba(94, 228, 160, 0.1); color: var(--xb-success); border-color: rgba(94, 228, 160, 0.3); }
+    .timeline-tag.drive { background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border-color: rgba(255, 209, 102, 0.3); }
+    .timeline-tag.museum { background: rgba(232, 168, 80, 0.1); color: var(--amber); border-color: rgba(232, 168, 80, 0.3); }
+    .timeline-tag.kid { background: rgba(255, 143, 171, 0.1); color: #ff8fab; border-color: rgba(255, 143, 171, 0.3); }
+    .timeline-tag.view { background: rgba(100, 180, 255, 0.12); color: var(--xb-accent2); border-color: rgba(100, 180, 255, 0.25); }
+
+    .timeline-spot-card { margin-top: 0.6rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--xb-border); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    .timeline-spot-card:active { border-color: var(--amber); box-shadow: 0 0 15px rgba(232, 168, 80, 0.15); }
+    .timeline-spot-card-img { width: 100%; height: 140px; background-size: cover; background-position: center; position: relative; }
+    .timeline-spot-card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(10, 10, 26, 0.8) 100%); }
+    .timeline-spot-card-bar { position: absolute; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; z-index: 2; }
+    .timeline-spot-card-bar span { font-size: 14px; color: var(--xb-text); font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+    .timeline-spot-card-bar .view-btn { font-size: 12px; color: var(--amber); background: rgba(10,10,26,0.8); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(232, 168, 80, 0.3); display: flex; align-items: center; gap: 4px; }
+    .timeline-spot-card-bar .view-btn svg { width: 14px; height: 14px; }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: linear-gradient(135deg, rgba(255, 209, 102, 0.08) 0%, rgba(255, 209, 102, 0.03) 100%); border: 1px solid rgba(255, 209, 102, 0.25); border-radius: 12px; padding: 1.25rem; margin-top: 1.2rem; }
+    .tips-box-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; color: var(--xb-warn); margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.5rem; }
+    .tips-box ul { list-style: none; font-size: 14px; color: var(--xb-text-dim); line-height: 1.9; }
+    .tips-box ul li { position: relative; padding-left: 1.1rem; }
+    .tips-box ul li::before { content: '\2022'; position: absolute; left: 0; color: var(--xb-warn); font-weight: bold; }
+    .tips-box ul li b, .tips-box ul li strong { color: var(--xb-text); }
+    .tips-box.danger { background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 107, 107, 0.03) 100%); border-color: rgba(255, 107, 107, 0.25); }
+    .tips-box.danger .tips-box-title { color: var(--xb-danger); }
+    .tips-box.danger ul li::before { color: var(--xb-danger); }
+
+    /* ===== BUDGET TABLE ===== */
+    .budget-table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font-size: 13px; border: 1px solid var(--xb-border); border-radius: 12px; overflow: hidden; }
+    .budget-table th, .budget-table td { padding: 0.65rem 0.8rem; text-align: left; border-bottom: 1px solid var(--xb-border); }
+    .budget-table th { color: var(--amber); font-weight: 600; background: rgba(232, 168, 80, 0.06); white-space: nowrap; }
+    .budget-table tr:last-child td { border-bottom: none; }
+    .budget-table td:first-child { color: var(--xb-text-dim); }
+    .budget-table .total td { color: var(--xb-text); font-weight: 700; background: rgba(232, 168, 80, 0.06); }
+    .budget-table .total td:last-child { color: var(--amber); }
+    .budget-note { font-size: 12px; color: var(--xb-text-dim); margin-top: 0.6rem; line-height: 1.7; }
+
+    /* ===== FIX: Ensure gradient card content is above ::after overlay ===== */
+    .spot-card-image[style*="flex-direction"] > * { position: relative; z-index: 3; }
+
+    /* ===== TOP NAV ===== */
+    .top-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 99; background: rgba(10, 10, 26, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(100, 180, 255, 0.18); padding: 0 12px; display: flex; align-items: center; justify-content: flex-end; height: 48px; }
+    .top-nav .nav-inner { display: none; }
+    .top-nav .nav-hamburger { display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; min-width: 44px; min-height: 44px; color: var(--xb-text); }
+    .top-nav .nav-hamburger svg { width: 24px; height: 24px; }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 14px; font-size: 14px; font-weight: 500; color: var(--xb-text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color 0.25s ease, background 0.25s ease; }
+    .nav-mobile-dropdown { display: flex; flex-direction: column; gap: 2px; position: fixed; top: 48px; left: 0; right: 0; background: rgba(10, 10, 26, 0.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--xb-border); z-index: 98; padding: 8px 12px; transform: translateY(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); max-height: calc(100vh - 48px); overflow-y: auto; }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .nav-mobile-dropdown a { display: flex; align-items: center; padding: 12px 16px; font-size: 16px; font-weight: 500; color: var(--xb-text-dim); text-decoration: none; border-radius: 10px; transition: color 0.2s, background 0.2s; min-height: 44px; }
+    .nav-mobile-dropdown a:active, .nav-mobile-dropdown a.active { color: var(--amber); background: rgba(232, 168, 80, 0.1); }
+    section[id], .culture-card[id] { scroll-margin-top: 64px; }
+
+    /* ===== WATERFALL / LIGHTBOX ===== */
+    .waterfall-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.92); flex-direction: column; touch-action: none; overscroll-behavior: contain; }
+    .waterfall-overlay.open { display: flex; }
+    .waterfall-close { position: fixed; top: 12px; right: 12px; z-index: 210; width: 44px; height: 44px; background: rgba(10,10,26,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; font-size: 24px; }
+    .waterfall-scroll { flex: 1; overflow-y: auto; padding: 60px 16px 40px; -webkit-overflow-scrolling: touch; }
+    .waterfall-grid { columns: 2; column-gap: 10px; }
+    .waterfall-grid img { width: 100%; border-radius: 8px; margin-bottom: 10px; display: block; cursor: pointer; transition: transform 0.2s ease; }
+    .waterfall-grid img:active { transform: scale(0.97); }
+    .waterfall-title { text-align: center; color: var(--amber); font-family: 'Noto Serif SC', serif; font-size: 1.2rem; padding: 0 0 20px; }
+    .waterfall-back { text-align: center; padding: 12px; }
+    .waterfall-back button { padding: 8px 24px; background: rgba(232,168,80,0.15); border: 1px solid var(--amber); color: var(--amber); border-radius: 20px; font-size: 14px; cursor: pointer; }
+
+    /* Lightbox detail view */
+    .lb-overlay { display: none; position: fixed; inset: 0; z-index: 250; background: rgba(0,0,0,0.96); flex-direction: column; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; }
+    .lb-overlay.open { display: flex; }
+    .lb-close { position: fixed; top: 12px; right: 12px; z-index: 260; width: 44px; height: 44px; background: rgba(10,10,26,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; font-size: 24px; }
+    .lb-img-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 16px 20px; max-width: 100%; }
+    .lb-img-wrap img { max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: 6px; }
+    .lb-counter { padding: 10px; color: var(--xb-text-dim); font-size: 13px; }
+    .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); z-index: 255; width: 48px; height: 48px; border-radius: 50%; background: rgba(10,10,26,0.8); border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; font-size: 22px; }
+    .lb-prev { left: 8px; }
+    .lb-next { right: 8px; }
+
+    /* ===== 页内锚点链接 ===== */
+    .in-doc-link { color: var(--amber); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .in-doc-link:hover { color: #f0c070; }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: 6px 18px; border: 1px solid var(--xb-border); border-radius: 20px; color: var(--xb-text-dim); font-size: 13px; text-decoration: none; transition: all 0.3s ease; }
+    .section-backtop a:hover { border-color: var(--amber); color: var(--amber); background: rgba(232,168,80,0.08); }
+
+    /* ===== FOOTER ===== */
+    footer { position: relative; z-index: 1; text-align: center; padding: 2.5rem 1.25rem 4rem; color: var(--xb-text-dim); font-size: 13px; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--xb-border); margin: 0 auto 0.8rem; }
+    footer a { color: var(--amber); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-version { margin-top:0.5rem; font-size:0.7rem; color:rgba(255,255,255,0.2); font-family:monospace; letter-spacing:0.5px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 641px) {
+      .top-nav { justify-content: center; height: 52px; padding: 0 1.5rem; }
+      .top-nav .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .top-nav .nav-inner::-webkit-scrollbar { display: none; }
+      .top-nav .nav-hamburger { display: none; }
+      .top-nav a:hover { color: var(--xb-text); background: rgba(100, 180, 255, 0.08); }
+      .top-nav a.active { color: var(--amber); background: rgba(232, 168, 80, 0.12); }
+      .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--amber); border-radius: 1px; }
+      .nav-mobile-dropdown { display: none; }
+      section[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+      .xbrain-brand { top: 10px; left: 12px; padding: 5px 12px 5px 7px; border-radius: 10px; }
+      .xbrain-brand svg { width: 28px; height: 28px; }
+      .xbrain-brand .xbrain-text { font-size: 14px; letter-spacing: 1.2px; }
+
+      .info-grid, .culture-grid { grid-template-columns: repeat(2, 1fr); }
+      .spots-grid { grid-template-columns: repeat(2, 1fr); }
+      .plan-selector { grid-template-columns: repeat(3, 1fr); }
+      .waterfall-grid { columns: 3; }
+    }
+
+    @media (min-width: 1025px) {
+      .info-grid, .culture-grid { grid-template-columns: repeat(3, 1fr); }
+      .spots-grid { grid-template-columns: repeat(3, 1fr); }
+      .waterfall-grid { columns: 4; }
+      .plan-selector { grid-template-columns: repeat(3, 1fr); max-width: 700px; margin-left: auto; margin-right: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== XBrain Brand Logo ===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== Top Navigation ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a href="#top">首页</a>
+      <a href="#geo">地理</a>
+      <a href="#history">历史</a>
+      <a href="#culture">人文背景</a>
+      <a href="#spots">景点总览</a>
+      <a href="#hotels">酒店</a>
+      <a href="#plans">行程方案</a>
+      <a href="#hours">营业时间</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+  <div class="nav-mobile-dropdown" id="navMobile">
+    <a href="#top">首页</a>
+    <a href="#geo">地理背景</a>
+    <a href="#history">历史人文</a>
+    <a href="#culture">人文背景 · 给孩子的解说</a>
+    <a href="#spots">目的地景点</a>
+    <a href="#hotels">酒店推荐</a>
+    <a href="#plans">行程方案</a>
+    <a href="#hours">营业时间 & 行程复核</a>
+    <a href="#weather">天气影响评估</a>
+    <a href="#tips">实用贴士</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-badge">河源 · 2天1夜</div>
+    <h1 class="hero-title">中华<span>恐龙</span>之乡</h1>
+    <p class="hero-subtitle">岭南首邑 · 客家古邑 · 世界恐龙蛋化石之都</p>
+    <div class="hero-line"></div>
+    <div class="hero-info">
+      <span>广州自驾 2.5h</span>
+      <span>2天1夜</span>
+      <span>亲子友好</span>
+      <span>全程高速</span>
+      <span>住1晚</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 地理背景 ===== -->
+  <section class="section" id="geo">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2C8 2 4 6.5 4 11c0 5 8 11 8 11s8-6 8-11c0-4.5-4-9-8-9z"/></svg>
+      地理背景
+    </h2>
+    <p class="section-desc">了解脚下这片土地，才能读懂亿万年的生命档案和两千年的文明密码。</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>两江交汇 · 槎城由来</h4>
+        <p>河源市区位于<strong>东江中上游</strong>与<strong>新丰江下游</strong>的交汇处。东江自北向南流过，新丰江从西向东绕城，两江在市区东面交汇，使整个城市<strong>三面环水</strong>，形如浮在水上的木筏（槎），因此得名<strong>「槎城」</strong>。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>河源盆地 · 红砂岩层</h4>
+        <p>河源盆地面积<strong>超过100平方公里</strong>，覆盖着厚度达<strong>4000米</strong>的红砂岩层。这片形成于<strong>白垩纪晚期</strong>（约7000万年前）的地层，是恐龙蛋化石的天然仓库。红砂岩层中的恐龙蛋化石<strong>分布面积约70平方公里</strong>，据专家估计，仅在城区周边埋藏的恐龙蛋化石数量就可能达<strong>十几万到上百万枚</strong>。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>港深水塔 · 生态屏障</h4>
+        <p>河源是广东省重要的<strong>水源涵养地</strong>。全省最大的两个水库——<strong>新丰江水库</strong>（万绿湖）和枫树坝水库均在其境内。东江水不仅滋养珠江三角洲东部，更通过东深供水工程流入香港，因此河源被誉为<strong>「港深水塔」</strong>。全市森林覆盖率<strong>72%</strong>，是全国13个大气环境质量达国家一类标准的城市之一。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>粤东北枢纽</h4>
+        <p>河源地处<strong>广东省东北部</strong>，东经114°14'至115°36'、北纬23°10'至24°27'。东接梅州、汕尾，南邻惠州，西连韶关，北与江西省交界。全市面积<strong>1.58万平方公里</strong>，辖源城区、东源县、龙川县、紫金县、连平县、和平县五县一区。京九铁路入粤第一市，赣深高铁通车后到广州约<strong>40分钟</strong>。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>白垩纪的古环境</h4>
+        <p>约7000万年前的白垩纪晚期，河源地区是<strong>温暖湿润的湖滨沼泽</strong>地带。大量恐龙在此集群产蛋，湿润的场所提供了安全舒适的产蛋环境。与其他地方在细软土壤中发现化石不同，河源的恐龙蛋<strong>直接从粗糙的红砂岩中出土</strong>——这是全国唯一一个特殊的粗糙「产房」，说明这里的产卵环境比其他地方更为恶劣，也反映出恐龙对环境极强的适应性。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>古生物化石宝藏</h4>
+        <p>河源不仅有恐龙蛋化石。馆藏还包括：泥盆纪<strong>三叶虫</strong>、早侏罗纪<strong>菊石</strong>（200多件来自世界各地的藏品）、白垩纪<strong>南雄龟</strong>、新生代哺乳类动物牙齿等种类丰富的古生物化石。在距和平县城约30公里的上陵镇也发现过恐龙蛋化石，将恐龙蛋埋藏地的分布范围扩展至广东境内最东北处。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 历史人文 ===== -->
+  <section class="section" id="history">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      历史人文
+    </h2>
+    <p class="section-desc">2200多年建城史，从秦朝龙川县到客家古邑，一部岭南文明的缩影。</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>岭南首邑 · 秦置龙川</h4>
+        <p><strong>公元前214年</strong>，秦始皇平定岭南后设南海郡，<strong>龙川县</strong>为南海郡最早设立的县之一，是<strong>岭南最早的建置县邑</strong>。首任县令<strong>赵佗</strong>——这位被毛泽东称为「南下干部第一人」的年轻将领，后来统一岭南建立南越国，被汉高祖封为南越王。今龙川县佗城镇即为当年县治所在，古城墙、越王井等遗迹犹存。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>赵佗治龙川 · 岭南开发第一站</h4>
+        <p>赵佗在龙川推行<strong>「和辑百越」</strong>政策——尊重越人风俗、鼓励汉越通婚、推广中原农耕技术（铁农具、牛耕、水利），使古龙川成为南越国最先进的地区之一。古龙川是赵佗的<strong>「兴王之地」</strong>，他在这里积累的治理经验，最终支撑他裂地封王、君临岭南。刘邦曾评价他：「南海尉佗居南方长治之，甚有文理。」</p>
+      </div>
+
+      <div class="info-card">
+        <h4>客家古邑 · 中原文明的熔炉</h4>
+        <p>河源是<strong>东江流域纯客家地区</strong>。客家人五次大南迁（东晋五胡乱华→唐末黄巢起义→宋末元兵南下→清初湖广填四川→太平天国后）中，大量中原移民经赣闽进入河源。中原文化与百越文化在此交融，形成了独特的<strong>河源客家文化</strong>——语言、建筑、美食、礼俗自成体系。河源有<strong>23个省级古村落</strong>，数量全省前三。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>河源建置沿革</h4>
+        <p>南朝齐永明元年（<strong>483年</strong>）析龙川置河源县，至今已<strong>1540余年</strong>。隋唐属循州，明清属惠州。1988年1月7日，国务院批准撤销河源县，设立<strong>河源地级市</strong>，辖五县一区。从古龙川到今河源，这片土地见证了岭南从「蛮荒之地」到「现代新城」的完整历史进程。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>人文荟萃 · 名人辈出</h4>
+        <p>唐代「循州第一进士」<strong>韦昌明</strong>、宋代被苏东坡赠诗两首的「岭南首第」<strong>古成之</strong>、明代官居二品「民称神明」的<strong>李焘</strong>、清代「一门三世四督抚」的连平<strong>颜氏家族</strong>……还有状元宰相吴潜、文天祥、苏辙、王阳明等中原人杰曾在此著书讲学、传播文化。近现代有「东江三杰」阮啸仙、刘尔崧、黄居仁。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>龟峰塔 · 南宋遗珍</h4>
+        <p>位于河源恐龙文博园内的<strong>龟峰塔</strong>，始建于<strong>南宋绍兴二年（1132年）</strong>，距今近900年，是<strong>全国重点文物保护单位</strong>。塔高约35米，六角七层楼阁式砖塔，是广东省内罕见的宋代古塔。登塔可俯瞰东江与新丰江交汇的壮阔景象。门票仅5元/人。</p>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <h5>给孩子讲一个串起来的故事</h5>
+      <p>「7000万年前，恐龙在河源的沼泽地产下一窝窝蛋。2000多年前，赵佗来到这里当了龙川县令，他把中原先进的农耕技术教给当地人。后来，一批批中原人因为战乱南迁到这里，他们说着客家话，建起围龙屋，把河源建设成客家古邑。1988年，河源成了地级市。而修建新城区挖地基时，人们竟然挖出了大量恐龙蛋——于是，一座恐龙博物馆在千年古塔旁建立了，把远古和今天连在了一起。」</p>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 人文背景 · 给孩子的解说 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      人文背景 · 给孩子的解说
+    </h2>
+    <p class="section-desc">让孩子看恐龙不只是看热闹，读懂「中华恐龙之乡」为什么在河源。</p>
+
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-dino">
+        <div class="culture-card-head">
+          <div class="c-icon">🦖</div>
+          <h4>河源为什么是「中华恐龙之乡」？</h4>
+          <span class="culture-tag">地质科普</span>
+        </div>
+        <h5>背景</h5>
+        <p>河源拥有世界上<strong>独一无二</strong>的「三位一体」恐龙化石资源——<strong>恐龙蛋+恐龙骨骼+恐龙脚印</strong>同时出现在同一区域。馆藏恐龙蛋化石近2万枚，2005年获吉尼斯世界纪录。2004年就凭10008枚获纪录，如今仍在持续发掘。河源恐龙蛋种类至少<strong>13种</strong>（长形、棱柱形、椭圆形、扁圆形、圆形，直径1.5cm到23cm），大多属于白垩纪晚期。</p>
+        <h5>讲给孩子听</h5>
+        <ul>
+          <li><b>恐龙蛋有多大？</b>最小的像鹌鹑蛋（1.5cm），最大的比鸵鸟蛋还大（23cm）！去博物馆找找看，哪个最大哪个最小？</li>
+          <li><b>什么是「水晶蛋」？</b>有些恐龙蛋里面不是泥沙，而是亮晶晶的方解石或萤石晶体，像水晶一样透明。猜猜它们是怎么形成的？（矿物质从蛋壳的小孔渗进去，千万年后结晶了）</li>
+          <li><b>恐龙蛋是向日葵形状？</b>很多恐龙蛋在红砂岩中两两成双排成一圈，很像向日葵，而且每圈都留一个缺口——这是恐龙妈妈产蛋时给自己留的「出门通道」！</li>
+          <li><b>任务卡：</b>在博物馆找一找有没有「黄氏河源龙」的化石——这是用发现者的姓氏命名的恐龙！</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="culture-zhaotuo">
+        <div class="culture-card-head">
+          <div class="c-icon">👑</div>
+          <h4>赵佗——从县令到南越王</h4>
+          <span class="culture-tag">历史故事</span>
+        </div>
+        <h5>背景</h5>
+        <p>赵佗（约公元前240年—前137年），河北正定人，20岁出头随秦军南征。平定岭南后出任龙川县首任县令，在任期间推广中原文明、促进民族融合。秦末天下大乱，他接任南海郡尉，随后吞并桂林、象郡，建立南越国，称王近70年，活到103岁。他是将中原文明带入岭南的关键人物。</p>
+        <h5>讲给孩子听</h5>
+        <ul>
+          <li><b>赵佗有多厉害？</b>他20多岁就带着军队翻山越岭来到龙川（今天的河源），把中原种稻谷、用铁农具的方法教给当地人，大家都很尊敬他。</li>
+          <li><b>他的人生像一部电影：</b>河北小伙子→南下干部→龙川县令→南越国王，一个人把一个「蛮荒之地」变成了繁荣的国家。他是中国历史上最长寿的国王之一，活到103岁！</li>
+          <li><b>小任务：</b>问爸爸妈妈，我们现在的「县令」叫什么官？（县长/区委书记）</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="culture-hakka">
+        <div class="culture-card-head">
+          <div class="c-icon">🏠</div>
+          <h4>客家人——一千多年的迁徙史诗</h4>
+          <span class="culture-tag">民族文化</span>
+        </div>
+        <h5>背景</h5>
+        <p>客家人是汉族的一个分支，因战乱从中原（今河南一带）多次南迁至赣、闽、粤。河源是东江流域的纯客家地区，客家文化在这里保存完整——客家围龙屋、客家山歌、客家酿豆腐、客家擂茶……「客家」意为「客居他乡」，但这个「客」已住了上千年。全球客家人约4500万，其中海外约500万。</p>
+        <h5>讲给孩子听</h5>
+        <ul>
+          <li><b>「客家」是什么意思？</b>就是「来做客的人家」。1600多年前，因为北方打仗，很多中原人搬家到南方。本地人叫他们「客家人」，这个名字一直叫到现在。</li>
+          <li><b>客家话有多厉害？</b>客家话是古代中原话的「活化石」！很多唐诗用普通话读不押韵，但用客家话读就押韵了。</li>
+          <li><b>找找看：</b>在河源吃饭时，试试客家酿豆腐、猪脚粉、五指毛桃汤——问问老板五指毛桃是什么？（一种植物的根，煲汤有椰香味）</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="culture-guifeng">
+        <div class="culture-card-head">
+          <div class="c-icon">🏯</div>
+          <h4>龟峰塔——900岁的古塔</h4>
+          <span class="culture-tag">文物古迹</span>
+        </div>
+        <h5>背景</h5>
+        <p>龟峰塔建于南宋绍兴二年（1132年），距今894年，是河源最古老的地面建筑。塔为六角七层楼阁式砖塔，高约35米，屹立于龟峰山上，俯瞰东江与新丰江交汇。它是全国重点文物保护单位。旁边的河源恐龙博物馆与古塔同在一个园区，形成「远古生命+千年古建」的独特组合。</p>
+        <h5>讲给孩子听</h5>
+        <ul>
+          <li><b>900年前是什么时候？</b>南宋！岳飞的时代。这个塔经历了无数次台风、地震、战火，依然矗立不倒。</li>
+          <li><b>为什么叫「龟峰塔」？</b>因为它建在龟峰山上，山形像一只大乌龟趴在江边。</li>
+          <li><b>想一想：</b>古人没有起重机、没有水泥，怎么把35米高的塔建起来？（用竹木脚手架+糯米石灰浆）</li>
+          <li><b>挑战任务：</b>登上龟峰塔顶层，数数能看到几条江？（两条：东江+新丰江）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 4. 河源恐龙博物馆 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      目的地景点
+    </h2>
+    <p class="section-desc">河源恐龙文博园为国家AAAA级景区，园内包含恐龙博物馆（收费）、龟峰塔（国保·5元）、河源市博物馆（免费）三馆一塔，均步行可达。以下逐一介绍，另附河源周边人文历史景点。</p>
+
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-dino-museum">
+        <div class="spot-card-image" style="background-image: url('河源恐龙博物馆/image.png')" onclick="openWaterfall('dino')">
+        <div class="timeline-spot-card-bar"><span>📷 16张</span><span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>河源恐龙博物馆</h4>
+        </div>
+        <div class="spot-card-body">
+          <p>又名「中国古动物馆恐龙蛋馆」，2010年建成开放，2013年与中科院古脊椎动物与古人类研究所合作共建。建筑面积8300m²，展览面积2800m²。馆藏恐龙蛋化石<strong>近2万枚</strong>（全球之冠）、恐龙骨骼化石<strong>20多具</strong>（含4种类型）、恐龙足迹模型8组168个。</p>
+          <p>一楼分《恐龙产房》《恐龙足迹》《恐龙故乡》三个基本陈列；二楼《旋出美丽——菊石主题展》；三楼《小昆虫 大世界——昆虫标本科普展》。馆内还有「史前部落」恐龙科普主题乐园。</p>
+          <p style="margin-top:0.5rem;"><strong>镇馆之宝——黄氏河源龙：</strong>1999年发现于市郊黄沙村，属窃蛋龙类，身长2-3米，体重约100公斤，是恐龙向鸟类演化的中间生物。以发现者、河源恐龙博物馆原馆长黄东姓氏命名。国家一级重点保护古生物化石，广东省唯一获此等级的化石。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">世界纪录</span>
+          <span class="spot-tag kid">亲子必去</span>
+          <span class="spot-tag">AAAA景区</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>9:00–17:30（17:00停售/停入），周一闭馆（法定节假日除外）。<br>
+          <b>门票：</b>成人30元/人，儿童15元/人。龟峰塔另收5元/人。
+        </div>
+      </div>
+
+      <div class="spot-card" id="spot-guifeng">
+        <div class="spot-card-image" style="background-image: url('龟峰塔/image.png')" onclick="openWaterfall('guifeng')">
+        <div class="timeline-spot-card-bar"><span>📷 2张</span><span class="view-btn">查看 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>龟峰塔</h4>
+        </div>
+        <div class="spot-card-body">
+          <p>南宋绍兴二年（1132年）建，六角七层楼阁式砖塔，高约35米，全国重点文物保护单位。登塔可俯瞰东江与新丰江「两江交汇」的壮丽景色。与恐龙博物馆同在文博园内，步行可达。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag">国保单位</span>
+          <span class="spot-tag">南宋古建</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>9:00–17:30（17:00停售），周一闭馆。<br>
+          <b>门票：</b>5元/人。
+        </div>
+      </div>
+
+      <div class="spot-card" id="spot-history-museum">
+        <div class="spot-card-image" style="background-image: url('河源市博物馆/image.png')" onclick="openWaterfall('heyuanmuseum')">
+        <div class="timeline-spot-card-bar"><span>📷 1张</span><span class="view-btn">查看 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>河源市博物馆</h4>
+        </div>
+        <div class="spot-card-body">
+          <p>2016年建成开放，与恐龙博物馆同属文博园。展览分《河源历史文化》《河源客家民俗》两大基本陈列，展现河源从新石器时代到近现代的5000多年文明。馆藏文物56000多件。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag free">免费参观</span>
+          <span class="spot-tag">客家文化</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>周二至周日9:00–17:30（17:00停止领票），周一闭馆。<br>
+          <b>门票：</b>免费，凭有效证件领票进入。每日限3000张。
+        </div>
+      </div>
+    </div>
+
+    <!-- Waterfall Gallery trigger -->
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button onclick="openWaterfall('dino')" style="padding:10px 24px; background:rgba(232,168,80,0.12); border:1px solid var(--amber); color:var(--amber); border-radius:20px; font-size:15px; cursor:pointer; font-family:'Noto Sans SC',sans-serif;">
+        查看全部 16张恐龙博物馆图片
+      </button>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  
+    <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin:1.5rem 0 0.8rem; color:var(--amber);">周边人文历史景点</h3>
+<div class="spots-grid">
+      <div class="spot-card" id="spot-tuocheng">
+        <div class="spot-card-image" style="background-image: url('龙川佗城/image.png')" onclick="openWaterfall('tuocheng')">
+        <div class="timeline-spot-card-bar"><span>📷 6张</span><span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>龙川佗城 · 岭南第一古镇</h4>
+          <span class="spot-card-dist">距河源市区1h</span>
+        </div>
+        <div class="spot-card-body">
+          <p>公元前214年秦置龙川县治所，<strong>2225年历史</strong>，秦朝岭南四大古邑中唯一保存最完整的古城。为纪念首任县令——后来的南越王赵佗而得名。全国罕见的<strong>「学宫与考棚共存」</strong>之地，有「中华姓氏古祠堂博物馆」之誉（4万人口179个姓）。</p>
+          <p style="margin-top:0.4rem;">保存秦代越王井/赵佗故居遗址、唐代正相塔、宋代古城墙/越王庙、明代城隍庙、清代学宫/考棚等<strong>100多处古迹</strong>。1991年评为广东省首批历史文化名城，2010年获联合国地名专家组「千年古县」认证。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">4A景区</span>
+          <span class="spot-tag free">8月1日起免费</span>
+          <span class="spot-tag">秦朝古城</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>8:30–17:30，节假日正常开放。<br>
+          <b>门票：</b>免费（学宫/南越王庙/越王井/考棚/商会五大景点）。<br>
+          <b>地址：</b>河源市龙川县佗城镇学宫旁，免费停车。
+        </div>
+      </div>
+
+      <div class="spot-card" id="spot-sujiawei">
+        <div class="spot-card-image" style="background-image: url('苏家围/image.png')" onclick="openWaterfall('sujiawei')">
+        <div class="timeline-spot-card-bar"><span>📷 3张</span><span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>苏家围 · 南中国画里乡村</h4>
+          <span class="spot-card-dist">距河源市区30min</span>
+        </div>
+        <div class="spot-card-body">
+          <p><strong>北宋大文豪苏东坡后裔</strong>的聚居地，已有700多年历史。全村18座围屋，其中<strong>5座为明代建筑</strong>。东江与久社河在南面交汇，山水环绕，获评「广东省最美乡村」「广东省古村落文化遗产」保护单位。</p>
+          <p style="margin-top:0.4rem;">可看明清客家围龙屋、千年古榕、东江古道、客家农耕展、竹筏游东江。是了解<strong>客家建筑文化与宗族社会</strong>的活态博物馆。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag">客家古村</span>
+          <span class="spot-tag">苏东坡后人</span>
+          <span class="spot-tag kid">亲子友好</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>8:30–17:30。<br>
+          <b>门票：</b>成人22元，儿童/学生15元。<br>
+          <b>地址：</b>河源市东源县义合镇苏家围，免费停车。
+        </div>
+      </div>
+
+      <div class="spot-card" id="spot-night">
+        <div class="spot-card-image" style="background-image: url('太平古街/image.png')" onclick="openWaterfall('taiping')">
+        <div class="timeline-spot-card-bar"><span>📷 6张</span><span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div>⛲</div>
+        <div class="spot-card-header">
+          <h4>太平古街 + 亚洲第一高喷泉</h4>
+          <span class="spot-card-dist">河源市区 · 步行可达</span>
+        </div>
+        <div class="spot-card-body">
+          <p><strong>太平古街：</strong>百年骑楼建筑群，全天开放、免费。客家特色小吃密集（老鼠粉、萝卜粄、腌面、猪脚粉），夜间灯笼亮起拍照氛围感极佳。</p>
+          <p style="margin-top:0.4rem;"><strong>亚洲第一高喷泉：</strong>位于新丰江中心，喷高达<strong>169米</strong>，配合激光与音乐变幻造型。每晚<strong>20:00–20:30</strong>一场，免费观赏。站在新丰江大桥观景台，水幕与江中倒影构成立体画卷。距翔丰国际酒店步行5分钟。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag free">免费</span>
+          <span class="spot-tag">夜景</span>
+          <span class="spot-tag">美食街</span>
+        </div>
+        <div class="spot-hours">
+          <b>太平古街：</b>全天开放，店铺9:00–23:00。<br>
+          <b>喷泉：</b>每晚20:00–20:30一场（如遇大雨可能暂停）。
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Noto Serif SC',serif; font-size:1.05rem; margin:1.8rem 0 0.6rem; color:var(--amber);">周边人文古村 · 自然地理补充</h3>
+
+    <div class="spots-grid">
+      <!-- 南园古村 -->
+      <div class="spot-card" id="spot-nanyuan">
+        <div class="spot-card-image" style="background-image: url('南园古村/image.png')" onclick="openWaterfall('nanyuan')">
+        <div class="timeline-spot-card-bar"><span>📷 9张</span><span class="view-btn">查看全部 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>南园古村 · 400年潘氏客家围屋群</h4>
+          <span class="spot-card-dist">距河源市区20min</span>
+        </div>
+        <div class="spot-card-body">
+          <p>始建于<strong>明朝万历年间</strong>（约1580年），已有440多年历史，由潘氏后裔始建的纯客家古村落。占地1.5平方公里，保存<strong>21幢明清时期客家方形围屋</strong>，是「潘氏」同姓聚居的代表性客家古村，<strong>广东省文物保护单位</strong>、<strong>国家3A级景区</strong>。</p>
+          <p style="margin-top:0.4rem;">核心看点：<strong>柳溪书院</strong>（1824年·市级非遗「开笔礼」）→ <strong>古炮楼遗址</strong>（「粽墙」·糯米红糖夯筑·墙厚80cm）→ <strong>老衙门/新衙门</strong>（罕见乡村级清代行政遗址）→ <strong>大夫第</strong>（潘氏官宦宅第）。村内有网红咖啡馆、手染基地，古今交融。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag free">免费</span>
+          <span class="spot-tag">明代古村</span>
+          <span class="spot-tag kid">亲子友好</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>8:30–17:00，全天开放。<br>
+          <b>门票：</b>免费。<br>
+          <b>地址：</b>河源市东源县仙塘镇红光村，免费停车。
+        </div>
+      </div>
+
+      <!-- 万绿湖 -->
+      <div class="spot-card" id="spot-wanlvhu">
+        <div class="spot-card-image" style="background-image: url('河源万绿湖/image.png')" onclick="openWaterfall('wanlvhu')">
+        <div class="timeline-spot-card-bar"><span>📷 4张</span><span class="view-btn">查看 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div>
+        <div class="spot-card-header">
+          <h4>万绿湖（新丰江水库）</h4>
+          <span class="spot-card-dist">距河源市区30min</span>
+        </div>
+        <div class="spot-card-body">
+          <p><strong>华南第一大人工湖</strong>，水域面积370km²，储水量139亿m³。水质常年保持国家一类地表水标准，是东深供水工程的核心水源——香港、深圳、东莞的饮用水都来自这里。因四季常青、处处皆绿而得名，与西双版纳、鼎湖山并称北回归线「沙漠腰带上的东三奇」。</p>
+          <p style="margin-top:0.4rem;">乘船游湖约3–4小时，经水月湾→龙凤岛→镜花缘→客家风情馆。不想坐船可只逛<strong>镜花缘景区</strong>——湖边栈道步行，1.5–2小时足够，票价仅¥35/成人。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag">5A景区</span>
+          <span class="spot-tag">港深水源地</span>
+          <span class="spot-tag">自然地理</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>9:00–16:00（游船整点发班）。<br>
+          <b>门票·船线：</b>成人175元 儿童125元（2大1小≈475元）。<br>
+          <b>���票·镜花缘：</b>成人35元 儿童20元（2大1小≈90元，不坐船）。<br>
+          <b>地址：</b>河源市东源县新港镇港中路17号。免费停车。
+        </div>
+      </div>
+
+      <div class="spot-card" id="spot-fengshuba">
+        <div class="spot-card-image" style="background: linear-gradient(135deg, #1a3a2a 0%, #2a5a3a 50%, #1a3a2a 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; gap:6px;">
+        <span style="font-size:3rem; filter:drop-shadow(0 0 16px rgba(100,220,160,0.4));">🏞️</span>
+        <span style="font-size:16px; font-weight:700; color:rgba(200,230,210,0.95); font-family:'Noto Serif SC',serif; letter-spacing:1px; text-shadow:0 1px 8px rgba(0,0,0,0.5);">枫树坝水库</span>
+        <span style="font-size:12px; color:rgba(180,220,200,0.7); letter-spacing:1px;">青龙湖·广东第二大水库·自然保护区</span></div>
+        <div class="spot-card-header">
+          <h4>枫树坝水库（青龙湖）</h4>
+          <span class="spot-card-dist">距河源市区2h+ · 龙川县</span>
+        </div>
+        <div class="spot-card-body">
+          <p><strong>广东省第二大水库</strong>，又名青龙湖。位于龙川县北部、东江上游，1970年动工、1974年投产。大坝高91.5米、坝顶长418米，属空腹重力坝。周边15671公顷为省级自然保护区，有植物500多种、野生动物70多种（含白颈长尾雉、豹、蟒蛇等15种珍稀物种）。</p>
+          <p style="margin-top:0.4rem;">可看大坝雄姿、坐当地渔船游湖（需自行联系）、春夏秋三季风景各异。但<strong>距河源市区140km、车程2小时以上</strong>，旅游配套极少，携程仅19条点评。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag">自然保护区</span>
+          <span class="spot-tag">免费</span>
+          <span class="spot-tag">偏远</span>
+        </div>
+        <div class="spot-hours">
+          <b>开放时间：</b>全天开放（无售票窗口，非正式景区）。<br>
+          <b>门票：</b>免费。<br>
+          <b>⚠️ 不推荐2天行程</b>——往返4小时车程，会严重挤占其他景点时间。适合3天以上深度自驾。
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box" style="margin-top:1.2rem;">
+      <div class="tips-box-title">两大水库可行性评估</div>
+      <ul>
+        <li><b>万绿湖：✅ 可行，推荐作为可选加项。</b>距市区仅30分钟，半日游即可（镜花缘1.5–2h / 船线3–4h）。地理教育价值高——让孩子看到「港深水塔」的真面目、理解水库如何供水。最大障碍是<strong>票价偏高</strong>（船线¥475/家）。建议选镜花缘轻量方案（¥90/家），或替换方案B的苏家围上午段。</li>
+        <li><b>枫树坝水库：❌ 不推荐2天行程。</b>距河源市区140km、单程2小时以上，往返即消耗半天。景区无正式旅游配套，更适合3天以上的深度自驾游或户外探险。如果你计划延长行程到3天，可将枫树坝作为龙川佗城的延伸（两者同在龙川县，相距约60km、车程1小时）。此处仅作知识性收录。</li>
+      </ul>
+    </div>
+    
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section><!-- ===== 7. 酒店推荐 ===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      酒店推荐
+    </h2>
+    <p class="section-desc">以恐龙文博园为中心，按推荐优先度排列。前两家紧邻喷泉/江景，末家为亲子度假首选。</p>
+
+    <div class="spots-grid">
+      <div class="spot-card" id="hotel-xiangfeng">
+        <div class="spot-card-image" style="background: linear-gradient(135deg, #1a2a40 0%, #2a3a60 50%, #1a2a40 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; gap:6px;">
+        <span style="font-size:2.8rem; filter:drop-shadow(0 0 16px rgba(100,180,255,0.4));">🏨</span>
+        <span style="font-size:16px; font-weight:700; color:rgba(232,228,240,0.95); font-family:'Noto Serif SC',serif; letter-spacing:1px; text-shadow:0 1px 8px rgba(0,0,0,0.5);">翔丰国际酒店</span>
+        <span style="font-size:12px; color:rgba(200,210,230,0.7); letter-spacing:1px;">🌟 4.8分 · 江景无边泳池 · ¥343起</span></div>
+        <div class="spot-card-header">
+          <h4>翔丰国际酒店 · 首选</h4>
+          <span class="spot-card-dist">沿江东路1号 · 5星</span>
+        </div>
+        <div class="spot-card-body">
+          <p>携程<strong>4.8分 · 4500+评论</strong>。独揽东江与新丰江两江交汇美景，步行5分钟到亚洲第一高喷泉，车程8分钟到恐龙文博园。<strong>室外无边泳池</strong>、一线江景房、亲子主题房。约<b>¥343起</b>。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag recommended">首选推荐</span>
+          <span class="spot-tag kid">亲子</span>
+          <span class="spot-tag">江景泳池</span>
+        </div>
+      </div>
+
+      <div class="spot-card" id="hotel-times">
+        <div class="spot-card-image" style="background: linear-gradient(135deg, #2a2030 0%, #3a3040 50%, #2a2030 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; gap:6px;">
+        <span style="font-size:2.8rem; filter:drop-shadow(0 0 16px rgba(200,180,255,0.4));">🏨</span>
+        <span style="font-size:16px; font-weight:700; color:rgba(232,228,240,0.95); font-family:'Noto Serif SC',serif; letter-spacing:1px; text-shadow:0 1px 8px rgba(0,0,0,0.5);">时代云端国际酒店</span>
+        <span style="font-size:12px; color:rgba(200,210,230,0.7); letter-spacing:1px;">💫 4.7分 · 3.6m层高 · ¥308起</span></div>
+        <div class="spot-card-header">
+          <h4>时代云端国际酒店</h4>
+          <span class="spot-card-dist">永康大道东407号 · 5星</span>
+        </div>
+        <div class="spot-card-body">
+          <p>携程<strong>4.7分 · 1500+评论</strong>。现代欧式装修，<strong>3.6米层高</strong>空间感极佳。充电桩、早餐丰盛。距恐龙文博园约6km（10分钟车程）。约<b>¥308起</b>，性价比最高的五星级选项。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag free">高性价比</span>
+          <span class="spot-tag">充电桩</span>
+          <span class="spot-tag">5星</span>
+        </div>
+      </div>
+
+      <div class="spot-card" id="hotel-hilton">
+        <div class="spot-card-image" style="background: linear-gradient(135deg, #202a30 0%, #303a40 50%, #202a30 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; gap:6px;">
+        <span style="font-size:2.8rem; filter:drop-shadow(0 0 16px rgba(180,200,220,0.4));">🏨</span>
+        <span style="font-size:16px; font-weight:700; color:rgba(232,228,240,0.95); font-family:'Noto Serif SC',serif; letter-spacing:1px; text-shadow:0 1px 8px rgba(0,0,0,0.5);">汇景希尔顿逸林</span>
+        <span style="font-size:12px; color:rgba(200,210,230,0.7); letter-spacing:1px;">✨ 4.6分 · 46㎡起 · ¥400起</span></div>
+        <div class="spot-card-header">
+          <h4>汇景希尔顿逸林酒店</h4>
+          <span class="spot-card-dist">坚基购物中心旁 · 国际品牌</span>
+        </div>
+        <div class="spot-card-body">
+          <p>携程<strong>4.6分 · 3100+评论</strong>。<strong>房间最小46㎡</strong>，空间宽敞。室外景观泳池、亲子主题房、可携带宠物。毗邻坚基购物中心，购物餐饮便利。约<b>¥400–600</b>。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag">国际品牌</span>
+          <span class="spot-tag">大房间</span>
+          <span class="spot-tag">购物便利</span>
+        </div>
+      </div>
+
+      <div class="spot-card" id="hotel-hampton">
+        <div class="spot-card-image" style="background: linear-gradient(135deg, #203020 0%, #304030 50%, #203020 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; gap:6px;">
+        <span style="font-size:2.8rem; filter:drop-shadow(0 0 16px rgba(160,220,160,0.4));">🏨</span>
+        <span style="font-size:16px; font-weight:700; color:rgba(232,228,240,0.95); font-family:'Noto Serif SC',serif; letter-spacing:1px; text-shadow:0 1px 8px rgba(0,0,0,0.5);">希尔顿欢朋酒店</span>
+        <span style="font-size:12px; color:rgba(200,210,230,0.7); letter-spacing:1px;">🌟 4.8分 · 早餐最佳 · ¥350起</span></div>
+        <div class="spot-card-header">
+          <h4>希尔顿欢朋酒店</h4>
+          <span class="spot-card-dist">客家文化公园旁 · 国际品牌</span>
+        </div>
+        <div class="spot-card-body">
+          <p>携程<strong>4.8分 · 2300+评论</strong>。早餐口碑极佳（种类丰富、干净美味），充电桩、免费停车、机器人服务。近坚基购物中心。约<b>¥350–500</b>。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag">早餐好评</span>
+          <span class="spot-tag">国际品牌</span>
+          <span class="spot-tag">高评分</span>
+        </div>
+      </div>
+
+      <div class="spot-card" id="hotel-spring">
+        <div class="spot-card-image" style="background: linear-gradient(135deg, #302020 0%, #403030 50%, #302020 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; gap:6px;">
+        <span style="font-size:2.8rem; filter:drop-shadow(0 0 16px rgba(255,180,180,0.4));">🏰</span>
+        <span style="font-size:16px; font-weight:700; color:rgba(232,228,240,0.95); font-family:'Noto Serif SC',serif; letter-spacing:1px; text-shadow:0 1px 8px rgba(0,0,0,0.5);">巴伐利亚喜来登</span>
+        <span style="font-size:12px; color:rgba(200,210,230,0.7); letter-spacing:1px;">🎠 温泉·水上乐园·¥600起</span></div>
+        <div class="spot-card-header">
+          <h4>巴伐利亚庄园福朋喜来登</h4>
+          <span class="spot-card-dist">距市区19km · 度假型</span>
+        </div>
+        <div class="spot-card-body">
+          <p>携程<strong>4.5分 · 2600+评论</strong>。欧式城堡，<strong>温泉+水上乐园+恒温泳池+儿童俱乐部</strong>一站式亲子度假。适合以酒店本身为目的地的家庭。缺点：距恐龙馆约25分钟车程。约<b>¥600–1000</b>。</p>
+        </div>
+        <div class="spot-card-footer">
+          <span class="spot-tag kid">亲子首选</span>
+          <span class="spot-tag">温泉</span>
+          <span class="spot-tag">水上乐园</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box" style="margin-top:1.5rem;">
+      <div class="tips-box-title">酒店选择建议</div>
+      <ul>
+        <li><b>翔丰国际</b>位置最优——距喷泉步行5分钟、恐龙馆8分钟车程，江景无边泳池，亲子友好，综合首选。</li>
+        <li><b>时代云端</b>性价比最高——五星级¥308起，3.6米层高，适合预算敏感的家庭。</li>
+        <li><b>希尔顿逸林/欢朋</b>品牌稳定——国际连锁品质有保障，房间大/早餐好，近购物中心。</li>
+        <li><b>巴伐利亚喜来登</b>适合「泡酒店」——如果孩子小、想在酒店玩一整天，选它没错。</li>
+        <li>所有酒店均有停车场，入住14:00后，退房12:00前。建议提前在携程/同程预订。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+      <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（2天1夜）
+    </h2>
+    <p class="section-desc">三个方案覆盖不同兴趣方向。Day1主打沿线人文历史，Day2集中恐龙文博园。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案A · 历史纵深线</span>
+        <span class="plan-desc">佗城→恐龙·从秦朝到白垩纪</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案B · 客家寻根线</span>
+        <span class="plan-desc">苏家围→恐龙·客家文化之旅</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planC')">
+        <span class="plan-name">方案C · 文博双馆线</span>
+        <span class="plan-desc">双博物馆→苏家围·轻松全览</span>
+      </button>
+    </div>
+    <div class="plan-content active" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
+          <tr><td>07:00</td><td>10:00</td><td>广州出发→龙川佗城（280km，广河+长深高速）</td><td>3h</td></tr>
+          <tr><td>10:00</td><td>12:30</td><td>龙川佗城（越王井→学宫→考棚→古城墙→南越王庙）</td><td>2.5h</td></tr>
+          <tr><td>12:30</td><td>13:30</td><td>佗城午餐 · 客家美食</td><td>1h</td></tr>
+          <tr><td>13:30</td><td>14:30</td><td>佗城→河源市区酒店（70km，长深高速）</td><td>1h</td></tr>
+          <tr><td>14:30</td><td>17:00</td><td>酒店入住+休整（小孩小睡/游泳/江边散步）</td><td>2.5h</td></tr>
+          <tr><td>18:00</td><td>19:30</td><td>太平古街晚餐 · 逛百年骑楼·客家小吃</td><td>1.5h</td></tr>
+          <tr><td>20:00</td><td>20:30</td><td>亚洲第一高喷泉（169米音乐喷泉）</td><td>0.5h</td></tr>
+        </tbody></table></div>
+        <div class="day-label">DAY 2 · 周日</div>
+        <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
+          <tr><td>09:00</td><td>09:30</td><td>酒店早餐+退房</td><td>0.5h</td></tr>
+          <tr><td>09:30</td><td>12:30</td><td>河源恐龙博物馆（深度游3h，开园即入）</td><td>3h</td></tr>
+          <tr><td>12:30</td><td>13:30</td><td>登龟峰塔+午餐</td><td>1h</td></tr>
+          <tr><td>13:30</td><td>16:00</td><td>返程广州（190km，广河高速）</td><td>2.5h</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00 — 10:00</div><div class="timeline-content"><h4>出发 · 广州→龙川佗城</h4><p>广河高速→长深高速，全程约280公里，3小时。建议07:00早出发，避开周六出城高峰。虽Day1驾驶最长（4h含途中），但Day2仅需2.5h返程，体力分配合理。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾3h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 — 12:30</div><div class="timeline-content"><h4>核心景点 · 龙川佗城（免费）</h4><p>2225年历史的<strong>秦朝古城</strong>，南越王赵佗的兴王之地。推荐路线：越王井（秦代古井）→龙川学宫（清代，全国四处学宫考棚共存之一）→龙川考棚（清代科举考场）→宋代古城墙→南越王庙。给孩子讲赵佗故事（详见 <a class="in-doc-link" href="#culture-zhaotuo">人文背景·赵佗</a>）。佗城4万人口179个姓，让孩子找找自己姓氏的祠堂。</p><div class="timeline-tags"><span class="timeline-tag">4A景区</span><span class="timeline-tag free">免费</span><span class="timeline-tag kid">2.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 14:30</div><div class="timeline-content"><h4>午餐 + 前往河源市区</h4><p>佗城镇内客家餐馆午餐。13:30启程，1小时车程到河源市区酒店。</p><div class="timeline-tags"><span class="timeline-tag food">午餐</span><span class="timeline-tag drive">1h车程</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:30 — 17:00</div><div class="timeline-content"><h4>酒店入住+休整</h4><p>办理入住，让孩子洗澡、小睡30-60分钟恢复体力。推荐翔丰国际酒店——无边泳池游泳、江景房观两江交汇。大人可在江边步道散步。</p><div class="timeline-tags"><span class="timeline-tag hotel">休整</span><span class="timeline-tag kid">小睡</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 — 20:30</div><div class="timeline-content"><h4>太平古街晚餐 + 亚洲第一高喷泉</h4><p>逛百年骑楼老街，尝客家美食。20:00在新丰江大桥看169米免费音乐喷泉。</p><div class="timeline-tags"><span class="timeline-tag food">美食</span><span class="timeline-tag view">夜景</span></div></div></div>
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 12:30</div><div class="timeline-content"><h4>核心景点 · 河源恐龙博物馆（深度3h）</h4><p>开园即入，上午孩子精力最旺盛。有前一天的佗城历史铺垫，孩子理解「为什么河源有这么多恐龙蛋」更加深刻。</p><div class="timeline-tags"><span class="timeline-tag museum">恐龙馆</span><span class="timeline-tag kid">3h深度</span></div><div class="timeline-spot-card" onclick="openWaterfall('dino')"><div class="timeline-spot-card-img" style="background-image: url('河源恐龙博物馆/image.png')"><div class="timeline-spot-card-bar"><span>河源恐龙博物馆</span><span class="view-btn">📷 16张 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span></div></div></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 13:30</div><div class="timeline-content"><h4>登龟峰塔 + 午餐</h4><p>登900年南宋古塔，俯瞰两江交汇。塔下简单午餐。</p><div class="timeline-tags"><span class="timeline-tag view">登塔</span><span class="timeline-tag food">午餐</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:30 — 16:00</div><div class="timeline-content"><h4>返程 · 河源→广州</h4><p>下午1:30出发，避开返城高峰前段，16:00前到家。</p><div class="timeline-tags"><span class="timeline-tag drive">返程2.5h</span></div></div></div>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem;"><div class="tips-box-title">方案A 核心亮点</div><ul><li><strong>历史纵深最大</strong>——秦朝（前214年）→南宋（1132年）→白垩纪（7000万年前），时间跨度震撼</li><li>佗城8月1日起<strong>免费开放</strong>，性价比极高</li><li>Day1驾驶4h（3h+1h），Day2仅2.5h返程，<strong>体力分配合理</strong></li><li>配合 <a class="in-doc-link" href="#culture-zhaotuo">赵佗背景解说</a>，孩子看得懂听得进</li></ul></div>
+    </div>
+    <div class="plan-content" id="planB">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
+          <tr><td>07:30</td><td>10:00</td><td>广州出发→苏家围（210km，广河高速）</td><td>2.5h</td></tr>
+          <tr><td>10:00</td><td>12:30</td><td>苏家围客家古村（围龙屋·千年古榕·东江古道）</td><td>2.5h</td></tr>
+          <tr><td>12:30</td><td>13:30</td><td>苏家围农家午餐</td><td>1h</td></tr>
+          <tr><td>13:30</td><td>14:00</td><td>苏家围→河源市区酒店（26km）</td><td>0.5h</td></tr>
+          <tr><td>14:00</td><td>16:30</td><td>酒店入住+休整（小睡/游泳）</td><td>2.5h</td></tr>
+          <tr><td>16:30</td><td>17:30</td><td>登龟峰塔 · 傍晚俯瞰两江（光线最佳）</td><td>1h</td></tr>
+          <tr><td>18:00</td><td>19:30</td><td>太平古街晚餐</td><td>1.5h</td></tr>
+          <tr><td>20:00</td><td>20:30</td><td>亚洲第一高喷泉</td><td>0.5h</td></tr>
+        </tbody></table></div>
+        <div class="day-label">DAY 2 · 周日</div>
+        <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
+          <tr><td>09:00</td><td>09:30</td><td>酒店早餐+退房</td><td>0.5h</td></tr>
+          <tr><td>09:30</td><td>12:30</td><td>河源恐龙博物馆（开园深度3h，含「史前部落」互动）</td><td>3h</td></tr>
+          <tr><td>12:30</td><td>13:30</td><td>午餐 · 客家美食</td><td>1h</td></tr>
+          <tr><td>13:30</td><td>16:00</td><td>返程广州</td><td>2.5h</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:30 — 10:00</div><div class="timeline-content"><h4>出发 · 广州→苏家围</h4><p>比方案A晚出发半小时，广河高速2.5小时。苏家围距河源市区仅26公里，先逛古村再到酒店非常顺路。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾2.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 — 12:30</div><div class="timeline-content"><h4>核心景点 · 苏家围客家古村</h4><p><strong>苏东坡后裔</strong>700年聚居地，东江与久社河交汇处的画里乡村。看明清客家围龙屋（5座明代建筑）、千年古榕、东江古道。竹筏游东江可选体验。给孩子讲：苏东坡是北宋大文豪，他的后人为什么从四川迁到广东？（详见 <a class="in-doc-link" href="#culture-hakka">人文背景·客家人</a>）</p><div class="timeline-tags"><span class="timeline-tag">客家古村</span><span class="timeline-tag kid">2.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 14:00</div><div class="timeline-content"><h4>午餐 + 前往酒店</h4><p>苏家围村口农家乐吃客家娘酒鸡、酿豆腐、东江鲜鱼。半小时车程到市区酒店。</p><div class="timeline-tags"><span class="timeline-tag food">农家菜</span><span class="timeline-tag drive">0.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 — 16:30</div><div class="timeline-content"><h4>酒店休整</h4><p>入住、洗澡、小孩小睡。大人江边散步或无边泳池游泳。</p><div class="timeline-tags"><span class="timeline-tag hotel">休整</span><span class="timeline-tag kid">小睡</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:30 — 17:30</div><div class="timeline-content"><h4>登龟峰塔 · 900年南宋古塔</h4><p>傍晚光线最佳，东江与新丰江两江交汇一览无余（详见 <a class="in-doc-link" href="#culture-guifeng">人文背景·龟峰塔</a>）。</p><div class="timeline-tags"><span class="timeline-tag view">登塔</span><span class="timeline-tag">国保单位</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 — 20:30</div><div class="timeline-content"><h4>太平古街晚餐 + 喷泉</h4><p>百年骑楼品尝客家小吃。20:00看169米免费音乐喷泉。</p><div class="timeline-tags"><span class="timeline-tag food">美食</span><span class="timeline-tag view">夜景</span></div></div></div>
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 12:30</div><div class="timeline-content"><h4>河源恐龙博物馆 · 深度游</h4><p>开园即入，上午精力最旺盛的3小时。有了前一天的客家文化铺垫，孩子对这片土地的理解更立体——从700年前苏东坡后人的围屋，到7000万年前的恐龙王朝。</p><div class="timeline-tags"><span class="timeline-tag museum">恐龙馆</span><span class="timeline-tag kid">3h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 13:30</div><div class="timeline-content"><h4>午餐</h4><p>博物馆附近客家餐馆。河源三宝：猪脚粉、酿三宝、五指毛桃汤。</p><div class="timeline-tags"><span class="timeline-tag food">客家美食</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:30 — 16:00</div><div class="timeline-content"><h4>返程广州</h4><p>广河高速2.5小时，16:00前到家。</p><div class="timeline-tags"><span class="timeline-tag drive">返程</span></div></div></div>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem;"><div class="tips-box-title">方案B 核心亮点</div><ul><li><strong>节奏最舒适</strong>——Day1和Day2各驾驶2.5h，体力均匀</li><li>苏家围上午人少，鸟语花香的自然古村氛围最佳</li><li>下午酒店休整后<strong>傍晚登龟峰塔</strong>，光线拍照效果最好</li><li>客家文化线完整：古村→客家美食→恐龙馆→自然科普，知识链条紧密</li></ul></div>
+    </div>
+    <div class="plan-content" id="planC">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
+          <tr><td>08:00</td><td>10:30</td><td>广州出发→河源市区（190km，广河高速）</td><td>2.5h</td></tr>
+          <tr><td>10:30</td><td>12:00</td><td>河源市博物馆（历史文化展+客家民俗展，免费）</td><td>1.5h</td></tr>
+          <tr><td>12:00</td><td>13:00</td><td>午餐 · 客家美食</td><td>1h</td></tr>
+          <tr><td>13:00</td><td>14:00</td><td>酒店办理入住</td><td>0.5h</td></tr>
+          <tr><td>14:00</td><td>15:00</td><td>酒店休整 · 小孩小睡</td><td>1h</td></tr>
+          <tr><td>15:00</td><td>17:30</td><td>河源恐龙博物馆（核心展厅+菊石+「史前部落」）</td><td>2.5h</td></tr>
+          <tr><td>18:00</td><td>19:30</td><td>太平古街晚餐</td><td>1.5h</td></tr>
+          <tr><td>20:00</td><td>20:30</td><td>亚洲第一高喷泉</td><td>0.5h</td></tr>
+        </tbody></table></div>
+        <div class="day-label">DAY 2 · 周日</div>
+        <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
+          <tr><td>09:00</td><td>09:30</td><td>酒店早餐+退房</td><td>0.5h</td></tr>
+          <tr><td>09:30</td><td>10:30</td><td>登龟峰塔 · 登高望远</td><td>1h</td></tr>
+          <tr><td>10:30</td><td>12:30</td><td>苏家围客家古村（30min车程）</td><td>2h</td></tr>
+          <tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+          <tr><td>13:30</td><td>16:00</td><td>返程广州</td><td>2.5h</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:00 — 10:30</div><div class="timeline-content"><h4>出发 · 广州→河源</h4><p>三方案中出发最晚，睡到自然醒。广河高速2.5小时直达河源市区。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾2.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:30 — 12:00</div><div class="timeline-content"><h4>河源市博物馆 · 免费</h4><p>先建框架再填细节。一层《河源历史文化展》从新石器时代讲到近现代，二层《客家民俗展》展示民居/家训/方言/礼俗/农耕。1.5小时快速建立对河源的整体认知（详见 <a class="in-doc-link" href="#spot-history-museum">市博物馆介绍</a>）。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag museum">1.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:00 — 14:00</div><div class="timeline-content"><h4>午餐 + 酒店入住</h4><p>午餐后入住酒店，小孩小睡。大人可在江边散步。</p><div class="timeline-tags"><span class="timeline-tag food">午餐</span><span class="timeline-tag hotel">入住</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:00 — 17:30</div><div class="timeline-content"><h4>河源恐龙博物馆</h4><p>下午场人流较少，体验更安静。有上午市博的人文铺垫，下午看恐龙更有层次感。2.5小时足够看核心展厅+菊石展+「史前部落」互动。</p><div class="timeline-tags"><span class="timeline-tag museum">恐龙馆</span><span class="timeline-tag kid">2.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 — 20:30</div><div class="timeline-content"><h4>太平古街晚餐 + 喷泉</h4><p>逛百年骑楼老街，尝客家美食。20:00看169米免费音乐喷泉。</p><div class="timeline-tags"><span class="timeline-tag food">美食</span><span class="timeline-tag view">夜景</span></div></div></div>
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 10:30</div><div class="timeline-content"><h4>退房 + 登龟峰塔</h4><p>退房后登900年南宋古塔，上午光线好、人少。</p><div class="timeline-tags"><span class="timeline-tag view">登塔</span><span class="timeline-tag">国保</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:30 — 12:30</div><div class="timeline-content"><h4>苏家围客家古村</h4><p>从龟峰塔出发30分钟车程。上午古村安静，鸟语花香。看完市博的历史+恐龙馆的远古+龟峰塔的古建，苏家围给旅程画上一个人文的句号。</p><div class="timeline-tags"><span class="timeline-tag">客家古村</span><span class="timeline-tag kid">2h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 16:00</div><div class="timeline-content"><h4>午餐 + 返程</h4><p>苏家围或义合镇午餐。13:30出发返程，16:00前到家。</p><div class="timeline-tags"><span class="timeline-tag food">午餐</span><span class="timeline-tag drive">返程</span></div></div></div>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem;"><div class="tips-box-title">方案C 核心亮点</div><ul><li><strong>出发最晚（8:00）</strong>，三方案中节奏最轻松</li><li>Day1双博物馆（市博免费+恐龙馆），知识体系最完整</li><li>Day2苏家围收尾，不紧不慢</li><li><strong>全程室内为主</strong>（仅龟峰塔登塔+苏家围步行），几乎不受天气影响</li><li>所有行程集中在市区周边30km范围内，驾驶压力最小</li></ul></div>
+    </div>
+    <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-top:2rem; margin-bottom:0.8rem; color:var(--amber);">三方案费用对比（2大1小）</h3>
+    <div class="table-scroll"><table class="budget-table"><thead><tr><th>项目</th><th>方案A（历史纵深）</th><th>方案B（客家寻根）</th><th>方案C（文博双馆）</th></tr></thead><tbody>
+      <tr><td>高速通行费（往返）</td><td>约160元</td><td>约130元</td><td>约130元</td></tr>
+      <tr><td>油费（约520/450/420km）</td><td>约250元</td><td>约220元</td><td>约200元</td></tr>
+      <tr><td>酒店住宿（1晚）</td><td>约350–500元</td><td>约350–500元</td><td>约350–500元</td></tr>
+      <tr><td>恐龙馆门票（2大1小）</td><td>75元</td><td>75元</td><td>75元</td></tr>
+      <tr><td>龟峰塔（2大1小）</td><td>约15元</td><td>约15元</td><td>约15元</td></tr>
+      <tr><td>佗城</td><td>免费</td><td>—</td><td>—</td></tr>
+      <tr><td>苏家围（2大1小）</td><td>—</td><td>约59元</td><td>约59元</td></tr>
+      <tr><td>市博物馆</td><td>—</td><td>—</td><td>免费</td></tr>
+      <tr><td>餐饮（2天6餐）</td><td>约350元</td><td>约350元</td><td>约350元</td></tr>
+      <tr class="total"><td>合计（2大1小）</td><td>约1,200–1,350元</td><td>约1,200–1,350元</td><td>约1,180–1,330元</td></tr>
+    </tbody></table></div>
+    <p class="budget-note">以上为估算，实际以当日为准。酒店取翔丰国际（¥343起）或时代云端（¥308起）参考价。餐饮含Day1午餐/晚餐+Day2早餐/午餐。停车费约10–20元/天。</p>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+  <!-- ===== 6. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">以下时间经携程、同程、官方渠道交叉核实。出行前请以官方公告为准。</p>
+
+    <div class="table-scroll">
+      <table class="plan-summary-table hours-table">
+        <thead><tr><th>景点/场馆</th><th>营业/开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>河源恐龙博物馆</td><td>9:00–17:30（17:00停售）</td><td>成人30元 儿童15元</td><td>周一闭馆（节假日除外）</td></tr>
+          <tr><td>龟峰塔</td><td>9:00–17:30（17:00停售）</td><td>5元/人</td><td>周一闭馆；塔内楼梯较窄</td></tr>
+          <tr><td>河源市博物馆</td><td>9:00–17:30（17:00停领票）</td><td>免费（凭证件领票）</td><td>周一闭馆；每日限3000张</td></tr>
+          <tr><td>龙川佗城</td><td>8:30–17:30</td><td>免费（五大景点）</td><td>4A景区；8月1日起免费</td></tr>
+          <tr><td>苏家围</td><td>8:30–17:30</td><td>成人22元 儿童15元</td><td>东源县义合镇；免费停车</td></tr>
+          <tr><td>太平古街</td><td>全天开放（店铺9:00–23:00）</td><td>免费</td><td>百年骑楼·客家美食街</td></tr>
+          <tr><td>亚洲第一高喷泉</td><td>每晚20:00–20:30</td><td>免费</td><td>大雨可能暂停</td></tr>
+          <tr><td>万绿湖（新丰江水库）</td><td>9:00–16:00（游船整点发班）</td><td>成人175元 儿童125元</td><td>镜花缘35元/人不坐船；距市区30min</td></tr>
+          <tr><td>枫树坝水库</td><td>全天开放（非正式景区）</td><td>免费</td><td>距河源市区2h+；不推荐2天行程</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">行程复核结论</div>
+      <ul>
+        <li>三个方案均<strong>已对齐真实开放时间</strong>。恐龙馆9:00、佗城8:30、苏家围8:30开门，行程到达时间均不早于开门时间。</li>
+        <li><strong>周一闭馆提醒</strong>：恐龙馆/龟峰塔/市博周一闭馆。佗城和苏家围不受影响。务必<strong>周六出发</strong>。</li>
+        <li>方案A Day1驾驶最长（4h），建议07:00出发；Day2仅2.5h返程，体力回报明显。</li>
+        <li>方案B/C Day1和Day2各驾驶2.5h，体力均匀，节奏最舒适。</li>
+        <li>所有方案Day2均在16:00前到家，避开周日17:00-20:00返城高峰。</li>
+        <li>佗城8月1日起<strong>免费开放</strong>，方案A性价比最高。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">出行前务必联网核实天气。佗城、苏家围为户外，万绿湖涉及乘船，需重点关注。</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>总体评估：🟡 注意（含户外段）</h4>
+        <p>恐龙馆/市博为室内安全区。佗城、苏家围为户外景点，暴雨或极端高温时体验下降。<strong>万绿湖涉及乘船</strong>——大风/暴雨/雷电天气游船可能停航，出行前务必确认。龟峰塔雨天防滑。自驾高速雨天降速。</p>
+      </div>
+
+      <div class="info-card">
+        <h4>天气应对策略</h4>
+        <p><strong>晴天/多云</strong>：所有方案照常，万绿湖船线体验最佳（湖面注意防晒）。<br>
+        <strong>小雨</strong>：取消万绿湖船线（镜花缘步行仍可）；户外带伞、龟峰塔防滑。<br>
+        <strong>中雨/大风</strong>：万绿湖游船大概率停航，改室内方案；佗城/苏家围缩短。<br>
+        <strong>暴雨/台风预警</strong>：高速优先安全，黄/橙/红预警建议改期；万绿湖湖区风力大。<br>
+        <strong>高温预警</strong>：户外景点安排上午；万绿湖船上务必防晒（湖面反射紫外线强）。</p>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">出行当日天气必查</div>
+      <ul>
+        <li>出发前1天查<strong>中央气象台</strong>（nmc.cn）或<strong>中国天气网</strong>（weather.com.cn）河源天气预报</li>
+        <li>关注<strong>「广东天气」微博/公众号</strong>是否有暴雨、台风预警</li>
+        <li>7-9月台风季：出发前确认<strong>无台风登陆或外围影响</strong>广河高速沿线</li>
+        <li>暴雨天高速注意<strong>降速、控距、亮尾</strong></li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      实用贴士
+    </h2>
+
+    <div class="culture-grid">
+      <div class="culture-card" id="tip-drive">
+        <div class="culture-card-head"><div class="c-icon">🚗</div><h4>交通</h4></div>
+        <ul>
+          <li><b>路线：</b>广州→广河高速（S2）→河源市区，全程约190公里，2-2.5小时。高速路况良好。</li>
+          <li><b>导航：</b>直接搜「河源恐龙文博园」或「河源恐龙博物馆」。</li>
+          <li><b>停车：</b>文博园前广场有免费停车位，按标志指引有序停放。</li>
+          <li><b>高铁方案：</b>广州东站→河源东站约40分钟（赣深高铁），出站打车20分钟到文博园。适合不想开车的家庭。</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="tip-food">
+        <div class="culture-card-head"><div class="c-icon">🍜</div><h4>美食</h4></div>
+        <ul>
+          <li><b>河源三宝：</b>猪脚粉、酿三宝（酿豆腐/苦瓜/茄子）、五指毛桃汤。</li>
+          <li><b>客家酿豆腐：</b>必点！嫩豆腐酿肉馅，口感滑嫩，孩子最爱。</li>
+          <li><b>五指毛桃汤：</b>用五指毛桃根煲的汤，有椰香味，清热祛湿。</li>
+          <li><b>推荐餐厅：</b>源城区沿江路一带客家菜馆，或博物馆周边就近解决。</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="tip-prep">
+        <div class="culture-card-head"><div class="c-icon">🎒</div><h4>行前准备</h4></div>
+        <ul>
+          <li><b>证件：</b>市博物馆免费但需凭有效证件领票（身份证即可）。</li>
+          <li><b>提前预习：</b>出发前给孩子看几页恐龙绘本或纪录片，带着问题去看，收获更大。</li>
+          <li><b>博物馆礼仪：</b>告诉孩子展厅内禁止闪光灯拍照、禁止触摸展品、不要大声喧哗。</li>
+          <li><b>「史前部落」：</b>恐龙馆内另收费的儿童互动区，如需体验请提前购票。</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="tip-kids">
+        <div class="culture-card-head"><div class="c-icon">👶</div><h4>带娃贴士</h4></div>
+        <ul>
+          <li><b>最佳时段：</b>09:30-12:30是孩子精力最旺盛的时间，安排博物馆核心展厅。</li>
+          <li><b>午后缓冲：</b>13:00-14:00午餐后不需赶场，在馆内休息区歇会儿。</li>
+          <li><b>小任务：</b>给孩子布置「博物馆寻宝任务」——找到水晶蛋、最大的恐龙蛋、黄氏河源龙，完成有奖励。</li>
+          <li><b>文创纪念品：</b>博物馆商店有恐龙主题文创，给孩子买个恐龙蛋模型或化石拓片。</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="tip-avoid">
+        <div class="culture-card-head"><div class="c-icon">⚠️</div><h4>避坑提醒</h4></div>
+        <ul>
+          <li><b>周一别去！</b>博物馆、龟峰塔、市博全部周一闭馆（法定节假日除外）。</li>
+          <li><b>别信「水晶蛋可买卖」：</b>恐龙蛋化石属国家保护文物，买卖违法。</li>
+          <li><b>龟峰塔不适合推婴儿车：</b>塔内楼梯窄且陡，小宝宝需大人抱着上下。</li>
+          <li><b>留意高速限速：</b>广河高速部分路段限速100km/h，安全驾驶。</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="tip-extend">
+        <div class="culture-card-head"><div class="c-icon">🔮</div><h4>延伸玩法（如果不过瘾）</h4></div>
+        <ul>
+          <li><b>万绿湖船线深度游：</b>半天时间乘船游水月湾→龙凤岛→镜花缘，详见 <a class="in-doc-link" href="#spot-wanlvhu">万绿湖景点</a>。推荐替换方案B的Day2上午恐龙馆时段（上午湖面光线最佳）。</li>
+          <li><b>龙川枫树坝水库：</b>广东省第二大水库、省级自然保护区，大坝壮观。但距河源市区2h+，适合3天以上自驾。详见 <a class="in-doc-link" href="#spot-fengshuba">枫树坝水库</a>。</li>
+          <li><b>巴伐利亚庄园/客天下温泉：</b>欧式城堡+温泉+水上乐园，亲子一站式度假。如果以酒店为目的，可替换现有酒店选择。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <p><a href="../index.html">← 返回景点导航</a></p>
+    <p style="margin-top:0.5rem;">XBrain &copy; 2026 · 探索未知，连接世界</p>
+    <p class="footer-version">v20260730-135200</p>
+  </footer>
+
+  <!-- ===== Waterfall Overlay ===== -->
+  <div class="waterfall-overlay" id="waterfallOverlay">
+    <div class="waterfall-close" onclick="closeWaterfall()">✕</div>
+    <div class="waterfall-scroll" id="waterfallScroll">
+      <div class="waterfall-title" id="waterfallTitle"></div>
+      <div class="waterfall-grid" id="waterfallGrid"></div>
+      <div class="waterfall-back"><button onclick="closeWaterfall()">返回页面</button></div>
+    </div>
+  </div>
+
+  <!-- ===== Lightbox Overlay ===== -->
+  <div class="lb-overlay" id="lbOverlay">
+    <div class="lb-close" onclick="closeLightbox()">✕</div>
+    <div class="lb-nav lb-prev" id="lbPrev" onclick="navLightbox(-1)">◂</div>
+    <div class="lb-img-wrap" id="lbImgWrap"></div>
+    <div class="lb-counter" id="lbCounter"></div>
+    <div class="lb-nav lb-next" id="lbNext" onclick="navLightbox(1)">▸</div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+  (function () {
+    // ===== Galleries Data =====
+    var galleries = {
+      dino: {
+        title: '河源恐龙博物馆',
+        images: ['河源恐龙博物馆/image.png', '河源恐龙博物馆/image copy.png', '河源恐龙博物馆/image copy 2.png', '河源恐龙博物馆/image copy 3.png', '河源恐龙博物馆/image copy 4.png', '河源恐龙博物馆/image copy 5.png', '河源恐龙博物馆/image copy 6.png', '河源恐龙博物馆/image copy 7.png', '河源恐龙博物馆/image copy 8.png', '河源恐龙博物馆/image copy 9.png', '河源恐龙博物馆/image copy 10.png', '河源恐龙博物馆/image copy 11.png', '河源恐龙博物馆/image copy 12.png', '河源恐龙博物馆/image copy 13.png', '河源恐龙博物馆/image copy 14.png', '河源恐龙博物馆/image copy 15.png']
+      },
+      tuocheng: {
+        title: '龙川佗城',
+        images: ['龙川佗城/image.png', '龙川佗城/image copy.png', '龙川佗城/image copy 2.png', '龙川佗城/image copy 3.png', '龙川佗城/image copy 4.png', '龙川佗城/image copy 5.png']
+      },
+      sujiawei: {
+        title: '苏家围',
+        images: ['苏家围/image.png', '苏家围/image copy.png', '苏家围/image copy 2.png']
+      },
+      guifeng: {
+        title: '龟峰塔',
+        images: ['龟峰塔/image.png', '龟峰塔/image copy.png']
+      },
+      heyuanmuseum: {
+        title: '河源市博物馆',
+        images: ['河源市博物馆/image.png']
+      },
+      taiping: {
+        title: '太平古街 & 亚洲第一高喷泉',
+        images: ['太平古街/image.png', '太平古街/image copy.png', '太平古街/image copy 2.png', '亚洲第一高喷泉/image.png', '亚洲第一高喷泉/image copy.png', '亚洲第一高喷泉/image copy 2.png']
+      },
+      nanyuan: {
+        title: '南园古村',
+        images: ['南园古村/image.png', '南园古村/image copy.png', '南园古村/image copy 2.png', '南园古村/image copy 3.png', '南园古村/image copy 4.png', '南园古村/image copy 5.png', '南园古村/image copy 6.png', '南园古村/image copy 7.png', '南园古村/image copy 8.png']
+      },
+      wanlvhu: {
+        title: '万绿湖（新丰江水库）',
+        images: ['河源万绿湖/image.png', '河源万绿湖/image copy.png', '河源万绿湖/image copy 2.png', '河源万绿湖/image copy 3.png']
+      }
+    };
+
+    // ===== Waterfall Gallery =====
+    var wfOverlay = document.getElementById('waterfallOverlay');
+    var wfGrid = document.getElementById('waterfallGrid');
+    var wfTitle = document.getElementById('waterfallTitle');
+    var wfScroll = document.getElementById('waterfallScroll');
+
+    window.openWaterfall = function(key) {
+      var g = galleries[key];
+      if (!g) return;
+      wfTitle.textContent = g.title + ' · ' + g.images.length + '张';
+      wfGrid.innerHTML = '';
+      g.images.forEach(function(src, i) {
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = g.title + ' ' + (i + 1);
+        img.loading = 'lazy';
+        img.addEventListener('click', function() { openLightbox(key, i); });
+        wfGrid.appendChild(img);
+      });
+      wfOverlay.classList.add('open');
+      wfScroll.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeWaterfall = function() {
+      wfOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    // ===== Lightbox =====
+    var lbOverlay = document.getElementById('lbOverlay');
+    var lbImgWrap = document.getElementById('lbImgWrap');
+    var lbCounter = document.getElementById('lbCounter');
+    var lbCurrentKey = '';
+    var lbCurrentIdx = 0;
+
+    window.openLightbox = function(key, idx) {
+      lbCurrentKey = key;
+      lbCurrentIdx = idx;
+      showLightboxImage();
+      lbOverlay.classList.add('open');
+    };
+
+    function showLightboxImage() {
+      var g = galleries[lbCurrentKey];
+      var src = g.images[lbCurrentIdx];
+      lbImgWrap.innerHTML = '<img src="' + src + '" alt="' + g.title + '">';
+      lbCounter.textContent = (lbCurrentIdx + 1) + ' / ' + g.images.length;
+    }
+
+    window.navLightbox = function(dir) {
+      var g = galleries[lbCurrentKey];
+      lbCurrentIdx = (lbCurrentIdx + dir + g.images.length) % g.images.length;
+      showLightboxImage();
+    };
+
+    window.closeLightbox = function() {
+      lbOverlay.classList.remove('open');
+    };
+
+    // Lightbox keyboard + touch
+    document.addEventListener('keydown', function(e) {
+      if (!lbOverlay.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') navLightbox(-1);
+      if (e.key === 'ArrowRight') navLightbox(1);
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Lightbox touch swipe
+    var touchStartX = 0, touchStartY = 0;
+    lbOverlay.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    lbOverlay.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      var dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 45) {
+        navLightbox(dx > 0 ? -1 : 1);
+      }
+    });
+
+    // Waterfall escape
+    wfOverlay.addEventListener('click', function(e) {
+      if (e.target === wfOverlay) closeWaterfall();
+    });
+    lbOverlay.addEventListener('click', function(e) {
+      if (e.target === lbOverlay) closeLightbox();
+    });
+
+    // ===== Plan Switcher =====
+    var PLAN_IDS = ['planA', 'planB', 'planC'];
+
+    window.switchPlan = function(planId, skipScroll) {
+      document.querySelectorAll('.plan-btn').forEach(function(btn) { btn.classList.remove('active'); });
+      document.querySelectorAll('.plan-content').forEach(function(c) { c.classList.remove('active'); });
+
+      var target = document.getElementById(planId);
+      if (target) target.classList.add('active');
+
+      var buttons = document.querySelectorAll('.plan-btn');
+      var matched = false;
+      buttons.forEach(function(btn) {
+        var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+        if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+      });
+      if (!matched && buttons.length > 0) {
+        for (var i = 0; i < PLAN_IDS.length; i++) {
+          if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; }
+        }
+      }
+
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', '#' + planId);
+      }
+
+      if (!skipScroll) {
+        var plansSection = document.getElementById('plans');
+        if (plansSection) { plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }
+    };
+
+    // Deep link: open at specific plan
+    if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          switchPlan(window.location.hash.substring(1), false);
+        }, 400);
+      });
+    }
+
+    // ===== Top Nav =====
+    var navLinks = document.querySelectorAll('#navInner a');
+    var mobileLinks = document.querySelectorAll('#navMobile a');
+    var sections = [];
+    navLinks.forEach(function (a) {
+      var id = a.getAttribute('href').substring(1);
+      var el = document.getElementById(id);
+      if (el) sections.push({ el: el, id: id });
+    });
+
+    function setActiveNav() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var current = '';
+      sections.forEach(function (s) {
+        if (scrollY >= s.el.offsetTop - 100) current = s.id;
+      });
+      navLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+      mobileLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }
+
+    var navTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!navTicking) {
+        window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
+        navTicking = true;
+      }
+    }, { passive: true });
+    setActiveNav();
+
+    // Hamburger menu
+    var navToggle = document.getElementById('navToggle');
+    var navMobile = document.getElementById('navMobile');
+    var hamburgerIcon = document.getElementById('hamburgerIcon');
+    var menuOpen = false;
+
+    function closeMenu() {
+      if (!menuOpen) return;
+      menuOpen = false;
+      navMobile.classList.remove('open');
+      hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+    }
+
+    navToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menuOpen = !menuOpen;
+      navMobile.classList.toggle('open', menuOpen);
+      if (menuOpen) {
+        hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+      } else {
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
+        closeMenu();
+      }
+    });
+
+    // Smooth anchor + pushState
+    var anchors = document.querySelectorAll('a[href^="#"]');
+    anchors.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var hash = a.getAttribute('href');
+        if (!hash || hash.length < 2) return;
+        var id = hash.substring(1);
+        var target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, '', hash);
+        }
+        closeMenu();
+      });
+    });
+
+    // ===== Logo Scroll Fade =====
+    var logo = document.querySelector('.xbrain-brand');
+    var logoTicking = false;
+    function updateLogo() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var ratio = Math.min(scrollY / vh, 1);
+      var opacity = 1 - ratio * 0.7;
+      if (logo) {
+        logo.style.opacity = opacity;
+        logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (!logoTicking) {
+        window.requestAnimationFrame(function () { updateLogo(); logoTicking = false; });
+        logoTicking = true;
+      }
+    }, { passive: true });
+    updateLogo();
+
+    // ===== Scroll Reveal =====
+    var revealEls = document.querySelectorAll('.info-card, .culture-card, .spot-card');
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry, index) {
+        if (entry.isIntersecting) {
+          setTimeout(function () {
+            entry.target.classList.add('visible');
+          }, index * 80);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
+
+    // ===== Close mobile dropdown on resize to desktop =====
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 640 && menuOpen) closeMenu();
+    });
+  })();
+  </script>
+
+</body>
+</html>
