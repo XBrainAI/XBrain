@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>古埃及展·南沙花园酒店 · 两日家庭自驾 — XBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
       --bg-deep: #0a1018;
@@ -32,7 +41,10 @@
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
 
     body {
       font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -47,900 +59,3290 @@
 
     /* ===== XBrain Logo (Fixed) ===== */
     .xbrain-brand {
-      position: fixed; top: 8px; left: 8px; z-index: 100;
-      display: flex; align-items: center; gap: 8px;
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background: linear-gradient(135deg, rgba(10, 16, 24, 0.94) 0%, rgba(22, 30, 48, 0.92) 100%);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1.5px solid rgba(180, 210, 255, 0.45);
-      border-radius: 12px; padding: 6px 14px 6px 8px;
-      box-shadow: 0 0 12px rgba(255,255,255,0.12), 0 0 40px rgba(80,140,255,0.3), 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-      text-decoration: none; transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.12), 0 0 40px rgba(80, 140, 255, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
     }
-    .xbrain-brand svg { width: 28px; height: 28px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,0.5)); }
-    .xbrain-brand .xbrain-text { font-size: 14px; font-weight: 800; letter-spacing: 1.2px; color: #e8ecf4; text-shadow: 0 0 12px rgba(100,180,255,0.5); }
-    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,0.8); }
-    .xbrain-brand.scrolled { background: rgba(10,16,24,0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,0.06); box-shadow: none; }
+
+    .xbrain-brand svg {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.5));
+    }
+
+    .xbrain-brand .xbrain-text {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #e8ecf4;
+      text-shadow: 0 0 12px rgba(100, 180, 255, 0.5);
+    }
+
+    .xbrain-brand .xbrain-text span {
+      color: #64b4ff;
+      text-shadow: 0 0 18px rgba(100, 180, 255, 0.8);
+    }
+
+    .xbrain-brand.scrolled {
+      background: rgba(10, 16, 24, 0.35);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.06);
+      box-shadow: none;
+    }
 
     /* ===== Top Nav ===== */
-    .top-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px; background: rgba(10,16,24,0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--sand-border); display: flex; align-items: center; padding: 0 20px; padding-left: 130px; }
-    .nav-inner { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; flex-wrap: nowrap; }
-    .nav-inner::-webkit-scrollbar { display: none; }
-    .nav-inner a { color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 400; padding: 6px 12px; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
-    .nav-inner a.active, .nav-inner a:hover { color: var(--sand); background: var(--sand-glow); }
-    .nav-inner a.active { border-bottom: 2px solid var(--sand); border-radius: 6px 6px 0 0; padding-bottom: 4px; }
-    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--sand-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
-    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
-    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,16,24,0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--sand-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-    .nav-mobile-dropdown.open { transform: translateY(0); }
-    .nav-mobile-dropdown a { color: var(--text-dim); text-decoration: none; font-size: 14px; padding: 10px 8px; border-radius: 8px; }
-    .nav-mobile-dropdown a.active { color: var(--sand); background: var(--sand-glow); }
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      height: 52px;
+      background: rgba(10, 16, 24, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--sand-border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      padding-left: 130px;
+    }
+
+    .nav-inner {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex-wrap: nowrap;
+    }
+
+    .nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-inner a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-inner a.active,
+    .nav-inner a:hover {
+      color: var(--sand);
+      background: var(--sand-glow);
+    }
+
+    .nav-inner a.active {
+      border-bottom: 2px solid var(--sand);
+      border-radius: 6px 6px 0 0;
+      padding-bottom: 4px;
+    }
+
+    .nav-hamburger {
+      display: none;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid var(--sand-border);
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-hamburger svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--text-dim);
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .nav-mobile-dropdown {
+      display: none;
+      position: fixed;
+      top: 52px;
+      left: 0;
+      right: 0;
+      background: rgba(10, 16, 24, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--sand-border);
+      flex-direction: column;
+      padding: 8px 16px;
+      gap: 4px;
+      z-index: 98;
+      transform: translateY(-120%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-mobile-dropdown.open {
+      transform: translateY(0);
+    }
+
+    .nav-mobile-dropdown a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 10px 8px;
+      border-radius: 8px;
+    }
+
+    .nav-mobile-dropdown a.active {
+      color: var(--sand);
+      background: var(--sand-glow);
+    }
 
     @media (max-width: 640px) {
-      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
-      .nav-inner { display: none; }
-      .nav-hamburger { display: flex; }
-      .nav-mobile-dropdown { display: flex; }
-      .xbrain-brand { top: 6px; left: 4px; padding: 4px 10px 4px 6px; }
-      .xbrain-brand svg { width: 24px; height: 24px; }
-      .xbrain-brand .xbrain-text { font-size: 13px; }
+      .top-nav {
+        padding-left: 104px;
+        height: 48px;
+        justify-content: flex-end;
+      }
+
+      .nav-inner {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-mobile-dropdown {
+        display: flex;
+      }
+
+      .xbrain-brand {
+        top: 6px;
+        left: 4px;
+        padding: 4px 10px 4px 6px;
+      }
+
+      .xbrain-brand svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .xbrain-brand .xbrain-text {
+        font-size: 13px;
+      }
     }
 
     /* ===== Hero ===== */
-    .hero { position: relative; z-index: 1; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 90px 1.5rem 3rem; background: radial-gradient(ellipse at 50% 0%, rgba(42,161,152,0.12) 0%, transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(212,168,83,0.08) 0%, transparent 50%); }
-    .hero-tag { display: inline-block; padding: 0.3rem 1rem; border: 1px solid var(--sand-dim); color: var(--sand); font-size: 0.7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
-    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: 0.8rem; line-height: 1.3; }
-    .hero-title span { color: var(--sand); }
-    .hero-subtitle { font-size: clamp(0.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 0.8rem; }
-    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--sand), transparent); margin: 0 auto 1.2rem; }
-    .hero-quick { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 0.5rem; }
-    .hero-quick span { background: var(--bg-light); border: 1px solid var(--sand-border); border-radius: 20px; padding: 0.4rem 1rem; font-size: 0.82rem; color: var(--text-dim); }
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 55vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 1.5rem 3rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(42, 161, 152, 0.12) 0%, transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(212, 168, 83, 0.08) 0%, transparent 50%);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border: 1px solid var(--sand-dim);
+      color: var(--sand);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.8rem, 4.5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+
+    .hero-title span {
+      color: var(--sand);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+      font-weight: 300;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-line {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--sand), transparent);
+      margin: 0 auto 1.2rem;
+    }
+
+    .hero-quick {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .hero-quick span {
+      background: var(--bg-light);
+      border: 1px solid var(--sand-border);
+      border-radius: 20px;
+      padding: 0.4rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
 
     /* ===== Sections ===== */
-    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
-    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; color: var(--text); }
-    .section-title .icon { width: 24px; height: 24px; color: var(--sand); flex-shrink: 0; }
-    .section-desc { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.5rem; }
-    section[id], .culture-card[id], .spot-card[id] { scroll-margin-top: 80px; }
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 3rem 1.5rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+
+    .section-title .icon {
+      width: 24px;
+      height: 24px;
+      color: var(--sand);
+      flex-shrink: 0;
+    }
+
+    .section-desc {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    section[id],
+    .culture-card[id],
+    .spot-card[id] {
+      scroll-margin-top: 80px;
+    }
 
     /* ===== Info Grid ===== */
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-    .info-card { background: var(--bg-mid); border: 1px solid var(--sand-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1); }
-    .info-card.visible { opacity: 1; transform: translateY(0); }
-    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--sand); }
-    .info-card p, .info-card li { font-size: 0.88rem; color: var(--text-dim); line-height: 1.65; }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .info-card {
+      background: var(--bg-mid);
+      border: 1px solid var(--sand-border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .info-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .info-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--sand);
+    }
+
+    .info-card p,
+    .info-card li {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
 
     /* ===== Spot Cards Grid ===== */
-    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
-    .spot-card { background: var(--bg-mid); border: 1px solid var(--sand-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1); }
-    .spot-card.visible { opacity: 1; transform: translateY(0); }
-    .spot-card-image { width: 100%; height: 180px; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; }
-    .spot-card-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, rgba(10,16,24,0.75) 100%); }
-    .spot-card-image .spot-card-img-text { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .spot-card-image .spot-card-img-text .spot-icon { font-size: 3rem; filter: drop-shadow(0 0 16px rgba(212,168,83,0.4)); }
-    .spot-card-image .spot-card-img-text .spot-title-text { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.92); font-family: 'Noto Serif SC', serif; letter-spacing: 1px; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
-    .spot-card-header { padding: 1.2rem 1.2rem 0; }
-    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
-    .spot-card-dist { font-size: 0.78rem; color: var(--text-dim); }
-    .spot-card-body { padding: 0.5rem 1.2rem; }
-    .spot-card-body p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
-    .spot-card-footer { padding: 0 1.2rem 0.8rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .spot-tag { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.7rem; letter-spacing: 0.5px; border: 1px solid var(--sand-border); color: var(--sand-dim); }
-    .spot-tag.recommended { border-color: var(--nile); color: var(--nile); background: var(--nile-glow); }
-    .spot-tag.free { border-color: var(--success); color: var(--success); }
-    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
-    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
-    .spot-hours { padding: 0.5rem 1.2rem 1rem; font-size: 0.78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,0.04); }
+    .spots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .spot-card {
+      background: var(--bg-mid);
+      border: 1px solid var(--sand-border);
+      border-radius: 14px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .spot-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .spot-card-image {
+      width: 100%;
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spot-card-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(10, 16, 24, 0.75) 100%);
+    }
+
+    .spot-card-image .spot-card-img-text {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .spot-card-image .spot-card-img-text .spot-icon {
+      font-size: 3rem;
+      filter: drop-shadow(0 0 16px rgba(212, 168, 83, 0.4));
+    }
+
+    .spot-card-image .spot-card-img-text .spot-title-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+      font-family: 'Noto Serif SC', serif;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .spot-card-header {
+      padding: 1.2rem 1.2rem 0;
+    }
+
+    .spot-card-header h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .spot-card-dist {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .spot-card-body {
+      padding: 0.5rem 1.2rem;
+    }
+
+    .spot-card-body p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .spot-card-footer {
+      padding: 0 1.2rem 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .spot-tag {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      border: 1px solid var(--sand-border);
+      color: var(--sand-dim);
+    }
+
+    .spot-tag.recommended {
+      border-color: var(--nile);
+      color: var(--nile);
+      background: var(--nile-glow);
+    }
+
+    .spot-tag.free {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .spot-tag.kid {
+      border-color: #f0a500;
+      color: #f0a500;
+    }
+
+    .spot-tag.warn {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .spot-hours {
+      padding: 0.5rem 1.2rem 1rem;
+      font-size: 0.78rem;
+      color: var(--text-hint);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
 
     /* ===== Plan Selector ===== */
-    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; }
-    .plan-btn { position: relative; display: flex; flex-direction: column; gap: 0.3rem; padding: 0.8rem 1rem; background: var(--bg-mid); border: 1px solid var(--sand-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: 0.88rem; transition: all 0.3s ease; overflow: hidden; }
-    .plan-btn:hover { border-color: var(--sand-dim); background: var(--sand-glow); }
-    .plan-btn.active { border-color: var(--sand); background: rgba(212,168,83,0.12); }
-    .plan-btn .plan-name { font-weight: 700; color: var(--sand); font-size: 0.95rem; }
-    .plan-btn.active .plan-name { color: var(--sand); }
-    .plan-btn .plan-desc { font-size: 0.78rem; color: var(--text-hint); }
-    .plan-btn .stamp { position: absolute; top: 4px; right: 4px; width: 42px; height: 42px; border: 2.5px solid #e74c3c; border-radius: 50%; color: #e74c3c; background: rgba(231,76,60,0.06); font-size: 11px; font-weight: 900; font-family: 'Noto Serif SC', serif; display: none; align-items: center; justify-content: center; transform: rotate(-15deg); opacity: 0.72; pointer-events: none; user-select: none; }
-    @media (min-width: 640px) { .plan-btn .stamp { width: 50px; height: 50px; font-size: 13px; top: 6px; right: 6px; } }
+    .plan-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .plan-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      padding: 0.8rem 1rem;
+      background: var(--bg-mid);
+      border: 1px solid var(--sand-border);
+      border-radius: 10px;
+      color: var(--text-dim);
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.88rem;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .plan-btn:hover {
+      border-color: var(--sand-dim);
+      background: var(--sand-glow);
+    }
+
+    .plan-btn.active {
+      border-color: var(--sand);
+      background: rgba(212, 168, 83, 0.12);
+    }
+
+    .plan-btn .plan-name {
+      font-weight: 700;
+      color: var(--sand);
+      font-size: 0.95rem;
+    }
+
+    .plan-btn.active .plan-name {
+      color: var(--sand);
+    }
+
+    .plan-btn .plan-desc {
+      font-size: 0.78rem;
+      color: var(--text-hint);
+    }
+
+    .plan-btn .stamp {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 42px;
+      height: 42px;
+      border: 2.5px solid #e74c3c;
+      border-radius: 50%;
+      color: #e74c3c;
+      background: rgba(231, 76, 60, 0.06);
+      font-size: 11px;
+      font-weight: 900;
+      font-family: 'Noto Serif SC', serif;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-15deg);
+      opacity: 0.72;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @media (min-width: 640px) {
+      .plan-btn .stamp {
+        width: 50px;
+        height: 50px;
+        font-size: 13px;
+        top: 6px;
+        right: 6px;
+      }
+    }
 
     /* ===== Plan Content ===== */
-    .plan-content { display: none; }
-    .plan-content.active { display: block; animation: fadeIn 0.5s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .plan-content {
+      display: none;
+    }
+
+    .plan-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
 
     /* ===== Plan Summary Table ===== */
-    .plan-summary { margin-bottom: 1.2rem; }
-    .day-label { font-family: 'Noto Serif SC', serif; font-size: 0.9rem; font-weight: 700; color: var(--sand); margin: 1rem 0 0.5rem; padding-left: 2px; }
-    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; min-width: 520px; }
-    .plan-summary-table thead th { background: var(--bg-light); color: var(--sand); font-weight: 600; padding: 0.5rem 0.6rem; text-align: left; border-bottom: 1px solid var(--sand-border); font-size: 0.78rem; }
-    .plan-summary-table tbody td { padding: 0.45rem 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-dim); }
-    .plan-summary-table tbody tr:hover td { background: var(--sand-glow); }
+    .plan-summary {
+      margin-bottom: 1.2rem;
+    }
+
+    .day-label {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--sand);
+      margin: 1rem 0 0.5rem;
+      padding-left: 2px;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .plan-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 520px;
+    }
+
+    .plan-summary-table thead th {
+      background: var(--bg-light);
+      color: var(--sand);
+      font-weight: 600;
+      padding: 0.5rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid var(--sand-border);
+      font-size: 0.78rem;
+    }
+
+    .plan-summary-table tbody td {
+      padding: 0.45rem 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-dim);
+    }
+
+    .plan-summary-table tbody tr:hover td {
+      background: var(--sand-glow);
+    }
 
     /* ===== Timeline ===== */
-    .day-divider { display: flex; align-items: center; gap: 0.8rem; margin: 1.5rem 0 1rem; }
-    .day-divider .line { flex: 1; height: 1px; background: var(--sand-border); }
-    .day-badge { background: var(--bg-light); border: 1px solid var(--sand-dim); color: var(--sand); padding: 0.3rem 0.8rem; border-radius: 14px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
-    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--sand-border); }
-    .timeline-item:last-child { border-left-color: transparent; }
-    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--sand); border: 2px solid var(--bg-deep); }
-    .timeline-time { font-size: 0.78rem; color: var(--nile); margin-bottom: 0.25rem; font-weight: 500; }
-    .timeline-content h4 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
-    .timeline-content p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
-    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
-    .timeline-tag { display: inline-block; padding: 0.12rem 0.5rem; border-radius: 4px; font-size: 0.68rem; border: 1px solid var(--sand-border); color: var(--sand-dim); }
-    .timeline-tag.drive { border-color: var(--nile); color: var(--nile); }
-    .timeline-tag.food { border-color: #f0a500; color: #f0a500; }
-    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
-    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
-    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
-    .timeline-tag.museum { border-color: var(--sand); color: var(--sand); }
-    .timeline-tag.free { border-color: var(--success); color: var(--success); }
-    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .day-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1.5rem 0 1rem;
+    }
+
+    .day-divider .line {
+      flex: 1;
+      height: 1px;
+      background: var(--sand-border);
+    }
+
+    .day-badge {
+      background: var(--bg-light);
+      border: 1px solid var(--sand-dim);
+      color: var(--sand);
+      padding: 0.3rem 0.8rem;
+      border-radius: 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 1rem;
+      border-left: 2px solid var(--sand-border);
+    }
+
+    .timeline-item:last-child {
+      border-left-color: transparent;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -7px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--sand);
+      border: 2px solid var(--bg-deep);
+    }
+
+    .timeline-time {
+      font-size: 0.78rem;
+      color: var(--nile);
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    .timeline-content h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.4rem;
+    }
+
+    .timeline-tag {
+      display: inline-block;
+      padding: 0.12rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      border: 1px solid var(--sand-border);
+      color: var(--sand-dim);
+    }
+
+    .timeline-tag.drive {
+      border-color: var(--nile);
+      color: var(--nile);
+    }
+
+    .timeline-tag.food {
+      border-color: #f0a500;
+      color: #f0a500;
+    }
+
+    .timeline-tag.hotel {
+      border-color: #8e7cc3;
+      color: #ada0db;
+    }
+
+    .timeline-tag.view {
+      border-color: #4da6ff;
+      color: #80bfff;
+    }
+
+    .timeline-tag.kid {
+      border-color: #66cc66;
+      color: #80ff80;
+    }
+
+    .timeline-tag.museum {
+      border-color: var(--sand);
+      color: var(--sand);
+    }
+
+    .timeline-tag.free {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .timeline-tag.warn {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
 
     /* ===== Tips Box ===== */
-    .tips-box { background: var(--bg-light); border: 1px solid var(--sand-border); border-radius: 10px; padding: 1rem 1.2rem; }
-    .tips-box-title { font-weight: 700; color: var(--sand); margin-bottom: 0.5rem; font-size: 0.9rem; }
-    .tips-box ul { padding-left: 1.2rem; }
-    .tips-box li { font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 0.3rem; }
+    .tips-box {
+      background: var(--bg-light);
+      border: 1px solid var(--sand-border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+    }
+
+    .tips-box-title {
+      font-weight: 700;
+      color: var(--sand);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .tips-box ul {
+      padding-left: 1.2rem;
+    }
+
+    .tips-box li {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 0.3rem;
+    }
 
     /* ===== Culture Cards ===== */
-    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
-    .culture-card { background: var(--bg-mid); border: 1px solid var(--nile-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1); }
-    .culture-card.visible { opacity: 1; transform: translateY(0); }
-    .culture-card-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
-    .culture-card-head .c-icon { font-size: 1.4rem; }
-    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--nile); }
-    .culture-card p, .culture-card li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
-    .culture-card ul { padding-left: 1.2rem; }
+    .culture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .culture-card {
+      background: var(--bg-mid);
+      border: 1px solid var(--nile-border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .culture-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .culture-card-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .culture-card-head .c-icon {
+      font-size: 1.4rem;
+    }
+
+    .culture-card-head h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--nile);
+    }
+
+    .culture-card p,
+    .culture-card li {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .culture-card ul {
+      padding-left: 1.2rem;
+    }
 
     /* ===== Budget Table ===== */
-    .budget-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; min-width: 480px; margin-top: 0.5rem; }
-    .budget-table th { background: var(--bg-light); color: var(--sand); font-weight: 600; padding: 0.45rem 0.6rem; text-align: left; border-bottom: 1px solid var(--sand-border); font-size: 0.78rem; }
-    .budget-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-dim); }
-    .budget-table .total td { font-weight: 700; color: var(--sand); background: var(--sand-glow); }
-    .budget-note { font-size: 0.75rem; color: var(--text-hint); margin-top: 0.5rem; }
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 480px;
+      margin-top: 0.5rem;
+    }
+
+    .budget-table th {
+      background: var(--bg-light);
+      color: var(--sand);
+      font-weight: 600;
+      padding: 0.45rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid var(--sand-border);
+      font-size: 0.78rem;
+    }
+
+    .budget-table td {
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-dim);
+    }
+
+    .budget-table .total td {
+      font-weight: 700;
+      color: var(--sand);
+      background: var(--sand-glow);
+    }
+
+    .budget-note {
+      font-size: 0.75rem;
+      color: var(--text-hint);
+      margin-top: 0.5rem;
+    }
 
     /* ===== In-doc Links ===== */
-    .in-doc-link { color: var(--sand); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
-    .in-doc-link:hover { color: #e8c060; }
+    .in-doc-link {
+      color: var(--sand);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
+
+    .in-doc-link:hover {
+      color: #e8c060;
+    }
 
     /* ===== Section Back Top ===== */
-    .section-backtop { text-align: center; margin-top: 1.5rem; }
-    .section-backtop a { display: inline-block; padding: 0.4rem 1.2rem; border: 1px solid var(--sand-border); border-radius: 8px; color: var(--sand-dim); text-decoration: none; font-size: 0.82rem; transition: all 0.2s; }
-    .section-backtop a:hover { background: var(--sand-glow); border-color: var(--sand-dim); color: var(--sand); }
+    .section-backtop {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .section-backtop a {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border: 1px solid var(--sand-border);
+      border-radius: 8px;
+      color: var(--sand-dim);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: all 0.2s;
+    }
+
+    .section-backtop a:hover {
+      background: var(--sand-glow);
+      border-color: var(--sand-dim);
+      color: var(--sand);
+    }
 
     /* ===== Footer ===== */
-    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: 0.85rem; letter-spacing: 1px; }
-    footer .footer-line { width: 30px; height: 1px; background: var(--sand-border); margin: 0 auto 1rem; }
-    footer a { color: var(--sand); text-decoration: none; }
-    footer .footer-version { margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--sand-border);
+      margin: 0 auto 1rem;
+    }
+
+    footer a {
+      color: var(--sand);
+      text-decoration: none;
+    }
+
+    footer .footer-version {
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-hint);
+      font-family: 'Courier New', monospace;
+    }
 
     /* ===== Responsive ===== */
     @media (max-width: 640px) {
-      .hero { min-height: 45vh; padding: 70px 1rem 2rem; }
-      .section { padding: 2rem 1rem; }
-      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
-      .plan-selector { grid-template-columns: 1fr; }
-      .spot-card-image { height: 140px; }
+      .hero {
+        min-height: 45vh;
+        padding: 70px 1rem 2rem;
+      }
+
+      .section {
+        padding: 2rem 1rem;
+      }
+
+      .spots-grid,
+      .info-grid,
+      .culture-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .spot-card-image {
+        height: 140px;
+      }
+    }
+
+    /* ===== Travel Log (实况游记) ===== */
+    .travel-log {
+      margin-top: 1.6rem;
+      padding: 1.2rem 1rem 1.4rem;
+      border: 1px solid var(--sand-border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(20, 16, 40, 0.45) 0%, rgba(12, 12, 28, 0.38) 100%);
+    }
+
+    .travel-log-header {
+      margin-bottom: 1rem;
+    }
+
+    .travel-log-header h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.18rem;
+      color: var(--sand);
+      margin: 0 0 .35rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+    }
+
+    .travel-log-header h3::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 1.1em;
+      border-radius: 3px;
+      background: linear-gradient(180deg, var(--sand), #c09240);
+    }
+
+    .travel-log-header p {
+      color: var(--text-dim);
+      font-size: .86rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .travel-log-route {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin: .65rem 0 .25rem;
+    }
+
+    .travel-log-route span {
+      font-size: .75rem;
+      padding: .18rem .55rem;
+      border-radius: 999px;
+      background: var(--sand-glow);
+      color: var(--text);
+      border: 1px solid var(--sand-border);
+    }
+
+    .travel-log-stop {
+      margin: 1.3rem 0;
+      padding: 1rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(212, 168, 83, 0.12);
+    }
+
+    .travel-log-stop h4 {
+      font-size: 1rem;
+      color: #fff;
+      margin: 0 0 .45rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      flex-wrap: wrap;
+    }
+
+    .travel-log-stop h4 .time {
+      color: var(--nile);
+      font-weight: 600;
+      font-size: .9rem;
+    }
+
+    .travel-log-stop p {
+      color: var(--text);
+      font-size: .9rem;
+      line-height: 1.75;
+      margin: .4rem 0;
+    }
+
+    .travel-log-video {
+      margin: .7rem 0 1rem;
+    }
+
+    .travel-log-video .video-caption {
+      margin-top: .3rem;
+      font-size: .78rem;
+      color: var(--text-hint);
+      text-align: center;
+    }
+
+    .travel-log-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: .7rem 0;
+    }
+
+    .travel-log-thumb {
+      aspect-ratio: 4/3;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid var(--sand-border);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .travel-log-thumb::after {
+      content: '+';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.38);
+      opacity: 0;
+      transition: opacity .2s ease;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .travel-log-thumb:hover::after,
+    .travel-log-thumb:active::after {
+      opacity: 1;
+    }
+
+    .travel-log-all-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .35rem;
+      margin-top: .8rem;
+      padding: .65rem 1.1rem;
+      border-radius: 10px;
+      border: 1px solid var(--sand-border);
+      background: var(--sand-glow);
+      color: var(--text);
+      font-size: .88rem;
+      cursor: pointer;
+      transition: background .2s;
+      font-family: inherit;
+    }
+
+    .travel-log-all-btn:hover,
+    .travel-log-all-btn:active {
+      background: rgba(212, 168, 83, 0.22);
+    }
+
+    @media (min-width: 640px) {
+      .travel-log-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .travel-log {
+        padding: 1.4rem 1.3rem 1.6rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .travel-log-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+    }
+
+    /* ===== Lightbox ===== */
+    .lb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.94);
+      touch-action: none;
+      overscroll-behavior: contain;
+    }
+
+    .lb-overlay.open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lb-close {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 210;
+      color: #fff;
+      font-size: 1.8rem;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-right: env(safe-area-inset-right, 0px);
+    }
+
+    .lb-img-wrap {
+      max-width: 92vw;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lb-img-wrap img {
+      max-width: 92vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .lb-counter {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 210;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: .82rem;
+      background: rgba(0, 0, 0, 0.55);
+      padding: .25rem .75rem;
+      border-radius: 20px;
+    }
+
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 210;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+    }
+
+    .lb-prev {
+      left: 12px;
+    }
+
+    .lb-next {
+      right: 12px;
     }
   </style>
 </head>
+
 <body>
 
-<!-- ===== XBrain Logo ===== -->
-<a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
-  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="coreGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#64b4ff" stop-opacity="1"/><stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6"/><stop offset="100%" stop-color="#1a2a5e" stop-opacity="0"/></radialGradient><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#80c0ff"/><stop offset="50%" stop-color="#4a90e2"/><stop offset="100%" stop-color="#80c0ff"/></linearGradient><filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <circle cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)"/>
-    <g transform="matrix(0 -1 1 0 30 300)"><rect fill="#2a4080" width="240" height="36" rx="4"/><rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9"/><rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6"/></g>
-    <g transform="matrix(0 -1 1 0 30 230)"><circle cx="50" cy="50" r="50" fill="#0d1636"/><circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)"/><line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9"/></g>
-  </svg>
-  <div class="xbrain-text"><span>X</span>Brain</div>
-</a>
+  <!-- ===== XBrain Logo ===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55"
+        filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect fill="#2a4080" width="240" height="36" rx="4" />
+        <rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7"
+          filter="url(#glow)" />
+        <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
 
-<!-- ===== Top Nav ===== -->
-<nav class="top-nav" id="topNav">
-  <div class="nav-inner" id="navInner">
-    <a href="#top">首页</a>
-    <a href="#geo">速览</a>
-    <a href="#culture">人文</a>
-    <a href="#spots">景点</a>
-    <a href="#hotels">酒店</a>
-    <a href="#plans">方案</a>
-    <a href="#hours">时间</a>
-    <a href="#weather">天气</a>
-    <a href="#tips">贴士</a>
-  </div>
-  <button class="nav-hamburger" id="navToggle" aria-label="菜单">
-    <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
-  <div class="nav-mobile-dropdown" id="navMobile">
-    <a href="#top">首页</a>
-    <a href="#geo">行程速览</a>
-    <a href="#culture">人文背景</a>
-    <a href="#spots">景点总览</a>
-    <a href="#hotels">酒店推荐</a>
-    <a href="#plans">行程方案</a>
-    <a href="#hours">营业时间</a>
-    <a href="#weather">天气评估</a>
-    <a href="#tips">实用贴士</a>
-  </div>
-</nav>
-
-<!-- ===== Hero ===== -->
-<section class="hero" id="top">
-  <span class="hero-tag">8月1-2日 · 2天1夜家庭自驾</span>
-  <h1 class="hero-title">尼罗河的<span>赠礼</span> · 南沙<span>花园</span></h1>
-  <p class="hero-subtitle">古埃及文明相遇岭南 · 滨海度假亲子两日</p>
-  <div class="hero-line"></div>
-  <div class="hero-quick">
-    <span>南越王博物院·王墓展区</span>
-    <span>南沙花园酒店</span>
-    <span>番禺莲花山/沙湾古镇</span>
-    <span>慧谷超级堤日落</span>
-  </div>
-</section>
-
-<!-- ===== 1. 行程速览 ===== -->
-<section class="section" id="geo">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-    行程速览
-  </h2>
-  <p class="section-desc">荔湾出发，三站串联：市区古埃及展 → 南沙滨海度假 → 番禺人文归途。</p>
-  <div class="info-grid">
-    <div class="info-card">
-      <h4>路线总览</h4>
-      <p>君荟名轩（荔湾环市西路）→ 南越王博物院王墓展区（越秀解放北路，4km/15min）→ 午餐·盘福路 → 南沙花园酒店（南沙大角二路，65km/1.5h）→ 回程（南沙→荔湾，65km）</p>
+  <!-- ===== Top Nav ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a href="#top">首页</a>
+      <a href="#geo">速览</a>
+      <a href="#culture">人文</a>
+      <a href="#spots">景点</a>
+      <a href="#hotels">酒店</a>
+      <a href="#plans">方案</a>
+      <a href="#hours">时间</a>
+      <a href="#weather">天气</a>
+      <a href="#tips">贴士</a>
     </div>
-    <div class="info-card">
-      <h4>核心看点</h4>
-      <p>古埃及文物特展（180件/亚洲首展167件）、VR金字塔幻象、丝缕玉衣 vs 木乃伊——法老遇见南越王。南沙滨海无边泳池、YOYO智趣营、慧谷超级堤日落。</p>
-    </div>
-    <div class="info-card">
-      <h4>天气提醒</h4>
-      <p><strong style="color:var(--danger)">8月1日：中雷雨局部暴雨，26~30℃。8月2日：大雨到暴雨，25~29℃。</strong> 南沙区7月31日已发布暴雨黄色预警。户外景点（天后宫/沙滩/莲花山）可能受影响，优先室内行程。详见 <a class="in-doc-link" href="#weather">天气影响评估</a>。</p>
-    </div>
-  </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 2. 人文背景 ===== -->
-<section class="section" id="culture">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-    人文背景 · 讲给孩子听
-  </h2>
-  <p class="section-desc">带孩子看懂古埃及、南越王和妈祖，旅行不只是看热闹。</p>
-  <div class="culture-grid">
-    <div class="culture-card" id="culture-egypt">
-      <div class="culture-card-head"><div class="c-icon">𓂀</div><h4>古埃及文明 · 5000年前</h4></div>
-      <p><b>背景</b>：古埃及是世界四大文明古国之一，尼罗河孕育了灿烂文明。法老是国王的称呼，木乃伊是他们相信死后灵魂需要身体"回家"而做成的。猫头女神芭斯特、太阳神拉、死者之神阿努比斯……每一个神都有自己的故事。<b>本次展览</b>：180件古埃及文物中167件首次来亚洲，包括3套完整的木乃伊及棺椁、《亡灵书》残卷。还有VR大空间"金字塔幻象"带你1:1穿越吉萨高地。</p>
-      <p><b>讲给孩子听</b>：① 为什么埃及人把猫当成神？因为猫抓老鼠保护粮仓！② 金字塔怎么造的？猜猜用了多少石头——最大200多万块；③ VR体验让你"走"进金字塔，比书好看一百倍；④ 木乃伊不是怪物，是古埃及人说"再见"的方式。</p>
-    </div>
-    <div class="culture-card" id="culture-nanyue">
-      <div class="culture-card-head"><div class="c-icon">🏺</div><h4>南越王墓 · 对话木乃伊</h4></div>
-      <p><b>背景</b>：1983年广州发现西汉南越国第二代国王赵眜之墓，出土文物1000多套。展览将<strong>丝缕玉衣（中国唯一完整丝缕玉衣）与木乃伊</strong>同场呈现——古埃及人用亚麻布包裹木乃伊等来世，南越先民用万片玉石缝成玉衣求不朽，两种文明对"永生"的浪漫想象在此对话。</p>
-      <p><b>讲给孩子听</b>：① 什么是"丝缕玉衣"？——用上万片玉片和丝线缝制的国王衣服；② 赵眜是2000多年前的老广州国王；③ <em>找不同</em>：木乃伊用布包裹，玉衣用玉片缝合，但都是为了"永远活着"。</p>
-    </div>
-    <div class="culture-card" id="culture-mazu">
-      <div class="culture-card-head"><div class="c-icon">⛩️</div><h4>天后宫 · 妈祖守护大海</h4></div>
-      <p><b>背景</b>：南沙天后宫是东南亚最大的妈祖庙，建于大角山东南麓，面朝伶仃洋。妈祖原名林默，北宋年间福建渔家女，因多次海上救人被尊为海神。整个建筑群集北京故宫和南京中山陵风格，依山面海，气势恢宏。</p>
-      <p><b>讲给孩子听</b>：① 妈祖不是神像、是真人，一个特别勇敢会救人的姐姐；② 为什么海边的庙特别多？——渔民出海打鱼需要保护；③ 从山顶往下看，能望见伶仃洋！</p>
-    </div>
-    <div class="culture-card" id="culture-lianhua">
-      <div class="culture-card-head"><div class="c-icon">🪷</div><h4>莲花山 · 2000年采石场</h4></div>
-      <p><b>背景</b>：莲花山古采石场始于西汉，开采了两千多年。"莲峰观海"是羊城八景之一。望海观音像是世界上最高的箔金观音立像——古人把整座山凿成观音像那么大的石块运去建城，奇迹！</p>
-      <p><b>讲给孩子听</b>：① 古人是如何不用机器从山体切方方正正的巨石的？② 面前的狮子洋大海就是"海上丝绸之路"的起点之一；③ 找找峭壁上留下的"凿痕"，像一本石头日记。</p>
-    </div>
-  </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 3. 景点总览 ===== -->
-<section class="section" id="spots">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    景点 & 餐厅总览
-  </h2>
-  <p class="section-desc">按行程顺序排列：展馆 → 午餐 → 酒店 → 南沙周边 → 番禺回程 → 途径景点。</p>
-
-  <div class="spots-grid">
-    <div class="spot-card" id="spot-nanyue">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#1a2030,#2a3050,#1a2030);"><div class="spot-card-img-text"><span class="spot-icon">🏛️</span><span class="spot-title-text">南越王博物院·王墓展区</span></div></div>
-      <div class="spot-card-header"><h4>古埃及展「尼罗河的赠礼」</h4><span class="spot-card-dist">解放北路867号 · 越秀公园旁</span></div>
-      <div class="spot-card-body"><p>180件古埃及文物（167件亚洲首展）+ 26件南越王墓珍品。VR金字塔幻象、裸眼3D、AI重建。五大主题：众神国度/国王与统治/文字与交流/生活与美丽/生命的旅途。丝缕玉衣对话木乃伊，文明跨时空共振。微信搜"南越王博物院"预约购票。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag recommended">主目标</span><span class="spot-tag museum">必看</span><span class="spot-tag kid">2.5-3h</span></div>
-      <div class="spot-hours"><b>开放：</b>周二至周日 9:00-17:30（17:00停入），周一闭馆，暑假延长至18:00。<b>门票：</b>王墓展区10元，特展需另购（早鸟59元起）。<br><b>停车：</b>博物院无停车场，停盘福大厦（解放北路863号，距120m）。详见<a class="in-doc-link" href="#tip-parking">停车指引</a>。</div>
-    </div>
-
-    <div class="spot-card" id="spot-food-yuexiu">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#2a2010,#3a3020,#2a2010);"><div class="spot-card-img-text"><span class="spot-icon">🥢</span><span class="spot-title-text">越秀渔村·粤菜老字号</span></div></div>
-      <div class="spot-card-header"><h4>午餐首选：越秀渔村</h4><span class="spot-card-dist">盘福路102号 · 步行4分钟</span></div>
-      <div class="spot-card-body"><p>4.6分老字号粤菜馆，人均83元。招牌：<b>金牌咕噜肉、越秀云英鸡、风山水起捞鸡、碌鹅、金汤花胶</b>。适合家庭聚餐，上菜快。11:00-15:00 / 17:00-24:00。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag recommended">午餐A</span><span class="spot-tag">粤菜</span><span class="spot-tag">人均83</span></div>
-    </div>
-
-    <div class="spot-card" id="spot-food-mingshao">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#202010,#302820,#202010);"><div class="spot-card-img-text"><span class="spot-icon">🍗</span><span class="spot-title-text">铭少·食鸡专门店</span></div></div>
-      <div class="spot-card-header"><h4>午餐备选：铭少食鸡</h4><span class="spot-card-dist">盘福路79号倾城大厦 · 步行5分钟</span></div>
-      <div class="spot-card-body"><p>4.8分，人均82元。<b>招牌清远白切鸡</b>——"每桌必点"。24年老店。盘福路食街，步行即达。10:00-22:00。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag">午餐B</span><span class="spot-tag">白切鸡</span><span class="spot-tag">人均82</span></div>
-    </div>
-
-    <div class="spot-card" id="spot-hotel">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#102020,#1a3040,#102020);"><div class="spot-card-img-text"><span class="spot-icon">🏊</span><span class="spot-title-text">南沙花园酒店</span></div></div>
-      <div class="spot-card-header"><h4>南沙花园酒店 · 五星亲子度假</h4><span class="spot-card-dist">大角二路1号 · 岭南集团</span></div>
-      <div class="spot-card-body"><p><b>近1000㎡室内外无边际泳池</b>（含儿童浅水区）、<b>1200㎡YOYO智趣营</b>（波波池·迷你保龄球·DIY·涂鸦）、童趣小火车、近万㎡私家园林、山海湖园全景观。亲子主题房（帐篷/滑梯房型）。365天观日出赏晚霞。免费停车、可带宠物。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag recommended">入住</span><span class="spot-tag kid">亲子首选</span><span class="spot-tag">无边泳池</span></div>
-      <div class="spot-hours"><b>入住：</b>14:00后 | <b>退房：</b>12:00前。<b>价格：</b>约¥637起/晚。含早餐·免费停车·可携宠物。桃园馆中餐厅、花苑全日制餐厅、烤吧、咖啡吧。</div>
-    </div>
-
-    <div class="spot-card" id="spot-tianhou">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#201010,#302020,#201010);"><div class="spot-card-img-text"><span class="spot-icon">⛩️</span><span class="spot-title-text">南沙天后宫</span></div></div>
-      <div class="spot-card-header"><h4>南沙天后宫 · 4A</h4><span class="spot-card-dist">天后路88号 · 距酒店3分钟车程</span></div>
-      <div class="spot-card-body"><p>东南亚最大的妈祖庙，依大角山面伶仃洋。故宫与中山陵风格融合，登高望海。带孩子了解妈祖文化（详见<a class="in-doc-link" href="#culture-mazu">人文背景·妈祖</a>）。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag">4A景区</span><span class="spot-tag kid">登高望远</span></div>
-      <div class="spot-hours"><b>开放：</b>8:30-17:00。<b>门票：</b>成人20元，儿童/学生10元。<b>注意：</b>⚠️大雨天山路可能湿滑，带小孩注意安全。详见<a class="in-doc-link" href="#weather">天气评估</a>。</div>
-    </div>
-
-    <div class="spot-card" id="spot-tide">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#1a2028,#2a3840,#1a2028);"><div class="spot-card-img-text"><span class="spot-icon">🌅</span><span class="spot-title-text">慧谷超级堤</span></div></div>
-      <div class="spot-card-header"><h4>慧谷超级堤 · 日落观海</h4><span class="spot-card-dist">海滨路 · 免费 · 距酒店5分钟</span></div>
-      <div class="spot-card-body"><p>南沙标志性网红滨海绿道，绵长碧道看"橘子海"日落。三江两岸、山水相连，傍晚海风凉爽，散步拍照极佳。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag view">日落</span></div>
-      <div class="spot-hours"><b>开放：</b>全天免费。<b>注意：</b>⚠️8月1-2日有降雨，日落可能不可见。如天气好转可安排。详见<a class="in-doc-link" href="#weather">天气评估</a>。</div>
-    </div>
-
-    <div class="spot-card" id="spot-wetland">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#102010,#203020,#102010);"><div class="spot-card-img-text"><span class="spot-icon">🦢</span><span class="spot-title-text">南沙湿地/水鸟世界</span></div></div>
-      <div class="spot-card-header"><h4>大湾区中央湿地公园 + 水鸟世界</h4><span class="spot-card-dist">万顷沙 · 距酒店30分钟车程</span></div>
-      <div class="spot-card-body"><p>乘船游览红树林湿地、观万鸟齐飞。水鸟世界与湿地相邻，集水鸟繁育、科普、观赏于一体。上午凉快时段最佳。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag kid">亲子自然</span><span class="spot-tag free">游船可选</span></div>
-      <div class="spot-hours"><b>湿地：</b>9:00-17:00，成人40元，游船+120元。<b>水鸟世界：</b>约8:30-17:30（以当日公告为准）。<b>注意：</b>⚠️大雨天游船可能停航，水鸟世界户外步道湿滑。详见<a class="in-doc-link" href="#weather">天气评估</a>。</div>
-    </div>
-
-    <div class="spot-card" id="spot-danjia">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#1a1810,#2a2820,#1a1810);"><div class="spot-card-img-text"><span class="spot-icon">🛶</span><span class="spot-title-text">疍家妹疍家菜馆</span></div></div>
-      <div class="spot-card-header"><h4>疍家妹疍家菜馆 · 南沙本土风味</h4><span class="spot-card-dist">万顷沙镇长堤东路1号 · 距酒店25分钟</span></div>
-      <div class="spot-card-body"><p>南沙疍家菜代表，<b>"不时不鲜，不鲜不食"</b>。清蒸黄眉头、钵仔焗禾虫、疍家蒸鸡、拆鱼羹���—地道水乡人家风味。与十九涌同方向不同体验，非景区海鲜、纯粹本地味。有室内座位，雨天正常就餐。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag food">疍家菜</span><span class="spot-tag">本地名店</span><span class="spot-tag">有棚</span></div>
-      <div class="spot-hours"><b>地址：</b>万顷沙镇长堤东路1号。周日午餐后直接回程，万顷沙方向上南沙港快速。人均约80-120元。<b>注意：</b>门店较小，建议提前电话确认。</div>
-    </div>
-
-    <div class="spot-card" id="spot-shawan">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#1a1810,#2a2820,#1a1810);"><div class="spot-card-img-text"><span class="spot-icon">🏘️</span><span class="spot-title-text">沙湾古镇</span></div></div>
-      <div class="spot-card-header"><h4>沙湾古镇 · 800年岭南古村</h4><span class="spot-card-dist">番禺沙湾大巷涌路64号 · 去/回程顺路</span></div>
-      <div class="spot-card-body"><p>中国历史文化名镇，青砖镬耳、蚝壳墙、石板深巷。<b>留耕堂</b>（广东民间祠堂代表）、<b>三稔厅</b>（广东音乐发源地）。非遗美食：<b>沙湾姜撞奶</b>���—水牛奶+姜汁瞬间凝固，滑嫩香甜！</p></div>
-      <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag food">姜撞奶</span><span class="spot-tag">展馆30元</span></div>
-      <div class="spot-hours"><b>古镇：</b>全天开放免费。<b>展馆联票：</b>30元，8:30-17:30。<b>注意：</b>户外街巷雨天湿滑。</div>
-    </div>
-
-    <div class="spot-card" id="spot-baomo">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#101a18,#1a3028,#101a18);"><div class="spot-card-img-text"><span class="spot-icon">🏯</span><span class="spot-title-text">宝墨园</span></div></div>
-      <div class="spot-card-header"><h4>宝墨园 · 岭南山水园林</h4><span class="spot-card-dist">番禺沙湾紫坭村 · 沙湾古镇相邻</span></div>
-      <div class="spot-card-body"><p>4.7分岭南园林典范，清明上河图巨型瓷画、赵泰来藏品馆、亭台楼榭锦鲤戏水。<b>回廊多</b>——小雨可遮雨逛，雨打芭蕉意境美。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag">54元</span><span class="spot-tag">回廊遮雨</span><span class="spot-tag kid">锦鲤</span></div>
-      <div class="spot-hours"><b>开放：</b>8:30-18:30。<b>门票：</b>成人54元，儿童/老人27元。<b>优点：</b>回廊系统发达，小雨不影响游览。</div>
-    </div>
-
-    <div class="spot-card" id="spot-lianhua">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#181020,#282040,#181020);"><div class="spot-card-img-text"><span class="spot-icon">🏔️</span><span class="spot-title-text">番禺莲花山</span></div></div>
-      <div class="spot-card-header"><h4>莲花山 · 望海观音·古采石场</h4><span class="spot-card-dist">番禺石楼镇 · 回程顺路</span></div>
-      <div class="spot-card-body"><p>4.7分，羊城八景"莲峰观海"。世界最高箔金观音立像、2000年古采石场遗址、明代莲花塔。登高望狮子洋，气势磅礴（详见<a class="in-doc-link" href="#culture-lianhua">人文背景·莲花山</a>）。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag">51元</span><span class="spot-tag view">观海</span><span class="spot-tag kid">1.5h</span></div>
-      <div class="spot-hours"><b>开放：</b>7:00-17:00。<b>门票：</b>成人51元，儿童/老人27元。<b>注意：</b>⚠️暴雨天山路封闭风险，高温日遮阳少，出发前查天气。详见<a class="in-doc-link" href="#weather">天气评估</a>。</div>
-    </div>
-
-    <div class="spot-card" id="spot-yuyin">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#102018,#1a3028,#102018);"><div class="spot-card-img-text"><span class="spot-icon">🏡</span><span class="spot-title-text">余荫山房</span></div></div>
-      <div class="spot-card-header"><h4>余荫山房 · 岭南四大名园</h4><span class="spot-card-dist">番禺南村镇 · 回程顺路</span></div>
-      <div class="spot-card-body"><p>4.7分，小巧玲珑布局精细。深柳堂、玲珑水榭、浣红跨绿廊桥。雨天意境更美——雨打芭蕉、水漫青石，是岭南园林最美的时刻。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag">18元</span><span class="spot-tag">雨天推荐</span><span class="spot-tag kid">1h</span></div>
-      <div class="spot-hours"><b>开放：</b>8:00-18:00。<b>门票：</b>成人18元，儿童/学生9元。<b>雨天优势：</b>有廊有亭，雨中园林意境绝佳。</div>
-    </div>
-
-    <div class="spot-card" id="spot-puzhou">
-      <div class="spot-card-image" style="background:linear-gradient(135deg,#182018,#283028,#182018);"><div class="spot-card-img-text"><span class="spot-icon">🌳</span><span class="spot-title-text">蒲洲花园 & 滨海公园</span></div></div>
-      <div class="spot-card-header"><h4>蒲洲花园 + 南沙滨海公园</h4><span class="spot-card-dist">港前大道南271号 · 距酒店3分钟</span></div>
-      <div class="spot-card-body"><p>蒲洲花园：欧式园林+东西方园林分区，参天树木、复古亭子、森系出片地。滨海公园：大角山海滨观海平台，免费公园连成一线。</p></div>
-      <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag view">园林海景</span></div>
-      <div class="spot-hours"><b>蒲洲花园：</b>7:30-17:30，免费。<b>滨海公园：</b>全天免费。<b>注意：</b>大雨天步道湿滑。</div>
-    </div>
-  </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 4. 酒店推荐 ===== -->
-<section class="section" id="hotels">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    酒店推荐
-  </h2>
-  <p class="section-desc">南沙花园酒店为本行程核心酒店——不只是睡觉，是目的地本身。</p>
-  <div class="tips-box" style="margin-bottom:1rem;">
-    <div class="tips-box-title">为什么选南沙花园酒店</div>
-    <ul>
-      <li><b>亲子度假天花板</b>：近1200㎡YOYO智趣营——波波池、迷你保龄球、钓鱼、DIY手工涂鸦、活力运动区，孩子玩到不想走。</li>
-      <li><b>三大泳池</b>：室外无边泳池+室内恒温泳池+儿童浅水区，<b>暴雨天室内泳池照游不误</b>。</li>
-      <li><b>暴雨保底</b>：8月1-2日有降雨，酒店室内设施（泳池/乐园/小火车/餐厅）全可室内完成，不受天气影响——这是选它而非其他滨海酒店的核心原因。</li>
-      <li><b>位置绝佳</b>：步行可达天后宫、滨海公园、蒲洲花园、慧谷超级堤。山海湖园全景观，365天观日出赏晚霞。</li>
-      <li><b>免费停车</b>——带充电桩，可携宠物。桃园馆中餐厅（粤菜）、花苑全日制餐厅、烤吧、咖啡吧。</li>
-      <li>约<b>¥637起</b>/晚。建议携程/同程预订。14:00入住，12:00退房。</li>
-    </ul>
-  </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 5. 行程方案 ===== -->
-<section class="section" id="plans">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    行程方案（2天1夜）
-  </h2>
-  <p class="section-desc">三方案覆盖不同天气与兴趣方向。方案A暴雨保底，方案B人文园林，方案C晴天限定。</p>
-  <div class="plan-selector">
-    <button class="plan-btn active" onclick="switchPlan('planA')">
-      <span class="plan-name">方案A · 雨中优选</span>
-      <span class="plan-desc">室内为主·暴雨无忧·酒店深度</span>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
     </button>
-    <button class="plan-btn" onclick="switchPlan('planB')">
-      <span class="plan-name">方案B · 古镇人文</span>
-      <span class="plan-desc">沙湾+宝墨园+余荫山房·小雨可行</span>
-    </button>
-    <button class="plan-btn" onclick="switchPlan('planC')">
-      <span class="plan-name">方案C · 海滨日落</span>
-      <span class="plan-desc">天后宫+超级堤日落+沙湾·晴天限定</span>
-    </button>
-  </div>
-
-  <!-- ===== PLAN A ===== -->
-  <div class="plan-content active" id="planA">
-    <div class="plan-summary">
-      <div class="day-label">DAY 1 · 8月1日 周六</div>
-      <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
-        <tr><td>08:00</td><td>08:20</td><td>君荟名轩→南越王博物院王墓展区（4km，自驾）</td><td>0.3h</td></tr>
-        <tr><td>08:20</td><td>08:45</td><td>停车盘福大厦（解放北路863号），步行至展馆</td><td>0.4h</td></tr>
-        <tr><td>09:00</td><td>12:00</td><td>古埃及展「尼罗河的赠礼」（深度3h，含VR金字塔幻象）</td><td>3h</td></tr>
-        <tr><td>12:00</td><td>13:00</td><td>午餐·越秀渔村（盘福路102号，老字号粤菜）</td><td>1h</td></tr>
-        <tr><td>13:00</td><td>14:30</td><td>出发→南沙花园酒店（65km，南沙港快速/东新高速）</td><td>1.5h</td></tr>
-        <tr><td>14:30</td><td>15:30</td><td>办理入住+休整（孩子洗澡小睡恢复体力）</td><td>1h</td></tr>
-        <tr><td>15:30</td><td>17:30</td><td>酒店亲子设施（室内恒温泳池+YOYO智趣营+小火车）</td><td>2h</td></tr>
-        <tr><td>18:00</td><td>19:30</td><td>晚餐（酒店桃园馆/花苑自助，或周边）</td><td>1.5h</td></tr>
-      </tbody></table></div>
-      <div class="day-label">DAY 2 · 8月2日 周日</div>
-      <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
-        <tr><td>09:00</td><td>12:00</td><td>酒店深度享受（早餐+泳池/智趣营/园林，慢享最后一上午）</td><td>3h</td></tr>
-        <tr><td>12:00</td><td>12:30</td><td>退房</td><td>0.5h</td></tr>
-        <tr><td>12:30</td><td>13:15</td><td>南沙→沙湾古镇（45km，东新高速，45min）</td><td>0.8h</td></tr>
-        <tr><td>13:00</td><td>14:30</td><td>沙湾古镇午餐（非遗姜撞奶+小吃+逛留耕堂/蚝壳墙）</td><td>1.5h</td></tr>
-        <tr><td>14:30</td><td>15:30</td><td>回程停余荫山房（沙湾→余荫10min，雨中园林意境）</td><td>1h</td></tr>
-        <tr><td>16:00</td><td>17:30</td><td>返程到家（君荟名轩，避开返城高峰）</td><td>1.5h</td></tr>
-      </tbody></table></div>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a href="#top">首页</a>
+      <a href="#geo">行程速览</a>
+      <a href="#culture">人文背景</a>
+      <a href="#spots">景点总览</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#plans">行程方案</a>
+      <a href="#hours">营业时间</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
     </div>
-    <div class="timeline">
-      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六 (中雷雨, 26-30℃)</div><div class="line"></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:00 — 08:45</div><div class="timeline-content"><h4>出发 + 停车 · 荔湾→越秀</h4><p>君荟名轩出发，15分钟到盘福大厦停车场（解放北路863号）。停车后步行2分钟到王墓展区。雨天带伞。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾0.3h</span><span class="timeline-tag">停车</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 12:00</div><div class="timeline-content"><h4>核心景点 · 古埃及展「尼罗河的赠礼」</h4><p>暑假开门即进，直奔VR"金字塔幻象"，再走五大主题展区。法老遇到南越王——丝缕玉衣对话木乃伊（详见<a class="in-doc-link" href="#culture-egypt">人文背景·古埃及</a>）。展馆空调冷，带薄外套。</p><div class="timeline-tags"><span class="timeline-tag museum">必看</span><span class="timeline-tag kid">3h深度</span><span class="timeline-tag">室内</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:00 — 13:00</div><div class="timeline-content"><h4>午餐 · 越秀渔村（老字号粤菜）</h4><p>步行4分钟到盘福路102号。金牌咕噜肉（孩子最爱）、越秀云英鸡、风山水起捞鸡。吃饱出发。</p><div class="timeline-tags"><span class="timeline-tag food">粤菜</span><span class="timeline-tag">人均83</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 — 14:30</div><div class="timeline-content"><h4>自驾 · 越秀→南沙（不停沙湾，直奔酒店）</h4><p>走南沙港快速，约65km。⚠️雨天降速。不去沙湾古镇——沙湾放在明天回程，今天下午<strong>全部留给酒店</strong>。</p><div class="timeline-tags"><span class="timeline-tag drive">1.5h</span><span class="timeline-tag warn">雨天降速</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:30 — 15:30</div><div class="timeline-content"><h4>入住 + 休整</h4><p>办理入住，孩子洗澡小睡30-60分钟。大人阳台看山海湖全景。</p><div class="timeline-tags"><span class="timeline-tag hotel">休整</span><span class="timeline-tag kid">小睡</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:30 — 18:30</div><div class="timeline-content"><h4>酒店亲子时光 · 3小时深度</h4><p>室内恒温泳池（暴雨照游）+ YOYO智趣营（波波池/迷你保龄球/DIY涂鸦）+ 童趣小火车绕园林。近万㎡园林雨中别有韵味。18:30桃园馆/花苑自助晚餐。</p><div class="timeline-tags"><span class="timeline-tag kid">室内3h</span><span class="timeline-tag">泳池</span><span class="timeline-tag">智趣营</span></div></div></div>
-      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日 (大雨到暴雨, 25-29℃)</div><div class="line"></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 12:00</div><div class="timeline-content"><h4>酒店慢享最后一上午 · 3小时</h4><p>睡到自然醒，自助早餐后孩子们再玩一轮智趣营/室内泳池。大人品咖啡看雨中海景。12:00退房——<strong>酒店住满20小时</strong>，每一分钱都值回票价。</p><div class="timeline-tags"><span class="timeline-tag hotel">3h慢享</span><span class="timeline-tag kid">室内</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 14:30</div><div class="timeline-content"><h4>沙湾古镇 · 800年岭南古村 + 姜撞奶午餐</h4><p>退房后45分钟到番禺沙湾。吃<b>非遗沙湾姜撞奶</b>（水牛奶+姜汁瞬间凝固），逛留耕堂（广东民间祠堂代表）、蚝壳墙、三稔厅（广东音乐发源地）。石板深巷青砖镬耳，1.5小时慢逛。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag food">姜撞奶</span><span class="timeline-tag kid">1.5h</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:30 — 15:30</div><div class="timeline-content"><h4>余荫山房 · 雨中岭南园林</h4><p>沙湾出发10分钟到番禺南村镇<b>余荫山房</b>（18元）。岭南四大名园，有廊有亭——雨打芭蕉、水漫青石是园林最美的时刻。1小时闲庭信步。</p><div class="timeline-tags"><span class="timeline-tag view">园林</span><span class="timeline-tag">雨天推荐</span><span class="timeline-tag kid">1h</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:00 — 17:30</div><div class="timeline-content"><h4>返程到家 · 君荟名轩</h4><p>余荫山房回荔湾约30km/40min。避开周日17:00后返城高峰。</p><div class="timeline-tags"><span class="timeline-tag drive">返程0.7h</span></div></div></div>
+  </nav>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">8月1-2日 · 2天1夜家庭自驾</span>
+    <h1 class="hero-title">尼罗河的<span>赠礼</span> · 南沙<span>花园</span></h1>
+    <p class="hero-subtitle">古埃及文明相遇岭南 · 滨海度假亲子两日</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>南越王博物院·王墓展区</span>
+      <span>南沙花园酒店</span>
+      <span>番禺莲花山/沙湾古镇</span>
+      <span>慧谷超级堤日落</span>
     </div>
-    <div class="tips-box" style="margin-top:1.5rem;"><div class="tips-box-title">方案A 核心亮点</div><ul>
-      <li><strong>酒店时间最长：约20小时</strong>（D1 14:30入住→D2 12:00退房）。全方案中酒店利用率最高。</li>
-      <li>沙湾古镇放在Day2回程——顺路不绕，非遗姜撞奶作为午餐刚好。</li>
-      <li><strong>暴雨保底</strong>——展馆/酒店/余荫山房全室内或有廊，不受大雨影响。</li>
-      <li>余荫山房雨中意境绝佳——雨打芭蕉是岭南园林最美的时刻。</li></ul></div>
-  </div>
+  </section>
 
-  <!-- ===== PLAN B ===== -->
-  <div class="plan-content" id="planB">
-    <div class="plan-summary">
-      <div class="day-label">DAY 1 · 8月1日 周六</div>
-      <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
-        <tr><td>08:00</td><td>08:20</td><td>君荟名轩→南越王博物院王墓展区</td><td>0.3h</td></tr>
-        <tr><td>08:20</td><td>08:45</td><td>停车盘福大厦，步行至展馆</td><td>0.4h</td></tr>
-        <tr><td>09:00</td><td>12:00</td><td>古埃及展「尼罗河的赠礼」（深度3h）</td><td>3h</td></tr>
-        <tr><td>12:00</td><td>13:00</td><td>午餐·铭少食鸡专门店（盘福路79号）</td><td>1h</td></tr>
-        <tr><td>13:00</td><td>13:40</td><td>越秀→番禺沙湾（40km，东新高速）</td><td>0.6h</td></tr>
-        <tr><td>13:45</td><td>14:45</td><td>沙湾古镇（姜撞奶+留耕堂+蚝壳墙，精华1h）</td><td>1h</td></tr>
-        <tr><td>14:45</td><td>15:45</td><td>宝墨园（回廊精华，沙湾相邻5min车程）</td><td>1h</td></tr>
-        <tr><td>15:45</td><td>16:15</td><td>宝墨园→南沙花园酒店（30km，南沙港快速）</td><td>0.5h</td></tr>
-        <tr><td>16:15</td><td>17:00</td><td>入住+休整（孩子洗澡小睡）</td><td>0.8h</td></tr>
-        <tr><td>17:00</td><td>18:30</td><td>酒店亲子设施初体验（泳池+智趣营）</td><td>1.5h</td></tr>
-        <tr><td>18:30</td><td>20:00</td><td>晚餐（酒店桃园馆/花苑自助）</td><td>1.5h</td></tr>
-      </tbody></table></div>
-      <div class="day-label">DAY 2 · 8月2日 周日</div>
-      <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
-        <tr><td>09:00</td><td>12:00</td><td>酒店深度享受（早餐+泳池/智趣营/园林，3h慢享）</td><td>3h</td></tr>
-        <tr><td>12:00</td><td>12:30</td><td>退房</td><td>0.5h</td></tr>
-        <tr><td>12:30</td><td>13:15</td><td>南沙→余荫山房（番禺南村镇，45km/45min）</td><td>0.8h</td></tr>
-        <tr><td>13:15</td><td>14:15</td><td>余荫山房（雨中园林意境，有廊有亭）</td><td>1h</td></tr>
-        <tr><td>14:30</td><td>15:00</td><td>余荫山房→君荟名轩（30km/30min）</td><td>0.5h</td></tr>
-      </tbody></table></div>
+  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="geo">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      </svg>
+      行程速览
+    </h2>
+    <p class="section-desc">荔湾出发，三站串联：市区古埃及展 → 南沙滨海度假 → 番禺人文归途。</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>路线总览</h4>
+        <p>君荟名轩（荔湾环市西路）→ 南越王博物院王墓展区（越秀解放北路，4km/15min）→ 午餐·盘福路 → 南沙花园酒店（南沙大角二路，65km/1.5h）→ 回程（南沙→荔湾，65km）</p>
+      </div>
+      <div class="info-card">
+        <h4>核心看点</h4>
+        <p>古埃及文物特展（180件/亚洲首展167件）、VR金字塔幻象、丝缕玉衣 vs 木乃伊——法老遇见南越王。南沙滨海无边泳池、YOYO智趣营、慧谷超级堤日落。</p>
+      </div>
+      <div class="info-card">
+        <h4>天气提醒</h4>
+        <p><strong style="color:var(--danger)">8月1日：中雷雨局部暴雨，26~30℃。8月2日：大雨到暴雨，25~29℃。</strong>
+          南沙区7月31日已发布暴雨黄色预警。户外景点（天后宫/沙滩/莲花山）可能受影响，优先室内行程。详见 <a class="in-doc-link" href="#weather">天气影响评估</a>。</p>
+      </div>
     </div>
-    <div class="timeline">
-      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:00 — 13:00</div><div class="timeline-content"><h4>古埃及展 + 铭少食鸡午餐</h4><p>9点首批进场，3小时看展+VR。12点步行5分钟到盘福路79号<b>铭少食鸡</b>（4.8分），招牌清远白切鸡每桌必点。13:00出发。</p><div class="timeline-tags"><span class="timeline-tag museum">展馆3h</span><span class="timeline-tag food">白切鸡</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:45 — 14:45</div><div class="timeline-content"><h4>沙湾古镇 · 800年岭南古村（精华1h）</h4><p>直奔<b>非遗沙湾姜撞奶</b>——水牛奶+姜汁瞬间凝固，滑嫩香甜。快步看留耕堂（广东民间祠堂代表）、蚝壳墙、石板深巷。1小时抓精华，给酒店留时间。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag food">姜撞奶</span><span class="timeline-tag">精华1h</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:45 — 15:45</div><div class="timeline-content"><h4>宝墨园 · 岭南山水园林（1h）</h4><p>沙湾开车5分钟到。清明上河图瓷画、锦鲤戏水。回廊众多——小雨也可逛，锦鲤密集孩子超爱喂食。</p><div class="timeline-tags"><span class="timeline-tag">54元</span><span class="timeline-tag">回廊遮雨</span><span class="timeline-tag kid">1h</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:15 — 18:30</div><div class="timeline-content"><h4>入住 + 酒店初体验</h4><p>宝墨园30分钟到酒店。入住后孩子小睡30分钟，17:00开始室内恒温泳池+智趣营。18:30桃园馆/花苑自助晚餐。</p><div class="timeline-tags"><span class="timeline-tag hotel">入住</span><span class="timeline-tag kid">泳池</span><span class="timeline-tag">智趣营</span></div></div></div>
-      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 12:00</div><div class="timeline-content"><h4>酒店深度享受 · 3小时慢享</h4><p>睡到自然醒，自助早餐后孩子们再玩一轮智趣营/室内泳池。大人品咖啡看海景。12:00退房——<strong>酒店住满约18小时</strong>，沙湾人文+酒店度假两不误。</p><div class="timeline-tags"><span class="timeline-tag hotel">3h慢享</span><span class="timeline-tag kid">室内</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 — 13:45</div><div class="timeline-content"><h4>余荫山房 · 雨中岭南园林</h4><p>退房后北上番禺南村镇（45min车程）。<b>余荫山房</b>（18元），岭南四大名园——深柳堂、玲珑水榭、浣红跨绿廊桥。有廊有亭，雨打芭蕉意境绝佳。1小时漫步后回家30分钟即到。</p><div class="timeline-tags"><span class="timeline-tag view">园林</span><span class="timeline-tag">雨天推荐</span><span class="timeline-tag kid">1h</span></div></div></div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 人文背景 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      </svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">带孩子看懂古埃及、南越王和妈祖，旅行不只是看热闹。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-egypt">
+        <div class="culture-card-head">
+          <div class="c-icon">𓂀</div>
+          <h4>古埃及文明 · 5000年前</h4>
+        </div>
+        <p>
+          <b>背景</b>：古埃及是世界四大文明古国之一，尼罗河孕育了灿烂文明。法老是国王的称呼，木乃伊是他们相信死后灵魂需要身体"回家"而做成的。猫头女神芭斯特、太阳神拉、死者之神阿努比斯……每一个神都有自己的故事。<b>本次展览</b>：180件古埃及文物中167件首次来亚洲，包括3套完整的木乃伊及棺椁、《亡灵书》残卷。还有VR大空间"金字塔幻象"带你1:1穿越吉萨高地。
+        </p>
+        <p><b>讲给孩子听</b>：① 为什么埃及人把猫当成神？因为猫抓老鼠保护粮仓！② 金字塔怎么造的？猜猜用了多少石头——最大200多万块；③ VR体验让你"走"进金字塔，比书好看一百倍；④
+          木乃伊不是怪物，是古埃及人说"再见"的方式。</p>
+      </div>
+      <div class="culture-card" id="culture-nanyue">
+        <div class="culture-card-head">
+          <div class="c-icon">🏺</div>
+          <h4>南越王墓 · 对话木乃伊</h4>
+        </div>
+        <p>
+          <b>背景</b>：1983年广州发现西汉南越国第二代国王赵眜之墓，出土文物1000多套。展览将<strong>丝缕玉衣（中国唯一完整丝缕玉衣）与木乃伊</strong>同场呈现——古埃及人用亚麻布包裹木乃伊等来世，南越先民用万片玉石缝成玉衣求不朽，两种文明对"永生"的浪漫想象在此对话。
+        </p>
+        <p><b>讲给孩子听</b>：① 什么是"丝缕玉衣"？——用上万片玉片和丝线缝制的国王衣服；② 赵眜是2000多年前的老广州国王；③ <em>找不同</em>：木乃伊用布包裹，玉衣用玉片缝合，但都是为了"永远活着"。
+        </p>
+      </div>
+      <div class="culture-card" id="culture-mazu">
+        <div class="culture-card-head">
+          <div class="c-icon">⛩️</div>
+          <h4>天后宫 · 妈祖守护大海</h4>
+        </div>
+        <p><b>背景</b>：南沙天后宫是东南亚最大的妈祖庙，建于大角山东南麓，面朝伶仃洋。妈祖原名林默，北宋年间福建渔家女，因多次海上救人被尊为海神。整个建筑群集北京故宫和南京中山陵风格，依山面海，气势恢宏。</p>
+        <p><b>讲给孩子听</b>：① 妈祖不是神像、是真人，一个特别勇敢会救人的姐姐；② 为什么海边的庙特别多？——渔民出海打鱼需要保护；③ 从山顶往下看，能望见伶仃洋！</p>
+      </div>
+      <div class="culture-card" id="culture-lianhua">
+        <div class="culture-card-head">
+          <div class="c-icon">🪷</div>
+          <h4>莲花山 · 2000年采石场</h4>
+        </div>
+        <p><b>背景</b>：莲花山古采石场始于西汉，开采了两千多年。"莲峰观海"是羊城八景之一。望海观音像是世界上最高的箔金观音立像——古人把整座山凿成观音像那么大的石块运去建城，奇迹！</p>
+        <p><b>讲给孩子听</b>：① 古人是如何不用机器从山体切方方正正的巨石的？② 面前的狮子洋大海就是"海上丝绸之路"的起点之一；③ 找找峭壁上留下的"凿痕"，像一本石头日记。</p>
+      </div>
     </div>
-    <div class="tips-box" style="margin-top:1.5rem;"><div class="tips-box-title">方案B 核心亮点</div><ul>
-      <li><strong>Day1人文串联顺路不绕</strong>——古埃及→白切鸡→沙湾古镇→宝墨园，一步不停直奔南沙。</li>
-      <li><strong>酒店约18小时</strong>——D1 16:15入住+D2 12:00退房+上午3h深度，远超前版。</li>
-      <li>宝墨园回廊+余荫山房有廊——小雨不影响，三个园林串联有廊有景。</li>
-      <li>沙湾姜撞奶必吃——水牛奶+姜汁瞬间凝固，滑嫩香甜，非遗美食。</li></ul></div>
-  </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
 
-  <!-- ===== PLAN C ===== -->
-  <div class="plan-content" id="planC">
-    <div class="plan-summary">
-      <div class="day-label">DAY 1 · 8月1日 周六</div>
-      <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
-        <tr><td>08:00</td><td>08:20</td><td>君荟名轩→南越王博物院王墓展区</td><td>0.3h</td></tr>
-        <tr><td>08:20</td><td>08:45</td><td>停车盘福大厦，步行至展馆</td><td>0.4h</td></tr>
-        <tr><td>09:00</td><td>12:00</td><td>古埃及展「尼罗河的赠礼」（深度3h）</td><td>3h</td></tr>
-        <tr><td>12:00</td><td>13:00</td><td>午餐（越秀渔村/铭少食鸡二选一）</td><td>1h</td></tr>
-        <tr><td>13:00</td><td>14:30</td><td>越秀→南沙花园酒店（65km）</td><td>1.5h</td></tr>
-        <tr><td>14:30</td><td>15:30</td><td>入住+休整（孩子小睡）</td><td>1h</td></tr>
-        <tr><td>16:00</td><td>17:30</td><td>南沙天后宫（登高望海）+ 南沙沙滩</td><td>1.5h</td></tr>
-        <tr><td>17:30</td><td>18:30</td><td>慧谷超级堤看日落（免费网红绿道）</td><td>1h</td></tr>
-        <tr><td>19:00</td><td>20:00</td><td>晚餐</td><td>1h</td></tr>
-      </tbody></table></div>
-      <div class="day-label">DAY 2 · 8月2日 周日</div>
-      <div class="table-scroll"><table class="plan-summary-table"><thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead><tbody>
-        <tr><td>09:00</td><td>11:30</td><td>酒店早餐+休闲（泳池/智趣营/园林）</td><td>2.5h</td></tr>
-        <tr><td>11:30</td><td>12:00</td><td>退房</td><td>0.5h</td></tr>
-        <tr><td>12:00</td><td>12:45</td><td>南沙→沙湾古镇（45km，东新高速，45min）</td><td>0.8h</td></tr>
-        <tr><td>12:45</td><td>14:00</td><td>沙湾古镇午餐（姜撞奶+逛留耕堂/蚝壳墙）</td><td>1.3h</td></tr>
-        <tr><td>14:00</td><td>15:00</td><td>回程停余荫山房（沙湾→余荫10min，雨中园林意境）</td><td>1h</td></tr>
-        <tr><td>15:30</td><td>17:00</td><td>返程到家（君荟名轩）</td><td>1.5h</td></tr>
-      </tbody></table></div>
+  <!-- ===== 3. 景点总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">按行程顺序排列：展馆 → 午餐 → 酒店 → 南沙周边 → 番禺回程 → 途径景点。</p>
+
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-nanyue">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#1a2030,#2a3050,#1a2030);">
+          <div class="spot-card-img-text"><span class="spot-icon">🏛️</span><span
+              class="spot-title-text">南越王博物院·王墓展区</span></div>
+        </div>
+        <div class="spot-card-header">
+          <h4>古埃及展「尼罗河的赠礼」</h4><span class="spot-card-dist">解放北路867号 · 越秀公园旁</span>
+        </div>
+        <div class="spot-card-body">
+          <p>180件古埃及文物（167件亚洲首展）+
+            26件南越王墓珍品。VR金字塔幻象、裸眼3D、AI重建。五大主题：众神国度/国王与统治/文字与交流/生活与美丽/生命的旅途。丝缕玉衣对话木乃伊，文明跨时空共振。微信搜"南越王博物院"预约购票。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">主目标</span><span
+            class="spot-tag museum">必看</span><span class="spot-tag kid">2.5-3h</span></div>
+        <div class="spot-hours"><b>开放：</b>周二至周日
+          9:00-17:30（17:00停入），周一闭馆，暑假延长至18:00。<b>门票：</b>王墓展区10元，特展需另购（早鸟59元起）。<br><b>停车：</b>博物院无停车场，停盘福大厦（解放北路863号，距120m）。详见<a
+            class="in-doc-link" href="#tip-parking">停车指引</a>。</div>
+      </div>
+
+      <div class="spot-card" id="spot-food-yuexiu">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#2a2010,#3a3020,#2a2010);">
+          <div class="spot-card-img-text"><span class="spot-icon">🥢</span><span
+              class="spot-title-text">越秀渔村·粤菜老字号</span></div>
+        </div>
+        <div class="spot-card-header">
+          <h4>午餐首选：越秀渔村</h4><span class="spot-card-dist">盘福路102号 · 步行4分钟</span>
+        </div>
+        <div class="spot-card-body">
+          <p>4.6分老字号粤菜馆，人均83元。招牌：<b>金牌咕噜肉、越秀云英鸡、风山水起捞鸡、碌鹅、金汤花胶</b>。适合家庭聚餐，上菜快。11:00-15:00 / 17:00-24:00。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">午餐A</span><span class="spot-tag">粤菜</span><span
+            class="spot-tag">人均83</span></div>
+      </div>
+
+      <div class="spot-card" id="spot-food-mingshao">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#202010,#302820,#202010);">
+          <div class="spot-card-img-text"><span class="spot-icon">🍗</span><span class="spot-title-text">铭少·食鸡专门店</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>午餐备选：铭少食鸡</h4><span class="spot-card-dist">盘福路79号倾城大厦 · 步行5分钟</span>
+        </div>
+        <div class="spot-card-body">
+          <p>4.8分，人均82元。<b>招牌清远白切鸡</b>——"每桌必点"。24年老店。盘福路食街，步行即达。10:00-22:00。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag">午餐B</span><span class="spot-tag">白切鸡</span><span
+            class="spot-tag">人均82</span></div>
+      </div>
+
+      <div class="spot-card" id="spot-hotel">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#102020,#1a3040,#102020);">
+          <div class="spot-card-img-text"><span class="spot-icon">🏊</span><span class="spot-title-text">南沙花园酒店</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>南沙花园酒店 · 五星亲子度假</h4><span class="spot-card-dist">大角二路1号 · 岭南集团</span>
+        </div>
+        <div class="spot-card-body">
+          <p>
+            <b>近1000㎡室内外无边际泳池</b>（含儿童浅水区）、<b>1200㎡YOYO智趣营</b>（波波池·迷你保龄球·DIY·涂鸦）、童趣小火车、近万㎡私家园林、山海湖园全景观。亲子主题房（帐篷/滑梯房型）。365天观日出赏晚霞。免费停车、可带宠物。
+          </p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">入住</span><span
+            class="spot-tag kid">亲子首选</span><span class="spot-tag">无边泳池</span></div>
+        <div class="spot-hours"><b>入住：</b>14:00后 |
+          <b>退房：</b>12:00前。<b>价格：</b>约¥637起/晚。含早餐·免费停车·可携宠物。桃园馆中餐厅、花苑全日制餐厅、烤吧、咖啡吧。</div>
+      </div>
+
+      <div class="spot-card" id="spot-tianhou">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#201010,#302020,#201010);">
+          <div class="spot-card-img-text"><span class="spot-icon">⛩️</span><span class="spot-title-text">南沙天后宫</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>南沙天后宫 · 4A</h4><span class="spot-card-dist">天后路88号 · 距酒店3分钟车程</span>
+        </div>
+        <div class="spot-card-body">
+          <p>东南亚最大的妈祖庙，依大角山面伶仃洋。故宫与中山陵风格融合，登高望海。带孩子了解妈祖文化（详见<a class="in-doc-link" href="#culture-mazu">人文背景·妈祖</a>）。
+          </p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag">4A景区</span><span class="spot-tag kid">登高望远</span></div>
+        <div class="spot-hours"><b>开放：</b>8:30-17:00。<b>门票：</b>成人20元，儿童/学生10元。<b>注意：</b>⚠️大雨天山路可能湿滑，带小孩注意安全。详见<a
+            class="in-doc-link" href="#weather">天气评估</a>。</div>
+      </div>
+
+      <div class="spot-card" id="spot-tide">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#1a2028,#2a3840,#1a2028);">
+          <div class="spot-card-img-text"><span class="spot-icon">🌅</span><span class="spot-title-text">慧谷超级堤</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>慧谷超级堤 · 日落观海</h4><span class="spot-card-dist">海滨路 · 免费 · 距酒店5分钟</span>
+        </div>
+        <div class="spot-card-body">
+          <p>南沙标志性网红滨海绿道，绵长碧道看"橘子海"日落。三江两岸、山水相连，傍晚海风凉爽，散步拍照极佳。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag view">日落</span></div>
+        <div class="spot-hours"><b>开放：</b>全天免费。<b>注意：</b>⚠️8月1-2日有降雨，日落可能不可见。如天气好转可安排。详见<a class="in-doc-link"
+            href="#weather">天气评估</a>。</div>
+      </div>
+
+      <div class="spot-card" id="spot-wetland">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#102010,#203020,#102010);">
+          <div class="spot-card-img-text"><span class="spot-icon">🦢</span><span
+              class="spot-title-text">南沙湿地/水鸟世界</span></div>
+        </div>
+        <div class="spot-card-header">
+          <h4>大湾区中央湿地公园 + 水鸟世界</h4><span class="spot-card-dist">万顷沙 · 距酒店30分钟车程</span>
+        </div>
+        <div class="spot-card-body">
+          <p>乘船游览红树林湿地、观万鸟齐飞。水鸟世界与湿地相邻，集水鸟繁育、科普、观赏于一体。上午凉快时段最佳。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag kid">亲子自然</span><span class="spot-tag free">游船可选</span>
+        </div>
+        <div class="spot-hours">
+          <b>湿地：</b>9:00-17:00，成人40元，游船+120元。<b>水鸟世界：</b>约8:30-17:30（以当日公告为准）。<b>注意：</b>⚠️大雨天游船可能停航，水鸟世界户外步道湿滑。详见<a
+            class="in-doc-link" href="#weather">天气评估</a>。</div>
+      </div>
+
+      <div class="spot-card" id="spot-danjia">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#1a1810,#2a2820,#1a1810);">
+          <div class="spot-card-img-text"><span class="spot-icon">🛶</span><span class="spot-title-text">疍家妹疍家菜馆</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>疍家妹疍家菜馆 · 南沙本土风味</h4><span class="spot-card-dist">万顷沙镇长堤东路1号 · 距酒店25分钟</span>
+        </div>
+        <div class="spot-card-body">
+          <p>南沙疍家菜代表，<b>"不时不鲜，不鲜不食"</b>。清蒸黄眉头、钵仔焗禾虫、疍家蒸鸡、拆鱼羹���—地道水乡人家风味。与十九涌同方向不同体验，非景区海鲜、纯粹本地味。有室内座位，雨天正常就餐。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag food">疍家菜</span><span class="spot-tag">本地名店</span><span
+            class="spot-tag">有棚</span></div>
+        <div class="spot-hours"><b>地址：</b>万顷沙镇长堤东路1号。周日午餐后直接回程，万顷沙方向上南沙港快速。人均约80-120元。<b>注意：</b>门店较小，建议提前电话确认。</div>
+      </div>
+
+      <div class="spot-card" id="spot-shawan">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#1a1810,#2a2820,#1a1810);">
+          <div class="spot-card-img-text"><span class="spot-icon">🏘️</span><span class="spot-title-text">沙湾古镇</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>沙湾古镇 · 800年岭南古村</h4><span class="spot-card-dist">番禺沙湾大巷涌路64号 · 去/回程顺路</span>
+        </div>
+        <div class="spot-card-body">
+          <p>中国历史文化名镇，青砖镬耳、蚝壳墙、石板深巷。<b>留耕堂</b>（广东民间祠堂代表）、<b>三稔厅</b>（广东音乐发源地）。非遗美食：<b>沙湾姜撞奶</b>���—水牛奶+姜汁瞬间凝固，滑嫩香甜！</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag food">姜撞奶</span><span
+            class="spot-tag">展馆30元</span></div>
+        <div class="spot-hours"><b>古镇：</b>全天开放免费。<b>展馆联票：</b>30元，8:30-17:30。<b>注意：</b>户外街巷雨天湿滑。</div>
+      </div>
+
+      <div class="spot-card" id="spot-baomo">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#101a18,#1a3028,#101a18);">
+          <div class="spot-card-img-text"><span class="spot-icon">🏯</span><span class="spot-title-text">宝墨园</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>宝墨园 · 岭南山水园林</h4><span class="spot-card-dist">番禺沙湾紫坭村 · 沙湾古镇相邻</span>
+        </div>
+        <div class="spot-card-body">
+          <p>4.7分岭南园林典范，清明上河图巨型瓷画、赵泰来藏品馆、亭台楼榭锦鲤戏水。<b>回廊多</b>——小雨可遮雨逛，雨打芭蕉意境美。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag">54元</span><span class="spot-tag">回廊遮雨</span><span
+            class="spot-tag kid">锦鲤</span></div>
+        <div class="spot-hours"><b>开放：</b>8:30-18:30。<b>门票：</b>成人54元，儿童/老人27元。<b>优点：</b>回廊系统发达，小雨不影响游览。</div>
+      </div>
+
+      <div class="spot-card" id="spot-lianhua">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#181020,#282040,#181020);">
+          <div class="spot-card-img-text"><span class="spot-icon">🏔️</span><span class="spot-title-text">番禺莲花山</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>莲花山 · 望海观音·古采石场</h4><span class="spot-card-dist">番禺石楼镇 · 回程顺路</span>
+        </div>
+        <div class="spot-card-body">
+          <p>4.7分，羊城八景"莲峰观海"。世界最高箔金观音立像、2000年古采石场遗址、明代莲花塔。登高望狮子洋，气势磅礴（详见<a class="in-doc-link"
+              href="#culture-lianhua">人文背景·莲花山</a>）。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag">51元</span><span class="spot-tag view">观海</span><span
+            class="spot-tag kid">1.5h</span></div>
+        <div class="spot-hours"><b>开放：</b>7:00-17:00。<b>门票：</b>成人51元，儿童/老人27元。<b>注意：</b>⚠️暴雨天山路封闭风险，高温日遮阳少，出发前查天气。详见<a
+            class="in-doc-link" href="#weather">天气评估</a>。</div>
+      </div>
+
+      <div class="spot-card" id="spot-yuyin">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#102018,#1a3028,#102018);">
+          <div class="spot-card-img-text"><span class="spot-icon">🏡</span><span class="spot-title-text">余荫山房</span>
+          </div>
+        </div>
+        <div class="spot-card-header">
+          <h4>余荫山房 · 岭南四大名园</h4><span class="spot-card-dist">番禺南村镇 · 回程顺路</span>
+        </div>
+        <div class="spot-card-body">
+          <p>4.7分，小巧玲珑布局精细。深柳堂、玲珑水榭、浣红跨绿廊桥。雨天意境更美——雨打芭蕉、水漫青石，是岭南园林最美的时刻。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag">18元</span><span class="spot-tag">雨天推荐</span><span
+            class="spot-tag kid">1h</span></div>
+        <div class="spot-hours"><b>开放：</b>8:00-18:00。<b>门票：</b>成人18元，儿童/学生9元。<b>雨天优势：</b>有廊有亭，雨中园林意境绝佳。</div>
+      </div>
+
+      <div class="spot-card" id="spot-puzhou">
+        <div class="spot-card-image" style="background:linear-gradient(135deg,#182018,#283028,#182018);">
+          <div class="spot-card-img-text"><span class="spot-icon">🌳</span><span class="spot-title-text">蒲洲花园 &
+              滨海公园</span></div>
+        </div>
+        <div class="spot-card-header">
+          <h4>蒲洲花园 + 南沙滨海公园</h4><span class="spot-card-dist">港前大道南271号 · 距酒店3分钟</span>
+        </div>
+        <div class="spot-card-body">
+          <p>蒲洲花园：欧式园林+东西方园林分区，参天树木、复古亭子、森系出片地。滨海公园：大角山海滨观海平台，免费公园连成一线。</p>
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag view">园林海景</span></div>
+        <div class="spot-hours"><b>蒲洲花园：</b>7:30-17:30，免费。<b>滨海公园：</b>全天免费。<b>注意：</b>大雨天步道湿滑。</div>
+      </div>
     </div>
-    <div class="timeline">
-      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:00 — 14:30</div><div class="timeline-content"><h4>古埃及展 + 午餐 + 自驾到酒店</h4><p>9点首批进场，3h看展+VR。盘福路午餐（越秀渔村/铭少食鸡二选一）。13:00出发南沙，14:30到酒店入住休整。⚠️路上不绕沙湾——沙湾放明天回程。</p><div class="timeline-tags"><span class="timeline-tag museum">3h</span><span class="timeline-tag food">午餐</span><span class="timeline-tag drive">1.5h</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:00 — 17:30</div><div class="timeline-content"><h4>南沙天后宫 + 沙滩</h4><p>下午四点后太阳不再直射，登天后宫（详见<a class="in-doc-link" href="#culture-mazu">人文背景</a>）俯瞰伶仃洋，孩子们在沙滩奔跑。⚠️仅晴好天气可行——暴雨则改室内泳池。</p><div class="timeline-tags"><span class="timeline-tag">4A</span><span class="timeline-tag kid">户外</span><span class="timeline-tag warn">看天气</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">17:30 — 18:30</div><div class="timeline-content"><h4>慧谷超级堤 · 橘子海日落</h4><p>南沙最美日落观景点，免费网红绿道。三江两岸山水相连。⚠️雨天日落不可见。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag view">日落</span></div></div></div>
-      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 — 11:30</div><div class="timeline-content"><h4>酒店慢享上午 · 2.5小时</h4><p>睡到自然醒，自助早餐后泳池+智趣营最后玩一轮。退房——<strong>酒店住满约19小时</strong>，山海湖园全景观尽享。</p><div class="timeline-tags"><span class="timeline-tag hotel">2.5h慢享</span><span class="timeline-tag kid">室内</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:00 — 14:00</div><div class="timeline-content"><h4>沙湾古镇 · 800年岭南古村 + 姜撞奶午餐</h4><p>退房后45分钟到番禺沙湾。吃<b>非遗沙湾姜撞奶</b>（水牛奶+姜汁瞬间凝固），逛留耕堂、蚝壳墙、石板深巷。1.5小时慢逛慢吃。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag food">姜撞奶</span><span class="timeline-tag kid">1.5h</span></div></div></div>
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 — 15:00</div><div class="timeline-content"><h4>余荫山房 · 雨中岭南园林</h4><p>沙湾出发10分钟到南村镇<b>余荫山房</b>（18元）。岭南四大名园，深柳堂、玲珑水榭、浣红跨绿廊桥。有廊有亭——雨打芭蕉是园林最美的时刻。</p><div class="timeline-tags"><span class="timeline-tag view">园林</span><span class="timeline-tag">雨天推荐</span></div></div></div>
-    </div>
-    <div class="tips-box" style="margin-top:1.5rem;"><div class="tips-box-title">方案C 核心亮点</div><ul>
-      <li><strong>海滨日落+古镇人文</strong>——D1天后宫望海+超级堤日落，D2沙湾古镇姜撞奶+余荫山房园林。</li>
-      <li><strong>酒店约19小时</strong>——D1 14:30入住+D2 11:30退房，全方案中酒店覆盖D1下午+D1晚上+D2上午。</li>
-      <li><strong>⚠️ D1户外段依赖天气</strong>——天后宫/沙滩/超级堤仅晴好天气可行。暴雨时段改为酒店室内（方案A同级保底）。</li>
-      <li>去掉湿地和莲花山——挤出时间给酒店和沙湾古镇，更符合"不想浪费酒店"的核心诉求。</li></ul></div>
-  </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
 
-  <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-top:2rem; margin-bottom:0.8rem; color:var(--sand);">三方案费用对比（2大1小）</h3>
-  <div class="table-scroll"><table class="budget-table"><thead><tr><th>项目</th><th>方案A（雨中优选）</th><th>方案B（古镇人文）</th><th>方案C（海滨全景）</th></tr></thead><tbody>
-    <tr><td>高速通行费（往返）</td><td>约80元</td><td>约90元</td><td>约80元</td></tr>
-    <tr><td>油费（约160km）</td><td>约90元</td><td>约110元</td><td>约100元</td></tr>
-    <tr><td>酒店住宿（1晚·含早）</td><td>约640-800元</td><td>约640-800元</td><td>约640-800元</td></tr>
-    <tr><td>古埃及特展（2大1小）</td><td>约150元</td><td>约150元</td><td>约150元</td></tr>
-    <tr><td>王墓展区基本陈列</td><td>20元</td><td>20元</td><td>20元</td></tr>
-    <tr><td>越秀渔村/铭少食鸡午餐</td><td>约160元</td><td>约160元</td><td>约160元</td></tr>
-    <tr><td>沙湾古镇（姜撞奶午餐/小吃）</td><td>约80元</td><td>约80元</td><td>约80元</td></tr>
-    <tr><td>宝墨园（2大1小）</td><td>—</td><td>约108元</td><td>—</td></tr>
-    <tr><td>余荫山房（2大1小）</td><td>约36元</td><td>约36元</td><td>约36元</td></tr>
-    <tr><td>南沙天后宫（2大1小）</td><td>—</td><td>—</td><td>约40元</td></tr>
-    <tr><td>停车费</td><td>约50元</td><td>约50元</td><td>约50元</td></tr>
-    <tr><td>酒店/其他餐饮（晚餐等）</td><td>约400元</td><td>约400元</td><td>约400元</td></tr>
-    <tr class="total"><td>合计（2大1小）</td><td>约1,630-1,790元</td><td>约1,650-1,810元</td><td>约1,720-1,890元</td></tr>
-  </tbody></table></div>
-  <p class="budget-note">以上为估算，实际以当日为准。酒店取南沙花园酒店（¥640起/晚）。沙湾古镇主区免费（仅展馆联票可选30元/人，上表未含）。余荫山房成人18元儿童9元。油费按0.6元/km计。方案C天后宫为户外，暴雨天取消可再省40元。</p>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 6. 营业时间 & 行程复核 ===== -->
-<section class="section" id="hours">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    营业时间 & 行程复核
-  </h2>
-  <p class="section-desc">以下时间经携程、同程、官方渠道交叉核实。出行前请以官方公告为准。</p>
-  <div class="table-scroll"><table class="plan-summary-table hours-table"><thead><tr><th>景点/场馆</th><th>营业/开放时间</th><th>门票参考</th><th>备注</th></tr></thead><tbody>
-    <tr><td>南越王博物院·王墓展区</td><td>9:00-17:30（17:00停入）</td><td>基本10元，特展另购</td><td>周一闭馆；暑假延长至18:00</td></tr>
-    <tr><td>古埃及特展「尼罗河的赠礼」</td><td>与王墓展区同步</td><td>早鸟59元起</td><td>公众号预约；周末建议提前</td></tr>
-    <tr><td>南沙花园酒店</td><td>入住14:00 / 退房12:00</td><td>约¥640起/晚</td><td>免费停车·泳池·智趣营·宠物</td></tr>
-    <tr><td>南沙天后宫</td><td>8:30-17:00</td><td>成人20元 儿童10元</td><td>4A景区；大雨山路湿滑</td></tr>
-    <tr><td>蒲洲花园</td><td>7:30-17:30</td><td>免费</td><td>距酒店3分钟车程</td></tr>
-    <tr><td>慧谷超级堤</td><td>全天</td><td>免费</td><td>网红绿道·橘子海日落</td></tr>
-    <tr><td>大湾区中央湿地公园</td><td>9:00-17:00</td><td>成人40元+游船120</td><td>周一不闭，游船雨天可能停航</td></tr>
-    <tr><td>水鸟世界生态园</td><td>约8:30-17:30</td><td>约80元（以当日��准）</td><td>与湿地相邻</td></tr>
-    <tr><td>疍家妹疍家菜馆</td><td>约10:00-21:00（建议提前电话确认）</td><td>人均80-120元</td><td>万顷沙镇·本地名店·需确认</td></tr>
-    <tr><td>沙湾古镇</td><td>全天（展馆8:30-17:30）</td><td>古镇免费·展馆联票30</td><td>展馆周一不闭（未确认）</td></tr>
-    <tr><td>宝墨园</td><td>8:30-18:30</td><td>成人54元 儿童27元</td><td>回廊多·小雨不影响</td></tr>
-    <tr><td>番禺莲花山</td><td>7:00-17:00</td><td>成人51元 儿童27元</td><td>4A·暴雨天封山风险</td></tr>
-    <tr><td>余荫山房</td><td>8:00-18:00</td><td>成人18元 儿童9元</td><td>岭南四大名园·雨天推荐</td></tr>
-    <tr><td>海鸥岛</td><td>全天</td><td>免费</td><td>环岛骑行/赶海·回程可选</td></tr>
-  </tbody></table></div>
-  <div class="tips-box">
-    <div class="tips-box-title">行程复核结论</div>
-    <ul>
-      <li>三方案均<b>已对齐真实开放时间</b>。展馆9:00开门即进场。天后宫8:30/莲花山7:00开放时间正确。</li>
-      <li><b>周一闭馆</b>（王墓展区），本次周六出发，不受影响。</li>
-      <li><b>8月1-2日暴雨预警</b>——方案C（天后宫/沙滩/超级堤为户外）的D1户外段为晴天限定，雨水天气下<strong>建议选择方案A或B</strong>。</li>
-      <li>方案B宝墨园+沙湾古镇为下午顺路游，回廊多小雨可行。</li>
-      <li>方案A的余荫山房在Day2（8月2日）——该日预报大雨，但有廊有亭雨中园林意境最佳。</li>
-      <li>疍家妹疍家菜馆有室内座位，雨天正常就餐，不受影响。</li>
-    </ul>
-  </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 7. 天气影响评估 ===== -->
-<section class="section" id="weather">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-    天气影响评估 · 暴雨预警
-  </h2>
-  <p class="section-desc">⚠️ 中央气象台+广东天气7月31日预报：8月1-2日广东中南部（含广州荔湾、南沙）有大雨到暴雨，局部大暴雨。南沙区7月31日已发布暴雨黄色预警。以下为逐段风险评估与调整建议。</p>
-
-  <div class="table-scroll"><table class="plan-summary-table hours-table" style="min-width:600px;"><thead><tr><th>时段</th><th>活动</th><th>地点</th><th>风险</th><th>调整建议</th></tr></thead><tbody>
-    <tr><td>D1 09:00-12:00</td><td>古埃及展</td><td>王墓展区（室内）</td><td><span style="color:var(--success)">🟢 低</span></td><td>纯室内，不受雨影响。带伞步行。</td></tr>
-    <tr><td>D1 12:00-13:00</td><td>午餐</td><td>盘福路（室内）</td><td><span style="color:var(--success)">🟢 低</span></td><td>室内餐厅。短距离步行带伞。</td></tr>
-    <tr><td>D1 13:00-14:30</td><td>自驾越秀→南沙</td><td>南沙港快速</td><td><span style="color:var(--warn)">🟡 注意</span></td><td>雨天高速降速、控距、亮尾。</td></tr>
-    <tr><td>D1 14:30-17:30</td><td>酒店休闲</td><td>酒店室内</td><td><span style="color:var(--success)">🟢 低</span></td><td>室内泳池+智趣营+小火车，全室内。</td></tr>
-    <tr><td>D1 16:00-18:30</td><td>天后宫+沙滩+超级堤</td><td>户外</td><td><span style="color:var(--danger)">🔴 高</span></td><td>仅方案C有。暴雨天取消户外段。</td></tr>
-    <tr><td>D2 09:00-11:30</td><td>酒店休闲+退房</td><td>室内</td><td><span style="color:var(--success)">🟢 低</span></td><td>方案A/B/C首选，全室内。</td></tr>
-    <tr><td>D2 12:45-14:00</td><td>沙湾古镇午餐</td><td>户外街巷</td><td><span style="color:var(--warn)">🟡 注意</span></td><td>有部分骑楼遮檐。若雨量大则小吃打包。</td></tr>
-    <tr><td>D2 14:00-15:00</td><td>余荫山房</td><td>园林（有廊）</td><td><span style="color:var(--warn)">🟡 注意</span></td><td>有廊有亭，雨中可行。若雨量极大则跳过。</td></tr>
-    <tr><td>D2 15:30-17:00</td><td>返程高速</td><td>南沙港快速</td><td><span style="color:var(--warn)">🟡 注意</span></td><td>周日大雨返程，避开17:00后高峰。</td></tr>
-  </tbody></table></div>
-
-  <div class="info-grid" style="margin-top:1rem;">
-    <div class="info-card">
-      <h4>核心取舍</h4>
-      <p>🔴 标记段在暴雨预警期间<b>须取消</b>：天后宫、沙滩、慧谷超级堤（均为户外且依赖好天气，仅方案C涉及）。<br>🟢 标记段可照常进行：展馆（室内）、酒店（室内）、余荫山房（有廊）。<br>🟡 沙湾古镇有骑楼遮檐，小雨可行。<br><br><strong>建议</strong>：首选<strong>方案A</strong>（全🟢/🟡，酒店最长20h），方案B（沙湾+宝墨园人文线）次选。方案C仅晴天/小雨天可选，暴雨时改方案A。</p>
-    </div>
-    <div class="info-card">
-      <h4>出发当日必查</h4>
-      <p>出发前查<strong>中央气象台</strong>（nmc.cn）或<strong>广州天气</strong>公众号暴雨/台风预警。<br>关注<strong>南沙区气象台</strong>（tqyb.com.cn/nansha）地质灾害风险与水上活动提醒。<br>高速注意：雨天<b>降速、控距、亮尾</b>。<br>⚠️ 若预警升至红色（暴雨红/台风黄橙红），建议<b>改期或仅游展馆+酒店</b>，取消户外段。</p>
-    </div>
-  </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
-
-<!-- ===== 8. 实用贴士 ===== -->
-<section class="section" id="tips">
-  <h2 class="section-title">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-    实用贴士
-  </h2>
-  <div class="culture-grid">
-    <div class="culture-card" id="tip-parking">
-      <div class="culture-card-head"><div class="c-icon">🚗</div><h4>停车指引</h4></div>
+  <!-- ===== 4. 酒店推荐 ===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+      酒店推荐
+    </h2>
+    <p class="section-desc">南沙花园酒店为本行程核心酒店——不只是睡觉，是目的地本身。</p>
+    <div class="tips-box" style="margin-bottom:1rem;">
+      <div class="tips-box-title">为什么选南沙花园酒店</div>
       <ul>
-        <li><b>王墓展区无官方停车场</b>。停<strong>盘福大厦停车场</strong>（解放北路863号，距展馆约120m，步行2分钟）。</li>
-        <li>盘福大厦收费约为周边最低（比以太广场16元/时便宜），建议早到。</li>
-        <li>备选：越天大厦停车场（解放北路960号，距150m）、中国大酒店（距275m）。</li>
-        <li>南沙花园酒店免费停车（带充电桩）。</li>
+        <li><b>亲子度假天花板</b>：近1200㎡YOYO智趣营——波波池、迷你保龄球、钓鱼、DIY手工涂鸦、活力运动区，孩子玩到不想走。</li>
+        <li><b>三大泳池</b>：室外无边泳池+室内恒温泳池+儿童浅水区，<b>暴雨天室内泳池照游不误</b>。</li>
+        <li><b>暴雨保底</b>：8月1-2日有降雨，酒店室内设施（泳池/乐园/小火车/餐厅）全可室内完成，不受天气影响——这是选它而非其他滨海酒店的核心原因。</li>
+        <li><b>位置绝佳</b>：步行可达天后宫、滨海公园、蒲洲花园、慧谷超级堤。山海湖园全景观，365天观日出赏晚霞。</li>
+        <li><b>免费停车</b>——带充电桩，可携宠物。桃园馆中餐厅（粤菜）、花苑全日制餐厅、烤吧、咖啡吧。</li>
+        <li>约<b>¥637起</b>/晚。建议携程/同程预订。14:00入住，12:00退房。</li>
       </ul>
     </div>
-    <div class="culture-card" id="tip-ticket">
-      <div class="culture-card-head"><div class="c-icon">🎫</div><h4>门票预约</h4></div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 行程方案 ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+      行程方案（2天1夜）
+    </h2>
+    <p class="section-desc">三方案覆盖不同天气与兴趣方向。方案A暴雨保底，方案B人文园林，方案C晴天限定。</p>
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案A · 雨中优选</span>
+        <span class="plan-desc">室内为主·暴雨无忧·酒店深度</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案B · 古镇人文</span>
+        <span class="plan-desc">沙湾+宝墨园+余荫山房·小雨可行</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planC')">
+        <span class="plan-name">方案C · 海滨日落</span>
+        <span class="plan-desc">天后宫+超级堤日落+沙湾·晴天限定</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planD')">
+        <span class="plan-name">方案D · 实况游记</span>
+        <span class="plan-desc">古埃及展→越秀渔村→酒店→天后宫</span>
+        <span class="stamp" style="display:flex">已完成</span>
+      </button>
+    </div>
+
+    <!-- ===== PLAN A ===== -->
+    <div class="plan-content active" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 8月1日 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>08:00</td>
+                <td>08:20</td>
+                <td>君荟名轩→南越王博物院王墓展区（4km，自驾）</td>
+                <td>0.3h</td>
+              </tr>
+              <tr>
+                <td>08:20</td>
+                <td>08:45</td>
+                <td>停车盘福大厦（解放北路863号），步行至展馆</td>
+                <td>0.4h</td>
+              </tr>
+              <tr>
+                <td>09:00</td>
+                <td>12:00</td>
+                <td>古埃及展「尼罗河的赠礼」（深度3h，含VR金字塔幻象）</td>
+                <td>3h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>13:00</td>
+                <td>午餐·越秀渔村（盘福路102号，老字号粤菜）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td>14:30</td>
+                <td>出发→南沙花园酒店（65km，南沙港快速/东新高速）</td>
+                <td>1.5h</td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td>15:30</td>
+                <td>办理入住+休整（孩子洗澡小睡恢复体力）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>15:30</td>
+                <td>17:30</td>
+                <td>酒店亲子设施（室内恒温泳池+YOYO智趣营+小火车）</td>
+                <td>2h</td>
+              </tr>
+              <tr>
+                <td>18:00</td>
+                <td>19:30</td>
+                <td>晚餐（酒店桃园馆/花苑自助，或周边）</td>
+                <td>1.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 8月2日 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>09:00</td>
+                <td>12:00</td>
+                <td>酒店深度享受（早餐+泳池/智趣营/园林，慢享最后一上午）</td>
+                <td>3h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>12:30</td>
+                <td>退房</td>
+                <td>0.5h</td>
+              </tr>
+              <tr>
+                <td>12:30</td>
+                <td>13:15</td>
+                <td>南沙→沙湾古镇（45km，东新高速，45min）</td>
+                <td>0.8h</td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td>14:30</td>
+                <td>沙湾古镇午餐（非遗姜撞奶+小吃+逛留耕堂/蚝壳墙）</td>
+                <td>1.5h</td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td>15:30</td>
+                <td>回程停余荫山房（沙湾→余荫10min，雨中园林意境）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>16:00</td>
+                <td>17:30</td>
+                <td>返程到家（君荟名轩，避开返城高峰）</td>
+                <td>1.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider">
+          <div class="line"></div>
+          <div class="day-badge">DAY 1 · 周六 (中雷雨, 26-30℃)</div>
+          <div class="line"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:00 — 08:45</div>
+          <div class="timeline-content">
+            <h4>出发 + 停车 · 荔湾→越秀</h4>
+            <p>君荟名轩出发，15分钟到盘福大厦停车场（解放北路863号）。停车后步行2分钟到王墓展区。雨天带伞。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾0.3h</span><span
+                class="timeline-tag">停车</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 — 12:00</div>
+          <div class="timeline-content">
+            <h4>核心景点 · 古埃及展「尼罗河的赠礼」</h4>
+            <p>暑假开门即进，直奔VR"金字塔幻象"，再走五大主题展区。法老遇到南越王——丝缕玉衣对话木乃伊（详见<a class="in-doc-link"
+                href="#culture-egypt">人文背景·古埃及</a>）。展馆空调冷，带薄外套。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">必看</span><span
+                class="timeline-tag kid">3h深度</span><span class="timeline-tag">室内</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:00 — 13:00</div>
+          <div class="timeline-content">
+            <h4>午餐 · 越秀渔村（老字号粤菜）</h4>
+            <p>步行4分钟到盘福路102号。金牌咕噜肉（孩子最爱）、越秀云英鸡、风山水起捞鸡。吃饱出发。</p>
+            <div class="timeline-tags"><span class="timeline-tag food">粤菜</span><span class="timeline-tag">人均83</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:00 — 14:30</div>
+          <div class="timeline-content">
+            <h4>自驾 · 越秀→南沙（不停沙湾，直奔酒店）</h4>
+            <p>走南沙港快速，约65km。⚠️雨天降速。不去沙湾古镇——沙湾放在明天回程，今天下午<strong>全部留给酒店</strong>。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">1.5h</span><span
+                class="timeline-tag warn">雨天降速</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:30 — 15:30</div>
+          <div class="timeline-content">
+            <h4>入住 + 休整</h4>
+            <p>办理入住，孩子洗澡小睡30-60分钟。大人阳台看山海湖全景。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">休整</span><span
+                class="timeline-tag kid">小睡</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:30 — 18:30</div>
+          <div class="timeline-content">
+            <h4>酒店亲子时光 · 3小时深度</h4>
+            <p>室内恒温泳池（暴雨照游）+ YOYO智趣营（波波池/迷你保龄球/DIY涂鸦）+ 童趣小火车绕园林。近万㎡园林雨中别有韵味。18:30桃园馆/花苑自助晚餐。</p>
+            <div class="timeline-tags"><span class="timeline-tag kid">室内3h</span><span
+                class="timeline-tag">泳池</span><span class="timeline-tag">智趣营</span></div>
+          </div>
+        </div>
+        <div class="day-divider">
+          <div class="line"></div>
+          <div class="day-badge">DAY 2 · 周日 (大雨到暴雨, 25-29℃)</div>
+          <div class="line"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 — 12:00</div>
+          <div class="timeline-content">
+            <h4>酒店慢享最后一上午 · 3小时</h4>
+            <p>睡到自然醒，自助早餐后孩子们再玩一轮智趣营/室内泳池。大人品咖啡看雨中海景。12:00退房——<strong>酒店住满20小时</strong>，每一分钱都值回票价。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">3h慢享</span><span
+                class="timeline-tag kid">室内</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:30 — 14:30</div>
+          <div class="timeline-content">
+            <h4>沙湾古镇 · 800年岭南古村 + 姜撞奶午餐</h4>
+            <p>退房后45分钟到番禺沙湾。吃<b>非遗沙湾姜撞奶</b>（水牛奶+姜汁瞬间凝固），逛留耕堂（广东民间祠堂代表）、蚝壳墙、三稔厅（广东音乐发源地）。石板深巷青砖镬耳，1.5小时慢逛。</p>
+            <div class="timeline-tags"><span class="timeline-tag free">免费</span><span
+                class="timeline-tag food">姜撞奶</span><span class="timeline-tag kid">1.5h</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:30 — 15:30</div>
+          <div class="timeline-content">
+            <h4>余荫山房 · 雨中岭南园林</h4>
+            <p>沙湾出发10分钟到番禺南村镇<b>余荫山房</b>（18元）。岭南四大名园，有廊有亭——雨打芭蕉、水漫青石是园林最美的时刻。1小时闲庭信步。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">园林</span><span
+                class="timeline-tag">雨天推荐</span><span class="timeline-tag kid">1h</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">16:00 — 17:30</div>
+          <div class="timeline-content">
+            <h4>返程到家 · 君荟名轩</h4>
+            <p>余荫山房回荔湾约30km/40min。避开周日17:00后返城高峰。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">返程0.7h</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem;">
+        <div class="tips-box-title">方案A 核心亮点</div>
+        <ul>
+          <li><strong>酒店时间最长：约20小时</strong>（D1 14:30入住→D2 12:00退房）。全方案中酒店利用率最高。</li>
+          <li>沙湾古镇放在Day2回程——顺路不绕，非遗姜撞奶作为午餐刚好。</li>
+          <li><strong>暴雨保底</strong>——展馆/酒店/余荫山房全室内或有廊，不受大雨影响。</li>
+          <li>余荫山房雨中意境绝佳——雨打芭蕉是岭南园林最美的时刻。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== PLAN B ===== -->
+    <div class="plan-content" id="planB">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 8月1日 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>08:00</td>
+                <td>08:20</td>
+                <td>君荟名轩→南越王博物院王墓展区</td>
+                <td>0.3h</td>
+              </tr>
+              <tr>
+                <td>08:20</td>
+                <td>08:45</td>
+                <td>停车盘福大厦，步行至展馆</td>
+                <td>0.4h</td>
+              </tr>
+              <tr>
+                <td>09:00</td>
+                <td>12:00</td>
+                <td>古埃及展「尼罗河的赠礼」（深度3h）</td>
+                <td>3h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>13:00</td>
+                <td>午餐·铭少食鸡专门店（盘福路79号）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td>13:40</td>
+                <td>越秀→番禺沙湾（40km，东新高速）</td>
+                <td>0.6h</td>
+              </tr>
+              <tr>
+                <td>13:45</td>
+                <td>14:45</td>
+                <td>沙湾古镇（姜撞奶+留耕堂+蚝壳墙，精华1h）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>14:45</td>
+                <td>15:45</td>
+                <td>宝墨园（回廊精华，沙湾相邻5min车程）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>15:45</td>
+                <td>16:15</td>
+                <td>宝墨园→南沙花园酒店（30km，南沙港快速）</td>
+                <td>0.5h</td>
+              </tr>
+              <tr>
+                <td>16:15</td>
+                <td>17:00</td>
+                <td>入住+休整（孩子洗澡小睡）</td>
+                <td>0.8h</td>
+              </tr>
+              <tr>
+                <td>17:00</td>
+                <td>18:30</td>
+                <td>酒店亲子设施初体验（泳池+智趣营）</td>
+                <td>1.5h</td>
+              </tr>
+              <tr>
+                <td>18:30</td>
+                <td>20:00</td>
+                <td>晚餐（酒店桃园馆/花苑自助）</td>
+                <td>1.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 8月2日 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>09:00</td>
+                <td>12:00</td>
+                <td>酒店深度享受（早餐+泳池/智趣营/园林，3h慢享）</td>
+                <td>3h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>12:30</td>
+                <td>退房</td>
+                <td>0.5h</td>
+              </tr>
+              <tr>
+                <td>12:30</td>
+                <td>13:15</td>
+                <td>南沙→余荫山房（番禺南村镇，45km/45min）</td>
+                <td>0.8h</td>
+              </tr>
+              <tr>
+                <td>13:15</td>
+                <td>14:15</td>
+                <td>余荫山房（雨中园林意境，有廊有亭）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td>15:00</td>
+                <td>余荫山房→君荟名轩（30km/30min）</td>
+                <td>0.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider">
+          <div class="line"></div>
+          <div class="day-badge">DAY 1 · 周六</div>
+          <div class="line"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:00 — 13:00</div>
+          <div class="timeline-content">
+            <h4>古埃及展 + 铭少食鸡午餐</h4>
+            <p>9点首批进场，3小时看展+VR。12点步行5分钟到盘福路79号<b>铭少食鸡</b>（4.8分），招牌清远白切鸡每桌必点。13:00出发。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">展馆3h</span><span
+                class="timeline-tag food">白切鸡</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:45 — 14:45</div>
+          <div class="timeline-content">
+            <h4>沙湾古镇 · 800年岭南古村（精华1h）</h4>
+            <p>直奔<b>非遗沙湾姜撞奶</b>——水牛奶+姜汁瞬间凝固，滑嫩香甜。快步看留耕堂（广东民间祠堂代表）、蚝壳墙、石板深巷。1小时抓精华，给酒店留时间。</p>
+            <div class="timeline-tags"><span class="timeline-tag free">免费</span><span
+                class="timeline-tag food">姜撞奶</span><span class="timeline-tag">精华1h</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:45 — 15:45</div>
+          <div class="timeline-content">
+            <h4>宝墨园 · 岭南山水园林（1h）</h4>
+            <p>沙湾开车5分钟到。清明上河图瓷画、锦鲤戏水。回廊众多——小雨也可逛，锦鲤密集孩子超爱喂食。</p>
+            <div class="timeline-tags"><span class="timeline-tag">54元</span><span class="timeline-tag">回廊遮雨</span><span
+                class="timeline-tag kid">1h</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">16:15 — 18:30</div>
+          <div class="timeline-content">
+            <h4>入住 + 酒店初体验</h4>
+            <p>宝墨园30分钟到酒店。入住后孩子小睡30分钟，17:00开始室内恒温泳池+智趣营。18:30桃园馆/花苑自助晚餐。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">入住</span><span
+                class="timeline-tag kid">泳池</span><span class="timeline-tag">智趣营</span></div>
+          </div>
+        </div>
+        <div class="day-divider">
+          <div class="line"></div>
+          <div class="day-badge">DAY 2 · 周日</div>
+          <div class="line"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 — 12:00</div>
+          <div class="timeline-content">
+            <h4>酒店深度享受 · 3小时慢享</h4>
+            <p>睡到自然醒，自助早餐后孩子们再玩一轮智趣营/室内泳池。大人品咖啡看海景。12:00退房——<strong>酒店住满约18小时</strong>，沙湾人文+酒店度假两不误。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">3h慢享</span><span
+                class="timeline-tag kid">室内</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:30 — 13:45</div>
+          <div class="timeline-content">
+            <h4>余荫山房 · 雨中岭南园林</h4>
+            <p>退房后北上番禺南村镇（45min车程）。<b>余荫山房</b>（18元），岭南四大名园——深柳堂、玲珑水榭、浣红跨绿廊桥。有廊有亭，雨打芭蕉意境绝佳。1小时漫步后回家30分钟即到。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">园林</span><span
+                class="timeline-tag">雨天推荐</span><span class="timeline-tag kid">1h</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem;">
+        <div class="tips-box-title">方案B 核心亮点</div>
+        <ul>
+          <li><strong>Day1人文串联顺路不绕</strong>——古埃及→白切鸡→沙湾古镇→宝墨园，一步不停直奔南沙。</li>
+          <li><strong>酒店约18小时</strong>——D1 16:15入住+D2 12:00退房+上午3h深度，远超前版。</li>
+          <li>宝墨园回廊+余荫山房有廊——小雨不影响，三个园林串联有廊有景。</li>
+          <li>沙湾姜撞奶必吃——水牛奶+姜汁瞬间凝固，滑嫩香甜，非遗美食。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== PLAN C ===== -->
+    <div class="plan-content" id="planC">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 8月1日 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>08:00</td>
+                <td>08:20</td>
+                <td>君荟名轩→南越王博物院王墓展区</td>
+                <td>0.3h</td>
+              </tr>
+              <tr>
+                <td>08:20</td>
+                <td>08:45</td>
+                <td>停车盘福大厦，步行至展馆</td>
+                <td>0.4h</td>
+              </tr>
+              <tr>
+                <td>09:00</td>
+                <td>12:00</td>
+                <td>古埃及展「尼罗河的赠礼」（深度3h）</td>
+                <td>3h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>13:00</td>
+                <td>午餐（越秀渔村/铭少食鸡二选一）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td>14:30</td>
+                <td>越秀→南沙花园酒店（65km）</td>
+                <td>1.5h</td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td>15:30</td>
+                <td>入住+休整（孩子小睡）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>16:00</td>
+                <td>17:30</td>
+                <td>南沙天后宫（登高望海）+ 南沙沙滩</td>
+                <td>1.5h</td>
+              </tr>
+              <tr>
+                <td>17:30</td>
+                <td>18:30</td>
+                <td>慧谷超级堤看日落（免费网红绿道）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>19:00</td>
+                <td>20:00</td>
+                <td>晚餐</td>
+                <td>1h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 8月2日 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>09:00</td>
+                <td>11:30</td>
+                <td>酒店早餐+休闲（泳池/智趣营/园林）</td>
+                <td>2.5h</td>
+              </tr>
+              <tr>
+                <td>11:30</td>
+                <td>12:00</td>
+                <td>退房</td>
+                <td>0.5h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>12:45</td>
+                <td>南沙→沙湾古镇（45km，东新高速，45min）</td>
+                <td>0.8h</td>
+              </tr>
+              <tr>
+                <td>12:45</td>
+                <td>14:00</td>
+                <td>沙湾古镇午餐（姜撞奶+逛留耕堂/蚝壳墙）</td>
+                <td>1.3h</td>
+              </tr>
+              <tr>
+                <td>14:00</td>
+                <td>15:00</td>
+                <td>回程停余荫山房（沙湾→余荫10min，雨中园林意境）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>15:30</td>
+                <td>17:00</td>
+                <td>返程到家（君荟名轩）</td>
+                <td>1.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider">
+          <div class="line"></div>
+          <div class="day-badge">DAY 1 · 周六</div>
+          <div class="line"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:00 — 14:30</div>
+          <div class="timeline-content">
+            <h4>古埃及展 + 午餐 + 自驾到酒店</h4>
+            <p>9点首批进场，3h看展+VR。盘福路午餐（越秀渔村/铭少食鸡二选一）。13:00出发南沙，14:30到酒店入住休整。⚠️路上不绕沙湾——沙湾放明天回程。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">3h</span><span
+                class="timeline-tag food">午餐</span><span class="timeline-tag drive">1.5h</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">16:00 — 17:30</div>
+          <div class="timeline-content">
+            <h4>南沙天后宫 + 沙滩</h4>
+            <p>下午四点后太阳不再直射，登天后宫（详见<a class="in-doc-link"
+                href="#culture-mazu">人文背景</a>）俯瞰伶仃洋，孩子们在沙滩奔跑。⚠️仅晴好天气可行——暴雨则改室内泳池。</p>
+            <div class="timeline-tags"><span class="timeline-tag">4A</span><span class="timeline-tag kid">户外</span><span
+                class="timeline-tag warn">看天气</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">17:30 — 18:30</div>
+          <div class="timeline-content">
+            <h4>慧谷超级堤 · 橘子海日落</h4>
+            <p>南沙最美日落观景点，免费网红绿道。三江两岸山水相连。⚠️雨天日落不可见。</p>
+            <div class="timeline-tags"><span class="timeline-tag free">免费</span><span
+                class="timeline-tag view">日落</span></div>
+          </div>
+        </div>
+        <div class="day-divider">
+          <div class="line"></div>
+          <div class="day-badge">DAY 2 · 周日</div>
+          <div class="line"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 — 11:30</div>
+          <div class="timeline-content">
+            <h4>酒店慢享上午 · 2.5小时</h4>
+            <p>睡到自然醒，自助早餐后泳池+智趣营最后玩一轮。退房——<strong>酒店住满约19小时</strong>，山海湖园全景观尽享。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">2.5h慢享</span><span
+                class="timeline-tag kid">室内</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:00 — 14:00</div>
+          <div class="timeline-content">
+            <h4>沙湾古镇 · 800年岭南古村 + 姜撞奶午餐</h4>
+            <p>退房后45分钟到番禺沙湾。吃<b>非遗沙湾姜撞奶</b>（水牛奶+姜汁瞬间凝固），逛留耕堂、蚝壳墙、石板深巷。1.5小时慢逛慢吃。</p>
+            <div class="timeline-tags"><span class="timeline-tag free">免费</span><span
+                class="timeline-tag food">姜撞奶</span><span class="timeline-tag kid">1.5h</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:00 — 15:00</div>
+          <div class="timeline-content">
+            <h4>余荫山房 · 雨中岭南园林</h4>
+            <p>沙湾出发10分钟到南村镇<b>余荫山房</b>（18元）。岭南四大名园，深柳堂、玲珑水榭、浣红跨绿廊桥。有廊有亭——雨打芭蕉是园林最美的时刻。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">园林</span><span class="timeline-tag">雨天推荐</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem;">
+        <div class="tips-box-title">方案C 核心亮点</div>
+        <ul>
+          <li><strong>海滨日落+古镇人文</strong>——D1天后宫望海+超级堤日落，D2沙湾古镇姜撞奶+余荫山房园林。</li>
+          <li><strong>酒店约19小时</strong>——D1 14:30入住+D2 11:30退房，全方案中酒店覆盖D1下午+D1晚上+D2上午。</li>
+          <li><strong>⚠️ D1户外段依赖天气</strong>——天后宫/沙滩/超级堤仅晴好天气可行。暴雨时段改为酒店室内（方案A同级保底）。</li>
+          <li>去掉湿地和莲花山——挤出时间给酒店和沙湾古镇，更符合"不想浪费酒店"的核心诉求。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== PLAN D · 实际出行方案 ===== -->
+    <div class="plan-content" id="planD">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 8月1日 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>08:00</td>
+                <td>08:20</td>
+                <td>君荟名轩→南越王博物院王墓展区，停车盘福大厦</td>
+                <td>0.3h</td>
+              </tr>
+              <tr>
+                <td>09:00</td>
+                <td>12:00</td>
+                <td>古埃及展「尼罗河的赠礼」（深度3h）</td>
+                <td>3h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>13:00</td>
+                <td>午餐·越秀渔村（盘福路102号，老字号粤菜）</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td>14:30</td>
+                <td>越秀→南沙花园酒店（65km，雨中高速）</td>
+                <td>1.5h</td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td>15:00</td>
+                <td>入住（换房：6楼有异味→8楼，等20分钟）</td>
+                <td>0.5h</td>
+              </tr>
+              <tr>
+                <td>15:00</td>
+                <td>17:30</td>
+                <td>爸+哥游泳 / 妈+弟 YOYO智趣营儿童乐园</td>
+                <td>2.5h</td>
+              </tr>
+              <tr>
+                <td>18:00</td>
+                <td>19:30</td>
+                <td>晚餐·酒店花苑自助餐</td>
+                <td>1.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 8月2日 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead>
+              <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>目的地或项目</th>
+                <th>耗时</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>09:00</td>
+                <td>11:00</td>
+                <td>酒店早餐+休闲（桌球/酒店散步）</td>
+                <td>2h</td>
+              </tr>
+              <tr>
+                <td>11:00</td>
+                <td>11:30</td>
+                <td>退房</td>
+                <td>0.5h</td>
+              </tr>
+              <tr>
+                <td>11:30</td>
+                <td>12:00</td>
+                <td>南沙花园酒店→南沙天后宫（3km/5min）</td>
+                <td>0.1h</td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>14:30</td>
+                <td>南沙天后宫（登高望海+风铃+下山到海边）</td>
+                <td>2.5h</td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td>15:30</td>
+                <td>海边散步+租电瓶车兜风+霍英东纪念馆</td>
+                <td>1h</td>
+              </tr>
+              <tr>
+                <td>15:30</td>
+                <td>17:00</td>
+                <td>天后宫→君荟名轩（65km，返程）</td>
+                <td>1.5h</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== 游记 ===== -->
+      <div class="travel-log" id="travel-log">
+        <div class="travel-log-header">
+          <h3>实况游记（8/1-8/2 两天一夜）</h3>
+          <p>实际执行路线：君荟名轩 → 古埃及展 → 越秀渔村 → 南沙花园酒店 → 南沙天后宫 → 君荟名轩。与方案A最接近，但Day2选择了天后宫而非沙湾古镇。</p>
+          <div class="travel-log-route">
+            <span>D1 古埃及展</span><span>D1 越秀渔村</span><span>D1 南沙花园酒店</span><span>D2 南沙天后宫</span>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">8/1 08:00</span>出发 · 君荟名轩 → 盘福大厦停车场</h4>
+          <p>从荔湾出发，15分钟到盘福大厦停车场（解放北路863号）。停车后步行2分钟到王墓展区。行车记录中途径<b>高剑父纪念馆</b>——就在盘福大厦附近。</p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/713出行.jpg')"
+              onclick="openGallery('travelD',0)" role="button" aria-label="713出发"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/713行车记录_南沙花园酒店_Screenshot_20260802_194626.jpg')"
+              onclick="openGallery('travelD',1)" role="button" aria-label="行车记录·高剑父纪念馆"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">9:00 — 12:00</span>古埃及展「尼罗河的赠礼」</h4>
+          <p>
+            暑假第一天，9点准时进场。180件古埃及文物绝大部分是首次来亚洲，木乃伊棺椁、《亡灵书》残卷、猫神芭斯特雕像……<strong>展览很精彩</strong>，虽然很多内容看不懂，但VR金字塔幻象体验感十足。丝缕玉衣与木乃伊同场对话——法老遇见南越王，文明的跨时空共振让人感慨。
+          </p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/古埃及展.jpg')"
+              onclick="openGallery('travelD',2)" role="button" aria-label="古埃及展"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/古埃及展2.jpg')"
+              onclick="openGallery('travelD',3)" role="button" aria-label="古埃及展2"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/古埃及展3.jpg')"
+              onclick="openGallery('travelD',4)" role="button" aria-label="古埃及展3"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/古埃及展4.jpg')"
+              onclick="openGallery('travelD',5)" role="button" aria-label="古埃及展4"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/越秀_南越王博物馆_古埃及展_IMG_20260801_085646.jpg')"
+              onclick="openGallery('travelD',6)" role="button" aria-label="展馆入场"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/越秀_南越王博物馆_古埃及展_IMG_20260801_092000.jpg')"
+              onclick="openGallery('travelD',7)" role="button" aria-label="展馆内"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/越秀_南越王博物馆_古埃及展_IMG_20260801_103804.jpg')"
+              onclick="openGallery('travelD',8)" role="button" aria-label="展馆尾声"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">12:00 — 13:00</span>午餐 · 越秀渔村（老字号粤菜）</h4>
+          <p>
+            看完展出来<b>天降大雨，颇为狼狈</b>。展馆对面就是越秀渔村（盘福路102号），赶紧冲过去。好在<strong>东西好吃</strong>——沙姜鸡、萝卜苗...都不错。雨中午餐，吃饱了恢复元气，正好出发去南沙。
+          </p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/古埃及展后午饭-越秀渔村.jpg')"
+              onclick="openGallery('travelD',9)" role="button" aria-label="越秀渔村午餐"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">14:30</span>南沙花园酒店 · 入住</h4>
+          <p>
+            雨中开1.5小时到酒店。入住时<b>被安排到6楼房间，有明显异味</b>，等换房约20分钟，最后换到8楼。然后兵分两路——<strong>爸和哥去室内恒温泳池游泳</strong>，<strong>妈和弟去YOYO智趣营儿童乐园</strong>（波波池、迷你保龄球、DIY涂鸦）。傍晚花苑自助晚餐——<b>自助餐一般</b>，菜品不算丰富。<br><br>总体评价：<strong>酒店整体也一般</strong>，设施不算新，但还是一直想住一次的酒店——对于这个旅途来说，有泳池、有儿童乐园、房间看得到山海湖全景，<strong>也算不错了</strong>。毕竟暴雨天，酒店是最好的避风港。
+          </p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙花园酒店.jpg')"
+              onclick="openGallery('travelD',10)" role="button" aria-label="南沙花园酒店"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙花园酒店2.jpg')"
+              onclick="openGallery('travelD',11)" role="button" aria-label="酒店2"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙花园酒店3.jpg')"
+              onclick="openGallery('travelD',12)" role="button" aria-label="酒店3"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙花园酒店4-自助餐.jpg')"
+              onclick="openGallery('travelD',13)" role="button" aria-label="自助餐"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙花园酒店-桌球.png')"
+              onclick="openGallery('travelD',14)" role="button" aria-label="桌球"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙_花园酒店_IMG_20260801_150123.jpg')"
+              onclick="openGallery('travelD',15)" role="button" aria-label="酒店房间"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙_花园酒店_IMG_20260801_150642.jpg')"
+              onclick="openGallery('travelD',16)" role="button" aria-label="酒店景观"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙_花园酒店_IMG_20260801_150653.jpg')"
+              onclick="openGallery('travelD',17)" role="button" aria-label="酒店阳台"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙_花园酒店_IMG_20260802_110917.jpg')"
+              onclick="openGallery('travelD',18)" role="button" aria-label="D2上午酒店"></div>
+          </div>
+        </div>
+
+        <div class="travel-log-stop">
+          <h4><span class="time">8/2 12:00 — 14:30</span>南沙天后宫 · 登高望海</h4>
+          <p>
+            退房后开车5分钟到天后宫（停车在天后宫停车场）。<strong>上去时楼梯很斜</strong>，虽然是中午1点出头、出很多汗，但<strong>上面风很凉爽，很大风很舒服</strong>。登高俯瞰伶仃洋，妈祖像庄严肃穆。天后宫内的<b>风铃清脆悦耳</b>，随风叮当作响——
+          </p>
+          <div class="travel-log-video">
+            <video controls preload="metadata" style="width:100%;max-width:640px;border-radius:10px;">
+              <source src="游记.20260801-02/南沙天后宫-风铃.mp4" type="video/mp4">
+              您的浏览器不支持视频播放。
+            </video>
+            <p class="video-caption">南沙天后宫 · 风铃声</p>
+          </div>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙天后宫.jpg')"
+              onclick="openGallery('travelD',19)" role="button" aria-label="天后宫1"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙天后宫2.jpg')"
+              onclick="openGallery('travelD',20)" role="button" aria-label="天后宫2"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙天后宫5.jpg')"
+              onclick="openGallery('travelD',21)" role="button" aria-label="天后宫5"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134239.jpg')"
+              onclick="openGallery('travelD',22)" role="button" aria-label="天后宫登高"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134407.jpg')"
+              onclick="openGallery('travelD',23)" role="button" aria-label="天后宫"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134454.jpg')"
+              onclick="openGallery('travelD',24)" role="button" aria-label="天后宫"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134614.jpg')"
+              onclick="openGallery('travelD',25)" role="button" aria-label="天后宫"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134831.jpg')"
+              onclick="openGallery('travelD',26)" role="button" aria-label="天后宫"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_135852.jpg')"
+              onclick="openGallery('travelD',27)" role="button" aria-label="天后宫"></div>
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_144047.jpg')"
+              onclick="openGallery('travelD',28)" role="button" aria-label="天后宫下山"></div>
+          </div>
+          <p style="margin-top:0.6rem">
+            <strong>下来后出去就是海边，很舒服。</strong>还租了电瓶车开出去兜风，吹着海风沿着滨海路开了一小段。走之前去看了旁边的<b>霍英东纪念馆</b>，了解了这位爱国商人与南沙的故事。下午3点半启程回家，5点前到家。
+          </p>
+          <div class="travel-log-grid">
+            <div class="travel-log-thumb"
+              style="background-image:url('游记.20260801-02/南沙_南沙天后宫_IMG_20260802_150055.jpg')"
+              onclick="openGallery('travelD',29)" role="button" aria-label="海边"></div>
+            <div class="travel-log-thumb" style="background-image:url('游记.20260801-02/南沙天后宫-电瓶车海边游.png')"
+              onclick="openGallery('travelD',30)" role="button" aria-label="电瓶车兜风"></div>
+          </div>
+        </div>
+
+        <button class="travel-log-all-btn" onclick="openGallery('travelD',0)">查看全部 31 张照片</button>
+      </div>
+
+      <div class="tips-box" style="margin-top:1.5rem;">
+        <div class="tips-box-title">方案D 实况总结</div>
+        <ul>
+          <li><strong>预算吻合</strong>——实际开支与方案A估算（约1,630-1,790元）基本一致。</li>
+          <li><strong>天气属实差</strong>——D1展后大雨、D2阴转晴。天后宫中午虽有太阳出汗但风大舒适。</li>
+          <li><strong>酒店换房插曲</strong>——6楼有异味换8楼等20分钟，整体体验一般但亲子设施够用。</li>
+          <li><strong>天后宫超出预期</strong>——本以为只是爬山，没想到上面风凉爽、海边舒服、电瓶车兜风超开心。</li>
+          <li>霍英东纪念馆是意外收获——免费、人少、内容扎实。</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3
+      style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-top:2rem; margin-bottom:0.8rem; color:var(--sand);">
+      三方案费用对比（2大1小）</h3>
+    <div class="table-scroll">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>方案A（雨中优选）</th>
+            <th>方案B（古镇人文）</th>
+            <th>方案C（海滨全景）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>高速通行费（往返）</td>
+            <td>约80元</td>
+            <td>约90元</td>
+            <td>约80元</td>
+          </tr>
+          <tr>
+            <td>油费（约160km）</td>
+            <td>约90元</td>
+            <td>约110元</td>
+            <td>约100元</td>
+          </tr>
+          <tr>
+            <td>酒店住宿（1晚·含早）</td>
+            <td>约640-800元</td>
+            <td>约640-800元</td>
+            <td>约640-800元</td>
+          </tr>
+          <tr>
+            <td>古埃及特展（2大1小）</td>
+            <td>约150元</td>
+            <td>约150元</td>
+            <td>约150元</td>
+          </tr>
+          <tr>
+            <td>王墓展区基本陈列</td>
+            <td>20元</td>
+            <td>20元</td>
+            <td>20元</td>
+          </tr>
+          <tr>
+            <td>越秀渔村/铭少食鸡午餐</td>
+            <td>约160元</td>
+            <td>约160元</td>
+            <td>约160元</td>
+          </tr>
+          <tr>
+            <td>沙湾古镇（姜撞奶午餐/小吃）</td>
+            <td>约80元</td>
+            <td>约80元</td>
+            <td>约80元</td>
+          </tr>
+          <tr>
+            <td>宝墨园（2大1小）</td>
+            <td>—</td>
+            <td>约108元</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>余荫山房（2大1小）</td>
+            <td>约36元</td>
+            <td>约36元</td>
+            <td>约36元</td>
+          </tr>
+          <tr>
+            <td>南沙天后宫（2大1小）</td>
+            <td>—</td>
+            <td>—</td>
+            <td>约40元</td>
+          </tr>
+          <tr>
+            <td>停车费</td>
+            <td>约50元</td>
+            <td>约50元</td>
+            <td>约50元</td>
+          </tr>
+          <tr>
+            <td>酒店/其他餐饮（晚餐等）</td>
+            <td>约400元</td>
+            <td>约400元</td>
+            <td>约400元</td>
+          </tr>
+          <tr class="total">
+            <td>合计（2大1小）</td>
+            <td>约1,630-1,790元</td>
+            <td>约1,650-1,810元</td>
+            <td>约1,720-1,890元</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="budget-note">
+      以上为估算，实际以当日为准。酒店取南沙花园酒店（¥640起/晚）。沙湾古镇主区免费（仅展馆联票可选30元/人，上表未含）。余荫山房成人18元儿童9元。油费按0.6元/km计。方案C天后宫为户外，暴雨天取消可再省40元。</p>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">以下时间经携程、同程、官方渠道交叉核实。出行前请以官方公告为准。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table hours-table">
+        <thead>
+          <tr>
+            <th>景点/场馆</th>
+            <th>营业/开放时间</th>
+            <th>门票参考</th>
+            <th>备注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>南越王博物院·王墓展区</td>
+            <td>9:00-17:30（17:00停入）</td>
+            <td>基本10元，特展另购</td>
+            <td>周一闭馆；暑假延长至18:00</td>
+          </tr>
+          <tr>
+            <td>古埃及特展「尼罗河的赠礼」</td>
+            <td>与王墓展区同步</td>
+            <td>早鸟59元起</td>
+            <td>公众号预约；周末建议提前</td>
+          </tr>
+          <tr>
+            <td>南沙花园酒店</td>
+            <td>入住14:00 / 退房12:00</td>
+            <td>约¥640起/晚</td>
+            <td>免费停车·泳池·智趣营·宠物</td>
+          </tr>
+          <tr>
+            <td>南沙天后宫</td>
+            <td>8:30-17:00</td>
+            <td>成人20元 儿童10元</td>
+            <td>4A景区；大雨山路湿滑</td>
+          </tr>
+          <tr>
+            <td>蒲洲花园</td>
+            <td>7:30-17:30</td>
+            <td>免费</td>
+            <td>距酒店3分钟车程</td>
+          </tr>
+          <tr>
+            <td>慧谷超级堤</td>
+            <td>全天</td>
+            <td>免费</td>
+            <td>网红绿道·橘子海日落</td>
+          </tr>
+          <tr>
+            <td>大湾区中央湿地公园</td>
+            <td>9:00-17:00</td>
+            <td>成人40元+游船120</td>
+            <td>周一不闭，游船雨天可能停航</td>
+          </tr>
+          <tr>
+            <td>水鸟世界生态园</td>
+            <td>约8:30-17:30</td>
+            <td>约80元（以当日��准）</td>
+            <td>与湿地相邻</td>
+          </tr>
+          <tr>
+            <td>疍家妹疍家菜馆</td>
+            <td>约10:00-21:00（建议提前电话确认）</td>
+            <td>人均80-120元</td>
+            <td>万顷沙镇·本地名店·需确认</td>
+          </tr>
+          <tr>
+            <td>沙湾古镇</td>
+            <td>全天（展馆8:30-17:30）</td>
+            <td>古镇免费·展馆联票30</td>
+            <td>展馆周一不闭（未确认）</td>
+          </tr>
+          <tr>
+            <td>宝墨园</td>
+            <td>8:30-18:30</td>
+            <td>成人54元 儿童27元</td>
+            <td>回廊多·小雨不影响</td>
+          </tr>
+          <tr>
+            <td>番禺莲花山</td>
+            <td>7:00-17:00</td>
+            <td>成人51元 儿童27元</td>
+            <td>4A·暴雨天封山风险</td>
+          </tr>
+          <tr>
+            <td>余荫山房</td>
+            <td>8:00-18:00</td>
+            <td>成人18元 儿童9元</td>
+            <td>岭南四大名园·雨天推荐</td>
+          </tr>
+          <tr>
+            <td>海鸥岛</td>
+            <td>全天</td>
+            <td>免费</td>
+            <td>环岛骑行/赶海·回程可选</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">行程复核结论</div>
       <ul>
-        <li><b>古埃及特展</b>：微信搜"南越王博物院"→王墓展区→门票预约→选择对应时段。早鸟票59元/人（限量，售罄后现场票价格以官方为准）。</li>
-        <li>暑假周末人多，<b>建议提前3天以上预约</b>——出发前务必确认已购票。</li>
-        <li>王墓展区基本陈列10元，持特展票可一并参观。</li>
-        <li>南沙花园酒店建议携程/同程预订（提前更优惠），旺季可能满房。</li>
+        <li>三方案均<b>已对齐真实开放时间</b>。展馆9:00开门即进场。天后宫8:30/莲花山7:00开放时间正确。</li>
+        <li><b>周一闭馆</b>（王墓展区），本次周六出发，不受影响。</li>
+        <li><b>8月1-2日暴雨预警</b>——方案C（天后宫/沙滩/超级堤为户外）的D1户外段为晴天限定，雨水天气下<strong>建议选择方案A或B</strong>。</li>
+        <li>方案B宝墨园+沙湾古镇为下午顺路游，回廊多小雨可行。</li>
+        <li>方案A的余荫山房在Day2（8月2日）——该日预报大雨，但有廊有亭雨中园林意境最佳。</li>
+        <li>疍家妹疍家菜馆有室内座位，雨天正常就餐，不受影响。</li>
       </ul>
     </div>
-    <div class="culture-card" id="tip-kids">
-      <div class="culture-card-head"><div class="c-icon">👶</div><h4>带娃贴士</h4></div>
-      <ul>
-        <li><b>核心时段 09:00-12:00</b>：孩子精力最旺盛，安排展馆核心展厅（含VR体验）。</li>
-        <li><b>13:00-15:00 低电量期</b>：午饭后车程孩子可在车上小睡，到酒店继续休整。</li>
-        <li>展馆空调冷，带薄外套。酒店室内恒温泳池水温适宜。</li>
-        <li>博物馆礼仪：告诉孩子展厅内禁止闪光灯、禁止触摸展品。</li>
-      </ul>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+      </svg>
+      天气影响评估 · 暴雨预警
+    </h2>
+    <p class="section-desc">⚠️ 中央气象台+广东天气7月31日预报：8月1-2日广东中南部（含广州荔湾、南沙）有大雨到暴雨，局部大暴雨。南沙区7月31日已发布暴雨黄色预警。以下为逐段风险评估与调整建议。</p>
+
+    <div class="table-scroll">
+      <table class="plan-summary-table hours-table" style="min-width:600px;">
+        <thead>
+          <tr>
+            <th>时段</th>
+            <th>活动</th>
+            <th>地点</th>
+            <th>风险</th>
+            <th>调整建议</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D1 09:00-12:00</td>
+            <td>古埃及展</td>
+            <td>王墓展区（室内）</td>
+            <td><span style="color:var(--success)">🟢 低</span></td>
+            <td>纯室内，不受雨影响。带伞步行。</td>
+          </tr>
+          <tr>
+            <td>D1 12:00-13:00</td>
+            <td>午餐</td>
+            <td>盘福路（室内）</td>
+            <td><span style="color:var(--success)">🟢 低</span></td>
+            <td>室内餐厅。短距离步行带伞。</td>
+          </tr>
+          <tr>
+            <td>D1 13:00-14:30</td>
+            <td>自驾越秀→南沙</td>
+            <td>南沙港快速</td>
+            <td><span style="color:var(--warn)">🟡 注意</span></td>
+            <td>雨天高速降速、控距、亮尾。</td>
+          </tr>
+          <tr>
+            <td>D1 14:30-17:30</td>
+            <td>酒店休闲</td>
+            <td>酒店室内</td>
+            <td><span style="color:var(--success)">🟢 低</span></td>
+            <td>室内泳池+智趣营+小火车，全室内。</td>
+          </tr>
+          <tr>
+            <td>D1 16:00-18:30</td>
+            <td>天后宫+沙滩+超级堤</td>
+            <td>户外</td>
+            <td><span style="color:var(--danger)">🔴 高</span></td>
+            <td>仅方案C有。暴雨天取消户外段。</td>
+          </tr>
+          <tr>
+            <td>D2 09:00-11:30</td>
+            <td>酒店休闲+退房</td>
+            <td>室内</td>
+            <td><span style="color:var(--success)">🟢 低</span></td>
+            <td>方案A/B/C首选，全室内。</td>
+          </tr>
+          <tr>
+            <td>D2 12:45-14:00</td>
+            <td>沙湾古镇午餐</td>
+            <td>户外街巷</td>
+            <td><span style="color:var(--warn)">🟡 注意</span></td>
+            <td>有部分骑楼遮檐。若雨量大则小吃打包。</td>
+          </tr>
+          <tr>
+            <td>D2 14:00-15:00</td>
+            <td>余荫山房</td>
+            <td>园林（有廊）</td>
+            <td><span style="color:var(--warn)">🟡 注意</span></td>
+            <td>有廊有亭，雨中可行。若雨量极大则跳过。</td>
+          </tr>
+          <tr>
+            <td>D2 15:30-17:00</td>
+            <td>返程高速</td>
+            <td>南沙港快速</td>
+            <td><span style="color:var(--warn)">🟡 注意</span></td>
+            <td>周日大雨返程，避开17:00后高峰。</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="culture-card" id="tip-prep">
-      <div class="culture-card-head"><div class="c-icon">🎒</div><h4>行前准备</h4></div>
-      <ul>
-        <li><b>证件：</b>身份证（订酒店用）。</li>
-        <li><b>雨具：</b>8月1-2日有暴雨，<b>每人带一把伞</b>+孩子备雨衣。</li>
-        <li><b>泳衣：</b>酒店有室内外泳池，记得带泳衣泳镜。</li>
-        <li><b>防蚊：</b>户外（园林/湿地/莲花山）蚊虫多，带防蚊液。</li>
-        <li><b>提前预习：</b>出发前给孩子看2-3页埃及绘本或纪录片，带着问题去看展。</li>
-      </ul>
+
+    <div class="info-grid" style="margin-top:1rem;">
+      <div class="info-card">
+        <h4>核心取舍</h4>
+        <p>🔴 标记段在暴雨预警期间<b>须取消</b>：天后宫、沙滩、慧谷超级堤（均为户外且依赖好天气，仅方案C涉及）。<br>🟢 标记段可照常进行：展馆（室内）、酒店（室内）、余荫山房（有廊）。<br>🟡
+          沙湾古镇有骑楼遮檐，小雨可行。<br><br><strong>建议</strong>：首选<strong>方案A</strong>（全🟢/🟡，酒店最长20h），方案B（沙湾+宝墨园人文线）次选。方案C仅晴天/小雨天可选，暴雨时改方案A。
+        </p>
+      </div>
+      <div class="info-card">
+        <h4>出发当日必查</h4>
+        <p>
+          出发前查<strong>中央气象台</strong>（nmc.cn）或<strong>广州天气</strong>公众号暴雨/台风预警。<br>关注<strong>南沙区气象台</strong>（tqyb.com.cn/nansha）地质灾害风险与水上活动提醒。<br>高速注意：雨天<b>降速、控距、亮尾</b>。<br>⚠️
+          若预警升至红色（暴雨红/台风黄橙红），建议<b>改期或仅游展馆+酒店</b>，取消户外段。</p>
+      </div>
     </div>
-    <div class="culture-card" id="tip-weather-alt">
-      <div class="culture-card-head"><div class="c-icon">🌧️</div><h4>雨天备选</h4></div>
-      <ul>
-        <li>若8月1日出城前已大雨：可直接跳过展馆周边，早去南沙酒店室内玩全天。</li>
-        <li>若8月1日下午大雨：方案A酒店全天室内（泳池+智趣营+餐饮）；方案B宝墨园回廊仍可行。</li>
-        <li>若8月2日暴雨：取消所有户外景点（湿地/莲花山/天后宫），改余荫山房（有廊）或直接返程。</li>
-        <li>若天气转好：可选方案C加天后宫/超级堤（但须持续关注实时预警）。</li>
-      </ul>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="16" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12.01" y2="8" />
+      </svg>
+      实用贴士
+    </h2>
+    <div class="culture-grid">
+      <div class="culture-card" id="tip-parking">
+        <div class="culture-card-head">
+          <div class="c-icon">🚗</div>
+          <h4>停车指引</h4>
+        </div>
+        <ul>
+          <li><b>王墓展区无官方停车场</b>。停<strong>盘福大厦停车场</strong>（解放北路863号，距展馆约120m，步行2分钟）。</li>
+          <li>盘福大厦收费约为周边最低（比以太广场16元/时便宜），建议早到。</li>
+          <li>备选：越天大厦停车场（解放北路960号，距150m）、中国大酒店（距275m）。</li>
+          <li>南沙花园酒店免费停车（带充电桩）。</li>
+        </ul>
+      </div>
+      <div class="culture-card" id="tip-ticket">
+        <div class="culture-card-head">
+          <div class="c-icon">🎫</div>
+          <h4>门票预约</h4>
+        </div>
+        <ul>
+          <li><b>古埃及特展</b>：微信搜"南越王博物院"→王墓展区→门票预约→选择对应时段。早鸟票59元/人（限量，售罄后现场票价格以官方为准）。</li>
+          <li>暑假周末人多，<b>建议提前3天以上预约</b>——出发前务必确认已购票。</li>
+          <li>王墓展区基本陈列10元，持特展票可一并参观。</li>
+          <li>南沙花园酒店建议携程/同程预订（提前更优惠），旺季可能满房。</li>
+        </ul>
+      </div>
+      <div class="culture-card" id="tip-kids">
+        <div class="culture-card-head">
+          <div class="c-icon">👶</div>
+          <h4>带娃贴士</h4>
+        </div>
+        <ul>
+          <li><b>核心时段 09:00-12:00</b>：孩子精力最旺盛，安排展馆核心展厅（含VR体验）。</li>
+          <li><b>13:00-15:00 低电量期</b>：午饭后车程孩子可在车上小睡，到酒店继续休整。</li>
+          <li>展馆空调冷，带薄外套。酒店室内恒温泳池水温适宜。</li>
+          <li>博物馆礼仪：告诉孩子展厅内禁止闪光灯、禁止触摸展品。</li>
+        </ul>
+      </div>
+      <div class="culture-card" id="tip-prep">
+        <div class="culture-card-head">
+          <div class="c-icon">🎒</div>
+          <h4>行前准备</h4>
+        </div>
+        <ul>
+          <li><b>证件：</b>身份证（订酒店用）。</li>
+          <li><b>雨具：</b>8月1-2日有暴雨，<b>每人带一把伞</b>+孩子备雨衣。</li>
+          <li><b>泳衣：</b>酒店有室内外泳池，记得带泳衣泳镜。</li>
+          <li><b>防蚊：</b>户外（园林/湿地/莲花山）蚊虫多，带防蚊液。</li>
+          <li><b>提前预习：</b>出发前给孩子看2-3页埃及绘本或纪录片，带着问题去看展。</li>
+        </ul>
+      </div>
+      <div class="culture-card" id="tip-weather-alt">
+        <div class="culture-card-head">
+          <div class="c-icon">🌧️</div>
+          <h4>雨天备选</h4>
+        </div>
+        <ul>
+          <li>若8月1日出城前已大雨：可直接跳过展馆周边，早去南沙酒店室内玩全天。</li>
+          <li>若8月1日下午大雨：方案A酒店全天室内（泳池+智趣营+餐饮）；方案B宝墨园回廊仍可行。</li>
+          <li>若8月2日暴雨：取消所有户外景点（湿地/莲花山/天后宫），改余荫山房（有廊）或直接返程。</li>
+          <li>若天气转好：可选方案C加天后宫/超级堤（但须持续关注实时预警）。</li>
+        </ul>
+      </div>
     </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <p><a href="../index.html">← 返回景点导航</a></p>
+    <p style="margin-top:0.5rem;">XBrain &copy; 2026 · 探索未知，连接世界</p>
+    <p class="footer-version">v20260801-074823</p>
+  </footer>
+
+  <!-- ===== Lightbox Overlay ===== -->
+  <div class="lb-overlay" id="lbOverlay">
+    <div class="lb-close" onclick="closeLightbox()">✕</div>
+    <div class="lb-nav lb-prev" id="lbPrev" onclick="navLightbox(-1)">◂</div>
+    <div class="lb-img-wrap" id="lbImgWrap"></div>
+    <div class="lb-counter" id="lbCounter"></div>
+    <div class="lb-nav lb-next" id="lbNext" onclick="navLightbox(1)">▸</div>
   </div>
-  <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-</section>
 
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="footer-line"></div>
-  <p><a href="../index.html">← 返回景点导航</a></p>
-  <p style="margin-top:0.5rem;">XBrain &copy; 2026 · 探索未知，连接世界</p>
-  <p class="footer-version">v20260801-074823</p>
-</footer>
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== Plan Switcher =====
+      var PLAN_IDS = ['planA', 'planB', 'planC', 'planD'];
 
-<!-- ===== SCRIPTS ===== -->
-<script>
-(function () {
-  // ===== Plan Switcher =====
-  var PLAN_IDS = ['planA', 'planB', 'planC'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (btn) { btn.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
 
-  window.switchPlan = function(planId, skipScroll) {
-    document.querySelectorAll('.plan-btn').forEach(function(btn) { btn.classList.remove('active'); });
-    document.querySelectorAll('.plan-content').forEach(function(c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
 
-    var target = document.getElementById(planId);
-    if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) {
+            if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; }
+          }
+        }
 
-    var buttons = document.querySelectorAll('.plan-btn');
-    var matched = false;
-    buttons.forEach(function(btn) {
-      var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
-      if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
-    });
-    if (!matched && buttons.length > 0) {
-      for (var i = 0; i < PLAN_IDS.length; i++) {
-        if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; }
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', '#' + planId);
+        }
+
+        if (!skipScroll) {
+          var plansSection = document.getElementById('plans');
+          if (plansSection) { plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        }
+      };
+
+      // Deep link
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () {
+          setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400);
+        });
       }
-    }
 
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState(null, '', '#' + planId);
-    }
+      // ===== Top Nav scroll spy =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
 
-    if (!skipScroll) {
-      var plansSection = document.getElementById('plans');
-      if (plansSection) { plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    }
-  };
-
-  // Deep link
-  if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
-    window.addEventListener('load', function() {
-      setTimeout(function() { switchPlan(window.location.hash.substring(1), false); }, 400);
-    });
-  }
-
-  // ===== Top Nav scroll spy =====
-  var navLinks = document.querySelectorAll('#navInner a');
-  var mobileLinks = document.querySelectorAll('#navMobile a');
-  var sections = [];
-  navLinks.forEach(function(a) {
-    var id = a.getAttribute('href').substring(1);
-    var el = document.getElementById(id);
-    if (el) sections.push({ el: el, id: id });
-  });
-
-  function setActiveNav() {
-    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    var current = '';
-    sections.forEach(function(s) {
-      if (scrollY >= s.el.offsetTop - 100) current = s.id;
-    });
-    navLinks.forEach(function(a) {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
-    mobileLinks.forEach(function(a) {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
-  }
-
-  var navTicking = false;
-  window.addEventListener('scroll', function() {
-    if (!navTicking) {
-      window.requestAnimationFrame(function() { setActiveNav(); navTicking = false; });
-      navTicking = true;
-    }
-  }, { passive: true });
-  setActiveNav();
-
-  // ===== Hamburger menu =====
-  var navToggle = document.getElementById('navToggle');
-  var navMobile = document.getElementById('navMobile');
-  var hamburgerIcon = document.getElementById('hamburgerIcon');
-  var menuOpen = false;
-
-  function closeMenu() {
-    if (!menuOpen) return;
-    menuOpen = false;
-    navMobile.classList.remove('open');
-    hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
-  }
-
-  navToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    menuOpen = !menuOpen;
-    navMobile.classList.toggle('open', menuOpen);
-    if (menuOpen) {
-      hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
-    } else {
-      hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
-    }
-  });
-
-  document.addEventListener('click', function(e) {
-    if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
-      closeMenu();
-    }
-  });
-
-  // ===== Smooth anchor + pushState =====
-  var anchors = document.querySelectorAll('a[href^="#"]');
-  anchors.forEach(function(a) {
-    a.addEventListener('click', function(e) {
-      var hash = a.getAttribute('href');
-      if (!hash || hash.length < 2) return;
-      var id = hash.substring(1);
-      var target = document.getElementById(id);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      if (window.history && window.history.pushState) {
-        window.history.pushState(null, '', hash);
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) {
+          if (scrollY >= s.el.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        mobileLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
       }
-      closeMenu();
-    });
-  });
 
-  // ===== Logo Scroll Fade =====
-  var logo = document.querySelector('.xbrain-brand');
-  var logoTicking = false;
-  function updateLogo() {
-    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var ratio = Math.min(scrollY / vh, 1);
-    var opacity = 1 - ratio * 0.7;
-    if (logo) {
-      logo.style.opacity = opacity;
-      logo.classList.toggle('scrolled', scrollY > vh * 0.3);
-    }
-  }
-  window.addEventListener('scroll', function() {
-    if (!logoTicking) {
-      window.requestAnimationFrame(function() { updateLogo(); logoTicking = false; });
-      logoTicking = true;
-    }
-  }, { passive: true });
-  updateLogo();
+      var navTicking = false;
+      window.addEventListener('scroll', function () {
+        if (!navTicking) {
+          window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
+          navTicking = true;
+        }
+      }, { passive: true });
+      setActiveNav();
 
-  // ===== Scroll Reveal =====
-  var revealEls = document.querySelectorAll('.info-card, .culture-card, .spot-card');
-  var revealObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry, index) {
-      if (entry.isIntersecting) {
-        setTimeout(function() { entry.target.classList.add('visible'); }, index * 80);
-        revealObserver.unobserve(entry.target);
+      // ===== Hamburger menu =====
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        navMobile.classList.remove('open');
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
       }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-  revealEls.forEach(function(el) { revealObserver.observe(el); });
 
-  // ===== Close mobile dropdown on resize to desktop =====
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 640 && menuOpen) closeMenu();
-  });
-})();
-</script>
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        } else {
+          hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        }
+      });
+
+      document.addEventListener('click', function (e) {
+        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
+          closeMenu();
+        }
+      });
+
+      // ===== Smooth anchor + pushState =====
+      var anchors = document.querySelectorAll('a[href^="#"]');
+      anchors.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          var id = hash.substring(1);
+          var target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', hash);
+          }
+          closeMenu();
+        });
+      });
+
+      // ===== Logo Scroll Fade =====
+      var logo = document.querySelector('.xbrain-brand');
+      var logoTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+      }
+      window.addEventListener('scroll', function () {
+        if (!logoTicking) {
+          window.requestAnimationFrame(function () { updateLogo(); logoTicking = false; });
+          logoTicking = true;
+        }
+      }, { passive: true });
+      updateLogo();
+
+      // ===== Scroll Reveal =====
+      var revealEls = document.querySelectorAll('.info-card, .culture-card, .spot-card');
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry, index) {
+          if (entry.isIntersecting) {
+            setTimeout(function () { entry.target.classList.add('visible'); }, index * 80);
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+      revealEls.forEach(function (el) { revealObserver.observe(el); });
+
+      // ===== Close mobile dropdown on resize to desktop =====
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 640 && menuOpen) closeMenu();
+      });
+
+      // ===== Galleries Data =====
+      var galleries = {
+        travelD: {
+          title: '方案D 实况游记 · 8/1-8/2',
+          images: [
+            '游记.20260801-02/713出行.jpg',
+            '游记.20260801-02/713行车记录_南沙花园酒店_Screenshot_20260802_194626.jpg',
+            '游记.20260801-02/古埃及展.jpg',
+            '游记.20260801-02/古埃及展2.jpg',
+            '游记.20260801-02/古埃及展3.jpg',
+            '游记.20260801-02/古埃及展4.jpg',
+            '游记.20260801-02/越秀_南越王博物馆_古埃及展_IMG_20260801_085646.jpg',
+            '游记.20260801-02/越秀_南越王博物馆_古埃及展_IMG_20260801_092000.jpg',
+            '游记.20260801-02/越秀_南越王博物馆_古埃及展_IMG_20260801_103804.jpg',
+            '游记.20260801-02/古埃及展后午饭-越秀渔村.jpg',
+            '游记.20260801-02/南沙花园酒店.jpg',
+            '游记.20260801-02/南沙花园酒店2.jpg',
+            '游记.20260801-02/南沙花园酒店3.jpg',
+            '游记.20260801-02/南沙花园酒店4-自助餐.jpg',
+            '游记.20260801-02/南沙花园酒店-桌球.png',
+            '游记.20260801-02/南沙_花园酒店_IMG_20260801_150123.jpg',
+            '游记.20260801-02/南沙_花园酒店_IMG_20260801_150642.jpg',
+            '游记.20260801-02/南沙_花园酒店_IMG_20260801_150653.jpg',
+            '游记.20260801-02/南沙_花园酒店_IMG_20260802_110917.jpg',
+            '游记.20260801-02/南沙天后宫.jpg',
+            '游记.20260801-02/南沙天后宫2.jpg',
+            '游记.20260801-02/南沙天后宫5.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134239.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134407.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134454.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134614.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_134831.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_135852.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_144047.jpg',
+            '游记.20260801-02/南沙_南沙天后宫_IMG_20260802_150055.jpg',
+            '游记.20260801-02/南沙天后宫-电瓶车海边游.png'
+          ]
+        }
+      };
+
+      // ===== Lightbox =====
+      var lbOverlay = document.getElementById('lbOverlay');
+      var lbImgWrap = document.getElementById('lbImgWrap');
+      var lbCounter = document.getElementById('lbCounter');
+      var lbCurrentKey = '';
+      var lbCurrentIdx = 0;
+
+      window.openGallery = function (key, idx) {
+        lbCurrentKey = key;
+        lbCurrentIdx = idx;
+        showLightboxImage();
+        lbOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
+
+      function showLightboxImage() {
+        var g = galleries[lbCurrentKey];
+        var src = g.images[lbCurrentIdx];
+        lbImgWrap.innerHTML = '<img src="' + src + '" alt="' + g.title + '">';
+        lbCounter.textContent = (lbCurrentIdx + 1) + ' / ' + g.images.length;
+      }
+
+      window.navLightbox = function (dir) {
+        var g = galleries[lbCurrentKey];
+        lbCurrentIdx = (lbCurrentIdx + dir + g.images.length) % g.images.length;
+        showLightboxImage();
+      };
+
+      window.closeLightbox = function () {
+        lbOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      };
+
+      document.addEventListener('keydown', function (e) {
+        if (!lbOverlay.classList.contains('open')) return;
+        if (e.key === 'ArrowLeft') navLightbox(-1);
+        if (e.key === 'ArrowRight') navLightbox(1);
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      var touchStartX = 0, touchStartY = 0;
+      lbOverlay.addEventListener('touchstart', function (e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      lbOverlay.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        var dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 45) {
+          navLightbox(dx > 0 ? -1 : 1);
+        }
+      });
+      lbOverlay.addEventListener('click', function (e) {
+        if (e.target === lbOverlay) closeLightbox();
+      });
+    })();
+  </script>
 
 </body>
+
 </html>
