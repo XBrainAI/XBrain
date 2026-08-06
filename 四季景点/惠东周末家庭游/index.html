@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>惠东周末家庭游 · 海龟湾为主 — XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --xb-deep: #05141a;
+      --xb-mid: #0c2a33;
+      --xb-light: #103b47;
+      --xb-accent: #2dd4bf;
+      --xb-accent2: #5eead4;
+      --xb-glow: rgba(45, 212, 191, 0.35);
+      --xb-border: rgba(45, 212, 191, 0.2);
+      --xb-text: #e8f4f2;
+      --xb-text-dim: rgba(180, 212, 210, 0.62);
+      --xb-success: #5ee4a0;
+      --xb-warn: #ffd166;
+      --xb-danger: #ff6b6b;
+      --xb-pink: #ff8fab;
+      --xb-gold: #f4c95d;
+      --xb-purple: #b794f6;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--xb-text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Brand Logo (Fixed, mobile-first) ===== */
+    .xbrain-brand {
+      position: fixed; top: 8px; left: 8px; z-index: 100;
+      display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, rgba(12, 30, 40, 0.94) 0%, rgba(16, 59, 71, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(120, 220, 210, 0.55);
+      border-radius: 10px; padding: 4px 10px 4px 6px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.12),
+        0 0 40px rgba(45, 212, 191, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow: 0 0 24px rgba(45, 212, 191, 0.45), 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(120, 220, 210, 0.75);
+    }
+    .xbrain-brand svg { width: 24px; height: 24px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.55)); }
+    .xbrain-brand .xbrain-text { font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #e8f4f2; line-height: 1; text-shadow: 0 0 12px rgba(45, 212, 191, 0.55); }
+    .xbrain-brand .xbrain-text span { color: #2dd4bf; text-shadow: 0 0 18px rgba(45, 212, 191, 0.9); }
+
+    /* ===== TOP NAV (fixed, mobile-first) ===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+      background: rgba(5, 20, 26, 0.92);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--xb-border);
+      padding: 0 1.2rem; display: flex; align-items: center; justify-content: center;
+      height: 52px;
+    }
+    .top-nav .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .top-nav .nav-inner::-webkit-scrollbar { display: none; }
+    .top-nav .nav-hamburger { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; min-width: 44px; min-height: 44px; color: var(--xb-text); }
+    .top-nav .nav-hamburger svg { width: 24px; height: 24px; }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--xb-text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color 0.25s ease, background 0.25s ease; }
+    .top-nav a:hover { color: var(--xb-text); background: rgba(45, 212, 191, 0.08); }
+    .top-nav a.active { color: var(--xb-accent); background: rgba(45, 212, 191, 0.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--xb-accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--xb-accent2); border: 1px solid var(--xb-border); }
+    .nav-mobile-dropdown { display: none; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 72vh; min-height: 72dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 5.5rem 1.25rem 2.5rem;
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(16, 59, 71, 0.7) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(45, 212, 191, 0.12) 0%, transparent 40%);
+    }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 1px solid var(--xb-accent); color: var(--xb-accent); font-size: 12px; letter-spacing: 1.5px; border-radius: 20px; margin-bottom: 1.2rem; background: rgba(45, 212, 191, 0.08); }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 8vw, 3.4rem); font-weight: 900; letter-spacing: 2px; margin-bottom: 0.8rem; line-height: 1.2; }
+    .hero-title span { color: var(--xb-accent); text-shadow: 0 0 30px rgba(45, 212, 191, 0.5); }
+    .hero-subtitle { font-size: 14px; font-weight: 300; color: var(--xb-text-dim); letter-spacing: 1px; margin-bottom: 0.8rem; padding: 0 0.5rem; }
+    .hero-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.2rem; font-size: 12px; color: var(--xb-text-dim); }
+    .hero-info span { display: inline-flex; align-items: center; gap: 0.4rem; padding: 5px 10px; background: rgba(45, 212, 191, 0.08); border: 1px solid var(--xb-border); border-radius: 6px; }
+    .hero-line { width: 50px; height: 2px; background: linear-gradient(90deg, transparent, var(--xb-accent), transparent); margin: 0 auto; }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 2.5rem 1.25rem; max-width: 1100px; margin: 0 auto; scroll-margin-top: 80px; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+    .section-title .icon { width: 24px; height: 24px; color: var(--xb-accent); flex-shrink: 0; }
+    .section-desc { color: var(--xb-text-dim); font-size: 14px; margin-bottom: 1.2rem; padding-left: 2rem; line-height: 1.6; }
+
+    /* ===== ROUTE CARD ===== */
+    .route-card { background: linear-gradient(135deg, rgba(12, 40, 50, 0.6) 0%, rgba(16, 59, 71, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem; }
+    .route-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; align-items: center; text-align: center; }
+    .route-info-item .label { font-size: 12px; color: var(--xb-text-dim); letter-spacing: 1px; margin-bottom: 0.2rem; }
+    .route-info-item .value { font-size: 1.1rem; font-weight: 700; color: var(--xb-accent); }
+    .route-tips { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--xb-border); font-size: 13px; color: var(--xb-text-dim); line-height: 1.7; }
+    .route-tips strong { color: var(--xb-accent); }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; padding: 0.8rem 0.6rem; border: 1px solid var(--xb-border); border-radius: 10px; background: linear-gradient(135deg, rgba(12, 40, 50, 0.5) 0%, rgba(16, 59, 71, 0.4) 100%); color: var(--xb-text); cursor: pointer; transition: all 0.25s ease; text-align: center; font-family: 'Noto Sans SC', sans-serif; min-height: 44px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .plan-btn:active { transform: scale(0.96); }
+    .plan-btn.active { border-color: var(--xb-accent); background: linear-gradient(135deg, rgba(45, 212, 191, 0.15) 0%, rgba(45, 212, 191, 0.05) 100%); box-shadow: 0 0 20px rgba(45, 212, 191, 0.15); }
+    .plan-btn .plan-name { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.2rem; color: var(--xb-accent); }
+    .plan-btn .plan-desc { font-size: 11px; color: var(--xb-text-dim); line-height: 1.3; }
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .plan-summary .day-label { font-size: 12px; color: var(--xb-accent); font-weight: 700; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; background: rgba(45, 212, 191, 0.06); border-radius: 4px; display: inline-block; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1rem; border: 1px solid var(--xb-border); border-radius: 10px; overflow: hidden; }
+    .plan-summary-table th { background: rgba(45, 212, 191, 0.08); color: var(--xb-accent); padding: 0.6rem 0.7rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--xb-border); white-space: nowrap; }
+    .plan-summary-table td { padding: 0.6rem 0.7rem; color: var(--xb-text); border-bottom: 1px solid rgba(45, 212, 191, 0.08); }
+    .plan-summary-table tr:last-child td { border-bottom: none; }
+    .plan-summary-table tr:nth-child(even) { background: rgba(45, 212, 191, 0.03); }
+    .plan-summary-table td:last-child { color: var(--xb-accent); font-weight: 600; white-space: nowrap; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; border: 1px solid var(--xb-border); border-radius: 10px; }
+    .table-scroll::-webkit-scrollbar { height: 4px; }
+    .table-scroll::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.3); border-radius: 2px; }
+    .table-scroll .plan-summary-table { border: none; border-radius: 0; margin-bottom: 0; }
+
+    /* ===== DAY DIVIDER / TIMELINE ===== */
+    .day-divider { display: flex; align-items: center; gap: 0.8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--xb-border), transparent); }
+    .day-divider .day-badge { padding: 5px 14px; border: 1px solid var(--xb-accent); color: var(--xb-accent); border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; background: rgba(45, 212, 191, 0.06); white-space: nowrap; }
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--xb-accent), transparent); opacity: 0.4; }
+    .timeline-item { position: relative; padding-bottom: 1.5rem; }
+    .timeline-dot { position: absolute; left: -1.5rem; top: 0.2rem; width: 16px; height: 16px; border-radius: 50%; background: var(--xb-deep); border: 2px solid var(--xb-accent); box-shadow: 0 0 10px rgba(45, 212, 191, 0.4); }
+    .timeline-time { font-size: 12px; color: var(--xb-accent); font-weight: 700; letter-spacing: 1px; margin-bottom: 0.3rem; }
+    .timeline-content { background: linear-gradient(135deg, rgba(12, 40, 50, 0.5) 0%, rgba(16, 59, 71, 0.4) 100%); border: 1px solid var(--xb-border); border-radius: 10px; padding: 1rem 1.1rem; }
+    .timeline-content h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; margin-bottom: 0.4rem; }
+    .timeline-content p { font-size: 14px; color: var(--xb-text-dim); line-height: 1.7; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .timeline-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(45, 212, 191, 0.1); color: var(--xb-accent); border: 1px solid var(--xb-border); }
+    .timeline-tag.food { background: rgba(94, 228, 160, 0.1); color: var(--xb-success); border-color: rgba(94, 228, 160, 0.3); }
+    .timeline-tag.drive { background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border-color: rgba(255, 209, 102, 0.3); }
+    .timeline-tag.hotel { background: rgba(255, 107, 107, 0.1); color: var(--xb-danger); border-color: rgba(255, 107, 107, 0.3); }
+    .timeline-tag.kid { background: rgba(255, 143, 171, 0.1); color: var(--xb-pink); border-color: rgba(255, 143, 171, 0.3); }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .spot-card { background: linear-gradient(135deg, rgba(12, 40, 50, 0.6) 0%, rgba(16, 59, 71, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; opacity: 0; transform: translateY(30px); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+    .spot-card:active { transform: scale(0.98); }
+    .spot-card-header { padding: 1rem 1.1rem 0.6rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; }
+    .spot-card-header h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; display: flex; align-items: center; gap: 0.4rem; }
+    .spot-card-header h4 .emoji { font-size: 1.2rem; }
+    .spot-card-dist { font-size: 11px; color: var(--xb-text-dim); background: rgba(45, 212, 191, 0.08); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--xb-border); }
+    .spot-card-body { padding: 0 1.1rem 0.9rem; font-size: 13px; color: var(--xb-text-dim); line-height: 1.7; }
+    .spot-card-footer { padding: 0 1.1rem 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .spot-tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: rgba(45, 212, 191, 0.08); color: var(--xb-accent); border: 1px solid var(--xb-border); }
+    .spot-tag.recommended { background: rgba(255, 209, 102, 0.1); color: var(--xb-warn); border-color: rgba(255, 209, 102, 0.3); }
+    .spot-tag.free { background: rgba(94, 228, 160, 0.1); color: var(--xb-success); border-color: rgba(94, 228, 160, 0.3); }
+    .spot-tag.kid { background: rgba(255, 143, 171, 0.1); color: var(--xb-pink); border-color: rgba(255, 143, 171, 0.3); }
+    .spot-hours { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px solid var(--xb-border); font-size: 12px; color: var(--xb-text-dim); line-height: 1.6; }
+    .spot-hours b { color: var(--xb-success); }
+
+    /* ===== MEDIA (cover + gallery) ===== */
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(45, 212, 191, 0.05); border-bottom: 1px solid var(--xb-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--xb-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--xb-accent); opacity: 1; }
+    .media-gallery img.is-cover { box-shadow: 0 0 0 1px var(--xb-accent); }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .culture-card { background: linear-gradient(135deg, rgba(12, 40, 50, 0.6) 0%, rgba(16, 59, 71, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; padding: 1.25rem; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; opacity: 0; transform: translateY(30px); scroll-margin-top: 80px; }
+    .culture-card .media-cover { margin: -1.25rem -1.25rem 1rem; border-radius: 0; }
+    .culture-card .media-gallery { padding: 0 1.25rem 1rem; }
+
+    /* ===== PLAN MEDIA (方案 A/B 封面 + 组图) ===== */
+    .plan-media { background: linear-gradient(135deg, rgba(12, 40, 50, 0.6) 0%, rgba(16, 59, 71, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .plan-media .media-cover { border-bottom: 1px solid var(--xb-border); border-radius: 0; }
+    .plan-media .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== DAY EXPAND（共同首日展开描述） ===== */
+    .day-expand { margin: 0.8rem 0 0.3rem; }
+    .day-expand p { line-height: 1.75; margin: 0 0 0.7rem; }
+    .day-expand p:last-of-type { margin-bottom: 0.5rem; }
+    .day-expand strong { color: var(--xb-accent); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+    .culture-card-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+    .culture-card-head .c-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(45, 212, 191, 0.1); border: 1px solid var(--xb-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .culture-card-head h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: var(--xb-accent); }
+    .culture-card h5 { font-size: 13px; color: var(--xb-success); margin: 0.7rem 0 0.3rem; letter-spacing: 1px; }
+    .culture-card p { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; }
+    .culture-card ul { margin: 0.3rem 0 0; padding-left: 1.1rem; }
+    .culture-card ul li { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; margin-bottom: 0.3rem; }
+    .culture-card ul li b { color: var(--xb-text); }
+
+    /* ===== GENERIC INFO / TIP / WEATHER CARDS ===== */
+    .info-card { background: linear-gradient(135deg, rgba(12, 40, 50, 0.6) 0%, rgba(16, 59, 71, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; opacity: 0; transform: translateY(30px); }
+    .info-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .info-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: var(--xb-accent); margin-bottom: 0.6rem; }
+    .info-card p, .info-card li { font-size: 14px; color: var(--xb-text-dim); line-height: 1.8; }
+    .info-card ul { padding-left: 1.1rem; }
+    .info-card li { margin-bottom: 0.3rem; }
+    .info-card li b { color: var(--xb-text); }
+    .info-card .hl { color: var(--xb-warn); font-weight: 600; }
+    .info-card .ok { color: var(--xb-success); font-weight: 600; }
+
+    .weather-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 0; }
+    .weather-table th { background: rgba(45, 212, 191, 0.08); color: var(--xb-accent); padding: 0.55rem 0.6rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--xb-border); }
+    .weather-table td { padding: 0.55rem 0.6rem; color: var(--xb-text); border-bottom: 1px solid rgba(45, 212, 191, 0.08); vertical-align: top; }
+    .weather-table tr:last-child td { border-bottom: none; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 12px; white-space: nowrap; }
+    .badge.green { background: rgba(94, 228, 160, 0.15); color: var(--xb-success); }
+    .badge.yellow { background: rgba(255, 209, 102, 0.15); color: var(--xb-warn); }
+    .badge.red { background: rgba(255, 107, 107, 0.15); color: var(--xb-danger); }
+
+    /* ===== GLOSSARY ===== */
+    .glossary-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .glossary-card { background: linear-gradient(135deg, rgba(12, 40, 50, 0.6) 0%, rgba(16, 59, 71, 0.5) 100%); border: 1px solid var(--xb-border); border-radius: 14px; padding: 1.25rem; }
+    .glossary-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.05rem; color: var(--xb-accent); margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.4rem; }
+    .glossary-card ul { list-style: none; padding: 0; }
+    .glossary-card li { font-size: 13px; color: var(--xb-text-dim); line-height: 1.9; display: flex; gap: 0.5rem; }
+    .glossary-card li .k { color: var(--xb-accent2); flex-shrink: 0; }
+
+    /* ===== ANCHOR LINKS & BACKTOP ===== */
+    .in-doc-link { color: var(--xb-accent); text-decoration: none; border-bottom: 1px dashed var(--xb-accent); padding-bottom: 1px; transition: color 0.2s; }
+    .in-doc-link:hover { color: var(--xb-accent2); }
+    .section-backtop { text-align: center; margin: 1.5rem 0 0.5rem; }
+    .section-backtop a { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1.1rem; color: var(--xb-accent); text-decoration: none; border: 1px solid var(--xb-border); border-radius: 20px; font-size: 13px; transition: all 0.25s; }
+    .section-backtop a:hover { background: rgba(45, 212, 191, 0.1); border-color: var(--xb-accent); }
+
+    /* ===== FOOTER ===== */
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--xb-text-dim); font-size: 0.85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--xb-border); margin: 0 auto 1rem; }
+    footer .back-link { display: inline-flex; align-items: center; gap: 0.5rem; margin: 0 auto 1.2rem; padding: 0.6rem 1.2rem; color: var(--xb-accent); text-decoration: none; border: 1px solid var(--xb-border); border-radius: 8px; font-size: 0.9rem; transition: all 0.3s ease; }
+    footer .back-link:hover { background: rgba(45, 212, 191, 0.1); border-color: var(--xb-accent); }
+    footer .footer-version { margin-top: 0.5rem; font-size: 0.7rem; color: rgba(255, 255, 255, 0.25); font-family: monospace; letter-spacing: 0.5px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .top-nav { justify-content: flex-end; padding: 0 12px; height: 48px; }
+      .top-nav .nav-inner { display: none; }
+      .top-nav .nav-hamburger { display: flex; }
+      .top-nav a { padding: 6px 12px; font-size: 13px; }
+      .nav-mobile-dropdown {
+        display: flex; flex-direction: column; gap: 2px;
+        position: fixed; top: 48px; left: 0; right: 0;
+        background: rgba(5, 20, 26, 0.97);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--xb-border);
+        z-index: 98; padding: 8px 12px;
+        transform: translateY(-120%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-height: calc(100vh - 48px); overflow-y: auto;
+      }
+      .nav-mobile-dropdown.open { transform: translateY(0); }
+      .nav-mobile-dropdown a { display: flex; align-items: center; padding: 12px 16px; font-size: 16px; font-weight: 500; color: var(--xb-text-dim); text-decoration: none; border-radius: 10px; transition: color 0.2s, background 0.2s; min-height: 44px; }
+      .nav-mobile-dropdown a:active, .nav-mobile-dropdown a.active { color: var(--xb-accent); background: rgba(45, 212, 191, 0.1); }
+      .xbrain-brand { top: 6px; padding: 4px 8px 4px 6px; }
+      .xbrain-brand svg { width: 22px; height: 22px; }
+      .xbrain-brand .xbrain-text { font-size: 12px; }
+      .route-info { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== XBrain Brand Logo (回景点导航首页) ===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#5eead4" stop-opacity="1" />
+          <stop offset="60%" stop-color="#2dd4bf" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#0c2a33" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#5eead4" />
+          <stop offset="50%" stop-color="#2dd4bf" />
+          <stop offset="100%" stop-color="#5eead4" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#0e4a47" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#1c7a72" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#2dd4bf" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#05141a" />
+        <circle cx="50" cy="50" r="46" fill="#0c2a33" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#2dd4bf" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#1c7a72" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#2dd4bf" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#2dd4bf" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#5eead4" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#1c7a72" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#2dd4bf" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">顶部</a>
+      <a href="#route">路线</a>
+      <a href="#reserve">保护区</a>
+      <a href="#spots">景点</a>
+      <a href="#plans">方案</a>
+      <a href="#hours">营业时间</a>
+      <a href="#culture">人文</a>
+      <a href="#weather">天气</a>
+      <a href="#tips">贴士</a>
+      <a href="#glossary">速查</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+  <div class="nav-mobile-dropdown" id="navMobile">
+    <a class="back" href="../index.html">← 返回景点导航</a>
+    <a href="#top">顶部</a>
+    <a href="#route">自驾路线</a>
+    <a href="#reserve">保护区深度游</a>
+    <a href="#spots">景点卡片</a>
+    <a href="#plans">行程方案</a>
+    <a href="#hours">营业时间</a>
+    <a href="#culture">人文背景</a>
+    <a href="#weather">天气评估</a>
+    <a href="#tips">亲子贴士</a>
+    <a href="#glossary">关键信息速查</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" id="top">
+    <span class="hero-badge">🌊 广东·惠东 · 国家级自然保护区</span>
+    <h1 class="hero-title">惠东周末<span>家庭游</span></h1>
+    <p class="hero-subtitle">海龟湾＝国家级海龟自然保护区核心 · 2 天 1 夜轻奢自驾</p>
+    <div class="hero-line"></div>
+    <div class="hero-info">
+      <span>📍 广州荔湾君荟名轩出发</span>
+      <span>🚗 自驾 2.5–3h</span>
+      <span>👨‍👩‍👧‍👦 2 大 2 小</span>
+      <span>🐢 六年级 + 高一</span>
+      <span>🌞 海龟繁殖季 6–10 月</span>
+    </div>
+  </header>
+
+  <!-- ===== ROUTE ===== -->
+  <section class="section" id="route">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M12 3v18"/><circle cx="12" cy="12" r="9"/></svg>自驾路线</h2>
+    <p class="section-desc">目的地即<strong>广东惠东海龟国家级自然保护区</strong>——其核心区的月牙形海滩（绿海龟产卵地）自古被称为「海龟湾」，二者是同一处。君荟名轩 → 广佛肇/广惠高速 → 惠东 → X210/X213 → 港口滨海度假区，全程约 250 km。</p>
+    <div class="route-card">
+      <div class="route-info">
+        <div class="route-info-item"><div class="label">单程距离</div><div class="value">约 250 km</div></div>
+        <div class="route-info-item"><div class="label">自驾时长</div><div class="value">2.5–3 h</div></div>
+        <div class="route-info-item"><div class="label">往返费用</div><div class="value">≈ ¥300</div></div>
+      </div>
+      <div class="route-tips">
+        <strong>避堵要点：</strong>周末建议 <strong>07:00 前</strong> 出城、并赶在 <strong>07:00 前过巽寮湾大桥</strong>（7 点后易堵）；节假日海龟湾车位需在「惠州海龟湾」小程序预约。<br>
+        <strong>高铁备选：</strong>广州南 → 惠东站（约 1h，¥75/人）→ 打车约 40 分钟到海龟湾（约 ¥80/车），适合无车家庭。
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== RESERVE (核心深度游) ===== -->
+  <section class="section" id="reserve">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>保护区深度游（核心）</h2>
+    <p class="section-desc">本次旅行的<strong>绝对主角</strong>。先讲清身份，再列内部景点、官方动线与入园实操，周边景点统一放到后面「景点卡片」作顺游备选。</p>
+
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🐢 海龟湾 ＝ 保护区的核心</h4>
+      <p>广东惠东海龟国家级自然保护区位于惠东县港口滨海旅游度假区最南端的大星山南麓（稔平半岛最南端），由陆地（约 2 km²）+ 海域（约 716 km²）+ 外围保护带组成。<strong>核心区的月牙形海滩正是绿海龟的产卵地，自古被称为「海龟湾」</strong>——所以「海龟湾」是当地人对这片保护区的俗称，二者同一处。</p>
+      <ul style="margin-top:.5rem;">
+        <li>中国<strong>大陆 1.8 万公里海岸线上唯一的绿海龟按期成批洄游产卵场所</strong>，亚洲大陆架唯一的国家级海龟保护区。</li>
+        <li>1985 年始建、1992 年晋升<strong>国家级</strong>、2002 年列入《国际重要湿地名录》（拉姆萨尔公约）。</li>
+        <li>截至近年累计保护海龟产卵 740+ 窝、孵出小龟 6.8 万+ 只、放流 6.4 万+ 只；并攻克<strong>海龟全人工繁殖</strong>（2017 年国内首例 91 只出壳）。</li>
+      </ul>
+    </div>
+
+    <div style="margin:1.2rem 0;padding:1rem 1.2rem;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);border-radius:8px;">
+      <h4 style="margin:0 0 .5rem;color:#f59e0b;">⚠️ 能「看绿海龟成批洄游产卵」吗？—— 预期管理</h4>
+      <p style="margin:0 0 .5rem;">绿海龟繁殖季为 <strong>每年 6–10 月、高峰 7–8 月</strong>，你定的 8 月正好在季节里；但雌龟<strong>只在夜晚上岸（约 22:00–次日 03:00）</strong>产卵，而保护区为护龟实行<strong>严格限流：游客白天入园、夜间封闭</strong>，产卵核心沙滩不对游客开放，繁殖季 19:00–04:00 由工作人员值守。因此<strong>现场看不到夜间上岸产卵的过程</strong>。</p>
+      <p style="margin:0 0 .4rem;"><strong>8 月你能真正看到的：</strong></p>
+      <ul style="margin:.2rem 0 .5rem;padding-left:1.2rem;">
+        <li><strong>驯养中心 / 海龟馆</strong>：现存养护海龟 2000+ 只，含百岁 1.5m 巨龟、人工繁殖稚龟——"看海龟"的主战场。</li>
+        <li><strong>科普馆</strong>：完整讲交配周期、温度决定性别、约 60 天孵化、野外存活率仅 1‰、人工繁育成活率 90%。</li>
+        <li><strong>幼龟放流科普活动</strong>：卵约 50–60 天孵化，7–8 月产的蛋 9–10 月才出壳放流，<strong>8 月基本赶不上</strong>；可现场/公众号问当月是否有活动。</li>
+        <li><strong>线上"产卵直播"</strong>：部分年份保护区繁殖季有产卵监控直播（官方标注"观看直播"），留意公众号——这是唯一"看产卵"的合法窗口。</li>
+        <li><strong>会仙桥栈道偶遇</strong>：小概率外海偶遇野生海龟浮出水面，属彩蛋非必看。</li>
+      </ul>
+      <p style="margin:0;">一句话：8 月来能看到<strong>"海龟本身 + 完整科普 + 人工繁育成果"</strong>，看不到"夜间沙滩产卵现场"——这恰是保护区保护到位的表现。</p>
+    </div>
+
+    <div style="margin:1.2rem 0 .6rem;"><span class="day-label">保护区内部看点</span></div>
+    <div class="culture-grid">
+      <div class="culture-card" id="reserve-kepu">
+        <div class="media-cover"><img src="海龟湾/科普馆/index.png" alt="海龟湾科普馆" loading="lazy" decoding="async"></div>
+        <div class="culture-card-head"><div class="c-icon">🔬</div><h4>科普馆</h4></div>
+        <p>沉浸式海洋科普馆：海龟标本 + 大型投影，仿佛置身海底与海龟零距离；两层结构，约 <strong>10:00 有工作人员投食表演</strong>，是亲子必看的第一站。</p>
+        <div class="media-gallery">
+          <img src="海龟湾/科普馆/image copy.png" alt="海龟湾科普馆" loading="lazy" decoding="async">
+          <img src="海龟湾/科普馆/image4.png" alt="海龟湾科普馆" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="culture-card" id="reserve-huixian">
+        <div class="media-cover"><img src="海龟湾/观海栈道/index.png" alt="会仙桥观海栈道" loading="lazy" decoding="async"></div>
+        <div class="culture-card-head"><div class="c-icon">🌉</div><h4>会仙桥 · 观海栈道</h4></div>
+        <p>全长 <strong>600 余米</strong>的临海木栈道，依山傍海、蜿蜒于峭壁礁石之上，是观海绝佳点，也被称为「广东小垦丁」。晴天每帧都是壁纸，注意穿防滑鞋。</p>
+        <div class="media-gallery">
+          <img src="海龟湾/观海栈道/image copy.png" alt="会仙桥观海栈道" loading="lazy" decoding="async">
+          <img src="海龟湾/观海栈道/image.png" alt="会仙桥观海栈道" loading="lazy" decoding="async">
+          <img src="海龟湾/观海栈道/image3.png" alt="会仙桥观海栈道" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="culture-card" id="reserve-xunyang">
+        <div class="culture-card-head"><div class="c-icon">🐢</div><h4>驯养中心 · 海龟馆</h4></div>
+        <p>集科研、救护、科普于一体，既是海龟救助中心也是仿生态驯养基地。两层水族箱里海龟悠游，可近距离观察庞然大物；约 10:00 投食时段最热闹。</p>
+      </div>
+      <div class="culture-card" id="reserve-guanhai">
+        <div class="culture-card-head"><div class="c-icon">🔭</div><h4>观海亭 · 瞭望台</h4></div>
+        <p>登亭远眺，大星山南麓半月形海湾与礁石尽收眼底，是官方动线上的观景点，也是俯拍海龟湾的机位。海风阵阵，听涛最佳。</p>
+      </div>
+      <div class="culture-card" id="reserve-linggui">
+        <div class="culture-card-head"><div class="c-icon">🪧</div><h4>灵龟广场 · 杜鹃登陆地</h4></div>
+        <p>入口处的灵龟广场与「杜鹃登陆地」标识，纪念绿海龟洄游上岸产卵的生命轨迹，是动线起点与科普打卡点。</p>
+      </div>
+      <div class="culture-card" id="reserve-chanchang">
+        <div class="culture-card-head"><div class="c-icon">🥚</div><h4>产卵场 · 观龟长廊</h4></div>
+        <p>核心区的月牙形沙滩即「海龟湾」本湾，属保护核心，<strong>白天沙滩不对外开放</strong>，可于观龟长廊远观；繁殖季（6–10 月）夜间母龟上岸产卵，<strong>幼龟放流</strong>为科普活动（非每日开放，关注公众号）。</p>
+      </div>
+    </div>
+
+    <div class="info-card" style="opacity:1;transform:none;margin-top:1.2rem;">
+      <h4>🗺️ 官方推荐内部动线（约 3 小时）</h4>
+      <p><strong>游客中心 → 灵龟广场 → 杜鹃登陆地 → 观海亭瞭望台 → 凉亭 → 会仙桥（观海栈道）→ 驯养中心（海龟馆）→ 出口</strong></p>
+      <p style="margin-top:.5rem;">建议 <strong>8:30 一开园即入</strong>，人少景净、光线柔；先逛科普馆与海龟馆（约 10:00 投食），再走会仙桥栈道，最后乘观光车回出口。全程有坡道与台阶，带娃可乘观光车省力。</p>
+    </div>
+
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🎫 入园实操（必看）</h4>
+      <ul>
+        <li><span class="hl">预约</span>：关注公众号「惠州海龟湾」提前预约登记，<strong>每日限流 1500 人</strong>；节假日车位也需预约。</li>
+        <li><span class="hl">购票</span>：门票<strong>仅限当天线上购买、不退不提前售</strong>；成人 ¥30。</li>
+        <li><span class="ok">优待</span>：学生 / 60–70 岁 <strong>半价</strong>；1.2m 以下或 6 岁以下、70 岁以上、军官、导游、记者、残疾人 <strong>免</strong>。</li>
+        <li><span class="ok">开放</span>：5/1–10/31 <strong>8:30–17:30</strong>；11/1–4/30 8:30–17:00（停入）。</li>
+        <li><span class="ok">观光车</span>：单程 <strong>¥10/人（现金）</strong>，回程约 2 分钟；步行至出口约 20 分钟。</li>
+        <li><span class="ok">停车</span>：¥10/辆，不限时。</li>
+        <li><span class="hl">最佳</span>：6–9 月繁殖旺季；海龟馆约 10:00 投食。</li>
+        <li><span class="hl">礼仪</span>：禁用闪光灯，不投喂、不触碰海龟；栈道穿防滑鞋。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== SPOTS ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>景点卡片</h2>
+    <p class="section-desc"><strong>海龟湾（即保护区核心，完整规划见上方「保护区深度游」）</strong>是本程绝对主角；以下另列 3 个<strong>保护区周边顺游可选项</strong>（双月湾 / 平海古城 / 盐洲岛黑排角），按方案 A/B 取舍。各卡含实拍图（点封面图下方缩略图可切换），开放时间与亲子提示。</p>
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-turtle">
+        <div class="media-cover"><img src="海龟湾/科普馆/index.png" alt="海龟湾" loading="lazy" decoding="async"></div>
+        <div class="spot-card-header"><h4><span class="emoji">🐢</span>海龟湾（主）</h4><span class="spot-card-dist">港口镇</span></div>
+        <div class="spot-card-body">即<strong>广东惠东海龟国家级自然保护区</strong>的核心区（月牙形产卵沙滩），中国大陆唯一国家级海龟保护区。内部含科普馆、会仙桥观海栈道（约 600m）、驯养中心（海龟馆）、观海亭瞭望台等，官方动线约 3 小时。完整规划见上方「保护区深度游」。</div>
+        <div class="media-gallery">
+          <img src="海龟湾/科普馆/image copy.png" alt="海龟湾·科普馆" loading="lazy" decoding="async">
+          <img src="海龟湾/科普馆/image4.png" alt="海龟湾·科普馆" loading="lazy" decoding="async">
+          <img src="海龟湾/观海栈道/index.png" alt="海龟湾·观海栈道" loading="lazy" decoding="async">
+          <img src="海龟湾/观海栈道/image copy.png" alt="海龟湾·观海栈道" loading="lazy" decoding="async">
+          <img src="海龟湾/观海栈道/image.png" alt="海龟湾·观海栈道" loading="lazy" decoding="async">
+          <img src="海龟湾/观海栈道/image3.png" alt="海龟湾·观海栈道" loading="lazy" decoding="async">
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">必去</span><span class="spot-tag kid">亲子科普</span><span class="spot-tag">观光车省力</span></div>
+        <div class="spot-hours">🕘 <b>8:30–17:30（17:30 停入）</b>，学生半价、1.2m 以下免；禁闪光灯、不投喂/不触碰海龟；需小程序预约。</div>
+      </div>
+      <div class="spot-card" id="spot-shuangyue">
+        <div class="media-cover"><img src="双月湾/大星山观景台/index.png" alt="双月湾" loading="lazy" decoding="async"></div>
+        <div class="spot-card-header"><h4><span class="emoji">🌅</span>双月湾（观景台 + 情人堤）</h4><span class="spot-card-dist">港口镇</span></div>
+        <div class="spot-card-body">大星山观景台俯瞰「一湾两景」双月牙海湾；情人堤 1.5km 延伸到海里，免费看日落出片。</div>
+        <div class="media-gallery">
+          <img src="双月湾/大星山观景台/image copy.png" alt="双月湾·大星山观景台" loading="lazy" decoding="async">
+          <img src="双月湾/大星山观景台/image.png" alt="双月湾·大星山观景台" loading="lazy" decoding="async">
+          <img src="双月湾/情人堤/index.png" alt="双月湾·情人堤" loading="lazy" decoding="async">
+          <img src="双月湾/情人堤/image copy%202.png" alt="双月湾·情人堤" loading="lazy" decoding="async">
+          <img src="双月湾/情人堤/image copy%203.png" alt="双月湾·情人堤" loading="lazy" decoding="async">
+          <img src="双月湾/情人堤/image copy.png" alt="双月湾·情人堤" loading="lazy" decoding="async">
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag">日落</span></div>
+        <div class="spot-hours">🕘 <b>全天开放</b>。观景台盘山路，底盘低车停山脚步行约 15min。</div>
+      </div>
+      <div class="spot-card" id="spot-pinghai">
+        <div class="media-cover"><img src="平海古城/index.png" alt="平海古城" loading="lazy" decoding="async"></div>
+        <div class="spot-card-header"><h4><span class="emoji">🏯</span>平海古城</h4><span class="spot-card-dist">平海镇</span></div>
+        <div class="spot-card-body">明代洪武年间卫所古城，600 年海防遗存，十字古街与庙宇。尝平海薄饼。方案 B 核心。</div>
+        <div class="media-gallery">
+          <img src="平海古城/image.png" alt="平海古城" loading="lazy" decoding="async">
+          <img src="平海古城/image2.png" alt="平海古城" loading="lazy" decoding="async">
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag">历史</span></div>
+        <div class="spot-hours">🕘 <b>全天（街巷）</b>，无闭馆日；雨天亦可逛。</div>
+      </div>
+      <div class="spot-card" id="spot-yanzhou">
+        <div class="media-cover"><img src="盐洲岛-黑排角/index.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"></div>
+        <div class="spot-card-header"><h4><span class="emoji">🪨</span>盐洲岛黑排角</h4><span class="spot-card-dist">盐洲岛 · 黄埠镇</span></div>
+        <div class="spot-card-body">盐洲岛的黑排角黑色礁石群，退潮拾贝捉蟹、摄影出片；方案 A 核心赶海点，方案 B 也可顺游。免费进岛，查潮汐、穿防滑鞋、不进深水。</div>
+        <div class="media-gallery">
+          <img src="盐洲岛-黑排角/index.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%202.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%203.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%204.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%205.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+        </div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费进岛</span><span class="spot-tag kid">赶海</span></div>
+        <div class="spot-hours">🕘 <b>全天开放</b>；赶海查潮汐（全球潮汐 APP），穿防滑鞋、不进深水。</div>
+      </div>
+      <div class="spot-card" id="spot-xiaoxing" style="display:none"></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== PLANS ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>行程方案</h2>
+    <p class="section-desc">两方案<strong>首日完全一致</strong>（海龟湾 + 双月湾），差异在次日：A 自然探索线（盐洲岛黑排角赶海 + 双月湾沙滩 / 礁石酒吧）更适合爱玩水放松；B 文化休闲线（平海古城 + 双月湾沙滩）。点选切换，链接可分享。</p>
+
+    <!-- 共同首日 -->
+    <div class="info-card" id="day1">
+      <h4>📅 共同首日（周六 · 两方案一致）</h4>
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六（两方案一致）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>10:00</td><td>君荟名轩自驾 → 海龟湾（约 250km）</td><td>3h</td></tr>
+              <tr><td>10:00</td><td>10:30</td><td>港口镇 · 行李寄存</td><td>0.5h</td></tr>
+              <tr><td>10:30</td><td>13:00</td><td>海龟湾（保护区核心 · 科普馆 / 会仙桥栈道）</td><td>2.5h</td></tr>
+              <tr><td>13:00</td><td>15:30</td><td>港口海鲜午餐 + 酒店午休（避正午高温）</td><td>2.5h</td></tr>
+              <tr><td>15:30</td><td>17:30</td><td>双月湾 · 大星山观景台 / 情人堤日落</td><td>2h</td></tr>
+              <tr><td>17:30</td><td>—</td><td>海鲜晚餐 + 海滩散步消食</td><td>自由</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content"><h4>君荟名轩自驾出发 → 海龟湾</h4><p>走广佛肇 / 广惠高速一路向东，全程约 <strong>250 km、3 小时</strong>。车上备好零食、饮水与晕车贴，两个孩子可在后排小憩，抵达时正好精神饱满；导航设为「海龟湾（广东惠东海龟国家级自然保护区）」，避免被带去收费仿冒景点。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag kid">3h 车程</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00</div><div class="timeline-content"><h4>抵达港口镇 · 行李寄存</h4><p>约 10:00 抵达，先把行李寄存酒店（暂不入住），轻装直奔海龟湾，省去往返搬运行李。</p><div class="timeline-tags"><span class="timeline-tag">0.5h</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:30</div><div class="timeline-content"><h4>海龟湾（保护区核心）</h4><p>10:30 一入园先冲<strong>科普馆与驯养中心（海龟馆）</strong>，约 10:00 有投食表演，先看庞然大物再走会仙桥 600m 临海栈道；老人小孩可乘 <strong>¥10 观光车</strong>回出口省力。完整看点、官方动线与预约购票见上方「<a class="in-doc-link" href="#reserve">保护区深度游</a>」。</p><div class="timeline-tags"><span class="timeline-tag free">¥30 学生半价</span><span class="timeline-tag kid">亲子必看</span></div><div class="media-cover"><img src="海龟湾/科普馆/index.png" alt="海龟湾·科普馆" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="海龟湾/科普馆/index.png" alt="海龟湾·科普馆" loading="lazy" decoding="async"><img src="海龟湾/科普馆/image copy.png" alt="海龟湾·科普馆" loading="lazy" decoding="async"><img src="海龟湾/观海栈道/index.png" alt="海龟湾·观海栈道" loading="lazy" decoding="async"><img src="海龟湾/观海栈道/image.png" alt="海龟湾·观海栈道" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00</div><div class="timeline-content"><h4>港口海鲜市场午餐 + 酒店休整</h4><p>13:00 到<strong>港口海鲜市场</strong>自选生猛、找店代加工，既新鲜又划算；饭后回酒店入住、午休约 2 小时，正好避开 8 月正午 35℃+ 暴晒与午后雷阵雨，养足精神再出门。</p><div class="timeline-tags"><span class="timeline-tag food">海鲜</span><span class="timeline-tag hotel">午休</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:30</div><div class="timeline-content"><h4>双月湾 · 大星山观景台 / 情人堤</h4><p>15:30 出发登<strong>大星山观景台</strong>俯瞰「一湾两景」，17:30 到<strong>情人堤</strong>守一场日落；夜间海鲜晚餐后沿海滩散步消食，孩子踩沙踏浪，第一天轻松收尾。</p><div class="timeline-tags"><span class="timeline-tag">免费</span><span class="timeline-tag kid">亲子出片</span></div><div class="media-cover"><img src="双月湾/情人堤/index.png" alt="双月湾" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="双月湾/情人堤/index.png" alt="双月湾" loading="lazy" decoding="async"><img src="双月湾/情人堤/image copy.png" alt="双月湾" loading="lazy" decoding="async"><img src="双月湾/情人堤/image copy%202.png" alt="双月湾" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/index.png" alt="双月湾" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/image.png" alt="双月湾" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/image copy.png" alt="双月湾" loading="lazy" decoding="async"></div></div></div>
+      </div>
+      <p>🌡️ <span class="hl">天气策略</span>：海龟湾放在<strong>上午凉爽时段</strong>，正午 13:00–15:00 安排室内/酒店休整，傍晚再出门看落日，避开 8 月高温与雷阵雨（详见 <a class="in-doc-link" href="#weather">天气评估</a>）。⚠️ 海龟湾须公众号「惠州海龟湾」<strong>提前预约</strong>（每日限流 1500），门票当天线上买、不退；学生带证件享半价（详见「<a class="in-doc-link" href="#hours">营业时间</a>」）。</p>
+    </div>
+
+    <!-- 方案选择 -->
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 自然探索线</span>
+        <span class="plan-desc">盐洲岛黑排角赶海 + 双月湾沙滩 / 礁石酒吧</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案 B · 文化休闲线</span>
+        <span class="plan-desc">平海古城 + 双月湾沙滩</span>
+      </button>
+    </div>
+
+    <!-- 方案 A -->
+    <div class="plan-content active" id="planA">
+      <div class="plan-media">
+        <div class="media-cover"><img src="盐洲岛-黑排角/index.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="盐洲岛-黑排角/index.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%202.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%203.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%204.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+          <img src="盐洲岛-黑排角/image copy%205.png" alt="盐洲岛黑排角" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="plan-summary">
+        <div class="day-label">DAY 2 · 周日（方案 A）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>06:00</td><td>07:00</td><td>（可选）大星山观景台看日出</td><td>1h</td></tr>
+              <tr><td>09:00</td><td>12:00</td><td>盐洲岛黑排角赶海 + 拾贝（距双月约 20min）</td><td>3h</td></tr>
+              <tr><td>12:00</td><td>13:30</td><td>午餐（渔家乐 / 海鲜）</td><td>1.5h</td></tr>
+              <tr><td>13:30</td><td>16:00</td><td>双月湾左湾沙滩玩水 + 礁石酒吧休闲（网红打卡，提前约）</td><td>2.5h</td></tr>
+              <tr><td>16:00</td><td>19:00</td><td>返程广州（避晚高峰）</td><td>3h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">06:00 · 可选</div><div class="timeline-content"><h4>大星山观景台日出</h4><p>免费。清晨登顶俯瞰双月湾「一湾两景」，日出金光铺海，随手出片；山路略陡，带手电、穿防滑鞋。</p><div class="timeline-tags"><span class="timeline-tag">免费</span><span class="timeline-tag kid">亲子出片</span></div><div class="media-cover"><img src="双月湾/大星山观景台/index.png" alt="大星山观景台" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="双月湾/大星山观景台/index.png" alt="大星山观景台" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/image.png" alt="大星山观景台" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/image copy.png" alt="大星山观景台" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00</div><div class="timeline-content"><h4>盐洲岛黑排角赶海 + 拾贝</h4><p>盐洲岛的黑排角黑色礁石群，退潮时滩涂招潮蟹、贝壳最多。带赶海三件套（小铲 + 网兜 + 桶），穿防滑鞋，不进深水区。</p><div class="timeline-tags"><span class="timeline-tag free">免费进岛</span><span class="timeline-tag kid">探索感强</span></div><div class="media-cover"><img src="盐洲岛-黑排角/index.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="盐洲岛-黑排角/index.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"><img src="盐洲岛-黑排角/image copy.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"><img src="盐洲岛-黑排角/image copy%202.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"><img src="盐洲岛-黑排角/image copy%203.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"><img src="盐洲岛-黑排角/image copy%204.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"><img src="盐洲岛-黑排角/image copy%205.png" alt="盐洲岛黑排角" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:30</div><div class="timeline-content"><h4>双月湾左湾沙滩玩水 + 礁石酒吧</h4><p>午后转场双月湾左湾，沙滩平缓适合孩子玩沙戏水、踏浪；再上<strong>礁石酒吧</strong>坐坐——悬崖海景网红打卡点，吹海风喝点饮料，¥98 起步，<span class="hl">需提前在公众号预约</span>。比浮潜更省心，低龄小朋友也友好。</p><div class="timeline-tags"><span class="timeline-tag">沙滩</span><span class="timeline-tag drive">礁石酒吧需预约</span></div><div class="media-cover"><img src="双月湾/情人堤/index.png" alt="双月湾沙滩" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="双月湾/情人堤/index.png" alt="双月湾沙滩" loading="lazy" decoding="async"><img src="双月湾/情人堤/image copy.png" alt="双月湾沙滩" loading="lazy" decoding="async"><img src="双月湾/情人堤/image copy%202.png" alt="双月湾沙滩" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/index.png" alt="双月湾沙滩" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:00</div><div class="timeline-content"><h4>返程广州</h4><p>16:00 前出发避开周日 17:00–20:00 返城高峰，预计 19:00 前到家，孩子还能吃晚饭、不误周一上学。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span></div></div></div>
+      </div>
+      <div class="info-card" style="opacity:1;transform:none;margin-top:1rem;">
+        <h4>💰 方案 A 费用（2 大 2 小 · 轻奢）</h4>
+        <p>交通 ¥300 + 住宿 ¥1,200–2,500 + 门票（海龟湾 ¥170）+ 餐饮 ¥1,000–1,300 + 礁石酒吧 ¥200–400 + 其他 ¥200 ≈ <span class="ok">¥2,900–4,900</span>（人均约 ¥700–1,200）。不含浮潜，比原方案省约 ¥670。</p>
+      </div>
+    </div>
+
+    <!-- 方案 B -->
+    <div class="plan-content" id="planB">
+      <div class="plan-media">
+        <div class="media-cover"><img src="平海古城/index.png" alt="平海古城" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="平海古城/index.png" alt="平海古城" loading="lazy" decoding="async">
+          <img src="平海古城/image.png" alt="平海古城" loading="lazy" decoding="async">
+          <img src="平海古城/image2.png" alt="平海古城" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="plan-summary">
+        <div class="day-label">DAY 2 · 周日（方案 B）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>06:00</td><td>07:00</td><td>（可选）大星山观景台看日出</td><td>1h</td></tr>
+              <tr><td>09:00</td><td>11:30</td><td>平海古城（明代卫所 · 平海薄饼）</td><td>2.5h</td></tr>
+              <tr><td>11:30</td><td>13:00</td><td>午餐（客家酿豆腐 / 梅菜扣肉 / 窑鸡）</td><td>1.5h</td></tr>
+              <tr><td>13:30</td><td>16:00</td><td>双月湾沙滩玩沙 / 盐洲岛黑排角赶海（查潮汐）</td><td>2.5h</td></tr>
+              <tr><td>16:00</td><td>19:00</td><td>返程广州（避晚高峰）</td><td>3h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">06:00 · 可选</div><div class="timeline-content"><h4>大星山观景台日出</h4><p>免费。清晨登顶俯瞰双月湾全景，日出金光铺海。</p><div class="timeline-tags"><span class="timeline-tag">免费</span></div><div class="media-cover"><img src="双月湾/大星山观景台/index.png" alt="大星山观景台" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="双月湾/大星山观景台/index.png" alt="大星山观景台" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/image.png" alt="大星山观景台" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/image copy.png" alt="大星山观景台" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00</div><div class="timeline-content"><h4>平海古城</h4><p>始建于明代洪武年间的卫所古城，城墙、十字古街、庙宇透着历史气息；尝<strong>平海薄饼</strong>。详见 <a class="in-doc-link" href="#culture">人文背景</a>。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag kid">历史课</span></div><div class="media-cover"><img src="平海古城/index.png" alt="平海古城" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="平海古城/index.png" alt="平海古城" loading="lazy" decoding="async"><img src="平海古城/image.png" alt="平海古城" loading="lazy" decoding="async"><img src="平海古城/image2.png" alt="平海古城" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:30</div><div class="timeline-content"><h4>双月湾沙滩 / 盐洲岛黑排角赶海</h4><p>双月湾左湾沙滩平缓适合玩沙戏水；盐洲岛黑排角黑色礁石群退潮时可捡贝壳捉小蟹，注意潮汐与湿滑。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag kid">玩沙</span></div><div class="media-cover"><img src="双月湾/情人堤/index.png" alt="双月湾沙滩" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="双月湾/情人堤/index.png" alt="双月湾沙滩" loading="lazy" decoding="async"><img src="双月湾/情人堤/image copy.png" alt="双月湾沙滩" loading="lazy" decoding="async"><img src="双月湾/情人堤/image copy%202.png" alt="双月湾沙滩" loading="lazy" decoding="async"><img src="双月湾/大星山观景台/index.png" alt="双月湾沙滩" loading="lazy" decoding="async"></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:00</div><div class="timeline-content"><h4>返程广州</h4><p>16:00 前出发避晚高峰，预计 19:00 前到家。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span></div></div></div>
+      </div>
+      <div class="info-card" style="opacity:1;transform:none;margin-top:1rem;">
+        <h4>💰 方案 B 费用（2 大 2 小 · 轻奢）</h4>
+        <p>交通 ¥300 + 住宿 ¥1,200–2,500 + 门票（海龟湾 ¥170）+ 餐饮 ¥1,000–1,300 + 其他 ¥200 ≈ <span class="ok">¥2,900–4,500</span>（人均约 ¥700–1,100）。不含浮潜，比方案 A 省约 ¥670。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== HOURS ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>营业时间 & 行程复核</h2>
+    <p class="section-desc">下列时间为联网核实（携程 / 同程 / 腾讯地图等）的常规开放信息，<span class="hl">以出行当日景区官方公告为准</span>。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>海龟湾（保护区）</td><td>5.1–10.31<br>8:30–17:30（停入）<br>11.1–4.30 8:30–17:00</td><td>成人 ¥30；学生 / 60–70 岁半价；1.2m 以下或 6 岁以下 / 70 岁+ / 军官 / 导游 / 记者 / 残疾 免</td><td>每日限流 1500；公众号「惠州海龟湾」预约 + 当天购票（不退）；观光车单程 ¥10（现金）</td></tr>
+          <tr><td>双月湾观景台</td><td>全天开放</td><td>免费</td><td>盘山路上行，底盘低车停山脚步行约 15min</td></tr>
+          <tr><td>情人堤</td><td>全天开放</td><td>免费</td><td>1.5km 堤岸延伸到海里，免费看日落</td></tr>
+          <tr><td>平海古城</td><td>全天（街巷）</td><td>免费</td><td>无闭馆日，雨天也可逛</td></tr>
+          <tr><td>盐洲岛黑排角</td><td>全天开放</td><td>免费进岛</td><td>活动（赶海/包船）付费；黑色礁石群退潮可赶海，查潮汐</td></tr>
+          <tr><td>礁石酒吧</td><td>约 09:00 起</td><td>约 ¥98 起</td><td>悬崖海景网红打卡，需提前在公众号预约</td></tr>
+          <tr><td>礁石酒吧</td><td>约 09:00 起</td><td>约 ¥98</td><td>需提前在公众号预约</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>✅ 行程复核结论</h4>
+      <ul>
+        <li>海龟湾旺季 <span class="ok">17:30 停入</span>，已把首日下午排满、上午即入园，从容不赶；学生票需带证件。</li>
+        <li><span class="hl">幼龟放流</span>为保护区科普活动，非每日常规开放，具体场次关注「惠州海龟湾」公众号，遇场次优先参加（亲子高光）。</li>
+        <li>全部为户外/开放景点，<span class="ok">无周一闭馆冲突</span>；平海古城等人文点亦无闭馆限制。</li>
+        <li>注意区分：<span class="hl">大鹏半岛车辆预约规则不适用于惠东</span>，惠东仅需海龟湾车位/门票预约。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== SPOTS ===== -->
+  <!-- ===== CULTURE ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>人文背景 · 给孩子的解说</h2>
+    <p class="section-desc">看景也看门道，把地理、历史、生态讲给孩子听。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-turtle">
+        <div class="culture-card-head"><div class="c-icon">🐢</div><h4>海龟湾与绿海龟</h4></div>
+        <h5>背景</h5>
+        <p>这里是中国大陆<strong>唯一</strong>的国家级海龟自然保护区，1985 年始建、1992 年晋升国家级，被列入国际重要湿地。绿海龟每年洄游数千公里回到出生地沙滩产卵，是濒危物种。俗称的「海龟湾」即其核心区的月牙形产卵沙滩，二者本就是同一处。</p>
+        <h5>讲给孩子听</h5>
+        <ul>
+          <li>海龟靠<strong>地球磁场</strong>导航，能游几千公里回到自己出生的海滩——像装了导航的活化石。</li>
+          <li>为什么<strong>不能摸、不能喂</strong>：人类气味和触碰会惊扰海龟，甚至让母龟放弃产卵。</li>
+          <li>遇到<strong>幼龟放流</strong>：小海龟要自己爬向大海，这是生命的第一场冒险，我们只在远处安静守护。</li>
+        </ul>
+      </div>
+      <div class="culture-card" id="culture-pinghai">
+        <div class="culture-card-head"><div class="c-icon">🏯</div><h4>平海古城 · 明代海防</h4></div>
+        <h5>背景</h5>
+        <p>始建于明洪武二十七年（1394 年）的<strong>卫所古城</strong>，是抵御倭寇的海防要塞，600 多年保存着城墙、十字古街与庙宇，当地还保留独特的「军声」方言。</p>
+        <h5>讲给孩子听</h5>
+        <ul>
+          <li>古代「<strong>卫所</strong>」就像驻扎在海边的军营城堡，士兵平时种地、战时守海。</li>
+          <li>古城为什么是<strong>十字街</strong>：方便兵马快速调动，也像现在的网格马路。</li>
+          <li>尝一口<strong>平海薄饼</strong>，这是当地几百年传下来的小吃。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== WEATHER ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 1 0-11.8 2.1A4 4 0 0 0 6 19z"/></svg>天气影响评估（8 月台风季）</h2>
+    <p class="section-desc">8 月是华南<strong>台风与高温高发期</strong>，天气是出行安全的第一变量。以下为联网核实（中央气象台 / 广东天气 / 惠州天气）的当月规律与风险评估。</p>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>📡 当月天气窗口（广东 2026 年 8 月趋势）</h4>
+      <ul>
+        <li><span class="hl">4 次主要降水过程</span>：1–3 日、10–14 日、21–22 日、25–30 日（后段可达暴雨到大暴雨，并伴热带气旋）。</li>
+        <li><span class="hl">2 次高温过程</span>：8–9 日、15–18 日（最高 35℃+）。</li>
+        <li><span class="hl">1–2 个热带气旋</span>可能登陆或严重影响广东，大致在上旬末—中旬前期、下旬中后期。</li>
+        <li>当前（8/5）惠东县已发布<strong>高温黄色预警</strong>，未来几天最高 35℃+，午后宜减少户外。</li>
+      </ul>
+      <p style="margin-top:.6rem;">📍 <span class="ok">位置校准</span>：惠东位于惠州南部沿海，台风影响取决于路径；即便只是外围，沿海风力与降雨也明显强于内陆，需以出行日实时预报为准。</p>
+    </div>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🚦 逐段风险对照表</h4>
+      <div class="table-scroll">
+        <table class="weather-table">
+          <thead><tr><th>时段 / 节点</th><th>活动</th><th>地点</th><th>风险</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>D1 上午</td><td>自驾出城</td><td>广惠高速</td><td><span class="badge green">🟢 低</span></td><td>早 7 点前出发避周六出城高峰</td></tr>
+            <tr><td>D1 上午</td><td>海龟湾栈道（户外）</td><td>海龟湾</td><td><span class="badge yellow">🟡 注意</span></td><td>排上午凉爽时段；雷阵雨则改室内科普馆保底</td></tr>
+            <tr><td>D1 傍晚</td><td>双月湾落日</td><td>情人堤</td><td><span class="badge green">🟢 低</span></td><td>傍晚海风舒适，最佳户外段</td></tr>
+            <tr><td>D2 上午</td><td>赶海 / 古城</td><td>盐洲岛黑排角（A）/ 平海（B）</td><td><span class="badge yellow">🟡 注意</span></td><td>赶海须查潮汐；雷雨则改古城（室内友好）</td></tr>
+            <tr><td>D2 下午</td><td>沙滩 / 礁石酒吧</td><td>双月湾左湾（A 与 B 共）</td><td><span class="badge yellow">🟡 注意</span></td><td>戏水看护儿童、礁石湿滑；台风/雷雨大风橙以上取消</td></tr>
+            <tr><td>D2 傍晚</td><td>返程高速</td><td>返穗</td><td><span class="badge yellow">🟡 注意</span></td><td>暴雨影响能见度/路况，提前或延后出发</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🧭 调整建议</h4>
+      <ul>
+        <li><span class="ok">选窗口</span>：优先挑<strong>降水间歇且非高温</strong>的周末，避开 25–30 日强降水/台风段与 8–9、15–18 高温段。</li>
+        <li><span class="ok">排时段</span>：户外段放上午/傍晚，13:00–15:00 避暑（酒店休整或室内）。</li>
+        <li><span class="ok">保底</span>：海龟<strong>科普馆</strong>为室内段，遇雷阵雨可兜底。</li>
+        <li><span class="hl">必查</span>：出发前 1–2 日查中央气象台 / 广东天气 / 惠州天气；若发<strong>台风黄/橙/红或雷雨大风橙色以上</strong>，户外段一律取消或改期。</li>
+        <li>本页天气为<strong>规律与评估</strong>，<span class="hl">出行当日务必再核实时预警与雷达</span>。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== TIPS ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>亲子贴士</h2>
+    <p class="section-desc">来自 km 家庭 4 口之行的经验沉淀（详见仓库规范）。</p>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🌞 防暑防晒</h4>
+      <ul>
+        <li>每 2 小时补涂防晒，遮阳帽 + 墨镜；16:00 前结束暴晒戏水（当前高温黄警）。</li>
+        <li>正午 13:00–15:00 安排室内/酒店，别在悬崖、礁石、沙滩无遮挡硬扛。</li>
+      </ul>
+    </div>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🐢 海龟湾礼仪</h4>
+      <ul>
+        <li>栈道穿<strong>防滑鞋</strong>；海龟馆<strong>禁用闪光灯</strong>；不投喂、不触碰海龟。</li>
+        <li>观光车约 ¥20/人，带娃省力；学生票带证件。</li>
+      </ul>
+    </div>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🦀 赶海 & 预约</h4>
+      <ul>
+        <li>赶海查潮汐（「全球潮汐」APP / 微信「潮汐精灵」），穿防滑鞋、不进深水区。</li>
+        <li>海龟湾门票 + 车位在「惠州海龟湾」小程序预约；礁石酒吧提前约。</li>
+        <li>消费：港口市场<strong>自选鲜活 → 餐馆加工</strong>（约 ¥10–15/道），防路边拉客。</li>
+      </ul>
+    </div>
+    <div class="info-card" style="opacity:1;transform:none;">
+      <h4>🚗 节奏 & 行李</h4>
+      <ul>
+        <li>自驾<strong>行李全程放车上</strong>，玩完景点再入住，不浪费上午寄存时间。</li>
+        <li>不赶夜路：16:00 前返程，预计 19:00 前到家，不误周一上学。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== GLOSSARY ===== -->
+  <section class="section" id="glossary">
+    <h2 class="section-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>关键信息速查</h2>
+    <p class="section-desc">一页带走的核心信息。</p>
+    <div class="glossary-grid">
+      <div class="glossary-card">
+        <h4>💰 费用速算（2 大 2 小 · 轻奢）</h4>
+        <ul>
+          <li><span class="k">交通</span>往返油费+过路费 ≈ ¥300</li>
+          <li><span class="k">住宿</span>轻奢酒店 1 晚 ¥1,200–2,500</li>
+          <li><span class="k">门票</span>海龟湾 ¥170（含观光车）</li>
+          <li><span class="k">餐饮</span>¥1,000–1,300</li>
+          <li><span class="k">其他</span>停车/零食/赶海工具 ¥200</li>
+          <li><span class="k">方案B</span>≈ ¥2,900–4,500（人均 ¥700–1,100）</li>
+          <li><span class="k">方案A</span>+ 浮潜 ¥672 → ≈ ¥3,600–5,200</li>
+        </ul>
+      </div>
+      <div class="glossary-card">
+        <h4>🎒 必带清单</h4>
+        <ul>
+          <li><span class="k">防晒</span>防晒霜、遮阳帽、墨镜</li>
+          <li><span class="k">鞋</span>防滑鞋（栈道/礁石/滩涂）</li>
+          <li><span class="k">玩水</span>泳衣、拖鞋、换洗衣物</li>
+          <li><span class="k">赶海</span>小铲 + 网兜 + 桶</li>
+          <li><span class="k">电子</span>充电宝、相机</li>
+          <li><span class="k">儿童</span>儿童防晒、常备药</li>
+        </ul>
+      </div>
+      <div class="glossary-card">
+        <h4>📅 预约 & 关键时间</h4>
+        <ul>
+          <li><span class="k">海龟湾</span>「惠州海龟湾」小程序：门票+车位</li>
+          <li><span class="k">酒店</span>轻奢酒店提前订（周末紧）</li>
+          <li><span class="k">礁石酒吧</span>公众号提前预约（网红打卡）</li>
+          <li><span class="k">海龟湾</span>8:30 开 / 17:30 停入</li>
+          <li><span class="k">巽寮湾大桥</span>周末 7 点前过</li>
+        </ul>
+      </div>
+      <div class="glossary-card">
+        <h4>🍽️ 美食 TOP</h4>
+        <ul>
+          <li><span class="k">海鲜</span>清蒸石斑 / 椒盐皮皮虾 / 蒜蓉生蚝 / 海鲜粥 / 海胆炒饭</li>
+          <li><span class="k">小吃</span>平海薄饼 / 紫菜饼 / 蚝仔烙 / 海石花冻</li>
+          <li><span class="k">客家</span>酿豆腐 / 梅菜扣肉 / 窑鸡</li>
+          <li><span class="k">玩法</span>港口市场自选 → 加工（¥10–15/道）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      返回景点导航
+    </a>
+    <p>XBrain &copy; 2026 · 惠东周末家庭游</p>
+    <p>探索未知，连接世界</p>
+    <p class="footer-version">v20260806-1631</p>
+  </footer>
+
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== PLAN SWITCH (deep-linkable) =====
+      var PLAN_IDS = ['planA', 'planB'];
+      window.switchPlan = function (planId, silent) {
+        var match = planId || (window.event && window.event.currentTarget &&
+          (window.event.currentTarget.getAttribute('onclick') || '').match(/switchPlan\('([^']+)'\)/));
+        var id = (typeof planId === 'string') ? planId : (match && match[1]);
+        if (!id || PLAN_IDS.indexOf(id) === -1) return;
+        document.querySelectorAll('.plan-btn').forEach(function (btn) {
+          var onClick = btn.getAttribute('onclick') || '';
+          var m = onClick.match(/switchPlan\('([^']+)'\)/);
+          btn.classList.toggle('active', m && m[1] === id);
+        });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(id);
+        if (target) target.classList.add('active');
+        if (!silent && window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', '#' + id);
+        }
+      };
+
+      // ===== NAV SCROLL-SPY + HAMBURGER =====
+      var navLinks = Array.prototype.slice.call(document.querySelectorAll('#navInner a')).filter(function (a) {
+        return (a.getAttribute('href') || '').indexOf('#') === 0;
+      });
+      var mobileLinks = Array.prototype.slice.call(document.querySelectorAll('#navMobile a')).filter(function (a) {
+        return (a.getAttribute('href') || '').indexOf('#') === 0;
+      });
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = 'top';
+        sections.forEach(function (s) {
+          if (scrollY >= s.el.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        mobileLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+
+      var navTicking = false;
+      window.addEventListener('scroll', function () {
+        if (!navTicking) {
+          window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
+          navTicking = true;
+        }
+      }, { passive: true });
+      setActiveNav();
+
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        navMobile.classList.remove('open');
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        } else {
+          hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        }
+      });
+
+      // ===== ANCHOR SMOOTH SCROLL + PUSHSTATE =====
+      var anchors = document.querySelectorAll('a[href^="#"]');
+      anchors.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          var id = hash.substring(1);
+          var target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', hash);
+          }
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) {
+        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu();
+      });
+
+      // ===== REVEAL ON SCROLL =====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card, .qa-card');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+
+      // ===== MEDIA GALLERY: 点击缩略图切换封面（首图始终可回访）=====
+      function decode(u) { try { return decodeURIComponent(u); } catch (e) { return u; } }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var img = cover.querySelector('img');
+        if (!img) return;
+        var host = cover.parentElement;            // .spot-card / .culture-card / .plan-media
+        var gallery = host && host.querySelector(':scope > .media-gallery');
+        if (!gallery) gallery = cover.parentElement.querySelector('.media-gallery');
+        if (!gallery) return;
+        // 若封面图尚未在缩略图条中，自动补为第一张，保证「首图」可重复点击
+        var coverSrc = decode(img.getAttribute('src'));
+        var exists = Array.prototype.some.call(gallery.querySelectorAll('img'), function (t) {
+          return decode(t.getAttribute('src')) === coverSrc;
+        });
+        if (!exists) {
+          var first = document.createElement('img');
+          first.src = img.src;
+          first.alt = img.alt || '首图';
+          first.title = '首图';
+          first.loading = 'lazy';
+          first.className = 'is-cover';
+          gallery.insertBefore(first, gallery.firstChild);
+        }
+        // 初始高亮与封面一致的缩略图
+        Array.prototype.forEach.call(gallery.querySelectorAll('img'), function (t) {
+          if (decode(t.getAttribute('src')) === coverSrc) t.classList.add('active');
+        });
+      });
+      document.querySelectorAll('.media-gallery').forEach(function (gallery) {
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          var host = gallery.closest('.spot-card, .culture-card, .plan-media, .timeline-content');
+          var cover = host && host.querySelector('.media-cover img');
+          if (!cover) return;
+          cover.src = thumb.src;
+          Array.prototype.forEach.call(gallery.querySelectorAll('img'), function (t) { t.classList.remove('active'); });
+          thumb.classList.add('active');
+        });
+      });
+
+      // ===== DEEP-LINK ON LOAD =====
+      window.addEventListener('load', function () {
+        var hash = window.location.hash.substring(1);
+        if (hash && PLAN_IDS.indexOf(hash) !== -1) {
+          switchPlan(hash, true);
+          setTimeout(function () {
+            var plans = document.getElementById('plans');
+            if (plans) plans.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 450);
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
