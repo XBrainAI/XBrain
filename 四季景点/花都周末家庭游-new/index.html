@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 · 花都周末家庭游-new（游记型重编 · 2026-08-12）
+  ----------------------------------------------------------------------------
+  派生自 src/site-template-travelogue.html（纯游记模板），并按需求保留了旧站
+  「花都周末家庭游」的专属规划内容（方案 A-E、景点、人文、酒店、预算、贴士、
+  QA、路线、开放时间）。所有图文均按 src 规范还原：
+    - 配图统一用 .media-block（首图自动解析 index.* 优先，点击缩略图切换）；
+    - 视频首屏用 <video preload="metadata"> 不设 poster（本子站无视频）；
+    - 已完成方案用红色圆形邮戳（plan-stamp）；
+    - 竖屏图由 syncOrient() 自动完整显示。
+  内容源：花都周末家庭游-new/游记/README.MD（出行日期 + 简介）。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>花都周末家庭游 · 7/25 当天往返游记 · XBrain</title>
+  <meta property="og:image" content="index.html.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（暖色游记皮肤；并补充旧站组件所需 --xb-* 令牌）===== */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #14101f;
+      --xb-light: #241a30;
+      --accent: #ffc46b;
+      --accent2: #ffd9a0;
+      --accent-glow: rgba(255, 180, 100, 0.16);
+      --accent-border: rgba(255, 180, 100, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(255, 180, 100, 0.16) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(255, 200, 140, 0.10) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      /* 旧站组件兼容令牌 */
+      --xb-accent: #ffc46b;
+      --xb-text: #e8ecf4;
+      --xb-border: rgba(255, 180, 100, 0.22);
+      --xb-warn: #ffd166;
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(255,180,100,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(255,180,100,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 56vh; min-height: 56dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem;
+      background: linear-gradient(rgba(10,10,26,.74), rgba(10,10,26,.9)), var(--hero-grad), url('index.png') center/cover no-repeat;
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID / QUICK FACTS ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+    .info-card .fact-row { display: flex; justify-content: space-between; gap: 1rem; padding: .25rem 0; border-bottom: 1px dashed rgba(255,255,255,.06); }
+    .info-card .fact-row:last-child { border-bottom: 0; }
+    .info-card .fact-row .k { color: var(--text-hint); }
+    .info-card .fact-row .v { color: var(--text); text-align: right; }
+
+    /* ===== 媒体组件：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(255,180,100,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-cover.img-portrait { aspect-ratio: auto; display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); }
+    .log-video { width: 100%; border-radius: 12px; margin: .6rem 0 .2rem; background: #000; display: block; border: 1px solid var(--accent-border); }
+    .log-video-cap { font-size: .74rem; color: var(--text-hint); margin-bottom: .8rem; }
+
+    /* === 游记核心模块 CSS（源自 site-template-travelogue-core.html）=== */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text-dim); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+    .chapter-tag.drive { border-color: #4da6ff; color: #80bfff; }
+
+    /* ===== 美食 & 随手发现 ===== */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+    /* === END 游记核心模块 CSS ============================================== */
+
+    /* ===== 实用信息 TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box.danger { border-color: rgba(255,107,107,.4); background: rgba(40,20,22,.4); }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; display: flex; align-items: center; gap: .4rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+    .back-link { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.6rem; border: 1px solid var(--accent-border); border-radius: 10px; color: var(--accent2); text-decoration: none; font-size: .9rem; transition: all .2s; }
+    .back-link:hover { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+    .section.center { text-align: center; }
+
+    /* ============================================================
+       以下为旧站专属规划内容组件（按 src 规范重排，复用设计令牌）
+       ============================================================ */
+
+    /* ===== 计划选择（方案 A-E + E1）===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: .7rem; margin-bottom: 1.6rem; }
+    .plan-btn { position: relative; text-align: left; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: .85rem 1rem; cursor: pointer; color: var(--text-dim); transition: all .2s; font-family: inherit; }
+    .plan-btn:hover { border-color: var(--accent); color: var(--text); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(255,180,100,.10); color: var(--text); box-shadow: 0 0 0 1px var(--accent) inset; }
+    .plan-btn .plan-name { display: block; font-weight: 700; font-size: .9rem; color: var(--text); margin-bottom: .25rem; }
+    .plan-btn .plan-desc { display: block; font-size: .74rem; line-height: 1.45; color: var(--text-dim); }
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeUp .4s ease; }
+    [hidden] { display: none !important; } /* 游记门控：#log/#food 默认 hidden，仅在已执行方案激活时由 JS 移除 hidden */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    /* 红色圆形邮戳（已完成方案）*/
+    .plan-btn .plan-stamp { position: absolute; top: .5rem; right: .5rem; width: 62px; height: 62px; border-radius: 50%; border: 2.5px solid #e0322f; color: #e0322f; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-14deg); pointer-events: none; background: rgba(224,50,47,.06); box-shadow: 0 0 0 2px rgba(224,50,47,.28) inset; letter-spacing: .5px; }
+    .plan-btn .plan-stamp::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; border: 1px solid rgba(224,50,47,.5); }
+    .plan-btn .plan-stamp .stamp-main { font-size: .72rem; font-weight: 800; }
+    .plan-btn .plan-stamp .stamp-date { font-size: .56rem; opacity: .85; margin-top: 1px; }
+    .plan-btn[data-executed="true"] { padding-right: 4.8rem; }
+
+    /* 行程总表 */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-weight: 700; color: var(--accent); font-size: .95rem; margin: 1rem 0 .4rem; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; margin-bottom: .4rem; }
+    .plan-summary-table th { text-align: left; padding: .5rem .55rem; color: var(--text-hint); border-bottom: 1px solid var(--accent-border); font-weight: 500; }
+    .plan-summary-table td { padding: .5rem .55rem; border-bottom: 1px solid rgba(255,180,100,.10); color: var(--text); vertical-align: top; }
+    .plan-summary-table tr:last-child td { border-bottom: 0; }
+
+    /* 时间线 */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.4rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-border), transparent); }
+    .day-divider .day-badge { font-size: .82rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
+    .timeline { position: relative; padding-left: 1.4rem; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--accent-border); }
+    .timeline-item { position: relative; margin-bottom: 1.3rem; }
+    .timeline-dot { position: absolute; left: -1.4rem; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--xb-mid), 0 0 0 5px var(--accent-border); }
+    .timeline-time { font-size: .76rem; font-weight: 700; color: var(--accent2); margin-bottom: .3rem; }
+    .timeline-content { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1rem 1.1rem; }
+    .timeline-content h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: .45rem; }
+    .timeline-content h5 { font-size: .95rem; font-weight: 700; color: var(--accent); margin: .9rem 0 .4rem; }
+    .timeline-content p { font-size: .88rem; color: var(--text-dim); line-height: 1.75; }
+    .timeline-content ol, .timeline-content ul { margin: .4rem 0 .6rem 1.2rem; padding: 0; }
+    .timeline-content li { font-size: .86rem; color: var(--text-dim); line-height: 1.7; margin: .3rem 0; }
+    .timeline-content .red { color: #ff8a8a; font-weight: 700; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .55rem; border-radius: 999px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #4fd6c8; color: #7fe6da; }
+    .timeline-tag.drive { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.recommended, .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    /* 时间线内的媒体块去边框、贴合卡片 */
+    .timeline-content .media-block { border: 0; border-radius: 10px; margin: .7rem 0 0; }
+
+    /* ===== 景点 / 酒店 卡片 ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .spot-card, .hotel-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; }
+    .spot-card .media-block, .hotel-card .media-block { border: 0; border-radius: 0; margin: 0; }
+    .spot-card .media-cover, .hotel-card .media-cover { border-bottom: 1px solid var(--accent-border); }
+    .spot-card-header, .hotel-card-header { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; padding: .9rem 1rem .2rem; }
+    .spot-card-header h4, .hotel-card-header h4 { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .spot-card-dist, .hotel-stars { font-size: .74rem; color: var(--accent2); white-space: nowrap; }
+    .spot-card-body, .hotel-card-content p { font-size: .84rem; color: var(--text-dim); line-height: 1.65; padding: .3rem 1rem; }
+    .spot-hours { font-size: .76rem; color: var(--text-hint); padding: .4rem 1rem; line-height: 1.5; }
+    .spot-card-footer, .hotel-card-content .tips { display: flex; flex-wrap: wrap; gap: .3rem; padding: .4rem 1rem 1rem; }
+    .spot-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); }
+    .spot-tag.new, .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .hotel-card-content .tips { font-size: .76rem; color: var(--accent2); }
+
+    /* ===== 人文卡片 ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.1rem 1.2rem; }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.3rem; }
+    .culture-card-head h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .culture-tag { margin-left: auto; font-size: .68rem; padding: .12rem .55rem; border-radius: 4px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .culture-card h5 { font-size: .92rem; font-weight: 700; color: var(--accent); margin: .8rem 0 .3rem; }
+    .culture-card p { font-size: .84rem; color: var(--text-dim); line-height: 1.7; }
+    .culture-card ul { margin: .3rem 0 .2rem 1.2rem; padding: 0; }
+    .culture-card li { font-size: .82rem; color: var(--text-dim); line-height: 1.7; margin: .3rem 0; }
+    .culture-card li b { color: var(--text); }
+
+    /* ===== QA ===== */
+    .qa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .qa-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem 1.2rem; }
+    .qa-card h4 { font-size: .98rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+    .qa-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.7; }
+    .qa-card .highlight { color: var(--accent); font-weight: 600; }
+    .qa-card .green { color: var(--success); font-weight: 600; }
+
+    /* ===== 路线 ===== */
+    .route-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.2rem; }
+    .route-info { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+    .route-info-item { text-align: center; }
+    .route-info-item .label { font-size: .7rem; color: var(--text-hint); }
+    .route-info-item .value { font-size: .92rem; font-weight: 700; color: var(--accent); }
+    .route-arrow { color: var(--text-dim); font-size: 1.1rem; }
+    .route-tips { margin-top: 1rem; font-size: .85rem; color: var(--text-dim); line-height: 1.8; }
+    .route-tips strong { color: var(--text); }
+
+    /* ===== 营业时间 / 预算 表格 ===== */
+    .hours-table td:nth-child(2), .hours-table td:nth-child(3) { font-size: .8rem; }
+    .budget-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .budget-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 720px; }
+    .budget-table th { text-align: left; padding: .6rem .55rem; color: var(--accent2); border-bottom: 1px solid var(--accent-border); font-weight: 700; background: var(--xb-mid); position: sticky; left: 0; }
+    .budget-table td { padding: .55rem .55rem; border-bottom: 1px solid rgba(255,180,100,.10); color: var(--text-dim); vertical-align: top; }
+    .budget-table tr.total td { color: var(--accent); font-weight: 700; border-top: 1px solid var(--accent-border); }
+    .budget-note { font-size: .76rem; color: var(--text-hint); margin-top: .8rem; line-height: 1.6; }
+
+    /* ===== 台风影响评估（专属）===== */
+    .typhoon-note { margin-top: 1.5rem; padding: 1.2rem 1.4rem; border: 1px solid rgba(255,150,100,0.35); border-radius: 14px; background: rgba(40,22,28,0.4); }
+    .typhoon-note h4 { font-size: 1.08rem; font-weight: 700; color: #ffd9b0; margin: 0 0 .25rem; }
+    .typhoon-note .tf-sub { color: rgba(200,210,230,0.6); font-size: .8rem; margin: 0 0 .9rem; line-height: 1.5; }
+    .typhoon-note h5 { font-size: .98rem; font-weight: 700; color: #80bfff; margin: 1.1rem 0 .5rem; }
+    .typhoon-note p { color: var(--text); line-height: 1.75; margin: .45rem 0; font-size: .88rem; }
+    .typhoon-note p b { color: #fff; }
+    .tf-win { margin: .6rem 0 1rem; }
+    .tf-win-label { font-size: .76rem; color: rgba(200,210,230,0.6); display: block; margin-bottom: .35rem; }
+    .tf-win-bars { display: flex; gap: 4px; }
+    .tf-win-seg { flex: 1; text-align: center; padding: .45rem .3rem; border-radius: 8px; font-size: .7rem; font-weight: 600; color: #1a1a1a; }
+    .tf-win-amber { background: #EF9F27; }
+    .tf-win-coral { background: #D85A30; color: #fff; }
+    .tf-win-red { background: #E24B4A; color: #fff; }
+    .tf-table { width: 100%; border-collapse: collapse; margin: .5rem 0; font-size: .8rem; }
+    .tf-table th { text-align: left; padding: .5rem .55rem; color: rgba(200,210,230,0.6); border-bottom: 1px solid rgba(100,180,255,0.25); font-weight: 500; }
+    .tf-table td { padding: .5rem .55rem; border-bottom: 1px solid rgba(100,180,255,0.12); color: var(--text); vertical-align: top; }
+    .tf-badge { display: inline-block; padding: .15rem .55rem; border-radius: 999px; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+    .tf-low { background: rgba(62,207,142,0.18); color: #6ee7b0; }
+    .tf-mid { background: rgba(245,197,66,0.18); color: #f5c542; }
+    .tf-high { background: rgba(255,93,93,0.2); color: #ff8a8a; }
+    .tf-ul { margin: .4rem 0 .2rem 1.1rem; padding: 0; }
+    .tf-ul li { color: var(--text); line-height: 1.7; margin: .4rem 0; font-size: .88rem; }
+    .tf-ul li b { color: #fff; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 44vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .info-grid, .food-grid, .spots-grid, .culture-grid, .qa-grid { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食发现</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">出行方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#budget">预算对比</a>
+      <a href="#tips">实用贴士</a>
+      <a href="#qa">疑问解答</a>
+      <a href="#route">路线概览</a>
+      <a href="#hours">开放时间</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食发现</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">出行方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#budget">预算对比</a>
+      <a href="#tips">实用贴士</a>
+      <a href="#qa">疑问解答</a>
+      <a href="#route">路线概览</a>
+      <a href="#hours">开放时间</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">2026-07-25 · 当天往返 · 避台风</span>
+    <h1 class="hero-title">花都<span>周末家庭游</span></h1>
+    <p class="hero-subtitle">荔湾君荟名轩 → 花都融创文旅城 · 融创为核心 + 周边顺道亲子之旅</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>📅 2026-07-25（周六）</span>
+      <span>👨‍👩‍👧‍👦 2 大 2 小</span>
+      <span>🚗 自驾（粤 A·713KW）</span>
+      <span>🌤️ 台风「红霞」外围</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程总览 ===== -->
+  <section class="section" id="summary">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程总览
+    </h2>
+    <p class="section-desc">7/25 台风「红霞」正面袭粤，原两日方案改「当天往返、不订酒店」，由粤 A·713KW 自驾完成一次花都亲子打卡。全天 91.4 km，行车记录与实地照片相互印证。</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>关键信息</h4>
+        <div class="fact-row"><span class="k">日期</span><span class="v">2026-07-25 周六</span></div>
+        <div class="fact-row"><span class="k">同行</span><span class="v">2 大 2 小</span></div>
+        <div class="fact-row"><span class="k">交通</span><span class="v">自驾（约 50km）</span></div>
+        <div class="fact-row"><span class="k">耗时</span><span class="v">约 10.5 小时</span></div>
+        <div class="fact-row"><span class="k">花费</span><span class="v">约 ¥1,440（无酒店）</span></div>
+      </div>
+      <div class="info-card">
+        <h4>一句话路线</h4>
+        <p>君荟名轩 → 圆玄道观晨游 → 石头记矿物园（室内馆）→ 融创茂室内项目 → 当日返程。卡在台风外围「最安全窗口」，室内场馆零风雨影响。</p>
+      </div>
+      <div class="info-card">
+        <h4>当天天气</h4>
+        <p>台风「红霞」7/25 白天处于外围下沉气流，花都高温闷热、风雨未到；25 日夜风雨抵穗、26 日全天为主要影响日。当天往返版 15:50 前离花都，赶在风雨前回家（回忆性备注，非出行前预警）。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 游记实录（核心：方案 E1 实况）===== -->
+
+  <!-- ===== 4. 景点总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      景点推荐
+    </h2>
+    <p class="section-desc">融创为核心，周边顺道景点一览（已排除九龙湖/塱头/红山/花都湖/清远长隆/古龙峡/碧水湾）。</p>
+
+    <div class="spots-grid">
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async">
+            <img src="融创文旅城/02_hot_snow.jpg" alt="热雪奇迹" loading="lazy" decoding="async">
+            <img src="融创文旅城/03_water_world.jpg" alt="水世界" loading="lazy" decoding="async">
+            <img src="融创文旅城/04_sports_world.png" alt="体育世界" loading="lazy" decoding="async">
+            <img src="融创文旅城/05_sunac_mall.jpg" alt="融创茂" loading="lazy" decoding="async">
+            <img src="融创文旅城/06_hotels.jpg" alt="酒店群" loading="lazy" decoding="async">
+            <img src="融创文旅城/07_bar_street.jpg" alt="酒吧街" loading="lazy" decoding="async">
+            <img src="融创文旅城/08_theater.jpg" alt="大剧院" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>融创文旅城（核心）</h4><span class="spot-card-dist">凤凰北路78号</span></div>
+        <div class="spot-card-body">粤港澳大湾区首个「商文体旅」综合体，占地约 220 万㎡。八大业态：乐园、雪世界、水世界、体育世界、融创茂、酒店群、酒吧街、大剧院。所有方案的核心目的地。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：各馆约 10:00 开园（乐园/雪/体育），水世界约 10:30；夜至 21:00 后。乐园免费入园。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">核心</span><span class="spot-tag">雪/水/体育/乐园</span><span class="spot-tag free">全龄亲子</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>石头记矿物园</h4><span class="spot-card-dist">AAAA · 约20min</span></div>
+        <div class="spot-card-body">地上奇石公园 + 地下宝藏宫殿，夜明珠、满汉全席奇石宴，亲子矿物科普 DIY。方案 A 顺路收尾；当天往返版玩室内馆避风雨。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：9:00–18:00（地下宝藏）；地上奇石公园至 21:00。成人 ¥55。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 A</span><span class="spot-tag free">科普</span><span class="spot-tag">亲子友好</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="洪秀全故居/index.png" alt="洪秀全故居" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="洪秀全故居/index.png" alt="洪秀全故居" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>洪秀全故居</h4><span class="spot-card-dist">AAA · 约20min</span></div>
+        <div class="spot-card-body">太平天国领袖成长地，全国重点文保单位 + 纪念馆，客家民居与历史陈列。方案 B 研学主线。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：9:00–17:00（16:30 停入），<b>周一闭馆</b>。免费。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 B</span><span class="spot-tag free">研学</span><span class="spot-tag">人文</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="资政大夫祠/index.png" alt="资政大夫祠" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="资政大夫祠/index.png" alt="资政大夫祠" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>资政大夫祠</h4><span class="spot-card-dist">约20min</span></div>
+        <div class="spot-card-body">岭南民间艺术建筑典型，灰塑、砖雕、木雕三雕荟萃，花都非遗文化。与洪秀全故居同方向可串联（当天往返版晨游一站）。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：约 9:00–17:00，<b>周一闭馆</b>。免费（区博物馆同址）。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 B</span><span class="spot-tag free">古建</span><span class="spot-tag">非遗</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="圆玄道观/index.png" alt="圆玄道观" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="圆玄道观/index.png" alt="圆玄道观" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>圆玄道观</h4><span class="spot-card-dist">约20min</span></div>
+        <div class="spot-card-body">广东较大道教宫观，仿北京天坛的「三清殿」（人称广州小天坛）、18.8 米老子青铜像、元辰宝殿（六十甲子）。花都景点里最早 8:00 开园，可晨游。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：8:00–17:00（16:30 停入）。门票 ¥15–20，1.3m 以下免票。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 B/E</span><span class="spot-tag free">道教文化</span><span class="spot-tag">古建</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="香草世界/index.png" alt="花都香草世界" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="香草世界/index.png" alt="花都香草世界" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>花都香草世界</h4><span class="spot-card-dist">约20min</span></div>
+        <div class="spot-card-body">普罗旺斯风情香草主题园，可驾车入园，花海打卡 + 亲子约会。方案 C 自然亲子收尾。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：9:00–18:00。低价/免费，可驾车入园。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 C</span><span class="spot-tag free">亲子</span><span class="spot-tag">花海</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="七溪地/index.png" alt="世间香境·七溪地" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="七溪地/index.png" alt="世间香境·七溪地" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>世间香境·七溪地</h4><span class="spot-card-dist">AAA · 约30min</span></div>
+        <div class="spot-card-body">8 平方公里芳香秘境，500+ 种野生芳香植物，非遗制香、汉服市集。方案 D 治愈收尾。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：8:00–18:00。门票约 ¥40–70。</div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 D</span><span class="spot-tag free">芳香</span><span class="spot-tag">治愈</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="曼古园/index.png" alt="广州曼古园" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="曼古园/index.png" alt="广州曼古园" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>广州曼古园</h4><span class="spot-card-dist">约20min</span></div>
+        <div class="spot-card-body">泰式风情园区，金色佛塔 + 夜市芒果糯米饭，一秒穿越清迈，免费入园夜拍。可作任一方案的弹性备选（当天往返版因台风取消夜景段）。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：9:00–22:00。免费，夜景最美。</div>
+        <div class="spot-card-footer"><span class="spot-tag new">弹性备选</span><span class="spot-tag free">泰式</span><span class="spot-tag">免费</span></div>
+      </div>
+
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="宝桑园/index.png" alt="宝桑园" loading="lazy" decoding="async"></div>
+          <div class="media-gallery"><img src="宝桑园/index.png" alt="宝桑园" loading="lazy" decoding="async"></div>
+        </div>
+        <div class="spot-card-header"><h4>宝桑园</h4><span class="spot-card-dist">AAA · 约40min</span></div>
+        <div class="spot-card-body">以蚕桑文化为核心的生态农业园，数十万棵桑树、桑田氧吧，摘桑养蚕亲子研学。稍远，灵活备选。</div>
+        <div class="spot-hours">🕘 <b>开放时间</b>：9:00–17:30。低价，蚕桑研学。</div>
+        <div class="spot-card-footer"><span class="spot-tag new">弹性备选</span><span class="spot-tag free">蚕桑研学</span><span class="spot-tag">生态</span></div>
+      </div>
+    </div>
+
+    <div class="tips-box" style="margin-top:1.5rem;">
+      <div class="tips-box-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        已去过 / 本次不考虑（不安排）
+      </div>
+      <ul>
+        <li>✅ 已去过：中旅·阿那亚·九龙湖（欧式小镇）、塱头古村（AAA，800+ 年古村）、梯面镇红山村（AAA，油菜花海）、花都湖国家湿地公园、清远长隆森林王国</li>
+        <li>🚫 本次不考虑：清远古龙峡（漂流+大峡谷）、碧水湾温泉度假村（从化）</li>
+        <li>💡 以上景点本次五个方案一律不安排，避免重复；若想替换为曼古园/宝桑园，可自由替换对应方案的周边段。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 出行方案（专属：A-E + E1）===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      方案选择
+    </h2>
+    <p class="section-desc">以融创为核心，组合 5 条不同风格的 2 天 1 夜线路 + 1 条当天往返避台风线。点击下方切换查看（均已排除已去/不考虑景点）。方案 E1 已于 2026-07-25 实际执行。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn" onclick="switchPlan('planA')">
+        <span class="plan-name">方案A · 融创全能</span>
+        <span class="plan-desc">雪/水/体育/乐园四大馆全覆盖<br>+ 石头记矿物园顺路</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案B · 人文历史</span>
+        <span class="plan-desc">融创 + 洪秀全故居<br>+ 资政大夫祠研学</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planC')">
+        <span class="plan-name">方案C · 自然亲子</span>
+        <span class="plan-desc">融创水世界/体育<br>+ 香草世界农趣</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planD')">
+        <span class="plan-name">方案D · 轻奢度假</span>
+        <span class="plan-desc">雪世界 + 大马戏 + 酒吧街<br>+ 七溪地芳香收尾</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planE')">
+        <span class="plan-name">方案E · 雪世界+人文夜景</span>
+        <span class="plan-desc">雪世界 + 石头记矿物科普<br>+ 圆玄·资政古建 · 当天往返</span>
+      </button>
+      <button class="plan-btn active" data-executed="true" onclick="switchPlan('planE1')">
+        <span class="plan-name">方案E1 · 雪世界+矿物(当天往返)</span>
+        <span class="plan-desc">雪世界 + 石头记室内<br>+ 圆玄·资政古建 · 当天往返避台风</span>
+        <span class="plan-stamp"><span class="stamp-main">已完成</span><span class="stamp-date">2026.07.25</span></span>
+      </button>
+    </div>
+
+    <!-- ===== 方案 A ===== -->
+    <div class="plan-content" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>07:00</td><td>08:00</td><td>君荟名轩出发（自驾）</td><td>1h</td></tr>
+            <tr><td>08:00</td><td>10:00</td><td>融创茂早餐 + 行李寄存（各馆约 10:00 开园）</td><td>2h</td></tr>
+            <tr><td>10:00</td><td>13:00</td><td>融创乐园（室外六大主题区）</td><td>3h</td></tr>
+            <tr><td>13:00</td><td>14:00</td><td>午餐（融创茂餐饮）</td><td>1h</td></tr>
+            <tr><td>14:00</td><td>17:30</td><td>热雪奇迹（雪世界）</td><td>3.5h</td></tr>
+            <tr><td>17:30</td><td>18:00</td><td>酒店入住</td><td>0.5h</td></tr>
+            <tr><td>18:00</td><td>20:00</td><td>滨湖酒吧街晚餐 + 融创夜景</td><td>2h</td></tr>
+          </tbody>
+        </table>
+        <div class="day-label">DAY 2 · 周日</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>08:30</td><td>09:00</td><td>酒店早餐</td><td>0.5h</td></tr>
+            <tr><td>09:00</td><td>10:00</td><td>退房 + 融创茂闲逛</td><td>1h</td></tr>
+            <tr><td>10:00</td><td>12:30</td><td>水世界 + 体育世界（室内）</td><td>2.5h</td></tr>
+            <tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+            <tr><td>13:30</td><td>15:00</td><td>石头记矿物园（AAAA，顺路）</td><td>1.5h</td></tr>
+            <tr><td>15:00</td><td>16:00</td><td>返程君荟名轩（自驾）</td><td>1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content">
+          <h4>🚗 君荟名轩出发</h4><p>4 口之家从荔湾君荟名轩驾车出发，提前加满油。花都比深圳近得多，1 小时即达，早出发避开 8:30 前后出城小高峰。车上备好零食与水，小孩可补觉。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span><span class="timeline-tag kid">亲子</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 13:00</div><div class="timeline-content">
+          <h4>🎢 融创乐园（室外）</h4><p>约 10:00 开园即入（早到先在融创茂早餐、寄存行李），趁上午凉快刷六大主题区。必玩：<strong>飞越广东</strong>（8K 球幕飞行影院，全龄）、<strong>双龙飞舞</strong>（双轨弹射过山车）、<strong>怒海狂涛</strong>（激流+实景爆破）、<strong>蝶舞飞轮</strong>（摩天轮）、花园派对（旋转木马）。亲子区「梦幻花园」最适合小孩慢慢玩。乐园免费入园，单项或套票收费。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">小孩最爱</span><span class="timeline-tag">免费入园</span><span class="timeline-tag">约4小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async">
+              <img src="融创文旅城/02_hot_snow.jpg" alt="热雪奇迹" loading="lazy" decoding="async">
+              <img src="融创文旅城/03_water_world.jpg" alt="水世界" loading="lazy" decoding="async">
+              <img src="融创文旅城/04_sports_world.png" alt="体育世界" loading="lazy" decoding="async">
+              <img src="融创文旅城/05_sunac_mall.jpg" alt="融创茂" loading="lazy" decoding="async">
+              <img src="融创文旅城/06_hotels.jpg" alt="酒店群" loading="lazy" decoding="async">
+              <img src="融创文旅城/07_bar_street.jpg" alt="酒吧街" loading="lazy" decoding="async">
+              <img src="融创文旅城/08_theater.jpg" alt="大剧院" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:00 - 13:00</div><div class="timeline-content">
+          <h4>🍽️ 午餐 · 融创茂</h4><p>融创茂约 34 万㎡ 商业，60+ 餐饮选择（粤式、火锅、亲子餐厅均有）。室内空调舒适，避开正午暴晒，顺便逛「海上丝路」主题街区。</p>
+          <div class="timeline-tags"><span class="timeline-tag food">餐饮</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 17:00</div><div class="timeline-content">
+          <h4>❄️ 热雪奇迹（雪世界）</h4><p>下午转战室内滑雪场，四季 -4 至 -6℃。娱雪区 7 大项目（雪上飞碟、冰上碰碰车、冰滑梯、花海雪圈等）适合全家；想体验滑雪可请教练。<strong>票内含雪服+雪具（免费）</strong>，带厚袜子。小孩玩雪最兴奋，预留充足时间。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">亲子首选</span><span class="timeline-tag">室内恒温</span><span class="timeline-tag">约4小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">17:30</div><div class="timeline-content">
+          <h4>🏨 酒店入住</h4><p>入住融创文旅城内酒店（堇山/施柏阁大观等，步行直达各馆）。行李从车上搬入房间，稍作休整后再去夜场。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">入住</span><span class="timeline-tag">0.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/施柏阁大观.png" alt="施柏阁大观酒店" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/施柏阁大观.png" alt="施柏阁大观酒店" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 - 20:00</div><div class="timeline-content">
+          <h4>🌃 滨湖酒吧街 + 融创夜景</h4><p>环湖夜生活街区，餐饮微醺+夜景，与乐园烟花秀/夜场演艺动线相连。小孩在湖边散步吹晚风，轻松收尾第一天。</p>
+          <div class="timeline-tags"><span class="timeline-tag food">晚餐</span><span class="timeline-tag">夜景</span></div>
+        </div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:30 - 09:00</div><div class="timeline-content">
+          <h4>🥞 酒店早餐</h4><p>酒店内用餐，小孩睡到自然醒，不赶时间。退房前从容收拾。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">早餐</span><span class="timeline-tag">0.5小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 12:30</div><div class="timeline-content">
+          <h4>🌊 水世界 + 体育世界（室内）</h4><p>约 10:00 开园即入，上午玩室内两馆：水世界（大喇叭、巨浪湾、4D 水影院）戏水；体育世界打卡双层赛道「疯狂卡丁」。室内恒温不受天气影响，小孩放电好去处。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">戏水运动</span><span class="timeline-tag">室内</span><span class="timeline-tag">约3小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 14:30</div><div class="timeline-content">
+          <h4>💎 石头记矿物园（AAAA）</h4><p>顺路前往（驾车约 20 分钟）。地上奇石公园+地下宝藏宫殿，夜明珠、满汉全席奇石宴，亲子矿物科普 DIY，小孩很感兴趣。约 1.5 小时足矣。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">顺路</span><span class="timeline-tag free">亲子科普</span><span class="timeline-tag">约1.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:30 - 15:30</div><div class="timeline-content">
+          <h4>🚗 返程君荟名轩</h4><p>14:30 出发，约 1 小时到家，约 15:30 回到君荟名轩。避开周日晚高峰，小孩还能吃晚饭、不误第二天。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 B ===== -->
+    <div class="plan-content" id="planB">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>07:00</td><td>08:00</td><td>君荟名轩出发（自驾）</td><td>1h</td></tr>
+            <tr><td>08:00</td><td>10:00</td><td>融创茂早餐 + 行李寄存（雪世界约 10:00 开）</td><td>2h</td></tr>
+            <tr><td>10:00</td><td>13:00</td><td>热雪奇迹（雪世界）</td><td>3h</td></tr>
+            <tr><td>13:00</td><td>14:00</td><td>午餐（融创茂）</td><td>1h</td></tr>
+            <tr><td>14:00</td><td>17:30</td><td>融创乐园（午后场次）</td><td>3.5h</td></tr>
+            <tr><td>17:30</td><td>18:00</td><td>酒店入住</td><td>0.5h</td></tr>
+            <tr><td>18:00</td><td>20:00</td><td>融创大剧院《奇幻秘境》大马戏</td><td>2h</td></tr>
+          </tbody>
+        </table>
+        <div class="day-label">DAY 2 · 周日</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>09:00</td><td>09:30</td><td>酒店早餐 + 退房</td><td>0.5h</td></tr>
+            <tr><td>09:30</td><td>11:30</td><td>洪秀全故居（AAA，9:00–17:00，周一闭馆）</td><td>2h</td></tr>
+            <tr><td>11:30</td><td>13:00</td><td>资政大夫祠（岭南古建，同区博物馆）</td><td>1.5h</td></tr>
+            <tr><td>13:00</td><td>14:00</td><td>花都午餐</td><td>1h</td></tr>
+            <tr><td>14:00</td><td>15:00</td><td>返程君荟名轩（自驾）</td><td>1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content">
+          <h4>🚗 君荟名轩出发</h4><p>早出发，1 小时直达融创。方案 B 偏人文，节奏舒缓，上午先把雪世界这个「重头戏」玩透。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 13:00</div><div class="timeline-content">
+          <h4>❄️ 热雪奇迹（雪世界）</h4><p>约 10:00 开园后进雪世界，趁上午体力好娱雪+滑雪全体验。<strong>票内含雪服（免费）</strong>，带好厚袜子。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">亲子首选</span><span class="timeline-tag">约3.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async">
+              <img src="融创文旅城/02_hot_snow.jpg" alt="热雪奇迹" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 - 17:30</div><div class="timeline-content">
+          <h4>🎢 融创乐园（午后场次）</h4><p>午后玩乐园，重点刷室内外经典项目。傍晚可看《梦回岭南》国风实景秀或花车巡游。</p>
+          <div class="timeline-tags"><span class="timeline-tag">免费入园</span><span class="timeline-tag">约3.5小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 - 20:00</div><div class="timeline-content">
+          <h4>🎪 融创大剧院《奇幻秘境》大马戏</h4><p>城市文化娱乐中心的大型演艺，杂技+魔术+动物互动，小孩超爱。需单独购票，建议提前订晚场。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">亲子演艺</span><span class="timeline-tag">需购票</span></div>
+        </div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 11:30</div><div class="timeline-content">
+          <h4>🏛️ 洪秀全故居（AAA）</h4><p>太平天国领袖洪秀全成长地，全国重点文保单位+纪念馆，客家民居与历史陈列。可给孩子讲：洪秀全从这里走出、发动金田起义建立太平天国（1851–1864）的故事。免费，约 2 小时（注意<strong>周一闭馆</strong>）。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">研学</span><span class="timeline-tag free">人文</span><span class="timeline-tag">约2小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="洪秀全故居/index.png" alt="洪秀全故居" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="洪秀全故居/index.png" alt="洪秀全故居" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">11:30 - 13:00</div><div class="timeline-content">
+          <h4>🏯 资政大夫祠</h4><p>岭南民间艺术建筑典型，灰塑、砖雕、木雕「三雕」荟萃。可给孩子讲：什么是祠堂（宗族祭祀议事）、灰塑为何不怕风吹雨打。与洪秀全故居同在新华街方向，顺路串联（约 9:00–17:00，周一闭馆）。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">古建</span><span class="timeline-tag free">非遗</span><span class="timeline-tag">约1.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="资政大夫祠/index.png" alt="资政大夫祠" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="资政大夫祠/index.png" alt="资政大夫祠" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 - 15:00</div><div class="timeline-content">
+          <h4>🚗 返程君荟名轩</h4><p>花都午餐后 14:00 出发，约 15:00 到家，轻松结束人文两日游。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 C ===== -->
+    <div class="plan-content" id="planC">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>07:00</td><td>08:00</td><td>君荟名轩出发（自驾）</td><td>1h</td></tr>
+            <tr><td>08:00</td><td>10:30</td><td>融创茂早餐 + 行李寄存（水世界约 10:30 开）</td><td>2.5h</td></tr>
+            <tr><td>10:30</td><td>13:00</td><td>融创水世界（室内戏水）</td><td>2.5h</td></tr>
+            <tr><td>13:00</td><td>14:00</td><td>午餐（融创茂）</td><td>1h</td></tr>
+            <tr><td>14:00</td><td>17:00</td><td>体育世界（疯狂卡丁等）</td><td>3h</td></tr>
+            <tr><td>17:30</td><td>18:00</td><td>酒店入住</td><td>0.5h</td></tr>
+            <tr><td>18:00</td><td>20:00</td><td>滨湖酒吧街晚餐</td><td>2h</td></tr>
+          </tbody>
+        </table>
+        <div class="day-label">DAY 2 · 周日</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>09:00</td><td>09:30</td><td>酒店早餐 + 退房</td><td>0.5h</td></tr>
+            <tr><td>09:30</td><td>11:30</td><td>花都香草世界（9:00–18:00，驾车入园）</td><td>2h</td></tr>
+            <tr><td>11:30</td><td>12:30</td><td>午餐</td><td>1h</td></tr>
+            <tr><td>12:30</td><td>13:30</td><td>返程君荟名轩（自驾）</td><td>1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content">
+          <h4>🚗 君荟名轩出发</h4><p>方案 C 偏自然亲子，第一天以融创室内水/运动两馆为主，不怕晒不怕雨。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:30 - 13:00</div><div class="timeline-content">
+          <h4>🌊 融创水世界（室内戏水）</h4><p>约 10:30 开园即入，大型室内恒温水上乐园，大喇叭、巨浪湾、4D 水影院、海底 SPA。带泳衣泳圈，小孩玩水最开心。室内恒温，全年可玩（出行前确认当日开放）。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">戏水</span><span class="timeline-tag">室内恒温</span><span class="timeline-tag">约3.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async">
+              <img src="融创文旅城/03_water_world.jpg" alt="水世界" loading="lazy" decoding="async">
+              <img src="融创文旅城/04_sports_world.png" alt="体育世界" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 - 17:00</div><div class="timeline-content">
+          <h4>🏎️ 体育世界（疯狂卡丁等）</h4><p>室内运动新业态，20+ 项目，明星项目为双层赛道「疯狂卡丁」进口卡丁车。还有攀岩、蹦床等，男孩放电圣地。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">运动潮玩</span><span class="timeline-tag">约3.5小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 - 20:00</div><div class="timeline-content">
+          <h4>🌃 滨湖酒吧街晚餐</h4><p>玩累了晚上在环湖酒吧街轻松用餐，湖景夜色收尾第一天。</p>
+          <div class="timeline-tags"><span class="timeline-tag food">晚餐</span><span class="timeline-tag">夜景</span></div>
+        </div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 11:30</div><div class="timeline-content">
+          <h4>🌿 花都香草世界</h4><p>普罗旺斯风情香草主题园，可驾车入园。花海打卡、亲子约会、香草科普，气氛轻松。小孩在花田奔跑、拍照都开心。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">亲子农趣</span><span class="timeline-tag free">花海</span><span class="timeline-tag">约2小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="香草世界/index.png" alt="花都香草世界" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="香草世界/index.png" alt="花都香草世界" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 - 13:30</div><div class="timeline-content">
+          <h4>🚗 返程君荟名轩</h4><p>香草世界约 20 分钟车程回融创方向，午餐后 12:30 出发，约 13:30 到家，最轻松的两日游。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 D ===== -->
+    <div class="plan-content" id="planD">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>07:30</td><td>08:30</td><td>君荟名轩出发（自驾）</td><td>1h</td></tr>
+            <tr><td>08:30</td><td>10:00</td><td>融创茂早餐 + 行李寄存（雪世界约 10:00 开）</td><td>1.5h</td></tr>
+            <tr><td>10:00</td><td>13:00</td><td>热雪奇迹（雪世界）</td><td>3h</td></tr>
+            <tr><td>13:00</td><td>14:30</td><td>融创茂午餐 + 酒店休整</td><td>1.5h</td></tr>
+            <tr><td>14:30</td><td>17:00</td><td>酒店泳池 / 融创茂闲逛</td><td>2.5h</td></tr>
+            <tr><td>17:30</td><td>18:00</td><td>酒店入住</td><td>0.5h</td></tr>
+            <tr><td>19:30</td><td>21:30</td><td>大剧院大马戏 + 酒吧街夜景</td><td>2h</td></tr>
+          </tbody>
+        </table>
+        <div class="day-label">DAY 2 · 周日</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>09:30</td><td>10:00</td><td>酒店早餐 + 退房</td><td>0.5h</td></tr>
+            <tr><td>10:00</td><td>12:00</td><td>七溪地（8:00–18:00，芳香秘境）</td><td>2h</td></tr>
+            <tr><td>12:00</td><td>13:00</td><td>午餐</td><td>1h</td></tr>
+            <tr><td>13:00</td><td>14:00</td><td>返程君荟名轩（自驾）</td><td>1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:30</div><div class="timeline-content">
+          <h4>🚗 君荟名轩出发</h4><p>方案 D 最悠闲，不用赶景点。多睡半小时，1 小时到融创，先把雪世界玩透。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 13:00</div><div class="timeline-content">
+          <h4>❄️ 热雪奇迹（雪世界）</h4><p>约 10:00 开园后进雪世界，上午玩雪，娱雪+滑雪。雪世界是融创的招牌，值得留足时间深度体验。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">亲子首选</span><span class="timeline-tag">约3.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async">
+              <img src="融创文旅城/02_hot_snow.jpg" alt="热雪奇迹" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 - 16:30</div><div class="timeline-content">
+          <h4>🏊 酒店泳池 / 融创茂闲逛</h4><p>午休后不赶景点，酒店恒温泳池让小孩放电，或大人在融创茂「海上丝路」街区闲逛喝咖啡。真正的度假节奏。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">酒店深度</span><span class="timeline-tag">慢节奏</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/花间堂悦雪.png" alt="花间堂悦雪" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/花间堂悦雪.png" alt="花间堂悦雪" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">19:30 - 21:30</div><div class="timeline-content">
+          <h4>🎪 大马戏 + 酒吧街夜景</h4><p>晚上看《奇幻秘境》大马戏，散场后漫步滨湖酒吧街吹晚风、看夜景，完美的度假之夜。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">演艺</span><span class="timeline-tag">夜景</span></div>
+        </div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 12:00</div><div class="timeline-content">
+          <h4>🌸 七溪地（芳香秘境）</h4><p>8 平方公里芳香小镇，500+ 种野生芳香植物，非遗制香、汉服市集、溪流漫步。氛围治愈，小孩认香草、做香包，轻松收尾。驾车约 30 分钟。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">治愈</span><span class="timeline-tag free">芳香</span><span class="timeline-tag">约2小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="七溪地/index.png" alt="世间香境·七溪地" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="七溪地/index.png" alt="世间香境·七溪地" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 14:00</div><div class="timeline-content">
+          <h4>🚗 返程君荟名轩</h4><p>最悠闲的收尾，13:00 出发，约 14:00 到家，整个周末不赶不累。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 E ===== -->
+    <div class="plan-content" id="planE">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>07:00</td><td>08:00</td><td>君荟名轩出发（自驾，早出发趁凉快顺畅）</td><td>1h</td></tr>
+            <tr><td>08:00</td><td>09:30</td><td>圆玄道观（8:00 开园，晨间凉爽的人文漫步）</td><td>1.5h</td></tr>
+            <tr><td>09:30</td><td>10:00</td><td>转场融创 · 酒店入住（行李搬入房间）</td><td>0.5h</td></tr>
+            <tr><td>10:00</td><td>11:30</td><td>融创茂闲逛 / 酒店稍作休整</td><td>1.5h</td></tr>
+            <tr><td>11:30</td><td>12:30</td><td>午餐（融创茂 / 酒店餐厅）</td><td>1h</td></tr>
+            <tr><td>12:30</td><td>14:00</td><td>酒店午休（避开正午）</td><td>1.5h</td></tr>
+            <tr><td>14:00</td><td>17:30</td><td>热雪奇迹（雪世界，下午场）</td><td>3.5h</td></tr>
+            <tr><td>18:30</td><td>20:00</td><td>酒店自助晚餐</td><td>1.5h</td></tr>
+            <tr><td>20:00</td><td>21:30</td><td>曼古园夜景（免费，泰式佛塔灯光）</td><td>1.5h</td></tr>
+          </tbody>
+        </table>
+        <div class="day-label">DAY 2 · 周日</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>08:30</td><td>09:30</td><td>酒店自助早餐</td><td>1h</td></tr>
+            <tr><td>09:30</td><td>10:30</td><td>收拾行李 · 退房</td><td>1h</td></tr>
+            <tr><td>11:30</td><td>12:30</td><td>午餐</td><td>1h</td></tr>
+            <tr><td>13:00</td><td>15:30</td><td>石头记矿物园（地下宝藏 + 奇石宴）</td><td>2.5h</td></tr>
+            <tr><td>15:30</td><td>16:30</td><td>返程君荟名轩（自驾）</td><td>1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content">
+          <h4>🚗 君荟名轩出发</h4><p>清晨路上顺畅、气温凉爽不热。4 口之家从荔湾君荟名轩自驾出发，行李直接放车上（无需寄存）。花都仅 1 小时即达，07:00 出发、08:00 到圆玄道观正好开园，趁晨凉先逛人文，再回融创休整、下午进雪世界。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span><span class="timeline-tag kid">亲子</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:00 - 09:30</div><div class="timeline-content">
+          <h4>☯️ 圆玄道观</h4><p>约 8:00 开园，正好趁早晨凉爽先逛——它是花都景点里<strong>唯一 10:00 前开门</strong>的，也是本次四大兴趣点之一。主体仿北京天坛祈年殿的「三清殿」（广州小天坛）、18.8 米老子青铜像、元辰宝殿六十甲子。<strong>可给孩子讲</strong>：道教是中国本土宗教、古人「天圆地方」、太极图黑白互化、十二生肖喷泉找自己的属相（详见 <a class="in-doc-link" href="#culture-yuanxuan">人文背景·给孩子的解说</a>）。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">道教文化</span><span class="timeline-tag free">古建</span><span class="timeline-tag">约1.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="圆玄道观/index.png" alt="圆玄道观" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="圆玄道观/index.png" alt="圆玄道观" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 10:00</div><div class="timeline-content">
+          <h4>🏨 转场融创 · 酒店入住</h4><p>圆玄道观驾车到融创文旅城约 20 分钟，09:30 出发、10:00 到。先把行李搬进酒店房间（施柏阁大观/堇山等，步行直达各馆），轻装逛园，中午就在融创吃饭休息，不用一路拖着行李。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag hotel">入住</span><span class="timeline-tag">约0.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/施柏阁大观.png" alt="施柏阁大观酒店" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/施柏阁大观.png" alt="施柏阁大观酒店" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 11:30</div><div class="timeline-content">
+          <h4>🛍️ 融创茂闲逛 / 酒店休整</h4><p>行李安顿后，带小孩在融创茂吹空调逛逛，或回酒店房间稍作休整。约 34 万㎡ 商业、轻松不晒，为下午的雪世界养足精神。</p>
+          <div class="timeline-tags"><span class="timeline-tag">休闲</span><span class="timeline-tag">约1.5小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">11:30 - 12:30</div><div class="timeline-content">
+          <h4>🍽️ 午餐 · 融创茂 / 酒店餐厅</h4><p>中午正餐就在融创解决——融创茂 60+ 餐饮（粤式、火锅、亲子餐厅），或酒店自助/中餐厅。室内空调舒适，避开正午暴晒，顺便逛「海上丝路」主题街区。</p>
+          <div class="timeline-tags"><span class="timeline-tag food">餐饮</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30 - 14:00</div><div class="timeline-content">
+          <h4>😴 酒店午休</h4><p>回酒店房间午休，小孩睡个短觉、大人也能歇口气，避开午后最热时段。养足精神，下午的雪世界才好放开玩。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">休整</span><span class="timeline-tag">约1.5小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 - 17:30</div><div class="timeline-content">
+          <h4>❄️ 热雪奇迹（雪世界）</h4><p>下午进雪世界，四季恒温 -4 至 -6℃，本次以融创为核心留足 <strong>3.5 小时</strong>——娱雪区 7 大项目（雪上飞碟、冰上碰碰车、花海雪圈、冰滑梯等）全家可玩，时间够加一节短滑雪体验（请教练）。<strong>票内含雪服+雪鞋（免费）</strong>，自备厚袜子。南方孩子看真雪最兴奋，慢玩不赶场。</p>
+          <div class="timeline-tags"><span class="timeline-tag kid">小孩最爱</span><span class="timeline-tag">室内恒温</span><span class="timeline-tag">约3.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"><img src="融创文旅城/02_hot_snow.jpg" alt="热雪奇迹" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:30 - 20:00</div><div class="timeline-content">
+          <h4>🍱 酒店自助晚餐</h4><p>雪世界玩尽兴后回酒店用自助晚餐，热食、海鲜、甜品、小孩爱的水果档一应俱全，省去再找餐厅的麻烦。吃饱喝足，晚上轻松去看曼古园夜景。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">自助餐</span><span class="timeline-tag food">餐饮</span><span class="timeline-tag">约1.5小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">20:00 - 21:30</div><div class="timeline-content">
+          <h4>🛕 曼古园夜景（免费）</h4><p>晚餐后驾车约 20 分钟到曼古园（9:00–22:00，免费）。金碧辉煌的泰式佛塔、四面佛、大象雕塑，夜灯亮起宛如曼谷街头，是全程最佳夜拍点。<strong>可给孩子讲</strong>：泰国主要信佛教、四面佛代表平安/事业/爱情/健康、金色和故宫红墙金瓦一样表示「重要」（详见 <a class="in-doc-link" href="#culture-mangu">人文背景·给孩子的解说</a>）。</p>
+          <div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag">夜景</span><span class="timeline-tag">约1.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="曼古园/index.png" alt="曼古园" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="曼古园/index.png" alt="曼古园" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:30 - 09:30</div><div class="timeline-content">
+          <h4>🥞 酒店自助早餐</h4><p>酒店内自助早餐，小孩睡到自然醒，从容用餐。昨天四大兴趣点（雪世界/圆玄/曼古园）已尽兴，今天轻松收尾——退房后去石头记看矿物宝藏。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">早餐</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 10:30</div><div class="timeline-content">
+          <h4>🧳 收拾行李 · 退房</h4><p>早餐后回房间收拾行李、办理退房，行李放回车上。时间充裕不赶，退房前再从容逛一眼融创茂。</p>
+          <div class="timeline-tags"><span class="timeline-tag hotel">退房</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">11:30 - 12:30</div><div class="timeline-content">
+          <h4>🍽️ 午餐</h4><p>退房后就近用午餐（融创茂或花都本地菜），补充体力。尝尝花都烧骨、山水豆腐等本地风味，小孩吃饱再上路。</p>
+          <div class="timeline-tags"><span class="timeline-tag food">餐饮</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 15:30</div><div class="timeline-content">
+          <h4>💎 石头记矿物园（AAAA）</h4><p>午后转场矿物科普（9:00–18:00，驾车约 20 分钟）。地上奇石公园+地下宝藏宫殿，夜明珠、满汉全席奇石宴、世界最大天然水晶观音。亲子可玩矿物科普 DIY，小孩对「会发光的石头」「石头长成六角柱」最着迷。<strong>可给孩子讲</strong>：岩石分岩浆岩/沉积岩/变质岩、水晶是二氧化硅的晶体、化石是远古动植物的「石头照片」（详见 <a class="in-doc-link" href="#culture-stone">人文背景·给孩子的解说</a>）。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">矿物科普</span><span class="timeline-tag free">亲子</span><span class="timeline-tag">约2.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:30 - 16:30</div><div class="timeline-content">
+          <h4>🚗 返程君荟名轩</h4><p>15:30 出发，约 1 小时到家，约 16:30 回到君荟名轩。周日下午稍早返程，避开傍晚高峰，小孩还能从容吃晚饭、不误周一。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+      </div>
+
+      <div class="typhoon-note" id="typhoon-e">
+        <h4>台风「红霞」对方案E的影响与备选（7/25–26 出行）</h4>
+        <p class="tf-sub">依据 7月23日 广东省三防办/气象局预警及中央气象台路径预报。出行前务必查「广州天气」实时预警，路径若偏西（登陆珠海/中山）花都风雨更强。</p>
+        <h5>一、先校准台风位置（这决定影响程度）</h5>
+        <p>红霞（12号）25 日凌晨进入南海东北部，<b>25 日晚–26 日凌晨在广东中东部沿海（珠海—漳浦一带）登陆，强度 12–14 级</b>。花都在广州北部，处于台风<b>西侧外围</b>，不是登陆核心区——风力远低于登陆带，广州大概率以<b>暴雨/雷雨 + 6–8 级阵风</b>为主，不会出现登陆点的毁灭性大风，这点先可放心。</p>
+        <p>但<b>时间线刚好撞上方案E的两处户外段</b>：25 日白天广州仍在副高+台风外围下沉气流控制下（风雨未到、但 35℃+ 闷热），<b>25 日夜间风雨抵穗，26 日全天是广州主要影响日（雷雨大风）</b>。</p>
+        <h5>二、逐段影响（看下方对照）</h5>
+        <div class="tf-win">
+          <span class="tf-win-label">台风影响时间窗</span>
+          <div class="tf-win-bars">
+            <div class="tf-win-seg tf-win-amber">7/25白天 高温·外围下沉</div>
+            <div class="tf-win-seg tf-win-coral">7/25夜 风雨抵穗·中高</div>
+            <div class="tf-win-seg tf-win-red">7/26全天 雷雨大风·高</div>
+          </div>
+        </div>
+        <table class="tf-table">
+          <thead><tr><th>时段</th><th>活动</th><th>地点</th><th>风险</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>D1 07:00</td><td>自驾出发</td><td>荔湾→花都</td><td><span class="tf-badge tf-mid">注意</span></td><td>25日白天风雨未到，路上正常，早出发好</td></tr>
+            <tr><td>D1 08:00–09:30</td><td>圆玄道观</td><td>户外</td><td><span class="tf-badge tf-mid">注意</span></td><td>清晨尚属外围下沉期，炎热+局地阵雨，风不大；可去但带雨具</td></tr>
+            <tr><td>D1 09:30–17:30</td><td>转场/融创茂/午餐/午休/雪世界</td><td>室内为主</td><td><span class="tf-badge tf-low">低风险</span></td><td>雪世界室内 -6℃，完全不受影响</td></tr>
+            <tr><td>D1 18:30–20:00</td><td>酒店自助晚餐</td><td>室内</td><td><span class="tf-badge tf-low">低风险</span></td><td>不受影响</td></tr>
+            <tr><td>D1 20:00–21:30</td><td>曼古园夜景</td><td>户外夜</td><td><span class="tf-badge tf-high">高风险</span></td><td>正撞 25 日夜风雨抵穗，夜游风险高</td></tr>
+            <tr><td>D2 08:30–10:30</td><td>早餐+退房</td><td>室内</td><td><span class="tf-badge tf-low">低风险</span></td><td>不受影响</td></tr>
+            <tr><td>D2 11:30–15:30</td><td>石头记矿物园</td><td>户外+室内</td><td><span class="tf-badge tf-high">高风险</span></td><td>26 日为主要影响日，雷雨大风，户外段最危险</td></tr>
+            <tr><td>D2 15:30–16:30</td><td>自驾返程</td><td>雨中</td><td><span class="tf-badge tf-mid">注意</span></td><td>雨中高速驾驶，风险中等</td></tr>
+          </tbody>
+        </table>
+        <h5>三、建议怎么调（核心取舍）</h5>
+        <ul class="tf-ul">
+          <li><b>必保：</b>雪世界（室内重头戏）+ 酒店食宿——照原计划。</li>
+          <li><b>圆玄（25早）：</b>照去，趁早、带伞+防晒+水，遇雷雨阵风立刻撤。</li>
+          <li><b>曼古园夜景（25晚）：建议取消。</b>免费弹性备选，最易取舍；改融创茂或酒店内。若当晚雨小，出发前看实时雷达再定。</li>
+          <li><b>石头记（26下午）：高风险，三选一——</b>① 改期最稳（随时能去）；② 只玩室内「地下宝藏」段（9:00–18:00），放弃地上奇石公园户外；③ 26 日上午尽早去、盯实时天气、遇雷雨即撤。</li>
+          <li><b>返程（26午后）：</b>石头记取消可 26 日上午退房即返，避开午后强降雨；或延至 27 日（台风减弱北上）再回，最安全。</li>
+          <li><b>出发前必查：</b>看「广州天气」「广东天气」官方预警；发布台风黄/橙/红或雷雨大风橙色以上，户外段一律取消。融创若闭园会官方通知，出行前确认开放。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== 方案 E1 (当天往返·避台风·已执行 2026-07-25) ===== -->
+    <div class="plan-content active" id="planE1">
+      <div class="plan-summary">
+        <div class="day-label">当天往返 · 周六（7/25，不订酒店）</div>
+        <table class="plan-summary-table">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td>07:00</td><td>07:37</td><td>君荟名轩出发（自驾，实测约37min；早出发路更畅）</td><td>37min</td></tr>
+            <tr><td>08:00</td><td>09:00</td><td>圆玄道观（7:37到，8:00开园稍候；晨凉，压缩1h）🅿️道观东停车场</td><td>1h</td></tr>
+            <tr><td>09:00</td><td>09:05</td><td>转场资政大夫祠（圆玄→三华村，约2km，顺路）</td><td>5min</td></tr>
+            <tr><td>09:05</td><td>09:50</td><td>资政大夫祠·广州民俗博物馆（古建·灰塑砖雕，户外庭院+室内展）</td><td>45min</td></tr>
+            <tr><td>09:50</td><td>09:55</td><td>转场石头记（三华村→珠宝城，顺路）</td><td>5min</td></tr>
+            <tr><td>09:55</td><td>10:55</td><td>石头记·室内「地下宝藏」馆（矿物科普，台风零影响）</td><td>1h</td></tr>
+            <tr><td>10:55</td><td>11:15</td><td>转场融创茂（珠宝城→凤凰北，约20min）</td><td>20min</td></tr>
+            <tr><td>11:15</td><td>12:20</td><td>午餐 + 休整（融创茂室内，午休并入，不单列）</td><td>1h5min</td></tr>
+            <tr><td>12:20</td><td>15:50</td><td>热雪奇迹（雪世界，室内核心 3.5h，不受台风影响）</td><td>3.5h</td></tr>
+            <tr><td>15:50</td><td>16:50</td><td>返程君荟名轩（15:50 离花都，避开 17:30 晚高峰）</td><td>1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="day-divider"><div class="line"></div><div class="day-badge">当天往返 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content">
+          <h4>🚗 君荟名轩出发</h4><p>台风「红霞」正面袭粤、原两日方案E已搁置改期，家人决定不住酒店、当天往返、把想玩的景点一次打卡。4口之家 07:00 自驾出发，趁清晨路畅、气温凉爽，<strong>实测约37分钟到花都（约07:37到圆玄）</strong>；道观8:00开园，可在周边稍候、购票，08:00准时入园。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">实测约37min</span><span class="timeline-tag kid">亲子</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:00 - 09:00</div><div class="timeline-content">
+          <h4>☯️ 圆玄道观</h4><p>8:00 开园即入（约07:37到、周边稍候），趁早晨凉爽先逛（本次压缩至1h）。花都景点里<strong>最早 8:00 开园</strong>，可与邻近的资政大夫祠一并晨游。仿天坛三清殿、18.8米老子像、元辰宝殿六十甲子。<strong>给孩子讲</strong>：道教本土宗教、天圆地方、太极黑白互化、生肖喷泉找属相（详见 <a class="in-doc-link" href="#culture-yuanxuan">人文背景·给孩子的解说</a>）。<br>🅿️ <strong>停车：</strong>圆玄道观东停车场（道观门口外，库位约200，约¥5/次；导航定位「花都圆玄道观」）。带雨具+防晒+水，遇雷雨阵风立刻撤。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">道教文化</span><span class="timeline-tag free">古建</span><span class="timeline-tag">约1小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="圆玄道观/index.png" alt="圆玄道观" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="圆玄道观/index.png" alt="圆玄道观" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:05 - 09:50</div><div class="timeline-content">
+          <h4>🏛️ 资政大夫祠（广州民俗博物馆）</h4><p>圆玄出来驾车约5分钟（约2km）即到三华村资政大夫祠——<strong>距圆玄仅约2km，正好顺路加进来</strong>。这是依托省文物保护单位「资政大夫祠」古建群建的广府民俗馆，看灰塑、砖雕、木雕三雕绝活与清代主人故事；户外庭院+室内展厅，<strong>室内展零台风影响</strong>，户外庭院带雨具、遇雷雨即撤。<strong>给孩子讲</strong>：岭南古建「三雕两塑」、清代科举与家族故事（详见 <a class="in-doc-link" href="#culture-zizheng">人文背景·给孩子的解说</a>）。9:00 开馆，约45分钟足够。<br>🅿️ <strong>停车：</strong>祠内北侧停车场 / 新街大道9号停车场（免费或低价；导航定位「广州民俗博物馆」或「资政大夫祠」）。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">广府古建</span><span class="timeline-tag free">亲子</span><span class="timeline-tag">约45分钟</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="资政大夫祠/index.png" alt="资政大夫祠" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="资政大夫祠/index.png" alt="资政大夫祠" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:50 - 09:55</div><div class="timeline-content">
+          <h4>🚗 转场 → 石头记</h4><p>资政（三华村）驾车约5分钟到珠宝城石头记，顺路不绕。这是当天往返版把原两日方案E里「D2石头记」提前到25日上午、并改玩室内馆的关键一步。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约5分钟</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:55 - 10:55</div><div class="timeline-content">
+          <h4>💎 石头记·室内「地下宝藏」馆</h4><p>只玩室内「地下宝藏」宫殿（9:00–18:00，空调舒适），放弃地上奇石公园户外段——原两日方案E里石头记安排在26日下午、正撞台风主要影响日；当天往返版挪到25日上午室内，既保矿物科普、又避风雨。<strong>给孩子讲</strong>：岩石分岩浆岩/沉积岩/变质岩、水晶是二氧化硅晶体、化石是远古动植物「石头照片」（详见 <a class="in-doc-link" href="#culture-stone">人文背景·给孩子的解说</a>）。<br>🅿️ <strong>停车：</strong>石头记矿物园园区停车场（珠宝城大观园路1号，约¥5–10/次；导航定位「石头记矿物园」）。</p>
+          <div class="timeline-tags"><span class="timeline-tag recommended">矿物科普</span><span class="timeline-tag free">亲子</span><span class="timeline-tag">约1小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="石头记矿物园/index.png" alt="石头记矿物园" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:55 - 11:15</div><div class="timeline-content">
+          <h4>🚗 转场 → 融创茂</h4><p>珠宝城驾车约20分钟到融创文旅城（花都东北，凤凰北路），顺路。接下来午饭+雪世界都在室内，完全不惧台风。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约20分钟</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">11:15 - 12:20</div><div class="timeline-content">
+          <h4>🍽️ 午餐 + 休整（合并午休）</h4><p>融创茂 60+ 餐饮室内解决，吃完商场内休整——当天往返无酒店，午休直接并入午饭时段（约1小时），不再单列。避开正午暴晒、养足精神进雪世界。<br>🅿️ <strong>停车：</strong>广州融创茂地下停车场 / 文旅城 P1–Px（车位充足，约¥10/次，餐饮消费常可抵扣；导航定位「广州融创茂」或「广州热雪奇迹」）。</p>
+          <div class="timeline-tags"><span class="timeline-tag food">餐饮</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:20 - 15:50</div><div class="timeline-content">
+          <h4>❄️ 热雪奇迹（雪世界）</h4><p>室内恒温 -4至-6℃，本次核心留足 <strong>3.5 小时</strong>。全程分「换装热身 → 娱雪区 → 滑雪体验 → 收尾」四段，台风对室内零影响，放心玩。<br>🅿️ <strong>停车：</strong>广州融创茂地下停车场 / 文旅城 P1–Px（与午餐同场，¥4/30分钟≈¥8/小时，24h封顶¥64；首次注册融创会员绑车牌可免费停1小时；导航定位「广州热雪奇迹」）。</p>
+          <h5 style="margin:14px 0 6px;font-size:15px;font-weight:700;">🎯 建议游玩顺序（3.5h）</h5>
+          <ol style="margin:4px 0 10px;padding-left:20px;line-height:1.7;">
+            <li><strong>换装热身（约20min）：</strong>存包、票内含雪服+雪鞋（免费领取，3岁+可玩娱雪），<strong>自备厚袜子</strong>更保暖；进场先原地活动适应 -4至-6℃，别猛跑防失温。</li>
+            <li><strong>娱雪区·低强度起步（约40min）：</strong>先玩冰上自行车、冰上碰碰车、雪上飞碟等亲子友好项目，让小孩先适应冰雪再上刺激项。</li>
+            <li><strong>娱雪区·进阶刺激（约50min）：</strong>冰滑梯 → 花海雪圈（最热门，留足体力排队）；一次陪玩、一次拍照记录。</li>
+            <li><strong>滑雪体验（约40min，可选）：</strong>时间够加一节短滑雪（请教练，初级道），<strong>不要自学上道</strong>。</li>
+            <li><strong>收尾更衣（约20min）：</strong>提前15分钟停玩，还雪具、<strong>换掉湿衣（淋浴可选）</strong>、取包；雪世界 20:30 停入园，我们 15:50 离场绰绰有余。</li>
+          </ol>
+          <h5 style="margin:14px 0 6px;font-size:15px;font-weight:700;">⚠️ 注意事项（<span style="color:#e03131;font-weight:700;">红字＝需自备 / 特别留意</span>）</h5>
+          <ul style="margin:4px 0 10px;padding-left:20px;line-height:1.7;">
+            <li><strong>保暖·防失温：</strong><span style="color:#e03131;font-weight:700;">票内含雪服+雪鞋（免费），无需另租</span>，但 <span style="color:#e03131;font-weight:700;">厚袜子务必自备</span>（棉/羊毛厚袜，场内不提供）；小孩每 45–60 分钟出娱雪区到保暖区暖身一次，<span style="color:#e03131;font-weight:700;">谨防失温</span>。</li>
+            <li><strong>防滑·自备配件：</strong>冰雪路面易滑，全程扶栏杆慢行；<span style="color:#e03131;font-weight:700;">手机/相机防雾保暖袋、防水手套均须自备</span>（场内不提供，可带普通手套+密封袋替代）。</li>
+            <li><strong>淋浴更衣·场内提供（淋浴非强制）：</strong><span style="color:#e03131;font-weight:700;">淋浴间与更衣室由雪世界现场提供，无需自备</span>；重点是<strong>换掉玩雪弄湿／出汗的衣物防着凉</strong>，淋浴只是可选（想冲暖再走更舒服）。</li>
+            <li><strong>安全：</strong>雪圈、冰滑梯有身高/体重限制，<span style="color:#e03131;font-weight:700;">服从工作人员指引</span>；滑雪 <span style="color:#e03131;font-weight:700;">务必请教练，勿擅自上中级道</span>。</li>
+            <li><strong>进场前：</strong>先上厕所、喝温水；场内 -6℃ 不补水易干燥，<span style="color:#e03131;font-weight:700;">保温杯自备</span>（融创茂可接热水）。</li>
+            <li><strong>票种与装备：</strong><span style="color:#e03131;font-weight:700;">娱雪票已含雪服+雪靴+储物柜（免费）</span>，滑雪票再加头盔+雪板+雪杖；手套与袜子不提供、须自备；雪服升级拍照款另计。出行前确认融创正常开放（极端天气可能闭园，以官方通知为准）。</li>
+            <li><strong>实名入园（<span style="color:#e03131;font-weight:700;">必带身份证！</span>）：</strong><span style="color:#e03131;font-weight:700;">必须携带本人身份证原件</span>，人证一致方可入园，电子证件无效；小孩若无身份证带户口本/出生证明原件。没带证件 = 进不去，白跑一趟。</li>
+          </ul>
+          <div class="timeline-tags"><span class="timeline-tag kid">小孩最爱</span><span class="timeline-tag">室内恒温</span><span class="timeline-tag">约3.5小时</span></div>
+          <div class="media-block">
+            <div class="media-cover"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="融创文旅城/index.png" alt="融创文旅城" loading="lazy" decoding="async"><img src="融创文旅城/02_hot_snow.jpg" alt="热雪奇迹" loading="lazy" decoding="async"></div>
+          </div>
+        </div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:50 - 16:50</div><div class="timeline-content">
+          <h4>🚗 返程君荟名轩</h4><p><strong>15:50 离花都</strong>，约1小时到家（约16:50）。比17:30晚高峰早约1.5小时，卡在风雨抵穗前返程，既避堵又避台风雨中驾驶。到家后悠闲晚饭，不误周一。</p>
+          <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div>
+        </div></div>
+      </div>
+
+      <div class="typhoon-note" id="typhoon-e1">
+        <h4>台风「红霞」对方案E1（当天往返）的评估（7/25 出行）</h4>
+        <p class="tf-sub">依据 7月24日 06:00 中央气象台最新公报及广东省三防办/气象局预警。出行前务必查「广州天气」实时预警；路径若偏西（登陆珠海/中山）花都风雨更强，需当日晨再核一次。</p>
+        <h5>一、先校准台风位置（这决定影响程度）</h5>
+        <p>红霞（12号）24 日凌晨生成（热带风暴级），以 25–30km/h 向西北偏北移动、增强；<b>中央气象台 7/24 06:00 公报：25 日晚–26 日晨在广东中东部沿海（珠海—漳浦一带）登陆，强度 12–13 级（台风级），已发台风橙色预警</b>。花都在广州北部，处于台风<b>西侧外围</b>，不是登陆核心区——风力远低于登陆带，广州大概率以<b>暴雨/雷雨 + 6–8 级阵风</b>为主，不会出现登陆点的毁灭性大风，这点先可放心。</p>
+        <p><b>关键窗口：</b>7/25（周六）白天是整趟台风过程里花都<b>最安全</b>的时段（风雨未到，仅高温闷热）；<b>25 日夜间风雨抵穗、26 日全天为广州主要影响日</b>。当天往返版正是卡在这个最安全窗口、并于 15:50 离花都赶在风雨前回家——<b>比原两日方案E（撞 25 夜曼古园、26 下午石头记）更稳，且省下酒店住宿费</b>。</p>
+        <h5>二、逐段影响（看下方对照）</h5>
+        <div class="tf-win">
+          <span class="tf-win-label">台风影响时间窗</span>
+          <div class="tf-win-bars">
+            <div class="tf-win-seg tf-win-amber">7/25白天 高温·外围下沉（花都最安全窗口）</div>
+            <div class="tf-win-seg tf-win-coral">7/25夜 风雨抵穗·中高</div>
+            <div class="tf-win-seg tf-win-red">7/26全天 雷雨大风·高</div>
+          </div>
+        </div>
+        <table class="tf-table">
+          <thead><tr><th>时段</th><th>活动</th><th>地点</th><th>风险</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>07:00–07:37</td><td>自驾出发</td><td>荔湾→花都</td><td><span class="tf-badge tf-low">低风险</span></td><td>实测约37min，25日白天风雨未到，路上正常，早出发好</td></tr>
+            <tr><td>08:00–09:00</td><td>圆玄道观</td><td>户外</td><td><span class="tf-badge tf-mid">注意</span></td><td>清晨尚属外围下沉期，炎热+局地阵雨可能，风不大；带雨具，遇雷雨即撤</td></tr>
+            <tr><td>09:00–09:05</td><td>转场→资政</td><td>驾车</td><td><span class="tf-badge tf-low">低风险</span></td><td>圆玄→三华村约2km，顺路</td></tr>
+            <tr><td>09:05–09:50</td><td>资政大夫祠</td><td>户外庭院+室内</td><td><span class="tf-badge tf-mid">注意</span></td><td>古建群，户外庭院带雨具、室内展零影响；与圆玄同处台风天仅有的半户外段，遇雷雨即撤</td></tr>
+            <tr><td>09:50–09:55</td><td>转场→石头记</td><td>驾车</td><td><span class="tf-badge tf-low">低风险</span></td><td>三华村→珠宝城，顺路</td></tr>
+            <tr><td>09:55–10:55</td><td>石头记·室内馆</td><td>室内</td><td><span class="tf-badge tf-low">低风险</span></td><td>地下宝藏馆，空调舒适，台风零影响</td></tr>
+            <tr><td>10:55–11:15</td><td>转场→融创</td><td>驾车</td><td><span class="tf-badge tf-low">低风险</span></td><td>顺路</td></tr>
+            <tr><td>11:15–12:20</td><td>午餐+休整</td><td>室内</td><td><span class="tf-badge tf-low">低风险</span></td><td>融创茂室内，不受影响</td></tr>
+            <tr><td>12:20–15:50</td><td>雪世界</td><td>室内-6℃</td><td><span class="tf-badge tf-low">低风险</span></td><td>完全不受台风影响</td></tr>
+            <tr><td>15:50–16:50</td><td>自驾返程</td><td>荔湾</td><td><span class="tf-badge tf-mid">注意</span></td><td>15:50离花都，比17:30晚高峰早约1.5h，赶在风雨抵穗前回家</td></tr>
+          </tbody>
+        </table>
+        <h5>三、方案E1 为什么稳（核心取舍）</h5>
+        <ul class="tf-ul">
+          <li><b>必保室内：</b>雪世界（室内 -6℃）+ 石头记地下宝藏馆 + 融创茂餐饮，全程零台风风险。</li>
+          <li><b>圆玄（25早·1h）：</b>趁早出发，带雨具+防晒+水；25日白天风雨未到，可去，遇雷雨阵风立刻撤。</li>
+          <li><b>资政大夫祠（25早·45min）：</b>与圆玄同处花都古建群（相距约2km），趁早一并游览；户外庭院带雨具、室内展零影响，与圆玄同为台风天仅有的两处半户外段，遇雷雨即撤。</li>
+          <li><b>不订酒店：</b>省去原两日方案E的住宿费（约¥800），台风若有变数也不破费；家庭「景点继续」愿望达成。</li>
+          <li><b>曼古园夜景：已取消</b>（原方案E的25夜户外段，正撞风雨，免费弹性备选，无损失）。</li>
+          <li><b>石头记：改室内+提前</b>——原方案E安排在26日下午（主要影响日，高风险），当天往返版挪到25日上午室内馆，既保科普又避风雨。</li>
+          <li><b>返程（15:50）：</b>卡在风雨抵穗前、避开17:30晚高峰，比原方案E的26日雨中返程更稳。</li>
+          <li><b>出发前必查：</b>看「广州天气」「广东天气」官方预警；若25日广州升级发布台风黄/橙或雷雨大风橙以上，户外段（圆玄）也取消，只留雪世界室内。融创若闭园会官方通知，出行前确认开放。</li>
+        </ul>
+      </div>
+    </div>
+    </section>
+  <section class="section" id="log" hidden>
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      游记实录
+    </h2>
+    <p class="section-desc">方案 E1 实况（7/25 当天往返）。根据粤 A·713KW 行车记录修正后的真实执行记录：06:52 出发，经西湾大厦短停后北上花都；先后停靠圆玄道观、石头记矿物园、融创茂，17:27 回到荔湾。</p>
+
+    <!-- 出发 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">06:52</span>
+        <span class="chapter-title">出发 · 粤 A·713KW</span>
+      </div>
+      <p>06:52 从荔湾区西村街道退役军人服务站启程，比原计划 07:00 还早 8 分钟。06:54 经停西湾大厦（仅 0.1 km，临时接人或取物），随后直上花都。天刚亮，晨风清凉，台风外围下沉让天空格外通透，一路车流顺畅。</p>
+      <div class="chapter-tags"><span class="chapter-tag drive">自驾</span><span class="chapter-tag kid">亲子</span><span class="chapter-tag">实测约 37min</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="游记/713/713行车记录0725.jpg" alt="713 行车记录" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="游记/713/01-0654_出发_粤A713KW.jpeg" alt="06:54 出发" loading="lazy" decoding="async">
+          <img src="游记/713/713行车记录0725.jpg" alt="713 行车记录" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- 圆玄道观 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">07:41–09:30</span>
+        <span class="chapter-title">圆玄道观 · 晨游牌坊</span>
+      </div>
+      <p>07:41 抵达广东圆玄道观东门停车场，行车记录显示从西湾大厦过来 32.8 km。趁早晨凉爽、游客稀少，在「圆玄道观」牌坊下拍了左哥右爸合影。台风外围下沉气流让天空湛蓝，比计划中 08:00 还早到近 20 分钟。09:30 离开道观，实际停留约 1 小时 50 分钟，比原计划的 1 小时更从容。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">道教文化</span><span class="chapter-tag free">古建</span><span class="chapter-tag">约 1 小时 50 分</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="游记/圆玄道观/01-0800_圆玄道观牌坊_左哥右爸.png" alt="圆玄道观牌坊" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="游记/圆玄道观/01-0800_圆玄道观牌坊_左哥右爸.png" alt="圆玄道观牌坊" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- 石头记矿物园 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">10:02–11:56</span>
+        <span class="chapter-title">石头记矿物园 · 地下宝藏</span>
+      </div>
+      <p>09:30 离开圆玄道观，10:02 到达石头文化广场（行车记录 9.7 km）。为避开台风和节省时间，当天仍跳过资政大夫祠，直接扎进石头记矿物园。从 AAAA 大门进入，经岩拱、地下「神秘宝藏」馆，看石笋、矿物晶体、太空服、肉石、蓝宝石瀑布假山，在光影隧道和星空投影里把科普变成沉浸式电影。</p>
+      <p>11:56 离开石头文化广场，在馆内实际停留约 1 小时 54 分钟。哥哥看展特别认真，最后在彩虹投影下给兄弟俩留了影。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">矿物科普</span><span class="chapter-tag kid">亲子</span><span class="chapter-tag free">室内·零风雨</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="游记/石头记矿物园/01-1000_矿物园入口_AAAA大门.jpeg" alt="矿物园入口" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="游记/石头记矿物园/01-1000_矿物园入口_AAAA大门.jpeg" alt="入口 AAAA 大门" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/02-1002_大门石碑.png" alt="大门石碑" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/03-1003_正门岩拱.jpeg" alt="正门岩拱" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/04-1008_地下博物馆入口_神秘宝藏.jpeg" alt="地下博物馆入口" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/05-1010_大型石笋矿物晶体.png" alt="大型石笋矿物晶体" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/06-1015_月球打卡点_左哥右爸.png" alt="月球打卡点" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/07-1020_太空服模型.jpeg" alt="太空服模型" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/08-1030_肉石_桃花源主题.png" alt="肉石" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/09-1040_蓝宝石瀑布假山.jpeg" alt="蓝宝石瀑布假山" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/10-1050_物质诞生光影隧道.jpeg" alt="物质诞生光影隧道" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/11-1055_物质诞生_哥哥看展.png" alt="哥哥看展" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/12-1105_三大标本墙.jpeg" alt="三大标本墙" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/13-1115_星空_太空服.jpeg" alt="星空太空服" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/14-1125_紫色星云投影.jpeg" alt="紫色星云投影" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/15-1135_彩虹投影_兄弟.jpeg" alt="彩虹投影兄弟" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/16-1145_巨型鹦鹉螺化石.jpeg" alt="巨型鹦鹉螺化石" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/17-1150_多彩玛瑙标本墙.jpeg" alt="多彩玛瑙标本墙" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/18-1155_绿色葡萄玛瑙晶簇.jpeg" alt="绿色葡萄玛瑙晶簇" loading="lazy" decoding="async">
+          <img src="游记/石头记矿物园/downloaded-image.jpeg" alt="石头记标本" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- 融创茂 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">12:21–16:23</span>
+        <span class="chapter-title">融创茂 · 飞越大冒险 + VR 射击</span>
+      </div>
+      <p>11:56 离开石头文化广场，12:21 到达融创茂（行车记录 9.7 km）。行车记录将目的地记为「KK 台球（融创茂）」，但现场照片显示还玩了飞越大冒险的弹跳球池和 VR 射击。原计划的热雪奇迹被替换成更灵活的室内项目——不用雪服、不用实名证件，孩子们可以在商场里切换项目，风雨无忧。在这里从中午一直玩到下午 4 点多。</p>
+      <div class="chapter-tags"><span class="chapter-tag kid">亲子</span><span class="chapter-tag">室内恒温</span><span class="chapter-tag">约 4 小时</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="游记/融创茂/01-1230_飞越大冒险_弹跳球池.png" alt="飞越大冒险" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="游记/融创茂/01-1230_飞越大冒险_弹跳球池.png" alt="飞越大冒险弹跳球池" loading="lazy" decoding="async">
+          <img src="游记/融创茂/02-1430_VR射击游戏.png" alt="VR 射击游戏" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- 返程 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">16:23–17:27</span>
+        <span class="chapter-title">返程 · 91.4 km 闭环</span>
+      </div>
+      <p>16:23 从融创茂启程返程，行车记录显示 39.1 km 后于 17:27 回到荔湾区西村街道退役军人服务站。回程才是「红霞」真正发威的路段——高速大部分路程都泡在台风里：超大风、大雨、能见度极低，车流明显放慢、车速大幅下降。其实这台 XT6 就算不切四驱，本身底子就很稳；当时切到四驱，是考虑到现场路况——风雨里多一分抓地，心里更踏实。过水幕和横风时车身姿态稳得住，一点不慌。有意思的是，刚进到白云新市一带，突然像换了个世界——无风也无雨，台风的边界清晰得像被刀切过。一天下来，圆玄的晨光、石头记的冷气、融创茂的欢笑，连同回程这场台风考验，都被 713 的行车记录串成了一条完整的 91.4 km 闭环。</p>
+      <div class="chapter-tags"><span class="chapter-tag drive">自驾返程</span><span class="chapter-tag">约 1 小时</span><span class="chapter-tag free">风雨前到家</span></div>
+    </div>
+
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+  <section class="section" id="food" hidden>
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2v0a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
+      美食 & 随手发现
+    </h2>
+    <p class="section-desc">当天往返以室内用餐为主，融创茂餐饮选择最多；顺路尝了花都本地风味。</p>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🍽️ 融创茂餐饮</h4>
+        <p>约 34 万㎡ 商业、60+ 餐饮（粤式、火锅、亲子餐厅），室内空调舒适，避开正午暴晒，顺便逛「海上丝路」主题街区。当天往返版午餐 + 午休合并于此。</p>
+        <div class="price">人均 ¥40–80 · 室内首选</div>
+      </div>
+      <div class="food-card">
+        <h4>🍱 酒店自助晚餐</h4>
+        <p>热食、海鲜、甜品、小孩爱的水果档一应俱全（两日方案体验）。省去再找餐厅的麻烦，吃饱喝足再去看夜景。</p>
+        <div class="price">参考 ¥150–200/人 · 方案 A/D/E</div>
+      </div>
+      <div class="food-card">
+        <h4>🥘 花都本地菜</h4>
+        <p>花都烧骨、山水豆腐等本地风味，返程前就近补给，小孩吃饱再上路。</p>
+        <div class="price">人均 ¥50–90 · 本地风味</div>
+      </div>
+      <div class="food-card">
+        <h4>🥭 曼古园芒果糯米饭</h4>
+        <p>泰式风情夜市小吃（弹性备选 / 方案 E 夜景段）。一秒穿越清迈的街头味道。</p>
+        <div class="price">小吃价 · 免费入园夜拍</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+    <!-- ===== 人文背景 ===== -->
+    <section class="section" id="culture">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        人文背景 · 给孩子的解说
+      </h2>
+      <p class="section-desc">融创周边不止好玩，更藏着历史、建筑、宗教与地质的故事。下面把每个景点"为什么值得看、能讲给孩子什么"说清楚，出游前读一遍，孩子看景就不只是看热闹。</p>
+
+      <div class="culture-grid">
+        <div class="culture-card" id="culture-hongxiuquan">
+          <div class="culture-card-head"><div class="c-icon">🏛️</div><h4>洪秀全故居</h4><span class="culture-tag">近代史 · 农民起义</span></div>
+          <h5>背景</h5>
+          <p>洪秀全（1814–1864），广东花县（今花都）官禄㘵村人，就出生在这座客家小院。青年时多次赴广州应试屡试不中，受基督教小册《劝世良言》启发，创立"拜上帝会"。1851年于广西金田村起义，建号太平天国、自称天王；1853年攻占南京改名天京并定都，推行"有田同耕、有饭同食"的《天朝田亩制度》，后期洪仁玕提出主张学习西方的《资政新篇》。1864年天京陷落，运动失败。</p>
+          <h5>讲给孩子听</h5>
+          <ul>
+            <li>洪秀全小时候也像你一样读书、下田，他考了<b>4次"秀才"都没考上</b>，心里不服气，就想：为什么不建一个人人平等的新世界？</li>
+            <li>金田起义像一场超大规模的"集结号"，很多人跟着他，想<b>吃饱饭、有地种</b>。</li>
+            <li>他们定都南京（天京），想实现"天下一家、共享太平"。</li>
+            <li>为什么失败？内部闹矛盾（"天京事变"兄弟相争），外面清军和洋枪队一起打，<b>光有勇气不够，还要团结和办法</b>。</li>
+          </ul>
+        </div>
+
+        <div class="culture-card" id="culture-zizheng">
+          <div class="culture-card-head"><div class="c-icon">🏯</div><h4>资政大夫祠</h4><span class="culture-tag">岭南古建 · 非遗</span></div>
+          <h5>背景</h5>
+          <p>位于新华街三华村，是清代为纪念徐氏先祖徐方正（诰授资政大夫）等而建的祠堂建筑群，今与"广州市花都区博物馆"同址。建筑以"三雕两塑一彩"著称——砖雕、木雕、石雕，灰塑、陶塑，再加彩绘，是岭南民间建筑艺术的集大成者。其中<b>灰塑</b>是岭南特有的室外装饰工艺，用石灰、草纸等拌成，在屋脊墙头现场塑形，色彩鲜亮又耐风吹雨打。</p>
+          <h5>讲给孩子听</h5>
+          <ul>
+            <li>祠堂是过去大家族"开会 + 祭祖"的地方，像一个家族的礼堂。</li>
+            <li>抬头看屋脊：那些立体小人、花鸟是<b>"灰塑"</b>，工匠用特殊材料现场捏出来，几百年都不掉色。</li>
+            <li>砖雕是在青砖上像刻印章一样镂空雕刻；木雕讲的是戏文故事。</li>
+            <li>比一比：这和北方四合院、安徽马头墙有什么不一样？（岭南更繁复、重装饰、爱用吉祥图案）</li>
+            <li>小任务：数数屋脊上有几种动物，说说它们代表什么好兆头。</li>
+          </ul>
+        </div>
+
+        <div class="culture-card" id="culture-yuanxuan">
+          <div class="culture-card-head"><div class="c-icon">☯️</div><h4>圆玄道观</h4><span class="culture-tag">道教文化</span></div>
+          <h5>背景</h5>
+          <p>20世纪90年代由香港圆玄学院等出资兴建，是华南规模较大的道教宫观之一。主体建筑仿北京天坛祈年殿（三清殿，人称"广州小天坛"），八角三重檐、圆形大厅、高近30米；另有<b>18.8米老子青铜立像</b>、仿圆明园十二生肖铜像喷泉、元辰宝殿（供奉六十甲子神）。道观倡导"道、儒、释"三教同源，也做安老、助学等公益。</p>
+          <h5>讲给孩子听</h5>
+          <ul>
+            <li>道教是中国人自己的本土宗教，尊老子为祖师，讲"<b>道法自然</b>""上善若水"。</li>
+            <li>三清殿为什么是圆的？古人认为"<b>天圆地方</b>"，圆顶像天、方形像地。</li>
+            <li>老子写了《道德经》，里面有"千里之行，始于足下"。</li>
+            <li>十二生肖喷泉：子鼠丑牛寅虎……你属什么？找找对应的生肖铜像。</li>
+            <li>太极图：黑白两条鱼抱成圆，意思是凡事都有正反两面、互相转化。</li>
+          </ul>
+        </div>
+
+        <div class="culture-card" id="culture-stone">
+          <div class="culture-card-head"><div class="c-icon">💎</div><h4>石头记矿物园</h4><span class="culture-tag">地质科普</span></div>
+          <h5>背景</h5>
+          <p>花都珠宝城大观园路1号，是以奇石、化石、宝石、矿物为主题的4A级游乐园。地上"芝麻开门"奇石公园有91颗各重1.5吨的石球垒成的金字塔、亿万年树龄的"木化石"森林；地下"神秘宝藏"有夜明珠、<b>满汉全席奇石宴</b>（用石头雕成一桌菜肴）、世界最大天然水晶观音、水晶船"海洋之梦"等。</p>
+          <h5>讲给孩子听</h5>
+          <ul>
+            <li>石头从哪里来？地球内部岩浆冷却→<b>岩浆岩</b>；泥沙层层沉积→<b>沉积岩</b>；高温高压变身→<b>变质岩</b>。</li>
+            <li>水晶为什么是六角柱？矿物会按固定几何形状长成"<b>晶体</b>"，水晶是二氧化硅的晶体。</li>
+            <li>化石是远古动植物的"石头照片"：木化石曾是参天大树，被泥沙掩埋后慢慢石化。</li>
+            <li>夜明珠为什么发光？有些矿物含<b>荧光物质</b>，在暗处会亮。</li>
+            <li>小实验：带块磁铁，看哪些石头能被吸住（含铁）；用放大镜看水晶的棱角。</li>
+          </ul>
+        </div>
+
+        <div class="culture-card" id="culture-mangu">
+          <div class="culture-card-head"><div class="c-icon">🛕</div><h4>广州曼古园</h4><span class="culture-tag">东南亚文化</span></div>
+          <h5>背景</h5>
+          <p>花都平步大道西大观园路5号，一座以泰式建筑与佛教艺术为主题的免费园区。金碧辉煌的泰式佛塔、宫殿、四面佛、大象雕塑，夜晚灯光亮起宛如曼谷街头，是了解泰国（上座部佛教）文化与中国—东盟民间交流的轻松窗口。</p>
+          <h5>讲给孩子听</h5>
+          <ul>
+            <li>泰国主要信仰佛教（上座部佛教），金色佛塔用来供奉舍利、礼佛；<b>四面佛</b>代表平安、事业、爱情、健康四个心愿。</li>
+            <li>为什么是金色？金色象征庄严与光明，和我们故宫红墙金瓦一样，都表示"重要"。</li>
+            <li>大象在泰国是吉祥、力量的象征（就像我们的龙）。</li>
+            <li>对比：道观（圆玄）、佛寺（曼古）、祠堂（资政）有什么不同？它们分别是道教、佛教、宗族文化的代表。</li>
+            <li>小任务：数数园里出现几种动物雕塑，说说它们在泰国文化里的意思。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 酒店推荐 ===== -->
+    <section class="section" id="hotels">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>
+        酒店推荐
+      </h2>
+      <p class="section-desc">融创周边步行/车程15分钟内高品质住宿，各方案入住首选</p>
+
+      <div class="spots-grid">
+        <div class="hotel-card">
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/施柏阁大观.png" alt="施柏阁大观酒店" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/施柏阁大观.png" alt="施柏阁大观酒店" loading="lazy" decoding="async"></div>
+          </div>
+          <div class="hotel-card-content">
+            <div class="hotel-card-header"><h4>广州施柏阁大观酒店</h4><span class="hotel-stars" style="color:var(--accent);font-size:.82rem;align-self:center;">★★★★★</span></div>
+            <p>豪华型·民国官邸风·评分4.8·广东滑雪酒店榜No.2。凤凰北路75号，中心湖畔，步行5分钟至融创茂。167间客房，最小50㎡带阳台，全湖景。</p>
+            <div class="tips">参考起价 ¥735/晚 · 方案A/D 推荐（步行直达各馆）</div>
+          </div>
+        </div>
+
+        <div class="hotel-card">
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/堇山.png" alt="融创堇山酒店" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/堇山.png" alt="融创堇山酒店" loading="lazy" decoding="async"></div>
+          </div>
+          <div class="hotel-card-content">
+            <div class="hotel-card-header"><h4>广州融创堇山酒店</h4><span class="hotel-stars" style="color:var(--accent);font-size:.82rem;align-self:center;">★★★★★</span></div>
+            <p>豪华度假型·评分4.6+·文旅城内。凤凰北路69号，步行直达各业态。岭南西关大屋风情，348间客房，湖景/乐园景可选。</p>
+            <div class="tips">参考价 ¥600–900/晚 · 各方案通用（最省步行）</div>
+          </div>
+        </div>
+
+        <div class="hotel-card">
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/花间堂悦雪.png" alt="融创花间堂悦雪" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/花间堂悦雪.png" alt="融创花间堂悦雪" loading="lazy" decoding="async"></div>
+          </div>
+          <div class="hotel-card-content">
+            <div class="hotel-card-header"><h4>广州融创花间堂·悦雪</h4><span class="hotel-stars" style="color:var(--accent);font-size:.82rem;align-self:center;">★★★★★</span></div>
+            <p>亲子度假酒店（华住·花间堂）·评分4.6·广东滑雪酒店榜No.3。距文旅城核心驾车约5.7km，亲子家庭首选，亲子设施齐全。</p>
+            <div class="tips">参考价 ¥700–1000/晚 · 方案D 轻奢亲子首选</div>
+          </div>
+        </div>
+
+        <div class="hotel-card">
+          <div class="media-block">
+            <div class="media-cover"><img src="酒店/皇冠假日.png" alt="花都皇冠假日酒店" loading="lazy" decoding="async"></div>
+            <div class="media-gallery"><img src="酒店/皇冠假日.png" alt="花都皇冠假日酒店" loading="lazy" decoding="async"></div>
+          </div>
+          <div class="hotel-card-content">
+            <div class="hotel-card-header"><h4>广州花都皇冠假日酒店</h4><span class="hotel-stars" style="color:var(--accent);font-size:.82rem;align-self:center;">★★★★★</span></div>
+            <p>国际五星（洲际集团）·评分4.7·迎宾大道189号。距融创直线约6.5km，驾车约15分钟；距白云机场约15分钟。园林式户外泳池。</p>
+            <div class="tips">参考价 ¥600–800/晚 · 想远离乐园喧闹可选</div>
+          </div>
+        </div>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 预算对比 ===== -->
+    <section class="section" id="budget">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        预算对比
+      </h2>
+      <p class="section-desc">4口之家（2大2小）2天1夜 费用横向估算，单位为人民币（参考值，节假日波动较大）</p>
+
+      <div class="budget-wrap">
+        <table class="budget-table">
+          <thead>
+            <tr><th>费用项目</th><th>方案A · 融创全能</th><th>方案B · 人文历史</th><th>方案C · 自然亲子</th><th>方案D · 轻奢度假</th><th>方案E · 雪世界+人文夜景</th><th>方案E1 · 雪世界+矿物(当天往返)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>门票（4人）</td><td>¥1,900</td><td>¥1,100</td><td>¥1,200</td><td>¥2,000</td><td>¥1,000</td><td>¥1,000</td></tr>
+            <tr><td>住宿（1晚）</td><td>¥800</td><td>¥800</td><td>¥800</td><td>¥900</td><td>¥800</td><td>¥0</td></tr>
+            <tr><td>餐饮（2天）</td><td>¥700</td><td>¥700</td><td>¥700</td><td>¥700</td><td>¥700</td><td>¥350</td></tr>
+            <tr><td>油费 + 过路</td><td>¥90</td><td>¥90</td><td>¥90</td><td>¥90</td><td>¥90</td><td>¥90</td></tr>
+            <tr class="total"><td>合计估算</td><td>¥3,490</td><td>¥2,690</td><td>¥2,790</td><td>¥3,690</td><td>¥2,590</td><td>¥1,440</td></tr>
+            <tr><td>核心体验</td><td>四大馆全覆盖</td><td>融创+人文研学</td><td>融创+香草农趣</td><td>雪世界+大马戏</td><td>雪世界+矿物科普+道教+泰式夜景</td><td>雪世界+矿物科普+道教（当天往返·无酒店）</td></tr>
+            <tr><td>适合家庭</td><td>想一次玩遍</td><td>偏大宝研学</td><td>低龄戏水</td><td>慢节奏度假</td><td>玩雪+人文（道教）+夜景</td><td>玩雪+人文（道教）+避台风险</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="budget-note">注：门票为 2大2小 估算（雪世界/水世界/体育世界按成人+儿童优惠计，乐园免费入园、石头记/圆玄/洪秀全/资政/香草/七溪地多为低价或免费，大马戏单列）。住宿按融创周边亲子酒店平日价估算，节假日上浮明显。所有数字为出行参考，预订请以各平台当日为准。</p>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 实用贴士 ===== -->
+    <section class="section" id="tips">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+        实用贴士
+      </h2>
+      <p class="section-desc">基于 km 家庭 4口亲子游经验</p>
+
+      <div class="tips-box">
+        <div class="tips-box-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          亲子出行节奏
+        </div>
+        <ul>
+          <li><strong>早出发、早返程：</strong>周六 07:00 前从君荟名轩出发，避开出城早高峰；周日 14:00 后返程，约15:00–16:00到家，不赶夜路、不误周一。</li>
+          <li><strong>酒店后置：</strong>自驾行李全程放车上，玩完景点再去酒店入住，行李从车上搬入房间；入住后让小孩洗澡小睡恢复体力。</li>
+          <li><strong>避开正午暴晒：</strong>13:00–15:00 安排在室内（雪世界/水世界/体育世界/融创茂）或午休；户外周边景点优先上午。</li>
+          <li><strong>雪世界准备：</strong>票内含雪服+雪具（免费），自备厚袜子+防水手套；3岁+可玩娱雪区，滑雪请教练。</li>
+          <li><strong>开园即入：</strong>融创乐园/各馆早到人流少、体验佳；确认是否支持当日二次入园，方便回酒店午休。</li>
+        </ul>
+      </div>
+
+      <div class="tips-box danger" style="margin-top: 1rem;">
+        <div class="tips-box-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          避坑提醒
+        </div>
+        <ul>
+          <li><strong>门票分开买：</strong>融创乐园免费入园、雪/水/体育/大马戏单独购票，建议提前在官方渠道买套票更划算，避免现场排队。</li>
+          <li><strong>不要贪多：</strong>四大馆一天玩不完也不建议硬塞，按方案分两天，小孩体力有限，悠闲深度好过走马观花。</li>
+          <li><strong>周边景点免费/低价居多：</strong>石头记、圆玄、洪秀全、资政、香草、七溪地多数低价或免费，顺路安排性价比高。</li>
+          <li><strong>已排除景点不安排：</strong>九龙湖/塱头/红山/花都湖/清远长隆已去过；古龙峡(漂流)/碧水湾(从化温泉)本次不考虑，勿误排。</li>
+          <li><strong>天气备选：</strong>若遇雨天，雪世界/水世界/体育世界均为室内，可把室外乐园/周边段替换为室内馆。</li>
+        </ul>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 疑问解答 ===== -->
+    <section class="section" id="qa">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        您的疑问 · 解答
+      </h2>
+      <p class="section-desc">基于您的家庭情况和核心需求（融创为核心、住一晚、周边顺道），先解答最关心的几个问题</p>
+
+      <div class="qa-grid">
+        <div class="qa-card">
+          <h4>🏔️ 融创四大馆怎么选？</h4>
+          <p>花都融创文旅城由<span class="highlight">雪世界（热雪奇迹）、水世界、体育世界、融创乐园</span>四大核心 + 融创茂（商业）、酒店群、滨湖酒吧街、大剧院组成。乐园<span class="green">免费入园</span>、单项或套票收费；雪/水/体育三大馆需单独购票。<strong>建议分两天玩</strong>，不必一天赶完。</p>
+        </div>
+        <div class="qa-card">
+          <h4>❄️ 雪世界适合小孩吗？</h4>
+          <p><span class="highlight">非常适合！</span>华南最大室内滑雪场，四季恒温 -4至-6℃，有娱雪区（7大项目）+ 滑雪道。提供儿童雪具与教练，<span class="green">3岁+</span>即可玩娱雪。票内含雪服（免费），记得带厚袜子。</p>
+        </div>
+        <div class="qa-card">
+          <h4>🌊 水世界 / 体育世界呢？</h4>
+          <p>水世界是<span class="green">室内恒温水上乐园</span>（大喇叭、巨浪湾、4D水影院），全年可玩；体育世界主打<span class="green">疯狂卡丁</span>双层赛道等20+运动项目，男孩尤其喜欢。两者都在室内，不受天气影响，适合当"备选雨天方案"。</p>
+        </div>
+        <div class="qa-card">
+          <h4>🚗 君荟名轩出发方便吗？</h4>
+          <p><span class="highlight">很近！</span>荔湾君荟名轩 → 花都融创文旅城（凤凰北路78号）约 <span class="green">50km / 1小时</span>（广清高速或机场高速）。周六 07:00 前出发可完美避开出城早高峰；周日 14:00 后返程避开晚高峰，<strong>比去深圳轻松太多</strong>。</p>
+        </div>
+        <div class="qa-card">
+          <h4>🗺️ 周边哪些值得顺道？</h4>
+          <p>融创周边 20–40 分钟车程内，<span class="highlight">未去过的</span>有：石头记矿物园（AAAA）、圆玄道观（AAAA）、洪秀全故居（AAA）、香草世界、曼古园（泰式）、资政大夫祠、七溪地（芳香）、宝桑园（蚕桑）。本攻略五个方案各挑一条顺路线。</p>
+        </div>
+        <div class="qa-card">
+          <h4>🚫 哪些已排除？</h4>
+          <p><span class="highlight">已去过</span>：九龙湖·阿那亚、塱头古村、红山村、花都湖、清远长隆。<span class="highlight">本次不考虑</span>：古龙峡（漂流）、碧水湾温泉（从化）。这些景点本次行程一律不安排，避免重复。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 路线概览 ===== -->
+    <section class="section" id="route">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        路线概览
+      </h2>
+      <p class="section-desc">广州荔湾君荟名轩自驾至花都融创文旅城，4口之家周末 2天1夜</p>
+
+      <div class="route-card">
+        <div class="route-info">
+          <div class="route-info-item"><div class="label">出发</div><div class="value">君荟名轩</div></div>
+          <div class="route-arrow">→</div>
+          <div class="route-info-item"><div class="label">核心</div><div class="value">融创文旅城</div></div>
+          <div class="route-arrow">→</div>
+          <div class="route-info-item"><div class="label">顺道</div><div class="value">周边景点</div></div>
+          <div class="route-arrow">→</div>
+          <div class="route-info-item"><div class="label">返程</div><div class="value">君荟名轩</div></div>
+        </div>
+        <div class="route-tips">
+          <strong>去程路线：</strong>君荟名轩 → 内环路/广清高速连接线 → 广清高速（G0421）或机场高速 → 山前大道/凤凰北路出口 → 融创文旅城（约50km，1小时）<br>
+          <strong>返程路线：</strong>同去程反向，周日 14:00–15:00 出发，约 15:00–16:00 到家，小孩还能吃晚饭、不误周一<br>
+          <strong>高速费用：</strong>往返约 ¥30–50（花都近，远低于去深圳）&nbsp;&nbsp;|&nbsp;&nbsp;<strong>油费估算：</strong>约 ¥60–90（往返）<br>
+          <strong>停车提示：</strong>入住融创酒店一般含免费停车；融创茂/各馆地下车库约 ¥10–20/次<br>
+          <strong style="color:var(--xb-warn)">⚡ 避堵策略：</strong>周六 07:00 前出发（避开出城早高峰）+ 周日 14:00 后返程（避开返城晚高峰），双向错峰，不赶夜路
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 营业时间 & 行程复核 ===== -->
+    <section class="section" id="hours">
+      <h2 class="section-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        营业时间 &amp; 行程复核
+      </h2>
+      <p class="section-desc">基于 2026-07 各平台在售信息核对；各馆分时段开放，具体以出行当日景区官方公告为准。下表为各景点/场馆真实营业（开放）时间与门票参考。</p>
+
+      <table class="plan-summary-table hours-table">
+        <thead><tr><th>景点 / 场馆</th><th>营业 / 开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>融创乐园</td><td>约 10:00–21:00</td><td>免费入园；套票/单项另购</td><td>夜场灯光演艺另计；个别平台显示11:00开园</td></tr>
+          <tr><td>热雪奇迹（雪世界）</td><td>7-8月: 周一至五 10:00–21:30（19:30停售/20:30停入园）；周六日 09:30–22:00（20:00停售/21:00停入园）；娱雪区至18:00</td><td>娱雪票约¥198起</td><td>室内-4至-6℃；票含雪服+雪鞋+储物柜；🅿️ 融创茂(¥4/30min≈¥8/h, 24h封顶¥64; 会员首小时免费)</td></tr>
+          <tr><td>融创水世界</td><td>约 10:30–21:00（夜场）</td><td>约¥109起</td><td>室内恒温；部分时段/冬季限开，出行前确认</td></tr>
+          <tr><td>融创体育世界</td><td>10:00–21:00</td><td>约¥30起/单项</td><td>室内；疯狂卡丁单次约¥120</td></tr>
+          <tr><td>石头记矿物园</td><td>9:00–18:00（地下宝藏）；地上奇石公园至21:00</td><td>成人¥55</td><td>仅地上公园免票；亲子矿物科普；🅿️ 园区停车场(¥5-10/次)</td></tr>
+          <tr><td>洪秀全故居</td><td>9:00–17:00（16:30停入）</td><td>免费</td><td>⚠️ 周一闭馆（节假日除外）</td></tr>
+          <tr><td>资政大夫祠（区博物馆）</td><td>约 9:00–17:00</td><td>免费</td><td>⚠️ 周一闭馆；灰塑·砖雕·木雕；🅿️ 祠内北侧/新街大道9号</td></tr>
+          <tr><td>圆玄道观</td><td>8:00–17:00（16:30停入）</td><td>¥15–20</td><td>仿天坛三清殿；1.3m以下免票；🅿️ 道观东停车场(¥5/次,约200位)</td></tr>
+          <tr><td>花都香草世界</td><td>9:00–18:00</td><td>低价/免费</td><td>可驾车入园</td></tr>
+          <tr><td>世间香境·七溪地</td><td>8:00–18:00</td><td>约¥40–70</td><td>芳香秘境；非遗制香</td></tr>
+          <tr><td>宝桑园</td><td>9:00–17:30</td><td>低价</td><td>蚕桑文化；弹性备选</td></tr>
+          <tr><td>广州曼古园</td><td>9:00–22:00</td><td>免费</td><td>泰式风情；夜景美；弹性备选</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tips-box" style="margin-top:1.5rem;">
+        <div class="tips-box-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+          行程复核结论（已据此修正）
+        </div>
+        <ul>
+          <li><strong>核心修正：</strong>原行程将融创乐园/雪世界/体育世界写成 08:00「开园即入」、水世界 08:00 进场——但各馆实际约 <strong>10:00 开园</strong>（水世界约 10:30）。已统一改为 10:00 进馆，早到 1–2 小时改安排在<strong>融创茂早餐 + 行李寄存 + 开园前缓冲</strong>，既避出城高峰又不白等。</li>
+          <li><strong>夜间场馆：</strong>雪世界/水世界/体育世界均营业至 21:00 后，夜场与大马戏（19:30–21:30）安排合理。</li>
+          <li><strong>人文景点：</strong>洪秀全故居、资政大夫祠均为 9:00–17:00 且<strong>周一闭馆</strong>；方案B 安排在周日白天，时段合理。若出行日恰逢周一，需整体顺延或改其他方案。</li>
+          <li><strong>周边顺路：</strong>石头记（9:00–18:00）、香草世界（9:00–18:00）、七溪地（8:00–18:00）时段均匹配，无需调整。</li>
+          <li><strong>避坑：</strong>水世界为室内恒温水乐园，冬季或部分日期可能限开，出行前请在官方渠道确认当日是否开放。</li>
+        </ul>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 返回四季景点 ===== -->
+    <section class="section center">
+      <a class="back-link" href="../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        返回四季景点
+      </a>
+    </section>
+
+  <footer style="position:relative;z-index:1;text-align:center;padding:2.5rem 1.25rem 4rem;color:var(--text-hint);font-size:13px;letter-spacing:1px;">
+    <div style="width:30px;height:1px;background:var(--accent-border);margin:0 auto .8rem;"></div>
+    <p style="margin-top:.4rem;font-size:11px;color:rgba(255,255,255,.25);font-family:monospace;letter-spacing:.5px;">v20260812-huadu-new</p>
+  </footer>
+
+  <script>
+  (function () {
+    // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+    function baseNameOf(src){ var m=/[\\/]([^\\/]+)$/.exec(src||''); var f=m?m[1]:(src||''); return f.replace(/\.[^.]+$/,''); }
+    function isIndexImg(img){ return baseNameOf(img.getAttribute('src'))==='index'; }
+    document.querySelectorAll('.media-cover').forEach(function(cover){
+      var coverImg=cover.querySelector('img'); if(!coverImg) return;
+      function syncOrient(){ var nw=coverImg.naturalWidth,nh=coverImg.naturalHeight; if(nw&&nh) cover.classList.toggle('img-portrait',nh>nw); }
+      coverImg.addEventListener('load',syncOrient);
+      var host=cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+      if(!host) host=cover.parentElement;
+      var gallery=host&&host.querySelector('.media-gallery'); if(!gallery){ syncOrient(); return; }
+      var thumbs=Array.prototype.slice.call(gallery.querySelectorAll('img')); if(!thumbs.length) return;
+      var coverThumb=thumbs.filter(isIndexImg)[0]||thumbs[0];
+      function applyCover(thumb){
+        coverImg.src=thumb.src; if(thumb.alt) coverImg.alt=thumb.alt;
+        syncOrient();
+        var visible=0;
+        thumbs.forEach(function(t){ var isCov=(t===thumb); t.classList.toggle('is-cover',isCov); t.classList.toggle('active',isCov); if(!isCov) visible++; });
+        gallery.style.display=visible?'':'none';
+      }
+      applyCover(coverThumb);
+      gallery.addEventListener('click',function(e){ var thumb=e.target.closest('img'); if(!thumb||!gallery.contains(thumb)) return; applyCover(thumb); });
+    });
+
+    // ===== 入场动画 =====
+    var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card, .log-chapter, .food-card, .hotel-card, .qa-card, .tips-box');
+    var observer = new IntersectionObserver(function(entries){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ observer.observe(el); });
+
+    // ===== 执行方案 & 游记联动（模板 req#7）：游记仅在「已执行」方案激活时显示 =====
+    function getExecutedPlanId() {
+      var b = document.querySelector('.plan-btn[data-executed="true"]');
+      if (!b) return null;
+      var m = b.getAttribute('onclick') ? b.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+      return m ? m[1] : null;
+    }
+    function updateTravelogueGate(planId) {
+      var executedId = getExecutedPlanId();
+      var show = (planId === executedId);
+      ['log', 'food'].forEach(function (id) {
+        var s = document.getElementById(id);
+        if (s) s.hidden = !show;
+      });
+      return show;
+    }
+    function syncTravelogueNav() {
+      var ex = getExecutedPlanId();
+      document.querySelectorAll('#navInner a[href="#log"], #navInner a[href="#food"], #navMobile a[href="#log"], #navMobile a[href="#food"]').forEach(function (a) { a.style.display = ex ? '' : 'none'; });
+    }
+    window.goToLog = function () {
+      var ex = getExecutedPlanId();
+      if (ex) { var el = document.getElementById(ex); if (el && !el.classList.contains('active')) switchPlan(ex); }
+      var log = document.getElementById('log');
+      if (log && !log.hidden) log.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    // ===== 方案切换（同源：已执行方案激活时显游记）=====
+    window.switchPlan = function(id){
+      document.querySelectorAll('.plan-content').forEach(function(c){ c.classList.toggle('active', c.id===id); });
+      document.querySelectorAll('.plan-btn').forEach(function(b){ b.classList.toggle('active', (b.getAttribute('onclick')||'').indexOf("'"+id+"'")>=0); });
+      updateTravelogueGate(id);
+      if (window.history && window.history.replaceState) window.history.replaceState(null,'', '#'+id);
+    };
+
+    // ===== 初始化：同步已执行方案的游记门控与导航 =====
+    syncTravelogueNav();
+    (function initGate(){
+      var active = document.querySelector('.plan-btn.active');
+      var initId = null;
+      if (active) { var m = active.getAttribute('onclick') ? active.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null; initId = m ? m[1] : null; }
+      if (initId) updateTravelogueGate(initId);
+    })();
+
+    // ===== 顶部导航 =====
+    (function(){
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (s.el.hidden) return; if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen=false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML='<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menuOpen=!menuOpen; navMobile.classList.toggle('open',menuOpen);
+        if(menuOpen){ hamburgerIcon.innerHTML='<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'; }
+        else { hamburgerIcon.innerHTML='<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      });
+      var anchors = document.querySelectorAll('a[href^="#"]');
+      anchors.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          // 游记/美食 跟在已执行方案后：若当前隐藏，先激活执行方案以显示
+          if ((id === 'log' || id === 'food') && target.hidden) { var ex = getExecutedPlanId(); if (ex) switchPlan(ex); }
+          e.preventDefault(); target.scrollIntoView({ behavior:'smooth', block:'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null,'',hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+    })();
+  })();
+  </script>
+</body>
+</html>

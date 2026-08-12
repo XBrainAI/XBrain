@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 · 白云乐8小城周末家庭游（纯游记版）
+  ----------------------------------------------------------------------------
+  派生自：四季景点/src/site-template-travelogue.html（纯游记/记录型模板）
+  数据源：本目录 README.MD（叙事底稿）+ 带时间戳与描述的图片/视频文件名。
+  生成规则见 四季景点/AGENTS.md §14.5。
+  说明：白云乐8小城藏在荒废商场【嘉大广场】内，是一次"三年前学校发的钱、三年后带回再用"
+        的家庭日；下午顺路邂逅崭新商场【云门NEWPARK】与【广州设计之都】。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>白云乐8小城周末家庭游 · 旧商场里的新时光 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（暖金为「游记/回忆」皮肤；本页沿用模板默认）===== */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #14101f;
+      --xb-light: #241a30;
+      --accent: #ffc46b;
+      --accent2: #ffd9a0;
+      --accent-glow: rgba(255, 180, 100, 0.16);
+      --accent-border: rgba(255, 180, 100, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(255, 180, 100, 0.16) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(255, 200, 140, 0.10) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(255,180,100,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(255,180,100,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 56vh; min-height: 56dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID / QUICK FACTS ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+    .info-card .fact-row { display: flex; justify-content: space-between; gap: 1rem; padding: .25rem 0; border-bottom: 1px dashed rgba(255,255,255,.06); }
+    .info-card .fact-row:last-child { border-bottom: 0; }
+    .info-card .fact-row .k { color: var(--text-hint); }
+    .info-card .fact-row .v { color: var(--text); text-align: right; }
+
+    /* ===== 媒体组件：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(255,180,100,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { display: none; }
+
+    /* ===== 视频组（模板媒体组件只支持图片，视频单独成组）===== */
+    .chapter-videos { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 1.1rem 6px; }
+    .chapter-videos video { width: 220px; max-width: 46%; border-radius: 10px; border: 1px solid var(--accent-border); background: #000; outline: none; }
+    @media (max-width: 640px) { .chapter-videos video { width: 150px; } }
+
+    /* ===== 游记实录（核心）：按时间/站点拆章 ===== */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text-dim); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+
+    /* ===== 美食 & 随手发现 ===== */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+
+    /* ===== 实用信息 TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 44vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .info-grid, .food-grid { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食发现</a>
+      <a href="#notes">实用信息</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食 & 随手发现</a>
+      <a href="#notes">实用信息</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">周六 · 家门口的职业童话</span>
+    <h1 class="hero-title">白云乐8小城<span>旧商场里的新时光</span></h1>
+    <p class="hero-subtitle">三年前那叠"钱"，三年后终于又用上了</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>📅 2026-08-09</span>
+      <span>👨‍👩‍👧‍👦 爸妈·沙·弟</span>
+      <span>🚗 自驾</span>
+      <span>🌤️ 广州·盛夏</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程总览 ===== -->
+  <section class="section" id="summary">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程总览
+    </h2>
+    <p class="section-desc">三年前弟弟学校组织去过乐8小城，回来带了活动发的"钱"；三年后，他居然还留着那叠花花绿绿的模拟币，非要带回来再用一次。这次不一样——爸妈和沙陪他来了。一个藏在荒废商场里的职业体验馆，和一个转角遇见的崭新商场，拼成了我们平凡却温热的一天。</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>关键信息</h4>
+        <div class="fact-row"><span class="k">日期</span><span class="v">2026-08-09（周六）</span></div>
+        <div class="fact-row"><span class="k">同行</span><span class="v">爸 · 妈 · 沙 · 弟</span></div>
+        <div class="fact-row"><span class="k">交通</span><span class="v">自驾</span></div>
+        <div class="fact-row"><span class="k">耗时</span><span class="v">约 10 小时（08:09–18:18）</span></div>
+        <div class="fact-row"><span class="k">花费</span><span class="v">未细记（乐园+商场+晚餐）</span></div>
+      </div>
+      <div class="info-card">
+        <h4>一句话路线</h4>
+        <p>君荟名轩 → 西华路芳记早餐 → 乐8小城（嘉大广场，约 10:00–14:00）→ 云门NEWPARK（约 14:30–16:47）→ 返回君荟楼下分餐 → 家。约 30 公里，慢悠悠一整天。</p>
+      </div>
+      <div class="info-card">
+        <h4>当天天气</h4>
+        <p>广州八月盛夏，午间炎热。乐8小城与云门NEWPARK  alike 以室内为主，体感尚可；下午转场时略晒，所幸两段都在车里。属回忆性备注，非出行前核实。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 游记实录 ===== -->
+  <section class="section" id="log">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      游记实录
+    </h2>
+    <p class="section-desc">按时间顺序还原这一天的真实经历；图片/视频取自当日带时间戳的实拍，叙述里加了些当时的心情。</p>
+
+    <!-- 章节 1：出发·芳记早餐 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">08:09</span>
+        <span class="chapter-title">清晨出发 · 西华路芳记的早茶香</span>
+      </div>
+      <p>周六早上七点多，从君荟名轩出发。第一站是西华路芳记——这是妈心心念念的早餐店，老广的肠粉、粥、油条，是他乡也念着的味道。一家四口加沙，坐下来热腾腾地吃上一顿，周末的仪式感，往往就从这样一顿早茶开始。</p>
+      <p>出门的时候弟还迷迷糊糊的，可一听说要去乐8小城，眼睛就亮了。那叠三年前攒下的"钱"，被他小心收在包里，像是赴一场早约。</p>
+      <div class="chapter-tags"><span class="chapter-tag eat">早餐</span><span class="chapter-tag kid">亲子</span><span class="chapter-tag free">日常</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="君荟713出发西华路芳记-2026-08-09-080953.JPG" alt="君荟出发" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="君荟713出发西华路芳记-2026-08-09-080953.JPG" alt="君荟出发" loading="lazy" decoding="async">
+          <img src="西华路芳记-2026-08-09-084213.JPG" alt="西华路芳记" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- 章节 2：乐8初体验（10:03–11:27） -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">10:03</span>
+        <span class="chapter-title">乐8小城 · 荒废商场里的职业梦</span>
+      </div>
+      <p>乐8小城藏在【嘉大广场】——一个早已荒废的商场里。走进去，扶梯停运、店铺空置，中庭却还看得出当年的繁华模样。就在这片褪色的商业体深处，弟弟三年前学校组织发的"钱"终于派上了用场：每个职业体验完成，工作人员会发那种花花绿绿的模拟币，他一笔一笔地攒，认真得像在经营自己的人生。</p>
+      <p>沙一开始陪弟一起玩，可同场的都是幼儿园年纪的小朋友，十几岁的沙有点不好意思，凑了两三个项目就打了退堂鼓，安安静静在旁边陪我们等弟。那一刻有点好笑，也有点暖——长大的孩子，也有自己的小骄傲和小局促，却还是愿意陪着弟弟把这场"童年"走完。</p>
+      <p>宠物护理、垃圾分类、地震模拟、魔术……弟弟在里头跑来跑去；直播间里他也上去露了个脸，爸在旁边笑着拍。这些零散的小项目，拼起了上午的喧闹。</p>
+      <div class="chapter-tags"><span class="chapter-tag kid">亲子</span><span class="chapter-tag view">怀旧</span><span class="chapter-tag free">体验</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="乐8小城-宠物护理-2026-08-09-100309.JPG" alt="宠物护理" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="乐8小城-宠物护理-2026-08-09-100309.JPG" alt="宠物护理" loading="lazy" decoding="async">
+          <img src="乐8小城-垃圾分类-2026-08-09-102217.JPG" alt="垃圾分类" loading="lazy" decoding="async">
+          <img src="乐8小城-魔术弟-2026-08-09-105512.JPG" alt="魔术·弟" loading="lazy" decoding="async">
+          <img src="乐8小城-魔术弟-2026-08-09-105630.JPG" alt="魔术·弟" loading="lazy" decoding="async">
+          <img src="乐8小城-魔术弟-2026-08-09-105944.JPG" alt="魔术·弟" loading="lazy" decoding="async">
+          <img src="乐8小城-爸-2026-08-09-110231.JPG" alt="爸" loading="lazy" decoding="async">
+          <img src="乐8小城-爸-2026-08-09-110234.JPG" alt="爸" loading="lazy" decoding="async">
+          <img src="乐8小城-直播间-2026-08-09-111822.JPG" alt="直播间" loading="lazy" decoding="async">
+          <img src="乐8小城-直播间-2026-08-09-111852.JPG" alt="直播间" loading="lazy" decoding="async">
+          <img src="乐8小城-直播间-2026-08-09-112013.JPG" alt="直播间" loading="lazy" decoding="async">
+          <img src="乐8小城-直播间-2026-08-09-112041.JPG" alt="直播间" loading="lazy" decoding="async">
+          <img src="乐8小城-主持-2026-08-09-112103.JPG" alt="主持" loading="lazy" decoding="async">
+          <img src="乐8小城-牙医-2026-08-09-112735.JPG" alt="牙医" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="chapter-videos">
+        <video src="乐8小城-地震模拟-2026-08-09-104721.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-地震模拟-2026-08-09-104904.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-直播间02026-08-09-111945.mp4" controls playsinline preload="metadata"></video>
+      </div>
+    </div>
+
+    <!-- 章节 3：升旗·押运·公安·消防（11:44–13:43） -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">11:44</span>
+        <span class="chapter-title">升旗 · 押运 · 公安 · 消防 —— 枪声里的少年心</span>
+      </div>
+      <p>一上午下来，弟弟的眼睛是在几个项目上真正亮起来的：升旗队、押运、公安、消防。说到底，是因为这些"职业"能摸到他最爱的枪。看他被"全副武装"地带着跑、立正敬礼、演练押运，那种小男子汉的认真劲儿，比任何说教都动人。</p>
+      <p>升旗队里他站得笔直；押运车旁他攥着"枪"不肯放；公安、射击、消防轮着来，连消防的装备都要摸个遍。我们几个大人在旁边看着，忽然觉得——男孩的成长，好像就是从这一把把玩具枪开始的。</p>
+      <div class="chapter-tags"><span class="chapter-tag kid">亲子</span><span class="chapter-tag view">职业体验</span><span class="chapter-tag free">乐园</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="乐8小城-升旗队-2026-08-09-114444.JPG" alt="升旗队" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="乐8小城-升旗队-2026-08-09-114444.JPG" alt="升旗队" loading="lazy" decoding="async">
+          <img src="乐8小城-升旗队-2026-08-09-114454.JPG" alt="升旗队" loading="lazy" decoding="async">
+          <img src="乐8小城-升旗队-2026-08-09-114937.JPG" alt="升旗队" loading="lazy" decoding="async">
+          <img src="乐8小城-升旗队-2026-08-09-115017.JPG" alt="升旗队" loading="lazy" decoding="async">
+          <img src="乐8小城-押运-2026-08-09-122705.JPG" alt="押运" loading="lazy" decoding="async">
+          <img src="乐8小城-押运-2026-08-09-122711.JPG" alt="押运" loading="lazy" decoding="async">
+          <img src="乐8小城-押运-2026-08-09-122724.JPG" alt="押运" loading="lazy" decoding="async">
+          <img src="乐8小城-押运-2026-08-09-122731.JPG" alt="押运" loading="lazy" decoding="async">
+          <img src="乐8小城-押运-IMG_20260809_122729.jpg" alt="押运" loading="lazy" decoding="async">
+          <img src="乐8小城-押运-IMG_20260809_122740.jpg" alt="押运" loading="lazy" decoding="async">
+          <img src="乐8小城-公安-2026-08-09-124542.JPG" alt="公安" loading="lazy" decoding="async">
+          <img src="乐8小城-公安-2026-08-09-125136.JPG" alt="公安" loading="lazy" decoding="async">
+          <img src="乐8小城-射击-2026-08-09-125309.JPG" alt="射击" loading="lazy" decoding="async">
+          <img src="乐8小城-消防-IMG_20260809_133905.jpg" alt="消防" loading="lazy" decoding="async">
+          <img src="乐8小城-消防-IMG_20260809_133914.jpg" alt="消防" loading="lazy" decoding="async">
+          <img src="乐8小城-消防-IMG_20260809_134238.jpg" alt="消防" loading="lazy" decoding="async">
+          <img src="乐8小城-消防-IMG_20260809_134311.jpg" alt="消防" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="chapter-videos">
+        <video src="乐8小城-升旗队-2026-08-09-114418.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-升旗队-2026-08-09-114751.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-升旗队-2026-08-09-114926.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-押运-20260809_122235.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-押运-2026-08-09-122600.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-公安-2026-08-09-124606.mp4" controls playsinline preload="metadata"></video>
+        <video src="乐8小城-射击-2026-08-09-125357.mp4" controls playsinline preload="metadata"></video>
+      </div>
+    </div>
+
+    <!-- 章节 4：考古·农业·匆匆午餐（13:00–14:00） -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">13:00</span>
+        <span class="chapter-title">考古 · 农业 · 匆匆的乐园午餐</span>
+      </div>
+      <p>临近下午，弟弟又去考古、农业几个摊位转了转——挖一挖、种一种，倒也乐在其中。大约 13:30，我们在小城里匆匆吃了口午饭，弟弟只扒了几口就嫌慢，沙便带着他重新回到队伍里接着玩。那种"玩比吃重要"的急切，是大人才懂的可爱。</p>
+      <p>14:00，乐8小城的一天准时收尾。走出那座荒废却热闹的商场，回头望一眼，心里竟有点不舍——它旧，可它装下了弟弟整整一个上午的认真。</p>
+      <div class="chapter-tags"><span class="chapter-tag kid">亲子</span><span class="chapter-tag free">乐园</span><span class="chapter-tag eat">简餐</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="乐8小城-考古-2026-08-09-130033.JPG" alt="考古" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="乐8小城-考古-2026-08-09-130033.JPG" alt="考古" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="chapter-videos">
+        <video src="乐8小城-农业-2026-08-09-135044.mp4" controls playsinline preload="metadata"></video>
+      </div>
+    </div>
+
+    <!-- 章节 5：云门NEWPARK（14:30–16:47） -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">14:30</span>
+        <span class="chapter-title">云门NEWPARK · 转角遇见的好商场</span>
+      </div>
+      <p>来时在路边就瞥见对面一个很大很漂亮的商场——云门NEWPARK。结束乐8后我们驱车过去，入内才发现真不错：亮堂、清爽，有妈心心念念的"妈菜"盒马，逛起来一点不累。</p>
+      <p>最让弟舍不得走的是晴空进击社——悦汇城也有一家，我们常去，所以他熟门熟路。这次他玩了很久，最后还拿了一大堆礼物，迫不及待地当场拆开就耍起来，那种"到手即玩"的欢喜，挡都挡不住。</p>
+      <p>回程路上，沿途建筑新而大气，是【广州设计之都】——现代服务业与设计的集聚地。新旧之间，像是这座城市悄悄递给我们的一张名片。云门上方是住宅新世界云逸，地铁上盖的 TOD 综合体，高层还能远眺白云山。我们没上去，只是路过，也已觉得知足。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">商场</span><span class="chapter-tag kid">亲子</span><span class="chapter-tag park">盒马</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="云门NEWPARK-外观1-20260809-143000.png" alt="云门外景" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="云门NEWPARK-外观1-20260809-143000.png" alt="云门外景" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-外观2-20260809-143001.png" alt="云门外景" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-IMG_20260809_143156.jpg" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-143042.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-143055.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-143528.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-143603.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-144413.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-144416.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-144419.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-144920.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-152533.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-153607.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-154301.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-154438.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-154756.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-155523.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-162549.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="云门NEWPARK-2026-08-09-164718.JPG" alt="云门" loading="lazy" decoding="async">
+          <img src="乐8小城-迫不及待马上拆玩具-IMG_20260809_161455.jpg" alt="迫不及待拆玩具" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="chapter-videos">
+        <video src="云门NEWPARK-2026-08-09-143113.mp4" controls playsinline preload="metadata"></video>
+        <video src="云门NEWPARK-2026-08-09-155431.mp4" controls playsinline preload="metadata"></video>
+        <video src="云门NEWPARK-2026-08-09-162553.mp4" controls playsinline preload="metadata"></video>
+      </div>
+    </div>
+
+    <!-- 章节 6：归途·君荟楼下分餐（18:18） -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">18:18</span>
+        <span class="chapter-title">归途 · 君荟楼下的分餐</span>
+      </div>
+      <p>结束云门，我们驱车返回君荟，停好车，在楼下商场兵分几路吃饭——沙和妈去过桥米线，弟奔了 KFC，爸去了大家乐。一家四口各取所好，吃完在楼下汇合，慢悠悠上楼。</p>
+      <p>没有大餐，没有仪式，可就是这种"各吃各的、再一起回家"的琐碎，最像日子本来的样子。弟弟怀里还抱着云门拆出来的新玩具，一路叽叽喳喳讲着今天的枪和队伍。旧商场的余温，新商场的欢喜，都落进了这一晚平平无奇的晚饭里。</p>
+      <div class="chapter-tags"><span class="chapter-tag eat">晚餐</span><span class="chapter-tag free">日常</span><span class="chapter-tag kid">亲子</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="君荟楼下晚饭-沙妈过桥米线-弟kfc-爸大家乐-2026-08-09-181847.JPG" alt="君荟楼下晚饭" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="君荟楼下晚饭-沙妈过桥米线-弟kfc-爸大家乐-2026-08-09-181847.JPG" alt="君荟楼下晚饭" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 美食 & 随手发现 ===== -->
+  <section class="section" id="food">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2v0a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
+      美食 & 随手发现
+    </h2>
+    <p class="section-desc">这一天吃得很家常，却各有各的妥帖。</p>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🍜 西华路芳记（早茶）</h4>
+        <p>妈心心念念的早餐店，老广的肠粉、粥、油条。周末从一顿热腾腾的早茶开始，是这家人的小传统。弟弟还迷糊着就被带出门，吃完才彻底醒透。</p>
+        <div class="price">人均 ¥15–25 · 推荐指数 ★★★★</div>
+      </div>
+      <div class="food-card">
+        <h4>🛒 云门NEWPARK · 盒马（妈菜）</h4>
+        <p>我们家有个习惯：谁喜欢的东西就叫"x菜"——妈喜欢的就是"妈菜"。云门里的盒马，干净明亮，顺手买点喜欢的，逛商场也顺了心。</p>
+        <div class="price">生鲜超市 · 顺路补给</div>
+      </div>
+      <div class="food-card">
+        <h4>🍱 君荟楼下分餐（晚饭）</h4>
+        <p>沙和妈过桥米线、弟 KFC、爸大家乐——兵分几路，各取所好，吃完楼下汇合。没有大餐，却最像日子本来的样子。</p>
+        <div class="price">人均 ¥30–50 · 家常之选</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 4. 实用信息（轻量回忆性备注）===== -->
+  <section class="section" id="notes">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用信息
+    </h2>
+    <p class="section-desc">以下为回忆性备注（非出行前核实），供下次再来参考。</p>
+    <div class="tips-box">
+      <div class="tips-box-title">下次小贴士</div>
+      <ul>
+        <li><b>乐8小城（嘉大广场）</b>：藏在荒废商场内，适合低龄儿童职业体验；大童（如沙）可能觉得幼稚、不愿参与。同伴年龄差大时，建议大人分组陪同。</li>
+        <li><b>模拟币机制</b>：每个职业完成发"钱"，可留存下次再用——弟弟三年前的币这次还能用，是意外的温情彩蛋。</li>
+        <li><b>云门NEWPARK</b>：商场体感不错，盒马 + 晴空进击社（悦汇城也有分店）是带娃亮点；上层住宅新世界云逸为地铁上盖 TOD，高层可远眺白云山。</li>
+        <li><b>广州设计之都</b>：往返乐8途经，建筑新而大气，适合顺路远观，不必专门绕行。</li>
+        <li><b>停车</b>：云门NEWPARK 与君荟楼下商场均有配套车位，工作日/周六晚间尚可，节假日建议早到。</li>
+        <li><b>节奏</b>：乐8约 10:00–14:00、云门约 14:30–16:47，整体宽松；13:30 乐园内简餐较赶，可自备点心。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 白云乐8小城周末家庭游</div>
+    <div class="footer-version">template/travelogue · v20260811-151300</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) return;
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov);
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none';
+        }
+        applyCover(coverThumb);
+
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出 =====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画 =====
+      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>

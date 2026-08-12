@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 · 深圳周末家庭游（重建于 2026-08-11）
+  ----------------------------------------------------------------------------
+  派生自 site-template.html（重构后 · 含「执行方案联动游记」机制）。
+  ⚠️ 本子站历史上先制定方案、后实际出行：
+     · 原制定 4 个候选方案 A / B1 / B2 / C（均未执行，保留作规划参考）。
+     · 实际出行（2026-07-11~07-12）因家人途中发烧，偏离所有候选方案，
+       故新增「方案 D · 实际执行·美高梅慢游」——据真实游记反推补全，并标
+       data-executed="true"（【已完成】邮戳）。
+     · 游记实录 / 美食发现 两个模块仅在该执行方案被选中时才显示（点击方案 D 即展开）。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>深圳周末家庭游 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（深圳 · 海洋蓝）===== */
+    :root {
+      --xb-deep: #070d1c;
+      --xb-mid: #0e1830;
+      --xb-light: #16264a;
+      --accent: #4ea8ff;            /* 海洋蓝主强调色 */
+      --accent2: #7fd0ff;
+      --accent-glow: rgba(78, 168, 255, 0.16);
+      --accent-border: rgba(78, 168, 255, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(80, 150, 255, 0.20) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(78, 168, 255, 0.12) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #4ea8ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV ===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(7,13,28,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(7,13,28,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(78,168,255,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(78,168,255,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+    .info-card ul { padding-left: 1.1rem; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.new { border-color: #f0a500; color: #ffc24d; background: rgba(240,165,0,.08); }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(78,168,255,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* 竖屏图：取消裁切，完整显示（容器高度随图自适应，图居中、加高度上限避免过长） */
+    .media-cover.img-portrait { aspect-ratio: auto; display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); } /* 当前封面缩略图保持可见并高亮（不隐藏，否则缩略图条永远少一张） */
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(78,168,255,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+    /* 已执行方案：红色圆形邮戳（含执行日期） */
+    .plan-btn[data-executed="true"] { padding-right: 4.8rem; }
+    .plan-btn .plan-stamp {
+      position: absolute; top: .5rem; right: .5rem;
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2.5px solid #e0322f;
+      background: rgba(224,50,47,.05);
+      color: #e0322f;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transform: rotate(-14deg); line-height: 1.15; pointer-events: none;
+    }
+    .plan-btn .plan-stamp::before {
+      content: ""; position: absolute; inset: 5px;
+      border: 1px solid rgba(224,50,47,.5); border-radius: 50%;
+    }
+    .plan-btn .plan-stamp .stamp-main { font-size: 13px; font-weight: 800; letter-spacing: 1px; position: relative; }
+    .plan-btn .plan-stamp .stamp-date {
+      font-size: 8.5px; font-weight: 700; letter-spacing: .3px; position: relative;
+      margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(224,50,47,.55);
+    }
+    .plan-btn[data-executed="true"].active { border-color: var(--accent); background: rgba(78,168,255,.14); }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+
+    /* ===== TIMELINE ===== */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text-dim); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ===== 预算表 ===== */
+    .budget-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 640px; margin-bottom: .5rem; }
+    .budget-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .55rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .budget-table tbody td { padding: .5rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); vertical-align: top; }
+    .budget-table tbody tr:hover td { background: var(--accent-glow); }
+    .budget-table .total-row td { color: var(--accent2); font-weight: 700; border-top: 2px solid var(--accent-border); }
+
+    /* ===== 游记核心模块 CSS（源自 site-template-travelogue-core.html · COPY BLOCK 1/3）===== */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #06121f; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text-dim); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+    .log-video { width: 100%; border-radius: 12px; margin: .6rem 0 .2rem; background: #000; display: block; border: 1px solid var(--accent-border); }
+    .log-video-cap { font-size: .74rem; color: var(--text-hint); margin-bottom: .8rem; }
+
+    /* —— 美食 & 随手发现 —— */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+    /* === END 游记核心模块 CSS === */
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#4ea8ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7fd0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#7fd0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#4ea8ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#4ea8ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#4ea8ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#4ea8ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#7fd0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#4ea8ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食发现</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点 & 餐厅总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食 & 随手发现</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#weather">天气影响评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">2026-07-11 ~ 07-12 · 2天1夜 · 4口之家自驾</span>
+    <h1 class="hero-title">深圳<span>周末家庭游</span></h1>
+    <p class="hero-subtitle">广州荔湾西村 → 深圳 · 海滨度假 + 海洋世界 + 大鹏半岛 亲子攻略</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>2大人 + 2小孩</span><span>广州荔湾西村出发</span><span>自驾约 150km</span><span>含真实游记</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">广州荔湾西村自驾至深圳，4口之家周末出行；先制定多套方案，实际出行因家人身体不适临时调整，游记记录在「方案 D」之后。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>路线总览</h4><p>西村 → 广园快速路 → 广深沿江高速/S3 → 盐田/小梅沙出口（约 2.5 小时，150km）。方案 C 大鹏半岛约 200km / 3 小时。返程同路线，建议 14:00–15:00 出发避晚高峰。</p></div>
+      <div class="info-card"><h4>核心看点</h4><p>小梅沙海洋世界（亲子核心）、背仔角灯塔日落、大梅沙免费海滩、大鹏半岛（人鱼洞 / 所城 / 天文台 / 桔钓沙）自然人文。酒店本身也是目的地。</p></div>
+      <div class="info-card"><h4>您最关心的几个问题</h4><p>① 海洋世界门票<b>免费含</b>小梅沙沙滩，不用另买。② 美高梅/洲际有「房+门票」套餐更省。③ 大小梅沙相距 3km 可同玩。④ 世界之窗在南山，距小梅沙约 40km。⑤ 大鹏周末需「深圳交警」公众号预约车辆通行。</p></div>
+      <div class="info-card"><h4>天气 / 健康提醒</h4><p>夏季海边紫外线强，务必防晒；海滨栈道部分路段无护栏、灯塔有礁石，看护好小孩。本次出行途中家人发烧，行程临时改为酒店慢游（详见方案 D 与游记）。</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">按亲子友好度排序；带图的点开可切换同景点全部实拍。</p>
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-oceanworld">
+        <div class="media-block">
+          <div class="media-cover"><img src="小梅沙海洋世界/index.png" alt="小梅沙海洋世界主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="小梅沙海洋世界/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="小梅沙海洋世界/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="小梅沙海洋世界/image copy 2.png" alt="图" loading="lazy" decoding="async">
+            <img src="小梅沙海洋世界/image copy 3.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🐬 小梅沙海洋世界</h4><span class="spot-card-dist">核心 · 盐田</span></div>
+        <div class="spot-card-body"><p>您最想去的景点！入口处巨大白色海神雕塑群极具视觉冲击。园内有海豚表演、海底隧道、极地动物馆（企鹅、北极熊）、水母宫、互动触摸池。前身为 1999 年开园的「小梅沙海洋世界」，2024 年全面焕新升级，是国内最早一批海洋主题公园之一。4 口之家必玩。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">强烈推荐</span><span class="spot-tag kid">亲子</span><span class="spot-tag">门票~220元</span><span class="spot-tag free">含沙滩</span></div>
+        <div class="spot-hours"><b>开放：</b>约 09:30–18:00（周末 09:00 开园）；<b>门票：</b>成人约 220 元，1.2m 以下免费、1.2–1.5m 半价。</div>
+      </div>
+
+      <div class="spot-card" id="spot-window">
+        <div class="media-block">
+          <div class="media-cover"><img src="深圳世界之窗/index.png" alt="世界之窗主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="深圳世界之窗/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="深圳世界之窗/image copy.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳世界之窗/image copy 2.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🌍 深圳世界之窗</h4><span class="spot-card-dist">南山</span></div>
+        <div class="spot-card-body"><p><b>小孩想去的地方！</b>大型微缩景观主题公园，展示全球 130 余处著名景点——埃菲尔铁塔、金字塔、科隆大教堂、万里长城、自由女神像。一天带小孩环游世界，动感游乐区有旋转木马、小火车等亲子项目。1994 年开园，国内最早微缩景观公园之一。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">小孩最爱</span><span class="spot-tag kid">亲子</span><span class="spot-tag">门票~220元</span></div>
+        <div class="spot-hours"><b>开放：</b>平日 10:00、周末 09:00 开园；<b>门票：</b>成人约 220 元。</div>
+      </div>
+
+      <div class="spot-card" id="spot-beach">
+        <div class="media-block">
+          <div class="media-cover"><img src="小梅沙海滨乐园(小梅沙沙滩)/index.png" alt="小梅沙海滨乐园主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="小梅沙海滨乐园(小梅沙沙滩)/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="小梅沙海滨乐园(小梅沙沙滩)/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="小梅沙海滨乐园(小梅沙沙滩)/image copy 2.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🏖️ 小梅沙海滨乐园</h4><span class="spot-card-dist">紧邻海洋世界</span></div>
+        <div class="spot-card-body"><p>和海洋世界是一体的！沙滩入口有彩色「XIAOMEISHA」立体字母标识。沙质细腻洁白，海水清澈，配蓝色遮阳伞与休闲躺椅。<b>凭海洋世界门票免费进入</b>，不用额外花钱。傍晚踏浪不晒，亲子友好。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">推荐</span><span class="spot-tag free">海洋世界含</span><span class="spot-tag kid">亲子</span></div>
+        <div class="spot-hours"><b>开放：</b>与海洋世界同步；<b>门票：</b>含于海洋世界门票内。</div>
+      </div>
+
+      <div class="spot-card" id="spot-lighthouse">
+        <div class="media-block">
+          <div class="media-cover"><img src="背仔角灯塔/index.png" alt="背仔角灯塔主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="背仔角灯塔/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="背仔角灯塔/image copy.png" alt="图" loading="lazy" decoding="async">
+            <img src="背仔角灯塔/image copy 2.png" alt="图" loading="lazy" decoding="async">
+            <img src="背仔角灯塔/image copy 3.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🗼 背仔角灯塔</h4><span class="spot-card-dist">距小梅沙 1.5km</span></div>
+        <div class="spot-card-body"><p>盐田海滨栈道东端尽头的网红灯塔，红白相间塔身矗立海边礁石上，白色栈道可达。<b>建于 20 世纪初</b>，曾是深圳东部重要航海导航标志。日落时分金色阳光洒在碧蓝海面，与灯塔交相辉映，是深圳最出片的海景打卡点。完全免费。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag new">新增</span><span class="spot-tag free">免费</span><span class="spot-tag recommended">日落绝美</span></div>
+        <div class="spot-hours"><b>开放：</b>全天（户外）；<b>门票：</b>免费，注意礁石安全。</div>
+      </div>
+
+      <div class="spot-card" id="spot-dameisha">
+        <div class="spot-card-header"><h4>🌊 大梅沙海滨公园</h4><span class="spot-card-dist">距小梅沙 3km</span></div>
+        <div class="spot-card-body"><p>深圳最著名的免费海滩，<b>大小梅沙可以一起玩</b>！沙滩面积更大，设专门游泳区与儿童戏水区，还有摩托艇、帆板等水上项目。周边商业配套成熟（奥特莱斯），餐饮购物便利。海滩始建于 1999 年，承载几代深圳人的海滨记忆。周末需提前在「i深圳」APP 预约。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">推荐</span><span class="spot-tag free">免费</span><span class="spot-tag kid">亲子</span></div>
+        <div class="spot-hours"><b>开放：</b>全天；<b>门票：</b>免费，周末「i深圳」预约。</div>
+      </div>
+
+      <div class="spot-card" id="spot-stack">
+        <div class="spot-card-header"><h4>🌿 盐田海滨栈道</h4><span class="spot-card-dist">贯穿</span></div>
+        <div class="spot-card-body"><p>全长 19.5 公里海边步道，白色护栏沿海岸线延伸，串联大梅沙、小梅沙、背仔角灯塔。其中<b>大梅沙–背仔角段</b>风景最佳，夜晚灯光璀璨。栈道始建于 2008 年，是深圳「东部滨海旅游岸线」重要组成部分，曾获国际景观设计奖项。带小孩走短段即可，量力而行。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">推荐</span><span class="spot-tag free">免费</span><span class="spot-tag">夜景</span></div>
+        <div class="spot-hours"><b>开放：</b>全天；<b>门票：</b>免费，部分路段无护栏需看护。</div>
+      </div>
+
+      <div class="spot-card" id="spot-mermaid">
+        <div class="media-block">
+          <div class="media-cover"><img src="深圳大鹏半岛/人鱼洞/index.png" alt="人鱼洞主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="深圳大鹏半岛/人鱼洞/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/人鱼洞/image copy.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/人鱼洞/image copy 2.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🧜 人鱼洞（鹿嘴山庄）</h4><span class="spot-card-dist">大鹏半岛</span></div>
+        <div class="spot-card-body"><p><b>周星驰《美人鱼》取景地！</b>位于杨梅坑鹿嘴山庄，海蚀崖下人鱼洞是电影中人鱼族家园。悬崖、碧海、蓝天，海水呈翡翠绿到宝石蓝渐变。可乘观光车或快艇到达，小孩会非常兴奋。深圳最出片的海岸之一。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag new">新增</span><span class="spot-tag free">免费</span><span class="spot-tag recommended">网红打卡</span></div>
+        <div class="spot-hours"><b>开放：</b>白天；<b>门票：</b>免费，观光车/快艇另计。</div>
+      </div>
+
+      <div class="spot-card" id="spot-dapeng">
+        <div class="media-block">
+          <div class="media-cover"><img src="深圳大鹏半岛/大鹏所城/index.png" alt="大鹏所城主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="深圳大鹏半岛/大鹏所城/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/大鹏所城/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/大鹏所城/image copy.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🏛️ 大鹏所城</h4><span class="spot-card-dist">大鹏半岛</span></div>
+        <div class="spot-card-body"><p><b>深圳历史之根！</b>始建于明洪武二十七年（1394 年），明清两代中国南部海防军事要塞，深圳别称「鹏城」即源于此。古城内保存完好城门、城墙、将军府第与古民居，带孩子了解深圳 600 年历史文化的最佳课堂。完全免费，国家级重点文物保护单位。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag new">新增</span><span class="spot-tag free">免费</span><span class="spot-tag">历史人文</span></div>
+        <div class="spot-hours"><b>开放：</b>全天；<b>门票：</b>免费。</div>
+      </div>
+
+      <div class="spot-card" id="spot-observatory">
+        <div class="media-block">
+          <div class="media-cover"><img src="深圳大鹏半岛/深圳天文台/index.png" alt="天文台主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="深圳大鹏半岛/深圳天文台/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/深圳天文台/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/深圳天文台/image copy 2.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🔭 深圳天文台</h4><span class="spot-card-dist">大鹏半岛</span></div>
+        <div class="spot-card-body"><p>位于西涌海岸，拥有<b>深圳最美的海边栈道</b>。蜿蜒栈道沿悬崖向海延伸，被《国家地理》评为中国最美海岸线之一。360° 无敌海景，海天一色。需提前在公众号预约，或仅走公共栈道（无需预约）。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag new">新增</span><span class="spot-tag free">免费</span><span class="spot-tag recommended">绝美海景</span></div>
+        <div class="spot-hours"><b>开放：</b>需预约入园时段；<b>门票：</b>免费。</div>
+      </div>
+
+      <div class="spot-card" id="spot-jds">
+        <div class="media-block">
+          <div class="media-cover"><img src="深圳大鹏半岛/桔钓沙/index.png" alt="桔钓沙主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="深圳大鹏半岛/桔钓沙/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/桔钓沙/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/桔钓沙/image copy 3.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🏖️ 桔钓沙</h4><span class="spot-card-dist">大鹏半岛</span></div>
+        <div class="spot-card-body"><p>深圳最美沙滩之一，<b>深圳版「马尔代夫」</b>！沙质洁白细腻如面粉，海水清澈见底，呈迷人玻璃海质感。人比大小梅沙少很多，适合带小孩安静玩水。大鹏半岛东北部天然海湾，三面青山环抱，水质极佳。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag new">新增</span><span class="spot-tag free">免费</span><span class="spot-tag">玻璃海</span></div>
+        <div class="spot-hours"><b>开放：</b>全天；<b>门票：</b>免费。</div>
+      </div>
+
+      <div class="spot-card" id="spot-geopark">
+        <div class="media-block">
+          <div class="media-cover"><img src="深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/index.png" alt="地质博物馆主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy 2.png" alt="图" loading="lazy" decoding="async">
+            <img src="深圳大鹏半岛/深圳大鹏半岛国家地质公园博物馆/image copy 10.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>🌋 大鹏半岛国家地质公园博物馆</h4><span class="spot-card-dist">大鹏半岛</span></div>
+        <div class="spot-card-body"><p>展示大鹏半岛独特<b>火山地质遗迹</b>与海岸地貌。1.45 亿年前古火山活动留下奇特火山岩、海蚀洞与奇石景观。馆内有恐龙化石、火山模型、珍稀矿石展示，是带小孩学习地球科学的绝佳场所。完全免费。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag new">新增</span><span class="spot-tag free">免费</span><span class="spot-tag kid">科普教育</span></div>
+        <div class="spot-hours"><b>开放：</b>周二–周日（周一闭馆）；<b>门票：</b>免费。</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 行程方案 ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（2天1夜 / 3天2晚）
+    </h2>
+    <p class="section-desc">针对 4 口之家提供 4 个候选方案（A / B1 / B2 / C，均未执行，保留作规划参考）+ 1 个实际执行方案 D（据真实游记反推补全，标【已完成】）。点选切换查看；<b>点击「方案 D」即展开本次真实游记</b>。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 全能亲子</span>
+        <span class="plan-desc">世界之窗 + 海洋世界 + 大小梅沙<br>早出发，下午3点返程避堵</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB1')">
+        <span class="plan-name">方案 B1 · 海滨度假·自驾</span>
+        <span class="plan-desc">酒店深度体验 + 海洋世界 + 沙滩<br>自驾，周末2天1夜，慢节奏</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB2')">
+        <span class="plan-name">方案 B2 · 海滨度假·高铁</span>
+        <span class="plan-desc">酒店深度体验 + 海洋世界 + 沙滩<br>高铁+打车，周三出发3天2晚</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planC')">
+        <span class="plan-name">方案 C · 大鹏半岛</span>
+        <span class="plan-desc">纯大鹏2天1夜深度游<br>所城+人鱼洞+桔钓沙+天文台</span>
+      </button>
+      <button class="plan-btn" data-executed="true" onclick="switchPlan('planD')">
+        <span class="plan-name">方案 D · 实际执行·美高梅慢游</span>
+        <span class="plan-desc">据真实游记反推补全<br>海洋世界+酒店慢游（妈发烧临时调整）</span>
+        <span class="plan-stamp"><span class="stamp-main">已完成</span><span class="stamp-date">2026.07.11</span></span>
+      </button>
+    </div>
+
+    <!-- ===== 方案 A ===== -->
+    <div class="plan-content active" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>09:00</td><td>广州出发（自驾）</td><td>2h</td></tr>
+              <tr><td>09:00</td><td>12:30</td><td>深圳世界之窗</td><td>3.5h</td></tr>
+              <tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>13:30</td><td>14:30</td><td>前往小梅沙（自驾）</td><td>1h</td></tr>
+              <tr><td>14:30</td><td>15:00</td><td>酒店入住</td><td>0.5h</td></tr>
+              <tr><td>15:30</td><td>17:00</td><td>小梅沙海滨乐园</td><td>1.5h</td></tr>
+              <tr><td>17:00</td><td>18:00</td><td>背仔角灯塔日落</td><td>1h</td></tr>
+              <tr><td>18:00</td><td>19:00</td><td>晚餐</td><td>1h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:30</td><td>08:30</td><td>酒店早餐</td><td>1h</td></tr>
+              <tr><td>08:30</td><td>12:00</td><td>小梅沙海洋世界</td><td>3.5h</td></tr>
+              <tr><td>12:00</td><td>13:00</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>13:00</td><td>15:00</td><td>大梅沙海滨公园</td><td>2h</td></tr>
+              <tr><td>15:00</td><td>17:30</td><td>返程广州（自驾）</td><td>2.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content"><h4>🚗 广州出发</h4><p>4 口之家从荔湾西村驾车出发，建议提前加满油。早出发避开 8:30–9:30 出城高峰。车上备好零食、水和简单玩具，让小孩补觉。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约2小时</span><span class="timeline-tag kid">亲子</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:00 - 12:30</div><div class="timeline-content"><h4>🌍 深圳世界之窗</h4><p><b>满足小孩心愿第一站！</b>展示全球 130 余处著名景点。推荐带小孩重点游玩：欧洲区微缩建筑群、动感游乐区（旋转木马、小火车）、环球舞台表演。周末 09:00 开园，早到不用排队。</p><div class="timeline-tags"><span class="timeline-tag kid">小孩最爱</span><span class="timeline-tag">门票~220元</span><span class="timeline-tag">约3.5小时</span></div><div class="media-block"><div class="media-cover"><img src="深圳世界之窗/index.png" alt="世界之窗" loading="lazy" decoding="async"></div><div class="media-gallery"><img src="深圳世界之窗/index.png" alt="主图" loading="lazy" decoding="async"><img src="深圳世界之窗/image copy.png" alt="图" loading="lazy" decoding="async"><img src="深圳世界之窗/image copy 2.png" alt="图" loading="lazy" decoding="async"></div></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:30 - 14:30</div><div class="timeline-content"><h4>🚗 前往小梅沙</h4><p>从世界之窗驱车前往盐田小梅沙，约 40 公里，车程约 1 小时（周末下午可能略堵）。让小孩车内休息午睡，恢复体力。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约1小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:30 - 17:00</div><div class="timeline-content"><h4>🏖️ 小梅沙海滨乐园</h4><p>下午 3 点半后太阳不再暴晒，正是沙滩游玩好时段。带小孩踏浪、堆沙堡。凭海洋世界门票即可进入。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">海洋世界含</span><span class="timeline-tag">日落</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">17:00 - 18:00</div><div class="timeline-content"><h4>🗼 背仔角灯塔日落</h4><p>沿盐田海滨栈道往东步行约 15 分钟到背仔角灯塔。红白相间灯塔矗立海边礁石，日落金色阳光洒在碧蓝海面，是深圳最出片海景打卡点。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag">绝美日落</span><span class="timeline-tag">网红打卡</span></div></div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:30 - 12:00</div><div class="timeline-content"><h4>🐬 小梅沙海洋世界</h4><p><b>核心亲子行程！</b>路线：极地动物馆（企鹅、北极熊）→ 海底隧道（鲨鱼、海龟）→ 海豚表演（提前查时间表占座）→ 水母宫 → 互动触摸池。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子核心</span><span class="timeline-tag">门票~220元</span><span class="timeline-tag">约3.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 15:00</div><div class="timeline-content"><h4>🌊 大梅沙海滨公园</h4><p>大小梅沙一起打卡！沙滩更大、设儿童戏水区，完全免费，但周末需提前在「i深圳」APP 预约入场。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">免费</span><span class="timeline-tag">约2小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:00</div><div class="timeline-content"><h4>🚗 返程广州</h4><p><b>提前返程，避开晚高峰！</b>15:00 准时出发，预计 17:30 回到荔湾西村，小孩正好车上补觉。</p><div class="timeline-tags"><span class="timeline-tag drive">返程</span><span class="timeline-tag">约2.5小时</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 B1 ===== -->
+    <div class="plan-content" id="planB1">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>09:30</td><td>🚗 广州出发（自驾）</td><td>2.5h</td></tr>
+              <tr><td>09:30</td><td>12:30</td><td>小梅沙海洋世界（开园即入）</td><td>3h</td></tr>
+              <tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>13:30</td><td>15:00</td><td>海洋世界午后深度游</td><td>1.5h</td></tr>
+              <tr><td>15:00</td><td>16:00</td><td>前往酒店 · 入住休整</td><td>1h</td></tr>
+              <tr><td>16:00</td><td>17:00</td><td>小梅沙沙滩（傍晚戏水）</td><td>1h</td></tr>
+              <tr><td>17:00</td><td>18:30</td><td>背仔角灯塔 · 日落漫步</td><td>1.5h</td></tr>
+              <tr><td>18:30</td><td>19:30</td><td>晚餐</td><td>1h</td></tr>
+              <tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:00</td><td>09:30</td><td>悠闲早餐</td><td>1.5h</td></tr>
+              <tr><td>09:30</td><td>12:00</td><td>酒店深度体验</td><td>2.5h</td></tr>
+              <tr><td>12:00</td><td>13:30</td><td>午餐</td><td>1.5h</td></tr>
+              <tr><td>14:00</td><td>16:30</td><td>🚗 返程广州（自驾）</td><td>2.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content"><h4>🚗 广州出发 · 自驾前往小梅沙</h4><p>不绕路去世界之窗，全程约 2.5 小时，<b>07:00 早出发</b>避出城高峰，09:30 正好抵海洋世界开园。沿途广深沿江高速经停 3 个可选服务区（🍽️仅万顷沙有餐饮）。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约2.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 12:30</div><div class="timeline-content"><h4>🐬 小梅沙海洋世界（开园即入）</h4><p><b>09:30 开园就进，早上精力最旺盛！</b>自驾行李放车上，直接入园。早上人流最少不用排队，体验最佳。小朋友慢慢玩不用赶。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子核心</span><span class="timeline-tag">门票~220元</span><span class="timeline-tag">约3小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:00 - 16:00</div><div class="timeline-content"><h4>🏨 前往酒店 · 入住休整</h4><p>从海洋世界前往酒店办理入住，让小孩洗热水澡、换干净衣服，<b>小睡 30–60 分钟</b>恢复体力。</p><div class="timeline-tags"><span class="timeline-tag hotel">入住</span><span class="timeline-tag">午休</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:00 - 17:00</div><div class="timeline-content"><h4>🏖️ 小梅沙沙滩（傍晚戏水）</h4><p>午睡后精神饱满正好去沙滩！下午 4 点后太阳不再暴晒，海风习习，正是踏浪好时段。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">含门票内</span><span class="timeline-tag">日落</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">17:00 - 18:30</div><div class="timeline-content"><h4>🗼 背仔角灯塔 · 日落漫步</h4><p><b>Day1 傍晚重头戏！</b>沿盐田海滨栈道往东步行约 15 分钟到背仔角灯塔，日落金色阳光洒碧蓝海面，与灯塔交相辉映。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag">绝美日落</span><span class="timeline-tag">网红打卡</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">19:30 - 21:00</div><div class="timeline-content"><h4>🏨 酒店设施体验</h4><p>晚上享受酒店配套：京基洲际儿童俱乐部 → 恒温泳池 → 私家海滩夜景；美高梅无边泳池 → 海滨吧。让小孩在熟悉安全环境放松。</p><div class="timeline-tags"><span class="timeline-tag hotel">酒店设施</span><span class="timeline-tag kid">亲子</span></div></div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 12:00</div><div class="timeline-content"><h4>🏨 酒店深度体验</h4><p><b>酒店本身就是目的地！</b>京基洲际私家海滩漫步 → 儿童俱乐部 → 恒温泳池；美高梅无边泳池 → 海滨沙滩吧 → 儿童活动区。不急着出门，让小孩在酒店玩尽兴。</p><div class="timeline-tags"><span class="timeline-tag hotel">酒店深度</span><span class="timeline-tag kid">亲子</span><span class="timeline-tag">约2.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00</div><div class="timeline-content"><h4>🚗 返程广州</h4><p><b>下午 2 点出发，完美避开晚高峰！</b>预计 16:30 回荔湾西村，小孩回家吃晚饭不耽误上学。回程同样途经皇岗加油站 → 万顷沙 → 潭州，🍽️仅万顷沙有餐饮。</p><div class="timeline-tags"><span class="timeline-tag drive">返程</span><span class="timeline-tag">约2.5小时</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 B2 ===== -->
+    <div class="plan-content" id="planB2">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周三</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:30</td><td>09:55</td><td>高铁 广州南 → 深圳北</td><td>0.6h</td></tr>
+              <tr><td>10:00</td><td>11:00</td><td>深圳北 → 小梅沙（地铁/打车）</td><td>1h</td></tr>
+              <tr><td>11:00</td><td>11:30</td><td>酒店寄存行李</td><td>0.5h</td></tr>
+              <tr><td>11:30</td><td>12:30</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>13:00</td><td>16:30</td><td>小梅沙海洋世界</td><td>3.5h</td></tr>
+              <tr><td>17:00</td><td>18:00</td><td>小梅沙沙滩（傍晚戏水）</td><td>1h</td></tr>
+              <tr><td>18:00</td><td>19:30</td><td>背仔角灯塔 · 日落漫步</td><td>1.5h</td></tr>
+              <tr><td>19:30</td><td>21:00</td><td>晚餐 + 酒店入住</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 周四</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td>1h</td></tr>
+              <tr><td>09:30</td><td>12:00</td><td>酒店深度体验</td><td>2.5h</td></tr>
+              <tr><td>12:00</td><td>13:30</td><td>午餐</td><td>1.5h</td></tr>
+              <tr><td>14:00</td><td>17:00</td><td>大梅沙海滨公园（下午戏水）</td><td>3h</td></tr>
+              <tr><td>17:30</td><td>18:30</td><td>晚餐</td><td>1h</td></tr>
+              <tr><td>19:30</td><td>21:00</td><td>酒店设施体验</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 3 · 周五</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:30</td><td>09:30</td><td>悠闲早餐</td><td>1h</td></tr>
+              <tr><td>09:30</td><td>11:30</td><td>自由活动（补玩或休息）</td><td>2h</td></tr>
+              <tr><td>12:00</td><td>13:00</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>13:00</td><td>13:30</td><td>退房</td><td>0.5h</td></tr>
+              <tr><td>13:30</td><td>14:30</td><td>小梅沙 → 深圳北站</td><td>1h</td></tr>
+              <tr><td>15:00</td><td>15:35</td><td>高铁 深圳北 → 广州南</td><td>0.6h</td></tr>
+              <tr><td>15:40</td><td>16:25</td><td>广州南 → 荔湾西村（回家）</td><td>0.75h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周三</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:20</div><div class="timeline-content"><h4>🚄 高铁：广州南 → 深圳北</h4><p>推荐 G6201/G6203 等广深城际，约 30–40 分钟。成人二等座约 75–100 元，儿童 1.2–1.5m 半价、1.2m 以下免费。4 口单程约 220–300 元。</p><div class="timeline-tags"><span class="timeline-tag">高铁</span><span class="timeline-tag">约35分钟</span><span class="timeline-tag">成人~80元</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 16:30</div><div class="timeline-content"><h4>🐬 小梅沙海洋世界</h4><p><b>周三人流比周末少很多，体验更佳！</b>寄存行李后轻松入园。深度亲子路线同方案 B1。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子核心</span><span class="timeline-tag">门票~220元</span><span class="timeline-tag">约3.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">17:00 - 18:00</div><div class="timeline-content"><h4>🏖️ 小梅沙沙滩（傍晚戏水）</h4><p>下午 4 点后太阳不再暴晒，海风习习，正是踏浪好时段。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">含门票内</span><span class="timeline-tag">日落</span></div></div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周四</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 12:00</div><div class="timeline-content"><h4>🏨 酒店深度体验</h4><p><b>酒店本身就是目的地！</b>不急着出门，让小孩在酒店玩尽兴，这才是度假真谛。</p><div class="timeline-tags"><span class="timeline-tag hotel">酒店深度</span><span class="timeline-tag kid">亲子</span><span class="timeline-tag">约2.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00 - 17:00</div><div class="timeline-content"><h4>🌊 大梅沙海滨公园（下午戏水）</h4><p>打车约 15 元前往大梅沙，沙滩更大、儿童戏水区，免费，工作日无需预约。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">免费</span><span class="timeline-tag">约3小时</span></div></div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 3 · 周五</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">09:30 - 11:30</div><div class="timeline-content"><h4>🏖️ 自由活动（补玩或休息）</h4><p>二刷海洋世界喜欢的区域、酒店泳池再玩一次、或沙滩最后踏浪。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag">灵活安排</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:00</div><div class="timeline-content"><h4>🚄 高铁：深圳北 → 广州南</h4><p>周四周五非高峰票源充足，建议买 15:00–15:30 车次。预计 <b>16:30 回到荔湾西村</b>，结束 3 天 2 晚海滨度假。</p><div class="timeline-tags"><span class="timeline-tag">返程</span><span class="timeline-tag">约45分钟</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 C ===== -->
+    <div class="plan-content" id="planC">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>10:00</td><td>广州出发（自驾）</td><td>3h</td></tr>
+              <tr><td>10:00</td><td>12:30</td><td>人鱼洞（鹿嘴山庄）· 上午最凉爽</td><td>2.5h</td></tr>
+              <tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>13:30</td><td>15:30</td><td>大鹏所城（下午遮阴漫游）</td><td>2h</td></tr>
+              <tr><td>16:00</td><td>17:30</td><td>桔钓沙（傍晚戏水）</td><td>1.5h</td></tr>
+              <tr><td>18:30</td><td>19:30</td><td>晚餐</td><td>1h</td></tr>
+              <tr><td>19:30</td><td>20:30</td><td>前往酒店 · 入住休息</td><td>1h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 周日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:30</td><td>08:30</td><td>酒店早餐</td><td>1h</td></tr>
+              <tr><td>08:30</td><td>10:30</td><td>深圳天文台（海边栈道）</td><td>2h</td></tr>
+              <tr><td>11:00</td><td>12:30</td><td>大鹏半岛国家地质公园博物馆</td><td>1.5h</td></tr>
+              <tr><td>12:30</td><td>13:30</td><td>午餐</td><td>1h</td></tr>
+              <tr><td>14:00</td><td>17:00</td><td>返程广州（自驾）</td><td>3h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content"><h4>🚗 广州出发</h4><p>直驱大鹏半岛，全程约 3 小时。<b>注意：周末进入大鹏半岛需提前在「深圳交警」公众号预约车辆通行！</b></p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约3小时</span><span class="timeline-tag warn">需预约</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:00 - 12:30</div><div class="timeline-content"><h4>🧜 人鱼洞（鹿嘴山庄）· 上午最凉爽</h4><p>《美人鱼》取景地，悬崖碧海，海水呈翡翠绿到宝石蓝渐变。乘观光车或快艇到达，小孩会非常喜欢这种「探险」感。上午 10–12 点海风大、温度未最高，是最佳时段。</p><div class="timeline-tags"><span class="timeline-tag kid">小孩最爱</span><span class="timeline-tag free">免费</span><span class="timeline-tag">上午凉爽</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:30 - 15:30</div><div class="timeline-content"><h4>🏛️ 大鹏所城（下午遮阴漫游）</h4><p>下午最热时段进古城避暑！始建于 1394 年，深圳别称「鹏城」源于此。南门街、北门街、东门街三条古街慢慢逛，可体验非遗手作。完全免费。</p><div class="timeline-tags"><span class="timeline-tag kid">历史教育</span><span class="timeline-tag free">免费</span><span class="timeline-tag">遮阴避暑</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">16:00 - 17:30</div><div class="timeline-content"><h4>🏖️ 桔钓沙（傍晚戏水）</h4><p>深圳版「马尔代夫」，沙质洁白细腻，海水清澈见底呈玻璃海质感。人少，适合带小孩安静玩水。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">免费</span><span class="timeline-tag">傍晚舒适</span></div></div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 周日</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">08:30 - 10:30</div><div class="timeline-content"><h4>🔭 深圳天文台（海边栈道）</h4><p>深圳最美海边栈道，沿悬崖向海延伸，被《国家地理》评中国最美海岸线之一。需提前在公众号预约，或仅走公共栈道。</p><div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag">绝美海景</span><span class="timeline-tag">需预约</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">11:00 - 12:30</div><div class="timeline-content"><h4>🌋 大鹏半岛国家地质公园博物馆</h4><p>1.45 亿年前古火山活动留下火山岩、海蚀洞、奇石。馆内有恐龙化石、火山模型、珍稀矿石，适合亲子科普。完全免费。</p><div class="timeline-tags"><span class="timeline-tag kid">科普教育</span><span class="timeline-tag free">免费</span><span class="timeline-tag">约1.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">14:00</div><div class="timeline-content"><h4>🚗 返程广州</h4><p>下午 2 点出发避开晚高峰，预计 17:00 回荔湾西村。两天纯大鹏深度游，历史文化 + 自然海景 + 地质科普一次尽兴。</p><div class="timeline-tags"><span class="timeline-tag drive">返程</span><span class="timeline-tag">约3小时</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== 方案 D · 实际执行（据真实游记反推补全）===== -->
+    <div class="plan-content executed" id="planD">
+      <div class="recap-hero"><img src="酒店/深圳美高梅酒店/index.png" alt="深圳美高梅酒店" loading="lazy" decoding="async"></div>
+      <button class="btn-tolog" type="button" onclick="goToLog()">📖 看完整游记 ↓</button>
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 2026-07-11（周六）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>08:30</td><td>广州荔湾西村自驾出发</td><td>1.5h</td></tr>
+              <tr><td>08:30</td><td>09:00</td><td>厚街服务区早餐</td><td>0.5h</td></tr>
+              <tr><td>09:00</td><td>10:30</td><td>抵达小梅沙 · 停酒店</td><td>1.5h</td></tr>
+              <tr><td>10:30</td><td>12:30</td><td>小梅沙海洋世界（开园即入）</td><td>2h</td></tr>
+              <tr><td>12:30</td><td>13:30</td><td>午餐（妈开始发烧不适）</td><td>1h</td></tr>
+              <tr><td>13:30</td><td>15:00</td><td>放弃后续景点 · 回酒店等待入住休息</td><td>1.5h</td></tr>
+              <tr><td>15:00</td><td>18:00</td><td>美高梅酒店入住 · 妈休息 / 爸带兄弟沙滩</td><td>3h</td></tr>
+              <tr><td>18:00</td><td>19:30</td><td>酒店高端海景餐厅晚餐</td><td>1.5h</td></tr>
+              <tr><td>20:00</td><td>21:00</td><td>美高梅 M-show 杂技 + 夜景散步</td><td>1h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 2 · 2026-07-12（周日）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>05:30</td><td>07:00</td><td>清晨退潮的海 · 沙滩漫步拍照</td><td>1.5h</td></tr>
+              <tr><td>07:00</td><td>09:00</td><td>酒店早餐 · 退房</td><td>2h</td></tr>
+              <tr><td>09:00</td><td>13:00</td><td>驱车回程广州</td><td>4h</td></tr>
+              <tr><td>13:00</td><td>14:00</td><td>福永服务区午餐</td><td>1h</td></tr>
+              <tr><td>14:00</td><td>15:30</td><td>回到荔湾西村</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 2026-07-11</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">07:00</div><div class="timeline-content"><h4>🚗 广州出发</h4><p>4 口之家从荔湾西村自驾出发，早出发避开出城高峰。原定方案 B1，打算玩海洋世界 + 沙滩 + 灯塔，第二天再补。车上小孩补觉。</p><div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag">约2.5小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">10:30 - 12:30</div><div class="timeline-content"><h4>🐬 小梅沙海洋世界</h4><p>开园即入，白色海神雕塑群极具冲击力。极地动物馆、海底隧道、海豚表演，小孩玩得起劲。这是本次唯一完整玩下来的核心景点。</p><div class="timeline-tags"><span class="timeline-tag kid">亲子核心</span><span class="timeline-tag">门票~220元</span><span class="timeline-tag">约2小时</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">12:30</div><div class="timeline-content"><h4>🤒 妈发烧 · 行程临时调整</h4><p>午餐时妈开始发烧不舒服，原本打算去附近医院就医，后来情况稍好。快速吃完饭后决定放弃世界之窗 / 大鹏等后续所有景点，回酒店等待入住、希望通过休息缓解。这次出行就此从「攻略」变成「酒店慢游」。</p><div class="timeline-tags"><span class="timeline-tag warn">临时调整</span><span class="timeline-tag">健康优先</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">15:00 - 18:00</div><div class="timeline-content"><h4>🏨 美高梅酒店入住 · 妈休息 / 爸带兄弟沙滩</h4><p>入住后妈在房间休息，爸带两兄弟下楼去沙滩玩。酒店质素在线，又有海景，小孩在沙滩上奔跑嬉戏，反倒成了最放松的一段。</p><div class="timeline-tags"><span class="timeline-tag hotel">入住</span><span class="timeline-tag kid">沙滩</span><span class="timeline-tag">海景</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">18:00 - 19:30</div><div class="timeline-content"><h4>🍽️ 酒店高端海景餐厅晚餐</h4><p>上来后更换衣物，到酒店高端餐厅吃饭。窗外就是海，灯光温柔，一家人难得安静坐下来。妈精神好了些，小孩吃得香。</p><div class="timeline-tags"><span class="timeline-tag food">晚餐</span><span class="timeline-tag hotel">海景</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">20:00 - 21:00</div><div class="timeline-content"><h4>🎪 美高梅 M-show 杂技 + 夜景散步</h4><p>饭后酒店内散步，爸和沙下去看表演：美高梅 M-show，来自国外的特色杂技类表演，小孩看呆了。夜里的酒店灯火璀璨，海风轻拂。</p><div class="timeline-tags"><span class="timeline-tag hotel">演出</span><span class="timeline-tag kid">杂技</span><span class="timeline-tag view">夜景</span></div></div></div>
+      </div>
+      <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 2026-07-12</div><div class="line"></div></div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">05:30 - 07:00</div><div class="timeline-content"><h4>🌅 清晨退潮的海</h4><p>退房后直接驱车回程前，赶在清晨退潮时去沙滩走了一圈。退潮后的滩涂映着晨光，安静得只有海浪声，是此行最治愈的一幕。</p><div class="timeline-tags"><span class="timeline-tag view">日出</span><span class="timeline-tag free">免费</span><span class="timeline-tag kid">亲子</span></div></div></div>
+        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time">13:00 - 14:00</div><div class="timeline-content"><h4>🍜 福永服务区午餐</h4><p>回程中途在福永服务区午餐，两兄弟「津津有味」吃得香。长途自驾，服务区的一顿热饭就是踏实。</p><div class="timeline-tags"><span class="timeline-tag food">午餐</span><span class="timeline-tag drive">回程</span></div></div></div>
+      </div>
+      <p class="section-desc" style="margin-top:1rem;">※ 本方案为实际出行后据游记反推补全；受家人身体不适影响，未严格执行任一候选方案，故单独成「方案 D」并标记【已完成】。点击上方「看完整游记 ↓」按钮，或顶部导航「游记实录 / 美食发现」，可查看本次出行的温情记录与全部实拍。</p>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 游记实录（仅执行方案 D 被选中时显示）===== -->
+  <section class="section" id="log" hidden>
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      游记实录 · 2026-07-11 ~ 07-12
+    </h2>
+    <p class="section-desc">这是一次「计划赶不上变化」的出行。原打算玩遍海洋世界、灯塔、世界之窗，却因妈途中发烧，变成了美高梅酒店里的慢游。记录下那些没计划、却最温暖的瞬间。</p>
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 07:00</span><span class="chapter-title">早餐</span></div>
+      <p>周六天还没大亮，4 口之家从荔湾西村出发。两车程对小孩是考验，所以我们早走、中途在服务区吃顿踏实的早餐。厚街服务区里，热气腾腾的粥粉面，小孩扒着碗，爸妈借着咖啡醒神——旅行的仪式感，往往从服务区第一口热食开始。</p>
+      <div class="chapter-tags"><span class="chapter-tag eat">早餐</span><span class="chapter-tag drive">自驾</span><span class="chapter-tag free">服务区</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/去程-厚街服务区-早餐-IMG_20260711_072810.jpg" alt="早餐" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/去程-厚街服务区-早餐-IMG_20260711_072810.jpg" alt="早餐" loading="lazy" decoding="async"></div>
+</div>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 10:30</span><span class="chapter-title">海洋世界</span></div>
+      <p>抵达小梅沙，停好车直奔海洋世界。入口那座白色海神雕塑群，小孩仰头看了好久。极地馆的企鹅、海底隧道的鲨鱼、还有海豚表演——这是本次唯一完整玩下来的核心。爸举着手机拍个不停，妈在旁边笑：「值了，光这一项就值了。」</p>
+      <div class="chapter-tags"><span class="chapter-tag view">海洋世界</span><span class="chapter-tag kid">亲子</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/小梅沙海洋世界-IMG_20260711_103627.jpg" alt="海洋世界" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/小梅沙海洋世界-IMG_20260711_103627.jpg" alt="海洋世界" loading="lazy" decoding="async"><img src="游记/小梅沙海洋世界-IMG_20260711_103636.jpg" alt="海洋世界" loading="lazy" decoding="async"></div>
+</div>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 12:30</span><span class="chapter-title">妈发烧</span></div>
+      <p>午餐时，妈说不舒服，一量体温——发烧了。原本打算下午去世界之窗、第二天再奔大鹏，那一刻全被放下。我们快速吃完，决定放弃所有后续景点，回酒店等入住、让妈休息。爸后来笑着说：「原计划写得那么满，最后救场的，是酒店。」</p>
+      <div class="chapter-tags"><span class="chapter-tag warn">临时调整</span><span class="chapter-tag ">健康优先</span></div>
+          </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 13:54</span><span class="chapter-title">入住初见海</span></div>
+      <p>回酒店等待入住的间隙，先去海边走了一圈。酒店沙滩景致第一次撞进眼里——湛蓝、开阔，妈靠在栏杆上深吸一口气：「先不管去哪，这一眼就值了。」旅行的松弛，往往从放下计划的那一刻开始。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">海景</span><span class="chapter-tag hotel">酒店</span><span class="chapter-tag free">初见</span></div>
+      <p class="log-video-cap">▶ 07-11 13:54（视频实拍）</p>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-酒店沙滩景致-VID_20260711_135440.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-酒店沙滩景致-VID_20260711_135641.mp4" type="video/mp4"></video>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 14:37</span><span class="chapter-title">儿童乐园</span></div>
+      <p>酒店里的儿童乐园成了兄弟俩的小天地。滑梯、海洋球、攀爬架，玩到满头大汗。妈在旁边躺椅上看着，脸色渐渐好起来。原来「不出门」也能这么尽兴——度假的真谛，是被允许什么都不赶。</p>
+      <div class="chapter-tags"><span class="chapter-tag kid">儿童乐园</span><span class="chapter-tag hotel">酒店</span></div>
+      <p class="log-video-cap">▶ 07-11 14:37（视频实拍）</p>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-儿童乐园-VID_20260711_143714.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-儿童乐园-VID_20260711_144303.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-儿童乐园-VID_20260711_144818.mp4" type="video/mp4"></video>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 17:00</span><span class="chapter-title">沙滩疯跑</span></div>
+      <p>入住后妈躺下，爸带两兄弟下楼。酒店质素真的在线，推开窗就是海。小孩在沙滩上追逐浪花、堆沙堡，沙子沾了满脸也乐。妈在楼上歇着，听见楼下笑闹，发来一条：「你们玩，我缓一会儿。」那一刻忽然觉得，旅行的意义不在打卡，而在各得其所。</p>
+      <div class="chapter-tags"><span class="chapter-tag kid">沙滩</span><span class="chapter-tag hotel">海景</span><span class="chapter-tag view">自由</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/美高梅酒店-海滩-IMG_20260711_171154.jpg" alt="沙滩疯跑" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/美高梅酒店-海滩-IMG_20260711_171154.jpg" alt="沙滩疯跑" loading="lazy" decoding="async"></div>
+</div>
+<p class="log-video-cap">▶ 07-11 17:00（视频实拍）</p>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-沙滩兄弟-VID_20260711_170633.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-沙滩兄弟-VID_20260711_171042.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-沙滩兄弟-VID_20260711_172701.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-沙滩兄弟_20260711_173000.mp4" type="video/mp4"></video>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 18:14</span><span class="chapter-title">海景晚餐</span></div>
+      <p>上来换好衣服，到酒店高端海景餐厅。窗外就是海，灯光温柔。妈精神好了些，给俩小子夹菜；小孩难得安静坐着，把盘子吃得干净。爸举杯：「敬临时改的计划。」一家人笑作一团。</p>
+      <div class="chapter-tags"><span class="chapter-tag eat">晚餐</span><span class="chapter-tag view">海景</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/美高梅酒店-晚饭-高端海景餐厅-IMG_20260711_181449.jpg" alt="海景晚餐" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/美高梅酒店-晚饭-高端海景餐厅-IMG_20260711_181449.jpg" alt="海景晚餐" loading="lazy" decoding="async"><img src="游记/美高梅酒店-酒店夜景-晚饭后散步-IMG_20260711_192641.jpg" alt="海景晚餐" loading="lazy" decoding="async"><img src="游记/美高梅酒店-酒店夜景-晚饭后散步-IMG_20260711_192651.jpg" alt="海景晚餐" loading="lazy" decoding="async"><img src="游记/美高梅酒店-酒店夜景-晚饭后散步-IMG_20260711_192708.jpg" alt="海景晚餐" loading="lazy" decoding="async"><img src="游记/美高梅酒店-酒店夜景-晚饭后散步-IMG_20260711_192731.jpg" alt="海景晚餐" loading="lazy" decoding="async"></div>
+</div>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 19:30</span><span class="chapter-title">夜里美高梅</span></div>
+      <p>晚饭后散步，夜里的美高梅灯火璀璨，海风轻轻。泳池边的灯、大堂的吊灯、沙滩远处渔船的星点，都映在玻璃上。妈说：「这样也挺好。」旅行不必赶场，慢下来才看得见光。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">夜景</span><span class="chapter-tag hotel">酒店</span><span class="chapter-tag free">散步</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/美高梅酒店-酒店夜景-IMG_20260711_192422.jpg" alt="夜里美高梅" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/美高梅酒店-酒店夜景-IMG_20260711_192422.jpg" alt="夜里美高梅" loading="lazy" decoding="async"><img src="游记/美高梅酒店-夜景-20260711-193000.png" alt="夜里美高梅" loading="lazy" decoding="async"></div>
+</div>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-11 20:00</span><span class="chapter-title">Mshow</span></div>
+      <p>饭后拐到 M-show 的场地——来自国外的杂技演员，力量与柔美交错，空中飞人、柔术、火环，小孩看直了眼，连呼吸都忘了。表演结束，全场掌声。这是酒店送给我们的意外惊喜。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">夜景</span><span class="chapter-tag kid">演出</span><span class="chapter-tag hotel">酒店</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/美高梅酒店-Mshow-20260711-200000.png" alt="Mshow" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/美高梅酒店-Mshow-20260711-200000.png" alt="Mshow" loading="lazy" decoding="async"></div>
+</div>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-12 06:03</span><span class="chapter-title">清晨退潮</span></div>
+      <p>退房前，赶在清晨退潮去沙滩走了一圈。滩涂映着晨光，安静得只有海浪声。俩小子光脚踩水，妈在岸边笑着拍照。回程在即，却因这半小时的安静，整趟旅行忽然圆满。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">日出</span><span class="chapter-tag free">免费</span><span class="chapter-tag kid">亲子</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/美高梅酒店-沙滩景致-IMG_20260712_060317.jpg" alt="清晨退潮" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/美高梅酒店-沙滩景致-IMG_20260712_060317.jpg" alt="清晨退潮" loading="lazy" decoding="async"><img src="游记/美高梅酒店-沙滩景致-IMG_20260712_060341.jpg" alt="清晨退潮" loading="lazy" decoding="async"><img src="游记/美高梅酒店-沙滩景致-IMG_20260712_060349.jpg" alt="清晨退潮" loading="lazy" decoding="async"></div>
+</div>
+<p class="log-video-cap">▶ 07-12 06:03（视频实拍）</p>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-酒店沙滩景致-VID_20260712_060445.mp4" type="video/mp4"></video>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-12 07:18</span><span class="chapter-title">清晨最后一眼</span></div>
+      <p>退房后没急着走，又绕着酒店转了转。清晨的酒店大堂空荡安静，落地窗把整片海框成一幅画；沙滩在晨光里泛着金。兄弟俩趴在窗边，谁也没说话——好像要把这海，装进记忆里带走。</p>
+      <div class="chapter-tags"><span class="chapter-tag view">日出</span><span class="chapter-tag hotel">酒店</span><span class="chapter-tag free">免费</span></div>
+      <p class="log-video-cap">▶ 07-12 07:18（视频实拍）</p>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-酒店沙滩景致-VID_20260712_055843.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-酒店内景-VID_20260712_071718.mp4" type="video/mp4"></video>
+<video class="log-video" controls preload="metadata"><source src="游记/美高梅酒店-酒店沙滩景致-VID_20260712_104230.mp4" type="video/mp4"></video>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">07-12 13:00</span><span class="chapter-title">福永午餐</span></div>
+      <p>长途自驾，福永服务区的一顿午餐格外香。两兄弟「津津有味」地扒着饭，爸妈相视一笑——出门时妈还病着，回家时全家人都精神了。车窗外高速飞驰，后视镜里是渐渐远去的深圳海岸。</p>
+      <div class="chapter-tags"><span class="chapter-tag eat">午餐</span><span class="chapter-tag drive">回程</span></div>
+      <p class="log-video-cap">▶ 07-12 13:00（视频实拍）</p>
+<video class="log-video" controls preload="metadata"><source src="游记/回程福永高速服务站午餐-津津有味兄弟-VID_20260712_134124.mp4" type="video/mp4"></video>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head"><span class="chapter-time">🚗 彩蛋</span><span class="chapter-title">彩蛋</span></div>
+      <p>回来后翻行车记录仪，截下一帧——高速、海、和后视镜里渐渐缩小的城市。这趟旅行没有按计划走，却把「一家人好好在一起」这件事，记得比哪次都清楚。</p>
+      <div class="chapter-tags"><span class="chapter-tag drive">自驾</span><span class="chapter-tag free">记录</span></div>
+      <div class="media-block">
+  <div class="media-cover"><img src="游记/713行车记录-Screenshot_20260713_072517.jpg" alt="彩蛋" loading="lazy" decoding="async"></div>
+  <div class="media-gallery"><img src="游记/713行车记录-Screenshot_20260713_072517.jpg" alt="彩蛋" loading="lazy" decoding="async"></div>
+</div>
+    </div>    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览 ===== -->
+  <section class="section" id="food" hidden>
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
+      美食 & 随手发现
+    </h2>
+    <p class="section-desc">这趟没去成海鲜街，但酒店里外几顿饭，反倒记得清楚。</p>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🍽️ 美高梅高端海景餐厅</h4>
+        <p>酒店内的高端餐厅，落地窗正对大海。出品稳定、服务到位，带小孩也从容。妈退烧后第一顿安稳饭就在这里，灯光温柔，一家人难得慢下来。</p>
+        <div class="price">人均约 ¥200–300 · 推荐指数 ★★★★☆</div>
+      </div>
+      <div class="food-card">
+        <h4>🍜 厚街服务区早餐</h4>
+        <p>出发第一天清晨的热粥粉面。长途自驾的仪式感往往从服务区第一口热食开始，俩小子吃得香，爸妈也醒了神。</p>
+        <div class="price">人均约 ¥20–40 · 推荐指数 ★★★☆☆</div>
+      </div>
+      <div class="food-card">
+        <h4>🚙 福永服务区午餐</h4>
+        <p>回程中途的补给站。两兄弟「津津有味」扒着饭的画面，是这趟旅行最朴实的团圆照。服务区热饭，长途里最踏实。</p>
+        <div class="price">人均约 ¥30–60 · 推荐指数 ★★★☆☆</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">带孩子看懂背景，旅行不只是看热闹。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-pengcheng">
+        <div class="culture-card-head"><div class="c-icon">🏛️</div><h4>「鹏城」这个名字从哪来</h4></div>
+        <p><b>背景：</b>深圳别称「鹏城」，源于大鹏所城。这座古城始建于明洪武二十七年（1394 年），是明清两代中国南部的海防军事要塞，屯兵抗倭、守卫南海。<b>讲给孩子听：</b>几百年前，这里住着守护海岸的将士；今天我们在海滩踏浪，脚下的土地曾经是烽火连天的边关。一座城，把「大鹏展翅」的守护意象留给了深圳。</p>
+      </div>
+      <div class="culture-card" id="culture-kejia">
+        <div class="culture-card-head"><div class="c-icon">🏮</div><h4>客家人怎样来到海边</h4></div>
+        <p><b>背景：</b>深圳沿海与内陆多客家聚落，客家人历史上从中原南迁，依山傍海、聚族而居，留下大量围屋与古村。<b>讲给孩子听：</b>我们吃的客家菜、走的古街巷，背后是一代代人不畏迁徙、在海边重新扎根的故事。古人靠海吃海，今天我们看海玩海，是同一片海的两种相处方式。</p>
+      </div>
+      <div class="culture-card" id="culture-haiyang">
+        <div class="culture-card-head"><div class="c-icon">🌊</div><h4>从「小渔村」到滨海之城</h4></div>
+        <p><b>背景：</b>盐田、大鹏一带自古是渔港与航运要道，背仔角灯塔（20 世纪初建）曾守护往来香港的航道。改革开放后，深圳从边陲渔村成长为滨海都市。<b>讲给孩子听：</b>灯塔不说话，却替无数船只会记得回家的方向——就像家，永远在身后亮着灯。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">时间来源以各景区官方公告为准，出行前请再次核实（尤其节假日与周一闭馆）。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>小梅沙海洋世界</td><td>约 09:30–18:00（周末 09:00 开园）</td><td>成人约 ¥220，1.2m 下免费</td><td>门票免费含小梅沙沙滩</td></tr>
+          <tr><td>小梅沙海滨乐园</td><td>与海洋世界同步</td><td>含于海洋世界门票</td><td>无需另购沙滩票</td></tr>
+          <tr><td>深圳世界之窗</td><td>平日 10:00 / 周末 09:00 开园</td><td>成人约 ¥220</td><td>南山，距小梅沙约 40km</td></tr>
+          <tr><td>背仔角灯塔</td><td>全天（户外）</td><td>免费</td><td>礁石区注意安全</td></tr>
+          <tr><td>大梅沙海滨公园</td><td>全天</td><td>免费</td><td>周末「i深圳」APP 预约</td></tr>
+          <tr><td>大鹏半岛（所城/人鱼洞/天文台/桔钓沙）</td><td>白天</td><td>基本免费</td><td>周末车辆需「深圳交警」预约通行</td></tr>
+          <tr><td>大鹏地质公园博物馆</td><td>周二–周日（周一闭馆）</td><td>免费</td><td>出行前确认</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 行程复核结论</div>
+      <ul>
+        <li><b>里程/时长：</b>广州西村↔小梅沙约 150km / 2.5h；↔大鹏约 200km / 3h。务必 14:00–15:00 出发避晚高峰。</li>
+        <li><b>限流/预约：</b>大梅沙周末需「i深圳」预约；大鹏半岛周末车辆需「深圳交警」预约；天文台需公众号预约。</li>
+        <li><b>本次实际：</b>仅完成小梅沙海洋世界 + 美高梅酒店慢游，其余景点因家人发烧未走；酒店套餐含门票更省，验证有效。</li>
+        <li><b>健康预案：</b>长途带小孩建议随车备体温计、退烧药与常用药；如不适，优先休息而非硬赶行程（本行即教训）。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6. 酒店推荐 ===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      酒店推荐
+    </h2>
+    <p class="section-desc">针对 4 口之家的亲子酒店选择，含联票优惠说明。</p>
+    <div class="spots-grid">
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="酒店/深圳美高梅酒店/index.png" alt="美高梅酒店" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="酒店/深圳美高梅酒店/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="酒店/深圳美高梅酒店/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="酒店/深圳美高梅酒店/image copy 2.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>深圳美高梅酒店</h4><span class="spot-card-dist">小梅沙海滨</span></div>
+        <div class="spot-card-body"><p>位于小梅沙海滨，<b>步行 3 分钟</b>可达海洋世界和沙滩。高层弧形建筑，海景房视野开阔，无边泳池是网红打卡点。<b>含海洋世界门票的套餐</b>比单买更省，周末需提前预订。<b>本次实际入住，质素在线、海景在线，体验很好。</b></p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">本次入住</span><span class="spot-tag kid">亲子</span><span class="spot-tag">套餐省</span></div>
+      </div>
+      <div class="spot-card">
+        <div class="media-block">
+          <div class="media-cover"><img src="酒店/深圳大梅沙京基洲际度假酒店/index.png" alt="京基洲际" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="酒店/深圳大梅沙京基洲际度假酒店/index.png" alt="主图" loading="lazy" decoding="async">
+            <img src="酒店/深圳大梅沙京基洲际度假酒店/image.png" alt="图" loading="lazy" decoding="async">
+            <img src="酒店/深圳大梅沙京基洲际度假酒店/image copy 2.png" alt="图" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>深圳大梅沙京基洲际度假酒店</h4><span class="spot-card-dist">大梅沙</span></div>
+        <div class="spot-card-body"><p>大梅沙片区顶级亲子度假酒店，<b>私家海滩 + 棕榈园林</b> + 儿童俱乐部。穹顶大堂玻璃钢结构极为华丽，有专门儿童泳池与亲子活动。距小梅沙约 5 分钟车程。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">顶配</span><span class="spot-tag kid">亲子</span></div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-card-header"><h4>深圳大梅沙京基海湾大酒店</h4><span class="spot-card-dist">大梅沙</span></div>
+        <div class="spot-card-body"><p>与洲际同处大梅沙片区，<b>性价比更高</b>。依山面海，房间宽敞，部分带阳台海景，楼下即沙滩入口，餐饮丰富。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">性价比</span><span class="spot-tag">海景</span></div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-card-header"><h4>大梅沙 / 小梅沙民宿公寓</h4><span class="spot-card-dist">经济型</span></div>
+        <div class="spot-card-body"><p>片区大量民宿、公寓式酒店，价格亲民，部分高层可看海景，约 300–600 元/晚可住 4 人。建议筛高评分房源，确认床型适合 2 大 2 小。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">预算有限</span><span class="spot-tag">海景</span></div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-card-header"><h4>深圳佳兆业万豪酒店（大鹏）</h4><span class="spot-card-dist">大鹏 · 方案C</span></div>
+        <div class="spot-card-body"><p>大鹏半岛唯一国际五星级度假酒店，位于金沙湾，<b>私家海滩 + 大型园林</b> + 儿童俱乐部。距所城、较场尾约 10 分钟，是方案 C 的最佳住宿。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">五星</span><span class="spot-tag kid">亲子</span></div>
+      </div>
+      <div class="spot-card">
+        <div class="spot-card-header"><h4>大鹏所城 / 较场尾民宿</h4><span class="spot-card-dist">特色民宿</span></div>
+        <div class="spot-card-body"><p>所城内有古城客栈，较场尾有「深圳鼓浪屿」之称的海边民宿群，步行可达古城与海滩，氛围文艺。设施参差，需仔细筛选评分 4.5 以上、有亲子设施的房源。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">体验感</span><span class="spot-tag">文艺</span></div>
+      </div>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">4 口之家酒店选购建议</div>
+      <ul>
+        <li><b>追求最佳体验：</b>京基洲际（私家海滩+儿童俱乐部）或美高梅（步行到海洋世界+无边泳池）。</li>
+        <li><b>追求性价比：</b>京基海湾大酒店，设施不错且价格更亲民。</li>
+        <li><b>预算有限：</b>大梅沙/小梅沙民宿公寓，400–600 元可住 4 人，确认床型与亲子设施。</li>
+        <li><b>方案 C 大鹏：</b>佳兆业万豪或较场尾/所城精品民宿。</li>
+        <li><b>省钱关键：</b>直接订含海洋世界门票的酒店套餐，4 口之家比单买省 200–400 元。</li>
+        <li><b>小孩政策：</b>预订前确认儿童早餐（1.2m 以下是否免费）、加床费用；周末提前 1 周、节假日提前 2 周。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">深圳夏季多晴热、偶有台风，海边行程对天气敏感；本次出行更遇上家人发烧，天气与健康需双重预案。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>7 月晴热 · 防晒是刚需</h4><p>7 月深圳高温高湿、紫外线极强。海边露天行程（沙滩、灯塔、大鹏栈道）务必 SPF50+ 防晒、遮阳帽、儿童泳衣，定时补涂；下午 4 点后戏水最舒适，避开正午暴晒。</p></div>
+      <div class="info-card"><h4>台风 / 暴雨保底</h4><p>夏秋台风可能影响沿海开放与跨海交通。若遇台风预警：海洋世界室内馆仍可游玩，酒店设施（泳池/儿童乐园/演出）即为保底；大鹏、海滨栈道等户外项目果断取消，不冒险。</p></div>
+      <div class="info-card"><h4>健康预案（本次教训）</h4><p>长途带小孩随车备体温计、退烧药与常用药。本次妈途中发烧，行程从「攻略」转为「酒店慢游」反而更松弛——<b>健康永远优先于打卡</b>，酒店套餐含门票本就划算，临时休整不亏。</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">4 口之家带小孩出行，这些细节很重要。</p>
+
+    <div class="tips-box">
+      <div class="tips-box-title">出发前准备（带小孩必看）</div>
+      <ul>
+        <li>提前检查车况（轮胎、油量、冷却液），车上备好<b>儿童安全座椅</b>。</li>
+        <li>车上备足零食、水、湿巾、充电宝、简单玩具（车程长，小孩易无聊）。</li>
+        <li>海洋世界门票提前 1 天在美团/携程购买，比现场便宜且免排队。</li>
+        <li>夏季必备：防晒霜、墨镜、遮阳帽、<b>儿童泳衣</b>、沙滩鞋、驱蚊水、换洗衣物。</li>
+        <li>大梅沙需提前在<b>「i深圳」APP</b>预约（周末必须）；大鹏半岛车辆需「深圳交警」预约。</li>
+        <li>随车备体温计、退烧药与常用药（本次教训）。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top: 1rem; background: linear-gradient(135deg, rgba(94, 228, 160, 0.08) 0%, rgba(94, 228, 160, 0.03) 100%); border-color: rgba(94, 228, 160, 0.25);">
+      <div class="tips-box-title" style="color: var(--success);">亲子游玩注意事项</div>
+      <ul>
+        <li>小梅沙沙滩凭海洋世界门票<b>免费进入</b>，不要重复购买沙滩票。</li>
+        <li>海洋世界是大型园区，需大量步行，给小孩穿舒适运动鞋，可带轻便推车。</li>
+        <li>海边紫外线强烈，小孩皮肤娇嫩，务必做好防晒、定时补涂。</li>
+        <li>盐田海滨栈道部分路段<b>无护栏</b>，带小孩必须看护好，不靠近边缘。</li>
+        <li>背仔角灯塔区域有礁石，小孩不要攀爬。</li>
+        <li>酒店儿童俱乐部和亲子活动可能有名额限制，建议入住时预约次日活动。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top: 1rem; background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 107, 107, 0.03) 100%); border-color: rgba(255, 107, 107, 0.25);">
+      <div class="tips-box-title" style="color: var(--danger);">避坑提醒</div>
+      <ul>
+        <li><b>⚡ 堵车高峰必避：</b>周六上午 8:30–10:00 出城、周日下午 17:00–20:00 返城。方案 A 15:00 / B1 14:00 / C 14:00 返程可避开。</li>
+        <li><b>大鹏半岛车辆预约（方案 C）：</b>周末及节假日需提前在「深圳交警」公众号预约，未预约可能被劝返。</li>
+        <li>大梅沙/小梅沙周末停车位紧张，建议用<b>酒店免费停车场</b>，或停奥特莱斯步行前往。</li>
+        <li>海边有人兜售「快速通道」「低价门票」多为骗局，请官方渠道购票。</li>
+        <li>民宿预订注意看实拍图，优先评分 4.5 以上且评价提及亲子体验的房源。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top: 1rem;">
+      <div class="tips-box-title">费用预算（4 口之家 · 参考）</div>
+      <div class="table-scroll">
+        <table class="budget-table">
+          <thead><tr><th>项目</th><th>方案A</th><th>方案B1</th><th>方案B2</th><th>方案C</th><th>方案D（实际）</th></tr></thead>
+          <tbody>
+            <tr><td><strong>住宿</strong></td><td>美高梅/洲际 1,500–2,500</td><td>美高梅/洲际 1,500–2,500</td><td>美高梅/洲际 3,000–5,000（2晚）</td><td>大鹏民宿 400–1,000</td><td>美高梅 1 晚约 1,500–2,500</td></tr>
+            <tr><td><strong>门票</strong></td><td>世界之窗+海洋世界 约1,320</td><td>海洋世界 约660</td><td>海洋世界 约660</td><td>基本免费 0–200</td><td>海洋世界 约660</td></tr>
+            <tr><td><strong>餐饮</strong></td><td>800–1,200</td><td>800–1,200</td><td>1,200–1,800</td><td>600–1,000</td><td>约 900–1,400（酒店餐为主）</td></tr>
+            <tr><td><strong>交通</strong></td><td>高速+油费 约440</td><td>高速+油费 约440</td><td>高铁 400–600+打车 300–500</td><td>高速+油费 约500</td><td>高速+油费 约440</td></tr>
+            <tr class="total-row"><td><strong>合计</strong></td><td>约 3,260–4,660</td><td>约 3,100–4,000</td><td>约 5,400–8,060</td><td>约 1,650–2,850</td><td>约 3,500–5,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-hint);margin-top:.5rem;">方案 D 实际花费与 B1 接近（酒店套餐含门票更省）；受临时调整为酒店慢游影响，未产生世界之窗/大鹏门票与额外油费。</p>
+    </div>
+
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 深圳周末家庭游</div>
+    <div class="footer-version">template/official · v1.1 · 含执行方案联动游记</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 执行方案 & 游记联动：游记仅在「已执行」方案激活时显示 =====
+      function getExecutedPlanId() {
+        var b = document.querySelector('.plan-btn[data-executed="true"]');
+        if (!b) return null;
+        var m = b.getAttribute('onclick') ? b.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+        return m ? m[1] : null;
+      }
+      function updateTravelogueGate(planId) {
+        var executedId = getExecutedPlanId();
+        var show = (planId === executedId);
+        ['log', 'food'].forEach(function (id) {
+          var s = document.getElementById(id);
+          if (s) s.hidden = !show;
+        });
+        return show;
+      }
+      function syncTravelogueNav() {
+        var ex = getExecutedPlanId();
+        document.querySelectorAll('#navInner a[href="#log"], #navInner a[href="#food"], #navMobile a[href="#log"], #navMobile a[href="#food"]').forEach(function (a) {
+          a.style.display = ex ? '' : 'none';
+        });
+      }
+
+      // ===== 方案切换 =====
+      var PLAN_IDS = ['planA', 'planB1', 'planB2', 'planC', 'planD'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        updateTravelogueGate(planId);
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+
+      // 执行方案「回顾布局」：跳到门控游记（确保执行方案已激活以显露 #log/#food）
+      window.goToLog = function () {
+        var ex = getExecutedPlanId();
+        if (ex) {
+          var el = document.getElementById(ex);
+          if (el && !el.classList.contains('active')) switchPlan(ex, true);
+        }
+        var log = document.getElementById('log');
+        if (log) log.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
+      }
+
+      // 初始化：同步执行方案相关的游记显示与导航
+      syncTravelogueNav();
+      (function initGate() {
+        var active = document.querySelector('.plan-btn.active');
+        var initId = null;
+        if (active) {
+          var m = active.getAttribute('onclick') ? active.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          initId = m ? m[1] : null;
+        }
+        if (!initId && PLAN_IDS.length) initId = PLAN_IDS[0];
+        if (initId) updateTravelogueGate(initId);
+      })();
+
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        function syncOrient() {
+          var nw = coverImg.naturalWidth, nh = coverImg.naturalHeight;
+          if (nw && nh) cover.classList.toggle('img-portrait', nh > nw);
+        }
+        coverImg.addEventListener('load', syncOrient);
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) { syncOrient(); return; }
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) { syncOrient(); return; }
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          syncOrient();
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov);
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none';
+        }
+        applyCover(coverThumb);
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          if ((id === 'log' || id === 'food') && target.hidden) {
+            var ex = getExecutedPlanId();
+            if (ex) switchPlan(ex, true);
+          }
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出 =====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画（含游记核心模块：.log-chapter / .food-card）=====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card, .log-chapter, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>

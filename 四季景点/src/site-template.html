@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 子站模板（正式模板 · 单文件综合蓝本 · 2026-08-10 选定）
+  ----------------------------------------------------------------------------
+  ⭐ 本文件是「四季景点」新攻略型子站（周末家庭游 / 多方案亲子游）的官方脚手架。
+     纯游记型另有 `site-template-travelogue.html`；候选 B/C 与对比文档已于评审后清理。
+
+  派生规则：
+    1. 配图组件（req#2）：每个需要图片的模块用 .media-block，内嵌
+       .media-cover（主图）+ .media-gallery（缩略图条，列出该卡片对应的全部图片）。
+       首图由 JS 自动解析：画廊中命名 index.* 的图优先作主图；若漏命名 index.*，
+       则回退为画廊第一张（兼容缺失）；点击缩略图切换主图，当前主图不再重复出现在条中。
+    2. 行程方案（req#3/#5）：先 plan-summary 行程表，再 timeline 按时间点展开，
+       每个 timeline-item 内可内嵌 .media-cover + .media-gallery（即 req#2）。
+    3. 子站结构（req#4）：行程速览→景点&餐厅总览→行程方案→人文背景·
+       讲给孩子听→营业时间&行程复核→酒店推荐→天气影响评估→实用贴士。
+    4. 风格（req#6）：遵循 XBRAIN-LOGO-IP.md；主题色由 :root 的 --accent 控制，
+       新建子站只需改 --accent / --accent2 / --hero-grad 三处即可换肤。
+    5. 游记模块（req#7）：本攻略模板内置「游记核心模块」（.log-chapter 游记实录 +
+       .food-card 美食发现），位于「行程方案」之后。制定方案并执行后，在方案后
+       追加真实行程记录；游记核心来自 site-template-travelogue-core.html（公共
+       单一来源），两模板共用，请勿在本地另写一份。
+       ⚠️ 游记跟随「已执行」的方案：给执行了的方案按钮加 data-executed="true"，
+       该按钮显示「【已完成】」邮戳；#log/#food 默认隐藏，仅当该执行方案被选中
+       时才显示（点击方案即展开游记，点击导航「游记实录/美食发现」会先定位到执行
+       方案再展开）。若实际执行未严格对应任一候选方案，则新增一个方案、据实际游记
+       反推补全内容并标 data-executed，再在后面追加游记。未执行的页面请删掉
+       data-executed 与 #log/#food（相关导航会自动隐藏）。
+       📐 执行方案「回顾布局」：执行方案本质是「行程事实回顾」，内部不要放媒体画廊
+       ——真实照片的唯一归属是 #log/#food。执行方案内容建议只保留计划摘要表 + 纯
+       文字时间线，顶部最多放 1 张「目的地预览」hero 封面（非游记实拍），并放置
+       「看完整游记 ↓」按钮（onclick="goToLog()"）引导到门控游记；模板对
+       .plan-content.executed 内的 .media-block 已做 display:none 兜底。
+  用法：复制本文件到 四季景点/<新子站>/index.html，把 assets/ph*.svg 换成真实图片
+        （建议主图命名 index.*；不命名也会自动取第一张），按下述 {{...}} 占位符填充内容即可。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>{{站点标题}} · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（换肤只需改这里）===== */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #140e2e;
+      --xb-light: #241a44;
+      --accent: #64b4ff;            /* ← 主强调色（每子站改这一组） */
+      --accent2: #80c0ff;
+      --accent-glow: rgba(100, 180, 255, 0.16);
+      --accent-border: rgba(100, 180, 255, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(100, 140, 255, 0.18) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(100, 180, 255, 0.12) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(100,180,255,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(100,180,255,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件（req#2）：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(100,180,255,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); } /* 当前封面缩略图保持可见并高亮（不隐藏，否则缩略图条永远少一张） */
+    /* 在卡片/时间线内嵌时的边距适配 */
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(100,180,255,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+    /* 已执行方案：红色圆形邮戳（含执行日期，req#7） */
+    .plan-btn[data-executed="true"] { padding-right: 4.8rem; }
+    .plan-btn .plan-stamp {
+      position: absolute; top: .5rem; right: .5rem;
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2.5px solid #e0322f;
+      background: rgba(224,50,47,.05);
+      color: #e0322f;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transform: rotate(-14deg); line-height: 1.15; pointer-events: none;
+    }
+    .plan-btn .plan-stamp::before {
+      content: ""; position: absolute; inset: 5px;
+      border: 1px solid rgba(224,50,47,.5); border-radius: 50%;
+    }
+    .plan-btn .plan-stamp .stamp-main { font-size: 13px; font-weight: 800; letter-spacing: 1px; position: relative; }
+    .plan-btn .plan-stamp .stamp-date {
+      font-size: 8.5px; font-weight: 700; letter-spacing: .3px; position: relative;
+      margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(224,50,47,.55);
+    }
+    .plan-btn[data-executed="true"].active { border-color: var(--accent); background: rgba(100,180,255,.14); }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+
+    /* 执行方案「回顾布局」：轻量、不重复放图（真实照片唯一归属 #log/#food） */
+    .plan-content.executed .media-block { display: none; }
+    .recap-hero { width: 100%; border-radius: 14px; overflow: hidden; margin: 0 0 1.1rem; border: 1px solid var(--accent-border); }
+    .recap-hero img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+    .btn-tolog { display: inline-flex; align-items: center; gap: .4rem; margin: .2rem 0 1.4rem; padding: .7rem 1.2rem; background: var(--accent-glow); border: 1px solid var(--accent); color: var(--accent); border-radius: 999px; font-weight: 700; font-size: .92rem; cursor: pointer; font-family: inherit; transition: all .25s ease; }
+    .btn-tolog:hover { background: rgba(100,180,255,.2); transform: translateY(-1px); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+
+    /* ===== TIMELINE（按时间点展开，req#3/#5）===== */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text-dim); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ====================================================================== */
+    /* === 游记核心模块 CSS（源自 site-template-travelogue-core.html · COPY BLOCK 1/3，请勿另写）=== */
+    /* —— 游记实录：按时间/站点拆章 —— */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text-dim); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+
+    /* —— 美食 & 随手发现 —— */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+    /* === END 游记核心模块 CSS ============================================== */
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食发现</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点 & 餐厅总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#log">游记实录</a>
+      <a href="#food">美食 & 随手发现</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#weather">天气影响评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">{{行程标签 · 如：8月1-2日 · 2天1夜家庭自驾}}</span>
+    <h1 class="hero-title">{{主标题}}<span>高亮词</span></h1>
+    <p class="hero-subtitle">{{副标题 · 一句话定位}}</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>{{亮点1}}</span><span>{{亮点2}}</span><span>{{亮点3}}</span><span>{{亮点4}}</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程速览（req#4）===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">{{一句话说明路线串联逻辑}}</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>路线总览</h4><p>{{出发地 → 各站 → 回程，含里程/时长}}</p></div>
+      <div class="info-card"><h4>核心看点</h4><p>{{必看清单}}</p></div>
+      <div class="info-card"><h4>天气提醒</h4><p>{{天气预警与应对，可链 #weather}}</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览（req#4）===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">{{按行程顺序排列说明}}</p>
+    <div class="spots-grid">
+      <!-- 每个 spot-card：用 .media-block 内嵌主图+缩略图（req#2） -->
+      <div class="spot-card" id="spot-demo">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <!-- 首图规则演示：画廊中命名 index.* 的图片会被自动选为主图；若漏命名 index.*，则回退到第一张（下方即 ph1）。
+               实际使用时把 index.svg 换成你自己的 index.*（或删掉这一行），其余图顺序即缩略图顺序。 -->
+          <div class="media-cover"><img src="assets/ph1.svg" alt="示例景点主图" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="assets/index.svg" alt="首图(index.*优先)" loading="lazy" decoding="async">
+            <img src="assets/ph1.svg" alt="示例主图" loading="lazy" decoding="async">
+            <img src="assets/ph2.svg" alt="示例图2" loading="lazy" decoding="async">
+            <img src="assets/ph3.svg" alt="示例图3" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>{{景点名}}</h4><span class="spot-card-dist">{{地址 · 距离}}</span></div>
+        <div class="spot-card-body"><p>{{简介}}</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">主目标</span><span class="spot-tag">标签</span></div>
+        <div class="spot-hours"><b>开放：</b>{{时间}}。<b>门票：</b>{{参考}}。</div>
+      </div>
+      <!-- 复制 spot-card 增加更多景点/餐厅 -->
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 行程方案（req#3/#5：古埃及多方案外壳 + 惠东按时间点内嵌图片）===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（{{天数}}）
+    </h2>
+    <p class="section-desc">{{方案总述：覆盖不同天气/兴趣，点选切换可分享}}</p>
+
+    <!-- 可选：共同首日（惠东模式，两方案一致的部分放在这里，避免重复） -->
+    <!--
+    <div class="info-card" id="day1">
+      <h4>📅 共同首日（{{日期}} · 两方案一致）</h4>
+      <div class="plan-summary"> ... plan-summary-table ... </div>
+      <div class="timeline"> ... 时间线节点（内嵌 media-cover+gallery）... </div>
+    </div>
+    -->
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · {{主题}}</span>
+        <span class="plan-desc">{{一句话差异}}</span>
+      </button>
+      <button class="plan-btn" data-executed="true" onclick="switchPlan('planB')">
+        <span class="plan-name">方案 B · {{主题}}</span>
+        <span class="plan-desc">{{一句话差异}}</span>
+        <span class="plan-stamp"><span class="stamp-main">已完成</span><span class="stamp-date">{{执行日期}}</span></span>
+      </button>
+    </div>
+
+    <!-- 方案 A -->
+    <div class="plan-content active" id="planA">
+      <!-- 可选整方案封面组图 -->
+      <div class="media-block">
+        <div class="media-cover"><img src="assets/ph3.svg" alt="方案A主图" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="assets/ph3.svg" alt="方案A主图" loading="lazy" decoding="async">
+          <img src="assets/ph4.svg" alt="方案A图2" loading="lazy" decoding="async">
+          <img src="assets/ph5.svg" alt="方案A图3" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <!-- 先列行程表 -->
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · {{日期}}</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:00</td><td>08:20</td><td>{{项目}}</td><td>0.3h</td></tr>
+              <tr><td>09:00</td><td>12:00</td><td>{{核心项目}}</td><td>3h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 再按时间点展开（req#3/#5），节点内嵌图片（req#2） -->
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · {{天气}}</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:00 — 08:45</div>
+          <div class="timeline-content">
+            <h4>{{节点标题}}</h4>
+            <p>{{节点描述}}</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag kid">亲子</span></div>
+            <div class="media-cover"><img src="assets/ph2.svg" alt="节点主图" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="assets/ph2.svg" alt="节点主图" loading="lazy" decoding="async">
+              <img src="assets/ph1.svg" alt="节点图2" loading="lazy" decoding="async">
+              <img src="assets/ph6.svg" alt="节点图3" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 — 12:00</div>
+          <div class="timeline-content">
+            <h4>{{核心节点}}</h4>
+            <p>{{描述，可链 #culture / #spots}}</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">必看</span><span class="timeline-tag">室内</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 方案 B（演示「执行方案·回顾布局」：data-executed 方案不放画廊，真实照片交 #log） -->
+    <div class="plan-content executed" id="planB">
+      <div class="recap-hero"><img src="assets/index.svg" alt="方案B主图" loading="lazy" decoding="async"></div>
+      <button class="btn-tolog" type="button" onclick="goToLog()">📖 看完整游记 ↓</button>
+      <div class="plan-summary">
+        <div class="day-label">DAY 2 · {{日期}}</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>09:00</td><td>11:30</td><td>{{项目}}</td><td>2.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · {{天气}}</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:00 — 11:30</div>
+          <div class="timeline-content">
+            <h4>{{节点标题}}</h4>
+            <p>{{描述}}</p>
+            <div class="timeline-tags"><span class="timeline-tag free">免费</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- === 游记核心模块 HTML（源自 site-template-travelogue-core.html · COPY BLOCK 2/3，粘贴于「行程方案」之后）=== -->
+
+  <!-- ===== 游记实录（核心：方案执行后按时间/站点记录真实行程；仅执行方案被选中时显示）===== -->
+  <section class="section" id="log" hidden>
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      游记实录
+    </h2>
+    <p class="section-desc">制定方案并执行后，在此按时间/站点记录真实行程；每章一段叙述 + 可选组图，主图命名 index.*。</p>
+
+    <!-- 复制 .log-chapter 增加更多章节；实际出行前此段可作示例保留或删除 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">{{DAY1 14:30}}</span>
+        <span class="chapter-title">{{章节标题 · 如：按计划抵达 & 第一站}}</span>
+      </div>
+      <p>{{实际发生了什么、按计划走了哪段、有没有偏离、孩子/家人的反应、随手拍。真实即可，无需规划腔。}}</p>
+      <p>{{想补充的细节：停车是否好停、哪条路阴凉、哪个角落出片、与原计划的差异。}}</p>
+      <div class="chapter-tags"><span class="chapter-tag view">景观</span><span class="chapter-tag kid">亲子</span><span class="chapter-tag free">免费</span></div>
+      <!-- 首图规则：画廊中命名 index.* 的图自动作为主图；漏命名则回退第一张。复用 .media-block 媒体组件。 -->
+      <div class="media-block">
+        <div class="media-cover"><img src="assets/ph1.svg" alt="本章主图" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="assets/index.svg" alt="首图(index.*优先)" loading="lazy" decoding="async">
+          <img src="assets/ph1.svg" alt="本章主图" loading="lazy" decoding="async">
+          <img src="assets/ph2.svg" alt="本章图2" loading="lazy" decoding="async">
+          <img src="assets/ph3.svg" alt="本章图3" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">{{DAY1 18:00}}</span>
+        <span class="chapter-title">{{章节标题 · 如：傍晚的意外收获}}</span>
+      </div>
+      <p>{{这一段记录：原计划外的小插曲、临时起意的去处、家人最难忘的瞬间。}}</p>
+      <div class="chapter-tags"><span class="chapter-tag eat">美食</span><span class="chapter-tag park">休闲</span></div>
+      <div class="media-block">
+        <div class="media-cover"><img src="assets/ph4.svg" alt="本章主图" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="assets/ph4.svg" alt="本章主图" loading="lazy" decoding="async">
+          <img src="assets/ph5.svg" alt="本章图2" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 美食 & 随手发现（可选；仅执行方案被选中时显示）===== -->
+  <section class="section" id="food" hidden>
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
+      美食 & 随手发现
+    </h2>
+    <p class="section-desc">吃了什么、哪家店、随手的小发现（小店/展览/路人有趣的事）。</p>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🍜 {{店名 / 小吃}}</h4>
+        <p>{{吃了什么、味道、值得再来吗。}}</p>
+        <div class="price">{{人均 ¥X · 推荐指数}}</div>
+      </div>
+      <div class="food-card">
+        <h4>☕ {{店名 / 饮品}}</h4>
+        <p>{{环境、是否适合带娃、出片与否。}}</p>
+        <div class="price">{{人均 ¥X}}</div>
+      </div>
+      <!-- 复制 .food-card 增加更多 -->
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+  <!-- === END 游记核心模块 HTML ============================================ -->
+
+  <!-- ===== 4. 人文背景 · 讲给孩子听（req#4）===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">{{带孩子看懂背景，旅行不只是看热闹}}</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-demo">
+        <div class="media-cover"><img src="assets/ph4.svg" alt="人文主图" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="assets/ph4.svg" alt="人文主图" loading="lazy" decoding="async">
+          <img src="assets/ph1.svg" alt="人文图2" loading="lazy" decoding="async">
+        </div>
+        <div class="culture-card-head"><div class="c-icon">🏛️</div><h4>{{主题}}</h4></div>
+        <p><b>背景：</b>{{...}}<b>讲给孩子听：</b>{{...}}</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 营业时间 & 行程复核（req#4）===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">{{时间来源说明，以官方公告为准}}</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>{{景点}}</td><td>{{时间}}</td><td>{{门票}}</td><td>{{备注}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 行程复核结论</div>
+      <ul><li>{{核对项：里程/时长/天气/限流/预约}}</li></ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6. 酒店推荐（req#4）===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      酒店推荐
+    </h2>
+    <p class="section-desc">{{酒店定位说明}}</p>
+    <div class="media-block">
+      <div class="media-cover"><img src="assets/ph6.svg" alt="酒店主图" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="assets/ph6.svg" alt="酒店主图" loading="lazy" decoding="async">
+        <img src="assets/ph3.svg" alt="酒店图2" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">为什么选 {{酒店名}}</div>
+      <ul><li>{{卖点}}</li></ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 天气影响评估（req#4）===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">{{按日/按时段评估，给出保底方案}}</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>{{日期}} 天气</h4><p>{{预报 + 对行程的影响 + 备选}}</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士（req#4）===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">{{行前/行中提醒}}</p>
+    <div class="tips-box">
+      <div class="tips-box-title">出行清单</div>
+      <ul><li>{{贴士项}}</li></ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · {{站点名}}</div>
+    <div class="footer-version">template/official · v1.0</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 执行方案 & 游记联动（req#7）：游记仅在「已执行」方案激活时显示 =====
+      function getExecutedPlanId() {
+        var b = document.querySelector('.plan-btn[data-executed="true"]');
+        if (!b) return null;
+        var m = b.getAttribute('onclick') ? b.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+        return m ? m[1] : null;
+      }
+      function updateTravelogueGate(planId) {
+        var executedId = getExecutedPlanId();
+        var show = (planId === executedId);
+        ['log', 'food'].forEach(function (id) {
+          var s = document.getElementById(id);
+          if (s) s.hidden = !show;
+        });
+        return show;
+      }
+      function syncTravelogueNav() {
+        var ex = getExecutedPlanId();
+        document.querySelectorAll('#navInner a[href="#log"], #navInner a[href="#food"], #navMobile a[href="#log"], #navMobile a[href="#food"]').forEach(function (a) {
+          a.style.display = ex ? '' : 'none';
+        });
+      }
+
+      // ===== 方案切换（源自古埃及展）=====
+      var PLAN_IDS = ['planA', 'planB'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        updateTravelogueGate(planId);
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+
+      // 执行方案「回顾布局」：跳到门控游记（确保执行方案已激活以显露 #log/#food）
+      window.goToLog = function () {
+        var ex = getExecutedPlanId();
+        if (ex) {
+          var el = document.getElementById(ex);
+          if (el && !el.classList.contains('active')) switchPlan(ex, true);
+        }
+        var log = document.getElementById('log');
+        if (log) log.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
+      }
+
+      // 初始化：同步执行方案相关的游记显示与导航（默认激活方案若无 data-executed，则隐藏游记）
+      syncTravelogueNav();
+      (function initGate() {
+        var active = document.querySelector('.plan-btn.active');
+        var initId = null;
+        if (active) {
+          var m = active.getAttribute('onclick') ? active.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          initId = m ? m[1] : null;
+        }
+        if (!initId && PLAN_IDS.length) initId = PLAN_IDS[0];
+        if (initId) updateTravelogueGate(initId);
+      })();
+
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+      // 约定：画廊(.media-gallery)内的图片即「该卡片对应的图片文件夹内容」。
+      //   - 若其中某张命名为 index.*，自动作为主图(.media-cover)。
+      //   - 若漏命名 index.*（常见），回退为画廊第一张作为主图。
+      //   - 点击缩略图切换主图；当前主图从缩略图条隐藏，避免与首图重复。
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) return;
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        // 解析首图：优先 index.*；缺失则取第一张（作者可调整顺序选择「合适」的图）
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov); // 当前主图缩略图高亮（保持可见，不隐藏）
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none'; // 仅剩首图一张时隐藏整条
+        }
+        applyCover(coverThumb);
+
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          // 游记/美食 跟在执行方案后：若当前隐藏，先激活执行方案以显示
+          if ((id === 'log' || id === 'food') && target.hidden) {
+            var ex = getExecutedPlanId();
+            if (ex) switchPlan(ex, true);
+          }
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出（IP 规范）=====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画（含游记核心模块：.log-chapter / .food-card）=====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card, .log-chapter, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>

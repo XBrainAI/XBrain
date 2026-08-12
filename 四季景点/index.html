@@ -29,6 +29,9 @@
       --xb-border: rgba(100, 180, 255, 0.2);
       --xb-text: #e8ecf4;
       --xb-text-dim: rgba(200, 210, 230, 0.6);
+      --xb-gold: #d4a853;
+      --xb-ok: #5fd39a;
+      --xb-warn: #ffb45f;
     }
 
     html {
@@ -84,62 +87,11 @@
       box-shadow: none;
     }
 
-    .xbrain-brand.scrolled:hover {
-      opacity: 0.7 !important;
-      border-color: rgba(100, 180, 255, 0.2);
-    }
-
     .xbrain-brand svg {
       width: 32px;
       height: 32px;
       flex-shrink: 0;
       filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
-    }
-
-    .xbrain-brand .xb-ring {
-      stroke-width: 4;
-      opacity: 0.95;
-    }
-
-    .xbrain-brand .xb-glow-bg {
-      opacity: 0.40;
-    }
-
-    .xbrain-brand .xb-center-ring {
-      stroke-width: 3;
-      opacity: 0.95;
-    }
-
-    .xbrain-brand .xb-x-line {
-      opacity: 0.9;
-      stroke-width: 2.5;
-    }
-
-    .xbrain-brand .xb-core {
-      r: 12;
-      opacity: 1;
-    }
-
-    .xbrain-brand .xb-ttai {
-      fill: #4a70c0;
-      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
-    }
-
-    .xbrain-brand .xb-ttai-line1,
-    .xbrain-brand .xb-ttai-line2 {
-      opacity: 1;
-    }
-
-    .xbrain-brand .xb-bar-group {
-      opacity: 0.75;
-    }
-
-    .xbrain-brand .xb-bar {
-      fill: #5a90e0;
-    }
-
-    .xbrain-brand .xb-bar-glow {
-      opacity: 0.9;
     }
 
     .xbrain-brand .xbrain-text {
@@ -160,13 +112,13 @@
     .hero {
       position: relative;
       z-index: 1;
-      min-height: 60vh;
+      min-height: 52vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 6rem 2rem 3rem;
+      padding: 6rem 2rem 1.5rem;
     }
 
     .hero-title {
@@ -174,7 +126,7 @@
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 900;
       letter-spacing: 4px;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
 
     .hero-title span {
@@ -187,29 +139,197 @@
       font-weight: 300;
       color: var(--xb-text-dim);
       letter-spacing: 4px;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
 
     .hero-line {
       width: 60px;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--xb-accent), transparent);
-      margin: 0 auto;
+      margin: 0 auto 1.4rem;
     }
 
-    /* ===== SITES GRID ===== */
+    /* ===== STATS ===== */
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat {
+      min-width: 92px;
+      padding: 0.7rem 1.1rem;
+      border: 1px solid var(--xb-border);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.5), rgba(30, 20, 60, 0.4));
+      backdrop-filter: blur(8px);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--xb-accent);
+      line-height: 1.1;
+    }
+
+    .stat span {
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      color: var(--xb-text-dim);
+    }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+      position: relative;
+      z-index: 1;
+      max-width: 1240px;
+      margin: 1.5rem auto 0;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.55), rgba(30, 20, 60, 0.45));
+      border: 1px solid var(--xb-border);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .toolbar-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .search-box {
+      flex: 1 1 240px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      background: rgba(10, 10, 26, 0.6);
+      border: 1px solid var(--xb-border);
+      border-radius: 10px;
+    }
+
+    .search-box svg {
+      width: 16px;
+      height: 16px;
+      color: var(--xb-text-dim);
+      flex-shrink: 0;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--xb-text);
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .search-box input::placeholder {
+      color: var(--xb-text-dim);
+    }
+
+    .view-toggle {
+      display: inline-flex;
+      border: 1px solid var(--xb-border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .view-toggle button {
+      background: transparent;
+      border: none;
+      color: var(--xb-text-dim);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .view-toggle button.active {
+      background: var(--xb-accent);
+      color: var(--xb-deep);
+      font-weight: 700;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-label {
+      font-size: 0.74rem;
+      letter-spacing: 1px;
+      color: var(--xb-text-dim);
+      margin-right: 0.1rem;
+    }
+
+    .chip {
+      padding: 0.36rem 0.85rem;
+      border: 1px solid var(--xb-border);
+      border-radius: 999px;
+      background: rgba(10, 10, 26, 0.4);
+      color: var(--xb-text-dim);
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .chip:hover {
+      color: var(--xb-text);
+      border-color: rgba(100, 180, 255, 0.45);
+    }
+
+    .chip.active {
+      background: rgba(100, 180, 255, 0.16);
+      border-color: var(--xb-accent);
+      color: var(--xb-accent);
+      font-weight: 600;
+    }
+
+    .chip .cnt {
+      opacity: 0.6;
+      font-size: 0.7rem;
+      margin-left: 0.25rem;
+    }
+
+    /* ===== SITES GRID (cards) ===== */
     .sites-section {
       position: relative;
       z-index: 1;
-      padding: 2rem 2rem 4rem;
-      max-width: 1200px;
+      padding: 1.6rem 2rem 2rem;
+      max-width: 1240px;
       margin: 0 auto;
     }
 
+    .empty-tip {
+      text-align: center;
+      color: var(--xb-text-dim);
+      padding: 3rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* 卡片视图 = 垂直时间线信息流（朋友圈风格）：单列窄信息流，左侧竖线串联 */
     .sites-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
+      display: block;
+      max-width: 720px;
+      margin: 0 auto;
     }
 
     .site-card {
@@ -222,20 +342,10 @@
       background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
       border: 1px solid var(--xb-border);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-
-    .site-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
     }
 
     .site-card:hover {
-      transform: translateY(-8px);
       border-color: rgba(100, 180, 255, 0.5);
       box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.5),
@@ -244,7 +354,7 @@
 
     .site-card-image {
       width: 100%;
-      height: 220px;
+      height: 190px;
       background-size: cover;
       background-position: center;
       position: relative;
@@ -254,63 +364,103 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.9) 100%);
+      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.92) 100%);
     }
 
-    .site-card-image.fallback {
-      background: linear-gradient(135deg, #1a1030 0%, #2d1b4e 50%, #1a3a5c 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .site-card-image.empty {
+      background: transparent;
     }
 
-    .site-card-image.fallback::after {
-      background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 26, 0.7) 100%);
+    .badge {
+      position: absolute;
+      top: 0.9rem;
+      left: 0.9rem;
+      z-index: 3;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      font-weight: 700;
+      backdrop-filter: blur(4px);
     }
 
-    .site-card-image.fallback svg {
-      width: 80px;
-      height: 80px;
-      opacity: 0.3;
-      filter: drop-shadow(0 0 20px rgba(100, 180, 255, 0.3));
+    .badge.status-pub {
+      background: rgba(95, 211, 154, 0.18);
+      border: 1px solid var(--xb-ok);
+      color: var(--xb-ok);
+    }
+
+    .badge.status-draft {
+      background: rgba(255, 180, 95, 0.18);
+      border: 1px solid var(--xb-warn);
+      color: var(--xb-warn);
     }
 
     .site-card-content {
-      padding: 1.5rem;
+      padding: 1.2rem 1.3rem 1.4rem;
       position: relative;
     }
 
-    .site-card-tag {
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .tag {
       display: inline-block;
-      padding: 0.2rem 0.8rem;
+      padding: 0.16rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      letter-spacing: 0.5px;
+    }
+
+    .tag.region {
       border: 1px solid var(--xb-accent);
       color: var(--xb-accent);
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      border-radius: 4px;
-      margin-bottom: 0.8rem;
+    }
+
+    .tag.theme {
+      border: 1px solid rgba(212, 168, 83, 0.6);
+      color: var(--xb-gold);
+    }
+
+    .tag.type {
+      border: 1px solid rgba(200, 210, 230, 0.4);
+      color: var(--xb-text-dim);
     }
 
     .site-card h3 {
       font-family: 'Noto Serif SC', serif;
-      font-size: 1.3rem;
+      font-size: 1.22rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.45rem;
       color: var(--xb-text);
     }
 
     .site-card p {
-      font-size: 0.9rem;
+      font-size: 0.84rem;
       color: var(--xb-text-dim);
       line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-meta {
+      margin-top: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--xb-text-dim);
     }
 
     .site-card-arrow {
-      position: absolute;
-      right: 1.5rem;
-      bottom: 1.5rem;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 1px solid var(--xb-border);
       display: flex;
@@ -324,35 +474,221 @@
       background: var(--xb-accent);
       color: var(--xb-deep);
       border-color: var(--xb-accent);
-      box-shadow: 0 0 16px rgba(100, 180, 255, 0.4);
     }
 
-    /* ===== FOOTER ===== */
-    footer {
+    /* draft card CTA */
+    .draft-card {
+      cursor: default;
+    }
+
+    .draft-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.9rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      background: rgba(255, 180, 95, 0.14);
+      border: 1px solid var(--xb-warn);
+      color: var(--xb-warn);
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .draft-cta:hover {
+      background: var(--xb-warn);
+      color: var(--xb-deep);
+      font-weight: 600;
+    }
+
+    /* ===== MANAGE TABLE ===== */
+    .manage-section {
       position: relative;
       z-index: 1;
-      text-align: center;
-      padding: 3rem 2rem;
+      padding: 1.6rem 2rem 2rem;
+      max-width: 1240px;
+      margin: 0 auto;
+      display: none;
+    }
+
+    .manage-section.show {
+      display: block;
+    }
+
+    .manage-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--xb-border);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(20, 20, 50, 0.5), rgba(30, 20, 60, 0.4));
+    }
+
+    table.manage {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 780px;
+    }
+
+    table.manage th,
+    table.manage td {
+      padding: 0.7rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(100, 180, 255, 0.1);
+      white-space: nowrap;
+    }
+
+    table.manage th {
       color: var(--xb-text-dim);
-      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+      background: rgba(15, 12, 38, 0.96);
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    table.manage th:hover {
+      color: var(--xb-accent);
+    }
+
+    table.manage td.name {
+      font-weight: 600;
+      color: var(--xb-text);
+    }
+
+    table.manage tr:hover td {
+      background: rgba(100, 180, 255, 0.05);
+    }
+
+    .mini-badge {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+
+    .mini-badge.pub {
+      background: rgba(95, 211, 154, 0.16);
+      color: var(--xb-ok);
+    }
+
+    .mini-badge.draft {
+      background: rgba(255, 180, 95, 0.16);
+      color: var(--xb-warn);
+    }
+
+    .row-link {
+      color: var(--xb-accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+
+    .row-link:hover {
+      text-decoration: underline;
+    }
+
+    .row-link.disabled {
+      color: var(--xb-text-dim);
+      pointer-events: none;
+    }
+
+    /* ===== DRAFT / TEMPLATE PANELS ===== */
+    .panel-section {
+      position: relative;
+      z-index: 1;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 1rem 2rem 0;
+    }
+
+    .panel {
+      border: 1px dashed rgba(255, 180, 95, 0.4);
+      border-radius: 14px;
+      padding: 1.1rem 1.3rem;
+      background: rgba(255, 180, 95, 0.04);
+      margin-bottom: 1.2rem;
+    }
+
+    .panel.tpl {
+      border-color: rgba(100, 180, 255, 0.4);
+      background: rgba(100, 180, 255, 0.04);
+    }
+
+    .panel h4 {
+      font-size: 0.95rem;
       letter-spacing: 1px;
+      margin-bottom: 0.6rem;
+      color: var(--xb-text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    footer .footer-line {
-      width: 30px;
-      height: 1px;
-      background: var(--xb-border);
-      margin: 0 auto 1rem;
+    .panel h4 .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--xb-warn);
     }
 
-    /* ===== BACK BUTTON ===== */
+    .panel.tpl h4 .dot {
+      background: var(--xb-accent);
+    }
+
+    .panel p {
+      font-size: 0.82rem;
+      color: var(--xb-text-dim);
+      line-height: 1.6;
+      margin-bottom: 0.7rem;
+    }
+
+    .panel-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .panel-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.95rem;
+      border-radius: 8px;
+      border: 1px solid var(--xb-border);
+      color: var(--xb-accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .panel-links a:hover {
+      background: rgba(100, 180, 255, 0.12);
+      border-color: var(--xb-accent);
+    }
+
+    .draft-inline {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.2rem;
+      font-size: 0.8rem;
+      color: var(--xb-text-dim);
+    }
+
+    .draft-inline b {
+      color: var(--xb-warn);
+    }
+
+    /* ===== BACK / FOOTER ===== */
     .back-link {
       position: relative;
       z-index: 1;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      margin: 2rem auto 0;
+      margin: 1.5rem auto 0;
       padding: 0.6rem 1.2rem;
       color: var(--xb-accent);
       text-decoration: none;
@@ -367,27 +703,183 @@
       border-color: var(--xb-accent);
     }
 
-    .back-link svg {
-      width: 16px;
-      height: 16px;
+    .center {
+      text-align: center;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    footer .footer-line {
+      width: 30px;
+      height: 1px;
+      background: var(--xb-border);
+      margin: 0 auto 1rem;
+    }
+
+    footer .footer-version {
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.25);
+      font-family: monospace;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== 卡片节点（垂直时间线 + 朋友圈式节点卡片） ===== */
+    .site-card-wrap {
+      position: relative;
+      padding-left: 34px;
+      padding-top: 34px;
+      margin-bottom: 1.8rem;
+      border-left: 2px solid var(--xb-border);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .site-card-wrap:last-child {
+      border-left-color: transparent;
+      margin-bottom: 0.4rem;
+    }
+
+    .site-card-wrap.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* 节点圆点（骑在竖线上，与顶部时间标签对齐） */
+    .tl-dot {
+      position: absolute;
+      left: -7px;
+      top: 5px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--xb-accent);
+      border: 2px solid var(--xb-deep);
+      box-shadow: 0 0 10px var(--xb-glow);
+      z-index: 2;
+    }
+
+    /* 未实现节点圆点（琥珀色，区别于已实现） */
+    .tl-dot.tl-dot-draft {
+      background: var(--xb-warn);
+      box-shadow: 0 0 10px rgba(255, 180, 95, 0.6);
+    }
+
+    /* 节点旁的具体时间标签（顶部时间头部，紧贴圆点右侧，卡片在其下方） */
+    .tl-time {
+      position: absolute;
+      left: 17px;
+      top: 1px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: var(--xb-accent);
+      background: rgba(10, 10, 26, 0.55);
+      border: 1px solid var(--xb-border);
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .tl-time.tl-time-missing,
+    .tl-time.tl-time-draft {
+      color: var(--xb-warn);
+      background: rgba(255, 180, 95, 0.1);
+      border-color: rgba(255, 180, 95, 0.5);
+    }
+
+    /* 卡片顶部日期徽标（朋友圈式时间标记） */
+    .tl-date-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--xb-accent);
+      background: rgba(100, 180, 255, 0.1);
+      border: 1px solid var(--xb-border);
+      padding: 0.18rem 0.65rem;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.35rem;
+    }
+
+    /* 出行日期缺失（待补）徽标 */
+    .tl-date-badge.tl-date-missing {
+      color: var(--xb-warn);
+      background: rgba(255, 180, 95, 0.12);
+      border-color: rgba(255, 180, 95, 0.5);
+    }
+
+    /* 次级：整理日期（副标） */
+    .tl-sub {
+      font-size: 0.68rem;
+      color: var(--xb-text-dim);
+      letter-spacing: 0.4px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* 时间轴为空（仅筛选到草稿时）提示 */
+    .timeline-empty {
+      text-align: center;
+      color: var(--xb-text-dim);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      padding: 2rem 1.2rem;
+      border: 1px dashed var(--xb-border);
+      border-radius: 12px;
+    }
+
+    .muted {
+      color: var(--xb-text-dim);
+      font-size: 0.72rem;
+      font-weight: 400;
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 640px) {
-      .sites-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
       .hero-title {
         letter-spacing: 2px;
       }
 
-      .sites-section {
-        padding: 2rem 1rem 3rem;
+      .sites-section,
+      .manage-section,
+      .panel-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .toolbar {
+        padding: 0.9rem 1rem;
+      }
+
+      .site-card-wrap {
+        padding-left: 26px;
+        padding-top: 28px;
+      }
+
+      .tl-dot {
+        left: -6px;
+        top: 4px;
+        width: 11px;
+        height: 11px;
+      }
+
+      .tl-time {
+        left: 13px;
+        top: 0;
+        font-size: 0.62rem;
+        padding: 0.08rem 0.42rem;
       }
     }
-    footer .footer-version { margin-top:0.5rem; font-size:0.7rem; color:rgba(255,255,255,0.25); font-family:monospace; letter-spacing:0.5px; }
   </style>
 </head>
 
@@ -451,167 +943,415 @@
     <h1 class="hero-title">四季<span>景点</span></h1>
     <p class="hero-subtitle">岭南秘境 · 四季可探</p>
     <div class="hero-line"></div>
+    <div class="stats" id="stats"></div>
   </section>
 
-  <!-- ===== SITES ===== -->
-  <section class="sites-section">
-    <div class="sites-grid">
-
-      <a class="site-card" href="./从化吕田狮象岩/index.html">
-        <div class="site-card-image" style="background-image: url('./从化吕田狮象岩/PTitle.jpg')"></div>
-        <div class="site-card-content">
-          <span class="site-card-tag">从化</span>
-          <h3>吕田狮象岩</h3>
-          <p>探访哈迪斯领地，深入喀斯特溶洞，寻访古文明遗迹与隐秘的地下河流。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <a class="site-card" href="./深圳/index.html">
-        <div class="site-card-image" style="background-image: url('./深圳/小梅沙海洋世界/index.png')"></div>
-        <div class="site-card-content">
-          <span class="site-card-tag">深圳</span>
-          <h3>深圳家庭周末游</h3>
-          <p>2天1夜深圳亲子攻略，大小梅沙、海洋世界、背仔角灯塔、大鹏半岛（人鱼洞+所城），含三方案行程与费用预算。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <a class="site-card" href="./花都周末家庭游/index.html">
-        <div class="site-card-image" style="background-image: url('./花都周末家庭游/index.png')"></div>
-        <div class="site-card-content">
-          <span class="site-card-tag">花都</span>
-          <h3>花都周末家庭游</h3>
-          <p>2天1夜花都亲子攻略，以融创文旅城（雪世界/水世界/体育世界/乐园）为核心，顺道石头记、圆玄、洪秀全故居、��草世界、七溪地，含四方案行程与费用预算。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <a class="site-card" href="./河源周末家庭游/index.html">
-        <div class="site-card-image" style="background-image: url('./河源周末家庭游/河源恐龙博物馆/image.png')"></div>
-        <div class="site-card-content">
-          <span class="site-card-tag">河源</span>
-          <h3>河源周末家庭游</h3>
-          <p>1天往返中华恐龙之乡，探秘世界恐龙蛋化石之都，登900年南宋龟峰塔，尝客家美食，含三方案行程与费用预算。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <a class="site-card" href="./古埃及展南沙周末家庭游/index.html">
-        <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#d4a853" stroke-width="1.5" opacity="0.35" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#d4a853" stroke-width="1.5" opacity="0.35" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#d4a853" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#d4a853" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#d4a853" opacity="0.35" />
-            </g>
-          </svg>
-        </div>
-        <div class="site-card-content">
-          <span class="site-card-tag">越秀·南沙</span>
-          <h3>古埃及展+南沙度假</h3>
-          <p>2天1夜广州双厅，上午看古埃及文物展（180件亚洲首展）中午盘福路老字号粤菜，下午南下南沙花园酒店享无边泳池+智趣营，次日回程顺游番禺园林古镇，含三方案雨天备选。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <a class="site-card" href="./香港周末家庭游/index.html">
-        <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
-          </svg>
-        </div>
-        <div class="site-card-content">
-          <span class="site-card-tag">香港</span>
-          <h3>迪士尼周末家庭游</h3>
-          <p>2天1夜香港迪士尼亲子攻略，地铁+高铁直达，含交通、酒店对比、门票、地道茶餐厅推荐与台风应对预案。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-      <a class="site-card" href="./惠东周末家庭游/index.html">
-        <div class="site-card-image" style="background-image: url('./惠东周末家庭游/海龟湾/科普馆/index.png')"></div>
-        <div class="site-card-content">
-          <span class="site-card-tag">惠东</span>
-          <h3>惠东海龟湾家庭游</h3>
-          <p>2天1夜惠东亲子攻略，以广东惠东海龟国家级自然保护区（海龟湾）为核心，畅游双月湾、平海古城、盐洲岛红树林，可选小星山浮潜与黑排角赶海，含自然探索线/文化休闲线双方案与台风季天气预案。</p>
-          <div class="site-card-arrow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </div>
-        </div>
-      </a>
-
-    </div>
-
-    <div style="text-align:center;">
-      <a class="back-link" href="../index.html">
+  <!-- ===== TOOLBAR ===== -->
+  <div class="toolbar">
+    <div class="toolbar-row">
+      <div class="search-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        返回首页
-      </a>
+        <input type="text" id="search" placeholder="搜索名称 / 地区 / 主题 / 关键词…" autocomplete="off">
+      </div>
+      <!-- timeline 排序轴由「状态」决定：已实现→出行时间，未实现→更新时间（见 getFiltered） -->
+      <div class="view-toggle" id="viewToggle">
+        <button data-view="cards" class="active">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+          </svg>卡片
+        </button>
+        <button data-view="manage">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>管理
+        </button>
+      </div>
+    </div>
+    <div class="toolbar-row">
+      <div class="filter-group" id="statusFilters">
+        <span class="filter-label">状态</span>
+      </div>
+    </div>
+    <div class="toolbar-row">
+      <div class="filter-group" id="regionFilters">
+        <span class="filter-label">地区</span>
+      </div>
+    </div>
+    <div class="toolbar-row">
+      <div class="filter-group" id="themeFilters">
+        <span class="filter-label">主题</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SITES GRID (browse) + 内嵌时间轴 ===== -->
+  <section class="sites-section">
+    <div class="sites-grid" id="grid"></div>
+    <div class="empty-tip" id="emptyTip" style="display:none;">没有匹配的子站，换个筛选条件试试。</div>
+  </section>
+
+  <!-- ===== MANAGE TABLE ===== -->
+  <section class="manage-section" id="manageSection">
+    <div class="manage-wrap">
+      <table class="manage" id="manageTable">
+        <thead>
+          <tr>
+            <th>名称</th>
+            <th data-sort="region">地区</th>
+            <th data-sort="theme">主题</th>
+            <th data-sort="type">类型</th>
+            <th data-sort="status">状态</th>
+            <th>出行 / 整理</th>
+            <th>入口</th>
+          </tr>
+        </thead>
+        <tbody id="manageBody"></tbody>
+      </table>
     </div>
   </section>
+
+  <!-- ===== DRAFT + TEMPLATE PANELS ===== -->
+  <div class="panel-section">
+    <div class="panel" id="draftPanel">
+      <h4><span class="dot"></span>未实现 / 待建子站</h4>
+      <p>以下子站已有实拍素材但尚未生成页面，建议用「纯游记模板」补建记录：</p>
+      <div class="draft-inline" id="draftInline"></div>
+    </div>
+
+    <div class="panel tpl">
+      <h4><span class="dot"></span>新建子站 · 模板入口</h4>
+      <p>复制对应模板到 <code>四季景点/&lt;新子站&gt;/index.html</code>，替换图片与 <code>{{...}}</code> 文案即可。模板详见 <code>四季景点/src/README.md</code>。</p>
+      <div class="panel-links">
+        <a href="./src/site-template.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>攻略 / 规划型模板
+        </a>
+        <a href="./src/site-template-travelogue.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>纯游记 / 记录型模板
+        </a>
+        <a href="./src/README.md">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>模板使用说明
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="center">
+    <a class="back-link" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      返回首页
+    </a>
+  </div>
 
   <!-- ===== FOOTER ===== -->
   <footer>
     <div class="footer-line"></div>
     <p>XBrain &copy; 2026</p>
     <p>探索未知，连接世界</p>
-    <p class="footer-version">v20260730-080021</p>
+    <p class="footer-version">v20260811-四季景点主站重设计</p>
   </footer>
 
   <!-- ===== Scripts ===== -->
   <script>
     (function () {
-      // ===== Logo Scroll Fade =====
+      // ===== 子站数据源（新增子站只需在此追加一条对象；封面缺失会自动回退渐变） =====
+      var SITES = [
+        { name: '从化吕田狮象岩', title: '吕田狮象岩', region: '广州', regionTag: '从化', theme: '自然洞穴', type: '攻略', status: 'published', updated: '2026-07-26', date: '', cover: '从化吕田狮象岩/index.html.jpg', desc: '探访哈迪斯领地，深入喀斯特溶洞，寻访古文明遗迹与隐秘的地下河流。' },
+        { name: '深圳周末家庭游', title: '深圳周末家庭游', region: '深圳', regionTag: '深圳', theme: '海洋海岛', type: '攻略', hasLog: true, status: 'published', updated: '2026-08-11', date: '2026-07-11', cover: '深圳周末家庭游/index.html.png', desc: '2026-07-11~07-12 广州4口之家深圳2天1夜：原定4套候选方案（A全能亲子 / B1海滨自驾 / B2海滨高铁 / C大鹏半岛），实际执行方案D·美高梅慢游——妈途中发烧，入住美高梅酒店，以酒店+小梅沙海洋世界为核心慢游。点开方案D查看真实游记与美食记录。' },
+        { name: '花都周末家庭游', title: '花都周末家庭游', region: '广州', regionTag: '花都', theme: '主题乐园', type: '攻略', status: 'published', updated: '2026-07-26', date: '', cover: '花都周末家庭游/index.html.jpeg', desc: '2天1夜花都亲子攻略，以融创文旅城（雪世界/水世界/体育世界/乐园）为核心，顺道石头记、圆玄、洪秀全故居、七溪地，含四方案行程与费用预算。' },
+        { name: '花都周末家庭游-new', title: '花都周末家庭游(新编)', region: '广州', regionTag: '花都', theme: '主题乐园', type: '游记', hasLog: true, status: 'published', updated: '2026-08-12', date: '2026-07-25', cover: '花都周末家庭游-new/index.html.jpeg', desc: '按 src 游记模板重编的花都亲子站：以游记实录（7/25 当天往返避台风·方案E1已执行）为骨架，保留旧站全部专属内容——五套方案（A–E+E1）、9 景点、5 人文、4 酒店、预算对比、疑问解答与台风评估。' },
+        { name: '河源周末家庭游', title: '河源周末家庭游', region: '河源', regionTag: '河源', theme: '文博展陈', type: '攻略', status: 'published', updated: '2026-07-30', date: '', cover: '河源周末家庭游/index.html.png', desc: '1天往返中华恐龙之乡，探秘世界恐龙蛋化石之都，登900年南宋龟峰塔，尝客家美食，含三方案行程与费用预算。' },
+        { name: '古埃及展南沙周末家庭游', title: '古埃及展+南沙度假', region: '广州', regionTag: '南沙', theme: '文博展陈', type: '游记', status: 'published', hasLog: true, updated: '2026-08-05', date: '2026-08-01', cover: '古埃及展南沙周末家庭游/index.html.jpg', desc: '2天1夜广州双厅，上午看古埃及文物展（180件亚洲首展）中午盘福路老字号粤菜，下午南下南沙花园酒店享无边泳池+智趣营，次日回程顺游番禺园林古镇，含三方案雨天备选。' },
+        { name: '香港周末家庭游', title: '迪士尼周末家庭游', region: '香港', regionTag: '香港', theme: '主题乐园', type: '攻略', status: 'published', updated: '2026-07-29', date: '', cover: '香港周末家庭游/index.html.jpg', desc: '2天1夜香港迪士尼亲子攻略，地铁+高铁直达，含交通、酒店对比、门票、地道茶餐厅推荐与台风应对预案。' },
+        { name: '惠东周末家庭游', title: '惠东海龟湾家庭游', region: '惠东', regionTag: '惠东', theme: '海洋海岛', type: '攻略', status: 'published', updated: '2026-08-06', date: '', cover: '惠东周末家庭游/index.html.png', desc: '2天1夜惠东亲子攻略，以广东惠东海龟国家级自然保护区（海龟湾）为核心，畅游双月湾、平海古城、盐洲岛红树林，可选小星山浮潜与黑排角赶海，含自然探索线/文化休闲线双方案与台风季天气预案。' },
+        { name: '白云乐8小城周末家庭游', title: '白云乐8小城', region: '广州', regionTag: '白云', theme: '亲子研学', type: '游记', status: 'published', updated: '2026-08-11', date: '2026-08-09', cover: './白云乐8小城周末家庭游/index.html.JPG', desc: '藏在荒废商场嘉大广场的职业体验馆，弟弟带着三年前学校发的"钱"再来；下午顺路邂逅云门NEWPARK与广州设计之都。', hasLog: true },
+        { name: '老表大岗周末家庭游', title: '老表大岗家庭游', region: '广州', regionTag: '南沙', theme: '家族探亲', type: '游记', status: 'published', updated: '2026-08-11', date: '2026-08-08', cover: '老表大岗周末家庭游/index.html.jpg', desc: '2026-08-08 回大岗探亲：清晨二沙岛换滤芯、加油站加燃油添加剂，午后与顺德老表团聚吃家常饭，傍晚潭州金悦海鲜酒楼意外好吃，归途过北流小吃街，妈一句「下次是不是高考后」勾勒相聚可贵。', hasLog: true }
+      ];
+
+      var els = {
+        grid: document.getElementById('grid'),
+        manageBody: document.getElementById('manageBody'),
+        emptyTip: document.getElementById('emptyTip'),
+        search: document.getElementById('search'),
+        stats: document.getElementById('stats'),
+        draftInline: document.getElementById('draftInline'),
+        manageSection: document.getElementById('manageSection')
+      };
+
+      // 当前视图：cards（卡片垂直时间线信息流）/ manage
+      var currentView = 'cards';
+
+      // ===== 统计 =====
+      function renderStats() {
+        var total = SITES.length;
+        var done = SITES.filter(function (s) { return !!s.hasLog; }).length;
+        var draft = total - done;
+        var regions = {};
+        SITES.forEach(function (s) { regions[s.region] = 1; });
+        var regionCnt = Object.keys(regions).length;
+        var themes = {};
+        SITES.forEach(function (s) { themes[s.theme] = 1; });
+        var themeCnt = Object.keys(themes).length;
+        var data = [
+          { n: total, l: '子站总数' },
+          { n: done, l: '已实现' },
+          { n: draft, l: '未实现' },
+          { n: regionCnt, l: '覆盖城市' },
+          { n: themeCnt, l: '主题类型' }
+        ];
+        els.stats.innerHTML = data.map(function (d) {
+          return '<div class="stat"><b>' + d.n + '</b><span>' + d.l + '</span></div>';
+        }).join('');
+      }
+
+      // ===== 筛选器（状态强制二选一：已实现/未实现；地区/主题 含「全部」） =====
+      var filters = { status: 'published', region: 'all', theme: 'all' };
+
+      function uniq(key) {
+        var m = {};
+        SITES.forEach(function (s) { m[s[key]] = (m[s[key]] || 0) + 1; });
+        return Object.keys(m).sort();
+      }
+
+      function buildChips(containerId, key, labels) {
+        var box = document.getElementById(containerId);
+        // 保留 label，清空其余
+        var label = box.querySelector('.filter-label');
+        box.innerHTML = '';
+        box.appendChild(label);
+        var all = document.createElement('span');
+        all.className = 'chip' + (filters[key] === 'all' ? ' active' : '');
+        all.textContent = '全部';
+        all.onclick = function () { filters[key] = 'all'; syncChips(); render(); };
+        box.appendChild(all);
+        labels.forEach(function (v) {
+          var c = document.createElement('span');
+          c.className = 'chip' + (filters[key] === v ? ' active' : '');
+          var cnt = SITES.filter(function (s) { return s[key] === v; }).length;
+          c.innerHTML = v + '<span class="cnt">' + cnt + '</span>';
+          c.onclick = function () { filters[key] = v; syncChips(); render(); };
+          box.appendChild(c);
+        });
+      }
+
+      function syncChips() {
+        // 状态：强制二选一（已实现 / 未实现），无「全部」，默认 已实现
+        var statusBox = document.getElementById('statusFilters');
+        var slabel = statusBox.querySelector('.filter-label');
+        statusBox.innerHTML = '';
+        statusBox.appendChild(slabel);
+        [['已实现', 'published'], ['未实现', 'draft']].forEach(function (pair) {
+          var c = document.createElement('span');
+          c.className = 'chip' + (filters.status === pair[1] ? ' active' : '');
+          var cnt = pair[1] === 'published'
+            ? SITES.filter(function (s) { return !!s.hasLog; }).length
+            : SITES.filter(function (s) { return !s.hasLog; }).length;
+          c.innerHTML = pair[0] + '<span class="cnt">' + cnt + '</span>';
+          c.onclick = function () { filters.status = pair[1]; syncChips(); render(); };
+          statusBox.appendChild(c);
+        });
+
+        [['regionFilters', 'region', uniq('region')],
+         ['themeFilters', 'theme', uniq('theme')]].forEach(function (cfg) {
+          var box = document.getElementById(cfg[0]);
+          var label = box.querySelector('.filter-label');
+          box.innerHTML = '';
+          box.appendChild(label);
+          var all = document.createElement('span');
+          all.className = 'chip' + (filters[cfg[1]] === 'all' ? ' active' : '');
+          all.textContent = '全部';
+          all.onclick = function () { filters[cfg[1]] = 'all'; syncChips(); render(); };
+          box.appendChild(all);
+          cfg[2].forEach(function (v) {
+            var c = document.createElement('span');
+            c.className = 'chip' + (filters[cfg[1]] === v ? ' active' : '');
+            var cnt = SITES.filter(function (s) { return s[cfg[1]] === v; }).length;
+            c.innerHTML = v + '<span class="cnt">' + cnt + '</span>';
+            c.onclick = function () { filters[cfg[1]] = v; syncChips(); render(); };
+            box.appendChild(c);
+          });
+        });
+      }
+
+      // ===== 计算当前结果集 =====
+      function getFiltered() {
+        var q = els.search.value.trim().toLowerCase();
+        var list = SITES.filter(function (s) {
+          // 状态筛选：已实现 = 有执行后游记(hasLog)，未实现 = 无游记(!hasLog)
+          if (filters.status === 'published' && !s.hasLog) return false;
+          if (filters.status === 'draft' && s.hasLog) return false;
+          if (filters.region !== 'all' && s.region !== filters.region) return false;
+          if (filters.theme !== 'all' && s.theme !== filters.theme) return false;
+          if (q) {
+            var hay = (s.name + ' ' + s.title + ' ' + s.region + ' ' + s.regionTag + ' ' + s.theme + ' ' + s.desc).toLowerCase();
+            if (hay.indexOf(q) === -1) return false;
+          }
+          return true;
+        });
+        // timeline 排序轴由「状态」决定：
+        // 已实现 → 按出行时间（date）倒序（由近及远，最新在最上层），同日/均缺失按更新时间倒序兜底；缺失出行日（待补）沉到末尾
+        // 未实现 → 按更新时间（updated）倒序（新→旧）
+        if (filters.status === 'draft') {
+          list.sort(function (a, b) {
+            var c = a.updated < b.updated ? -1 : a.updated > b.updated ? 1 : 0;
+            if (c !== 0) return -c; // 倒序：新→旧
+            return a.name.localeCompare(b.name, 'zh');
+          });
+        } else {
+          list.sort(function (a, b) {
+            var da = a.date || '', db = b.date || '';
+            var c = da > db ? -1 : da < db ? 1 : 0;
+            if (c === 0) c = a.updated > b.updated ? -1 : a.updated < b.updated ? 1 : 0;
+            if (c !== 0) return c; // 出行时间倒序（晚→早），最新在最上层
+            return a.name.localeCompare(b.name, 'zh');
+          });
+          // 出行日期缺失（待补）的条目统一沉到时间轴末尾，不挤占真实出行轨迹的位置
+          var missing = list.filter(function (s) { return !s.date; });
+          var dated = list.filter(function (s) { return !!s.date; });
+          list.length = 0;
+          Array.prototype.push.apply(list, dated.concat(missing));
+        }
+        return list;
+      }
+
+      var arrowSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+
+      // 首图规则：采用子站目录下的 index.html.<图片扩展名> 文件；无则留空（不显示占位图）
+      function coverHtml(s) {
+        if (s.cover) {
+          return '<div class="site-card-image" style="background-image:url(\'./' + s.cover + '\')"></div>';
+        }
+        return '<div class="site-card-image empty"></div>';
+      }
+
+      // 时间轴卡片内容（已实现 / 未实现 通用；出行日期缺失时标注「待补」）
+      function cardInner(s) {
+        var isDraft = s.status === 'draft';
+        var isDone = !!s.hasLog;
+        var badge = isDone
+          ? '<span class="badge status-pub">已实现</span>'
+          : '<span class="badge status-draft">未实现</span>';
+        var dateBadge = s.date
+          ? '<div class="tl-date-badge">出行于 ' + s.date + '</div>'
+          : '<div class="tl-date-badge tl-date-missing">出行日期待补</div>';
+        var sub = '<div class="tl-sub">整理于 ' + (s.updated || '') + '</div>';
+        var tags = '<span class="tag region">' + s.regionTag + '</span>' +
+          '<span class="tag theme">' + s.theme + '</span>' +
+          '<span class="tag type">' + (s.type === '攻略' ? '攻略规划' : '纯游记') + '</span>';
+        var meta = isDraft
+          ? '<a class="draft-cta" href="./src/site-template-travelogue.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>用纯游记模板补建</a>'
+          : '<div class="card-meta"><span>更新 ' + s.updated + '</span><span class="site-card-arrow">' + arrowSvg + '</span></div>';
+        return badge + coverHtml(s) +
+          '<div class="site-card-content">' + dateBadge + sub + tags +
+          '<h3>' + s.title + '</h3>' +
+          '<p>' + s.desc + '</p>' +
+          meta +
+          '</div>';
+      }
+
+      function timelineItem(s) {
+        // 节点旁时间标签：已实现(有游记)显示出行时间（缺失标「待补」），未实现(无游记)显示更新时间
+        var nodeTime, nodeCls;
+        if (s.hasLog) {
+          if (s.date) { nodeTime = s.date; nodeCls = ''; }
+          else { nodeTime = '待补'; nodeCls = ' tl-time-missing'; }
+        } else {
+          nodeTime = s.updated || '—';
+          nodeCls = ' tl-time-draft';
+        }
+        var timeTag = '<div class="tl-time' + nodeCls + '">' + nodeTime + '</div>';
+        if (s.status === 'draft') {
+          return '<div class="site-card-wrap">' + timeTag + '<div class="tl-dot tl-dot-draft"></div>' +
+            '<div class="site-card draft-card">' + cardInner(s) + '</div></div>';
+        }
+        return '<div class="site-card-wrap">' + timeTag + '<div class="tl-dot' + (s.hasLog ? '' : ' tl-dot-draft') + '"></div>' +
+          '<a class="site-card" href="./' + s.name + '/index.html">' + cardInner(s) + '</a></div>';
+      }
+
+      function rowHtml(s) {
+        var badge = s.hasLog
+          ? '<span class="mini-badge pub">已实现</span>'
+          : '<span class="mini-badge draft">未实现</span>';
+        var link = s.status === 'published'
+          ? '<a class="row-link" href="./' + s.name + '/index.html">打开 ↗</a>'
+          : '<span class="row-link disabled">待建</span>';
+        return '<tr>' +
+          '<td class="name">' + s.title + '</td>' +
+          '<td>' + s.regionTag + '</td>' +
+          '<td>' + s.theme + '</td>' +
+          '<td>' + (s.type === '攻略' ? '攻略规划' : '纯游记') + '</td>' +
+          '<td>' + badge + '</td>' +
+          '<td><b>' + (s.date ? s.date : '待补') + '</b><br><span class="muted">整理 ' + s.updated + '</span></td>' +
+          '<td>' + link + '</td>' +
+          '</tr>';
+      }
+
+      function render() {
+        var list = getFiltered();
+        // 时间轴仅渲染当前选中「状态」的子站（已实现 / 未实现），排序轴由 getFiltered 依据状态决定。
+        els.grid.innerHTML = list.map(timelineItem).join('');
+        els.manageBody.innerHTML = list.map(rowHtml).join('');
+        els.emptyTip.style.display = list.length ? 'none' : 'block';
+        if (currentView === 'cards') {
+          revealItems(els.grid);
+        }
+      }
+
+      // ===== 草稿内联提示 =====
+      function renderDraftInline() {
+        var drafts = SITES.filter(function (s) { return s.status === 'draft'; });
+        if (!drafts.length) { els.draftInline.innerHTML = '暂无草稿子站。'; return; }
+        els.draftInline.innerHTML = drafts.map(function (s) {
+          return '<span>· <b>' + s.title + '</b>（' + s.regionTag + '·' + s.theme + '）</span>';
+        }).join('');
+      }
+
+      // ===== 视图切换 =====
+      document.getElementById('viewToggle').addEventListener('click', function (e) {
+        var btn = e.target.closest('button');
+        if (!btn) return;
+        var view = btn.getAttribute('data-view');
+        currentView = view;
+        document.querySelectorAll('#viewToggle button').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var isManage = view === 'manage';
+        els.manageSection.classList.toggle('show', isManage);
+        document.querySelector('.sites-section').style.display = isManage ? 'none' : 'block';
+      });
+
+      // ===== 搜索 =====
+      els.search.addEventListener('input', render);
+
+      // ===== LOGO 滚动淡出 =====
       var logo = document.querySelector('.xbrain-brand');
       var ticking = false;
-
       function updateLogo() {
         var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
         var vh = window.innerHeight || document.documentElement.clientHeight;
@@ -622,45 +1362,47 @@
           logo.classList.toggle('scrolled', scrollY > vh * 0.3);
         }
       }
-
       window.addEventListener('scroll', function () {
         if (!ticking) {
-          window.requestAnimationFrame(function () {
-            updateLogo();
-            ticking = false;
-          });
+          window.requestAnimationFrame(function () { updateLogo(); ticking = false; });
           ticking = true;
         }
       }, { passive: true });
-
       window.addEventListener('touchmove', function () {
         if (!ticking) {
-          window.requestAnimationFrame(function () {
-            updateLogo();
-            ticking = false;
-          });
+          window.requestAnimationFrame(function () { updateLogo(); ticking = false; });
           ticking = true;
         }
       }, { passive: true });
-
       updateLogo();
 
-      // ===== Card Reveal on Scroll =====
-      var cards = document.querySelectorAll('.site-card');
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry, index) {
-          if (entry.isIntersecting) {
-            setTimeout(function () {
-              entry.target.classList.add('visible');
-            }, index * 150);
-            observer.unobserve(entry.target);
-          }
+      // ===== 入场动画（卡片 / 时间轴通用） =====
+      var revealObserver;
+      function revealItems(container) {
+        if (!revealObserver) {
+          revealObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                var el = entry.target;
+                setTimeout(function () { el.classList.add('visible'); }, (parseInt(el.dataset.i || '0', 10)) * 60);
+                revealObserver.unobserve(el);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        }
+        var targets = container.querySelectorAll('.site-card-wrap');
+        Array.prototype.forEach.call(targets, function (c, i) {
+          c.dataset.i = i % 12;
+          c.classList.remove('visible');
+          revealObserver.observe(c);
         });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      }
 
-      cards.forEach(function (card) {
-        observer.observe(card);
-      });
+      // ===== 初始化 =====
+      renderStats();
+      syncChips();
+      renderDraftInline();
+      render();
     })();
   </script>
 

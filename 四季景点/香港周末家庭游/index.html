@@ -1,1166 +1,1044 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+<!--
+  XBrain · 四季景点 子站（香港周末家庭游）
+  基于 四季景点/src/site-template.html 官方模板重建 · 2026-08-11
+  结构：行程速览 → 景点&餐厅总览 → 行程方案 → 人文背景·讲给孩子听
+        → 营业时间&行程复核 → 酒店推荐 → 天气影响评估 → 实用贴士
+  配图：全部使用模板 .media-block（首图自动取画廊首张，点击缩略图切换）。
+-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>香港迪士尼周末家庭游攻略 — XBrain</title>
+  <title>香港迪士尼周末家庭游 · XBrain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（香港 · 迪士尼夜空蓝紫换肤）===== */
     :root {
-      --xb-deep: #0a0a1a; --xb-mid: #1a1030; --xb-light: #2d1b4e;
-      --xb-accent: #64b4ff; --xb-accent2: #80c0ff;
-      --xb-glow: rgba(100, 180, 255, 0.35); --xb-border: rgba(100, 180, 255, 0.2);
-      --xb-text: #e8ecf4; --xb-text-dim: rgba(200, 210, 230, 0.6);
-      --xb-success: #5ee4a0; --xb-warn: #ffd166; --xb-danger: #ff6b6b; --xb-pink: #ff8fab; --xb-purple: #c4a0ff;
+      --xb-deep: #0a0a1a;
+      --xb-mid: #140e2e;
+      --xb-light: #241a44;
+      --accent: #7aa2ff;            /* ← 主强调色（香港蓝） */
+      --accent2: #b388ff;           /* ← 副色（魔法紫） */
+      --accent-glow: rgba(122, 162, 255, 0.16);
+      --accent-border: rgba(122, 162, 255, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(122, 130, 255, 0.20) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(179, 136, 255, 0.14) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
-    html { scroll-behavior: smooth; }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
     body {
       font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--xb-deep); color: var(--xb-text); overflow-x: hidden; -webkit-text-size-adjust: 100%;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
     }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
     .xbrain-brand {
-      position: fixed; top: 16px; left: 16px; z-index: 100; display: flex; align-items: center; gap: 8px;
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
       background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(180, 210, 255, 0.55); border-radius: 12px; padding: 6px 14px 6px 8px;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), 0 0 40px rgba(80, 140, 255, 0.35), 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-      text-decoration: none; transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(122,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
     }
-    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80, 140, 255, 0.40), 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15); transform: translateY(-1px); border-color: rgba(180, 210, 255, 0.70); }
-    .xbrain-brand.scrolled { background: rgba(15, 10, 40, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100, 180, 255, 0.08); box-shadow: none; }
-    .xbrain-brand.scrolled:hover { opacity: 0.7 !important; border-color: rgba(100, 180, 255, 0.2); }
-    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55)); }
-    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100, 180, 255, 0.55); }
-    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100, 180, 255, 0.9); }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(122,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(122,162,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(122,162,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(122,162,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #7aa2ff; text-shadow: 0 0 18px rgba(122,162,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(122,162,255,.08); box-shadow: none; }
 
-    .hero { position: relative; z-index: 1; min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 4rem; background: radial-gradient(ellipse at 50% 40%, rgba(100, 180, 255, 0.08) 0%, transparent 70%); }
-    .hero-badge { display: inline-block; padding: 0.3rem 1rem; border: 1px solid var(--xb-accent); color: var(--xb-accent); font-size: 0.75rem; letter-spacing: 3px; border-radius: 20px; margin-bottom: 1.5rem; }
-    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: 4px; margin-bottom: 1rem; line-height: 1.3; }
-    .hero-title span { color: var(--xb-accent); text-shadow: 0 0 30px rgba(100, 180, 255, 0.5); }
-    .hero-subtitle { font-size: clamp(0.95rem, 1.8vw, 1.2rem); font-weight: 300; color: var(--xb-text-dim); letter-spacing: 3px; margin-bottom: 2rem; }
-    .hero-line { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, var(--xb-accent), transparent); margin: 0 auto 2rem; }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; font-size: 0.9rem; color: var(--xb-text-dim); }
-    .hero-meta-item { display: flex; align-items: center; gap: 0.4rem; }
-    .hero-meta-item svg { width: 16px; height: 16px; color: var(--xb-accent); }
-
-    .content { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 0 1.5rem 4rem; }
-
-    /* ===== TOP NAV (desktop: centered inline, mobile: hamburger dropdown) ===== */
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
     .top-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 99;
-      background: rgba(10, 10, 26, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(100, 180, 255, 0.18);
-      padding: 0 1.5rem; display: flex; align-items: center; justify-content: center; height: 52px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
     }
-    .top-nav .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .top-nav .nav-inner::-webkit-scrollbar { display: none; }
-    .top-nav .nav-hamburger { display: none; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; min-width: 44px; min-height: 44px; color: var(--xb-text); }
-    .top-nav .nav-hamburger svg { width: 24px; height: 24px; }
-    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 14px; font-size: 14px; font-weight: 500; color: var(--xb-text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color 0.25s ease, background 0.25s ease; }
-    .top-nav a:hover { color: var(--xb-text); background: rgba(100, 180, 255, 0.08); }
-    .top-nav a.active { color: var(--xb-accent); background: rgba(100, 180, 255, 0.12); }
-    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--xb-accent); border-radius: 1px; }
-    .nav-mobile-dropdown { display: none; }
-    section[id] { scroll-margin-top: 72px; }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(122,162,255,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(122,162,255,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
 
-    .section { margin-bottom: 4rem; }
-    .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--xb-border); }
-    .section-icon { font-size: 1.4rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(100, 180, 255, 0.1); border-radius: 8px; flex-shrink: 0; }
-    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.35rem; font-weight: 700; }
-    .section p { line-height: 1.85; color: var(--xb-text-dim); margin-bottom: 1rem; }
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+    .info-card ul { padding-left: 1.2rem; }
+    .info-card li { margin-bottom: .35rem; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件（首图 + 缩略图切换）===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(122,162,255,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { display: none; }
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(122,162,255,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     /* ===== PLAN SUMMARY TABLE ===== */
-    .plan-summary { margin-bottom: 1.5rem; }
-    .plan-summary .day-label { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; padding: 0.6rem 0; color: var(--xb-accent); border-bottom: 1px solid var(--xb-accent); margin-bottom: 0.5rem; }
-    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 1.5rem; }
-    .plan-summary-table th { background: rgba(100, 180, 255, 0.1); border-bottom: 2px solid var(--xb-accent); padding: 0.65rem 0.6rem; text-align: left; font-weight: 600; color: var(--xb-accent); white-space: nowrap; }
-    .plan-summary-table td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--xb-border); color: var(--xb-text-dim); vertical-align: top; line-height: 1.5; }
-    .plan-summary-table tr:last-child td { border-bottom: none; }
-    .plan-summary-table td:last-child { color: var(--xb-accent); font-weight: 500; white-space: nowrap; font-size: 0.8rem; }
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+    .plan-summary-table tfoot td { padding: .5rem .6rem; border-top: 2px solid var(--accent-border); font-weight: 600; color: var(--text); }
 
     /* ===== TIMELINE ===== */
-    .timeline { position: relative; padding-left: 2rem; border-left: 1px solid var(--xb-border); margin-left: 0.5rem; }
-    .timeline-item { position: relative; margin-bottom: 1.5rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(20, 20, 50, 0.4) 0%, rgba(30, 20, 60, 0.3) 100%); border: 1px solid var(--xb-border); border-radius: 12px; }
-    .timeline-item::before { content: ''; position: absolute; left: -2.35rem; top: 1.5rem; width: 10px; height: 10px; background: var(--xb-accent); border-radius: 50%; box-shadow: 0 0 10px rgba(100, 180, 255, 0.5); }
-    .timeline-time { font-size: 0.75rem; color: var(--xb-accent); letter-spacing: 2px; margin-bottom: 0.4rem; }
-    .timeline-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
-    .timeline-desc { font-size: 0.85rem; color: var(--xb-text-dim); line-height: 1.6; }
-    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
-    .timeline-tag { font-size: 0.7rem; padding: 0.15rem 0.55rem; border-radius: 4px; letter-spacing: 0.5px; }
-    .tag-train { background: rgba(100,180,255,0.15); color: var(--xb-accent); border: 1px solid rgba(100,180,255,0.3); }
-    .tag-metro { background: rgba(196,160,255,0.15); color: var(--xb-purple); border: 1px solid rgba(196,160,255,0.3); }
-    .tag-food { background: rgba(94,228,160,0.15); color: var(--xb-success); border: 1px solid rgba(94,228,160,0.3); }
-    .tag-hotel { background: rgba(255,143,171,0.15); color: var(--xb-pink); border: 1px solid rgba(255,143,171,0.3); }
-    .tag-kid { background: rgba(255,209,102,0.15); color: var(--xb-warn); border: 1px solid rgba(255,209,102,0.3); }
-    .tag-warn { background: rgba(255,107,107,0.15); color: var(--xb-danger); border: 1px solid rgba(255,107,107,0.3); }
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text-dim); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
 
-    /* ===== RIDE CARDS ===== */
-    .ride-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
-    .ride-card { padding: 1.25rem; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); border: 1px solid var(--xb-border); border-radius: 12px; transition: all 0.3s ease; position: relative; overflow: hidden; }
-    .ride-card:hover { border-color: rgba(100, 180, 255, 0.4); transform: translateY(-2px); }
-    .ride-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
-    .ride-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1rem; color: var(--xb-text); }
-    .ride-stars { color: var(--xb-warn); font-size: 0.85rem; white-space: nowrap; }
-    .ride-card p { font-size: 0.82rem; color: var(--xb-text-dim); line-height: 1.6; margin-bottom: 0.5rem; }
-    .ride-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
-    .ride-meta span { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; }
-    .ride-indoor { background: rgba(100,180,255,0.1); color: var(--xb-accent); border: 1px solid rgba(100,180,255,0.2); }
-    .ride-outdoor { background: rgba(94,228,160,0.1); color: var(--xb-success); border: 1px solid rgba(94,228,160,0.2); }
-    .ride-thrill { background: rgba(255,107,107,0.1); color: var(--xb-danger); border: 1px solid rgba(255,107,107,0.2); }
-    .ride-family { background: rgba(255,209,102,0.1); color: var(--xb-warn); border: 1px solid rgba(255,209,102,0.2); }
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box.danger { border-left: 3px solid var(--danger); }
+    .tips-box.warn { border-left: 3px solid var(--warn); }
+    .tips-box.success { border-left: 3px solid var(--success); }
+    .tips-box.info { border-left: 3px solid var(--accent); }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
 
-    /* ===== AREA SECTION ===== */
-    .area-section { margin-bottom: 2.5rem; }
-    .area-header { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; padding: 0.6rem 1rem; background: rgba(100,180,255,0.06); border-left: 3px solid var(--xb-accent); border-radius: 0 8px 8px 0; display: flex; align-items: center; gap: 0.5rem; }
-    .area-header .order-badge { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--xb-accent); color: var(--xb-deep); border-radius: 50%; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
 
-    /* ===== TABLES ===== */
-    .info-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 1.5rem; overflow-x: auto; display: block; }
-    .info-table thead th { background: rgba(100, 180, 255, 0.12); border-bottom: 2px solid var(--xb-accent); padding: 0.75rem; text-align: left; font-weight: 600; color: var(--xb-accent); white-space: nowrap; }
-    .info-table tbody td { padding: 0.7rem 0.75rem; border-bottom: 1px solid var(--xb-border); color: var(--xb-text-dim); vertical-align: top; line-height: 1.6; }
-    .info-table tbody tr:hover td { background: rgba(100, 180, 255, 0.03); }
-    .info-table .highlight td { border-left: 3px solid var(--xb-success); }
+    /* ===== 补充样式（基于模板令牌，内容专用）===== */
+    .price-cny { color: var(--success); font-weight: 700; white-space: nowrap; }
+    .price-hkd { color: var(--warn); font-weight: 700; white-space: nowrap; }
+    .tag { display: inline-block; padding: .1rem .5rem; border-radius: 4px; font-size: .7rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .tag.green { border-color: var(--success); color: var(--success); }
+    .tag.red { border-color: var(--danger); color: var(--danger); }
+    .tag.yellow { border-color: var(--warn); color: var(--warn); }
+    .tag.blue { border-color: #4da6ff; color: #80bfff; }
+    .sub-h { color: var(--accent); font-size: 1.05rem; font-weight: 700; margin: 1.8rem 0 .8rem; }
+    .star { color: var(--warn); letter-spacing: 1px; }
+    .ride-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .5rem; }
+    .ride-meta span { font-size: .7rem; padding: .12rem .5rem; border-radius: 4px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .order-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--xb-deep); font-weight: 800; font-size: .8rem; margin-right: .4rem; }
+    .area-header { font-weight: 700; font-size: .95rem; color: var(--text); margin: 1.2rem 0 .6rem; padding-left: .6rem; border-left: 3px solid var(--accent); }
 
-    .info-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
-    .info-card { padding: 1.5rem; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); border: 1px solid var(--xb-border); border-radius: 12px; transition: all 0.3s ease; }
-    .info-card:hover { border-color: rgba(100, 180, 255, 0.4); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); }
-    .info-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1rem; margin-bottom: 0.6rem; color: var(--xb-text); }
-    .info-card p, .info-card li { font-size: 0.85rem; color: var(--xb-text-dim); line-height: 1.7; }
-    .info-card ul { padding-left: 1.2rem; }
-    .info-card ul li { margin-bottom: 0.3rem; }
-
-    .alert { padding: 1.25rem 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid; line-height: 1.7; }
-    .alert-warning { background: rgba(255, 209, 102, 0.08); border-color: var(--xb-warn); }
-    .alert-danger { background: rgba(255, 107, 107, 0.08); border-color: var(--xb-danger); }
-    .alert-info { background: rgba(100, 180, 255, 0.08); border-color: var(--xb-accent); }
-    .alert-success { background: rgba(94, 228, 160, 0.08); border-color: var(--xb-success); }
-    .alert h4 { margin-bottom: 0.5rem; font-size: 0.95rem; }
-    .alert-danger h4 { color: var(--xb-danger); } .alert-warning h4 { color: var(--xb-warn); } .alert-info h4 { color: var(--xb-accent); } .alert-success h4 { color: var(--xb-success); }
-    .alert p, .alert li { font-size: 0.85rem; color: var(--xb-text-dim); }
-    .alert ul, .alert ol { padding-left: 1.2rem; }
-
-    .back-section { text-align: center; padding: 2rem 0; }
-    .back-link { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; color: var(--xb-accent); text-decoration: none; border: 1px solid var(--xb-border); border-radius: 8px; font-size: 0.9rem; transition: all 0.3s ease; }
-    .back-link:hover { background: rgba(100, 180, 255, 0.1); border-color: var(--xb-accent); }
-    .back-link svg { width: 16px; height: 16px; }
-
-    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--xb-text-dim); font-size: 0.85rem; letter-spacing: 1px; }
-    footer .footer-line { width: 30px; height: 1px; background: var(--xb-border); margin: 0 auto 1rem; }
-
-    .checklist { list-style: none; padding: 0; }
-    .checklist li { padding: 0.5rem 0; display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--xb-text-dim); line-height: 1.6; }
-    .checklist li::before { content: '☐'; color: var(--xb-accent); font-size: 1rem; flex-shrink: 0; }
-
-    .tag { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.7rem; letter-spacing: 1px; margin-right: 0.4rem; }
-    .tag-green { background: rgba(94,228,160,0.15); color: var(--xb-success); border: 1px solid rgba(94,228,160,0.3); }
-    .tag-blue { background: rgba(100,180,255,0.15); color: var(--xb-accent); border: 1px solid rgba(100,180,255,0.3); }
-    .tag-yellow { background: rgba(255,209,102,0.15); color: var(--xb-warn); border: 1px solid rgba(255,209,102,0.3); }
-    .tag-red { background: rgba(255,107,107,0.15); color: var(--xb-danger); border: 1px solid rgba(255,107,107,0.3); }
-    .tag-pink { background: rgba(255,143,171,0.15); color: var(--xb-pink); border: 1px solid rgba(255,143,171,0.3); }
-
-    .price-cny { color: var(--xb-warn); font-weight: 500; }
-    .price-hkd { color: var(--xb-pink); font-weight: 500; }
-
-    /* ===== IMAGE GALLERY LIGHTBOX (深圳子站模式) ===== */
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
-    .spot-card-image {
-      width: 100%;
-      height: 180px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--xb-border);
-      cursor: pointer;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .spot-card-image:hover { border-color: var(--xb-accent); box-shadow: 0 8px 30px rgba(100,180,255,0.25); }
-    .spot-card-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 45%, rgba(10,10,26,0.8) 100%);
-      pointer-events: none;
-    }
-    .gallery-cap {
-      position: absolute;
-      bottom: 10px;
-      left: 12px;
-      z-index: 2;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.85);
-      pointer-events: none;
-    }
-    .gallery-btn {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      z-index: 3;
-      padding: 4px 10px;
-      background: rgba(10,10,26,0.85);
-      border: 1px solid rgba(100,180,255,0.4);
-      border-radius: 6px;
-      color: var(--xb-accent);
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .gallery-btn:hover { background: rgba(100,180,255,0.2); border-color: var(--xb-accent); }
-    .gallery-btn svg { width: 14px; height: 14px; }
-
-    .lightbox-overlay {
-      position: fixed; inset: 0; background: rgba(5,5,15,0.95); z-index: 200;
-      display: none; align-items: center; justify-content: center; opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .lightbox-overlay.active { display: flex; opacity: 1; }
-    .lightbox-container { position: relative; width: 90vw; height: 85vh; display: flex; flex-direction: column; align-items: center; }
-    .lightbox-img-wrap { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; overflow: hidden; }
-    .lightbox-img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); transition: transform 0.3s ease, opacity 0.3s ease; }
-    .lightbox-img.switching { opacity: 0.4; transform: scale(0.95); }
-    .lightbox-title { margin-top: 12px; font-size: 0.9rem; color: var(--xb-text-dim); text-align: center; }
-    .lightbox-counter { font-size: 0.8rem; color: var(--xb-accent); margin-top: 4px; }
-    .lightbox-close { position: absolute; top: -40px; right: 0; width: 36px; height: 36px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; color: var(--xb-text); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
-    .lightbox-close:hover { background: rgba(255,107,107,0.3); border-color: var(--xb-danger); color: var(--xb-danger); }
-    .lightbox-close svg { width: 20px; height: 20px; }
-    .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: var(--xb-text); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
-    .lightbox-nav:hover { background: rgba(100,180,255,0.2); border-color: var(--xb-accent); }
-    .lightbox-nav svg { width: 20px; height: 20px; }
-    .lightbox-nav.prev { left: -60px; }
-    .lightbox-nav.next { right: -60px; }
-    .lightbox-thumbs { display: flex; gap: 8px; margin-top: 12px; max-width: 100%; overflow-x: auto; padding: 4px; }
-    .lightbox-thumb { width: 60px; height: 45px; border-radius: 6px; background-size: cover; background-position: center; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; transition: border-color 0.2s ease, transform 0.2s ease; opacity: 0.6; }
-    .lightbox-thumb:hover, .lightbox-thumb.active { border-color: var(--xb-accent); opacity: 1; transform: translateY(-2px); }
-
-    @media (max-width: 768px) {
-      .lightbox-nav.prev { left: 10px; background: rgba(0,0,0,0.4); }
-      .lightbox-nav.next { right: 10px; background: rgba(0,0,0,0.4); }
-      .lightbox-container { width: 95vw; height: 80vh; }
-      .lightbox-close { top: 10px; right: 10px; background: rgba(0,0,0,0.5); }
-      .lightbox-thumb { width: 48px; height: 36px; }
-    }
-
-    /* Payment guide cards */
-    .payment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-    .payment-card { padding: 1.2rem; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); border: 1px solid var(--xb-border); border-radius: 10px; text-align: center; }
-    .payment-card .pay-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-    .payment-card h4 { font-size: 0.9rem; color: var(--xb-text); margin-bottom: 0.3rem; }
-    .payment-card p { font-size: 0.78rem; color: var(--xb-text-dim); line-height: 1.5; }
-
-    /* Tea restaurant cards */
-    .restaurant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
-    .restaurant-card { padding: 1.25rem; background: linear-gradient(135deg, rgba(20, 20, 50, 0.5) 0%, rgba(30, 20, 60, 0.4) 100%); border: 1px solid var(--xb-border); border-radius: 12px; transition: all 0.3s ease; }
-    .restaurant-card:hover { border-color: rgba(100, 180, 255, 0.4); }
-    .restaurant-card .res-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-    .restaurant-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1rem; color: var(--xb-text); }
-    .restaurant-card .res-rating { font-size: 0.8rem; color: var(--xb-warn); }
-    .restaurant-card .res-meta { font-size: 0.78rem; color: var(--xb-text-dim); margin-bottom: 0.5rem; }
-    .restaurant-card .res-menu { font-size: 0.78rem; color: var(--xb-text-dim); line-height: 1.6; }
-    .restaurant-card .res-menu strong { color: var(--xb-accent); }
-
-    /* TOC quick links */
-    .toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.6rem; margin-bottom: 2rem; }
-    .toc-link { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0.8rem; background: rgba(100,180,255,0.05); border: 1px solid var(--xb-border); border-radius: 8px; color: var(--xb-text-dim); text-decoration: none; font-size: 0.8rem; transition: all 0.3s ease; }
-    .toc-link:hover { border-color: var(--xb-accent); color: var(--xb-accent); background: rgba(100,180,255,0.1); }
-    .toc-link .toc-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--xb-accent); color: var(--xb-deep); border-radius: 50%; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
-
+    /* ===== 响应式 ===== */
     @media (max-width: 640px) {
-      .hero { min-height: 50vh; padding: 5rem 1rem 3rem; }
-      .content { padding: 0 1rem 3rem; }
-      .info-cards, .ride-grid, .restaurant-grid, .payment-grid, .gallery-grid { grid-template-columns: 1fr; }
-      .info-table, .plan-summary-table { font-size: 0.73rem; }
-      .toc-grid { grid-template-columns: repeat(2, 1fr); }
-      /* top-nav mobile */
-      .top-nav { justify-content: flex-end; padding: 0 12px; height: 48px; }
-      .top-nav .nav-inner { display: none; }
-      .top-nav .nav-hamburger { display: flex; }
-      .top-nav a { padding: 6px 12px; font-size: 13px; }
-      .nav-mobile-dropdown {
-        display: flex; flex-direction: column; gap: 2px;
-        position: fixed; top: 48px; left: 0; right: 0;
-        background: rgba(10, 10, 26, 0.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-        border-bottom: 1px solid var(--xb-border); z-index: 98; padding: 8px 12px;
-        transform: translateY(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        max-height: calc(100vh - 48px); overflow-y: auto;
-      }
-      .nav-mobile-dropdown.open { transform: translateY(0); }
-      .nav-mobile-dropdown a { display: flex; align-items: center; padding: 12px 16px; font-size: 16px; font-weight: 500; color: var(--xb-text-dim); text-decoration: none; border-radius: 10px; transition: color 0.2s, background 0.2s; min-height: 44px; }
-      .nav-mobile-dropdown a:active, .nav-mobile-dropdown a.active { color: var(--xb-accent); background: rgba(100, 180, 255, 0.1); }
-      section[id] { scroll-margin-top: 64px; }
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
     }
   </style>
 </head>
-<body id="top">
 
-  <!-- XBrain Brand Logo -->
-  <a class="xbrain-brand" href="../../index.html" title="XBrain">
-    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="coreGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#64b4ff" stop-opacity="1"/><stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6"/><stop offset="100%" stop-color="#1a2a5e" stop-opacity="0"/></radialGradient><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#80c0ff"/><stop offset="50%" stop-color="#4a90e2"/><stop offset="100%" stop-color="#80c0ff"/></linearGradient><filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12"/><circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)"/><g transform="matrix(0 -1 1 0 30 300)"><rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4"/><rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9"/><rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6"/></g><g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35"><rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3"/><rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5"/></g><g transform="matrix(0 -1 1 0 30 230)"><circle cx="50" cy="50" r="50" fill="#0d1636"/><circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8"/><circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)"/><circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45"/><line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9"/><circle cx="50" cy="50" r="4" fill="#ffffff"/></g><g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4"><circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1"/><circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4"/></g></svg>
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#7aa2ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#b388ff" /><stop offset="50%" stop-color="#7aa2ff" /><stop offset="100%" stop-color="#b388ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#7aa2ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#7aa2ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#b388ff" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#7aa2ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#7aa2ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#b388ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#b388ff" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#7aa2ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
     <div class="xbrain-text"><span>X</span>Brain</div>
   </a>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">HONG KONG DISNEYLAND 2026</div>
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点 & 餐厅总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#hotels">酒店推荐</a>
+      <a href="#weather">天气影响评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">2026年8月1日 — 8月2日 · 两天一夜 · 广州出发</span>
     <h1 class="hero-title">香港迪士尼<br>周末<span>家庭游</span></h1>
-    <p class="hero-subtitle">广州出发 · 两天一夜 · 地铁+高铁直达</p>
+    <p class="hero-subtitle">广州荔湾君荟名轩 · 地铁+高铁直达 · 2大1小</p>
     <div class="hero-line"></div>
-    <div class="hero-meta">
-      <div class="hero-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>8月1日 — 8月2日（周五、六）</span></div>
-      <div class="hero-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2v4M12 14v4M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/></svg><span>两天一夜</span></div>
-      <div class="hero-meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span>广州荔湾 · 君荟名轩</span></div>
+    <div class="hero-quick">
+      <span>高铁 51 分钟</span><span>港铁扫码乘车</span><span>探索家酒店</span><span>城堡烟花秀必看</span>
     </div>
   </section>
 
-  <!-- ===== TOP NAVIGATION ===== -->
-  <nav class="top-nav" id="topNav">
-    <div class="nav-inner" id="navInner">
-      <a href="#summary">行程总表</a>
-      <a href="#transport-guide">票务指南</a>
-      <a href="#schedule">详细时刻</a>
-      <a href="#rides">游玩攻略</a>
-      <a href="#hotel">酒店</a>
-      <a href="#tickets">门票</a>
-      <a href="#food">茶餐厅</a>
-      <a href="#typhoon">台风预案</a>
-      <a href="#checklist">清单</a>
-      <a href="#budget">预算</a>
+  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">广州 → 香港西九龙 → 迪士尼 → 回程，全程地铁 + 高铁，无需驾车。两天一夜，把通勤交给轨道，把时间留给乐园。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>路线总览</h4><p>君荟名轩楼下西村站C口 → 5号线 → 2号线 → 广州南站 → <strong>高铁 G字头（约51-60分钟）</strong> → 香港西九龙（一地两检）→ 港铁东涌线/迪士尼线 → 探索家度假酒店 → 乐园全天 → 次日茶餐厅 → 高铁返穗。</p></div>
+      <div class="info-card"><h4>核心看点</h4><p>香港迪士尼<strong>8 大主题园区</strong>（全球独家的魔雪奇缘世界、灰熊山谷、迷离庄园）；20:30 城堡星空烟花秀；回程佐敦一带 8 家地道茶餐厅。</p></div>
+      <div class="info-card"><h4>天气提醒</h4><p>8/1-2 香港<strong>降雨与雷暴概率偏高</strong>，是本次头号风险；直接台风概率当前偏低。逐环节风雨影响与保底方案见 <a class="in-doc-link" href="#weather">天气影响评估</a>。</p></div>
     </div>
-    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
-      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-  </nav>
-  <div class="nav-mobile-dropdown" id="navMobile">
-    <a href="#summary">行程总结表</a>
-    <a href="#transport-guide">交通票务完全指南</a>
-    <a href="#schedule">详细行程时刻</a>
-    <a href="#rides">乐园游玩攻略</a>
-    <a href="#hotel">酒店详细对比</a>
-    <a href="#tickets">门票与园内餐饮</a>
-    <a href="#food">回程地道茶餐厅</a>
-    <a href="#typhoon">台风风险与预案</a>
-    <a href="#checklist">出行清单</a>
-    <a href="#budget">费用预算</a>
-  </div>
 
-  <div class="content">
+    <h3 class="sub-h">🚄 交通票务完全指南（内地游客必读）</h3>
+    <p style="color:var(--text-dim);font-size:.88rem;margin-bottom:1rem;">很多内地朋友第一次去香港，最困惑的就是"怎么买地铁票""要准备多少现金"。下面用最直白的方式讲清楚。</p>
+    <h4 style="color:var(--accent);margin-bottom:.6rem;">第一步：高铁票（广州南 ⇄ 香港西九龙）</h4>
+    <div class="info-grid">
+      <div class="info-card"><h4>📱 购票方式</h4><ul>
+        <li><strong>12306 APP</strong> — 最方便，提前15天放票，电子票直接刷身份证乘车</li>
+        <li><strong>携程 / 同程</strong> — 可用支付宝 / 微信支付，自动抢票</li>
+        <li><strong>车站窗口</strong> — 凭身份证购买，支持现金 / 扫码</li>
+        <li>⚠️ 记得买<strong>往返票</strong>！暑假周末票紧张</li>
+      </ul></div>
+      <div class="info-card"><h4>💰 票价参考</h4><ul>
+        <li>二等座：<span class="price-cny">¥215/人</span></li>
+        <li>一等座：<span class="price-cny">¥344/人</span></li>
+        <li>商务座：<span class="price-cny">¥645/人</span></li>
+        <li>儿童票（1.2-1.5m）：半价</li>
+        <li>📍 推荐二等座，性价比最高</li>
+      </ul></div>
+    </div>
 
-    <!-- ===== 1. PLAN SUMMARY TABLE ===== -->
-    <section class="section" id="summary">
-      <div class="section-header">
-        <div class="section-icon">&#x1F4CB;</div>
-        <h2 class="section-title">行程总结表</h2>
+    <h4 style="color:var(--accent);margin:1.5rem 0 .6rem;">第二步：香港港铁怎么坐？（四种支付方式）</h4>
+    <div class="info-grid">
+      <div class="info-card"><h4>📱 支付宝（推荐！）</h4><p>打开支付宝 → "出行" → 城市选<strong>"香港"</strong> → 领取"港铁乘车码"。扫<strong>紫色闸机</strong>进出，自动按汇率扣人民币。<br><span class="tag green">无需八达通，无需现金</span></p></div>
+      <div class="info-card"><h4>📱 微信支付</h4><p>搜索"搭车码"小程序 → 城市切"香港" → 实名认证 → 扫码乘车。支持<strong>"同行码"</strong>（一部手机最多帮2位家人扫码，非常适合带娃！）同样走紫色闸机。</p></div>
+      <div class="info-card"><h4>💳 八达通（传统）</h4><p>地铁站客服中心可购（HK$150，含$50押金），便利店/茶餐厅/巴士通用。iPhone 可<strong>直接开通电子八达通</strong>，无需实体卡。</p></div>
+      <div class="info-card"><h4>💵 现金 / 单程票</h4><p>红色售票机买塑料单程票：触屏选目的地→选票种→投币 / 扫码。单程票价 <strong>HK$5~65</strong>（按距离）。找零可能给硬币，不太方便。</p></div>
+    </div>
+
+    <div class="tips-box success" style="margin-top:1.2rem;">
+      <div class="tips-box-title">✅ 家庭出行推荐方案</div>
+      <p><strong>大人用支付宝 / 微信乘车码</strong>（各自扫各自手机），<strong>小孩用微信"同行码"</strong>（家长手机帮扫），一部手机搞定全家地铁出行，无需买八达通、无需排队购票。</p>
+      <p style="margin-top:.4rem;"><strong>迪士尼段费用：</strong>九龙 → 欣澳 → 迪士尼，成人单程约 <span class="price-hkd">HK$23</span>，支付宝自动扣 ~<span class="price-cny">¥21</span>。</p>
+    </div>
+    <div class="tips-box info" style="margin-top:1rem;">
+      <div class="tips-box-title">📍 高铁 → 港铁 接驳关键信息</div>
+      <p>到达西九龙站后，跟着"<strong>港铁九龙站</strong>"指示牌走（约5分钟通道连接）。九龙站、柯士甸站都在西九龙站地下连通，去迪士尼<strong>从九龙站出发最方便</strong>：</p>
+      <p style="margin-top:.4rem;"><strong>九龙站 → 东涌线（往东涌）→ 欣澳站（第5站）→ 换乘迪士尼线（往迪士尼）→ 迪士尼站（终点）</strong>，全程约30分钟，欣澳换乘只需走对面月台。</p>
+    </div>
+
+    <div class="media-block" style="margin-top:1.2rem;">
+      <div class="media-cover"><img src="images/transport/01-hsr-train.jpg" alt="高铁列车" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="images/transport/01-hsr-train.jpg" alt="高铁列车" loading="lazy" decoding="async">
+        <img src="images/transport/02-hsr-station.jpg" alt="高铁站" loading="lazy" decoding="async">
+        <img src="images/transport/03-station-platform.jpg" alt="站台" loading="lazy" decoding="async">
+        <img src="images/transport/04-gangxia-hsr.jpg" alt="车厢" loading="lazy" decoding="async">
+        <img src="images/transport/05-mtr-station.jpg" alt="港铁站" loading="lazy" decoding="async">
+        <img src="images/transport/06-mtr-crowd.jpg" alt="港铁车厢" loading="lazy" decoding="async">
+        <img src="images/transport/07-mtr-symmetry.jpg" alt="港铁对称" loading="lazy" decoding="async">
+        <img src="images/transport/08-mtr-jordan.jpg" alt="佐敦站" loading="lazy" decoding="async">
+        <img src="images/transport/09-disney-station.jpg" alt="迪士尼站" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">按行程顺序排列：白天是迪士尼乐园（8 大主题园区），回程当晚是佐敦一带地道茶餐厅。</p>
+
+    <div class="spot-card" id="spot-disney">
+      <div class="media-block" style="border:0;border-radius:0;margin:0;">
+        <div class="media-cover"><img src="images/disney/01-castle.jpg" alt="迪士尼城堡" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="images/disney/01-castle.jpg" alt="迪士尼城堡" loading="lazy" decoding="async">
+          <img src="images/disney/02-castle-dusk.jpg" alt="黄昏城堡" loading="lazy" decoding="async">
+          <img src="images/disney/03-castle-dusk2.jpg" alt="夜色城堡" loading="lazy" decoding="async">
+          <img src="images/disney/04-fireworks.jpg" alt="烟花秀" loading="lazy" decoding="async">
+          <img src="images/disney/05-victorian-hotel.jpg" alt="维多利亚酒店" loading="lazy" decoding="async">
+          <img src="images/disney/06-carousel.jpg" alt="旋转木马" loading="lazy" decoding="async">
+          <img src="images/disney/07-ferry-pier.jpg" alt="码头" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="spot-card-header"><h4>🏰 香港迪士尼乐园</h4><span class="spot-card-dist">大屿山 · 港铁迪士尼线终点 · 开园 10:00 / 闭园 21:00</span></div>
+      <div class="spot-card-body"><p>全球<strong>面积最小</strong>的迪士尼，但排队短（热门25-40分钟、普通20分钟内），一天可刷完全部重点项目。园区由 8 大主题区组成，其中<strong>魔雪奇缘世界、灰熊山谷、迷离庄园</strong>为全球 / 港迪独家。详见 <a class="in-doc-link" href="#plans">行程方案</a> 中的逐区玩法与必玩清单。</p></div>
+      <div class="spot-card-footer"><span class="spot-tag recommended">主目标</span><span class="spot-tag kid">全年龄</span><span class="spot-tag">8大园区</span><span class="spot-tag free">烟花秀</span></div>
+      <div class="spot-hours"><b>开放：</b>约 10:00-21:00（以官方 App 当日公告为准）。<b>门票：</b>成人 <span class="price-cny">¥517-670</span>，儿童 <span class="price-cny">¥386-506</span>。</div>
+    </div>
+
+    <h3 class="sub-h">🍜 回程地道茶餐厅总览（8 家 · 佐敦 / 西九龙站周边）</h3>
+    <div class="media-block">
+      <div class="media-cover"><img src="images/food/01-toast-drink.jpg" alt="茶餐厅美食" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="images/food/01-toast-drink.jpg" alt="菠萝油奶茶" loading="lazy" decoding="async">
+        <img src="images/food/02-toast-beige.jpg" alt="多士" loading="lazy" decoding="async">
+        <img src="images/food/03-sandwich.jpg" alt="三文治" loading="lazy" decoding="async">
+        <img src="images/food/04-toasted-sandwich.jpg" alt="烤三文治" loading="lazy" decoding="async">
+        <img src="images/food/05-breakfast.jpg" alt="早餐" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="spots-grid">
+      <div class="spot-card"><div class="spot-card-header"><h4>🥇 金二少冰室</h4><span class="spot-card-dist">柯士甸道71号 · 西九龙站步行7分钟</span></div><div class="spot-card-body"><p><strong>必点：</strong>冰火菠萝油 HK$22、丝袜奶茶 HK$20、沙嗲牛肉公仔面 HK$48、瑞士鸡翼 HK$38、法兰西多士 HK$30。口味·环境·服务三项全 4.8。</p></div><div class="spot-card-footer"><span class="spot-tag recommended">首选</span><span class="spot-tag food">HK$50-80/人</span><span class="spot-tag">07:00-22:00</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>🥈 添好运（西九龙站店）</h4><span class="spot-card-dist">西九龙站 B1 层 · 站内0分钟</span></div><div class="spot-card-body"><p><strong>米其林一星。</strong>必点酥皮焗叉烧包 HK$33、凤爪排骨饭 HK$42、韭王鲜虾肠 HK$38。站内最方便，但略贵、排队长。</p></div><div class="spot-card-footer"><span class="spot-tag">米其林</span><span class="spot-tag food">HK$60-100/人</span><span class="spot-tag">09:00-21:00</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>🥉 点点心点心专门店</h4><span class="spot-card-dist">佐敦文汇街28号 · 步行4分钟</span></div><div class="spot-card-body"><p>凤爪 HK$28、虾饺 HK$32、蟹籽烧卖 HK$30、蒸饭 HK$45-55。评分 4.8，添好运排队太久时的省心替代。</p></div><div class="spot-card-footer"><span class="spot-tag">4.8分</span><span class="spot-tag food">HK$50-70/人</span><span class="spot-tag">10:00-22:00</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>牛奶冰室（尖沙咀）</h4><span class="spot-card-dist">柯士甸道108号 · 步行10分钟</span></div><div class="spot-card-body"><p>碟头饭套餐 HK$48-58、蛋挞 HK$10/个、港式奶茶 HK$18。性价比高、环境干净，适合带小朋友简餐。</p></div><div class="spot-card-footer"><span class="spot-tag">4.7分</span><span class="spot-tag food">HK$40-70/人</span><span class="spot-tag">07:00-21:30</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>友喜冰室</h4><span class="spot-card-dist">佐敦道37E-37H号 · 步行6分钟</span></div><div class="spot-card-body"><p>常餐（全日供应）HK$42-55、焗猪扒饭 HK$58。营业最长（06:00-23:00），早到晚走都能吃。</p></div><div class="spot-card-footer"><span class="spot-tag">4.6分</span><span class="spot-tag food">HK$45-75/人</span><span class="spot-tag">06:00-23:00</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>夏铭记（佐敦店）</h4><span class="spot-card-dist">白加士街5号 · 步行7分钟</span></div><div class="spot-card-body"><p>云吞面 HK$38（鲜虾云吞、汤底清甜）、及第粥 HK$42。粥面专门店，清淡适合小朋友，评分 4.8。</p></div><div class="spot-card-footer"><span class="spot-tag">4.8分</span><span class="spot-tag food">HK$50-80/人</span><span class="spot-tag">11:00-22:00</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>幸运茶点点心</h4><span class="spot-card-dist">庙街239号 · 步行6分钟</span></div><div class="spot-card-body"><p>各式点心 HK$25-35、煲仔饭 HK$55-68。营业到凌晨2点，赶晚班车也能吃，庙街氛围独特。</p></div><div class="spot-card-footer"><span class="spot-tag">4.8分</span><span class="spot-tag food">HK$50-70/人</span><span class="spot-tag">08:00-02:00</span></div></div>
+      <div class="spot-card"><div class="spot-card-header"><h4>丽莎餐厅</h4><span class="spot-card-dist">白加士街15号 · 步行8分钟</span></div><div class="spot-card-body"><p>碟头饭 HK$45-55、经典港式饮品。老字号，当地人也常去，口味地道经典，评分 4.5。</p></div><div class="spot-card-footer"><span class="spot-tag">4.5分</span><span class="spot-tag food">HK$50-70/人</span><span class="spot-tag">07:00-22:00</span></div></div>
+    </div>
+
+    <div class="tips-box warn" style="margin-top:1.2rem;">
+      <div class="tips-box-title">⚠️ 茶餐厅实用提醒</div>
+      <ul>
+        <li><strong>现金！</strong>老式茶餐厅很多只收现金，每人备 HK$200-300 最稳妥</li>
+        <li><strong>拼桌文化</strong> — 饭点人多可能被安排拼桌，正常现象</li>
+        <li><strong>快速点单</strong> — 常餐 / 快餐 / 特餐是套餐，含主食+饮品</li>
+        <li><strong>冻饮加钱</strong> — 热饮免费配，改冻饮通常加 HK$2-5</li>
+        <li><strong>勿带外食</strong> — 绝大多数茶餐厅不允许外带食物饮品</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 行程方案 ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（2 天 1 夜）
+    </h2>
+    <p class="section-desc">同一趟广州→香港迪士尼→回程，按天气提供两套玩法：晴天主力行程与暴雨保底行程，点选切换可分享。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 晴天主力行程</span>
+        <span class="plan-desc">Day1 乐园全天 + 烟花秀，Day2 回程茶餐厅</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案 B · 暴雨保底行程</span>
+        <span class="plan-desc">室内项目优先，烟花提前至 Day1</span>
+      </button>
+    </div>
+
+    <!-- 方案 A -->
+    <div class="plan-content active" id="planA">
+      <div class="media-block">
+        <div class="media-cover"><img src="images/disney/01-castle.jpg" alt="迪士尼乐园主图" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="images/disney/01-castle.jpg" alt="迪士尼乐园主图" loading="lazy" decoding="async">
+          <img src="images/disney/02-castle-dusk.jpg" alt="黄昏城堡" loading="lazy" decoding="async">
+          <img src="images/disney/04-fireworks.jpg" alt="烟花秀" loading="lazy" decoding="async">
+        </div>
       </div>
 
       <div class="plan-summary">
-        <div class="day-label">&#x1F31E; Day 1 — 8月1日（周五）广州 → 香港迪士尼</div>
-        <table class="plan-summary-table">
-          <thead><tr><th style="width:10%">时间</th><th style="width:30%">环节</th><th style="width:35%">详情</th><th style="width:15%">标签</th><th style="width:10%">耗时</th></tr></thead>
-          <tbody>
-            <tr><td>07:00</td><td>出发</td><td>君荟名轩 → 西村C口（楼下即到）</td><td><span class="tag tag-blue">地铁</span></td><td>—</td></tr>
-            <tr><td>07:00-07:15</td><td>5号线</td><td>西村 → 广州火车站（2站）</td><td><span class="tag tag-blue">换乘</span></td><td>~5min</td></tr>
-            <tr><td>07:15-07:50</td><td>2号线</td><td>广州火车站 → 广州南站（~15站）</td><td><span class="tag tag-blue">地铁</span></td><td>~35min</td></tr>
-            <tr><td>08:15-09:15</td><td>高铁</td><td>广州南 → 香港西九龙，二等座 ¥215/人</td><td><span class="tag tag-green">高铁</span></td><td>~60min</td></tr>
-            <tr><td>09:15-09:35</td><td>过关</td><td>西九龙站一地两检，港澳通行证</td><td><span class="tag tag-yellow">通关</span></td><td>~20min</td></tr>
-            <tr><td>09:35-10:05</td><td>港铁</td><td>九龙 → 东涌线 → 欣澳 → 迪士尼线</td><td><span class="tag tag-blue">港铁</span></td><td>~30min</td></tr>
-            <tr><td>10:05-10:30</td><td>入住</td><td>酒店穿梭巴士 → 寄存行李</td><td><span class="tag tag-pink">酒店</span></td><td>—</td></tr>
-            <tr><td>10:30-21:00</td><td>乐园</td><td>全天畅玩 + 20:30烟花秀</td><td><span class="tag tag-yellow">游玩</span></td><td>10.5h</td></tr>
-          </tbody>
-        </table>
-
-        <div class="day-label" style="color:var(--xb-pink);">&#x1F305; Day 2 — 8月2日（周六）香港迪士尼 → 茶餐厅 → 广州</div>
-        <table class="plan-summary-table">
-          <thead><tr><th style="width:10%">时间</th><th style="width:30%">环节</th><th style="width:35%">详情</th><th style="width:15%">标签</th><th style="width:10%">耗时</th></tr></thead>
-          <tbody>
-            <tr><td>08:00-09:30</td><td>早餐+泳池</td><td>探索家酒店自助早餐 + 室外泳池</td><td><span class="tag tag-pink">酒店</span></td><td>1.5h</td></tr>
-            <tr><td>09:30-10:00</td><td>退房</td><td>行李寄存礼宾部</td><td><span class="tag tag-pink">酒店</span></td><td>—</td></tr>
-            <tr><td>10:00-10:35</td><td>港铁</td><td>迪士尼 → 欣澳 → 九龙站</td><td><span class="tag tag-blue">港铁</span></td><td>~35min</td></tr>
-            <tr><td>10:35-12:30</td><td>茶餐厅</td><td>金二少冰室/添好运/点点心等</td><td><span class="tag tag-green">美食</span></td><td>~2h</td></tr>
-            <tr><td>12:30-13:00</td><td>前往车站</td><td>步行至西九龙站</td><td><span class="tag tag-yellow">通关</span></td><td>—</td></tr>
-            <tr><td>13:00-14:00</td><td>高铁</td><td>香港西九龙 → 广州南，二等座 ¥215/人</td><td><span class="tag tag-green">高铁</span></td><td>~60min</td></tr>
-            <tr><td>14:00-15:00</td><td>地铁</td><td>2号线 → 5号线 → 西村C口 → 君荟名轩</td><td><span class="tag tag-blue">地铁</span></td><td>~50min</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ===== 2. TRANSPORT PAYMENT GUIDE ===== -->
-    <section class="section" id="transport-guide">
-      <div class="section-header">
-        <div class="section-icon">&#x1F4B3;</div>
-        <h2 class="section-title">交通票务完全指南（内地游客必读）</h2>
-      </div>
-      <p>很多内地朋友第一次去香港，最困惑的就是"怎么买地铁票""要准备多少现金"。这里用最直白的方式讲清楚。</p>
-
-      <h3 style="margin:1.5rem 0 1rem; color:var(--xb-accent);">&#x1F684; 第一步：高铁票（广州南 ⇄ 香港西九龙）</h3>
-      <div class="info-cards">
-        <div class="info-card">
-          <h4>&#x1F4F1; 购票方式</h4>
-          <ul>
-            <li><strong>12306 APP</strong> — 最方便，提前15天放票，电子票直接刷身份证乘车</li>
-            <li><strong>携程/同程</strong> — 可用支付宝/微信支付，自动抢票</li>
-            <li><strong>车站窗口</strong> — 凭身份证购买，支持现金/扫码</li>
-            <li>&#x26A0;&#xFE0F; 记得买<strong>往返票</strong>！暑假周末票紧张</li>
-          </ul>
+        <div class="day-label">DAY 1 · 8月1日（周五）广州 → 香港迪士尼</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>时间</th><th>环节</th><th>详情</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>出发</td><td>君荟名轩 → 西村C口（楼下即到）</td><td>—</td></tr>
+              <tr><td>07:00-07:50</td><td>地铁</td><td>5号线 → 2号线 → 广州南站</td><td>~50min</td></tr>
+              <tr><td>08:15-09:15</td><td>高铁</td><td>广州南 → 香港西九龙，二等座 ¥215/人</td><td>~60min</td></tr>
+              <tr><td>09:15-09:35</td><td>过关</td><td>西九龙站一地两检，港澳通行证</td><td>~20min</td></tr>
+              <tr><td>09:35-10:05</td><td>港铁</td><td>九龙 → 东涌线 → 欣澳 → 迪士尼线</td><td>~30min</td></tr>
+              <tr><td>10:05-10:30</td><td>入住</td><td>酒店穿梭巴士 → 寄存行李（15:00后进房）</td><td>—</td></tr>
+              <tr><td>10:30-21:00</td><td>乐园</td><td>全天畅玩 + 20:30 烟花秀</td><td>10.5h</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="info-card">
-          <h4>&#x1F4B0; 票价参考</h4>
-          <ul>
-            <li>二等座：<span class="price-cny">¥215/人</span></li>
-            <li>一等座：<span class="price-cny">¥344/人</span></li>
-            <li>商务座：<span class="price-cny">¥645/人</span></li>
-            <li>儿童票（1.2-1.5m）：半价</li>
-            <li>&#x1F4CD; 推荐二等座，性价比最高</li>
-          </ul>
+        <div class="day-label" style="color:var(--accent2);">DAY 2 · 8月2日（周六）香港迪士尼 → 茶餐厅 → 广州</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>时间</th><th>环节</th><th>详情</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:00-09:30</td><td>早餐+泳池</td><td>探索家酒店自助早餐 + 室外泳池</td><td>1.5h</td></tr>
+              <tr><td>09:30-10:00</td><td>退房</td><td>行李寄存礼宾部</td><td>—</td></tr>
+              <tr><td>10:00-10:35</td><td>港铁</td><td>迪士尼 → 欣澳 → 九龙站</td><td>~35min</td></tr>
+              <tr><td>10:35-12:30</td><td>茶餐厅</td><td>金二少冰室 / 添好运 / 点点心等</td><td>~2h</td></tr>
+              <tr><td>12:30-13:00</td><td>前往车站</td><td>步行至西九龙站（预留30分钟过关）</td><td>—</td></tr>
+              <tr><td>13:00-14:00</td><td>高铁</td><td>香港西九龙 → 广州南，二等座 ¥215/人</td><td>~60min</td></tr>
+              <tr><td>14:00-15:00</td><td>地铁</td><td>2号线 → 5号线 → 西村C口 → 到家</td><td>~50min</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <h3 style="margin:2rem 0 1rem; color:var(--xb-purple);">&#x1F687; 第二步：香港港铁怎么坐？（四种支付方式）</h3>
-      <div class="payment-grid">
-        <div class="payment-card">
-          <div class="pay-icon">&#x1F4F1;</div>
-          <h4>支付宝（推荐！）</h4>
-          <p>打开支付宝App → 点击"出行" → 城市选<strong>"香港"</strong> → 领取"港铁乘车码"。<br>扫<strong>紫色闸机</strong>进出，自动按汇率扣人民币。<br><span class="tag tag-green">无需八达通，无需现金！</span></p>
-        </div>
-        <div class="payment-card">
-          <div class="pay-icon">&#x1F4F1;</div>
-          <h4>微信支付</h4>
-          <p>搜索"搭车码"小程序 → 城市切换为"香港" → 实名认证 → 扫码乘车。<br>支持<strong>"同行码"</strong>（一部手机最多帮2位家人扫码，非常适合带娃！）<br>同样走紫色闸机，人民币结算。</p>
-        </div>
-        <div class="payment-card">
-          <div class="pay-icon">&#x1F4B3;</div>
-          <h4>八达通（传统方式）</h4>
-          <p>香港通用电子钱包。地铁站客服中心可购买（HK$150，含$50押金）。<br>便利店/茶餐厅/巴士都能用。<br>iPhone可<strong>直接开通电子八达通</strong>，无需实体卡。</p>
-        </div>
-        <div class="payment-card">
-          <div class="pay-icon">&#x1F4B5;</div>
-          <h4>现金/单程票</h4>
-          <p>地铁站红色售票机买塑料单程票：触屏选目的地→选票种→投币/扫码。<br>单程票价：<strong>HK$5~65</strong>（按距离）。<br>&#x26A0;&#xFE0F; 找零可能给硬币，不太方便。</p>
-        </div>
-      </div>
-
-      <div class="alert alert-success" style="margin-top:1.5rem;">
-        <h4>&#x2705; 家庭出行推荐方案</h4>
-        <p><strong>大人用支付宝/微信乘车码</strong>（各自扫各自的手机），<strong>小孩用微信"同行码"功能</strong>（家长手机帮扫），一部手机搞定全家地铁出行。无需买八达通，无需排队购票。</p>
-        <p style="margin-top:0.5rem;"><strong>迪士尼段费用：</strong>九龙→欣澳→迪士尼，成人单程约 <span class="price-hkd">HK$23</span>，支付宝自动扣 ~<span class="price-cny">¥21</span>。</p>
-      </div>
-
-      <div class="alert alert-info" style="margin-top:1rem;">
-        <h4>&#x1F4CD; 高铁 → 港铁 接驳关键信息</h4>
-        <p>到达西九龙站后，跟着"<strong>港铁九龙站</strong>"指示牌走（约5分钟步行通道连接）。<br>九龙站和柯士甸站都在西九龙站地下连通，去迪士尼方向<strong>从九龙站出发</strong>最方便：</p>
-        <p style="margin-top:0.5rem;"><strong>&#x1F687; 九龙站 → 东涌线（往东涌方向）→ 欣澳站（第5站下车）→ 换乘迪士尼线（往迪士尼方向）→ 迪士尼站（终点）</strong></p>
-        <p>全程约30分钟，欣澳换乘迪士尼线只需走对面月台，非常方便。</p>
-      </div>
-
-      <!-- 交通实景图集（点击缩略图打开灯箱，深圳子站模式） -->
-      <div class="gallery-grid">
-        <div class="spot-card-image" style="background-image: url('images/transport/01-hsr-train.jpg')" onclick="openGallery('transport-hsr')">
-          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('transport-hsr')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            4张
-          </button>
-          <span class="gallery-cap">&#x1F684; 高铁 · 广州南 ⇄ 西九龙</span>
-        </div>
-        <div class="spot-card-image" style="background-image: url('images/transport/05-mtr-station.jpg')" onclick="openGallery('transport-mtr')">
-          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('transport-mtr')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            5张
-          </button>
-          <span class="gallery-cap">&#x1F687; 港铁 MTR · 九龙 ⇄ 迪士尼</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 3. DETAILED SCHEDULE ===== -->
-    <section class="section" id="schedule">
-      <div class="section-header">
-        <div class="section-icon">&#x1F4C5;</div>
-        <h2 class="section-title">详细行程时刻</h2>
-      </div>
-
-      <h3 style="margin-bottom:1rem; color:var(--xb-accent);">Day 1 — 8月1日（周五）</h3>
       <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 晴天</div><div class="line"></div></div>
         <div class="timeline-item">
-          <div class="timeline-time">07:00</div>
-          <div class="timeline-title">&#x1F3E0; 君荟名轩出发</div>
-          <div class="timeline-desc">楼下即是西村站C口，步行不到1分钟。搭乘<strong>5号线（滘口方向）</strong>。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-metro">5号线</span></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:00 — 09:35</div>
+          <div class="timeline-content">
+            <h4>🚇 广州 → 西九龙（地铁+高铁+一地两检）</h4>
+            <p>楼下西村站C口步行不到1分钟。5号线（滘口方向）2站到广州火车站，站内换乘2号线（广州南站方向）约15站35分钟到广州南。高铁 G字头约51-60分钟到香港西九龙，二等座 <span class="price-cny">¥215/人</span>，有电源插座可充电。持港澳通行证+有效签注，内地出境+香港入境在同一大厅完成（一地两检），一般5-10分钟。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">地铁</span><span class="timeline-tag view">高铁</span><span class="timeline-tag warn">通关</span></div>
+            <div class="media-cover"><img src="images/transport/01-hsr-train.jpg" alt="高铁列车" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="images/transport/01-hsr-train.jpg" alt="高铁列车" loading="lazy" decoding="async">
+              <img src="images/transport/04-gangxia-hsr.jpg" alt="车厢" loading="lazy" decoding="async">
+              <img src="images/transport/05-mtr-station.jpg" alt="港铁站" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-time">07:00-07:15</div>
-          <div class="timeline-title">&#x1F687; 西村 → 广州火车站（2站）</div>
-          <div class="timeline-desc">约5分钟。站内按指示换乘<strong>2号线（广州南站方向）</strong>。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-metro">换乘</span><span class="timeline-tag tag-metro">2号线</span></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:35 — 10:30</div>
+          <div class="timeline-content">
+            <h4>🏨 港铁抵达 + 酒店入住寄存</h4>
+            <p>九龙站乘<strong>东涌线</strong>往东涌方向（5站）→ 欣澳站换乘<strong>迪士尼线</strong>（1站）。迪士尼专列车窗是米奇头形状、车厢内有迪士尼雕像，超好拍！出站后乘<strong>免费酒店穿梭巴士</strong>（约5分钟）到探索家度假酒店，先办入住、寄存行李，15:00后进房。前台可索取乐园地图和演出时刻表。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">探索家</span><span class="timeline-tag kid">免费巴士</span></div>
+            <div class="media-cover"><img src="images/transport/09-disney-station.jpg" alt="迪士尼站" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="images/transport/09-disney-station.jpg" alt="迪士尼站" loading="lazy" decoding="async">
+              <img src="images/transport/08-mtr-jordan.jpg" alt="佐敦站" loading="lazy" decoding="async">
+              <img src="images/hotel/03-hotel-hall.jpg" alt="酒店大堂" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-time">07:15-07:50</div>
-          <div class="timeline-title">&#x1F687; 广州火车站 → 广州南站</div>
-          <div class="timeline-desc">约15站、35分钟。早高峰2号线往南方向相对不挤。建议在站内便利店买早餐带上高铁吃。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-metro">2号线</span><span class="timeline-tag tag-food">早餐</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">08:15-09:15</div>
-          <div class="timeline-title">&#x1F684; 高铁 G字头 广州南 → 香港西九龙</div>
-          <div class="timeline-desc">约51-60分钟。推荐08:00-08:30时段发车的车次。二等座 <span class="price-cny">¥215/人</span>。高铁上有电源插座，可以给手机充电。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-train">高铁</span><span class="timeline-tag tag-train">¥215</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">09:15-09:35</div>
-          <div class="timeline-title">&#x1F6C2; 西九龙站过关（一地两检）</div>
-          <div class="timeline-desc">持港澳通行证+有效签注，内地出境+香港入境在同一大厅完成。自助通道快速通过，一般5-10分钟。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-warn">通关</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">09:35-10:05</div>
-          <div class="timeline-title">&#x1F687; 港铁：九龙 → 欣澳 → 迪士尼</div>
-          <div class="timeline-desc">九龙站乘<strong>东涌线</strong>往东涌方向（5站）→ 欣澳站换乘<strong>迪士尼线</strong>（1站）。<br>&#x2728; 迪士尼专列窗户是米奇头形状、车厢内有迪士尼雕像，超好拍！</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-metro">港铁</span><span class="timeline-tag tag-kid">拍照</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">10:05-10:30</div>
-          <div class="timeline-title">&#x1F3E8; 抵达！酒店入住 + 寄存行李</div>
-          <div class="timeline-desc">迪士尼站出站后，乘<strong>免费酒店穿梭巴士</strong>（约5分钟）到探索家度假酒店。先办理入住手续、寄存行李，15:00后可正式进房间。前台可索取乐园地图和演出时刻表。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-hotel">探索家</span><span class="timeline-tag tag-kid">免费巴士</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">10:30-21:00</div>
-          <div class="timeline-title">&#x1F3B0; 迪士尼乐园全天畅玩！</div>
-          <div class="timeline-desc"><strong>开园 10:00，闭园 21:00。烟花秀约 20:30 开始。</strong><br>香港迪士尼比上海小很多，但排队时间短（热门项目25-40分钟，普通项目20分钟内），一天可以刷完所有重点项目。<br>详细游玩攻略见下方「<a href="#rides" style="color:var(--xb-accent);">乐园游玩攻略</a>」。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-kid">核心</span><span class="timeline-tag tag-food">烟花</span></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">10:30 — 21:00</div>
+          <div class="timeline-content">
+            <h4>🎢 迪士尼乐园全天畅玩 + 20:30 烟花秀</h4>
+            <p><strong>开园 10:00，闭园 21:00，烟花秀约 20:30。</strong>港迪比上迪小，排队短，一天可刷完全部重点项目。游玩策略：<strong>入园先冲最热门，逆时针一圈刷下来</strong>——魔雪奇缘世界（全球独家）→ 探险世界 → 灰熊山谷（港迪王牌极速矿车）→ 迷离庄园（独有迷离大宅）→ 反斗奇兵大本营 → 幻想世界 → 明日世界（漫威）。必看收尾：迪士尼星梦光影之旅（无人机+投影+烟花+喷泉）。</p>
+            <div class="timeline-tags"><span class="timeline-tag kid">核心</span><span class="timeline-tag free">烟花</span><span class="timeline-tag view">8园区</span></div>
+            <div class="media-cover"><img src="images/disney/04-fireworks.jpg" alt="烟花秀" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="images/disney/04-fireworks.jpg" alt="烟花秀" loading="lazy" decoding="async">
+              <img src="images/disney/01-castle.jpg" alt="城堡" loading="lazy" decoding="async">
+              <img src="images/disney/06-carousel.jpg" alt="旋转木马" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
       </div>
 
-      <h3 style="margin:2.5rem 0 1rem; color:var(--xb-pink);">Day 2 — 8月2日（周六）</h3>
       <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 2 · 回程</div><div class="line"></div></div>
         <div class="timeline-item">
-          <div class="timeline-time">08:00-09:30</div>
-          <div class="timeline-title">&#x1F3CA; 酒店早餐 + 泳池/花园漫步</div>
-          <div class="timeline-desc">探索家酒店云龙轩自助早餐（HK$200+/人），有时迪士尼朋友会来打招呼！四大洲主题花园很适合拍照。室外泳池全年开放。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-hotel">早餐</span><span class="timeline-tag tag-kid">泳池</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">09:30-10:00</div>
-          <div class="timeline-title">&#x1F3E8; 退房</div>
-          <div class="timeline-desc">11:00前退房。若不赶时间，行李可免费寄存礼宾部，还能继续用酒店设施（泳池、儿童游乐场）。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-hotel">退房</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">10:00-10:35</div>
-          <div class="timeline-title">&#x1F687; 港铁返回九龙站/柯士甸站</div>
-          <div class="timeline-desc">迪士尼 → 欣澳 → 东涌线 → 九龙站。约30-35分钟。出站后步行至佐敦/柯士甸道一带觅食。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-metro">返程</span></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:00 — 12:30</div>
+          <div class="timeline-content">
+            <h4>🍳 酒店早餐 + 返程茶餐厅</h4>
+            <p>探索家酒店云龙轩自助早餐（HK$200+/人，有时迪士尼朋友来打招呼），四大洲主题花园适合拍照、室外泳池全年开放。11:00前退房，行李免费寄存礼宾部。港铁返回九龙站/柯士甸站（约30-35分钟），出站后步行至佐敦/柯士甸道一带觅食：金二少冰室、添好运、点点心等。详见 <a class="in-doc-link" href="#spots">景点 & 餐厅总览</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag hotel">早餐</span><span class="timeline-tag food">港味</span><span class="timeline-tag drive">返程</span></div>
+            <div class="media-cover"><img src="images/food/01-toast-drink.jpg" alt="茶餐厅" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="images/food/01-toast-drink.jpg" alt="茶餐厅" loading="lazy" decoding="async">
+              <img src="images/food/05-breakfast.jpg" alt="早餐" loading="lazy" decoding="async">
+              <img src="images/food/03-sandwich.jpg" alt="三文治" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-time">10:35-12:30</div>
-          <div class="timeline-title">&#x1F372; 地道港式茶餐厅午餐</div>
-          <div class="timeline-desc">推荐<strong>金二少冰室</strong>（步行7分钟）或<strong>添好运</strong>（西九龙站内）。必点：冰火菠萝油、丝袜奶茶、沙嗲牛肉公仔面。详见「<a href="#food" style="color:var(--xb-accent);">茶餐厅推荐</a>」。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-food">重点</span><span class="timeline-tag tag-kid">港味</span></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:30 — 15:00</div>
+          <div class="timeline-content">
+            <h4>🚄 西九龙 → 广州南 → 西村 → 到家</h4>
+            <p>步行约10分钟至西九龙站，预留至少30分钟过关（出境香港+入境内地）。高铁二等座 <span class="price-cny">¥215/人</span>，建议购13:00-14:00出发车次。到广州南后2号线→5号线→西村C口，约50分钟到家，完美的周末！</p>
+            <div class="timeline-tags"><span class="timeline-tag view">高铁</span><span class="timeline-tag warn">通关</span><span class="timeline-tag drive">到家</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 方案 B -->
+    <div class="plan-content" id="planB">
+      <div class="media-block">
+        <div class="media-cover"><img src="images/disney/05-victorian-hotel.jpg" alt="室内项目" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="images/disney/05-victorian-hotel.jpg" alt="室内项目" loading="lazy" decoding="async">
+          <img src="images/disney/01-castle.jpg" alt="城堡" loading="lazy" decoding="async">
+          <img src="images/disney/03-castle-dusk2.jpg" alt="夜色" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="tips-box warn" style="margin-bottom:1rem;">
+        <div class="tips-box-title">🌧️ 适用前提</div>
+        <p>8/1-2 香港降雨 / 雷暴概率偏高，烟花秀（星梦光影之旅）被取消概率很高，户外过山车也可能因雷暴临时停运。<strong>方案 B 把 8/1 当主力烟花夜（提前占位），8/2 以室内项目 + 雨备动线为主。</strong></p>
+      </div>
+
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 8月1日（晴天窗口优先占位烟花）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>时间</th><th>环节</th><th>详情</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00-10:30</td><td>通勤</td><td>同方案 A：广州 → 西九龙 → 酒店寄存</td><td>3.5h</td></tr>
+              <tr><td>10:30-18:00</td><td>乐园</td><td>逆时针刷项目，优先灰熊/迷离/魔雪等独家</td><td>7.5h</td></tr>
+              <tr><td>18:00-18:30</td><td>占位</td><td>城堡前提前占位，备透明雨衣</td><td>0.5h</td></tr>
+              <tr><td>20:30</td><td>烟花</td><td>若天气允许，看星梦光影之旅（否则转室内）</td><td>0.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label" style="color:var(--accent2);">DAY 2 · 8月2日（暴雨保底 · 室内优先）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>时间</th><th>环节</th><th>详情</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>09:30-12:00</td><td>室内动线</td><td>迷离大宅 → 米奇幻想曲 → 小熊维尼 → 冰雪奇缘 → 狮子王庆典</td><td>2.5h</td></tr>
+              <tr><td>12:00-13:00</td><td>雨备</td><td>善用单 Rider 通道，雷暴暂停时转室内剧场</td><td>1h</td></tr>
+              <tr><td>13:00-15:00</td><td>回程</td><td>茶餐厅 → 西九龙 → 广州南（同方案 A）</td><td>2h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">雨备动线</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">室内优先清单</div>
+          <div class="timeline-content">
+            <h4>🏛️ 雨天也能玩的项目</h4>
+            <p>优先室内：<strong>迷离大宅</strong>（港迪独有，不恐怖）、<strong>米奇幻想曲</strong>（4D，有空调）、<strong>小熊维尼历险记</strong>、<strong>魔雪奇幻之旅</strong>（乘船但有顶棚）、<strong>迪士尼魔法书房</strong>（20分钟歌舞剧）、<strong>铁甲奇侠飞行之旅 / 星战极速穿梭</strong>（室内漫威）。反斗奇兵大本营几乎无遮荫，雨天/烈日都建议避开正午。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">室内</span><span class="timeline-tag kid">全年龄</span><span class="timeline-tag warn">防雷暴</span></div>
+            <div class="media-cover"><img src="images/disney/05-victorian-hotel.jpg" alt="室内场馆" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="images/disney/05-victorian-hotel.jpg" alt="室内场馆" loading="lazy" decoding="async">
+              <img src="images/disney/07-ferry-pier.jpg" alt="码头" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-time">12:30-13:00</div>
-          <div class="timeline-title">&#x1F6B6; 前往西九龙高铁站</div>
-          <div class="timeline-desc">步行约10分钟。预留至少30分钟过关（出境香港+入境内地）。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-warn">过关</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">13:00-14:00</div>
-          <div class="timeline-title">&#x1F684; 高铁 香港西九龙 → 广州南</div>
-          <div class="timeline-desc">二等座 <span class="price-cny">¥215/人</span>。建议购买13:00-14:00出发车次。</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-train">高铁</span></div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">14:00-15:00</div>
-          <div class="timeline-title">&#x1F3E0; 广州南 → 2号线 → 5号线 → 西村 → 到家</div>
-          <div class="timeline-desc">约50分钟。下午到家，小朋友可以休息一下，完美的周末！</div>
-          <div class="timeline-tags"><span class="timeline-tag tag-metro">到家</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 4. DISNEY RIDES GUIDE ===== -->
-    <section class="section" id="rides">
-      <div class="section-header">
-        <div class="section-icon">&#x1F3A2;</div>
-        <h2 class="section-title">迪士尼乐园深度游玩攻略</h2>
-      </div>
-      <p>香港迪士尼共<strong>8大主题园区</strong>。以下按<strong>推荐游玩顺序</strong>排列，并附每项设施详细评测、适合人群和排队策略。</p>
-
-      <div class="alert alert-info">
-        <h4>&#x1F4A1; 游玩总策略</h4>
-        <p><strong>核心原则：入园先冲最热门的，顺着园区逆时针一圈刷下来。</strong>港迪比上迪小很多，人少排队快，热门项目25-40分钟，其他20分钟内搞定。一天轻松刷完所有必玩。</p>
-      </div>
-
-      <!-- Area 1: 魔雪奇缘世界 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">1</span> 魔雪奇缘世界（Frozen 主题，全球独家！入园首冲！）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>魔雪奇幻之旅</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>全球首个冰雪奇缘主题乘船项目。坐船穿越阿伦戴尔王国，90度俯冲+倒退+实景特效，艾莎施法场面极为震撼！场景还原度满分。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">室内</span><span class="ride-family">全年龄</span><span class="ride-thrill">小刺激</span>
-              <span>&#x1F4CF; 无身高限制</span><span>&#x23F1; ~6分钟</span><span>&#x1F465; 排队最长</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>雪岭滑雪橇</h4><span class="ride-stars">&#x2B50;&#x2B50;</span></div>
-            <p>30秒不到的儿童过山车，排队经常1小时+但刺激度几乎为零。<strong>时间紧张直接跳过！</strong>有小朋友实在想坐的话，用App看排队时间决定。</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">室外</span><span class="ride-family">低龄</span>
-              <span>&#x1F4CF; ≥102cm</span><span>&#x23F1; ~30秒</span><span>&#x26A0;&#xFE0F; 排队久</span>
-            </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">装备 & 策略</div>
+          <div class="timeline-content">
+            <h4>☔ 雨具与排队策略</h4>
+            <p>备<strong>透明雨衣</strong>（比雨伞方便玩项目）；善用<strong>单人 Rider 通道</strong>缩短排队；雷暴预警时户外项目会暂停，立刻转室内剧场或商店；下载"香港迪士尼乐园"App 实时查排队与演出。若 T3+ 风球覆盖 8/1-2，按 <a class="in-doc-link" href="#weather">天气评估</a> 预案改期。</p>
+            <div class="timeline-tags"><span class="timeline-tag free">透明雨衣</span><span class="timeline-tag drive">单 Rider</span><span class="timeline-tag warn">看App</span></div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
 
-      <!-- Area 2: 探险世界 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">2</span> 探险世界（乘船探险 + 狮子王演出）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>森林河流之旅</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>乘船穿越热带雨林，船长幽默互动讲解，沿途有动物雕塑+火山爆发+喷水特效。<strong>可选普通话/粤语/英语三条航线</strong>。晚上玩更有氛围！</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">室外</span><span class="ride-family">亲子必玩</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~8分钟</span><span>&#x1F4AC; 选普通话线</span>
-            </div>
-          </div>
+  <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">旅行不只是看热闹——出发前，给孩子讲讲香港和迪士尼的小故事。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-hk">
+        <div class="media-cover"><img src="images/transport/08-mtr-jordan.jpg" alt="香港街景" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="images/transport/08-mtr-jordan.jpg" alt="香港街景" loading="lazy" decoding="async">
+          <img src="images/transport/05-mtr-station.jpg" alt="港铁" loading="lazy" decoding="async">
         </div>
+        <div class="culture-card-head"><div class="c-icon">🇭🇰</div><h4>香港是什么地方？</h4></div>
+        <p><b>背景：</b>香港是中国的特别行政区，由香港岛、九龙、新界和260多个岛屿组成，地处珠江口东侧、南海之滨。这里<strong>中西方文化交汇</strong>——既有高楼林立的维港天际线，也保留着老街茶餐厅的市井烟火；既有高效便捷的港铁，也通用港币与繁体中文。<br><b>讲给孩子听：</b>我们坐高铁"一地两检"过关，其实就是一次跨越口岸的小旅行。香港和广州同说粤语、同饮珠江水，却又有着不一样的城市节奏——茶餐厅里"唔该"（谢谢）、"冻饮"（冷饮）这些词，都是岭南文化的活化石。</p>
       </div>
-
-      <!-- Area 3: 灰熊山谷 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">3</span> 灰熊山谷（港迪独家！必玩王牌）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>灰熊山极速矿车</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p><strong>不玩等于白来港迪！</strong>全球香港独家。全长达1099米，矿车<strong>会前进也会突然倒退</strong>，途中有灰熊动画、爆炸特效、喷水，最后还有一段加速冲出矿山。刺激度适中，不恐怖但非常过瘾。</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">室外</span><span class="ride-thrill">刺激</span><span class="ride-family">必玩！</span>
-              <span>&#x1F4CF; ≥112cm</span><span>&#x23F1; ~3分钟</span><span>&#x1F30D; 全球独家</span>
-            </div>
-          </div>
+      <div class="culture-card" id="culture-disney">
+        <div class="media-cover"><img src="images/disney/01-castle.jpg" alt="迪士尼城堡" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="images/disney/01-castle.jpg" alt="迪士尼城堡" loading="lazy" decoding="async">
+          <img src="images/disney/06-carousel.jpg" alt="旋转木马" loading="lazy" decoding="async">
         </div>
+        <div class="culture-card-head"><div class="c-icon">🏰</div><h4>迪士尼乐园为什么特别？</h4></div>
+        <p><b>背景：</b>全球有6座迪士尼度假区。香港迪士尼 2005 年开幕，是<strong>面积最小的</strong>一座，但正因为小，排队短、一天能玩遍。它拥有多个<strong>全球 / 港迪独家项目</strong>：魔雪奇缘世界（全球首个冰雪奇缘园区）、灰熊山谷极速矿车、迷离大宅。<br><b>讲给孩子听：</b>别的城市看不到的"冰雪奇缘"乘船、会倒着开的矿山车，只有来香港才能玩到。城堡每晚的烟花秀，是工程师用无人机+投影+喷泉和童话音乐合演的"魔法"，看完记得许个愿。</p>
       </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
 
-      <!-- 乐园实景图集 -->
-      <div class="gallery-grid">
-        <div class="spot-card-image" style="background-image: url('images/disney/01-castle.jpg')" onclick="openGallery('disney')">
-          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('disney')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            7张
-          </button>
-          <span class="gallery-cap">&#x1F3F0; 香港迪士尼乐园 · 园区实景</span>
-        </div>
+  <!-- ===== 5. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">以下时间为常规参考，<strong>以官方当日公告（香港迪士尼 App / 酒店前台 / 港铁）为准</strong>，暑假及节假日可能延长。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>香港迪士尼乐园</td><td>约 10:00-21:00</td><td>成人 <span class="price-cny">¥517-670</span></td><td>烟花秀约 20:30；雨天/风球可能取消</td></tr>
+          <tr><td>探索家度假酒店</td><td>入住 15:00 / 退房 11:00</td><td>HK$2,035 起/晚</td><td>行李可免费寄存；穿梭巴士约5分钟</td></tr>
+          <tr><td>高铁 广州南 ⇄ 西九龙</td><td>约 06:00-22:00 发车</td><td>二等座 <span class="price-cny">¥215</span></td><td>提前15天放票；跨境段风球优先停</td></tr>
+          <tr><td>港铁（含迪士尼线）</td><td>约 06:00-00:30</td><td>单程 HK$5-65</td><td>支付宝/微信扫码走紫色闸机</td></tr>
+          <tr><td>金二少冰室等茶餐厅</td><td>06:00-23:00 不等</td><td>HK$40-100/人</td><td>多收现金；幸运茶点至凌晨2点</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box success" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 行程复核结论</div>
+      <ul>
+        <li><strong>通勤时长：</strong>广州→西九龙高铁约60分钟 + 过关约20分钟 + 港铁约30分钟，单程预留 2 小时足够。</li>
+        <li><strong>旺季限流：</strong>暑假周末乐园人多，建议购 2 日连玩票或住园区酒店享提前入园；门票需在 App 预约入园日期。</li>
+        <li><strong>天气变量：</strong>8/1-2 雷暴概率高，烟花与户外项目可能取消，已备 <a class="in-doc-link" href="#plans">方案 B 雨备动线</a> 与 <a class="in-doc-link" href="#weather">天气预案</a>。</li>
+        <li><strong>预约项：</strong>高铁往返票、乐园门票（含入园预约）、酒店确认单——出发前截屏离线保存。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6. 酒店推荐 ===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      酒店推荐
+    </h2>
+    <p class="section-desc">三家均为迪士尼度假区官方酒店，享<strong>免费穿梭巴士</strong>（约5分钟直达乐园）、<strong>提前入园</strong>等专属礼遇。本次首选探索家度假酒店。</p>
+    <div class="media-block">
+      <div class="media-cover"><img src="images/hotel/03-hotel-hall.jpg" alt="酒店大堂" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="images/hotel/03-hotel-hall.jpg" alt="酒店大堂" loading="lazy" decoding="async">
+        <img src="images/hotel/04-hotel-hallway.jpg" alt="酒店走廊" loading="lazy" decoding="async">
       </div>
+    </div>
+    <p style="font-size:.78rem;color:var(--text-dim);margin:.4rem 0 1rem;">⚠️ 说明：以上为酒店大堂 / 走廊<strong>环境参考</strong>实景，非三家酒店专属外观。受沙箱网络限制（携程 / 大众点评 / 马蜂窝等图床防盗链），未能获取三家官方酒店专属外观图；你可在本地用真实照片替换 <code>images/hotel/</code> 下文件后刷新即可。</p>
 
-      <!-- Area 4: 迷离庄园 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">4</span> 迷离庄园（港迪独家！无恐暗黑骑乘）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>迷离大宅</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p><strong>港迪独有项目。</strong>乘坐电磁车探索亨利爵士的奇幻收藏，视觉特效+趣味剧情+丝滑转场，像闯入魔法屋一样。完全不恐怖，小朋友也能玩。机关与光影设计非常有料，拍照也好看。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">室内</span><span class="ride-family">全年龄</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~5分钟</span><span>&#x1F30D; 全球独家</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>对比维度</th><th>迪士尼探索家度假酒店 <span class="tag green">首选</span></th><th>香港迪士尼乐园酒店</th><th>迪士尼好莱坞酒店</th></tr></thead>
+        <tbody>
+          <tr><td><strong>开业年份</strong></td><td>2017年（最新）</td><td>2005年</td><td>2005年（翻新过）</td></tr>
+          <tr><td><strong>设计风格</strong></td><td>🌍 四大洲探险主题，异国风情</td><td>🏰 维多利亚式宫殿</td><td>🎬 美式好莱坞复古</td></tr>
+          <tr><td><strong>评分</strong></td><td>⭐ 9.2/10（Trip.com 1.1万+条）</td><td>⭐ 4.5/5</td><td>⭐ 4.4/5</td></tr>
+          <tr><td><strong>8月1日房价</strong></td><td><span class="price-hkd">HK$2,035 — 2,506</span></td><td><span class="price-hkd">HK$2,800 — 3,200</span></td><td><span class="price-hkd">HK$800 — 1,200</span></td></tr>
+          <tr><td><strong>房型面积</strong></td><td>标准/豪华 34m²，可住4人；家庭相连房 68m²</td><td>标准 35m²；国宾厅享酒廊</td><td>标准 29m²，相对较小</td></tr>
+          <tr><td><strong>泳池</strong></td><td>🏊 大型室外泳池（全年开放）</td><td>室内+室外双泳池</td><td>钢琴造型室外泳池+滑水梯</td></tr>
+          <tr><td><strong>儿童设施</strong></td><td>✅ 儿童游乐场、俱乐部、手作工坊、免费婴儿用品</td><td>✅ 童话天地、米奇迷宫花园</td><td>✅ 儿童游戏室</td></tr>
+          <tr><td><strong>到乐园交通</strong></td><td>免费穿梭巴士，约5分钟</td><td>免费穿梭巴士，约5-8分钟</td><td>穿梭巴士或步行10分钟</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box success" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 结论：探索家度假酒店 最适合你们家</div>
+      <ul>
+        <li><strong>最新（2017年）</strong> — 设施新、装修精致，比2005年开业的另外两家好很多。</li>
+        <li><strong>最适合亲子</strong> — 9.2 超高评分中"亲子"标签最突出，儿童设施多、免费提供婴儿用品。</li>
+        <li><strong>价格合理</strong> — 8月1日 HK$2,035 起，园区酒店中性价比最高。</li>
+        <li><strong>预算收紧备选：</strong>好莱坞酒店 HK$800-1,200，同为官方酒店享全部住客权益。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
 
-      <!-- Area 5: 反斗奇兵大本营 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">5</span> 反斗奇兵大本营（玩具总动员主题，拍照圣地）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>冲天遥控车</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p><strong>港迪最刺激项目。</strong>U型滑板式设计，压肩束缚，冲到顶端失重感拉满。坐最后一排更爽！小孩身高不够或怕晕慎选。</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">室外</span><span class="ride-thrill">超刺激</span>
-              <span>&#x1F4CF; ≥120cm</span><span>&#x23F1; ~2分钟</span><span>&#x26A0;&#xFE0F; 最刺激</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>玩具兵团跳降伞</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>温柔版升降项目，有点小失重但整体速度不快。适合亲子或者不敢玩太刺激的大人，慢悠悠欣赏园区风景也不错。</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">室外</span><span class="ride-family">亲子</span>
-              <span>&#x1F4CF; ≥81cm</span><span>&#x23F1; ~2分钟</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>转转弹弓狗</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>温和旋转设施，适合低龄小朋友。坐在弹簧狗造型的小车上转圈，速度不快，小孩会觉得很有趣。</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">室外</span><span class="ride-family">低龄友好</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~1.5分钟</span>
-            </div>
-          </div>
-        </div>
-        <p style="margin-top:0.5rem; font-size:0.8rem; color:var(--xb-warn);">&#x26A0;&#xFE0F; 反斗奇兵整个园区几乎没有遮荫，夏天地面温度很高。建议开园后前两小时或傍晚太阳被山挡住后再来。</p>
-      </div>
+  <!-- ===== 7. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">按 8/1-2 逐环节评估风雨影响，并给出保底方案。数据来源：香港天文台（HKO）2026-07-29 更新。</p>
 
-      <!-- Area 6: 幻想世界 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">6</span> 幻想世界（经典童话区，低龄友好）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>米奇幻想曲</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>4D音乐剧场，喷水、吹风特效超逼真，老少皆宜。结尾彩蛋非常惊喜，是很多人N刷的项目。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">室内4D</span><span class="ride-family">全年龄</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~10分钟</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>小小世界</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>坐船看世界各大洲风土人情，约10分钟的轻松之旅。场景可爱精致，音乐欢快洗脑，小朋友的最爱。室内有空调，可作为中场休息。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">室内乘船</span><span class="ride-family">低龄必玩</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~10分钟</span><span>&#x2744;&#xFE0F; 有空调</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>小熊维尼历险记</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>坐着小车穿越维尼的童话世界，剪纸风格场景非常治愈。排队可能较久，建议用App关注。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">室内</span><span class="ride-family">低龄</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~4分钟</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="tips-box danger" style="margin-bottom:1.2rem;">
+      <div class="tips-box-title">⚠️ 出发前实况（2026-07-29 HKO 更新）</div>
+      <p><strong>直接台风袭击概率：目前偏低。</strong>命名台风"白海豚"已转向日本；"博罗依"横过南海趋向海南以南海域，与本港保持距离；目前香港<strong>无任何热带气旋信号</strong>。</p>
+      <p style="margin-top:.4rem;"><strong>但降雨 / 雷暴风险：偏高，是本次真正的头号风险。</strong>受低压槽+南海扰动影响，HKO 预报 8/1"间中有骤雨及雷暴"（降雨概率中高）、8/2"间中有骤雨及<strong>狂风雷暴</strong>、骤雨转频密"（降雨概率<strong>高</strong>）。台风"红霞"刚于 7/26 以强台风登陆惠州、袭港期间曾发九号信号，证明本季环流活跃——属需持续监测的尾部风险。</p>
+    </div>
 
-      <!-- Area 7: 明日世界 -->
-      <div class="area-section">
-        <div class="area-header"><span class="order-badge">7</span> 明日世界（漫威主场，科幻迷必玩）</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>星战极速穿梭</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>室内黑暗过山车，360度旋转+星际战争特效。港迪速度最快的设施，全程在黑暗中疾驰，完全搞不清方向！星战粉必冲，结尾有动态抓拍可以买照片。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">室内过山车</span><span class="ride-thrill">刺激</span>
-              <span>&#x1F4CF; ≥102cm</span><span>&#x23F1; ~2.5分钟</span><span>&#x1F4F8; 有抓拍</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>铁甲奇侠飞行之旅</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p><strong>全球首个漫威主题项目。</strong>3D动感座椅+飞行模拟，与钢铁侠并肩飞越香港地标（维港、青马大桥），打退九头蛇。座椅动态反馈极强，沉浸感满分！</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">3D动感</span><span class="ride-thrill">沉浸</span>
-              <span>&#x1F4CF; ≥102cm</span><span>&#x23F1; ~5分钟</span><span>&#x1F30D; 全球首个</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>蚁侠与黄蜂女：击战特攻！</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>互动射击项目，用EMP武器对付九头蛇。可以比分数的！大人小孩比着打，青少年和爸爸们特别爱这种竞技感。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">射击互动</span><span class="ride-family">竞技</span>
-              <span>&#x1F4CF; 无限制</span><span>&#x23F1; ~3分钟</span><span>&#x1F3AF; 比分对决</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="info-grid">
+      <div class="info-card"><h4>① 一号风球 <span class="tag blue">影响最低</span></h4><p>热带气旋进入800km范围。乐园正常运营，高铁正常，带伞即可。</p></div>
+      <div class="info-card"><h4>② 三号风球 <span class="tag yellow">部分影响</span></h4><p>户外过山车可能暂停，室内项目照常；高铁通常正常，港铁可能限速。</p></div>
+      <div class="info-card"><h4>③ 八号风球+ <span class="tag red">行程取消</span></h4><p>乐园关闭，高铁可能停运，应待在酒店；出行前若发布则直接改期。</p></div>
+    </div>
 
-      <!-- Shows -->
-      <div class="area-section" style="margin-top:2rem;">
-        <div class="area-header" style="border-left-color:var(--xb-pink);"><span class="order-badge" style="background:var(--xb-pink);">&#x2B50;</span> 必看表演 &amp; 夜间烟花</div>
-        <div class="ride-grid">
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>迪士尼星梦光影之旅</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p><strong>夜间城堡烟花秀，必看收尾项目！</strong>无人机+投影+烟花+喷泉+经典配乐，约20:30开始（具体看当天App通知）。建议提前30分钟到城堡前占位。</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">城堡前</span><span class="ride-family">必看！</span>
-              <span>&#x23F1; ~20分钟</span><span>&#x1F386; 烟花+无人机</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>迪士尼魔法书房</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p>20分钟浓缩7个迪士尼经典故事，歌舞+特效绝佳，互动感极强。幻想世界剧场演出，提前在App查时间。</p>
-            <div class="ride-meta">
-              <span class="ride-indoor">剧场</span><span class="ride-family">必看</span>
-              <span>&#x23F1; ~20分钟</span><span>&#x1F3AD; 歌舞剧</span>
-            </div>
-          </div>
-          <div class="ride-card">
-            <div class="ride-card-header"><h4>Pixar水花大街派对</h4><span class="ride-stars">&#x2B50;&#x2B50;&#x2B50;&#x2B50;</span></div>
-            <p><strong>夏季限定（6/12-8/31）！</strong>皮克斯角色花车巡游+喷水互动，小朋友超爱。可能会被水喷到，夏天正好凉快！</p>
-            <div class="ride-meta">
-              <span class="ride-outdoor">巡游</span><span class="ride-family">夏季限定</span>
-              <span>&#x1F4A6; 会湿身</span><span>&#x2600;&#xFE0F; Pixar</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 5. HOTEL ===== -->
-    <section class="section" id="hotel">
-      <div class="section-header">
-        <div class="section-icon">&#x1F3E8;</div>
-        <h2 class="section-title">酒店详细对比</h2>
-      </div>
-      <p>三大园区官方酒店的完整对比。住任意一家均享<strong>免费穿梭巴士</strong>（5分钟直达乐园）、<strong>提前入园</strong>等专属礼遇。</p>
-
-      <!-- 酒店实景图集 -->
-      <div class="gallery-grid">
-        <div class="spot-card-image" style="background-image: url('images/hotel/03-hotel-hall.jpg')" onclick="openGallery('hotel')">
-          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('hotel')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            2张
-          </button>
-          <span class="gallery-cap">&#x1F3E8; 度假区酒店 · 环境参考</span>
-        </div>
-      </div>
-      <p style="font-size:0.78rem;color:var(--xb-text-dim);margin-top:0.4rem;">&#x26A0;&#xFE0F; 说明：以下为酒店大堂/走廊<strong>环境参考</strong>实景，非三家酒店专属外观。受沙箱网络限制（携程 / 大众点评 / 马蜂窝等图床均防盗链，Flickr、Wikimedia 直链不可达），未能获取香港迪士尼三家官方酒店（探索家 / 好莱坞 / 乐园酒店）的专属外观实景图。你可在本地用真实照片替换 <code>images/hotel/</code> 下文件后刷新即可。</p>
-
-      <div style="overflow-x:auto;">
-        <table class="info-table">
-          <thead>
-            <tr>
-              <th style="min-width:130px;">对比维度</th>
-              <th style="min-width:200px;">迪士尼探索家度假酒店<br><span class="tag tag-green">首选推荐</span></th>
-              <th style="min-width:200px;">香港迪士尼乐园酒店</th>
-              <th style="min-width:200px;">迪士尼好莱坞酒店</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="highlight"><td><strong>开业年份</strong></td><td>2017年（最新）</td><td>2005年</td><td>2005年（翻新过）</td></tr>
-            <tr class="highlight"><td><strong>设计风格</strong></td><td>&#x1F30D; 四大洲探险主题：亚洲/大洋洲/南美/非洲，异国风情浓郁</td><td>&#x1F3F0; 维多利亚式宫殿，纯白外墙+华丽大堂+现场音乐</td><td>&#x1F3AC; 美式好莱坞复古，星光大道装饰、古董跑车</td></tr>
-            <tr class="highlight"><td><strong>评分</strong></td><td>&#x2B50; 9.2/10（Trip.com 11,026条评价）</td><td>&#x2B50; 4.5/5</td><td>&#x2B50; 4.4/5</td></tr>
-            <tr class="highlight"><td><strong>8月1日房价</strong></td><td><span class="price-hkd">HK$2,035 — 2,506</span>/晚</td><td><span class="price-hkd">HK$2,800 — 3,200</span>/晚</td><td><span class="price-hkd">HK$800 — 1,200</span>/晚</td></tr>
-            <tr><td><strong>房型面积</strong></td><td>标准/豪华客房 34m²，配2张双人床，可住4人<br>海景房可看海<br>家庭相连房 68m²</td><td>标准客房 35m²<Br>国宾厅（高层，付费升级）享专属酒廊</td><td>标准客房 29m²<Br>面积相对较小</td></tr>
-            <tr><td><strong>泳池</strong></td><td>&#x1F3CA; 大型室外泳池（全年开放），遮阳伞+躺椅齐全</td><td>&#x1F3CA; 室内+室外双泳池</td><td>&#x1F3B9; 钢琴造型室外泳池+滑水梯</td></tr>
-            <tr><td><strong>儿童设施</strong></td><td>&#x2705; 儿童游乐场、儿童俱乐部、手作工坊、寻宝游戏<br>免费提供婴儿澡盆+床栏</td><td>&#x2705; 童话天地儿童中心、迪士尼故事时间、米奇迷宫花园</td><td>&#x2705; 儿童游戏室</td></tr>
-            <tr><td><strong>餐厅</strong></td><td><strong>3间</strong>：云龙轩（中餐+迪士尼朋友见面）、芊彩餐厅（国际料理）、星航图咖啡厅</td><td><strong>4间</strong>：翠乐庭（自助+角色互动）、华特餐厅、晶荷轩等</td><td><strong>2间</strong>：米奇厨师餐厅（自助）、影厂酒廊</td></tr>
-            <tr><td><strong>到乐园交通</strong></td><td>免费穿梭巴士，<strong>约5分钟</strong></td><td>免费穿梭巴士，约5-8分钟</td><td>免费穿梭巴士或步行10分钟</td></tr>
-            <tr><td><strong>特色</strong></td><td>四大洲主题庭园散步、海滨长廊、卡通人物拍照</td><td>国宾厅专属服务、睡宝宝故事时间、现场钢琴演奏</td><td>性价比最高，电影主题拍照点多</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="alert alert-success">
-        <h4>&#x2705; 结论：迪士尼探索家度假酒店 最适合你们家</h4>
-        <p><strong>三大理由：</strong></p>
-        <ol style="padding-left:1.2rem; line-height:1.8;">
-          <li><strong>最新（2017年）</strong> — 设施新、装修精致，比2005年开业的另外两家好很多。</li>
-          <li><strong>最适合亲子</strong> — 9.2超高评分中"亲子"标签最突出，儿童设施多、免费提供婴儿用品。</li>
-          <li><strong>价格合理</strong> — 8月1日 HK$2,035起，在园区酒店中性价比最高。</li>
-        </ol>
-        <p style="margin-top:0.5rem;"><strong>预算收紧备选：</strong>好莱坞酒店 HK$800-1,200，同样是官方酒店享全部住客权益。</p>
-      </div>
-    </section>
-
-    <!-- ===== 6. TICKETS ===== -->
-    <section class="section" id="tickets">
-      <div class="section-header">
-        <div class="section-icon">&#x1F3AB;</div>
-        <h2 class="section-title">门票与园内餐饮</h2>
-      </div>
-      <div class="info-cards">
-        <div class="info-card"><h4>&#x1F3A1; 1日门票</h4><ul><li>成人（12-59岁）：<span class="price-cny">¥517 — 670</span>（官网 HK$669）</li><li>儿童（3-11岁）：<span class="price-cny">¥386 — 506</span></li><li>长者（60+）：约 <span class="price-cny">¥386</span></li><li><strong>携程/同程/Klook 常比官网便宜10-15%</strong></li></ul></div>
-        <div class="info-card"><h4>&#x1F39F; 2日连玩票（推荐！）</h4><ul><li>成人：<span class="price-hkd">HK$1,132</span>（仅比1日票多 HK$100！）</li><li>儿童：约 <span class="price-hkd">HK$866</span></li><li>两天内任意进出，非常适合住一晚的家庭</li><li>第二天早上还可以再去玩一轮</li></ul></div>
-        <div class="info-card"><h4>&#x1F37D; 餐饮券</h4><ul><li>二合一：约<span class="price-cny">¥240</span>（午餐+小食）</li><li>三合一：约<span class="price-cny">¥300</span>（午+晚+小食）</li><li>比单点省 <strong>50-80港币</strong></li><li>提前在携程/Klook买</li></ul></div>
-      </div>
-      <div class="alert alert-info" style="margin-top:1.5rem;">
-        <h4>&#x1F4E2; 重要提示</h4>
-        <ul>
-          <li><strong>8月限定：</strong>"Pixar夏日派对"（6/12-8/31），皮克斯花车巡游+限定美食</li>
-          <li><strong>住客特权：</strong>可买"提前1小时入园证"，比普通游客早入场</li>
-          <li><strong>必备App：</strong>下载"香港迪士尼乐园"App，实时查排队+演出+角色见面时间</li>
-          <li><strong>入园预约：</strong>官网购票后需在App上预约入园日期</li>
-          <li><strong>行李寄存：</strong>乐园入口有寄存处 HK$150/天</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ===== 7. TEA RESTAURANTS ===== -->
-    <section class="section" id="food">
-      <div class="section-header">
-        <div class="section-icon">&#x1F372;</div>
-        <h2 class="section-title">回程地道茶餐厅大全</h2>
-      </div>
-      <p>从迪士尼乘港铁约30分钟回到九龙/佐敦一带，以下<strong>8家地道茶餐厅</strong>均步行可达西九龙高铁站，方便用餐后直接过关乘车。按<strong>推荐优先级</strong>排列。</p>
-
-      <!-- 茶餐厅实景图集 -->
-      <div class="gallery-grid">
-        <div class="spot-card-image" style="background-image: url('images/food/01-toast-drink.jpg')" onclick="openGallery('food')">
-          <button class="gallery-btn" onclick="event.stopPropagation();openGallery('food')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            5张
-          </button>
-          <span class="gallery-cap">&#x1F372; 港式茶餐厅 · 环境与美食</span>
-        </div>
-      </div>
-
-      <div class="restaurant-grid">
-        <div class="restaurant-card">
-          <div class="res-header"><h4>&#x1F947; 金二少冰室</h4><span class="res-rating">&#x2B50;4.8 口味·环境·服务三项全4.8</span></div>
-          <div class="res-meta">&#x1F4CD; 柯士甸道71号 | &#x1F6B6; 西九龙站步行7分钟 | &#x1F556; 07:00-22:00 | &#x1F4B0; HK$50-80/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1FAD4; 冰火菠萝油 HK$22 — 外皮酥脆掉渣，冰黄油入口即化<br>
-            &#x2615; 招牌丝袜奶茶 HK$20 — 茶味浓郁，港式奶茶标杆<br>
-            &#x1F35C; 沙嗲牛肉公仔面（常餐）HK$48 — 沙嗲汁浓郁，牛肉嫩滑<br>
-            &#x1F357; 瑞士鸡翼 HK$38 — 卤得入味，甜咸完美<br>
-            &#x1F35E; 法兰西多士 HK$30 — 炼奶+黄油，邪恶但满足
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>&#x1F948; 添好运（西九龙站店）</h4><span class="res-rating">&#x2B50;米其林一星</span></div>
-          <div class="res-meta">&#x1F4CD; 西九龙站B1层（站内） | &#x1F6B6; 0分钟！ | &#x1F556; 09:00-21:00 | &#x1F4B0; HK$60-100/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F950; 酥皮焗叉烧包 HK$33 — 全球最出名的叉烧包，咸甜酥脆<br>
-            &#x1F364; 凤爪排骨饭 HK$42 — 蒜香排骨+凤爪，肉多料足<br>
-            &#x1F990; 韭王鲜虾肠 HK$38 — 虾仁饱满，酱油鲜甜<br>
-            &#x1F356; 陈皮牛肉丸 HK$30 — 真牛肉丸，配喼汁更赞<br>
-            &#x26A0;&#xFE0F; 高铁站店比其他分店贵一点，排队较长
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>&#x1F949; 点点心点心专门店</h4><span class="res-rating">&#x2B50;4.8</span></div>
-          <div class="res-meta">&#x1F4CD; 佐敦文汇街28号 | &#x1F6B6; 步行4分钟 | &#x1F556; 10:00-22:00 | &#x1F4B0; HK$50-70/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F364; 凤爪 HK$28 — 软烂入味，好评如潮<br>
-            &#x1F95F; 虾饺 HK$32 — 皮薄馅大，虾仁弹牙<br>
-            &#x1F9C6; 蟹籽烧卖 HK$30 — 扎实有嚼劲<br>
-            &#x1F35A; 各式蒸饭 HK$45-55 — 份量实在<br>
-            如果添好运排队太久，这家走路4分钟更省心
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>牛奶冰室（尖沙咀）</h4><span class="res-rating">&#x2B50;4.7</span></div>
-          <div class="res-meta">&#x1F4CD; 尖沙咀柯士甸道108号 | &#x1F6B6; 步行10分钟 | &#x1F556; 07:00-21:30 | &#x1F4B0; HK$40-70/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F372; 碟头饭套餐 HK$48-58 — 肉多饭足<br>
-            &#x1F95A; 蛋挞 HK$10/个 — 新鲜出炉，酥皮松化<br>
-            &#x2615; 港式奶茶 HK$18 — 茶底好<br>
-            性价比高，环境干净，适合带小朋友的简餐
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>友喜冰室</h4><span class="res-rating">&#x2B50;4.6</span></div>
-          <div class="res-meta">&#x1F4CD; 佐敦道37E-37H号 | &#x1F6B6; 步行6分钟 | &#x1F556; 06:00-23:00 | &#x1F4B0; HK$45-75/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F373; 常餐（全日供应）HK$42-55 — 公仔面+煎蛋+多士+饮品<br>
-            &#x1F371; 焗猪扒饭 HK$58 — 芝士浓郁焗饭<br>
-            营业时间最长（6:00-23:00），早到或晚走都能吃
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>夏铭记（佐敦店）</h4><span class="res-rating">&#x2B50;4.8</span></div>
-          <div class="res-meta">&#x1F4CD; 佐敦白加士街5号 | &#x1F6B6; 步行7分钟 | &#x1F556; 11:00-22:00 | &#x1F4B0; HK$50-80/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F35C; 云吞面 HK$38 — 鲜虾云吞，汤底清甜<br>
-            &#x1F35B; 及第粥 HK$42 — 料足地道<br>
-            粥面专门店，清淡适合小朋友，评分很高
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>幸运茶点点心</h4><span class="res-rating">&#x2B50;4.8</span></div>
-          <div class="res-meta">&#x1F4CD; 佐敦庙街239号 | &#x1F6B6; 步行6分钟 | &#x1F556; 08:00-02:00 | &#x1F4B0; HK$50-70/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F95F; 各式点心 HK$25-35 — 虾饺、烧卖、肠粉<br>
-            &#x1F35A; 煲仔饭 HK$55-68 — 庙街特色<br>
-            营业到凌晨2点，赶晚班车也能吃。庙街氛围独特
-          </div>
-        </div>
-
-        <div class="restaurant-card">
-          <div class="res-header"><h4>丽莎餐厅</h4><span class="res-rating">&#x2B50;4.5</span></div>
-          <div class="res-meta">&#x1F4CD; 佐敦白加士街15号 | &#x1F6B6; 步行8分钟 | &#x1F556; 07:00-22:00 | &#x1F4B0; HK$50-70/人</div>
-          <div class="res-menu">
-            <strong>必点菜单：</strong><br>
-            &#x1F372; 碟头饭 HK$45-55<br>
-            &#x2615; 经典港式饮品<br>
-            老字号，当地人也常去，口味地道经典
-          </div>
-        </div>
-      </div>
-
-      <div class="alert alert-warning" style="margin-top:1.5rem;">
-        <h4>&#x26A0;&#xFE0F; 茶餐厅实用提醒</h4>
-        <ul>
-          <li><strong>现金！</strong>老式茶餐厅很多只收现金，每人备 HK$200-300 现金最稳妥</li>
-          <li><strong>拼桌文化</strong> — 香港茶餐厅饭点人多，可能会被安排拼桌，正常现象不要介意</li>
-          <li><strong>快速点单</strong> — 服务员节奏快，想好再叫。常餐/快餐/特餐是套餐，包含主食+饮品</li>
-          <li><strong>冻饮加钱</strong> — 热饮免费配，改冻饮通常加 HK$2-5</li>
-          <li><strong>不要自带食物</strong> — 绝大多数茶餐厅不允许外带食物饮品</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ===== 8. TYPHOON ===== -->
-    <section class="section" id="typhoon">
-      <div class="section-header">
-        <div class="section-icon">&#x1F300;</div>
-        <h2 class="section-title">台风风险与应对预案</h2>
-      </div>
-
-      <div class="alert alert-danger">
-        <h4>&#x26A0;&#xFE0F; 出发前实况（2026-07-29 HKO 更新）：8月1-2日确有天气风险，但当前不是直接台风</h4>
-        <p><strong>直接台风袭击概率：目前偏低。</strong> 命名台风“白海豚”已转向日本；“博罗依”正横过南海趋向海南以南海域，与本港保持距离、直接威胁不大；目前香港<strong>无任何热带气旋信号</strong>。</p>
-        <p><strong>但降雨/雷暴风险：偏高，且是本次真正的头号风险。</strong> 受低压槽+南海扰动影响，HKO 预报 8/1“间中有骤雨及雷暴”（降雨概率中高）、8/2“间中有骤雨及<strong>狂风雷暴</strong>、骤雨转频密”（降雨概率<strong>高</strong>）。此外，台风“红霞”刚于 7/26 以强台风登陆惠州、袭港期间曾发<strong>九号信号</strong>，证明本季环流活跃；多个 AI 模型亦提示 8 月上旬或有热带气旋靠近本港——属需持续监测的尾部风险。</p>
-      </div>
-
-      <div class="info-cards">
-        <div class="info-card"><h4>&#x2460; 一号风球 <span class="tag tag-blue">影响最低</span></h4><p>热带气旋进入800km范围。<br>乐园正常运营，高铁正常。带伞即可。</p></div>
-        <div class="info-card"><h4>&#x2461; 三号风球 <span class="tag tag-yellow">部分影响</span></h4><p>户外过山车可能暂停，室内项目照常。<br>高铁通常正常，港铁可能限速。</p></div>
-        <div class="info-card"><h4>&#x2462; 八号风球+ <span class="tag tag-red">行程取消</span></h4><p>乐园关闭，高铁可能停运。<br>应待在酒店。出行前若发布则直接改期。</p></div>
-      </div>
-
-      <h3 style="margin:1.8rem 0 0.8rem; color:var(--xb-accent); font-size:1.05rem;">&#x1F4CA; 本行程逐环节受天气/台风影响评估</h3>
-      <table class="info-table">
+    <h3 class="sub-h">📊 本行程逐环节受天气 / 台风影响评估</h3>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
         <thead><tr><th>行程环节</th><th>普通降雨/雷暴（极可能）</th><th>三号风球 T3</th><th>八号风球 T8+</th></tr></thead>
         <tbody>
           <tr><td><strong>高铁 广州南⇄西九龙</strong></td><td>正常运营</td><td>正常运营</td><td>可能停运（跨境段优先停）</td></tr>
           <tr><td><strong>港铁 + 迪士尼线</strong></td><td>正常</td><td>可能限速</td><td>高架段或停运，乐园难抵达</td></tr>
-          <tr class="highlight"><td><strong>乐园户外项目（过山车 / 灰熊等）</strong></td><td>雷暴时暂停</td><td>户外项目暂停</td><td>闭园</td></tr>
-          <tr class="highlight"><td><strong>星梦光影之旅 烟花秀</strong></td><td>雨/风即取消</td><td>取消</td><td>取消</td></tr>
-          <tr><td><strong>室内项目（迷离庄园 / 米奇幻想曲等）</strong></td><td>正常</td><td>正常</td><td>闭园</td></tr>
+          <tr><td><strong>乐园户外项目</strong></td><td>雷暴时暂停</td><td>户外项目暂停</td><td>闭园</td></tr>
+          <tr><td><strong>星梦光影之旅 烟花秀</strong></td><td>雨/风即取消</td><td>取消</td><td>取消</td></tr>
+          <tr><td><strong>室内项目</strong></td><td>正常</td><td>正常</td><td>闭园</td></tr>
           <tr><td><strong>探索家度假酒店</strong></td><td>安全</td><td>安全</td><td>滞留（待在酒店）</td></tr>
           <tr><td><strong>佐敦茶餐厅（返程当晚）</strong></td><td>正常</td><td>正常</td><td>影响小</td></tr>
         </tbody>
       </table>
-
-      <div class="alert alert-warning" style="margin-top:1.5rem;">
-        <h4>&#x1F6E1; 关键判断与四步应对预案</h4>
-        <ul style="padding-left:1.4rem; line-height:1.85; margin:0.4rem 0 0.8rem;">
-          <li><strong>真正的头号风险是雨，不是风。</strong> 这两天几乎必然遇骤雨/雷暴，<strong>烟花秀（星梦光影之旅）被取消概率很高，8/2 尤甚</strong>；户外过山车也可能因雷暴临时停运。</li>
-          <li><strong>把 8/1 当主力烟花夜</strong>，提前占位；8/2 以室内项目 + 雨备动线为主。</li>
-          <li><strong>雨备动线：</strong> 优先室内（迷离庄园、米奇幻想曲、小熊维尼、冰雪奇缘世界、狮子王庆典），备透明雨衣、善用单 rider 通道。</li>
-          <li><strong>尾部风险盯紧：</strong> AI 模型提示 8 月上旬或有热带气旋靠近，<strong>7/30-31 必查 HKO 与 MyObservatory</strong>；若 T3+ 覆盖 8/1-2，按预案改期。</li>
-        </ul>
-        <ol style="padding-left:1.5rem; line-height:1.9; margin:0;">
-          <li><strong>出发前48小时：</strong>查看香港天文台 (hko.gov.hk) 或下载 <strong>MyObservatory App</strong></li>
-          <li><strong>购买旅游保险：</strong>支付宝搜"旅游险"，含台风延误保障，约¥20-50/人</li>
-          <li><strong>灵活票务：</strong>高铁买可改签票种；官方渠道购乐园门票，极端天气可申请改期</li>
-          <li><strong>备选日期：</strong>若8/1-2遇台风/暴雨预警，可推迟至8/8-9或8/15-16；HKO 预报 8/4 起转"部分时间晴朗、骤雨减少"，中旬窗口更稳</li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ===== 9. CHECKLIST ===== -->
-    <section class="section" id="checklist">
-      <div class="section-header">
-        <div class="section-icon">&#x2705;</div>
-        <h2 class="section-title">出行清单</h2>
-      </div>
-      <div class="info-cards">
-        <div class="info-card"><h4>&#x1F4C4; 证件（必备！）</h4><ul class="checklist"><li><strong>港澳通行证</strong> — 有效期 &gt; 出行日期+7天</li><li><strong>香港签注</strong> — 确认有效、次数充足</li><li><strong>身份证</strong> — 高铁必需</li><li><strong>高铁电子票</strong> — 12306 App保存</li><li><strong>酒店+门票确认单</strong> — 手机截图离线可用</li></ul></div>
-        <div class="info-card"><h4>&#x1F4B0; 支付准备</h4><ul class="checklist"><li><strong>港币现金 HK$1,500-2,000</strong> — 茶餐厅/小店必备</li><li><strong>支付宝开通"出行-香港"</strong> — 港铁扫码用</li><li><strong>微信"搭车码"</strong> — 备用+同行码帮小孩</li><li><strong>Visa/Mastercard</strong> — 酒店押金用</li></ul></div>
-        <div class="info-card"><h4>&#x1F392; 随身物品</h4><ul class="checklist"><li><strong>充电宝</strong> — 拍照+导航耗电快</li><li><strong>雨伞+防晒霜</strong> — 8月必备</li><li><strong>空水杯</strong> — 乐园免费饮水站</li><li><strong>便携风扇</strong> — 排队降温</li><li><strong>小零食</strong> — 未开封可入园</li></ul></div>
-        <div class="info-card"><h4>&#x1F476; 亲子专属</h4><ul class="checklist"><li><strong>替换衣物×2</strong> — 玩水会湿</li><li><strong>泳衣</strong> — 酒店泳池别浪费</li><li><strong>迪士尼主题服装</strong> — 园内买贵</li><li><strong>婴儿车</strong> — 乐园可租HK$150/天</li></ul></div>
-        <div class="info-card"><h4>&#x1F4F1; 手机准备</h4><ul class="checklist"><li><strong>开通香港漫游流量包</strong></li><li><strong>下载App：</strong>香港迪士尼、MTR Mobile、MyObservatory</li><li><strong>Google Maps缓存</strong>香港离线地图</li></ul></div>
-        <div class="info-card"><h4>&#x1F392; 过夜用品</h4><ul class="checklist"><li>换洗衣物1套</li><li>牙刷+牙膏（酒店减塑）</li><li>拖鞋（小朋友建议自带）</li><li>睡衣</li></ul></div>
-      </div>
-    </section>
-
-    <!-- ===== 10. BUDGET ===== -->
-    <section class="section" id="budget">
-      <div class="section-header">
-        <div class="section-icon">&#x1F4B0;</div>
-        <h2 class="section-title">费用预算（2大人+1小童）</h2>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="info-table">
-          <thead><tr><th>项目</th><th>明细</th><th>单价</th><th>数量</th><th>小计</th></tr></thead>
-          <tbody>
-            <tr><td><strong>高铁往返</strong></td><td>广州南 ⇄ 香港西九龙 二等座</td><td>¥215/人</td><td>3人×2程</td><td class="price-cny">¥1,290</td></tr>
-            <tr><td><strong>广州地铁</strong></td><td>西村 ⇄ 广州南</td><td>~¥7/人</td><td>3人×2程</td><td class="price-cny">¥42</td></tr>
-            <tr><td><strong>香港港铁</strong></td><td>九龙 ⇄ 迪士尼 + 迪士尼→柯士甸</td><td>~HK$23/人</td><td>3人×2程</td><td class="price-hkd">HK$138</td></tr>
-            <tr><td><strong>酒店</strong></td><td>探索家度假酒店 1晚</td><td>HK$2,200</td><td>1间</td><td class="price-hkd">HK$2,200</td></tr>
-            <tr><td><strong>乐园门票</strong></td><td>成人×2 + 儿童×1</td><td>¥600+¥450</td><td>—</td><td class="price-cny">¥1,650</td></tr>
-            <tr><td><strong>园内餐饮</strong></td><td>二合一餐券（午餐+小食）</td><td>¥240/人</td><td>3人</td><td class="price-cny">¥720</td></tr>
-            <tr><td><strong>酒店早餐</strong></td><td>云龙轩自助（可能与迪士尼朋友见面）</td><td>~HK$200/人</td><td>3人</td><td class="price-hkd">HK$600</td></tr>
-            <tr><td><strong>茶餐厅午餐</strong></td><td>金二少冰室等</td><td>~HK$70/人</td><td>3人</td><td class="price-hkd">HK$210</td></tr>
-            <tr><td><strong>旅游保险</strong></td><td>台风/延误保障</td><td>~¥30/人</td><td>3人</td><td class="price-cny">¥90</td></tr>
-            <tr><td><strong>其他</strong></td><td>纪念品、零食、八达通充值等</td><td>—</td><td>—</td><td class="price-hkd">HK$500</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td colspan="3"><strong>人民币合计</strong></td><td></td><td class="price-cny" style="font-size:1.05rem;">约 ¥3,792</td></tr>
-            <tr><td colspan="3"><strong>港币合计</strong></td><td></td><td class="price-hkd" style="font-size:1.05rem;">约 HK$3,648</td></tr>
-            <tr><td colspan="3"><strong>&#x1F4B0; 总预算（折人民币）</strong></td><td></td><td style="color:var(--xb-accent); font-size:1.1rem; font-weight:900;">约 ¥7,200 — 7,800</td></tr>
-          </tfoot>
-        </table>
-      </div>
-      <div class="alert alert-info" style="margin-top:1.5rem;">
-        <h4>&#x1F4A1; 省钱小贴士</h4>
-        <ul><li>换好莱坞酒店可省 ~¥1,200-1,500</li><li>携程/Klook提前购票常比官网便宜10-15%</li><li>自带水杯用乐园免费饮水站，省HK$20-35/瓶</li><li>高铁一等座比二等座每人¥129差价，3人往返可省¥774</li></ul>
-      </div>
-    </section>
-
-    <div class="back-section">
-      <a class="back-link" href="../index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        返回四季景点
-      </a>
     </div>
-  </div>
 
-  <footer><div class="footer-line"></div><p>XBrain &copy; 2026</p><p>祝你们拥有神奇的一天！&#x1F31F;</p></footer>
-
-  <!-- ===== LIGHTBOX (深圳子站模式) ===== -->
-  <div class="lightbox-overlay" id="lightbox" onclick="closeGallery(event)">
-    <div class="lightbox-container" onclick="event.stopPropagation()">
-      <button class="lightbox-close" onclick="closeGallery()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <button class="lightbox-nav prev" onclick="prevImage()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="lightbox-img-wrap">
-        <img class="lightbox-img" id="lightboxImg" src="" alt="">
-      </div>
-      <button class="lightbox-nav next" onclick="nextImage()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-      <div class="lightbox-title" id="lightboxTitle"></div>
-      <div class="lightbox-counter" id="lightboxCounter"></div>
-      <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+    <div class="tips-box warn" style="margin-top:1.2rem;">
+      <div class="tips-box-title">🛡️ 关键判断与四步应对预案</div>
+      <ul style="line-height:1.85;">
+        <li><strong>真正的头号风险是雨，不是风。</strong>这两天几乎必然遇骤雨/雷暴，<strong>烟花秀被取消概率很高，8/2 尤甚</strong>；户外过山车也可能因雷暴临时停运。</li>
+        <li><strong>把 8/1 当主力烟花夜</strong>，提前占位；8/2 以室内项目 + 雨备动线为主（见 <a class="in-doc-link" href="#plans">方案 B</a>）。</li>
+        <li><strong>雨备动线：</strong>优先室内（迷离庄园、米奇幻想曲、小熊维尼、冰雪奇缘世界、狮子王庆典），备透明雨衣、善用单 Rider 通道。</li>
+        <li><strong>尾部风险盯紧：</strong>AI 模型提示 8 月上旬或有热带气旋靠近，<strong>7/30-31 必查 HKO 与 MyObservatory</strong>；若 T3+ 覆盖 8/1-2，按预案改期。</li>
+      </ul>
+      <ol style="padding-left:1.5rem;line-height:1.9;margin-top:.4rem;">
+        <li><strong>出发前48小时：</strong>查看香港天文台 (hko.gov.hk) 或下载 MyObservatory App。</li>
+        <li><strong>购买旅游保险：</strong>支付宝搜"旅游险"，含台风延误保障，约 ¥20-50/人。</li>
+        <li><strong>灵活票务：</strong>高铁买可改签票种；官方渠道购乐园门票，极端天气可申请改期。</li>
+        <li><strong>备选日期：</strong>若8/1-2遇台风/暴雨预警，可推迟至8/8-9或8/15-16；HKO 预报 8/4 起转"部分时间晴朗、骤雨减少"，中旬窗口更稳。</li>
+      </ol>
     </div>
-  </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
 
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">行前清单、门票餐饮、手机与过夜准备，以及 2 大 1 小费用预算。</p>
+
+    <div class="info-grid">
+      <div class="info-card"><h4>📄 证件（必备！）</h4><ul>
+        <li><strong>港澳通行证</strong> — 有效期 &gt; 出行日期+7天</li>
+        <li><strong>香港签注</strong> — 确认有效、次数充足</li>
+        <li><strong>身份证</strong> — 高铁必需</li>
+        <li><strong>高铁电子票</strong> — 12306 App 保存</li>
+        <li><strong>酒店 + 门票确认单</strong> — 截图离线可用</li>
+      </ul></div>
+      <div class="info-card"><h4>💰 支付准备</h4><ul>
+        <li><strong>港币现金 HK$1,500-2,000</strong> — 茶餐厅/小店必备</li>
+        <li><strong>支付宝开通"出行-香港"</strong> — 港铁扫码</li>
+        <li><strong>微信"搭车码"</strong> — 备用 + 同行码帮小孩</li>
+        <li><strong>Visa/Mastercard</strong> — 酒店押金</li>
+      </ul></div>
+      <div class="info-card"><h4>🎒 随身物品</h4><ul>
+        <li><strong>充电宝</strong> — 拍照+导航耗电快</li>
+        <li><strong>雨伞 + 防晒霜</strong> — 8月必备</li>
+        <li><strong>空水杯</strong> — 乐园免费饮水站</li>
+        <li><strong>便携风扇</strong> — 排队降温</li>
+        <li><strong>小零食</strong> — 未开封可入园</li>
+      </ul></div>
+      <div class="info-card"><h4>🧒 亲子专属</h4><ul>
+        <li><strong>替换衣物×2</strong> — 玩水会湿</li>
+        <li><strong>泳衣</strong> — 酒店泳池别浪费</li>
+        <li><strong>迪士尼主题服装</strong> — 园内买贵</li>
+        <li><strong>婴儿车</strong> — 乐园可租 HK$150/天</li>
+      </ul></div>
+      <div class="info-card"><h4>📱 手机准备</h4><ul>
+        <li><strong>开通香港漫游流量包</strong></li>
+        <li><strong>下载 App：</strong>香港迪士尼、MTR Mobile、MyObservatory</li>
+        <li><strong>Google Maps</strong> 缓存香港离线地图</li>
+      </ul></div>
+      <div class="info-card"><h4>🛏️ 过夜用品</h4><ul>
+        <li>换洗衣物1套</li>
+        <li>牙刷+牙膏（酒店减塑）</li>
+        <li>拖鞋（小朋友建议自带）</li>
+        <li>睡衣</li>
+      </ul></div>
+    </div>
+
+    <h3 class="sub-h">🎟️ 门票与园内餐饮</h3>
+    <div class="info-grid">
+      <div class="info-card"><h4>🎡 1日门票</h4><ul>
+        <li>成人（12-59岁）：<span class="price-cny">¥517 — 670</span>（官网 HK$669）</li>
+        <li>儿童（3-11岁）：<span class="price-cny">¥386 — 506</span></li>
+        <li>长者（60+）：约 <span class="price-cny">¥386</span></li>
+        <li><strong>携程/同程/Klook 常比官网便宜10-15%</strong></li>
+      </ul></div>
+      <div class="info-card"><h4>🎟️ 2日连玩票（推荐！）</h4><ul>
+        <li>成人：<span class="price-hkd">HK$1,132</span>（仅比1日票多 HK$100）</li>
+        <li>儿童：约 <span class="price-hkd">HK$866</span></li>
+        <li>两天内任意进出，适合住一晚家庭</li>
+      </ul></div>
+      <div class="info-card"><h4>🍽️ 餐饮券</h4><ul>
+        <li>二合一：约 <span class="price-cny">¥240</span>（午餐+小食）</li>
+        <li>三合一：约 <span class="price-cny">¥300</span></li>
+        <li>比单点省 <strong>50-80港币</strong></li>
+      </ul></div>
+    </div>
+    <div class="tips-box info" style="margin-top:1rem;">
+      <div class="tips-box-title">📢 重要提示</div>
+      <ul>
+        <li><strong>8月限定：</strong>"Pixar夏日派对"（6/12-8/31），皮克斯花车巡游+限定美食</li>
+        <li><strong>住客特权：</strong>可买"提前1小时入园证"，比普通游客早入场</li>
+        <li><strong>必备 App：</strong>下载"香港迪士尼乐园"，实时查排队+演出+角色见面</li>
+        <li><strong>入园预约：</strong>官网购票后需在 App 上预约入园日期</li>
+        <li><strong>行李寄存：</strong>乐园入口 HK$150/天</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-h">💵 费用预算（2 大人 + 1 小童）</h3>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>项目</th><th>明细</th><th>单价</th><th>数量</th><th>小计</th></tr></thead>
+        <tbody>
+          <tr><td><strong>高铁往返</strong></td><td>广州南 ⇄ 西九龙 二等座</td><td>¥215/人</td><td>3人×2程</td><td class="price-cny">¥1,290</td></tr>
+          <tr><td><strong>广州地铁</strong></td><td>西村 ⇄ 广州南</td><td>~¥7/人</td><td>3人×2程</td><td class="price-cny">¥42</td></tr>
+          <tr><td><strong>香港港铁</strong></td><td>九龙 ⇄ 迪士尼 + 迪士尼→柯士甸</td><td>~HK$23/人</td><td>3人×2程</td><td class="price-hkd">HK$138</td></tr>
+          <tr><td><strong>酒店</strong></td><td>探索家度假酒店 1晚</td><td>HK$2,200</td><td>1间</td><td class="price-hkd">HK$2,200</td></tr>
+          <tr><td><strong>乐园门票</strong></td><td>成人×2 + 儿童×1</td><td>¥600+¥450</td><td>—</td><td class="price-cny">¥1,650</td></tr>
+          <tr><td><strong>园内餐饮</strong></td><td>二合一餐券（午餐+小食）</td><td>¥240/人</td><td>3人</td><td class="price-cny">¥720</td></tr>
+          <tr><td><strong>酒店早餐</strong></td><td>云龙轩自助（或遇迪士尼朋友）</td><td>~HK$200/人</td><td>3人</td><td class="price-hkd">HK$600</td></tr>
+          <tr><td><strong>茶餐厅午餐</strong></td><td>金二少冰室等</td><td>~HK$70/人</td><td>3人</td><td class="price-hkd">HK$210</td></tr>
+          <tr><td><strong>旅游保险</strong></td><td>台风/延误保障</td><td>~¥30/人</td><td>3人</td><td class="price-cny">¥90</td></tr>
+          <tr><td><strong>其他</strong></td><td>纪念品、零食、八达通充值等</td><td>—</td><td>—</td><td class="price-hkd">HK$500</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="3"><strong>人民币合计</strong></td><td></td><td class="price-cny">约 ¥3,792</td></tr>
+          <tr><td colspan="3"><strong>港币合计</strong></td><td></td><td class="price-hkd">约 HK$3,648</td></tr>
+          <tr><td colspan="3"><strong>💰 总预算（折人民币）</strong></td><td></td><td style="color:var(--accent);font-weight:900;">约 ¥7,200 — 7,800</td></tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="tips-box info" style="margin-top:1rem;">
+      <div class="tips-box-title">💡 省钱小贴士</div>
+      <ul>
+        <li>换好莱坞酒店可省 ~¥1,200-1,500</li>
+        <li>携程 / Klook 提前购票常比官网便宜 10-15%</li>
+        <li>自带水杯用乐园免费饮水站，省 HK$20-35/瓶</li>
+        <li>高铁一等座比二等座每人贵 ¥129，3人往返可省 ¥774</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 香港迪士尼周末家庭游</div>
+    <div class="footer-version">template/official · v1.0</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
   <script>
-    // XBrain Logo scroll fade
     (function () {
-      var logo = document.querySelector('.xbrain-brand'), ticking = false;
-      function updateLogo() {
-        var scrollY = window.pageYOffset || 0, vh = window.innerHeight || 0;
-        var ratio = Math.min(scrollY / vh, 1);
-        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      // ===== 方案切换 =====
+      var PLAN_IDS = ['planA', 'planB'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
       }
-      window.addEventListener('scroll', function () { if (!ticking) { requestAnimationFrame(function () { updateLogo(); ticking = false; }); ticking = true; } }, { passive: true });
-      window.addEventListener('touchmove', function () { if (!ticking) { requestAnimationFrame(function () { updateLogo(); ticking = false; }); ticking = true; } }, { passive: true });
-      updateLogo();
-    })();
 
-    // Top-nav: scroll highlight + hamburger menu + smooth anchor scrolling
-    (function () {
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) return;
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov);
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none';
+        }
+        applyCover(coverThumb);
+
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
       var navLinks = document.querySelectorAll('#navInner a');
       var mobileLinks = document.querySelectorAll('#navMobile a');
       var sections = [];
@@ -1169,186 +1047,50 @@
         var el = document.getElementById(id);
         if (el) sections.push({ el: el, id: id });
       });
-
       function setActiveNav() {
-        var scrollY = window.pageYOffset || 0;
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
         var current = '';
-        sections.forEach(function (s) {
-          if (scrollY >= s.el.offsetTop - 100) current = s.id;
-        });
-        navLinks.forEach(function (a) {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-        });
-        mobileLinks.forEach(function (a) {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-        });
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
       }
-
       var navTicking = false;
-      window.addEventListener('scroll', function () {
-        if (!navTicking) {
-          requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
-          navTicking = true;
-        }
-      }, { passive: true });
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
       setActiveNav();
-
-      var navToggle = document.getElementById('navToggle');
-      var navMobile = document.getElementById('navMobile');
-      var hamburgerIcon = document.getElementById('hamburgerIcon');
-      var menuOpen = false;
-
-      function closeMenu() {
-        if (!menuOpen) return;
-        menuOpen = false;
-        navMobile.classList.remove('open');
-        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
-      }
-
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
       navToggle.addEventListener('click', function (e) {
-        e.stopPropagation();
-        menuOpen = !menuOpen;
-        navMobile.classList.toggle('open', menuOpen);
-        hamburgerIcon.innerHTML = menuOpen
-          ? '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'
-          : '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
       });
-
-      var anchors = document.querySelectorAll('a[href^="#"]');
-      anchors.forEach(function (a) {
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
         a.addEventListener('click', function (e) {
-          var hash = a.getAttribute('href');
-          if (!hash || hash.length < 2) return;
-          var id = hash.substring(1);
-          var target = document.getElementById(id);
-          if (!target) return;
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          if (window.history && window.history.pushState) {
-            window.history.pushState(null, '', hash);
-          }
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
           closeMenu();
         });
       });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
 
-      document.addEventListener('click', function (e) {
-        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
-          closeMenu();
-        }
-      });
-
-      // ===== Image Gallery Lightbox (深圳子站模式) =====
-      var galleries = {
-        'transport-hsr': {
-          title: '高铁 · 广州南 ⇄ 香港西九龙',
-          images: [
-            'images/transport/01-hsr-train.jpg',
-            'images/transport/02-hsr-station.jpg',
-            'images/transport/03-station-platform.jpg',
-            'images/transport/04-gangxia-hsr.jpg'
-          ]
-        },
-        'transport-mtr': {
-          title: '港铁 MTR · 九龙站 ⇄ 迪士尼站',
-          images: [
-            'images/transport/05-mtr-station.jpg',
-            'images/transport/06-mtr-crowd.jpg',
-            'images/transport/07-mtr-symmetry.jpg',
-            'images/transport/08-mtr-jordan.jpg',
-            'images/transport/09-disney-station.jpg'
-          ]
-        },
-        'disney': {
-          title: '香港迪士尼乐园 · 园区实景',
-          images: [
-            'images/disney/01-castle.jpg',
-            'images/disney/02-castle-dusk.jpg',
-            'images/disney/03-castle-dusk2.jpg',
-            'images/disney/04-fireworks.jpg',
-            'images/disney/05-victorian-hotel.jpg',
-            'images/disney/06-carousel.jpg',
-            'images/disney/07-ferry-pier.jpg'
-          ]
-        },
-        'hotel': {
-          title: '迪士尼度假区酒店 · 环境参考',
-          images: [
-            'images/hotel/03-hotel-hall.jpg',
-            'images/hotel/04-hotel-hallway.jpg'
-          ]
-        },
-        'food': {
-          title: '香港茶餐厅 · 环境与美食',
-          images: [
-            'images/food/01-toast-drink.jpg',
-            'images/food/02-toast-beige.jpg',
-            'images/food/03-sandwich.jpg',
-            'images/food/04-toasted-sandwich.jpg',
-            'images/food/05-breakfast.jpg'
-          ]
-        }
-      };
-
-      var currentGallery = null;
-      var currentIndex = 0;
-
-      window.openGallery = function (name) {
-        currentGallery = galleries[name];
-        if (!currentGallery) return;
-        currentIndex = 0;
-        updateLightbox();
-        var lb = document.getElementById('lightbox');
-        lb.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      };
-
-      window.closeGallery = function (e) {
-        if (e && e.target !== e.currentTarget) return;
-        var lb = document.getElementById('lightbox');
-        lb.classList.remove('active');
-        document.body.style.overflow = '';
-        currentGallery = null;
-      };
-
-      window.nextImage = function () {
-        if (!currentGallery) return;
-        currentIndex = (currentIndex + 1) % currentGallery.images.length;
-        updateLightbox();
-      };
-
-      window.prevImage = function () {
-        if (!currentGallery) return;
-        currentIndex = (currentIndex - 1 + currentGallery.images.length) % currentGallery.images.length;
-        updateLightbox();
-      };
-
-      function updateLightbox() {
-        if (!currentGallery) return;
-        var img = document.getElementById('lightboxImg');
-        img.classList.add('switching');
-        setTimeout(function () {
-          img.src = currentGallery.images[currentIndex];
-          img.classList.remove('switching');
-        }, 150);
-        document.getElementById('lightboxTitle').textContent = currentGallery.title;
-        document.getElementById('lightboxCounter').textContent = (currentIndex + 1) + ' / ' + currentGallery.images.length;
-        var thumbs = document.getElementById('lightboxThumbs');
-        thumbs.innerHTML = '';
-        currentGallery.images.forEach(function (src, i) {
-          var div = document.createElement('div');
-          div.className = 'lightbox-thumb' + (i === currentIndex ? ' active' : '');
-          div.style.backgroundImage = 'url(' + src + ')';
-          div.onclick = function () { currentIndex = i; updateLightbox(); };
-          thumbs.appendChild(div);
-        });
+      // ===== XBrain Logo 滚动淡出 =====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
       }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
 
-      document.addEventListener('keydown', function (e) {
-        if (!currentGallery) return;
-        if (e.key === 'Escape') closeGallery();
-        if (e.key === 'ArrowRight') nextImage();
-        if (e.key === 'ArrowLeft') prevImage();
-      });
+      // ===== 入场动画 =====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
     })();
   </script>
 </body>
