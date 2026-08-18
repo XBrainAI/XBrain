@@ -82,7 +82,7 @@ def _strip_fence(text):
 
 
 def read_readme(path):
-    """解析 README.MD：日期 / 简介(剥离围栏) / ##实录 的 ### HH:MM 章节。"""
+    """解析 README.MD：日期 / 简介(剥离围栏) / ##实录 的 ### HH:MM 章节 / 背景文章(围栏内 markdown)。"""
     with open(path, encoding="utf-8") as f:
         rm = f.read()
     date = ""
@@ -91,9 +91,16 @@ def read_readme(path):
         date = m.group(1).strip()
 
     intro = ""
+    background_md = ""
     m = re.search(r"##\s*简介\s*\n(.*?)(?:\n##\s*实录|\Z)", rm, re.S)
     if m:
-        intro = _strip_fence(m.group(1))
+        raw = m.group(1)
+        # 提取围栏 markdown 块作为背景文章（人文历史等长文）
+        fm = re.search(r"```(?:markdown)?\s*\n(.*?)```", raw, re.S)
+        if fm:
+            background_md = fm.group(1).strip()
+        # 简介去掉围栏块
+        intro = _strip_fence(raw)
 
     logs = []
     for m in re.finditer(r"###\s*(\d{1,2}:\d{2})\s*([^\n]+)\n(.*?)(?=\n###|\n##|\Z)", rm, re.S):
@@ -104,7 +111,7 @@ def read_readme(path):
             "title": m.group(2).strip(),
             "body": body,
         })
-    return date, intro, logs
+    return date, intro, logs, background_md
 
 
 def scan_media(folder):
@@ -194,6 +201,181 @@ def _render_body(body):
     return "\n      ".join(f"<p>{l}</p>" for l in out)
 
 
+# ===== 人文背景：README 围栏 markdown → 文化卡片 =====
+
+def _md_inline(text):
+    """行内 markdown：**bold** → <strong>"""
+    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+
+
+def _md_to_html(md):
+    """将一段 markdown 正文转为 HTML（段落 + 无序列表 + 行内格式，跳过 --- 分隔线）。"""
+    lines = md.strip().split('\n')
+    html = []
+    in_list = False
+    para = []
+
+    def flush_para():
+        nonlocal para
+        if para:
+            html.append('<p>' + _md_inline(' '.join(para)) + '</p>')
+            para = []
+
+    def flush_list():
+        nonlocal in_list
+        if in_list:
+            html.append('</ul>')
+            in_list = False
+
+    for line in lines:
+        s = line.strip()
+        if not s:
+            flush_para()
+            flush_list()
+        elif s.startswith('- '):
+            flush_para()
+            if not in_list:
+                html.append('<ul>')
+                in_list = True
+            html.append('<li>' + _md_inline(s[2:]) + '</li>')
+        elif s == '---':
+            flush_para()
+            flush_list()
+        else:
+            flush_list()
+            para.append(s)
+    flush_para()
+    flush_list()
+    return '\n      '.join(html)
+
+
+def build_culture_section(background_md, media):
+    """将 README 简介内的围栏 markdown 长文渲染为「人文背景」section。
+
+    设计原则（非整段照搬）：
+    - 按 ## 标题拆成主题卡片（.culture-card），每卡有序号徽章 + 标题 + 叙述 + 配图
+    - 超过 4 段时合并相邻段（保留首尾独立），控制卡片数量
+    - 📌 小知识块提取为 .tips-box
+    - 配图从媒体池中按主题词匹配（文件名含文章关键词），每卡一张，图文并排
+    """
+    if not background_md or not background_md.strip():
+        return ""
+
+    md = background_md
+
+    # 提取 H1 标题
+    h1_match = re.search(r'^#\s+(.+)', md, re.M)
+    h1_title = h1_match.group(1).strip() if h1_match else "人文背景"
+    short_title = h1_title.split('：')[0] if '：' in h1_title else h1_title
+
+    # 提取 📌 小知识块
+    tips_html = ""
+    tips_match = re.search(r'📌\s*\*?\*?小知识.*?\n(.*?)(?:\n##|\Z)', md, re.S)
+    if tips_match:
+        tips_items = re.findall(r'^-\s+(.+)', tips_match.group(1), re.M)
+        if tips_items:
+            tips_html = (
+                '    <div class="tips-box">\n'
+                f'      <div class="tips-box-title">📌 {short_title}小知识</div>\n'
+                '      <ul>\n' +
+                ''.join(f'        <li>{_md_inline(item)}</li>\n' for item in tips_items) +
+                '      </ul>\n'
+                '    </div>\n')
+
+    # 去掉 H1、引言段、📌 块，只保留 ## 分段
+    body = re.sub(r'^#[^#].+$', '', md, flags=re.M)  # 去掉 H1（不影响 ## H2）
+    body = re.sub(r'📌.*?(?:\n##|\Z)', '', body, flags=re.S)  # 去 📌 块
+    # 从第一个 ## 开始
+    m = re.search(r'(##\s.+)', body, re.S)
+    body = m.group(1) if m else body
+
+    # 按 ## 拆段
+    sections = []
+    cur_title = None
+    cur_body = []
+    for line in body.split('\n'):
+        m = re.match(r'^##\s+(.+)', line)
+        if m:
+            if cur_title:
+                sections.append((cur_title, '\n'.join(cur_body)))
+            cur_title = m.group(1).strip()
+            cur_body = []
+        else:
+            cur_body.append(line)
+    if cur_title:
+        sections.append((cur_title, '\n'.join(cur_body)))
+
+    if not sections:
+        return ""
+
+    # 超过 4 段 → 合并相邻段（保留首段独立，从第 2 段起两两合并）
+    while len(sections) > 4:
+        merged = [sections[0]]
+        i = 1
+        while i < len(sections):
+            if len(merged) + (len(sections) - i) <= 4:
+                merged.append(sections[i])
+                i += 1
+            elif i + 1 < len(sections):
+                t1, b1 = sections[i]
+                t2, b2 = sections[i + 1]
+                s1 = re.sub(r'^[一二三四五六七八九十]+、\s*', '', t1).split('：')[0]
+                s2 = re.sub(r'^[一二三四五六七八九十]+、\s*', '', t2).split('：')[0]
+                merged.append((s1 + ' · ' + s2, b1 + '\n\n' + b2))
+                i += 2
+            else:
+                merged.append(sections[i])
+                i += 1
+        sections = merged
+
+    # 收集配图：文件名含文章关键词的图片
+    keywords = re.findall(r'[\u4e00-\u9fff]{2,}', short_title)
+    culture_imgs = []
+    for m_item in media:
+        if m_item["typ"] != "image":
+            continue
+        if any(kw in m_item["fn"] for kw in keywords):
+            culture_imgs.append(m_item)
+
+    # 渲染卡片
+    nums = ['一', '二', '三', '四', '五', '六']
+    cards = []
+    for i, (title, content) in enumerate(sections):
+        clean_title = re.sub(r'^[一二三四五六七八九十]+、\s*', '', title)
+        num = nums[i] if i < len(nums) else str(i + 1)
+        content_html = _md_to_html(content)
+
+        img_html = ""
+        has_img = i < len(culture_imgs)
+        if has_img:
+            img = culture_imgs[i]
+            img_html = (f'\n      <img class="culture-img" src="{img["fn"]}" '
+                        f'alt="{humanize(img["fn"])}" loading="lazy" decoding="async">')
+
+        card_class = "culture-card has-img" if has_img else "culture-card"
+        cards.append(
+            f'    <div class="{card_class}">\n'
+            f'      <div class="culture-text">\n'
+            f'        <h4><span class="num">{num}</span>{clean_title}</h4>\n'
+            f'        {content_html}\n'
+            f'      </div>{img_html}\n'
+            f'    </div>')
+
+    cards_html = '\n'.join(cards)
+
+    return (
+        '  <section class="section" id="culture">\n'
+        '    <h2 class="section-title">\n'
+        '      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>\n'
+        f'      人文背景 · {short_title}\n'
+        '    </h2>\n'
+        f'    <p class="section-desc">{h1_title}</p>\n'
+        f'{cards_html}\n'
+        f'{tips_html}'
+        '    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>\n'
+        '  </section>')
+
+
 def build_log_section(logs, chapters):
     out = []
     for sec, items in zip(logs, chapters):
@@ -230,7 +412,7 @@ def build_log_section(logs, chapters):
         '  </section>')
 
 
-def fill(tpl, date, intro, logs, chapters):
+def fill(tpl, date, intro, logs, chapters, background_md, media):
     # 顶部导航/页脚: 返回链接在两级深记录页 -> ../../index.html
     tpl = tpl.replace('../index.html', '../../index.html')
     # 令牌
@@ -269,6 +451,16 @@ def fill(tpl, date, intro, logs, chapters):
     # #log section 整段替换
     tpl = re.sub(r'<section class="section" id="log">.*?</section>',
                  build_log_section(logs, chapters), tpl, flags=re.S)
+    # #culture section（人文背景，有背景文章时插入 #log 与 #food 之间）
+    culture_html = build_culture_section(background_md, media)
+    if culture_html:
+        tpl = tpl.replace('  <section class="section" id="food">',
+                          culture_html + '\n\n  <section class="section" id="food">')
+        # 顶部导航加「人文背景」链接（桌面 + 移动端）
+        tpl = tpl.replace('<a href="#food">美食发现</a>',
+                          '<a href="#culture">人文背景</a>\n      <a href="#food">美食发现</a>')
+        tpl = tpl.replace('<a href="#food">美食 & 随手发现</a>',
+                          '<a href="#culture">人文背景</a>\n      <a href="#food">美食 & 随手发现</a>')
     # food
     tpl = tpl.replace('{{吃了什么、哪家店、随手的小发现（小店/展览/路人有趣的事）}}',
                       '泮溪酒家的园林与点心、泮塘水乡的五秀风物、西关老字号与洋咖啡的街角碰撞。')
@@ -312,7 +504,7 @@ def main():
         sys.exit(f"[错误] 目录不存在: {folder}")
     if not os.path.isfile(readme):
         sys.exit(f"[错误] 缺少 README.MD: {readme}")
-    date, intro, logs = read_readme(readme)
+    date, intro, logs, background_md = read_readme(readme)
     if not logs:
         sys.exit("[错误] README.MD 未解析到 ## 实录 分段（### HH:MM 标题）")
     media = scan_media(folder)
@@ -321,14 +513,15 @@ def main():
     chapters = assign_chapters(media, logs)
     with open(SRC_TPL, encoding="utf-8") as f:
         tpl = f.read()
-    out = fill(tpl, date, intro, logs, chapters)
+    out = fill(tpl, date, intro, logs, chapters, background_md, media)
     out_path = os.path.join(folder, "index.html")
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(out)
     n_img = sum(1 for m in media if m["typ"] == "image")
     n_vid = sum(1 for m in media if m["typ"] == "video")
+    has_culture = "有" if background_md.strip() else "无"
     print(f"[完成] {out_path}")
-    print(f"  日期={date} 章节={len(logs)} 图片={n_img} 视频={n_vid} 总媒体={len(media)}")
+    print(f"  日期={date} 章节={len(logs)} 图片={n_img} 视频={n_vid} 总媒体={len(media)} 人文背景={has_culture}")
     # 各章媒体分布
     for i, (sec, ch) in enumerate(zip(logs, chapters)):
         print(f"  · {sec['time']} {sec['title']} → {len(ch)} 媒体")

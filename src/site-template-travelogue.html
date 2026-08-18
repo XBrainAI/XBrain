@@ -217,6 +217,25 @@
     .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
     /* === END 游记核心模块 CSS ============================================== */
 
+    /* ===== 人文背景（文化卡片）===== */
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: .7rem; display: flex; align-items: center; gap: .5rem; }
+    .culture-card h4 .num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #0a0a1a; font-size: .8rem; font-weight: 900; flex-shrink: 0; font-family: 'Noto Sans SC', sans-serif; }
+    .culture-card p { font-size: .9rem; color: var(--text); line-height: 1.78; margin-bottom: .6rem; }
+    .culture-card p:last-child { margin-bottom: 0; }
+    .culture-card strong { color: var(--accent2); font-weight: 600; }
+    .culture-card ul { padding-left: 1.2rem; margin: .5rem 0 .6rem; }
+    .culture-card li { font-size: .88rem; color: var(--text); line-height: 1.7; margin-bottom: .25rem; }
+    .culture-card li strong { color: var(--accent2); }
+    .culture-card .culture-img { width: 100%; border-radius: 10px; margin-top: .8rem; border: 1px solid var(--accent-border); display: block; }
+    /* 桌面端：有图卡片用双列布局，图文并排 */
+    @media (min-width: 768px) {
+      .culture-card.has-img { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.2rem; align-items: start; }
+      .culture-card.has-img .culture-text { grid-column: 1; }
+      .culture-card.has-img .culture-img { grid-column: 2; margin-top: 0; align-self: center; }
+    }
+
     /* ===== 实用信息 TIPS BOX ===== */
     .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
     .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
@@ -629,7 +648,7 @@
       updateLogo();
 
       // ===== 入场动画 =====
-      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .food-card');
+      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .culture-card, .food-card');
       var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
       revealEls.forEach(function (el) { observer.observe(el); });
     })();

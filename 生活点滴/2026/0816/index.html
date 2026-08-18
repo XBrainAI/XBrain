@@ -38,7 +38,15 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ===== 主题令牌（换肤只需改这里；暖色为「游记/回忆」默认皮肤）===== */
+    /* ===== 主题令牌（换肤只需改这里；暖色为「游记/回忆」默认皮肤）=====
+       ⚠️ 硬规则（曾因缺分号导致全页文字变黑）：
+       1. 每个变量声明行尾必须有分号 `;`——漏分号会让 CSS 解析器把下一行变量
+          当作本行值的一部分吞掉，导致下一变量未定义、var() 回退到浏览器默认黑色。
+       2. --text / --text-dim / --text-hint 必须用不透明 hex（如 #ffffff），
+          禁止 rgba(...,0.X) 透明度写法——半透明文字在深色背景上视觉等同"深色文字"。
+       3. 正文段落（section-desc / log-chapter p / food-card p / tips-box li 等）
+          统一用 var(--text)（全亮），不用 var(--text-dim)；--text-dim 仅用于
+          次要标注（footer / log-video-cap 等非正文）。 */
     :root {
       --xb-deep: #0a0a1a;
       --xb-mid: #14101f;
@@ -208,6 +216,25 @@
     .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
     /* === END 游记核心模块 CSS ============================================== */
 
+    /* ===== 人文背景（文化卡片）===== */
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: .7rem; display: flex; align-items: center; gap: .5rem; }
+    .culture-card h4 .num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #0a0a1a; font-size: .8rem; font-weight: 900; flex-shrink: 0; font-family: 'Noto Sans SC', sans-serif; }
+    .culture-card p { font-size: .9rem; color: var(--text); line-height: 1.78; margin-bottom: .6rem; }
+    .culture-card p:last-child { margin-bottom: 0; }
+    .culture-card strong { color: var(--accent2); font-weight: 600; }
+    .culture-card ul { padding-left: 1.2rem; margin: .5rem 0 .6rem; }
+    .culture-card li { font-size: .88rem; color: var(--text); line-height: 1.7; margin-bottom: .25rem; }
+    .culture-card li strong { color: var(--accent2); }
+    .culture-card .culture-img { width: 100%; border-radius: 10px; margin-top: .8rem; border: 1px solid var(--accent-border); display: block; }
+    /* 桌面端：有图卡片用双列布局，图文并排 */
+    @media (min-width: 768px) {
+      .culture-card.has-img { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.2rem; align-items: start; }
+      .culture-card.has-img .culture-text { grid-column: 1; }
+      .culture-card.has-img .culture-img { grid-column: 2; margin-top: 0; align-self: center; }
+    }
+
     /* ===== 实用信息 TIPS BOX ===== */
     .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
     .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
@@ -294,6 +321,7 @@
       <a href="#top">首页</a>
       <a href="#summary">行程总览</a>
       <a href="#log">生活实录</a>
+      <a href="#culture">人文背景</a>
       <a href="#food">美食发现</a>
       <a href="#notes">实用信息</a>
     </div>
@@ -305,6 +333,7 @@
       <a href="#top">首页</a>
       <a href="#summary">行程总览</a>
       <a href="#log">生活实录</a>
+      <a href="#culture">人文背景</a>
       <a href="#food">美食 & 随手发现</a>
       <a href="#notes">实用信息</a>
     </div>
@@ -441,6 +470,71 @@
   </section>
 
   <!-- ===== 3. 美食 & 随手发现（可选）===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      人文背景 · 一盅两件话泮溪
+    </h2>
+    <p class="section-desc">一盅两件话泮溪：藏在西关水乡里的岭南传奇</p>
+    <div class="culture-card">
+      <div class="culture-text">
+        <h4><span class="num">一</span>地名里的秘密：从“半塘”到“泮塘”</h4>
+        <p>泮溪酒家所在的这片土地，古称“泮塘”。</p>
+      <p>一千多年前，这里还是珠江边的滩涂洼地。泥沙淤积，河涌纵横，先民在此筑基围塘：基上种荔枝龙眼，塘里养莲藕、马蹄、菱角、茭笋、茨菇。放眼望去，<strong>一半是水，一半是田</strong>——所以最早，这里叫“半塘”。</p>
+      <p>到了清乾隆年间，这个充满乡土气的名字，被西关的读书人悄悄改了。</p>
+      <p>古人讲究礼制：天子办学的太学名“辟雍”，四面环水；而诸侯办学的学校，只能环半圈水，叫“泮宫”。“泮”字，本就是“半”的意思。后来孔庙前那弯半月形的水池，就叫“泮池”。科举时代，书生考中秀才，要跨过泮桥祭拜孔子，这场入学礼，叫作“<strong>入泮</strong>”。《诗经》里那句“思乐泮水，薄采其芹”，说的正是学子及第的风雅。</p>
+      <p>于是，“半塘”雅化为“泮塘”——既保留了“半水半陆”的地貌特征，又借了“入泮登科”的好彩头。这一字之改，让这片种着马蹄莲藕的水乡，从此带上了墨香。</p>
+      <p>今天的泮塘五约、仁威庙，以及这家酒家，都承袭了这份“水气”与“文气”。</p>
+      </div>
+    </div>
+    <div class="culture-card">
+      <div class="culture-text">
+        <h4><span class="num">二</span>竹棚起家 · 岭南建筑的“交响诗”</h4>
+        <p>1947年，泮塘本地人李文伦，在荔枝湾畔搭起了一座松皮竹棚。</p>
+      <p>那时的泮溪酒家，简陋得不像话：松皮顶、竹木墙，悬在荷塘之上，只有两百多个座位。但它赢在“地道”——李文伦就地取材，用泮塘特产“五秀”做文章：<strong>泮塘马蹄糕、茭笋皇、郊外大鱼头</strong>，配上西关人最爱的拉肠、点心，一开张就抓住了食客的胃。</p>
+      <p>那时候，这里是文人雅士的“饭堂”。他们来这里，不为排场，就为这一口水乡的鲜甜，和窗外那幅“白荷红荔”的岭南旧画。</p>
+      <p>真正让泮溪酒家名动天下的，是1959年的一场改建。</p>
+      <p>当时广州市长朱光亲自督建，请来岭南建筑大师、后来的中科院院士<strong>莫伯治</strong>操刀。莫伯治没有大兴土木，反而跑遍珠三角的乡间，去收购村民拆老屋时扔掉的旧砖瓦、满洲窗、雕花木构件。</p>
+      <p>两年后，1960年复业的泮溪，变成了一座1.2万平方米的“活园林”：</p>
+      <ul>
+      <li><strong>迎宾楼</strong>：这是酒家的“心脏”，博采粤中四大名园精华。楼里镶着五彩蚀刻玻璃，挂着金漆木雕，摆着酸枝家具。郭沫若在此题诗，这里如今已是广州市文物保护单位。</li>
+      <li><strong>“东坡游赤壁”假山</strong>：出自广东山石名家的手笔，巨石嶙峋，与曲桥流水相映成趣。</li>
+      <li><strong>三桥一景</strong>：曲桥、廊桥、圆拱桥连着亭台，一步一景，把江南庭园和岭南装饰揉在了一起。</li>
+      </ul>
+      <p>2016年，泮溪酒家入选首批“中国20世纪建筑遗产”。它不是一座死去的文物，而是一座还在营业、还在冒热气的建筑博物馆。</p>
+      </div>
+    </div>
+    <div class="culture-card">
+      <div class="culture-text">
+        <h4><span class="num">三</span>把点心做成艺术 · 名流餐桌上的广州故事</h4>
+        <p>泮溪酒家对粤菜最大的贡献，是<strong>把点心从茶桌请上了宴席</strong>。</p>
+      <p>点心大师罗坤，在这里创出了“绿茵白兔饺”——用芫荽垫底，虾饺捏成小白兔模样，栩栩如生；还有象生雪梨果、蜂巢芋角……这些点心不再是充饥的茶点，而是可以细细欣赏的工艺品。</p>
+      <p>后来，厨师们又推出了“八仙宴”“花仙宴”，用食品拼出花鸟图案，让一笼笼点心变成了一桌桌宴席。老广州有句口头禅：“<strong>饮茶到泮溪，吃饭到北园</strong>”，说的就是它在点心界的江湖地位。</p>
+      <p>翻开泮溪的留言簿，像翻开半部中外交流史。</p>
+      <p>1987年六运会，国际奥委会主席萨马兰奇在此赴宴。厨师用蔬菜拼出奥运五环，冬瓜盅上雕出大熊猫，萨马兰奇当场起立鼓掌。</p>
+      <p>1993年，德国总理科尔访穗，特意避开正式宴请，微服来到泮溪。第二天《广州日报》头版刊出《科尔微服食在泮溪》，一道“科尔牛柳”从此成了这里的招牌。</p>
+      <p>从茅盾、老舍到各国政要，泮溪用一盅一筷，招待了半个世纪的世界客人。</p>
+      </div>
+    </div>
+    <div class="culture-card">
+      <div class="culture-text">
+        <h4><span class="num">四</span>今天，它依然活着</h4>
+        <p>如今的泮溪酒家，依然是广州人饮早茶的首选地之一。</p>
+      <p>你可以先逛一逛旁边的泮塘五约古村，看看仁威庙，走过青石板路，再步入这座园林。在临湖的窗边坐下，叫一笼马蹄糕，沏一壶普洱，看荔湾湖的游船划过。</p>
+      <p>它从1947年的竹棚走来，经历过围塘种藕的农耕时代，也见证了广州从商埠到现代都市的变迁。在这里，地名里的“泮”字，不仅是入泮求学的旧梦，也是广州人“食不厌精”的生活美学。</p>
+      </div>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">📌 一盅两件话泮溪小知识</div>
+      <ul>
+        <li><strong>泮塘五秀</strong>：莲藕、马蹄、菱角、茭笋、茨菇。</li>
+        <li><strong>泮溪三绝</strong>：绿茵白兔饺、泮塘马蹄糕、园林香液鸡。</li>
+        <li><strong>入泮</strong>：古代学子入学典礼，寓意学业有成。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
   <section class="section" id="food">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2v0a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
@@ -498,11 +592,14 @@
   <!-- ===== SCRIPTS ===== -->
   <script>
     (function () {
-      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
-      // 约定：画廊(.media-gallery)内的图片即「该卡片对应的图片文件夹内容」。
-      //   - 若其中某张命名为 index.*，自动作为主图(.media-cover)。
-      //   - 若漏命名 index.*（常见），回退为画廊第一张作为主图。
-      //   - 点击缩略图切换主图；当前主图从缩略图条隐藏，避免与首图重复。
+      // ===== 媒体画廊（4 大功能，JS 动态注入，不依赖生成器改 HTML）=====
+      // 功能 1：首图自动解析 — 画廊中命名 index.* 的图优先作主图；缺失回退第一张。
+      // 功能 2：图片名称标题 — 主图上方动态插入 .media-caption，绑定 thumb.alt（取自
+      //         文件名中文主题），每次切换主图时同步更新，便于读者理解图片现场。
+      // 功能 3：左右切换 — 多图时动态创建 .media-nav-btn 圆形箭头按钮（prev/next），
+      //         覆盖在主图两侧；点击或键盘 ← → 或触摸滑动均可循环切换。
+      // 功能 4：竖屏自适应 — syncOrient() 按图片真实方向给容器加 .img-portrait 类。
+      // 约定：画廊(.media-gallery)内的 <img> 即「该卡片对应的图片文件夹内容」。
       function baseNameOf(src) {
         var m = /[\\/]([^\\/]+)$/.exec(src || '');
         var f = m ? m[1] : (src || '');
@@ -660,7 +757,7 @@
       updateLogo();
 
       // ===== 入场动画 =====
-      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .food-card');
+      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .culture-card, .food-card');
       var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
       revealEls.forEach(function (el) { observer.observe(el); });
     })();
