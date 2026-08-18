@@ -126,7 +126,7 @@
 - **手势滑动切图**：大图区域监听 `touch*`，横向位移 >45px 且大于纵向才切（根 §14.7 完整代码）。
 - **移动优先网格**：缩略图墙 `2→3→4` 列断点（根 §14.5）。
 - **安全区避让**：固定定位 close/nav 加 `env(safe-area-inset-*)`。
-- **可直接复制的代码**：图墙/画廊复用 `src/site-template-travelogue-core.html` 的 `.media-block`（封面 `<img>` + 缩略图条，JS 自动选封面 index.* 优先、竖屏 `syncOrient` 完整显示、当前封面 `is-cover` 高亮）；旧 `花都周末家庭游` 手编的 `.lightbox-*` / `.waterfall-*` / `.travel-log-*` 灯箱已随该目录删除而退役，**切勿再引用**。新增游记/画廊页整段复用 `.media-block` 后再改路径，避免重复踩坑。
+- **可直接复制的代码**：图墙/画廊复用 `home/src/site-template-travelogue-core.html` 的 `.media-block`（封面 `<img>` + 缩略图条，JS 自动选封面 index.* 优先、竖屏 `syncOrient` 完整显示、当前封面 `is-cover` 高亮）；旧 `花都周末家庭游` 手编的 `.lightbox-*` / `.waterfall-*` / `.travel-log-*` 灯箱已随该目录删除而退役，**切勿再引用**。新增游记/画廊页整段复用 `.media-block` 后再改路径，避免重复踩坑。
 
 ### 5.7 方案已完成印章
 
@@ -717,7 +717,7 @@ footer .footer-version {
 - **URL 必须显式带片段（#hash）**：锚点点击不能只滚动、不更新地址栏。统一用一段 JS 接管所有 `a[href^="#"]`（`initAnchors`）：`e.preventDefault()` → `target.scrollIntoView({behavior:'smooth'})` → `history.pushState(null,'',hash)` 把 `#片段` 写进 URL。这样点击后地址栏可见 `index.html#culture-stone`，且能把带 `#片段` 的链接复制给别人直接深链到该章节。**注意**：在 WorkBuddy 预览面板（iframe 渲染）里，片段只更新 iframe 内部地址、顶部预览地址栏不变属正常；用浏览器直接打开或部署到 Netlify 后顶部地址栏即显示片段。
 - **打开即定位（深链）**：页面加载时若 `location.hash` 非空，监听 `load` 后 `setTimeout(...scrollIntoView, 450)` 自动滚到该章节，保证分享链接一打开就到正确位置。
 - **跳转不被吸顶导航遮挡**：给 `section[id], .culture-card[id]` 加 `scroll-margin-top: 80px`（吸顶导航高度余量），避免锚点落点被固定导航盖住。
-- **样式复用**：`.in-doc-link`（强调色 + 下划线）、`.section-backtop`（居中圆角描边按钮、hover 高亮）的 CSS 见 `花都周末家庭游-new/index.html` 的 `<style>`「页内锚点链接」段或 `src/site-template-travelogue.html`，新增子站直接复用同款，无需重新设计。
+- **样式复用**：`.in-doc-link`（强调色 + 下划线）、`.section-backtop`（居中圆角描边按钮、hover 高亮）的 CSS 见 `花都周末家庭游-new/index.html` 的 `<style>`「页内锚点链接」段或 `home/src/site-template-travelogue.html`，新增子站直接复用同款，无需重新设计。
 - **验证**：发布前确认① 所有 `in-doc-link` 的 `href` 都能在页面内找到对应 `id`（无死链）；② `section-backtop` 数量 = 大章节数；③ 点击任一锚点后地址栏出现 `#片段` 且平滑滚动到位、无吸顶遮挡；④ 直接以 `index.html#某id` 打开能自动定位。
 
 > 目的：让分散在各方案、各章节的信息能**双向跳转**——从时间轴跳到详解，读完详解一键回顶部继续浏览，且每段都可生成可分享的深链 URL（"方向链接"）。
@@ -756,7 +756,7 @@ footer .footer-version {
 
 ### 13.9 方案选择锚点（方案可深链）
 
-攻略页「方案选择」区的每个方案选项（`.plan-btn`）必须可经由 URL 片段直接定位 / 分享，让家人能"打开链接即看到某方案"，不限于默认第一个。统一规则（参照 `花都周末家庭游-new/index.html` 的 `switchPlan` 实现，或 `src/site-template.html` 规划型模板）：
+攻略页「方案选择」区的每个方案选项（`.plan-btn`）必须可经由 URL 片段直接定位 / 分享，让家人能"打开链接即看到某方案"，不限于默认第一个。统一规则（参照 `花都周末家庭游-new/index.html` 的 `switchPlan` 实现，或 `home/src/site-template.html` 规划型模板）：
 
 - **点击方案须同步 URL 片段**：`switchPlan(planId)` 在切换后调用 `history.replaceState(null,'','#'+planId)` 把 `#方案id` 写入地址栏。用 `replaceState` 而非 `pushState`，避免每切一次方案就污染浏览器历史栈（返回键不会在方案间反复横跳）。
 - **打开即选中（方案深链）**：页面加载时若 `location.hash` 命中方案 id 列表（`PLAN_IDS = ['planA','planB','planC','planD','planE','planE1']`），须自动 `switchPlan(该id, true)` 切到该方案，并滚到「方案选择」区（`#plans` / `.plan-selector`）方便查看；与 §13.7 的章节深链共用同一加载期 `location.hash` 判断逻辑（命中方案 id 走切换分支，否则走 `scrollIntoView` 章节分支）。
@@ -781,10 +781,21 @@ footer .footer-version {
 
 ### 14.1 模板位置与组成
 
-- **攻略型正式模板**：`四季景点/src/site-template.html` —— 复制即用（8 段结构 + 多方案切换）。
-- **纯游记型模板**：`四季景点/src/site-template-travelogue.html` —— 复制即用（轻量结构，暖色皮肤）。
-- **模板 hub 文档**：`四季景点/src/README.md`（两套模板用法、占位符、硬规则、"何时用哪个"）。
-- **占位图**：`四季景点/src/assets/ph1..6.svg`，预览用，正式子站须替换为真实图片；`assets/index.svg` 为首图占位演示（命名 `index.*` 会被自动选为主图，缺失则回退画廊第一张）。
+- **攻略型正式模板**：`home/src/site-template.html` —— 复制即用（8 段结构 + 多方案切换）。
+- **纯游记型模板**：`home/src/site-template-travelogue.html` —— 复制即用（轻量结构，暖色皮肤）。
+- **模板 hub 文档**：`home/src/README.md`（两套模板用法、占位符、硬规则、"何时用哪个"、标题映射）。
+- **占位图**：`home/src/assets/ph1..6.svg`，预览用，正式子站须替换为真实图片；`home/src/assets/index.svg` 为首图占位演示（命名 `index.*` 会被自动选为主图，缺失则回退画廊第一张）。
+
+### 14.1.1 模板选型决策（hybrid 页防回归）
+
+按「是否含方案切换 + 已执行游记」选骨架，避免 花都周末家庭游-new 踩过的「游记实录不跟随已执行方案」回归：
+
+- **纯记录、无方案切换** → 纯游记模板 `home/src/site-template-travelogue.html`（其 `#log` 常驻顶部、无门控，本就如此）。
+- **多方案切换 + 已执行游记实录（hybrid，如花都-new）** → **必须以规划型模板 `home/src/site-template.html` 为骨架**。该模板已内置「游记跟随已执行方案」门控，复制即用：
+  - 结构顺序：`#plans`(约 470) → `#log`(约 587, 默认 `hidden`) → `#food`(约 635, 默认 `hidden`)，**游记在方案之后且默认隐藏**；
+  - 门控 JS：`getExecutedPlanId`(760) / `updateTravelogueGate`(766) / `switchPlan`(784，内部调 `updateTravelogueGate`) / `syncTravelogueNav`(805) / `initGate`(818) / 导航拦截(906，点 `#log`/`#food` 若 `hidden` 先 `switchPlan(已执行方案)`)；
+  - 已执行方案按钮加 `data-executed="true"`（模板 491 行示例），邮戳由 `.plan-stamp` 渲染（§14.6.1 规则 5）。
+- ⚠️ **严禁先以纯游记模板为骨架、事后补 `#plans`**：纯游记模板把 `#log` 置于顶部且常驻可见、无门控 JS，补 plans 后极易漏接门控（花都-new 曾因此踩坑，门控细则见 §14.6.1 规则 7）。
 
 ### 14.2 模板已内置的结构（无需再设计）
 
@@ -905,6 +916,16 @@ PINNED：作者显式锚定的章节边界（如 {清晨退潮, 清晨最后一�
 - [ ] **内嵌脚本语法**：提取末段 `<script>` 喂 `node --check` 通过。
 - [ ] **门控标志**：`#log` / `#food` 若按 recap 门控，`hidden` 属性正确；`goToLog()` 等门控函数已定义。
 - [ ] ⚠️ **沙箱 heredoc 陷阱**：Bash heredoc 中反斜杠会被沙箱转义、破坏正则/JS；验证/拼接脚本优先用 Write 写成 `.py`/`.js` 文件再执行，避免内联转义出错。
+- [ ] ⚠️ **超大单文件 HTML 写入（Write 400 长度超限）**：单文件子站（如 1700+ 行）一次 `Write` 可能触发 `400 input length too long` 被截断，留下悬空标签。规避/恢复：分多次写入（首段 `Write` + 后续段用 `Edit` 续写），或截断后读尾 + 分段 `Edit` 补全；每阶段结束校验 `<div>`/`<section>` 配平与末段 `<script>` 过 `node --check`（见上文各项）。
+
+### 14.6.7 旧 hand-authored 子站 → src 规范迁移方法
+
+重编/迁移旧「手编」子站（如已删除的 `花都周末家庭游`）到新模板规范时，旧专属内容须**全部保留、不遗漏**，仅把呈现形式改为新组件：
+
+- **旧 `background-image: url('...')` 景点卡 → `.media-block`**：改为 `<img class="media-cover">` 主图 + `.media-gallery` 缩略图条（JS 自动选封面、竖屏 `syncOrient` 完整显示、当前封面 `is-cover` 高亮，§14.6.1 规则 1/4）。旧自定义灯箱 JS（`openWaterfall`/`openGallery` 等）直接删除，改用模板媒体组件（参考 `home/src/site-template-travelogue-core.html`）。
+- **旧台风 `.tf-note` 块 → 语义化 `.typhoon-note`**：结构为 `h4` 标题 + `.tf-sub` 副标题 + `h5` 小节 + `p` 正文 + `.tf-win` 时间窗色条（橙色/蓝色段落）。CSS 与实例见 `花都周末家庭游-new/index.html` 第 322–327 行与 `#typhoon-e`/`#typhoon-e1`。
+- ⚠️ **`.typhoon-note` 当前仅定义在 花都周末家庭游-new（未入模板）**：下次同类重编应将其 CSS/HTML 抽入 `home/src/site-template-travelogue-core.html` 复用，避免重复定义。
+- 旧站全部专属内容（多套方案 A–E+E1、9 景点、5 人文、4 酒店、预算对比、QA、路线、营业时间复核、台风评估 ×2）按上述组件重构后保留，内容对等（新＝旧）。
 
 ## 15. 四季景点主站入口页（index.html · 数据驱动重设计）
 
@@ -1001,3 +1022,13 @@ var SITES = [
 2. **内嵌脚本语法**：提取 `<script>` 内容喂 `node --check`（Bash：`node -e "...<script>..."` 提取后 `child_process.execSync('node --check -',{input:scriptSrc})`）。
 3. **逻辑仿真**：用括号配平从 `var SITES = [` 提取到对应 `]` 后 `eval`，跑 `getFiltered('published'/'draft')` 两端分类与排序，确认：已实现 + 未实现 = 总数、无重叠遗漏、排序符合 §15.3。
 4. **⚠️ 沙箱 heredoc 陷阱**：Bash heredoc 中反斜杠（`\`）会被沙箱转义，破坏正则/JS 字符串——**验证脚本优先用 Write 写成 `.js`/`.py` 文件再执行**，避免内联转义出错。
+
+### 15.8 删除 / 重命名子站同步清单
+
+子站被删除或重命名后，必须同步以下位置，否则门户出现破图卡、文档出现死链（花都周末家庭游 删除后曾留失效 `SITES` 卡片，已在 2026-08-12 修复）：
+
+1. **门户 `四季景点/index.html` 的 `SITES` 数组**：删除该条目或重定向；其 `cover`（如 `花都周末家庭游/index.html.jpeg`）若指向已删目录必失效，须一并清掉。
+2. **本 `AGENTS.md`**：`grep '子站名'`（精确匹配、排除 `-new` 等新名）与 `'子站名/'` 路径引用，凡指向已删目录的卡片示例 / 封面示例 / 枚举项，一律改指向幸存站或 `home/src` 模板，或标注「已退役 / 已重编为 -new」。
+3. **其它子站 AGENTS 与页面交叉链接**：根 `AGENTS.md`、门户 `README.md`、各子站内 `../` 链接同理核查。
+
+> 谨慎原则（2026-08-12 落地）：先逐处读上下文判断「改指向 / 标退役 / 保留历史溯源」，不盲目全局替换；保留的「已删站」字样须确属正当（如退役说明、§12 历史溯源），且不得造成死链或失效路径引用。

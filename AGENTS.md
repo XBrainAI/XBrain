@@ -27,6 +27,7 @@ home/
 ├── auth.config.json        # 主站认证配置（密码 xbrain2026，1 天会话，5 次锁定 15 分钟）
 ├── README.md               # 子站点开发指引（9 章，卡片/Logo/流程图模板的权威来源）
 ├── AGENTS.md               # 本文件
+├── src/                    # ⭐ 共享模板库（单一来源）：类型 C 子站点 HTML 模板 + 生成器，引用规则见 src/README.md
 ├── .gitignore              # 含 node_modules/、dist/、__pycache__/ 等
 │
 ├── brand/                  # 共享品牌资源
@@ -60,8 +61,12 @@ home/
 ├── 采购与维护/             # 【类型 C】家电选购与维护（新风机、大金空调诊断）
 │   └── AGENTS.md           # ⭐ 子站专属指引（MD↔HTML双改/富视觉长文档）
 │
-└── 学习与成长/             # 【类型 C】学习资源与成长指南（纪录片推荐等）
-    └── index.html
+├── 学习与成长/             # 【类型 C】学习资源与成长指南（纪录片推荐等）
+│   └── index.html
+│
+└── 生活点滴/               # 【类型 C · 多级导航·纯记录型】随拍照片+视频（非计划），由 home/src 纯记录型模板(site-template-travelogue.html)生成
+    ├── index.html          # 画廊首页
+    └── <YYYY>/MMDD/        # 每天的记录文件夹（含 index.html + README.MD + 媒体）
 ```
 
 ### 1.1 子站点 → 类型 映射
@@ -73,6 +78,7 @@ home/
 | 健康 | C (多级导航) | 否 | `./健康/index.html` |
 | 采购与维护 | C (多级导航) | 否 | `./采购与维护/index.html` |
 | 学习与成长 | C (多级导航) | 否 | `./学习与成长/index.html` |
+| 生活点滴 | C (多级导航 · 纯记录型) | 否 | `./生活点滴/index.html` |
 
 ---
 
@@ -100,13 +106,13 @@ home/
 
 ## 3. 子站点分类与创建范式
 
-新增子站点时，先判定类型，再按下表执行。完整模板与 Checklist 见 `README.md` 第二、七节。
+新增子站点时，先判定类型，再按下表执行。**类型 C 子站点（四季景点、生活点滴等）统一由 `home/src` 共享模板库生成**：复制 `home/src/site-template*.html` 并填占位符（含 `{{SITE_LABEL}}`/`{{RECORD_HEADING}}` 令牌），引用规则、COPY BLOCK 约定、生成器用法见 `src/README.md`；禁止各子站本地另存模板副本。通用 Checklist 仍见 `README.md` 第二、七节。
 
 | 类型 | 适用 | 关键步骤要点 |
 |------|------|--------------|
 | A 纯静态 HTML | 内容展示、单页 | 建目录 → 写 `index.html` → 嵌 Logo → 门户加卡片 → 验证跳转 |
 | B React+Vite SPA | 交互应用 | 初始化 Vite → **`vite.config.ts` 设 `base:'./'`** → 改根 `package.json` build → `netlify.toml` 加 SPA 重定向 → 门户卡片指向 `dist/index.html` → 嵌 Logo → 本地 build 验证 |
-| C 多级导航 | 聚合类（景点/健康） | 导航首页复用门户卡片网格 → 子页 `../index.html` 回导航 → Logo `href` 按层级回门户（`../` 或 `../../`）→ 验证全层级跳转 |
+| C 多级导航 | 聚合类（景点/健康/生活点滴） | 由 `home/src` 模板库生成：复制 `site-template*.html` 填占位符 → 嵌 Logo → 门户加卡片 → 验证全层级跳转 |
 
 **不可妥协项（三类通用）：**
 - 每个页面必须嵌入完整 XBrain 品牌 Logo（见 §6）。
@@ -368,6 +374,9 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **中文目录名**：`健康/四季景点/采购与维护` 为中文路径，shell 命令与 href 须正确处理（PowerShell 用单引号包裹）。
 - **改动后必跑测试**：`query-system` 有 6 个测试套件，含 regression，回归测试是数据管线改动的安全网。
 - **移动端灯箱禁用 `body.style.overflow='hidden'` 锁滚动**：iOS Safari 上给 `body` 设 `overflow` 会让 `position:fixed` 的灯箱遮罩锚定到 `body` 盒子（页面有横向溢出时被撑宽），表现为「点开灯箱黑屏、要把屏幕拖到右边才看到」。改用遮罩自身 `touch-action:none` + `overscroll-behavior:contain` 阻止手势穿透。铁律与代码模板见 **§14**。
+- **CSS 变量声明行尾必须有分号 `;`**：`:root` 块内任一变量漏 `;`，CSS 解析器会把下一行变量当作本行值的一部分吞掉，导致下一变量未定义、`var()` 回退到浏览器默认黑色 → 全页文字在深色背景上完全不可见。生成器（`gen_travelogue.py`）做字符串替换换肤时，**替换值必须保留结尾 `;`**。详见 `home/src/README.md` §7.1。
+- **深色主题文字颜色用不透明 hex**：`--text` / `--text-dim` / `--text-hint` 禁止 `rgba(...,0.X)` 透明度写法——半透明文字在深色背景上视觉等同"深色文字"，用户报"看不见"。正文段落（`.section-desc` / `.log-chapter p` / `.food-card p` / `.tips-box li` 等）统一用 `var(--text)`（全亮），不用 `var(--text-dim)`。详见 `home/src/README.md` §7.2–§7.3。
+- **README.MD 是叙事底稿，不是页面内容源**：`## 简介` 内若夹带 ```` ```markdown ```` 围栏长文（如背景文章），生成器**剥离**该围栏块、不当作页面内容显示（绝不"开篇照搬"原样 markdown）。章节切割由 README `### HH:MM` 锚点 + 媒体文件名时间戳共同决定（对齐 `四季景点/AGENTS.md` §14.5/§14.6）。详见 `home/src/README.md` §3.5。
 
 ---
 
@@ -595,6 +604,19 @@ window.prevImage = function(){ if(!currentGallery) return; currentIndex = (curre
 - [ ] `<html>` 已 `overflow-x: hidden`（双保险，防横向溢出撑宽 body）。
 - [ ] 内嵌 JS 经 `node --check` 通过；图片路径全部存在。
 - [ ] 固定定位 close/nav 已避让 `env(safe-area-inset-*)`。
+
+### 14.10 内联媒体画廊（.media-block）导航规范
+
+> 与全屏灯箱（§14.1–§14.9）互补。`home/src/site-template-travelogue.html` 的 `.media-block` 组件采用**内联式**主图 + 缩略图条（非全屏灯箱），已内置以下功能，由 JS 动态注入，生成器无需改 HTML。功能规范与代码见 `home/src/README.md` §8 与模板 `<script>` 段。
+
+| 功能 | 说明 |
+|------|------|
+| 首图自动解析 | 画廊中命名 `index.*` 的图优先作主图；缺失回退第一张 |
+| **图片名称标题** | 主图上方动态插入 `.media-caption`，绑定 `thumb.alt`（取自文件名中文主题），每次切换同步更新——便于读者理解图片现场 |
+| **左右切换** | 多图时动态创建 `.media-nav-btn` 圆形箭头（prev/next）覆盖在主图两侧；支持**点击**、**键盘 ← →**、**触摸滑动**（横向 >45px）三种方式循环切换 |
+| 竖屏自适应 | `syncOrient()` 按图片真实方向给容器加 `.img-portrait` 类，避免裁切 |
+
+**生成器责任**：确保每个 `<img>` 的 `alt` 属性包含有意义的中文场景描述（从文件名提取主题词），因为该 `alt` 会作为大图标题显示。
 
 ---
 

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f2d3d"/>
+      <stop offset="1" stop-color="#2a8f8f"/>
+    </linearGradient>
+    <radialGradient id="r" cx="50%" cy="38%" r="62%">
+      <stop offset="0" stop-color="#9be3ff" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#9be3ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#g)"/>
+  <rect width="1200" height="750" fill="url(#r)"/>
+  <g fill="none" stroke="#9be3ff" stroke-opacity="0.55" stroke-width="4">
+    <circle cx="600" cy="290" r="130"/>
+    <path d="M360 470 L520 360 L640 440 L760 340 L840 410 L960 470 Z" fill="#9be3ff" fill-opacity="0.2" stroke="none"/>
+    <path d="M600 160 L660 290 L600 420 L540 290 Z" fill="#ffffff" fill-opacity="0.12"/>
+  </g>
+  <text x="600" y="560" font-family="sans-serif" font-size="60" font-weight="700" fill="#ffffff" text-anchor="middle">首图 · HERO</text>
+  <text x="600" y="618" font-family="sans-serif" font-size="30" fill="#9be3ff" text-anchor="middle">命名 index.* 会被自动选为首图</text>
+</svg>

@@ -1031,16 +1031,16 @@
 
     <div class="panel tpl">
       <h4><span class="dot"></span>新建子站 · 模板入口</h4>
-      <p>复制对应模板到 <code>四季景点/&lt;新子站&gt;/index.html</code>，替换图片与 <code>{{...}}</code> 文案即可。模板详见 <code>四季景点/src/README.md</code>。</p>
+      <p>复制对应模板到 <code>四季景点/&lt;新子站&gt;/index.html</code>，替换图片与 <code>{{...}}</code> 文案即可。模板详见 <code>home/src/README.md</code>（全局共享模板库）。</p>
       <div class="panel-links">
-        <a href="./src/site-template.html">
+        <a href="../src/site-template.html">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
           </svg>攻略 / 规划型模板
         </a>
-        <a href="./src/site-template-travelogue.html">
+        <a href="../src/site-template-travelogue.html">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -1265,7 +1265,7 @@
           '<span class="tag theme">' + s.theme + '</span>' +
           '<span class="tag type">' + (s.type === '攻略' ? '攻略规划' : '纯游记') + '</span>';
         var meta = isDraft
-          ? '<a class="draft-cta" href="./src/site-template-travelogue.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>用纯游记模板补建</a>'
+          ? '<a class="draft-cta" href="../src/site-template-travelogue.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>用纯游记模板补建</a>'
           : '<div class="card-meta"><span>更新 ' + s.updated + '</span><span class="site-card-arrow">' + arrowSvg + '</span></div>';
         return badge + coverHtml(s) +
           '<div class="site-card-content">' + dateBadge + sub + tags +

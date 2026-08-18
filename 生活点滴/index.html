@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  生活点滴 · 子站导航首页（类型 C · 多级导航轻量变体）
+  ----------------------------------------------------------------------------
+  组织方式对齐「四季景点」：本页为导航首页（卡片网格），每条记录是独立页面
+  （由 home/src/site-template-travelogue.html 纯记录型模板生成，置于 <YYYY>/MMDD/index.html）。
+  新增记录流程见 home/src/README.md（复制模板 → 填 {{SITE_LABEL}}=生活点滴 /
+  {{RECORD_HEADING}}=生活实录 → 换图 → python home/src/gen_travelogue.py <YYYY>/MMDD）。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>生活点滴 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --xb-deep: #0a0a1a; --xb-mid: #14101f; --xb-light: #241a30;
+      --accent: #64b4ff; --accent2: #9fd0ff;
+      --accent-glow: rgba(100, 180, 255, 0.18); --accent-border: rgba(100, 180, 255, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(100,180,255,0.16) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(140,200,255,0.10) 0%, transparent 40%);
+      --text: #e8ecf4; --text-dim: rgba(200,210,230,0.62); --text-hint: rgba(200,210,230,0.35);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--xb-deep); color: var(--text); overflow-x: hidden; -webkit-text-size-adjust: 100%; line-height: 1.6; }
+
+    /* XBrain Logo（IP 规范，子站 href 回门户） */
+    .xbrain-brand { position: fixed; top: 16px; left: 16px; z-index: 100; display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(20,15,50,0.94) 0%, rgba(40,30,80,0.92) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1.5px solid rgba(180,210,255,0.55); border-radius: 12px; padding: 6px 14px 6px 8px; box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12); text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease; }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    .hero { position: relative; z-index: 1; min-height: 50vh; min-height: 50dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 1.5rem 3rem; background: var(--hero-grad); }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.6vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; max-width: 640px; }
+
+    .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 1.4rem; color: var(--text); display: flex; align-items: center; gap: .6rem; }
+    .section-title .bar { width: 4px; height: 1.1rem; background: var(--accent); border-radius: 2px; }
+
+    .sites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem; }
+    .site-card { display: block; text-decoration: none; color: inherit; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 16px; overflow: hidden; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+    .site-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 40px rgba(100,180,255,.18); }
+    .site-card-image { position: relative; aspect-ratio: 16 / 10; background-size: cover; background-position: center; background-color: var(--xb-light); }
+    .site-card-image .badge { position: absolute; top: 12px; right: 12px; background: rgba(10,10,26,.7); color: var(--accent2); border: 1px solid var(--accent-border); font-size: .68rem; padding: .2rem .6rem; border-radius: 20px; letter-spacing: 1px; }
+    .site-card-content { padding: 1.1rem 1.2rem 1.3rem; }
+    .site-card-tag { display: inline-block; font-size: .68rem; color: var(--accent); border: 1px solid var(--accent-border); border-radius: 4px; padding: .1rem .5rem; margin-bottom: .5rem; }
+    .site-card-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .35rem; }
+    .site-card-content .card-date { font-size: .8rem; color: var(--text-dim); letter-spacing: 1px; }
+
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 80px 1rem 2rem; }
+      .sites-grid { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- XBrain Logo（IP 规范，回门户） -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <section class="hero" id="top">
+    <span class="hero-tag">XBrain · 生活点滴</span>
+    <h1 class="hero-title">生活<span>点滴</span></h1>
+    <p class="hero-subtitle">照片与视频串起的非计划随拍——军训、泮塘、街角，老荔湾的烟火与文脉。</p>
+  </section>
+
+  <main class="wrap">
+    <h2 class="section-title"><span class="bar"></span>记录</h2>
+    <div class="sites-grid">
+      <a class="site-card" href="2026/0816/index.html">
+        <div class="site-card-image" style="background-image:url('2026/0816/四中津园-军训第一天-IMG_20260816_071605.jpg')">
+          <span class="badge">生活实录</span>
+        </div>
+        <div class="site-card-content">
+          <span class="site-card-tag">Vlog</span>
+          <h3>高一军训第一天 · 泮塘</h3>
+          <p class="card-date">2026-08-16 · 沙升高一军训 & 泮塘寻味</p>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain</a> 生成 · 生活点滴</div>
+    <div style="margin-top:.5rem;font-size:.7rem;color:var(--text-hint);font-family:'Courier New',monospace;">home/生活点滴 · 纯记录型模板（home/src）</div>
+  </footer>
+
+  <script>
+    // XBrain Logo 滚动淡出（IP 规范）
+    (function () {
+      var logo = document.querySelector('.xbrain-brand'), ticking = false;
+      function update() {
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var r = Math.min(y / vh, 1);
+        if (logo) { logo.style.opacity = 1 - r * 0.7; logo.classList.toggle('scrolled', y > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!ticking) { window.requestAnimationFrame(function () { update(); ticking = false; }); ticking = true; } }, { passive: true });
+      update();
+    })();
+  </script>
+</body>
+</html>
