@@ -217,7 +217,21 @@
     .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
     /* === END 游记核心模块 CSS ============================================== */
 
-    /* ===== 人文背景（文化卡片）===== */
+    /* ===== 人文背景（文化卡片 · #culture，由生成器自动产出）=====
+       ⚠️ 本段样式对应 gen_travelogue.py 的 build_culture_section()，仅当记录页
+          README「## 简介」内夹带 ```markdown 围栏长文（人文历史等）时，生成器才会
+          产出 <section id="culture"> 并自动插在 #log 与 #food 之间、顶部导航加
+          「人文背景」链接。无该围栏长文时页面不含此 section。
+       设计原则（非整段照搬原文，而是重组为叙事卡片，与图片有机成整体）：
+         1. 按 ## 标题拆成 .culture-card 主题卡（序号徽章 .num + 标题 + 叙述 + 配图）。
+         2. ## 段数 > 4 时自动合并相邻段（首段保留独立，其余两两合并），控制卡片数 ≤ 4。
+         3. 📌 小知识块（以「📌 *小知识」开头）提取为 .tips-box。
+         4. 配图从媒体池按标题关键词匹配（文件名含 short_title 的中文词），每卡一张；
+            桌面端 (min-width:768px) .has-img 双列图文并排，移动端单列。
+         5. 行内 **bold** → <strong>（var(--accent2) 高亮）；- 列表 → <ul>；--- 分隔线跳过。
+       ⚠️ 生成器正则陷阱：剥离 H1 必须用 r'^#[^#].+$'（只匹配 # 非 ##），曾误用
+          r'^#.+$' 同时删掉 ## 标题 → 所有卡片标题丢失 → section 为空。详见 src/README.md §9。
+       正文颜色已统一 var(--text)（全亮，见 :root 硬规则），禁止改回 var(--text-dim)。 */
     .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
     .culture-card.visible { opacity: 1; transform: translateY(0); }
     .culture-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: .7rem; display: flex; align-items: center; gap: .5rem; }

@@ -377,6 +377,7 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **CSS 变量声明行尾必须有分号 `;`**：`:root` 块内任一变量漏 `;`，CSS 解析器会把下一行变量当作本行值的一部分吞掉，导致下一变量未定义、`var()` 回退到浏览器默认黑色 → 全页文字在深色背景上完全不可见。生成器（`gen_travelogue.py`）做字符串替换换肤时，**替换值必须保留结尾 `;`**。详见 `home/src/README.md` §7.1。
 - **深色主题文字颜色用不透明 hex**：`--text` / `--text-dim` / `--text-hint` 禁止 `rgba(...,0.X)` 透明度写法——半透明文字在深色背景上视觉等同"深色文字"，用户报"看不见"。正文段落（`.section-desc` / `.log-chapter p` / `.food-card p` / `.tips-box li` 等）统一用 `var(--text)`（全亮），不用 `var(--text-dim)`。详见 `home/src/README.md` §7.2–§7.3。
 - **README.MD 是叙事底稿，不是页面内容源**：`## 简介` 内若夹带 ```` ```markdown ```` 围栏长文（如背景文章），生成器**剥离**该围栏块、不当作页面内容显示（绝不"开篇照搬"原样 markdown）。章节切割由 README `### HH:MM` 锚点 + 媒体文件名时间戳共同决定（对齐 `四季景点/AGENTS.md` §14.5/§14.6）。详见 `home/src/README.md` §3.5。
+- **人文背景（`#culture`）由生成器自动产出**：README `## 简介` 的 ```` ```markdown ```` 围栏长文会被 `gen_travelogue.py` 的 `build_culture_section()` 重组为「人文背景」叙事 section（按 `##` 拆卡、`##` 段数 >4 自动合并、📌 提取为 `.tips-box`、配图按标题关键词匹配），**自动插在 `#log` 与 `#food` 之间并加 nav 链接**；无围栏长文则不出该 section。⚠️ 生成器剥离 H1 正则必须用 `r'^#[^#].+$'`（只匹配 `#` 非 `##`），误用 `r'^#.+$'` 会删掉所有 `##` 标题导致 section 为空。详见 `home/src/README.md` §9。
 
 ---
 
