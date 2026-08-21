@@ -184,6 +184,16 @@
 
 ---
 
+### 5.8 攻略型页面（site-template.html 派生）`.media-block` 媒体组件必保留
+
+攻略型子站页（如 `佛山西樵山石燕岩周末家庭游`）由 `home/src/site-template.html` 派生，**每个景点 `spot-card` 内嵌的 `.media-block`（封面 `<img>` + 缩略图条 + 切换 JS）是核心组件**：
+
+- **建页（尤其"规划页"改写"实拍页"）切勿整体删除该组件**：否则卡片无 `<img>`、图片不显示——属**架构缺件**，非部署问题。
+- 需要缩略图切换 + 竖屏完整显示时，移植 `home/src/site-template.html` 的 `.media-block` 相关 CSS（含 `.img-portrait`）与 JS（封面自动选 `index.*` 优先、缩略图点击切换、`is-cover` 高亮）。
+- **`syncOrient` 在攻略模板 `site-template.html` 里没有**（仅在游记核心 `site-template-travelogue-core.html` 内）：竖屏图（`naturalHeight > naturalWidth`）需 `img-portrait`（`object-fit:contain` 完整显示不裁切，见根 §14）。手编攻略页须**自补** `syncOrient(img)` 函数，并在封面 `onload` 与缩略图切换时调用；无该函数则竖屏图被 `cover` 裁切。
+- 时间线（`plans` 的 `timeline-content`）节点同步显示实拍时同样嵌 `.media-block`，JS 用 `.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card')` 取所在宿主的缩略图条。
+- 复用优先级：先整段复制 `site-template.html` 的 `.media-block`（HTML/CSS/JS）再改路径，避免重复踩坑；不要从零手写图墙。
+
 ## 6. MD 资讯汇总与 HTML 的关系
 
 - 当前各景点均**不随附 MD 资讯底稿**（区别于 query-system 的 `rawData.ts`）；如需编写参考可单独建 MD，但**不被运行时读取**。
@@ -240,6 +250,10 @@
 - **小红书文件名特殊字符**：含全角括号、emoji、空格，href 须原样保留，shell 命令用单引号包裹。
 - **卡片顺序非目录顺序**：导航首页按推荐度排列（从化→深圳→花都周末家庭游-new），新增景点时按内容定位插入合适位置。
 - **无 build/无脚本**：纯手写，改动后直接 `git push`，仅需本地浏览器验证。
+- **封面图须随子站一起 `git add`**：子站目录下的 `index.html.<ext>` 封面若只放进目录、没 `git add`（或导航 `SITES` 条目与子站分两次提交漏了导航），线上导航卡片封面静默空白（见 §15.4 + 根 §9.1）。
+- **攻略页勿整体删 `.media-block`**：由 `site-template.html` 派生的页面，改"规划页"为"实拍页"时若删掉景点卡的 `.media-block`，卡内图不显示；需恢复媒体组件（见 §5.8）。
+- **景点文件夹改名须同步 HTML + git**：用户把 `黄飞鸿馆/` 改名为 `黄飞鸿狮艺馆/`、`image copy.png` 改名 `image1.png` 后，HTML `src` 与 git 旧路径都要同步（旧路径 `git rm --cached`，新路径 `git add`），否则 404。
+- **文件名空格写原始空格**：`src=".../image copy.png"` 写原始空格，勿写 `%20`（二次编码 404，见根 §10）。
 
 ---
 
@@ -980,6 +994,7 @@ PINNED：作者显式锚定的章节边界（如 {清晨退潮, 清晨最后一�
 - **白云乐8小城周末家庭游** 子站目录下已有 `index.html.JPG`（建成后补的首图），故该对象 `cover` 已设为 `./白云乐8小城周末家庭游/index.html.JPG`；其余 8 个子站同样各有 `index.html.<ext>`（jpg/png/jpeg）。
 - 若某子站**暂未**建 `index.html.<ext>` 文件 → `cover:''` → 卡片留空不显示占位。
 - **给子站加封面**：在子站目录下放置 `index.html.<ext>` 文件，并在 `SITES` 把该对象的 `cover` 设为 `./<子站名>/index.html.<ext>`（相对路径即可）。
+- **封面文件必须随子站 `git add`**：`index.html.<ext>` 只有进了 `git index` 才会随 `git push` 发布；漏加则线上静默空白（无任何报错），排查见根 §9.1。导航 `SITES` 条目与子站目录须同一次提交（根 §9.1 第 4 条）。
 
 ### 15.5 SITES 数据模型
 

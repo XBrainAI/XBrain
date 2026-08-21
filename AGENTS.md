@@ -359,6 +359,15 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - 推送即部署：`git push` → Netlify 自动 `npm run build` → 发布。
 - 纯静态子站点无需 build，直接随仓库发布。
 
+### 9.1 静态资源上线核查（图片 / 封面不显示排查清单）
+
+纯静态子站（类型 C，如四季景点）的图片、封面、HTML 都靠 `git` 发布——**未进 `git index` 的文件 Netlify 部署后必 404，且按封面规则（背景图加载失败不触发 `onerror`）会静默空白、无任何控制台报错**，极易误判为"标记 / 架构问题"。排查"图不显示"按以下顺序，不要先改代码：
+
+1. **先确认文件是否真入库**：`git ls-files --error-unmatch <path>` 命中即已跟踪；或 `git ls-tree -r origin/<branch> <dir>` 直接看远端是否已含（比看 `git status` 快）。
+2. **`git status` 只显示相对 HEAD 的变化**：已 `commit` 的图片在 status 里不出现是**正常**的，不是漏提。验证"是否入 git"用 `git ls-tree -r origin/<branch> <dir>`（远端）或 `git ls-tree -r HEAD <dir>`（本地 HEAD），而非看 status。
+3. **文件名逐字对齐**：HTML `src`/`href` 引用的文件名必须与磁盘 + git 树**逐字**一致（含大小写、空格、`copy`/`1` 等序号）。用户常把 `image copy.png` 改名成 `image1.png` 而 HTML 未同步 → 404。改图名后务必同步 HTML，并 `git add` 新名 + `git rm --cached` 旧名。
+4. **导航与子站必须同提交**：改子站同时改了 `四季景点/index.html` 的 `SITES` 条目（封面 / 卡片升【已实现】），若只提交子站目录、漏提交导航文件 → 导航改动丢失、线上封面 / 卡片不生效。提交时把导航文件与子站目录一起 `git add`。
+
 ---
 
 ## 10. 约束与陷阱（Gotchas）
@@ -378,6 +387,10 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **深色主题文字颜色用不透明 hex**：`--text` / `--text-dim` / `--text-hint` 禁止 `rgba(...,0.X)` 透明度写法——半透明文字在深色背景上视觉等同"深色文字"，用户报"看不见"。正文段落（`.section-desc` / `.log-chapter p` / `.food-card p` / `.tips-box li` 等）统一用 `var(--text)`（全亮），不用 `var(--text-dim)`。详见 `home/src/README.md` §7.2–§7.3。
 - **README.MD 是叙事底稿，不是页面内容源**：`## 简介` 内若夹带 ```` ```markdown ```` 围栏长文（如背景文章），生成器**剥离**该围栏块、不当作页面内容显示（绝不"开篇照搬"原样 markdown）。章节切割由 README `### HH:MM` 锚点 + 媒体文件名时间戳共同决定（对齐 `四季景点/AGENTS.md` §14.5/§14.6）。详见 `home/src/README.md` §3.5。
 - **人文背景（`#culture`）由生成器自动产出**：README `## 简介` 的 ```` ```markdown ```` 围栏长文会被 `gen_travelogue.py` 的 `build_culture_section()` 重组为「人文背景」叙事 section（按 `##` 拆卡、`##` 段数 >4 自动合并、📌 提取为 `.tips-box`、配图按标题关键词匹配），**自动插在 `#log` 与 `#food` 之间并加 nav 链接**；无围栏长文则不出该 section。⚠️ 生成器剥离 H1 正则必须用 `r'^#[^#].+$'`（只匹配 `#` 非 `##`），误用 `r'^#.+$'` 会删掉所有 `##` 标题导致 section 为空。详见 `home/src/README.md` §9。
+
+- **空格文件名 `%20` 二次编码 → 404**：HTML `src`/`href` 里写**原始空格**（如 `src="石燕岩/image copy.png"`），浏览器会自行编码为 `%20`；若手写 `%20` 会被浏览器再次编码成 `%2520` → 服务端收 `%2520` 解析失败 404。中文 / 空格路径一律写原始字符，由浏览器编码。
+- **沙箱 Bash 文件系统 / 索引快照跨命令可能漂移**：本 harness 的 Bash 环境在多次命令之间，单次 `os.walk` 看到的文件、`git status`/`git add` 的暂存快照，可能与真实 git 对象库不一致（曾出现"上条命令加的文件夹下条命令消失""图片名在快照里被改写"）。**权威来源是 git 对象库**——用 `git ls-tree -r HEAD` / `git ls-tree -r origin/<branch>` / `git rev-parse HEAD` 核对，不要只信单次 `os.walk` 或单次 `git status`。提交时把"暂存 + 提交 + 推送"放进**同一条 Bash 命令**更稳。
+- **导航首页与子站目录须同一次提交**：见 §9.1 第 4 条。
 
 ---
 
