@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 子站（攻略/规划型 · 单文件 · 2026-08-21 生成）
+  ----------------------------------------------------------------------------
+  派生自 home/src/site-template.html（官方攻略型脚手架），结合《西樵山自驾一日游计划.md》
+  编制。范围：仅西樵山 + 石燕岩（不含清远佛冈），单确定路线「必乘船版」。
+  说明：本页为出行规划（尚未执行），无实拍照片，故不含媒体画廊组件；图片将在
+        实际出行后按 src 游记模板补建。文字配色遵循 AGENTS.md §7 深色对比度硬规则。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>西樵山·石燕岩乘船 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（绿石主题：西樵山·石燕岩）===== */
+    :root {
+      --xb-deep: #0a1410;
+      --xb-mid: #11211b;
+      --xb-light: #1c3a2e;
+      --accent: #5fb98a;            /* ← 主强调色（玉绿） */
+      --accent2: #8fd9b6;
+      --accent-glow: rgba(95, 185, 138, 0.16);
+      --accent-border: rgba(95, 185, 138, 0.24);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(95, 185, 138, 0.18) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(143, 217, 182, 0.12) 0%, transparent 40%);
+      --text: #eef2f8;
+      --text-dim: #cdd6e2;
+      --text-hint: #aeb9c8;
+      --danger: #ff7b7b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(17, 33, 27, 0.94) 0%, rgba(28, 58, 46, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(143, 217, 182, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(95,185,138,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(95,185,138,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(143,217,182,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(95,185,138,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #2a6a52; filter: drop-shadow(0 0 6px rgba(95,185,138,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #3a8a6a; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #eef2f8; line-height: 1; text-shadow: 0 0 12px rgba(95,185,138,.55); }
+    .xbrain-brand .xbrain-text span { color: #5fb98a; text-shadow: 0 0 18px rgba(95,185,138,.9); }
+    .xbrain-brand.scrolled { background: rgba(10,20,16,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(95,185,138,.08); box-shadow: none; }
+
+    /* ===== TOP NAV ===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,20,16,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,20,16,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(95,185,138,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(95,185,138,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text); line-height: 1.65; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件（req#2）：主图 + 缩略图切换（复用 site-template.html 攻略模板）===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin: 0 0 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(100,180,255,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-cover img.img-portrait { object-fit: contain; background: rgba(0,0,0,.25); } /* §860 竖屏图完整显示，不裁切 */
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); } /* 当前封面缩略图保持可见并高亮 */
+    /* 在卡片内嵌时的边距适配 */
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(95,185,138,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+
+    /* ===== TIMELINE ===== */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 四季景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#5fb98a" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a8a6a" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a3a2e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#8fd9b6" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#8fd9b6" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a6a52" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a8a6a" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#5fb98a" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d2018" />
+        <circle cx="50" cy="50" r="46" fill="#16281f" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#5fb98a" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#5fb98a" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#5fb98a" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#8fd9b6" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#5fb98a" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#hotels">酒店延展</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回四季景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点 & 餐厅总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#hotels">酒店 / 延展建议</a>
+      <a href="#weather">天气影响评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">周六 · 自驾一日往返 · 老人+小孩友好</span>
+    <h1 class="hero-title">西樵山·<span>石燕岩乘船</span></h1>
+    <p class="hero-subtitle">广州西村出发 · 免大门票 · 观光车代步 · 洞内 18℃ 探秘水底牌坊</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>★ 必乘船探洞</span><span>全程不爬山</span><span>免大门票</span><span>一家约 ¥600–700</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">范围仅 <b>西樵山 + 石燕岩</b>（不含清远佛冈）。上午先玩石燕岩乘船（洞内 18℃ 凉快、9:00 开船人少），再走"车上即达"的宝峰寺+天湖环线，最后山下看黄飞鸿醒狮，不绕路不回头。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>路线总览</h4><p>广州西村 →（约 55 km / 1 h）西樵山南门（购观光车通票）→ 山上：石燕岩★乘船 → 宝峰寺/南海观音 → 天湖公园 → 山下：黄飞鸿狮艺馆 → 返程回西村（约 16:00）。总驾程约 110 km、纯驾驶约 2 h。</p></div>
+      <div class="info-card"><h4>核心看点</h4><p>① 石燕岩乘船探洞看"水底牌坊""水上汽车"（必玩）；② 61.9 m 南海观音远观大佛；③ 天湖公园平路游湖；④ 黄飞鸿狮艺馆坐看醒狮。</p></div>
+      <div class="info-card"><h4>天气提醒</h4><p>⚠️ 本次"周六"为 <b>2026-08-22</b>，正处南海区预报的 <b>21–22 日中到大雨、局部暴雨</b> 过程。石燕岩游船遇雷雨大风会停运，露天段（天湖/宝峰寺）受影响。<a class="in-doc-link" href="#weather">查看天气评估与保底方案 →</a></p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">按行程顺序排列；标「★ 主目标」为必玩，标「可加」为时间充裕时的山下免费补充。各卡含开放时间与门票（详见 <a class="in-doc-link" href="#hours">营业时间</a>）。</p>
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-shiyan">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="石燕岩/index.png" alt="石燕岩·水底牌坊奇观" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="石燕岩/index.png" alt="石燕岩·水底牌坊（首图）" loading="lazy" decoding="async">
+            <img src="石燕岩/image.png" alt="石燕岩实拍" loading="lazy" decoding="async">
+            <img src="石燕岩/image copy.png" alt="石燕岩实拍" loading="lazy" decoding="async">
+            <img src="石燕岩/image copy 2.png" alt="石燕岩实拍" loading="lazy" decoding="async">
+            <img src="石燕岩/image copy 3.png" alt="石燕岩实拍" loading="lazy" decoding="async">
+            <img src="石燕岩/image copy 4.png" alt="石燕岩实拍" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>石燕岩（★ 主目标）</h4><span class="spot-card-dist">西樵山狮脑峰东南 · 明代古采石场遗址</span></div>
+        <div class="spot-card-body"><p>数百年开采+常年渍水成湖，形成"水底牌坊""水上汽车"奇观，须乘船入洞近观。洞内恒温约 18℃，夏日最清凉。旅游车 B/D 线直达「石燕岩站」，下车步行约 600 m 平路到洞口（无台阶，老人可走）。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">主目标</span><span class="spot-tag kid">亲子</span><span class="spot-tag museum">文保</span></div>
+        <div class="spot-hours"><b>开放：</b>游船 9:00–17:00（每半小时一班）。<b>门票：</b>船票 ¥35/人（试运营优惠，门市 ¥68）；包船 ¥200/艘（9 人）。无身高限制、大小同价。</div>
+      </div>
+      <div class="spot-card" id="spot-guanyin">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="南海观音寺/index.png" alt="南海观音文化苑" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="南海观音寺/index.png" alt="南海观音文化苑（首图）" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>宝峰寺 / 南海观音文化苑</h4><span class="spot-card-dist">西樵山中部 · 旅游车直达</span></div>
+        <div class="spot-card-body"><p>寺内平坦，南海观音高 61.9 m，广场仰观已极壮观；登台阶非必需，适合全家祈福、拍照，遮荫好。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">车上即达</span><span class="spot-tag free">免票入园</span></div>
+        <div class="spot-hours"><b>开放：</b>随西樵山免大门票入园（约 8:00–17:30）。<b>门票：</b>免费（含在景区预约票内）。</div>
+      </div>
+      <div class="spot-card" id="spot-tianhu">
+        <div class="spot-card-header"><h4>天湖公园</h4><span class="spot-card-dist">古火山口湖 · 旅游车 A 线直达</span></div>
+        <div class="spot-card-body"><p>三面环峰的火山口湖，九曲桥、待月亭均平路可达；可租船游湖（另购，约 ¥30–50/人）。娃最爱，全程平路。节假日有"黄飞鸿杯"狮王争霸。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag kid">亲子</span><span class="spot-tag">平路</span></div>
+        <div class="spot-hours"><b>开放：</b>约 8:00–17:30。<b>门票：</b>免费入园；游船另购 ¥30–50/人（可选）。</div>
+      </div>
+      <div class="spot-card" id="spot-huangfeihong">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="黄飞鸿馆/index.png" alt="黄飞鸿狮艺武术馆" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="黄飞鸿馆/index.png" alt="黄飞鸿狮艺武术馆（首图）" loading="lazy" decoding="async">
+            <img src="黄飞鸿馆/image.png" alt="黄飞鸿狮艺武术馆实拍" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>黄飞鸿狮艺武术馆</h4><span class="spot-card-dist">山麓禄舟村（山下）· 黄飞鸿故居原址</span></div>
+        <div class="spot-card-body"><p>坐定观看醒狮表演约 45 分钟，零爬升，娃极兴奋。表演 9:30 / 10:30 / 14:30 / 15:30，本方案看 <b>14:30 场</b>。多含在免费预约景区票内，若另购约 ¥10/人。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag kid">亲子</span><span class="spot-tag museum">非遗</span></div>
+        <div class="spot-hours"><b>开放：</b>表演日 9:30 / 10:30 / 14:30 / 15:30。<b>门票：</b>多含免费票内，另购约 ¥10/人。</div>
+      </div>
+      <div class="spot-card" id="spot-bowu">
+        <div class="spot-card-header"><h4>南海博物馆（可加 · 山下）</h4><span class="spot-card-dist">南门入口东侧 · 步行可达</span></div>
+        <div class="spot-card-body"><p>佛山市南海区博物馆，7 个常设展厅（南海记忆 / 群英 / 广府风情等），康有为真迹 + 多媒体互动，老人小孩都友好，空调室内避暑。正午最晒时顺路进馆最合适。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费预约</span><span class="spot-tag">室内</span></div>
+        <div class="spot-hours"><b>开放：</b>周二–周日 9:00–17:00（16:30 停入），<b>周一闭馆</b>。<b>门票：</b>免费（公众号预约，实名）。</div>
+      </div>
+      <div class="spot-card" id="spot-tingyin">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="听音湖/index.png" alt="听音湖" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="听音湖/index.png" alt="听音湖（首图）" loading="lazy" decoding="async">
+            <img src="听音湖/image.png" alt="听音湖实拍" loading="lazy" decoding="async">
+            <img src="听音湖/image copy.png" alt="听音湖实拍" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>听音湖（可加 · 山下免费）</h4><span class="spot-card-dist">西樵山脚 · 返程顺路</span></div>
+        <div class="spot-card-body"><p>人工湖广场，音乐喷泉、夜景灯光，平路漫步零爬升。若 14:30 看完醒狮还早，可散步 30–40 min 再回程。在景区外、不另购门票。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag">平路</span></div>
+        <div class="spot-hours"><b>开放：</b>全天开放（广场公共区域）。<b>门票：</b>免费。</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 行程方案（单确定路线：必乘船版）===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（周六 · 1 天）
+    </h2>
+    <p class="section-desc">单一确定路线：上午先玩石燕岩（9:00 开船、人少凉快），再走"车上即达"的宝峰寺+天湖环线，最后山下看醒狮。所有山上景点凭一张 <b>观光车全天通票（¥40）</b> 随上随下，核心景点车抵即到，老人小孩不累。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 必乘船·不爬山版</span>
+        <span class="plan-desc">石燕岩乘船 + 观音/天湖 + 黄飞鸿醒狮，南门进山全程车代步</span>
+      </button>
+    </div>
+
+    <div class="plan-content active" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六（以 2026-08-22 为例）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:30</td><td>08:30</td><td>广州西村 → 西樵山南门停车楼（入园）</td><td>1h</td></tr>
+              <tr><td>08:30</td><td>08:45</td><td>南门购观光车通票，坐南门线 → 亦有亭站</td><td>0.3h</td></tr>
+              <tr><td>08:45</td><td>09:15</td><td>换 B/D 线 → 石燕岩站 → 步行 600 m 平路到洞口</td><td>0.5h</td></tr>
+              <tr><td>09:30</td><td>10:00</td><td>★ 石燕岩乘船探洞（看水底牌坊）</td><td>0.5h</td></tr>
+              <tr><td>10:00</td><td>10:30</td><td>洞口外 石屏峰/天窗格/考古影像</td><td>0.5h</td></tr>
+              <tr><td>10:30</td><td>11:15</td><td>坐车回亦有亭 → 宝峰寺/南海观音（远观不登阶）</td><td>0.75h</td></tr>
+              <tr><td>11:15</td><td>12:00</td><td>天湖公园 平路游湖</td><td>0.75h</td></tr>
+              <tr><td>12:00</td><td>12:15</td><td>返回南门取车 → 西樵镇午餐</td><td>0.25h</td></tr>
+              <tr><td>13:30</td><td>15:00</td><td>黄飞鸿狮艺馆 看 14:30 场醒狮</td><td>1.5h</td></tr>
+              <tr><td>15:00</td><td>16:00</td><td>返程广州 → 回到西村</td><td>1h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六（早出避堵）</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:30 — 08:30</div>
+          <div class="timeline-content">
+            <h4>广州西村出发 → 西樵山南门</h4>
+            <p>周六早走避广佛高速缓行；导航「西樵山风景区南门停车楼」，满油。环城高速 → 广明/沈海高速，约 55 km / 1 h。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag kid">亲子</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:30 — 08:45</div>
+          <div class="timeline-content">
+            <h4>南门入园 · 购观光车通票</h4>
+            <p>公众号预约的免费门票刷证入园（免大门票仍需预约+实名）；南门<b>必须另购观光车全天通票 ¥40</b> 才能进山。坐南门线（C 线）车上即达「亦有亭」站，不用走。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag free">免大门票</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:45 — 09:30</div>
+          <div class="timeline-content">
+            <h4>接驳至石燕岩站</h4>
+            <p>在「亦有亭」换 <b>B 线 / D 线</b> 支线到「碧云站 → 石燕岩站」（官方站点，同通票免另购）；下车步行约 600 m 平路到洞口。洞外那段无台阶，老人可走；带件薄外套（洞内 18℃）。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">接驳</span><span class="timeline-tag kid">平路</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:30 — 10:00</div>
+          <div class="timeline-content">
+            <h4>★ 石燕岩乘船探洞</h4>
+            <p>穿救生衣+安全帽上船，约 15 min 绕洞内水道一圈，看"水底牌坊""水上汽车"。全年龄可上（无身高限制、大小同价）；船速慢、水位稳，孩子也安心。遇雷雨大风停航，<a class="in-doc-link" href="#weather">出行前请确认</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">必看</span><span class="timeline-tag kid">亲子</span><span class="timeline-tag view">洞内 18℃</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">10:30 — 11:15</div>
+          <div class="timeline-content">
+            <h4>宝峰寺 / 南海观音</h4>
+            <p>坐车回亦有亭换线到「宝峰寺观景平台站」，寺内平坦；61.9 m 南海观音广场仰观已极壮观，<b>远观不登台阶</b>。遮荫好，适合全家祈福拍照。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">车上即达</span><span class="timeline-tag free">免票</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:15 — 12:00</div>
+          <div class="timeline-content">
+            <h4>天湖公园</h4>
+            <p>古火山口湖，九曲桥、待月亭均平路可达；可租船游湖（另购约 ¥30–50/人，可选）。娃最爱，全程平路不累。</p>
+            <div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag view">平路</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:15 — 13:30</div>
+          <div class="timeline-content">
+            <h4>西樵镇午餐</h4>
+            <p>返回南门取车，山下农庄就餐：清远鸡、西樵大饼、山水豆腐。就近，老人可午休。约 ¥200–250/家。</p>
+            <div class="timeline-tags"><span class="timeline-tag food">美食</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:30 — 15:00</div>
+          <div class="timeline-content">
+            <h4>黄飞鸿狮艺馆（看 14:30 场醒狮）</h4>
+            <p>山麓禄舟村（山下，自驾几分钟从南门过去，不在山上通票线）。坐定看醒狮约 45 min，零体力，娃兴奋。多含免费票内，另购约 ¥10/人。</p>
+            <div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag museum">非遗</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:00 — 16:00</div>
+          <div class="timeline-content">
+            <h4>返程广州</h4>
+            <p>广明/沈海 → 环城，15 点后错峰，不赶夜路。回到广州西村约 16:00。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">带孩子看懂背景，旅行不只是看热闹。每段含【背景】与【讲给孩子听】。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-shiyan">
+        <div class="culture-card-head"><div class="c-icon">🪨</div><h4>石燕岩 · 古采石场</h4></div>
+        <p><b>背景：</b>西樵山狮脑峰东南的明代古采石场遗址，2002 年升省保、2019 年升<b>全国重点文保</b>。数百年来开采岩石，采空处常年渍水成湖，形成"水底牌坊""水上汽车"的水下奇观。洞中曾盛产古生物化石"石燕"（一种腕足类），故名石燕岩，含天窗格、石屏风、石祠堂等。<br><b>讲给孩子听：</b>① "这里像不像巨人挖空的地下宫殿？工人把石头运走，雨水灌进来，就变成了湖。"② 让孩子找洞顶的"天窗格"——天然采石留下的方孔，阳光从头顶漏下来。③ 问："如果没有船，我们能看到水下的牌坊吗？"（引出水上探洞的必要性）</p>
+      </div>
+      <div class="culture-card" id="culture-guanyin">
+        <div class="culture-card-head"><div class="c-icon">🛕</div><h4>西樵山与南海观音</h4></div>
+        <p><b>背景：</b>西樵山是广东四大名山之一，佛教禅宗南来重镇；南海观音文化苑的观音立像高 <b>61.9 m</b>，为世界最高的铜制观音立像之一，取"南海"地名之祥。宝峰寺为南粤名刹。<br><b>讲给孩子听：</b>① "为什么叫南海观音？因为我们就站在南海区呀。"② 让孩子仰头数数大佛有多高（约 20 层楼），对比自己身高，体会"宏伟"。③ 不必登台阶——远观即是敬畏，告诉孩子"看风景不一定要爬到顶"。</p>
+      </div>
+      <div class="culture-card" id="culture-huangfeihong">
+        <div class="culture-card-head"><div class="c-icon">🦁</div><h4>黄飞鸿与醒狮</h4></div>
+        <p><b>背景：</b>黄飞鸿是清末民初岭南武术宗师，儒洪拳、工字伏虎拳代表人物，生于西樵山麓禄舟村；其"宝芝林"与醒狮（南狮）文化经影视广为流传，已列入国家级非遗。狮艺馆即在故居原址。<br><b>讲给孩子听：</b>① "醒狮的狮子会眨眼睛、会采青，是广东人过年最爱的吉祥表演。"② 看表演时让孩子注意：狮子怎么用腿"站"在另一个人肩上？（南狮的高桩技巧）③ 小任务：回家学一个"抱拳礼"，说说黄飞鸿精神="习武先习德"。</p>
+      </div>
+      <div class="culture-card" id="culture-bowu">
+        <div class="culture-card-head"><div class="c-icon">🏛️</div><h4>南海博物馆 · 康有为与广府</h4></div>
+        <p><b>背景：</b>佛山市南海区博物馆，7 个常设展厅。南海是维新领袖<b>康有为</b>的故乡，馆内藏其书法、信札手稿真迹；"广府风情"厅多媒体互动多。建筑本身灵感取自西樵山石燕岩、滴水岩等古采石遗址，与当日乘船的石燕岩遥相呼应。<br><b>讲给孩子听：</b>① "康有为是南海人，小时候也在这片山水里长大，后来成了改变中国的人。"② 让孩子在广府风情厅找"舞狮""龙舟""粤剧"的互动装置，连线家乡文化。③ 指给孩子看：博物馆的石头墙面，是不是和石燕岩的采石坑长得像？</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">以下时间来自 2026-08 多源核实（携程/同程/腾讯地图/景区官方），以出行当日官方公告为准。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>西樵山大门票</td><td>约 8:00–17:30</td><td>免费（公众号预约）</td><td>2024-10 起免票，仍需预约+实名</td></tr>
+          <tr><td>观光旅游车通票</td><td>8:00–17:30</td><td>¥40/人（1.2m 下免，1.2–1.5m 及 65 岁+ 半价 ¥20）</td><td>南门/北门均需购；随上随下</td></tr>
+          <tr><td>★ 石燕岩游船</td><td>9:00–17:00（每半小时一班）</td><td>¥35/人（试运营优惠，门市 ¥68）；包船 ¥200/艘</td><td>遇雷雨大风停运；无身高限制</td></tr>
+          <tr><td>宝峰寺 / 南海观音</td><td>随山开放</td><td>免费（含入园票）</td><td>远观大佛，不登阶</td></tr>
+          <tr><td>天湖公园</td><td>约 8:00–17:30</td><td>免费；游船另购 ¥30–50/人</td><td>平路可达</td></tr>
+          <tr><td>黄飞鸿狮艺馆</td><td>表演 9:30/10:30/14:30/15:30</td><td>多含免费票内，另购约 ¥10/人</td><td>本方案看 14:30 场</td></tr>
+          <tr><td>南海博物馆</td><td>周二–周日 9:00–17:00（16:30 停入）</td><td>免费（预约）</td><td><b>周一闭馆</b>；南门东侧</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 行程复核结论</div>
+      <ul>
+        <li><b>免大门票已落实</b>：西樵山 2024-10 起免票，但必须公众号预约+实名，南门仍需另购观光车通票 ¥40 才能进山。</li>
+        <li><b>石燕岩接驳已落实</b>：旅游车 B 线 / D 线直达「石燕岩站」（此前疑虑已排除），下车步行约 600 m 平路到洞口，无台阶。</li>
+        <li><b>乘船已确认运营</b>：2026 年暑期试运营开放中，9:00 开船、人少、洞内 18℃ 凉快；游船票不在通票内，洞口现场另购。</li>
+        <li><b>周一闭馆提醒</b>：南海博物馆周一闭馆；本方案为周六出行不受影响，但备选改期须避开周一。</li>
+        <li><b>里程/时长已对齐</b>：西村↔南门约 55 km/1 h，纯驾程约 110 km/2 h，与 §13.1 真实开园时间一致（无"08:00 误写开园"）。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6. 酒店 / 延展建议 ===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      酒店 / 延展建议
+    </h2>
+    <p class="section-desc">本行程为<b>一日往返、不住宿</b>。若想延展（避开 8 月正午高温、或遇雨改期），西樵镇 / 听音湖周边有充足住宿选择。</p>
+    <div class="tips-box">
+      <div class="tips-box-title">为什么本方案不住宿</div>
+      <ul>
+        <li>16:00 即回西村，小孩还能吃晚饭、不误第二天；符合"早出早回、不赶夜路"的亲子节奏。</li>
+        <li>若想慢游：可在听音湖畔酒店住一晚，次日补<b>南海博物馆</b>（周一闭馆须避开）或山上未走到的平路景点。</li>
+        <li>延展住宿建议优先选<b>听音湖 / 西樵镇</b>片区（山下、自驾几分钟到南门），避免住山上导致次日重购观光车票绕路。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">出行前强制核实（§13.8）。本次"周六"= <b>2026-08-22</b>，需特别警惕。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>8/22 天气（南海区预报）</h4><p>南海区 2026 年 8 月趋势：月内 5 次降水过程，其中 <b>21–22 日 中到大雨、局部暴雨</b>；月平均气温 30–31℃、最高 36–37℃。即本次出行日正处明显降雨过程，且可能有热带气旋（台风）外围影响。🔴 <b>高风险日</b>。</p></div>
+      <div class="info-card"><h4>对行程的影响</h4><p>① 石燕岩游船遇雷雨/大风会<b>停运</b>——核心项目可能泡汤；② 天湖、宝峰寺为露天段，雨中体验差、老人小孩易着凉；③ 广佛高速雨天体感更堵。但西樵山免票+车代步，室内段（南海博物馆、黄飞鸿馆室内坐看）仍可保底。</p></div>
+      <div class="info-card"><h4>保底建议</h4><p>🟢 若 22 日仅为阵雨：上午仍冲石燕岩（雨后洞内更凉），露天段带雨具速走，正午进南海博物馆躲雨；🟡 若发布暴雨/雷雨大风橙色以上：取消户外段，改"南海博物馆 + 黄飞鸿馆"室内一日，或<b>直接改期</b>到下一个晴好周六；出发前一日与当日再查实时预警（客服 400-111-9288 确认游船）。</p></div>
+    </div>
+    <div class="table-scroll" style="margin-top:1.2rem;">
+      <table class="plan-summary-table">
+        <thead><tr><th>时段</th><th>活动</th><th>地点</th><th>风险</th><th>说明 / 调整</th></tr></thead>
+        <tbody>
+          <tr><td>07:30–08:30</td><td>自驾赴西樵山</td><td>广佛高速</td><td>🟡 注意</td><td>雨天体感更堵，8 点前出发仍最稳；带雨具</td></tr>
+          <tr><td>09:30–10:00</td><td>★ 石燕岩乘船</td><td>山上洞内</td><td>🔴 高</td><td>雷雨大风必停运；若停航，核心项目取消，改室内段</td></tr>
+          <tr><td>10:30–12:00</td><td>宝峰寺/观音 + 天湖</td><td>露天</td><td>🟡 注意</td><td>雨中露天体验差；速走或跳过，正午进博物馆</td></tr>
+          <tr><td>12:15–13:30</td><td>西樵镇午餐</td><td>山下</td><td>🟢 低</td><td>室内就餐不受影响</td></tr>
+          <tr><td>13:30–15:00</td><td>黄飞鸿醒狮</td><td>馆内坐看</td><td>🟢 低</td><td>室内表演，暴雨日保底项目</td></tr>
+          <tr><td>15:00–16:00</td><td>返程</td><td>广佛高速</td><td>🟡 注意</td><td>雨后高速谨慎驾驶，不赶夜路</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">⚠️ 出发前必查</div>
+      <ul>
+        <li>查询渠道：中央气象台(nmc.cn)、中国天气网、广东/佛山天气官微、腾讯地图天气；关注<b>暴雨 / 雷雨大风 / 台风</b>预警信号。</li>
+        <li>若 8/22 升级为暴雨或雷雨大风橙色以上：户外段一律取消，改室内一日或改期。</li>
+        <li>石燕岩游船当日是否受天气影响，出发前打景区客服 <b>400-111-9288</b> 确认。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">行前 / 行中提醒（自驾 + 老人小孩专用）。</p>
+    <div class="tips-box">
+      <div class="tips-box-title">出行清单</div>
+      <ul>
+        <li><b>导航点</b>：去程搜「西樵山风景区南门停车楼」；回程「广州西村」。</li>
+        <li><b>预约</b>：出行前「西樵山」微信公众号预约进园时段（免票但仍需预约+实名）。</li>
+        <li><b>上山方式</b>：自驾家庭走<b>南门</b>（须购观光车票进入，正好用通票代步）；北门禁机动车，本方案不用。</li>
+        <li><b>观光车线路</b>：A 线（北门—宝峰寺—天湖—亦有亭）、B 线（亦有亭—碧云—石燕岩—桃花园—四方竹）、C 线（南门—四方竹—桃花园—亦有亭—宝峰寺）、D 线（碧云—石燕岩支线）。运营 8:00–17:30，通票随上随下。</li>
+        <li><b>避堵</b>：周六 9–10 点广佛高速易缓行，8 点前出发最稳；返程 15 点后错峰。</li>
+        <li><b>装备</b>：平底鞋、防晒、防蚊、饮水；石燕岩洞内 18℃ 带薄外套；天湖近水给娃备换洗衣物。</li>
+        <li><b>跳过清单</b>：白云洞、碧玉洞、翠岩（台阶峡谷，老人小孩劝退）；森吧飞越树上探险（高空项目，不适老幼）。</li>
+        <li><b>咨询</b>：景区客服 400-111-9288（石燕岩游船当日是否受天气影响，出发前可电话确认）。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 西樵山·石燕岩乘船</div>
+    <div class="footer-version">v20260821-101258</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 方案切换（单方案）=====
+      var PLAN_IDS = ['planA'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
+      }
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出（IP 规范）=====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画 =====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失回退第一张）+ 缩略图切换 + 竖屏 syncOrient =====
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      function syncOrient(img) { if (!img) return; if (img.naturalHeight > img.naturalWidth) img.classList.add('img-portrait'); else img.classList.remove('img-portrait'); }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        coverImg.addEventListener('load', function () { syncOrient(coverImg); });
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) return;
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) { var isCov = (t === thumb); t.classList.toggle('is-cover', isCov); t.classList.toggle('active', isCov); if (!isCov) visible++; });
+          gallery.style.display = visible ? '' : 'none';
+        }
+        applyCover(coverThumb);
+        gallery.addEventListener('click', function (e) { var thumb = e.target.closest('img'); if (!thumb || !gallery.contains(thumb)) return; applyCover(thumb); });
+        syncOrient(coverImg);
+      });
+    })();
+  </script>
+</body>
+</html>
