@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>暑假唱K · 2026-08-23 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（生活点滴冷色皮肤）=====
+       ⚠️ 硬规则：每个变量声明行尾必须有分号 `;`；正文用不透明 hex。 */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #14101f;
+      --xb-light: #241a30;
+      --accent: #64b4ff;
+      --accent2: #9fd0ff;
+      --accent-glow: rgba(100, 180, 255, 0.16);
+      --accent-border: rgba(100, 180, 255, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(100,180,255,0.16) 0%, transparent 60%),radial-gradient(circle at 80% 20%, rgba(140,200,255,0.10) 0%, transparent 40%);
+      --text: #ffffff;
+      --text-dim: #f0f3f8;
+      --text-hint: #c8d0dc;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(100,180,255,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(100,180,255,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 56vh; min-height: 56dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; max-width: 620px; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text); line-height: 1.65; }
+    .info-card .fact-row { display: flex; justify-content: space-between; gap: 1rem; padding: .25rem 0; border-bottom: 1px dashed rgba(255,255,255,.06); }
+    .info-card .fact-row:last-child { border-bottom: 0; }
+    .info-card .fact-row .k { color: var(--text-hint); }
+    .info-card .fact-row .v { color: var(--text); text-align: right; }
+
+    /* ===== 媒体组件：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(100,180,255,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-cover.img-portrait { aspect-ratio: auto; display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); }
+    .media-caption { font-size: .8rem; color: var(--text-dim); padding: .55rem 1.1rem .15rem; line-height: 1.45; min-height: 1.2em; }
+    .media-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; background: rgba(10,10,26,.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: 1px solid var(--accent-border); cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; opacity: .72; transition: opacity .2s, background .2s; }
+    .media-nav-btn:hover { opacity: 1; background: rgba(10,10,26,.85); }
+    .media-nav-btn.prev { left: 8px; }
+    .media-nav-btn.next { right: 8px; }
+    .media-nav-btn svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    @media (max-width: 640px) {
+      .media-nav-btn { width: 36px; height: 36px; }
+      .media-nav-btn.prev { left: 4px; }
+      .media-nav-btn.next { right: 4px; }
+      .media-nav-btn svg { width: 18px; height: 18px; }
+    }
+    .log-video { width: 100%; border-radius: 12px; margin: .6rem 0 .2rem; background: #000; display: block; border: 1px solid var(--accent-border); }
+    .log-video-cap { font-size: .74rem; color: var(--text-hint); margin-bottom: .8rem; }
+
+    /* === 游记核心模块 CSS === */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #06121f; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 44vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../../index.html" title="XBrain · 生活点滴">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">生活实录</a>
+      <a href="#afterword">散场小记</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../../index.html">← 返回生活点滴导航</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">生活实录</a>
+      <a href="#afterword">散场小记</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">生活点滴 · 2026-08-23</span>
+    <h1 class="hero-title">暑假<span>唱K</span></h1>
+    <p class="hero-subtitle">西樵山石燕岩的周末家庭游因天气改期，于是把周日下午交给海珠广场——一场说走就走的堂会欢唱。</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>📅 2026-08-23</span>
+      <span>👨‍👩‍👧 一家四口</span>
+      <span>🚇 地铁 + 步行</span>
+      <span>🌤️ 夏末晴热</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程总览 ===== -->
+  <section class="section" id="summary">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程总览
+    </h2>
+    <p class="section-desc">原定周六的「佛山西樵山石燕岩周末家庭游」因天气原因改期。周日午后，一家人转战海珠广场的堂会 KTV：地铁里比了比四只手的颜色，到店后点歌、开嗓、吃自助餐，从下午一直嗨到晚上七点。</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>关键信息</h4>
+        <div class="fact-row"><span class="k">日期</span><span class="v">2026-08-23</span></div>
+        <div class="fact-row"><span class="k">同行</span><span class="v">爸 · 妈 · 沙 · 弟</span></div>
+        <div class="fact-row"><span class="k">交通</span><span class="v">地铁 + 步行</span></div>
+        <div class="fact-row"><span class="k">耗时</span><span class="v">约 4 小时</span></div>
+        <div class="fact-row"><span class="k">花费</span><span class="v">KTV 自助餐</span></div>
+      </div>
+      <div class="info-card">
+        <h4>一句话路线</h4>
+        <p>地铁到海珠广场 → 堂会开厢欢唱 → 自助餐补给 → 唱到晚上七点散场。</p>
+      </div>
+      <div class="info-card">
+        <h4>当天天气</h4>
+        <p>夏末晴热，户外注意补水防晒；纯记录，非出行前预警。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 生活实录 ===== -->
+  <section class="section" id="log">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      生活实录
+    </h2>
+    <p class="section-desc">按这一天的节奏串起来：地铁里的小插曲、到店候场、两兄弟轮流开麦、还有撑到最后的胃。</p>
+
+    <!-- 章 1：地铁 · 四手对比 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">15:00 – 15:01</span>
+        <span class="chapter-title">地铁里，比了比四只手</span>
+      </div>
+      <p>地铁上一家人并排坐着，不知谁先起了头，把四只手摊在一起比了比颜色。沙刚结束高一军训，晒得最狠——手居然比平时家里最黑的爸还要黑上一截，全家都乐了。爸那张「全家最黑」的宝座，这回算是被沙正式篡了位。</p>
+      <div class="media-block">
+        <div class="media-cover"><img src="唱K-地铁-一家四手颜色对比-军训后黑沙手黑过爸手-202608231501.jpg" alt="地铁里四手颜色对比：军训后沙的手比爸还黑" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="唱K-地铁-202608231500.jpg" alt="地铁里一家人出行" loading="lazy" decoding="async">
+          <img src="唱K-地铁-一家四手颜色对比-军训后黑沙手黑过爸手-202608231501.jpg" alt="地铁里四手颜色对比：军训后沙的手比爸还黑" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="chapter-tags">
+        <span class="chapter-tag kid">兄弟</span>
+        <span class="chapter-tag free">随手拍</span>
+      </div>
+    </div>
+
+    <!-- 章 2：候场 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">15:20</span>
+        <span class="chapter-title">到了，先等厢</span>
+      </div>
+      <p>到了海珠广场的堂会，还没轮到开厢，先在门口等位。周日午后生意不差，一家人不慌不忙，等叫号的时候已经在盘算待会点哪几首。</p>
+      <div class="media-block">
+        <div class="media-cover"><img src="唱K-海珠广场堂会-等-202608231520.jpg" alt="海珠广场堂会门口等位" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="唱K-海珠广场堂会-等-202608231520.jpg" alt="海珠广场堂会门口等位" loading="lazy" decoding="async">
+          <img src="index.jpg" alt="海珠广场堂会现场" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- 章 3：开嗓 · 沙先唱 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">17:36</span>
+        <span class="chapter-title">沙先开嗓</span>
+      </div>
+      <p>厢一开，沙先拿了麦克风。妈早把一家人爱听的歌都点好了，沙顺着歌单一首接一首，状态很稳。妈在旁边听着，没点一首就凑到爸耳边念叨一句：「你菜啊~」爸笑着不接招，气氛一下就热了。</p>
+      <video class="log-video" src="唱k-海珠广场堂会-沙歌-20260823-173646.mp4" controls preload="metadata"></video>
+      <div class="log-video-cap">沙开嗓 live · 17:36</div>
+      <div class="chapter-tags">
+        <span class="chapter-tag kid">沙 · 高一</span>
+      </div>
+    </div>
+
+    <!-- 章 4：弟接力 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">18:21</span>
+        <span class="chapter-title">弟接力，唱得很投入</span>
+      </div>
+      <p>轮到弟上场，比沙还投入。麦克风一拿就不想放，一首接一首，眼神里全是认真。镜头里那股子专注劲儿，比唱得准不准更动人。</p>
+      <div class="media-block">
+        <div class="media-cover"><img src="唱K-海珠广场堂会-弟歌-IMG_20260823_182132.jpg" alt="弟在堂会投入地唱歌" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="唱K-海珠广场堂会-弟歌-IMG_20260823_182132.jpg" alt="弟在堂会投入地唱歌" loading="lazy" decoding="async">
+          <img src="唱K-海珠广场堂会-弟歌-IMG_20260823_182140.jpg" alt="弟在堂会唱歌特写" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <video class="log-video" src="唱k-海珠广场堂会-弟歌-20260823-182209.mp4" controls preload="metadata"></video>
+      <div class="log-video-cap">弟接力 live · 18:21</div>
+      <div class="chapter-tags">
+        <span class="chapter-tag kid">弟</span>
+        <span class="chapter-tag free">现场视频</span>
+      </div>
+    </div>
+
+    <!-- 章 5：自助餐 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">傍晚</span>
+        <span class="chapter-title">自助餐，挺好吃</span>
+      </div>
+      <p>唱累了就转去自助餐区补给。这家堂会的自助餐出乎意料地不错，一家人边吃边聊，歇口气再回厢里接着唱。一顿饭把体力拉满，也把气氛从「比歌技」拉回了「一家人在一块」。</p>
+      <div class="chapter-tags">
+        <span class="chapter-tag eat">自助餐</span>
+      </div>
+    </div>
+
+    <!-- 章 6：散场 -->
+    <div class="log-chapter">
+      <div class="chapter-head">
+        <span class="chapter-time">19:04</span>
+        <span class="chapter-title">唱到七点，撤</span>
+      </div>
+      <p>从下午一直玩到晚上七点，嗓子也该休息了。临走前在门口来了张兄弟合影，留个纪念——两兄弟并排一站，沙晒黑的手和弟亮亮的笑都在镜头里。</p>
+      <div class="media-block">
+        <div class="media-cover"><img src="唱K-海珠广场堂会-走-兄弟合影-IMG_20260823_190419.jpg" alt="散场前兄弟合影" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="唱K-海珠广场堂会-走-兄弟合影-IMG_20260823_190419.jpg" alt="散场前兄弟合影" loading="lazy" decoding="async">
+          <img src="唱K-海珠广场堂会-走-IMG_20260823_190437.jpg" alt="散场离开海珠广场堂会" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 散场小记 ===== -->
+  <section class="section" id="afterword">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      散场小记
+    </h2>
+    <p class="section-desc">西樵山改期不算遗憾，反倒成全了这场临时的家庭欢唱。一家四口，两个小子轮番上阵，妈负责点歌和「嫌弃」爸，爸负责笑着认领「菜」的封号——平平常常的一个周日下午，被唱得热热闹闹。下次要是天晴，西樵山石燕岩再补上也不迟。</p>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../../index.html">XBrain · 生活点滴</a> 生成 · 暑假唱K · 2026-08-23</div>
+    <div class="footer-version">template/travelogue · v1.0</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 媒体画廊（首图解析 + 名称标题 + 左右切换 + 竖屏自适应 + 触摸滑动）=====
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        function syncOrient() {
+          var nw = coverImg.naturalWidth, nh = coverImg.naturalHeight;
+          if (nw && nh) cover.classList.toggle('img-portrait', nh > nw);
+        }
+        coverImg.addEventListener('load', syncOrient);
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) { syncOrient(); return; }
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        var block = cover.closest('.media-block') || cover.parentElement;
+        var caption = block.querySelector('.media-caption');
+        if (!caption) {
+          caption = document.createElement('div');
+          caption.className = 'media-caption';
+          cover.parentElement.insertBefore(caption, cover);
+        }
+
+        var prevBtn = null, nextBtn = null;
+        if (thumbs.length > 1) {
+          prevBtn = document.createElement('button');
+          prevBtn.className = 'media-nav-btn prev';
+          prevBtn.setAttribute('aria-label', '上一张');
+          prevBtn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>';
+          cover.appendChild(prevBtn);
+          nextBtn = document.createElement('button');
+          nextBtn.className = 'media-nav-btn next';
+          nextBtn.setAttribute('aria-label', '下一张');
+          nextBtn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>';
+          cover.appendChild(nextBtn);
+        }
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          syncOrient();
+          caption.textContent = thumb.alt || '';
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov);
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none';
+        }
+        applyCover(coverThumb);
+
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+
+        function currentIndex() {
+          for (var i = 0; i < thumbs.length; i++) { if (thumbs[i].classList.contains('is-cover')) return i; }
+          return 0;
+        }
+        function nav(dir) {
+          var i = (currentIndex() + dir + thumbs.length) % thumbs.length;
+          applyCover(thumbs[i]);
+        }
+        if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); nav(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); nav(1); });
+
+        var tsx = 0, tsy = 0;
+        cover.addEventListener('touchstart', function (e) {
+          tsx = e.touches[0].clientX; tsy = e.touches[0].clientY;
+        }, { passive: true });
+        cover.addEventListener('touchend', function (e) {
+          if (thumbs.length < 2) return;
+          var dx = e.changedTouches[0].clientX - tsx;
+          var dy = e.changedTouches[0].clientY - tsy;
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+            nav(dx > 0 ? -1 : 1);
+          }
+        }, { passive: true });
+
+        cover.setAttribute('tabindex', '0');
+        cover.addEventListener('keydown', function (e) {
+          if (thumbs.length < 2) return;
+          if (e.key === 'ArrowLeft') { e.preventDefault(); nav(-1); }
+          else if (e.key === 'ArrowRight') { e.preventDefault(); nav(1); }
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出 =====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画 =====
+      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .culture-card, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>
