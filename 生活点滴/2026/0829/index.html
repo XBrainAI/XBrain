@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 公共记录模板（纯记录版 · 事后记录 · 单文件脚手架 · 已提升至 home/src 共享）
+  ----------------------------------------------------------------------------
+  ⭐ 适用场景：对「熟悉 / 去过 / 近 / 简单」的出行，事前无需详细规划方案，
+     事后仍要记录游记。本模板是「记录型」脚手架，与 site-template.html（攻略/
+     规划型）互补。
+     - 本模板的游记核心（.log-chapter 生活实录 + .food-card 美食发现）即
+       site-template.html 在「行程方案」之后追加的那个模块，二者共同源自
+       公共单一来源 site-template-travelogue-core.html（COPY BLOCK 三段约定）。
+     - 攻略/规划型 → site-template.html（8 段结构、方案切换、营业时间复核…）
+     - 纯游记/记录型 → 本文件（轻量：总览→实录→美食→实用信息）
+
+  派生规则（与官方模板一致的复用部分）：
+    1. 配图组件：每个需要图片的模块用 .media-block，内嵌
+       .media-cover（主图）+ .media-gallery（缩略图条，列出该卡片对应的全部图片）。
+       首图由 JS 自动解析：画廊中命名 index.* 的图优先作主图；若漏命名 index.*，
+       则回退为画廊第一张（兼容缺失）；点击缩略图切换主图，当前主图不再重复出现在条中。
+    2. 风格：遵循 XBRAIN-LOGO-IP.md；顶部导航/Hero/Footer 统一 XBrain 深色主题。
+       换肤只改 :root 的 --accent / --accent2 / --hero-grad 三处。
+    3. 生活实录（核心）：按时间或站点拆成若干 .log-chapter，每章含时间标签 +
+       叙述正文 + 可选 .media-block 组图；不强制多方案、不强制营业时间复核。
+  注意：纯游记是「事后记录」，营业时间/花费等属回忆性备注，非出行前强制核实项；
+     若某次出行兼具规划需求，请用 site-template.html。
+  用法：本文件为全局共享模板（已提升至 home/src）。复制本文件到 <子站>/<新记录>/index.html（例：四季景点/老表大岗周末家庭游 或 生活点滴/2026/0816），把 assets/ph*.svg 换成真实图片
+        （建议主图命名 index.*；不命名也会自动取第一张），按下述 {{...}} 占位符填充内容即可。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>老表聚餐 · 2026-08-29 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（换肤只需改这里；暖色为「游记/回忆」默认皮肤）=====
+       ⚠️ 硬规则（曾因缺分号导致全页文字变黑）：
+       1. 每个变量声明行尾必须有分号 `;`——漏分号会让 CSS 解析器把下一行变量
+          当作本行值的一部分吞掉，导致下一变量未定义、var() 回退到浏览器默认黑色。
+       2. --text / --text-dim / --text-hint 必须用不透明 hex（如 #ffffff），
+          禁止 rgba(...,0.X) 透明度写法——半透明文字在深色背景上视觉等同"深色文字"。
+       3. 正文段落（section-desc / log-chapter p / food-card p / tips-box li 等）
+          统一用 var(--text)（全亮），不用 var(--text-dim)；--text-dim 仅用于
+          次要标注（footer / log-video-cap 等非正文）。 */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #14101f;
+      --xb-light: #241a30;
+      --accent: #64b4ff;            /* ← 主强调色（游记默认暖金；每子站可改） */
+      --accent2: #9fd0ff;
+      --accent-glow: rgba(255, 180, 100, 0.16);
+      --accent-border: rgba(255, 180, 100, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(100,180,255,0.16) 0%, transparent 60%),radial-gradient(circle at 80% 20%, rgba(140,200,255,0.10) 0%, transparent 40%);
+      --text: #ffffff;
+      --text-dim: #f0f3f8;
+      --text-hint: #c8d0dc;
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(255,180,100,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(255,180,100,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 56vh; min-height: 56dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID / QUICK FACTS ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text); line-height: 1.65; }
+    .info-card .fact-row { display: flex; justify-content: space-between; gap: 1rem; padding: .25rem 0; border-bottom: 1px dashed rgba(255,255,255,.06); }
+    .info-card .fact-row:last-child { border-bottom: 0; }
+    .info-card .fact-row .k { color: var(--text-hint); }
+    .info-card .fact-row .v { color: var(--text); text-align: right; }
+
+    /* ===== 媒体组件：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(255,180,100,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* 竖屏图（高>宽）自适应：取消固定比例、完整显示不裁切（object-fit:cover 会把上下半裁掉）。
+       由下方 syncOrient() 按图片真实方向自动给容器加 .img-portrait 类触发。 */
+    .media-cover.img-portrait { aspect-ratio: auto; display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); } /* 当前封面缩略图保持可见并高亮（不隐藏，否则缩略图条永远少一张） */
+    /* 大图标题（图片名称，显示在主图上方） */
+    .media-caption { font-size: .8rem; color: var(--text-dim); padding: .55rem 1.1rem .15rem; line-height: 1.45; min-height: 1.2em; }
+    /* 左右切换箭头（覆盖在主图上） */
+    .media-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; background: rgba(10,10,26,.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: 1px solid var(--accent-border); cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; opacity: .72; transition: opacity .2s, background .2s; }
+    .media-nav-btn:hover { opacity: 1; background: rgba(10,10,26,.85); }
+    .media-nav-btn.prev { left: 8px; }
+    .media-nav-btn.next { right: 8px; }
+    .media-nav-btn svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    @media (max-width: 640px) {
+      .media-nav-btn { width: 36px; height: 36px; }
+      .media-nav-btn.prev { left: 4px; }
+      .media-nav-btn.next { right: 4px; }
+      .media-nav-btn svg { width: 18px; height: 18px; }
+    }
+    /* 视频：独立整宽块，绝不可塞进 .media-gallery（画廊只渲染 <img>，视频放进去不渲染且会撑破 84×63 缩略条布局）。
+       src / <source src> 必须指向 .mp4（绝不能是 .jpg/.png）。poster 属另类——不播放即显首帧用 <video preload="metadata"> 不设 poster（浏览器原生首帧），
+       严禁 poster 指向 .mp4（无效→黑屏）。确需自定义首帧时 poster 才指向真实 .jpg/.png。 */
+    .log-video { width: 100%; border-radius: 12px; margin: .6rem 0 .2rem; background: #000; display: block; border: 1px solid var(--accent-border); }
+    .log-video-cap { font-size: .74rem; color: var(--text-hint); margin-bottom: .8rem; }
+
+    /* === 游记核心模块 CSS（源自 site-template-travelogue-core.html · COPY BLOCK 1/3，请勿另写）=== */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+
+    /* ===== 美食 & 随手发现 ===== */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+    /* === END 游记核心模块 CSS ============================================== */
+
+    /* ===== 人文背景（文化卡片 · #culture，由生成器自动产出）=====
+       ⚠️ 本段样式对应 gen_travelogue.py 的 build_culture_section()，仅当记录页
+          README「## 简介」内夹带 ```markdown 围栏长文（人文历史等）时，生成器才会
+          产出 <section id="culture"> 并自动插在 #log 与 #food 之间、顶部导航加
+          「人文背景」链接。无该围栏长文时页面不含此 section。
+       设计原则（非整段照搬原文，而是重组为叙事卡片，与图片有机成整体）：
+         1. 按 ## 标题拆成 .culture-card 主题卡（序号徽章 .num + 标题 + 叙述 + 配图）。
+         2. ## 段数 > 4 时自动合并相邻段（首段保留独立，其余两两合并），控制卡片数 ≤ 4。
+         3. 📌 小知识块（以「📌 *小知识」开头）提取为 .tips-box。
+         4. 配图从媒体池按标题关键词匹配（文件名含 short_title 的中文词），每卡一张；
+            桌面端 (min-width:768px) .has-img 双列图文并排，移动端单列。
+         5. 行内 **bold** → <strong>（var(--accent2) 高亮）；- 列表 → <ul>；--- 分隔线跳过。
+       ⚠️ 生成器正则陷阱：剥离 H1 必须用 r'^#[^#].+$'（只匹配 # 非 ##），曾误用
+          r'^#.+$' 同时删掉 ## 标题 → 所有卡片标题丢失 → section 为空。详见 src/README.md §9。
+       正文颜色已统一 var(--text)（全亮，见 :root 硬规则），禁止改回 var(--text-dim)。 */
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card h4 { font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: .7rem; display: flex; align-items: center; gap: .5rem; }
+    .culture-card h4 .num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #0a0a1a; font-size: .8rem; font-weight: 900; flex-shrink: 0; font-family: 'Noto Sans SC', sans-serif; }
+    .culture-card p { font-size: .9rem; color: var(--text); line-height: 1.78; margin-bottom: .6rem; }
+    .culture-card p:last-child { margin-bottom: 0; }
+    .culture-card strong { color: var(--accent2); font-weight: 600; }
+    .culture-card ul { padding-left: 1.2rem; margin: .5rem 0 .6rem; }
+    .culture-card li { font-size: .88rem; color: var(--text); line-height: 1.7; margin-bottom: .25rem; }
+    .culture-card li strong { color: var(--accent2); }
+    .culture-card .culture-img { width: 100%; border-radius: 10px; margin-top: .8rem; border: 1px solid var(--accent-border); display: block; }
+    /* 桌面端：有图卡片用双列布局，图文并排 */
+    @media (min-width: 768px) {
+      .culture-card.has-img { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.2rem; align-items: start; }
+      .culture-card.has-img .culture-text { grid-column: 1; }
+      .culture-card.has-img .culture-img { grid-column: 2; margin-top: 0; align-self: center; }
+    }
+
+    /* ===== 实用信息 TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 44vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .info-grid, .food-grid { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../../index.html" title="XBrain · 景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">生活实录</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../../index.html">← 返回生活点滴导航</a>
+      <a href="#top">首页</a>
+      <a href="#summary">行程总览</a>
+      <a href="#log">生活实录</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">生活点滴 · 2026-08-29</span>
+    <h1 class="hero-title">老表聚餐 · 2026-08-29<span>老表</span></h1>
+    <p class="hero-subtitle">周五晚带孩子们到商场里的意面餐厅聚餐。 五个小朋友排排坐，菜单上写着“Gentle Pasta”，旧时代仪式感与新时代口味并列在墙上。 点了一桌意面、小食和饮料，孩子们边吃边聊，有人认真卷面，有人举杯喝水。 回家后还录了一段“回味”，疑似在展示什么礼物或新收获。</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>📅 2026-08-29</span>
+      <span>👨‍👩‍👧 老表们</span>
+      <span>🚗 商场 / 餐厅</span>
+      <span>🌤️ 夏末晴热</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程总览（轻量：一句话 + 关键信息卡）===== -->
+  <section class="section" id="summary">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程总览
+    </h2>
+    <p class="section-desc">周五晚带孩子们到商场里的意面餐厅聚餐。 五个小朋友排排坐，菜单上写着“Gentle Pasta”，旧时代仪式感与新时代口味并列在墙上。 点了一桌意面、小食和饮料，孩子们边吃边聊，有人认真卷面，有人举杯喝水。 回家后还录了一段“回味”，疑似在展示什么礼物或新收获。</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <h4>关键信息</h4>
+        <div class="fact-row"><span class="k">日期</span><span class="v">2026-08-29</span></div>
+        <div class="fact-row"><span class="k">同行</span><span class="v">老表们</span></div>
+        <div class="fact-row"><span class="k">交通</span><span class="v">商场 / 餐厅</span></div>
+        <div class="fact-row"><span class="k">耗时</span><span class="v">一晚</span></div>
+        <div class="fact-row"><span class="k">花费</span><span class="v">家庭聚餐</span></div>
+      </div>
+      <div class="info-card">
+        <h4>一句话路线</h4>
+        <p>老表们带孩子们聚餐，记录一次平常的家族小聚与回家后的回味。</p>
+      </div>
+      <div class="info-card">
+        <h4>当天天气</h4>
+        <p>夏末晴热；聚餐在室内，纯记录，非出行前预警。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 生活实录（核心：按时间/站点拆章，每章可内嵌组图）===== -->
+  <!-- 本段即「记录核心模块」（HTML 源自 site-template-travelogue-core.html · COPY BLOCK 2/3） -->
+  <section class="section" id="log">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      生活实录
+    </h2>
+    <p class="section-desc">这一天拍下的照片与视频；点缩略图或左右滑动可切换主图。</p>
+
+          <div class="media-block">
+        <div class="media-cover"><img src="老表聚餐.jpg" alt="老表聚餐" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="老表聚餐.jpg" alt="老表聚餐" loading="lazy" decoding="async">
+          <img src="老表聚餐2.jpg" alt="老表聚餐2" loading="lazy" decoding="async">
+          <img src="老表聚餐3.jpg" alt="老表聚餐3" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <video class="log-video" src="弟回家后回味(是否礼物？)20260829-220401.mp4" controls preload="metadata"></video>
+      <div class="log-video-cap">弟回家后回味(是否礼物？) 220401</div>
+      <video class="log-video" src="老表聚餐4.mp4" controls preload="metadata"></video>
+      <div class="log-video-cap">老表聚餐4</div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../../index.html">XBrain · 生活点滴</a> 生成 · 老表聚餐 · 2026-08-29</div>
+    <div class="footer-version">template/travelogue · v1.0</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 媒体画廊（4 大功能，JS 动态注入，不依赖生成器改 HTML）=====
+      // 功能 1：首图自动解析 — 画廊中命名 index.* 的图优先作主图；缺失回退第一张。
+      // 功能 2：图片名称标题 — 主图上方动态插入 .media-caption，绑定 thumb.alt（取自
+      //         文件名中文主题），每次切换主图时同步更新，便于读者理解图片现场。
+      // 功能 3：左右切换 — 多图时动态创建 .media-nav-btn 圆形箭头按钮（prev/next），
+      //         覆盖在主图两侧；点击或键盘 ← → 或触摸滑动均可循环切换。
+      // 功能 4：竖屏自适应 — syncOrient() 按图片真实方向给容器加 .img-portrait 类。
+      // 约定：画廊(.media-gallery)内的 <img> 即「该卡片对应的图片文件夹内容」。
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        // 竖屏图自适应：按真实方向切换 .img-portrait（CSS 见上），避免 cover 裁掉上下半
+        function syncOrient() {
+          var nw = coverImg.naturalWidth, nh = coverImg.naturalHeight;
+          if (nw && nh) cover.classList.toggle('img-portrait', nh > nw);
+        }
+        coverImg.addEventListener('load', syncOrient);
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) { syncOrient(); return; } // 无画廊（纯主图）仍做方向自适应
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        // 解析首图：优先 index.*；缺失则取第一张（作者可调整顺序选择「合适」的图）
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        // ===== 大图标题（图片名称，显示在主图上方）=====
+        var block = cover.closest('.media-block') || cover.parentElement;
+        var caption = block.querySelector('.media-caption');
+        if (!caption) {
+          caption = document.createElement('div');
+          caption.className = 'media-caption';
+          cover.parentElement.insertBefore(caption, cover);
+        }
+
+        // ===== 左右切换箭头（仅多图时创建）=====
+        var prevBtn = null, nextBtn = null;
+        if (thumbs.length > 1) {
+          prevBtn = document.createElement('button');
+          prevBtn.className = 'media-nav-btn prev';
+          prevBtn.setAttribute('aria-label', '上一张');
+          prevBtn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>';
+          cover.appendChild(prevBtn);
+          nextBtn = document.createElement('button');
+          nextBtn.className = 'media-nav-btn next';
+          nextBtn.setAttribute('aria-label', '下一张');
+          nextBtn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>';
+          cover.appendChild(nextBtn);
+        }
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          syncOrient(); // 切到竖图缩略图时主图同步自适应
+          // 更新标题
+          caption.textContent = thumb.alt || '';
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov); // 当前主图缩略图高亮（保持可见，不隐藏）
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none'; // 仅剩首图一张时隐藏整条
+        }
+        applyCover(coverThumb);
+
+        // 缩略图点击切换
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+
+        // ===== 箭头点击 + 触摸滑动切换 =====
+        function currentIndex() {
+          for (var i = 0; i < thumbs.length; i++) { if (thumbs[i].classList.contains('is-cover')) return i; }
+          return 0;
+        }
+        function nav(dir) {
+          var i = (currentIndex() + dir + thumbs.length) % thumbs.length;
+          applyCover(thumbs[i]);
+        }
+        if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); nav(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); nav(1); });
+
+        // 触摸滑动：横向位移 >45px 且大于纵向 → 切换
+        var tsx = 0, tsy = 0;
+        cover.addEventListener('touchstart', function (e) {
+          tsx = e.touches[0].clientX; tsy = e.touches[0].clientY;
+        }, { passive: true });
+        cover.addEventListener('touchend', function (e) {
+          if (thumbs.length < 2) return;
+          var dx = e.changedTouches[0].clientX - tsx;
+          var dy = e.changedTouches[0].clientY - tsy;
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+            nav(dx > 0 ? -1 : 1); // 右滑→上一张，左滑→下一张
+          }
+        }, { passive: true });
+
+        // 键盘左右键（大图获焦时）
+        cover.setAttribute('tabindex', '0');
+        cover.addEventListener('keydown', function (e) {
+          if (thumbs.length < 2) return;
+          if (e.key === 'ArrowLeft') { e.preventDefault(); nav(-1); }
+          else if (e.key === 'ArrowRight') { e.preventDefault(); nav(1); }
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出（IP 规范）=====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画 =====
+      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .culture-card, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>
