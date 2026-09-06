@@ -53,9 +53,14 @@
     return ROUTES.indexOf(h) >= 0 ? h : 'overview';
   }
 
+  /* 导航：显式接管（不依赖 <a> 默认锚点行为与 hashchange 事件——
+     部分 iframe 预览面板/内嵌内核/缩放环境下默认锚点导航会丢事件，导致 Tab"点击无效"） */
   function navigate(route) {
-    if (('#' + route) === location.hash) { onRoute(); }
-    else { location.hash = '#' + route; }
+    if (('#' + route) !== location.hash) {
+      try { history.pushState(null, '', '#' + route); }
+      catch (e) { location.hash = '#' + route; }
+    }
+    onRoute();
   }
 
   function onRoute() {
@@ -873,12 +878,21 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeModal();
     });
+    /* Tab 点击接管（事件委托，覆盖图标/文字子元素） */
+    document.getElementById('tabbar').addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[data-route]') : null;
+      if (!a) return;
+      e.preventDefault();
+      navigate(a.getAttribute('data-route'));
+    });
     S.load();
     if (!location.hash) {
       try { history.replaceState(null, '', '#overview'); } catch (e) { location.hash = '#overview'; }
     }
     onRoute();
+    /* 浏览器前进/后退、手动改 URL、外链深链仍走 hash/popstate 同步 */
     window.addEventListener('hashchange', onRoute);
+    window.addEventListener('popstate', onRoute);
   }
 
   if (document.readyState === 'loading') {

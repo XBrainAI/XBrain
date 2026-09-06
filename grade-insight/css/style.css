@@ -514,7 +514,7 @@ textarea.gi-input { min-height: 72px; resize: vertical; }
   left: 0; right: 0; bottom: 0;
   height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  z-index: 99;
+  z-index: 120;   /* 高于品牌 Logo(100)，杜绝任何潜在遮挡 */
   display: flex;
   background: rgba(12, 9, 28, 0.92);
   -webkit-backdrop-filter: blur(14px);
@@ -533,6 +533,10 @@ textarea.gi-input { min-height: 72px; resize: vertical; }
   font-size: 11px;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;           /* 显式可点，桌面穿透由容器 none 控制 */
+  touch-action: manipulation;     /* 消除移动端双击缩放对点击的歧义 */
+  -webkit-user-select: none;
+  user-select: none;
 }
 .tabbar a .tab-ico { font-size: 19px; line-height: 1; }
 .tabbar a.active {
