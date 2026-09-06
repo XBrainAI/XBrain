@@ -64,9 +64,16 @@ home/
 ├── 学习与成长/             # 【类型 C】学习资源与成长指南（纪录片推荐等）
 │   └── index.html
 │
-└── 生活点滴/               # 【类型 C · 多级导航·纯记录型】随拍照片+视频（非计划），由 home/src 纯记录型模板(site-template-travelogue.html)生成
-    ├── index.html          # 画廊首页
-    └── <YYYY>/MMDD/        # 每天的记录文件夹（含 index.html + README.MD + 媒体）
+├── 生活点滴/               # 【类型 C · 多级导航·纯记录型】随拍照片+视频（非计划），由 home/src 纯记录型模板(site-template-travelogue.html)生成
+│   ├── index.html          # 画廊首页
+│   └── <YYYY>/MMDD/        # 每天的记录文件夹（含 index.html + README.MD + 媒体）
+│
+└── grade-insight/          # 【类型 A · 纯静态交互应用】高中成绩跟踪分析（原生JS单页，无构建）
+    ├── index.html          # 单页应用：总览/趋势/科目/考试/录入/设置（hash 深链路由）
+    ├── js/                 # data(快照种子)/store(本地存储)/analysis(分析引擎)/charts/app
+    ├── vendor/echarts.min.js  # 本地图表库（离线可用，禁止换 CDN）
+    ├── auth.config.json    # 子站密码（初始 grade2026，可改配置）
+    └── AGENTS.md           # ⭐ 子站专属指引（localStorage主存+快照同步/三重归一/file:// 兼容）
 ```
 
 ### 1.1 子站点 → 类型 映射
@@ -79,6 +86,7 @@ home/
 | 采购与维护 | C (多级导航) | 否 | `./采购与维护/index.html` |
 | 学习与成长 | C (多级导航) | 否 | `./学习与成长/index.html` |
 | 生活点滴 | C (多级导航 · 纯记录型) | 否 | `./生活点滴/index.html` |
+| grade-insight | A (纯静态交互应用) | 否 | `./grade-insight/index.html` |
 
 ---
 
@@ -421,6 +429,8 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **生活点滴 手搓精修页禁止通用生成器重盖**：`2026/0816` 是手搓精修页，通用生成器 `gen_life_record.py` 会覆盖丢失其泮塘专属内容；新增记录时只对新目录跑生成器，绝不重跑手搓页（手搓页清单见 §8.3）。
 - **生活点滴 跨年媒体引用深度**：记录页在 `生活点滴/<YYYY>/<MMDD>/`（两级深），跨年引用同仓库其他年份媒体须用 `../../<YYYY>/...`，而非 `../<YYYY>/`——路径少一级会 404。媒体一律相对路径单一来源引用，禁止复制大文件到本记录目录。详见 §8.3。
 - **生活点滴 大视频入库**：随拍视频常 50MB+，务必 `git add` 入库（GitHub 仅给 size 警告不拦截），未入库 → Netlify 404（见 §9.1）。
+
+- **grade-insight 数据双轨不可混淆**：日常录入走 localStorage（设备本地，不进 git），备份/多设备同步走「导出 data.js 快照 → 手动替换 `grade-insight/js/data.js` 的 `GRADE_SNAPSHOT` → 提交」。快照提交进 git 即明文入库（git 历史不受站点密码保护），须用户自行确认隐私接受度。分析层禁止直接比较原始分——每场考试满分可不同，必须走得分率/排名百分位/相对均分三重归一。详见 `grade-insight/AGENTS.md`。
 
 - **导航首页与子站目录须同一次提交**：见 §9.1 第 4 条。
 

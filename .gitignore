@@ -219,3 +219,6 @@ node_modules/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AI agent local workspace (ZCode plans etc.)
+.zcode/
