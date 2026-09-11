@@ -735,6 +735,7 @@ def main():
     EXCLUDE_FILES = {
         "个人健康档案与深度医学分析报告.md",
         "p.report.md",
+        "README.md",
     }
 
     # 读取其他报告

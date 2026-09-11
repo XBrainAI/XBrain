@@ -72,7 +72,8 @@
 ### 3.2 妈/generate_index.py
 
 - **硬编码绝对路径** `BASE`，换机器/换仓库需改。
-- 遍历 `*.md`（排除 `个人健康档案与深度医学分析报告.md`、`p.report.md`），按文件名倒序（=日期倒序）。
+- 遍历 `*.md`（`EXCLUDE_FILES` = `个人健康档案与深度医学分析报告.md`、`p.report.md`、`README.md`），按文件名倒序（=日期倒序）。
+  - ⚠️ **非报告 `.md` 必须加入 `EXCLUDE_FILES`**：脚本不做格式校验，`README.md` 曾因此被 `parse_filename` 解析成 `date="READ-ME-"`，在时间线生成垃圾条目并让年份过滤器多出 "READ"。新增说明类 MD 时两处 `EXCLUDE_FILES`（`generate_index.py` + `check_consistency.py`）都要改。
 - `parse_filename`：按 `-` 分割为 `日期/项目/医院` 三段。
 - PNG 配对：按 stem 依次尝试 `.png` / `.jpg` / `.jpeg`，存在则显示"查看图片"按钮。
 - **孤儿图工单机制**（2026-09-11 新增）：无同名 `.md` 的图片会被扫描并登记到 `orphans.json`（含 `image` / `target_md` / 解析出的日期·项目·医院），脚本同时打印 `[TODO]` 清单。**标准流程是由 AI 读图生成同名 `.md` 解读报告**，而非让用户手写。
@@ -92,16 +93,49 @@
 - **无认证**。
 - tag 区分：「就诊记录」（subdir）/「健康报告」（md）。
 
-### 3.4 重新生成流程
+### 3.4 重新生成流程（妈：强制四步）
 
 ```powershell
-# 妈
-cd 'd:\data\wy25311753\workspace\git\github\XBrain\home\健康\妈'; python generate_index.py
-# 哥
+# 妈（新增/改动报告后）
+cd 'd:\data\wy25311753\workspace\git\github\XBrain\home\健康\妈'
+python generate_index.py       # 1. 生成页面；孤儿图会写入 orphans.json
+#                              2. 同步 个人健康档案与深度医学分析报告.md（清单见 §3.5）
+python check_consistency.py    # 3. 守卫；退出码 0 方可 push
+#                              4. git push
+
+# 哥（无深度汇总报告，无守卫）
 cd 'd:\data\wy25311753\workspace\git\github\XBrain\home\健康\哥'; python generate_index.py
 ```
 
 生成后 `index.html` 头部须仍含 GENERATED 注释。
+
+### 3.5 深度汇总报告同步清单（妈专属，**新增报告后必做**）
+
+`个人健康档案与深度医学分析报告.md` 里大量统计是从报告文件**派生**的，此前靠人肉维护导致长期腐化（新增报告后仍写「44份 / 2026年5月 / 42岁」）。新增子报告后按下表逐项更新：
+
+| # | 位置 | 要改什么 |
+|---|------|----------|
+| 1 | 头部 `**报告总数**` | = 目录内真实报告 `.md` 数量（不含排除项） |
+| 2 | 头部 `**报告覆盖时间**` | 结束月份 = 最新报告月份 |
+| 3 | 头部 `**患者概况**` 年龄 | 1983年9月出生，按当前日期换算 |
+| 4 | `## 二、完整检查时间线（N份报告）` | 标题 N |
+| 5 | 时间线表格 | 对应阶段追加新行（日期/检查/机构/核心发现/意义） |
+| 6 | 所属系统 `**涉及报告**：N份（…）` | 计数与构成 |
+| 7 | 该系统的专题段落 | 补充本次结果与小结（如内膜息肉追踪做成三行对比小表） |
+| 8 | `## 五、异常指标跟踪表` | 必要时加时间列 + 指标行 |
+| 9 | `## 八` 检查日历 / `## 九` 总结 / 文末免责声明 | 过期项改「尽快（原定X月，已超期）」；份数同步 |
+
+改完必须重跑 `generate_index.py`，汇总内容才会注入 `index.html` 顶部。
+
+### 3.6 一致性守卫 `check_consistency.py`
+
+```powershell
+cd 健康/妈
+python generate_index.py
+python check_consistency.py    # 退出码 0 = PASS，1 = FAIL（FAIL 禁止 push）
+```
+
+校验 9 项：报告总数、覆盖时间止月、时间线标题份数、最新报告已入线、时间线无幽灵日期、患者年龄、总结段份数、免责声明份数、生成页面条目日期合法。任何一项与环境不符即 FAIL 并给出精确差值。
 
 ---
 
@@ -198,7 +232,9 @@ cd 'd:\data\wy25311753\workspace\git\github\XBrain\home\健康\哥'; python gene
 - **`p.report.md` 是提示词模板**：禁改，仅供 AI 生成报告参考。
 - **DICOM 归档**：`MR-无需建立子站点/*.zip` 天然被 `glob("*.md")` 排除，勿删。
 - **隐私数据**：含真实医疗档案，妈子站独立密码保护符合隐私敏感性，勿移除认证。
-- **无 build 依赖**：纯静态 + Python，改动后仅需重新生成（妈/哥）或直接编辑（爸/弟），无需 lint/test。
+- **非报告 `.md` 未排除会生成垃圾条目**：脚本不校验文件名格式，`README.md` 曾被解析成 `READ-ME-` 进入时间线与年份过滤器。新增说明类 MD 时，`generate_index.py` 与 `check_consistency.py` 两处 `EXCLUDE_FILES` 都要加。
+- **汇总报告容易腐化**：统计数字是派生值却手写维护，新增报告后极易漏改（历史遗留「44份/2026年5月/42岁」）。守卫脚本 `check_consistency.py` 就是为此而设，**不要绕过它直接 push**。
+- **无 build 依赖，但不是无校验**：纯静态 + Python，无 lint/test 框架；但**妈子站以 `check_consistency.py` 等价承担提交前闸门**（退出码非 0 禁止 push）。哥/爸/弟暂无守卫。
 
 ---
 
@@ -206,9 +242,13 @@ cd 'd:\data\wy25311753\workspace\git\github\XBrain\home\健康\哥'; python gene
 
 ### 10.1 妈/哥新增报告后重新生成
 - [ ] 文件名符合约定（妈短横、哥点号）
+- [ ] 新增的非报告 `.md` 已加入两处 `EXCLUDE_FILES`
 - [ ] 图片配对正确（妈同名 PNG、哥子目录内图片）
-- [ ] `python generate_index.py` 执行成功
+- [ ] `python generate_index.py` 执行成功，`image-only: 0`
+- [ ] **妈：`python check_consistency.py` 通过（退出码 0）**
+- [ ] **妈：深度汇总报告九项已同步（§3.5）**
 - [ ] 生成后 `index.html` 头部仍含 GENERATED 注释
+- [ ] 时间线无非法条目日期（守卫已覆盖）
 - [ ] 浏览器验证时间线新条目、图片显示、搜索/年份过滤
 - [ ] 妈子站验证认证流程（密码登录、会话过期）
 
