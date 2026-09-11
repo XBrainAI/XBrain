@@ -3,17 +3,31 @@
 生成妈的个人健康档案单页面 index.html
 整合所有md报告 + 深度医学分析报告
 """
+import json
 import os
 import re
 from pathlib import Path
 
 BASE = Path(r"d:\data\wy25311753\workspace\git\github\XBrain\home\健康\妈")
 OUTPUT = BASE / "index.html"
+ORPHANS_FILE = BASE / "orphans.json"
+
+
+IMG_EXTS = (".png", ".jpg", ".jpeg")
+
+
+def find_image(stem):
+    """按 stem 查找配套图片，返回文件名；无则返回 None"""
+    for ext in IMG_EXTS:
+        p = BASE / (stem + ext)
+        if p.exists():
+            return p.name
+    return None
 
 
 def parse_filename(filename):
-    """从文件名解析日期、项目、医院"""
-    name = filename.replace(".md", "")
+    """从文件名解析日期、项目、医院（兼容 .md / .png / .jpg）"""
+    name = Path(filename).stem
     parts = name.split("-")
     date_str = parts[0]
     date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
@@ -206,12 +220,27 @@ def build_html(main_html, reports):
         date_display = r["date"]
         project = r["project"]
         hospital = r["hospital"]
-        img_section = f'<div class="img-fold" style="display:none;"><img src="./{r["img_name"]}" alt="{project}" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div>' if r["has_img"] else ""
+        img_only = r.get("img_only", False)
+        if r["has_img"]:
+            # 仅图片条目：图片默认展开；常规条目：折叠，由按钮切换
+            fold_style = "" if img_only else ' style="display:none;"'
+            img_section = (
+                f'<div class="img-fold"{fold_style}>'
+                f'<img src="./{r["img_name"]}" alt="{project}" class="report-thumb" '
+                f'loading="lazy" onclick="openModal(this.src)"></div>'
+            )
+        else:
+            img_section = ""
         actions = []
-        if img_section:
+        if img_section and not img_only:
             actions.append('<button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>')
-        actions.append('<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>')
+        if not img_only:
+            actions.append('<button class="btn-expand" onclick="toggleReport(this)">查看完整报告</button>')
         actions_html = "\n".join(actions)
+        actions_block = (
+            f'<div class="timeline-actions">\n      {actions_html}\n    </div>'
+            if actions_html.strip() else ""
+        )
         item = f"""<div class="timeline-item" data-date="{r["date"]}" data-year="{r["date"][:4]}">
   <div class="timeline-dot"></div>
   <div class="timeline-card">
@@ -219,11 +248,9 @@ def build_html(main_html, reports):
       <span class="timeline-date">{date_display}</span>
       <span class="timeline-tag">{hospital}</span>
     </div>
-    <h4 class="timeline-title">{project}</h4>
+    <h4 class="timeline-title">{project}{'<span class="img-only-badge">仅图片</span>' if img_only else ''}</h4>
     {img_section}
-    <div class="timeline-actions">
-      {actions_html}
-    </div>
+    {actions_block}
     <div class="timeline-detail" style="display:none;">
       <div class="report-body">{r["content_html"]}</div>
     </div>
@@ -403,6 +430,14 @@ body{{
 }}
 .img-fold{{
   display:none;animation:fadeIn 0.3s ease;
+}}
+.img-only-badge{{
+  display:inline-block;margin-left:0.5rem;font-size:0.65rem;font-weight:600;
+  padding:0.1rem 0.45rem;border-radius:4px;vertical-align:middle;
+  background:rgba(255,176,32,0.12);color:#f0b429;border:1px solid rgba(255,176,32,0.35);
+}}
+.img-only-note{{
+  color:var(--xb-text-muted,#8a94a6);font-size:0.85rem;margin:0;
 }}
 .timeline-detail{{
   margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--xb-border);
@@ -710,25 +745,83 @@ def main():
     )
 
     reports = []
+    claimed_stems = set()
     for f in md_files:
         date, project, hospital = parse_filename(f.name)
         content = f.read_text(encoding="utf-8")
         content_html = md_to_html(content)
-        img_name = f.with_suffix(".png").name
-        has_img = (BASE / img_name).exists()
+        img_name = find_image(f.stem)
+        has_img = img_name is not None
+        claimed_stems.add(f.stem)
         reports.append({
             "date": date,
             "project": project,
             "hospital": hospital,
             "content_html": content_html,
             "has_img": has_img,
-            "img_name": img_name,
+            "img_name": img_name or "",
+            "img_only": False,
+            "sort_key": f.stem,
         })
+
+    # 孤儿图片：无同名 .md 的报告单/影像
+    # 1) 登记到 orphans.json，作为「待生成解读报告」工单（交给 AI 按 p.report.md 处理）
+    # 2) 同时生成降级时间线条目（仅图片），保证 AI 未处理前页面不空白
+    orphan_count = 0
+    orphan_list = []
+    seen_orphan = set()
+    for ext in IMG_EXTS:
+        for p in sorted(BASE.glob(f"*{ext}")):
+            if p.stem in claimed_stems or p.stem in seen_orphan:
+                continue
+            if p.suffix.lower() not in IMG_EXTS:
+                continue
+            seen_orphan.add(p.stem)
+            date, project, hospital = parse_filename(p.name)
+            orphan_list.append({
+                "image": p.name,
+                "target_md": p.stem + ".md",
+                "date": date,
+                "project": project,
+                "hospital": hospital,
+            })
+            reports.append({
+                "date": date,
+                "project": project,
+                "hospital": hospital,
+                "content_html": (
+                    "<p class=\"img-only-note\">本条为图片原始存档，"
+                    "解读报告生成中（详见 orphans.json 工单）。</p>"
+                ),
+                "has_img": True,
+                "img_name": p.name,
+                "img_only": True,
+                "sort_key": p.stem,
+            })
+            orphan_count += 1
+
+    reports.sort(key=lambda r: r["sort_key"], reverse=True)
+
+    # 待生成报告工单：AI 读取本文件后逐张读图，按现有 MD 格式产出 target_md，再重跑本脚本
+    ORPHANS_FILE.write_text(
+        json.dumps({
+            "hint": "以下图片尚无同名 .md 解读报告。请让 AI 按 p.report.md 提示词与现有 MD 格式生成 target_md，然后重跑 generate_index.py。",
+            "count": len(orphan_list),
+            "orphans": orphan_list,
+        }, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
     html = build_html(main_html, reports)
     OUTPUT.write_text(html, encoding="utf-8")
     print("[OK] index.html generated")
-    print(f"[INFO] Total reports: {len(reports)}")
+    print(f"[INFO] Total reports: {len(reports)} (md: {len(md_files)}, image-only: {orphan_count})")
+    if orphan_list:
+        print(f"[TODO] {len(orphan_list)} 张图片尚无解读报告，待生成清单已写入 orphans.json：")
+        for o in orphan_list:
+            print(f"       - {o['image']}  ->  {o['target_md']}")
+    else:
+        print("[OK] 所有图片均有同名解读报告，无待处理项")
 
 
 if __name__ == "__main__":
