@@ -1,0 +1,15 @@
+name: regression
+
+on: [push]
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: 全站静态回归（链接/品牌/生成页/媒体编码守卫）
+        run: node tests/run.js

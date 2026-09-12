@@ -112,6 +112,7 @@ home/
 - 改动 `query-system/src/` 后，提交前**必须依次通过** `npm run lint` → `npm run test` → `npm run build`。三者全绿方可推送（当前为存量红，见 `tests/baseline.json` 棘轮基线，重构只许改善不许恶化）。
 - **任何 HTML / 媒体 / 目录结构的改动（含定期重构）落地后，必须 `npm run test:repo` 全绿方可提交推送**；涉及 `query-system`、认证或部署配置时改跑 `npm run test:repo:full`。用例矩阵见 `tests/README.md`。
 - `tests/config.js` 的 `KNOWN_ISSUES` 是显式记账的存量债务豁免：**对应重构项落地时必须同步删除条目**，禁止为变绿静默加白。
+- **媒体入库三重防线**（2026-09 设立，防 HEVC 复发）：① pre-commit 钩子自动拒绝 HEVC(hvc1/hev1) 与 >100MB 文件（源文件 `tests/hooks/scan-media.js`，已装至 `.bare/hooks/pre-commit`；**新克隆/换机须重装**：`cp tests/hooks/pre-commit.sh "$(git rev-parse --git-path hooks)/pre-commit" && chmod +x "$(git rev-parse --git-path hooks)/pre-commit"`）；② push 后 GitHub Actions 自动跑静态回归（`.github/workflows/regression.yml`）；③ 本地 `npm run test:repo` 的 S7 编码守卫。
 - `dist/` 与 `node_modules/` 已在 `.gitignore`，**禁止提交**。
 - 纯静态子站点（健康/景点/采购）改动后无需 build，但需本地浏览器验证链接与 Logo。
 

@@ -104,3 +104,11 @@ push 前的完整门禁 = `test:repo:full` 全绿（等同 AGENTS §2 纪律的�
 - 新增子站：更新 `config.js` 的 `SUBSITE_DIRS`（自动纳入品牌与门户检查）。
 - 新增忽略范围：只允许加 `SCAN_EXCLUDE_*`（模板/源码壳等非部署文件），并写明理由。
 - 本套件不替代浏览器端人工验证（§11.2 移动端清单、触摸手势、safe-area 等仍需真机抽查）。
+
+## 媒体入库三重防线（防 HEVC 复发）
+
+| 层 | 触发时机 | 拦截内容 | 位置 |
+|----|----------|----------|------|
+| ① pre-commit 钩子 | 每次 `git commit` | HEVC / >100MB 拒绝提交；moov 后置警告 | `tests/hooks/scan-media.js` → `.bare/hooks/pre-commit`（**换机须重装**） |
+| ② GitHub Actions CI | 每次 push | 自动跑全部静态层（含 S7 编码守卫） | `.github/workflows/regression.yml` |
+| ③ 回归套件 S7 | 手动 `test:repo` | 全量视频编码 + faststart + 覆盖面 | `static/media.test.js` |
