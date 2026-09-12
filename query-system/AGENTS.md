@@ -33,15 +33,16 @@ query-system/
 │   ├── 第二批-广州协和学校-名额分配计划/明细-*.md
 │   ├── 补录分数-2025.md / 2025年补录*.xlsx
 │   └── ...（政策指南、分数段统计等）
-├── home/                       # 新风机选购指南 HTML（独立静态页，非 SPA 部分）
 ├── other_infos/                # 舆情/分析报告（HTML/MD），构建时复制进 dist
 ├── public/                     # favicon.svg、icons.svg
 ├── src/                        # 源码（见 §3）
 ├── audit_report.md             # 数据审核报告（已知缺陷，见 §7）
 ├── README.md                   # 构建运行文档（命令速查）
-├── publish.ps1 / start.bat / ngrok.bat  # ⚠️ 外部路径脚本，勿在本仓库用
 └── fix_private_schools.py / verify_private_schools.py  # 一次性数据修复脚本
 ```
+
+> 注：原 `home/`（新风机选购指南完整版）已于 2026-09 重构迁至 `采购与维护/家用新风机选购指南-完整版.html`；
+> 原 `publish.ps1`/`start.bat`/`ngrok.bat` 外部路径脚本已删除，权威流程为根 `npm run build` + `git push`。
 
 ---
 
@@ -161,11 +162,11 @@ rawData.ts (内嵌 MD 字符串)
 ## 8. 约束与陷阱
 
 - **`rawData.ts` 是核心数据真源**：改 `database/` 下核心分数 MD 无效，须同步改 `rawData.ts`。
-- **`publish.ps1`/`start.bat` 外指**：指向外部开发工作区 `ws_workbuddy\ws_study8\*`，本仓库内不使用，权威流程是 `npm run build` + `git push`。
+- **本地辅助脚本已删除**（2026-09 重构）：原 `publish.ps1`/`start.bat`/`ngrok.bat` 外指 `ws_workbuddy\ws_study8\*`，已移除；权威流程是 `npm run build` + `git push`。
 - **`base:'./'` 不可改**：否则相对路径部署资源 404。
 - **校名匹配脆弱**：改 `extractBaseName` 或 `clNameMap` 影响全局合并，须跑全量测试（含 `regression.test.ts`）。
 - **6 套测试是安全网**：含 `regression.test.ts` 回归测试，数据管线改动后必跑。
-- **`home/` 目录的 HTML 不属于 SPA**：`home/新风机选购指南.html` 是独立静态页，不参与 Vite 构建。
+- **新风机完整版已迁出**（2026-09 重构）：原 `home/新风机选购指南.html` 现为 `../采购与维护/家用新风机选购指南-完整版.html`，`home/` 目录已删除。
 - **`fix_private_schools.py`/`verify_private_schools.py`** 是一次性数据修复脚本，非构建流程一部分。
 
 ---

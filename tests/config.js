@@ -37,13 +37,8 @@ const SCAN_EXCLUDE_FILES = ['query-system/index.html', 'query-system/demo-scheme
  * 全部命中才豁免；ref 省略表示该文件该规则整体豁免。
  */
 const KNOWN_ISSUES = [
-  {
-    id: 'KI-1',
-    file: '采购与维护/家用新风机选购指南-简版.html',
-    rule: 'S2.1',
-    ref: '家用新风机选购指南-完整版.html',
-    reason: '完整版尚在 query-system/home/（真实死链）；重构方案 C1 迁入后删除本条',
-  },
+  // 已清偿并删除的条目：KI-1（新风机完整版死链，C1 迁入修复）、
+  // KI-11/KI-12（query-system/home 两页 body 滚动锁，随迁移修复/删除）——均于 2026-09 重构清偿。
   {
     id: 'KI-2', file: 'index.html', rule: 'S2.1', ref: '/brand/auth.css',
     reason: '根绝对路径引认证样式：Netlify 根部署有效，file:// 预览失效；重构时相对化（同步删 KI-3）',
@@ -67,14 +62,6 @@ const KNOWN_ISSUES = [
   {
     id: 'KI-10', file: '四季景点/古埃及展南沙周末家庭游/index.html', rule: 'S3.6',
     reason: '存量灯箱用 body 滚动锁，待按 §14.3 模板修复',
-  },
-  {
-    id: 'KI-11', file: 'query-system/home/新风机选购指南.html', rule: 'S3.6',
-    reason: '存量移动菜单用 body 滚动锁；该文件随重构 C1 迁移时一并处理',
-  },
-  {
-    id: 'KI-12', file: 'query-system/home/新风机选购指南 copy.html', rule: 'S3.6',
-    reason: '同 KI-11；副本文件随重构 B1 直接删除',
   },
 ];
 

@@ -137,6 +137,9 @@
 - 已有对应的游记段落（含真实照片 / 行车记录）
 
 **HTML 模板**：
+
+> 注：本子站**无本地模板目录**（原 `四季景点/src/` 已于 2026-09 重构删除）。全部可复用模板在仓库根 `home/src/`（`site-template.html` / `site-template-travelogue.html` / `site-template-travelogue-core.html`），用法见 `home/src/README.md`。
+
 ```html
 <button class="plan-btn" onclick="switchPlan('planXX')">
   <span class="plan-name">方案XX · 方案名称</span>

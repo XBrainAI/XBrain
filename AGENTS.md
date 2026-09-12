@@ -13,7 +13,7 @@
 - 仓库根 `index.html` 是**门户首页**（纯静态），以卡片网格聚合各子站点入口。
 - 子站点彼此独立，可为：纯静态 HTML（类型 A）、React+Vite SPA（类型 B）、多级导航（类型 C）。
 - **`query-system/` 是唯一需要构建的 SPA 子站点**，由根 `package.json` 的 `build` 脚本编排。
-- `query-system/publish.ps1` 指向**外部独立开发工作区**（`ws_workbuddy\ws_study8\*`）的本地同步脚本，其硬编码路径不属于本仓库。在本仓库内作业时，**以根 `npm run build` + `git push` 触发 Netlify 自动部署为唯一权威流程**，不要使用 `publish.ps1`。
+- `query-system` 的本地辅助脚本（`publish.ps1`/`start.bat`/`ngrok.bat`，硬编码指向外部工作区 `ws_workbuddy\ws_study8\*`）已于 **2026-09 周期性重构删除**。在本仓库内作业时，**以根 `npm run build` + `git push` 触发 Netlify 自动部署为唯一权威流程**。
 
 ---
 
@@ -46,7 +46,6 @@ home/
 │   ├── src/                # 源码（见 §5 数据管线）
 │   ├── audit_report.md     # 数据审核报告（含已知 FAIL/WARN 项，见 §10）
 │   ├── vite.config.ts      # base:'./' + 3 个自定义插件（见 §5.3）
-│   ├── publish.ps1 / start.bat / ngrok.bat  # 本地辅助脚本（外部路径，勿在本仓库用）
 │   └── package.json        # 子站点级脚本：dev/build/lint/test/preview
 │
 ├── 健康/                   # 【类型 C】家庭健康档案（多级导航）
@@ -424,7 +423,8 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 ## 10. 约束与陷阱（Gotchas）
 
 - **`rawData.ts` 是核心数据真源**：改 `database/` 下 MD 不会自动反映到查询系统分数列，须同步改 `rawData.ts` 内嵌字符串。
-- **`publish.ps1`/`start.bat` 路径外指**：本仓库内不使用，权威流程是根 `npm run build` + `git push`。
+- **本地辅助脚本已删除**（2026-09 重构）：`query-system/publish.ps1`/`start.bat`/`ngrok.bat` 不再存在，权威流程是根 `npm run build` + `git push`。
+- **认证遮罩不保护静态文件直链**：Netlify `publish="."` 发布整个仓库，XBrainAuth 只是前端 UI 遮罩，任何入库文件都可被直链下载。敏感档案（`健康/妈/MR-无需建立子站点/` 医疗影像 zip）与 AI 工作记忆（`.workbuddy/`）已于 2026-09 重构移出 git（本地保留，`.gitignore` 防回填）；**今后任何敏感/隐私文件不得入库**。
 - **SPA `base` 必须为 `'./'`**：否则相对路径部署资源 404。
 - **图片用相对路径**：子站点图片路径错乱多因未用相对路径或 `base` 配置错误。
 - **dist/node_modules 禁提交**：已在 `.gitignore`。
