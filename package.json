@@ -5,6 +5,8 @@
   "description": "XBrain 多子站点聚合部署",
   "scripts": {
     "build": "cd query-system && npm install && npm run build",
-    "dev": "cd query-system && npm run dev"
+    "dev": "cd query-system && npm run dev",
+    "test:repo": "node tests/run.js",
+    "test:repo:full": "node tests/run.js --deep"
   }
 }

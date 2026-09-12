@@ -103,10 +103,16 @@ home/
 | 单元测试 | `cd query-system; npm run test` | vitest run（一次性） |
 | 测试监听 | `cd query-system; npm run test:watch` | 开发期 |
 | Lint | `cd query-system; npm run lint` | eslint，提交前必跑 |
+| 全站回归（静态层） | `npm run test:repo`（根） | `tests/` 套件：门户/全站链接/品牌/生成页/配置/Python 语法，秒级只读 |
+| 全站回归（深层） | `npm run test:repo:full`（根） | 静态层 + 健康站一致性守卫 + SPA lint/test（棘轮基线）/build/dist 产物校验 |
+
+> 两者均自动生成 Markdown 测试报告至 `tests/reports/latest.md`（含结论、逐用例明细、失败详情与债务快照；目录已 gitignore）。用例矩阵见 `tests/README.md`。
 | 部署 | `git push` | Netlify 自动执行 `npm run build` 并发布 |
 
 **harness 约束：**
-- 改动 `query-system/src/` 后，提交前**必须依次通过** `npm run lint` → `npm run test` → `npm run build`。三者全绿方可推送。
+- 改动 `query-system/src/` 后，提交前**必须依次通过** `npm run lint` → `npm run test` → `npm run build`。三者全绿方可推送（当前为存量红，见 `tests/baseline.json` 棘轮基线，重构只许改善不许恶化）。
+- **任何 HTML / 媒体 / 目录结构的改动（含定期重构）落地后，必须 `npm run test:repo` 全绿方可提交推送**；涉及 `query-system`、认证或部署配置时改跑 `npm run test:repo:full`。用例矩阵见 `tests/README.md`。
+- `tests/config.js` 的 `KNOWN_ISSUES` 是显式记账的存量债务豁免：**对应重构项落地时必须同步删除条目**，禁止为变绿静默加白。
 - `dist/` 与 `node_modules/` 已在 `.gitignore`，**禁止提交**。
 - 纯静态子站点（健康/景点/采购）改动后无需 build，但需本地浏览器验证链接与 Logo。
 
@@ -461,6 +467,7 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - [ ] 若改 `vite.config.ts` 插件，确认 build 产物含 `school-files-list.json`/`other-infos-list.json` 与复制资源
 
 ### 11.2 新增/改动纯静态子站点
+- [ ] **`npm run test:repo` 全绿（链接完整性/品牌/生成页约定，见 `tests/README.md`）**
 - [ ] 目录与 `index.html` 就位
 - [ ] 嵌入完整 XBrain Logo（按 §6.7 引用 `brand/XBRAIN-LOGO-IP.md` 代码模板注入），`href` 层级正确
 - [ ] 首屏元素已加 `id="top"` 锚点（IP 规范硬性要求）

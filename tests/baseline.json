@@ -1,0 +1,10 @@
+{
+  "comment": "SPA 内部门禁的已知红基线（棘轮模式）：b1f2208 大改数据模型（三年→四年）时未同步测试与 lint 即推送，形成存量红。规则：重构后失败数只许减少不许增加（由 deep 层自动校验并自动收紧基线）；当某项清偿为 0 时删除对应字段并将该门禁转严格。清偿任务已列入重构方案。",
+  "recordedAt": "2026-09-12",
+  "recordedCommit": "b889056",
+  "spaLintErrors": 95,
+  "spaLintWarnings": 1,
+  "spaTestFilesFailed": 6,
+  "spaTestsFailed": 57,
+  "spaTestsPassed": 304
+}
