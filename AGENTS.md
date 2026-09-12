@@ -425,6 +425,7 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **`rawData.ts` 是核心数据真源**：改 `database/` 下 MD 不会自动反映到查询系统分数列，须同步改 `rawData.ts` 内嵌字符串。
 - **本地辅助脚本已删除**（2026-09 重构）：`query-system/publish.ps1`/`start.bat`/`ngrok.bat` 不再存在，权威流程是根 `npm run build` + `git push`。
 - **认证遮罩不保护静态文件直链**：Netlify `publish="."` 发布整个仓库，XBrainAuth 只是前端 UI 遮罩，任何入库文件都可被直链下载。敏感档案（`健康/妈/MR-无需建立子站点/` 医疗影像 zip）与 AI 工作记忆（`.workbuddy/`）已于 2026-09 重构移出 git（本地保留，`.gitignore` 防回填）；**今后任何敏感/隐私文件不得入库**。
+- **入库视频必须 H.264（avc1）+ faststart**：iPhone「高效」HEVC(hvc1) 视频在 Chrome/Edge/多数安卓浏览器无法播放（2026-09 重构追补：37 个存量 HEVC 已批量转码为 H.264）。入库前用「兼容性最佳」导出，或经 `imageio-ffmpeg`（系统 Python 3.10 自带静态 ffmpeg）转码；回归套件 S7 编码守卫将拦截违规入库。单文件 ≤100MB（GitHub 硬限）。
 - **SPA `base` 必须为 `'./'`**：否则相对路径部署资源 404。
 - **图片用相对路径**：子站点图片路径错乱多因未用相对路径或 `base` 配置错误。
 - **dist/node_modules 禁提交**：已在 `.gitignore`。

@@ -72,6 +72,13 @@ push 前的完整门禁 = `test:repo:full` 全绿（等同 AGENTS §2 纪律的�
 |----|------|------|
 | S6.1 | 全部 .py 通过 ast.parse（只读，无 __pycache__ 副作用） | — |
 
+### S7 媒体编码守卫（static/media.test.js）
+| ID | 断言 | 依据 |
+|----|------|------|
+| S7.0 | 跟踪的视频文件数 ≥ 40（防漏扫） | — |
+| S7.1 | 全部 mp4/mov/webm 编码为 H.264/VP9，禁止 HEVC(hvc1/hev1)（Chrome/安卓不可播） | §10 视频编码铁律 |
+| S7.2 | MP4 必须 faststart（moov 前置，支持流式播放） | §10 |
+
 ### 深层（deep/，仅 test:repo:full）
 | ID | 断言 | 依据 |
 |----|------|------|
