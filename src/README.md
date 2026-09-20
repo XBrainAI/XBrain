@@ -12,7 +12,7 @@
 | `site-template.html` | 攻略 / 规划型模板（8 段结构、多方案切换、营业时间复核、天气评估） | 陌生 / 远 / 复杂、需**提前规划**的出行（周末家庭游、多方案亲子游） |
 | `site-template-travelogue.html` | **纯记录型模板**（轻量：总览 → 实录 → 美食 → 实用信息） | 熟悉 / 去过 / 近 / 简单、事前不规划、事后记录（生活点滴、轻游记） |
 | `site-template-travelogue-core.html` | ⭐ **记录核心模块（公共 · 单一来源）**：`.log-chapter` + `.food-card` 的 CSS/HTML/JS，被上述两个模板共同引用 | — |
-| `compress_media.sh` | 媒体压缩器核心（ffmpeg 保质量降体积：JPEG 重编码去 EXIF / PNG / 视频 H.264·H.265 CRF；仅收益 ≥`--min-saving`% 才替换原文件） | 媒体入库前的体积优化（用法见 §10） |
+| `compress_media.sh` | 媒体压缩器核心（ffmpeg 保质量降体积：JPEG 重编码去 EXIF / PNG / 视频 CRF 重编码；**hevc 输入强制转 H.264**（AGENTS §10 兼容性铁律，跳过收益门槛），其余仅收益 ≥`--min-saving`% 才替换原文件） | 媒体入库前的体积优化与编码合规（用法见 §10） |
 | `compress_media.py` | ⭐ 上一脚本的 **Windows 服务入口**：自动定位 ffmpeg+ffprobe（`static_ffmpeg`）与 Git Bash 并透传调用，中文输出不乱码 | 本机日常用这条（用法见 §10） |
 | `assets/ph1..6.svg` | 占位图（演示主图 + 缩略图切换）；预览用，正式子站须替换为真实图片 | — |
 | `assets/index.svg` | 首图占位演示图（命名 `index.*` 会被自动选为主图）；正式子站用它替换成你自己的 `index.*` 或直接删掉 | — |
@@ -202,11 +202,11 @@ python src/compress_media.py --video-only --webp .
 |------|------|------|
 | jpg/jpeg | 重编码 JPEG + 去 EXIF 元数据 | `-q:v 3`（≈质量 85） |
 | png | 重编码 PNG；**含透明通道的自动跳过**（防丢 alpha） | compression_level 9 |
-| h264 视频 | libx264 CRF20 重编码，音轨 aac/mp3 直接 copy | preset slow |
-| hevc 视频 | libx265 CRF24（hvc1 tag），音轨 copy | preset slow |
+| h264 视频 | libx264 CRF20 重编码（yuv420p），音轨 aac/mp3 直接 copy | preset slow |
+| hevc 视频 | **强制转 libx264 CRF20（yuv420p）**——HEVC 在 Chrome/安卓不可播，属入库铁律（AGENTS §10）；体积可能不降反升，**跳过收益门槛一律替换**（2026-09-20 修复，原误转 libx265 仍被媒体守卫拦截） | preset slow |
 | 其他编码 | 统一转 H.264 CRF20 → 满足入库铁律 | mp4/mov 加 +faststart |
 
-**安全阀**：只有比原文件小 ≥`--min-saving`%（默认 5）才替换原文件，否则保留；<`--min-size` KB（默认 200）的图片直接跳过；`--backup-dir` 替换前按相对路径镜像备份原件。
+**安全阀**：只有比原文件小 ≥`--min-saving`%（默认 5）才替换原文件，否则保留；<`--min-size` KB（默认 200）的图片直接跳过；`--backup-dir` 替换前按相对路径镜像备份原件。**例外**：hevc 输入强制替换，不看收益门槛——目标是「能播」而非「更小」。
 
 ### 10.3 依赖与环境（一次性）
 
@@ -228,3 +228,4 @@ python src/compress_media.py --video-only --webp .
 - 实压 + `--backup-dir`：合计 14.5M → 2.9M（省 80%）；备份件尺寸与原文件逐字一致。
 - 产物核验：`ffprobe` 输出 `h264, yuv420p` + `aac`（音轨在）；moov 位于文件头部（faststart 成立）。
 - 中文输出经入口接管 UTF-8→GBK 转发，PowerShell 5 下无乱码。
+- **hevc 强制转 H.264 修复复验**（2026-09-20，西樵山游记真实 HEVC 素材 0.30MB）：实跑后输出 `h264, yuv420p` + moov@head，体积 0.30MB → 0.61MB（变大的情况下仍强制替换，收益门槛正确绕过），HEVC 原件进入 `--backup-dir`。修复动机：hevc 分支原为 libx265（hvc1 tag），被 pre-commit 媒体守卫（`tests/hooks/scan-media.js`）拒绝，与 AGENTS §10 矛盾。

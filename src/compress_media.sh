@@ -6,9 +6,11 @@
 #   图片 jpg/jpeg : 重编码 JPEG（默认 -q:v 3 ≈ 质量85），默认去除 EXIF 等元数据
 #   图片 png      : 重编码 PNG（含透明通道的跳过），仅在更小时才替换
 #   视频 h264     : libx264  CRF20（默认），音频流直接 copy 不重编码
-#   视频 hevc     : libx265  CRF24（默认），写 hvc1 tag，音频 copy
+#   视频 hevc     : 强制转 libx264 CRF20 + yuv420p + faststart（AGENTS §10 兼容性铁律：
+#                     HEVC 在 Chrome/Edge/安卓无法播放；体积可能不降反升，
+#                     本分支跳过 --min-saving 收益门槛，一律替换）
 #   其他视频编码  : 统一转 h264 CRF20
-#   所有输出只有比原文件小 --min-saving% 以上才会替换原文件，否则保留原文件
+#   除 hevc（兼容性强制替换）外，其余输出只有比原文件小 --min-saving% 以上才替换原文件
 #
 # 用法:
 #   ./compress_media.sh [选项] [目录]     # 目录默认为当前目录
@@ -18,7 +20,7 @@
 #   --preset NAME      x264/x265 预设（默认 slow；ultrafast..veryslow）
 #   --jpeg-quality N   ffmpeg -q:v 档位（默认 3；2≈质量90，3≈85，4≈80，数字越小质量越高）
 #   --crf-h264 N       默认 20
-#   --crf-hevc N       默认 24
+#   --crf-hevc N       （已废弃：HEVC 一律强制转 H.264，见 AGENTS §10；参数保留仅为兼容）
 #   --webp             图片改转 WebP（体积更小，扩展名会变为 .webp）
 #   --keep-exif        保留图片元数据（默认去除；去 EXIF 一般还能省几百 KB/张）
 #   --min-saving PCT   压缩收益低于此百分比则放弃（默认 5）
@@ -37,7 +39,7 @@ FFPROBE=${FFPROBE:-ffprobe}
 
 DRY_RUN=0; JPEG_Q=3; CRF_H264=20; CRF_HEVC=24; PRESET=slow
 MIN_SAVING=5; MIN_IMG_KB=200; TO_WEBP=0; KEEP_EXIF=0
-BACKUP_DIR=""; DIR="."; FILTER="all"
+BACKUP_DIR=""; DIR="."; FILTER="all"; FORCE_COMMIT=0
 
 usage() { grep '^#   ' "$0" | sed 's/^#   //;s/^#//'; exit 0; }
 
@@ -103,11 +105,11 @@ do_backup() {
   cp -p "$1" "$dir/$(basename "$rel")"
 }
 
-commit() { # 收益达标才落地: $1=tmp $2=orig $3=原大小
+commit() { # 收益达标才落地: $1=tmp $2=orig $3=原大小；FORCE_COMMIT=1 时跳过收益门槛（hevc 兼容性强制替换）
   local tmp=$1 orig=$2 old=$3 new
   new=$(filesize "$tmp")
   local gain=$(( (old - new) * 100 / (old>0?old:1) ))
-  if [ "$new" -ge "$old" ] || [ "$gain" -lt "$MIN_SAVING" ]; then
+  if [ "$FORCE_COMMIT" -ne 1 ] && { [ "$new" -ge "$old" ] || [ "$gain" -lt "$MIN_SAVING" ]; }; then
     rm -f "$tmp"; N_SKIP=$((N_SKIP+1))
     printf '  [跳过] 收益 %d%% < %d%%，保留原文件\n' "$gain" "$MIN_SAVING"
     return 0
@@ -116,6 +118,9 @@ commit() { # 收益达标才落地: $1=tmp $2=orig $3=原大小
   if [ "$DRY_RUN" -eq 0 ]; then
     do_backup "$orig"
     mv -f "$tmp" "$orig"
+    if [ "$FORCE_COMMIT" -eq 1 ]; then
+      printf '  [兼容] HEVC→H.264 强制替换（体积收益不作要求，浏览器可播优先）\n'
+    fi
   fi
   TOTAL_IN=$((TOTAL_IN+old)); TOTAL_OUT=$((TOTAL_OUT+new)); N_DONE=$((N_DONE+1))
   printf '  [完成] %s -> %s （省 %d%%）\n' "$(human "$old")" "$(human "$new")" "$gain"
@@ -149,9 +154,9 @@ compress_video() {
   vcodec=$(probe_video "$f"); acodec=$(probe_audio "$f")
   local venc acode
   case "$vcodec" in
-    h264) venc=(-c:v libx264 -crf "$CRF_H264" -preset "$PRESET") ;;
-    hevc|h265) venc=(-c:v libx265 -crf "$CRF_HEVC" -preset "$PRESET" -tag:v hvc1) ;;
-    *) venc=(-c:v libx264 -crf "$CRF_H264" -preset "$PRESET") ;;
+    h264) FORCE_COMMIT=0; venc=(-c:v libx264 -crf "$CRF_H264" -preset "$PRESET" -pix_fmt yuv420p) ;;
+    hevc|h265) FORCE_COMMIT=1; venc=(-c:v libx264 -crf "$CRF_H264" -preset "$PRESET" -pix_fmt yuv420p) ;;
+    *) FORCE_COMMIT=0; venc=(-c:v libx264 -crf "$CRF_H264" -preset "$PRESET" -pix_fmt yuv420p) ;;
   esac
   case "$acodec" in
     aac|mp3) acode=(-c:a copy) ;;

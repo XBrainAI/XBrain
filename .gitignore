@@ -33,3 +33,6 @@ tests/reports/
 # --- 环境变量 ---
 .env
 .envrc
+
+# --- 媒体转码前的 HEVC 原件备份（仅本地保留，禁止入库；见 AGENTS §10 入库视频必须 H.264）---
+**/_hevc_originals_*/
