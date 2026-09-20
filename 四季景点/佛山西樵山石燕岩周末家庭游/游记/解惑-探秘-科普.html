@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>解惑 · 探秘 · 科普 —— 西樵山与石燕岩家庭问答手册</title>
+<style>
+  :root{
+    --paper:#faf7f1; --panel:#fffdf9; --line:#e6ded0;
+    --ink:#2b2a26; --muted:#6f6a5e;
+    --teal:#2f6f6a; --teal-bg:#e9f2f0;
+    --rock:#a8402f; --rock-bg:#f7e9e3;
+    --water:#3d7ea6; --water-bg:#e8f1f6;
+    --gold:#b07d2b; --hl:#c0392b;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--paper); color:var(--ink); line-height:1.85; font-size:16px;
+  }
+  .page{max-width:960px; margin:0 auto; padding:0 20px 80px;}
+  header.hero{
+    margin:0 -20px; padding:64px 20px 48px; text-align:center;
+    background:linear-gradient(180deg,#eef2ee 0%, var(--paper) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  header.hero .kicker{letter-spacing:.4em; font-size:13px; color:var(--muted); margin-bottom:14px;}
+  header.hero h1{
+    font-family:"Noto Serif SC","Source Han Serif SC","STZhongsong","SimSun",serif;
+    font-size:34px; letter-spacing:.06em; color:var(--ink);
+  }
+  header.hero h1 em{font-style:normal; color:var(--rock);}
+  header.hero .sub{margin-top:14px; color:var(--muted); font-size:15px;}
+  nav.toc{
+    display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+    margin:26px auto 0; max-width:820px;
+  }
+  nav.toc a{
+    text-decoration:none; font-size:13.5px; color:var(--teal);
+    background:var(--panel); border:1px solid var(--line); border-radius:999px;
+    padding:6px 14px; transition:.2s;
+  }
+  nav.toc a:hover{background:var(--teal); color:#fff; border-color:var(--teal);}
+  section{margin-top:64px;}
+  .sec-head{display:flex; align-items:baseline; gap:14px; border-bottom:3px double var(--line); padding-bottom:12px; margin-bottom:24px;}
+  .sec-head .no{
+    font-family:Georgia,serif; font-size:40px; color:var(--rock); font-weight:700; line-height:1;
+  }
+  .sec-head h2{
+    font-family:"Noto Serif SC","Source Han Serif SC","STZhongsong","SimSun",serif;
+    font-size:26px; letter-spacing:.04em;
+  }
+  .sec-head .en{margin-left:auto; font-size:12px; color:var(--muted); letter-spacing:.2em;}
+  h3{font-size:19px; margin:34px 0 12px; color:var(--teal); letter-spacing:.03em;}
+  h3 .dot{display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--rock); margin-right:9px; vertical-align:2px;}
+  p{margin:10px 0;}
+  p.lead{font-size:16.5px;}
+  .qa{
+    background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--teal);
+    border-radius:0 10px 10px 0; padding:14px 18px; margin:18px 0;
+  }
+  .qa .q{font-weight:700; color:var(--teal);}
+  .qa .a{color:var(--muted); font-size:14.5px;}
+  .chips{display:flex; flex-wrap:wrap; gap:10px; margin:16px 0;}
+  .chip{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:8px 16px; text-align:center; min-width:110px;
+  }
+  .chip b{display:block; font-size:20px; color:var(--rock); font-family:Georgia,serif;}
+  .chip span{font-size:12.5px; color:var(--muted);}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin:16px 0;}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px;
+  }
+  .card h4{font-size:15.5px; margin-bottom:6px; color:var(--ink);}
+  .card h4 .tag{
+    display:inline-block; font-size:11px; color:#fff; background:var(--teal);
+    border-radius:4px; padding:1px 7px; margin-right:8px; vertical-align:2px; letter-spacing:.1em;
+  }
+  .card.rockcard h4 .tag{background:var(--rock);}
+  .card.watercard h4 .tag{background:var(--water);}
+  .card p{font-size:13.8px; color:#4d493f; line-height:1.75;}
+  table.data{
+    width:100%; border-collapse:collapse; margin:18px 0; font-size:14px; background:var(--panel);
+    border-radius:10px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  table.data th{
+    background:var(--teal); color:#fff; padding:9px 10px; font-weight:600; white-space:nowrap;
+  }
+  table.data td{padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  table.data tr:last-child td{border-bottom:none;}
+  table.data tr.hl td{background:#fdf3ef; font-weight:600;}
+  table.data .note{color:var(--muted); font-size:12.5px;}
+  figure{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:20px 16px 14px; margin:22px 0; overflow-x:auto;
+  }
+  figure svg{display:block; margin:0 auto; max-width:100%; height:auto;}
+  figcaption{
+    text-align:center; font-size:13px; color:var(--muted); margin-top:10px; padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  figcaption b{color:var(--teal);}
+  .timeline{margin:20px 0 10px; padding-left:6px;}
+  .tl-item{position:relative; padding:0 0 22px 30px; border-left:2px solid var(--line);}
+  .tl-item:last-child{border-left-color:transparent;}
+  .tl-item::before{
+    content:""; position:absolute; left:-7px; top:6px; width:12px; height:12px; border-radius:50%;
+    background:var(--rock); border:3px solid var(--paper); box-shadow:0 0 0 1px var(--rock);
+  }
+  .tl-item .era{font-weight:700; color:var(--rock); font-size:15px;}
+  .tl-item .txt{font-size:14.2px; color:#4d493f;}
+  .callout{
+    background:var(--teal-bg); border:1px solid #cfe0dd; border-radius:12px;
+    padding:14px 18px; margin:16px 0; font-size:14.5px;
+  }
+  .callout.warn{background:var(--rock-bg); border-color:#eed3c9;}
+  .callout.water{background:var(--water-bg); border-color:#cfe1ec;}
+  .callout b.t{color:var(--teal);}
+  .callout.warn b.t{color:var(--rock);}
+  .callout.water b.t{color:var(--water);}
+  ul.clean{list-style:none; margin:10px 0;}
+  ul.clean li{padding-left:26px; position:relative; margin:8px 0; font-size:14.8px;}
+  ul.clean li::before{content:"◆"; position:absolute; left:4px; color:var(--gold); font-size:11px; top:4px;}
+  ol.task{margin:12px 0 0 22px; font-size:14.8px;}
+  ol.task li{margin:10px 0;}
+  ol.task li b{color:var(--rock);}
+  .src{font-size:13px; color:var(--muted); line-height:2;}
+  .src li{list-style:none; padding-left:20px; position:relative;}
+  .src li::before{content:"·"; position:absolute; left:6px; font-weight:700;}
+  footer{margin-top:70px; padding-top:18px; border-top:1px solid var(--line); text-align:center; color:var(--muted); font-size:12.5px;}
+  .divider{height:1px; background:linear-gradient(90deg,transparent,var(--line),transparent); margin:44px 0;}
+  .mtn-tag{display:inline-block; font-size:12px; border-radius:4px; padding:1px 8px; color:#fff; margin:0 2px 4px 0;}
+  @media (max-width:640px){
+    header.hero h1{font-size:26px;}
+    .sec-head h2{font-size:21px;}
+    body{font-size:15px;}
+  }
+  @media print{
+    body{background:#fff;}
+    figure{break-inside:avoid;}
+    section{break-inside:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="kicker">家 庭 游 资 料 · 准 备 篇</div>
+  <h1>解惑 · 探秘 · 科普<br><em>西樵山与石燕岩</em>十万个为什么</h1>
+  <div class="sub">—— 写给 2026 年 9 月 19 日一起「上山 · 入洞 · 下水」的我们 ——</div>
+  <nav class="toc">
+    <a href="#s1">壹 · 这山究竟有多大</a>
+    <a href="#s2">贰 · 西樵山身世</a>
+    <a href="#s3">叁 · 石燕岩石工厂</a>
+    <a href="#s4">肆 · 洞中三大谜题</a>
+    <a href="#s5">伍 · 下次的亲子任务</a>
+    <a href="#s6">陆 · 资料来源</a>
+  </nav>
+</header>
+
+<!-- ================= 卷首语 ================= -->
+<div class="qa" style="margin-top:40px;">
+  <div class="q">卷首语 · 这份材料从哪来？</div>
+  <div class="a">
+    那天观光车在山里开了很久还没到头，大家冒出一句「这山究竟有多大？」；船行暗湖，灯影掠过水下的采石台阶，「水深 48 米」的警示牌缓缓退去——水是哪来的？为什么这么清？古人为什么拼命往地底下采石头？洞里到底长什么样？<br>
+    这份手册就是为这些好奇心准备的：把查证的官方资料、考古报道与地质知识整理成四问，配上示意图。它们是「探秘弟」望远镜里的远方，也是「渺小爸」脚下那片巨洞的答案。
+  </div>
+</div>
+
+<!-- ================= 第一问 ================= -->
+<section id="s1">
+  <div class="sec-head">
+    <span class="no">壹</span>
+    <h2>这山究竟有多大？——与广东名山比一比</h2>
+    <span class="en">HOW BIG IS XIQIAO?</span>
+  </div>
+
+  <p class="lead">先给结论：<b>西樵山其实「个子不高、个头不大」，但在广东名山里资历极老</b>——它是一座从珠三角平原上拔地而起的古火山，广东四大名山之一，而且很可能是四大名山里「文化厚度」最高的一座。</p>
+
+  <h3><span class="dot"></span>广东名山档案总表</h3>
+  <table class="data">
+    <tr><th>名山</th><th>所在地</th><th>面积</th><th>主峰海拔</th><th>一句话名片</th></tr>
+    <tr><td>丹霞山</td><td>韶关仁化</td><td>约 292 km²</td><td>巴寨 618 m</td><td>世界自然遗产，「丹霞地貌」全球命名地</td></tr>
+    <tr><td>罗浮山</td><td>惠州博罗</td><td>约 214.8 km²</td><td>飞云顶 1296 m</td><td>「岭南第一山」，道教第七洞天，葛洪炼丹处</td></tr>
+    <tr><td>南昆山</td><td>惠州龙门</td><td>约 129 km²</td><td>天堂顶 1210 m</td><td>「北回归线上的绿洲」，珠三角后花园</td></tr>
+    <tr><td>圭峰山</td><td>江门新会</td><td>约 55.1 km²</td><td>约 545 m</td><td>珠三角绿肺，圭峰叠翠</td></tr>
+    <tr><td>白云山</td><td>广州</td><td>约 20.98 km²</td><td>摩星岭 382 m</td><td>「羊城第一秀」，五A城区名山</td></tr>
+    <tr class="hl"><td>西樵山 ★</td><td>佛山南海</td><td>山体约 13.03 km²</td><td>大科峰 344 m</td><td>古火山 ·「珠江文明的灯塔」· 理学名山</td></tr>
+    <tr><td>鼎湖山</td><td>肇庆鼎湖</td><td>约 11.33 km²</td><td>鸡笼山 1000.3 m</td><td>我国第一个国家级自然保护区（1956）</td></tr>
+  </table>
+  <p class="note" style="font-size:12.5px;color:var(--muted);">注：面积口径不一（山体本体 / 风景名胜区 / 自然保护区），上表取常见官方口径；西樵山另有「景区 14 km²」「旅游区 20 km²」等说法，指的范围不同。</p>
+
+  <h3><span class="dot"></span>图一 · 面积对比：西樵山其实是个「小个子」</h3>
+  <figure>
+    <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="广东名山面积对比条形图">
+      <text x="340" y="22" text-anchor="middle" font-size="14" fill="#2b2a26" font-weight="bold">广东主要名山面积对比（km²）</text>
+      <!-- gridline -->
+      <line x1="128" y1="34" x2="128" y2="312" stroke="#d8d0c0" stroke-width="1"/>
+      <!-- bars: scale = area/292*430 -->
+      <!-- 丹霞山 292 -->
+      <text x="120" y="60" text-anchor="end" font-size="13" fill="#2b2a26">丹霞山</text>
+      <rect x="128" y="46" width="430" height="24" rx="4" fill="#8fae9f"/>
+      <text x="564" y="63" font-size="13" fill="#4d493f">292</text>
+      <!-- 罗浮山 214.8 -->
+      <text x="120" y="94" text-anchor="end" font-size="13" fill="#2b2a26">罗浮山</text>
+      <rect x="128" y="80" width="316" height="24" rx="4" fill="#8fae9f"/>
+      <text x="450" y="97" font-size="13" fill="#4d493f">214.8</text>
+      <!-- 南昆山 129 -->
+      <text x="120" y="128" text-anchor="end" font-size="13" fill="#2b2a26">南昆山</text>
+      <rect x="128" y="114" width="190" height="24" rx="4" fill="#8fae9f"/>
+      <text x="324" y="131" font-size="13" fill="#4d493f">129</text>
+      <!-- 圭峰山 55.1 -->
+      <text x="120" y="162" text-anchor="end" font-size="13" fill="#2b2a26">圭峰山</text>
+      <rect x="128" y="148" width="81" height="24" rx="4" fill="#8fae9f"/>
+      <text x="215" y="165" font-size="13" fill="#4d493f">55.1</text>
+      <!-- 白云山 20.98 -->
+      <text x="120" y="196" text-anchor="end" font-size="13" fill="#2b2a26">白云山</text>
+      <rect x="128" y="182" width="31" height="24" rx="4" fill="#8fae9f"/>
+      <text x="165" y="199" font-size="13" fill="#4d493f">20.98</text>
+      <!-- 西樵山 13.03 highlight -->
+      <text x="120" y="230" text-anchor="end" font-size="13" font-weight="bold" fill="#a8402f">西樵山</text>
+      <rect x="128" y="216" width="19.2" height="24" rx="4" fill="#a8402f"/>
+      <text x="153" y="233" font-size="13" font-weight="bold" fill="#a8402f">13.03</text>
+      <text x="200" y="233" font-size="12" fill="#a8402f">← 我们来的这座</text>
+      <!-- 鼎湖山 11.33 -->
+      <text x="120" y="264" text-anchor="end" font-size="13" fill="#2b2a26">鼎湖山</text>
+      <rect x="128" y="250" width="16.7" height="24" rx="4" fill="#8fae9f"/>
+      <text x="151" y="267" font-size="13" fill="#4d493f">11.33</text>
+      <text x="128" y="300" font-size="12" fill="#6f6a5e">※ 若按景区口径 14 km²、旅游区口径 20 km²，西樵山与白云山大致相当，但都远小于丹霞、罗浮。</text>
+    </svg>
+    <figcaption><b>图一</b> | 广东主要名山面积对比。广东四大名山（丹霞、罗浮、鼎湖、西樵）中，西樵山面积倒数第二，仅比鼎湖山略大。</figcaption>
+  </figure>
+
+  <h3><span class="dot"></span>图二 · 海拔对比：西樵山是四大名山里的「最矮个」</h3>
+  <figure>
+    <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="广东名山海拔对比山峰图">
+      <text x="340" y="22" text-anchor="middle" font-size="14" fill="#2b2a26" font-weight="bold">广东主要名山主峰海拔对比（米）</text>
+      <!-- gridlines: scale px = m/1296*230 ; baseline y=282 -->
+      <line x1="20" y1="282" x2="660" y2="282" stroke="#8a8271" stroke-width="1.5"/>
+      <line x1="20" y1="194" x2="660" y2="194" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+      <text x="24" y="190" font-size="11" fill="#9a9384">500 m</text>
+      <line x1="20" y1="105" x2="660" y2="105" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+      <text x="24" y="101" font-size="11" fill="#9a9384">1000 m</text>
+      <!-- 罗浮山 1296 -> h=230, peak y=52; cx=70 w=84 -->
+      <path d="M28,282 L70,52 L112,282 Z" fill="#8fae9f" opacity=".85"/>
+      <text x="70" y="44" text-anchor="middle" font-size="12" fill="#4d493f" font-weight="bold">罗浮山 1296</text>
+      <!-- 南昆山 1210 -> h=215, peak y=67; cx=155 -->
+      <path d="M113,282 L155,67 L197,282 Z" fill="#8fae9f" opacity=".85"/>
+      <text x="155" y="59" text-anchor="middle" font-size="12" fill="#4d493f" font-weight="bold">南昆山 1210</text>
+      <!-- 鼎湖山 1000.3 -> h=178, peak y=104; cx=240 -->
+      <path d="M198,282 L240,104 L282,282 Z" fill="#8fae9f" opacity=".85"/>
+      <text x="240" y="96" text-anchor="middle" font-size="12" fill="#4d493f" font-weight="bold">鼎湖山 1000.3</text>
+      <!-- 丹霞山 618 -> h=110, peak y=172; cx=325 -->
+      <path d="M283,282 L325,172 L367,282 Z" fill="#8fae9f" opacity=".85"/>
+      <text x="325" y="164" text-anchor="middle" font-size="12" fill="#4d493f" font-weight="bold">丹霞山 618</text>
+      <!-- 圭峰山 545 -> h=97, peak y=185; cx=410 -->
+      <path d="M368,282 L410,185 L452,282 Z" fill="#8fae9f" opacity=".85"/>
+      <text x="410" y="177" text-anchor="middle" font-size="12" fill="#4d493f" font-weight="bold">圭峰山 545</text>
+      <!-- 白云山 382 -> h=68, peak y=214; cx=495 -->
+      <path d="M453,282 L495,214 L537,282 Z" fill="#8fae9f" opacity=".85"/>
+      <text x="495" y="206" text-anchor="middle" font-size="12" fill="#4d493f" font-weight="bold">白云山 382</text>
+      <!-- 西樵山 344 -> h=61, peak y=221; cx=580 highlight -->
+      <path d="M538,282 L580,221 L622,282 Z" fill="#a8402f" opacity=".92"/>
+      <circle cx="580" cy="243" r="3" fill="#fff" opacity=".9"/>
+      <text x="580" y="213" text-anchor="middle" font-size="12" font-weight="bold" fill="#a8402f">西樵山 344</text>
+      <text x="580" y="300" text-anchor="middle" font-size="11.5" fill="#a8402f">我们登的大科峰——比广州白云山还矮 38 米</text>
+      <text x="340" y="314" text-anchor="middle" font-size="12" fill="#6f6a5e">山不在高——西樵山靠的不是海拔，是「从平原上拔起的火山」与六千年文明。</text>
+    </svg>
+    <figcaption><b>图二</b> | 主峰海拔对比。西樵山大科峰 344 米，是广东四大名山中最矮的一座。</figcaption>
+  </figure>
+
+  <div class="callout">
+    <b class="t">那为什么观光车开了那么久，感觉山特别大？</b><br>
+    ① <b>平地孤山，没有参照物</b>：西樵山不是群山中的一峰，而是从珠三角平原、桑基鱼塘之上「平地拔起」的独立山体，四面皆是低平的田园村镇，一眼望去整座山就是全部视野，天然显得庞大。<br>
+    ② <b>底盘宽</b>：山体直径约 4 公里，周长十几公里——观光车沿盘山公路绕行，一站接一站，当然坐了「许久还没到头」。<br>
+    ③ <b>峰多洞深</b>：72 座山峰簇拥如莲，36 个岩洞藏于山中，路网在峰谷间穿行，曲折感放大了体量。<br>
+    ④ <b>对比参照错了</b>：拿市区小山岗当参照，西樵山当然是巨无霸；但放进广东名山队列，它是「小而精」的那一个——13 平方公里上叠着火山地质、史前石器场、明清书院、水下采石场四层「文化地层」，密度全国罕见。
+  </div>
+</section>
+
+<!-- ================= 第二问 ================= -->
+<section id="s2">
+  <div class="sec-head">
+    <span class="no">贰</span>
+    <h2>西樵山身世——一座会讲故事的火山</h2>
+    <span class="en">THE VOLCANO THAT TALKS</span>
+  </div>
+
+  <h3><span class="dot"></span>地理档案</h3>
+  <div class="chips">
+    <div class="chip"><b>13.03</b><span>山体面积 km²</span></div>
+    <div class="chip"><b>344 m</b><span>主峰大科峰</span></div>
+    <div class="chip"><b>4 km</b><span>山体直径</span></div>
+    <div class="chip"><b>72</b><span>座奇峰</span></div>
+    <div class="chip"><b>36</b><span>个岩洞</span></div>
+    <div class="chip"><b>232</b><span>眼清泉</span></div>
+    <div class="chip"><b>28</b><span>处飞瀑</span></div>
+    <div class="chip"><b>~4500万</b><span>年火山年龄</span></div>
+  </div>
+  <p>西樵山位于<b>佛山市南海区西南部</b>，地处珠江三角洲腹地，<b>东临北江、西濒西江</b>，北距佛山约 25 公里、广州约 45 公里。它是一座<b>死火山</b>，也是<b>珠三角地区保存最完整的火山地质遗址</b>——「未有珠三角，先有西樵山」。如今的荣誉柜里摆着：国家重点风景名胜区（1988）、国家森林公园、国家地质公园、国家 5A 级旅游景区（2013）。</p>
+
+  <h3><span class="dot"></span>火山是怎么把自己「堆」出来的？</h3>
+  <p>约 <b>4500 万—5100 万年前</b>（地质年代属古近纪），珠江三角洲还是一片古海湾。海底火山喷发，大量岩浆在海水中冷却凝固，先堆出一个锥状山体；此后又经历多次「喷溢—爆发」，在大锥体上叠出许多小锥体，最终形成<b>峰峦簇拥、状若莲花</b>的西樵山。山体以<b>粗面岩</b>为主，兼有凝灰岩、火山角砾岩、霏细岩等火山岩。</p>
+
+  <figure>
+    <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="西樵山火山形成四阶段">
+      <text x="340" y="20" text-anchor="middle" font-size="14" fill="#2b2a26" font-weight="bold">西樵山火山形成四部曲（约 4500 万年前至今）</text>
+      <!-- panel 1: submarine eruption -->
+      <g>
+        <rect x="18" y="34" width="148" height="140" rx="10" fill="#e8f1f6" stroke="#cfe1ec"/>
+        <path d="M18,120 Q92,112 166,120 L166,174 L18,174 Z" fill="#b9d6e6"/>
+        <path d="M66,120 L92,58 L118,120 Z" fill="#a8402f"/>
+        <path d="M86,58 L92,34 L98,58" fill="none" stroke="#a8402f" stroke-width="3"/>
+        <circle cx="92" cy="40" r="5" fill="#c0392b"/><circle cx="80" cy="48" r="3" fill="#c0392b"/><circle cx="104" cy="47" r="3.5" fill="#c0392b"/>
+        <text x="92" y="166" text-anchor="middle" font-size="11.5" fill="#3d5a6b">① 古海湾 · 海底喷发</text>
+        <text x="92" y="194" text-anchor="middle" font-size="11" fill="#6f6a5e">岩浆从海底破口而出</text>
+      </g>
+      <path d="M170,104 L186,104" stroke="#b07d2b" stroke-width="2" marker-end="url(#arw)"/>
+      <!-- panel 2: cone -->
+      <g>
+        <rect x="190" y="34" width="148" height="140" rx="10" fill="#fdf3ef" stroke="#eed3c9"/>
+        <path d="M190,110 Q264,104 338,110 L338,174 L190,174 Z" fill="#b9d6e6"/>
+        <path d="M214,120 L264,52 L314,120 Z" fill="#b4532a"/>
+        <path d="M228,120 L264,72 L300,120" fill="none" stroke="#8a3223" stroke-width="1.5" opacity=".6"/>
+        <text x="264" y="166" text-anchor="middle" font-size="11.5" fill="#7a3120">② 岩浆冷凝 · 锥状山体</text>
+        <text x="264" y="194" text-anchor="middle" font-size="11" fill="#6f6a5e">粗面岩堆出海岛</text>
+      </g>
+      <path d="M342,104 L358,104" stroke="#b07d2b" stroke-width="2" marker-end="url(#arw)"/>
+      <!-- panel 3: multiple cones -->
+      <g>
+        <rect x="362" y="34" width="148" height="140" rx="10" fill="#fdf3ef" stroke="#eed3c9"/>
+        <path d="M376,140 L404,84 L432,140 Z" fill="#b4532a"/>
+        <path d="M410,144 L440,70 L472,144 Z" fill="#a8402f"/>
+        <path d="M446,142 L478,92 L506,142 Z" fill="#b4532a"/>
+        <text x="436" y="166" text-anchor="middle" font-size="11.5" fill="#7a3120">③ 多次喷发 · 状若莲花</text>
+        <text x="436" y="194" text-anchor="middle" font-size="11" fill="#6f6a5e">大锥叠小锥，72峰簇拥</text>
+      </g>
+      <path d="M514,104 L530,104" stroke="#b07d2b" stroke-width="2" marker-end="url(#arw)"/>
+      <!-- panel 4: eroded -->
+      <g>
+        <rect x="534" y="34" width="148" height="140" rx="10" fill="#eef2ee" stroke="#d6e0d4"/>
+        <path d="M540,150 L562,96 L580,128 L600,82 L622,120 L644,100 L672,150 Z" fill="#5e7d5e" opacity=".9"/>
+        <path d="M600,86 L600,110" stroke="#3d7ea6" stroke-width="2" stroke-dasharray="3 3"/>
+        <circle cx="566" cy="60" r="8" fill="#e8c46a"/>
+        <text x="608" y="166" text-anchor="middle" font-size="11.5" fill="#3d5a3d">④ 风化剥蚀 · 奇峰异洞</text>
+        <text x="608" y="194" text-anchor="middle" font-size="11" fill="#6f6a5e">断块抬升，泉瀑洞谷齐备</text>
+      </g>
+      <text x="340" y="222" text-anchor="middle" font-size="12" fill="#6f6a5e">火山岩节理裂隙发育，流水沿裂隙下切、岩块沿断裂崩塌——造就 72 峰、36 洞、28 瀑、232 泉。</text>
+      <defs>
+        <marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#b07d2b"/>
+        </marker>
+      </defs>
+    </svg>
+    <figcaption><b>图三</b> | 西樵山火山演化示意：海底喷发 → 锥体成形 → 多锥叠莲 → 断块风化成今貌。</figcaption>
+  </figure>
+
+  <h3><span class="dot"></span>山里的三张「岩石名片」</h3>
+  <div class="cards">
+    <div class="card rockcard">
+      <h4><span class="tag">粗面岩</span>石燕岩的主角</h4>
+      <p>浅肉红—肉红色，致密坚硬、断口粗糙（故名「粗面」）。它就是古人开采的建筑石料——广州光孝寺的月台与石狮、肇庆古城墙都用它。</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag">霏细岩</span>史前石器的原料</h4>
+      <p>质地细腻均匀，易打制成形。六千年前珠三角的先民上山水面，用霏细岩打制出标志性的「双肩石器」。</p>
+    </div>
+    <div class="card">
+      <h4><span class="tag">凝灰岩 · 火山角砾岩</span>喷发的「碎屑记忆」</h4>
+      <p>火山灰与岩屑胶结而成，记录着一次次爆发的强度；九龙岩一带的角砾集块岩就是当年剧烈喷发的直接证据。</p>
+    </div>
+  </div>
+
+  <h3><span class="dot"></span>人文简史：一座山的六千年「履历」</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="era">约 6000 年前 · 新石器时代</div><div class="txt">珠三角先民上山采霏细岩，打制<b>双肩石器</b>。20 世纪 60 年代，考古学家贾兰坡等确认：西樵山是中国已知<b>最大的石器制造场之一</b>，孕育出独特的「西樵山文化」，被誉为<b>「珠江文明的灯塔」</b>，其影响沿江达海、远及南洋。</div></div>
+    <div class="tl-item"><div class="era">唐代</div><div class="txt">诗人<b>曹松</b>隐居于此，引种茶树教山民焙制，「云雾茶」名噪一时，西樵山因此别名<b>「茶山」</b>；山上建村，人口渐密。</div></div>
+    <div class="tl-item"><div class="era">宋代</div><div class="txt">成为游览胜地，宋人李昴英咏「巨石崚嶒削碧天，西樵奇胜岂虚传」。山脚石岗圩一带，<b>采石业肇始</b>（石燕岩最早开采可上溯至宋代，距今约 800 年）。</div></div>
+    <div class="tl-item"><div class="era">明代</div><div class="txt">理学大儒<b>湛若水、方献夫、霍韬</b>等相继筑居讲学，建起<b>大科、云谷、石泉、四峰</b>四大书院，科名鼎盛——主峰得名「大科峰」，山下集市称「官山墟」，西樵山赢得<b>「理学名山」</b>之誉（今仅存四峰书院遗址，为省级文保）。</div></div>
+    <div class="tl-item"><div class="era">清代</div><div class="txt">乾隆年间名士岑怀瑾建<b>三湖书院</b>；少年<b>康有为</b>在此读书养气，日后领导戊戌变法——「西樵先生」由此出山。</div></div>
+    <div class="tl-item"><div class="era">近现代</div><div class="txt">山下万亩<b>桑基鱼塘</b>被联合国教科文组织誉为「世间少有的美景、良性生态循环的典范」；禄舟村走出一代宗师<b>黄飞鸿</b>，西樵山成为<b>南狮发源地</b>；大仙峰上 61.9 米铜铸观音坐像矗立，为世界同类之最。</div></div>
+  </div>
+
+  <h3><span class="dot"></span>这座山为什么有那么多名字？</h3>
+  <table class="data">
+    <tr><th>名字</th><th>由来</th></tr>
+    <tr><td>锦石山</td><td>最初的名字——峰石纹理灿烂如锦。</td></tr>
+    <tr><td>西樵</td><td>古时广州人往东边的罗浮山砍柴，称「东樵」；往西边这座山砍柴，便叫「西樵」。东西二樵，从此齐名。</td></tr>
+    <tr><td>茶山</td><td>唐代曹松引种茶树，茶畦满岭。</td></tr>
+    <tr><td>理学名山</td><td>明代四大书院讲学之风盛极一时。</td></tr>
+    <tr><td>三教名山</td><td>儒（书院）、释（宝峰寺、白云古寺）、道（云泉仙馆）共居一山，相容并蓄。</td></tr>
+    <tr><td>会唱歌的山</td><td>232 眼泉、28 处瀑，叮咚轰鸣终年不歇。</td></tr>
+  </table>
+</section>
+
+<!-- ================= 第三问 ================= -->
+<section id="s3">
+  <div class="sec-head">
+    <span class="no">叁</span>
+    <h2>石燕岩——藏在水下的明代「石工厂」</h2>
+    <span class="en">THE SUNKEN QUARRY</span>
+  </div>
+
+  <p class="lead">那天在采石场绝壁前，铭牌写着「明代人工采石遗迹」。它真正的全名是<b>石燕岩采石场遗址</b>——一处从<b>宋代</b>一路开采到<b>明清</b>、由露天转入洞穴、最终被水淹没封存的古代大型采石场，也是<b>国内迄今发现的最大、最完整的水下古代生产遗址</b>。</p>
+
+  <div class="chips">
+    <div class="chip"><b>宋—清</b><span>开采年代（约800年）</span></div>
+    <div class="chip"><b>6万㎡</b><span>地面遗址规模</span></div>
+    <div class="chip"><b>数十万㎡</b><span>水下采石遗迹</span></div>
+    <div class="chip"><b>44 m</b><span>水下最深处（约）</span></div>
+    <div class="chip"><b>2019</b><span>全国重点文保单位</span></div>
+  </div>
+
+  <h3><span class="dot"></span>采石编年：从露天大坑到水下迷宫</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="era">宋代（约 800 年前）</div><div class="txt">珠三角建造需要大量石料，工匠发现西樵山粗面岩优质易采，<b>在山坡露天开采</b>。山脚西江、北江并流，石料装船沿珠江水网运往广东全境。</div></div>
+    <div class="tl-item"><div class="era">明代以前</div><div class="txt">以<b>露天开采</b>为主，山坡被逐级挖低。</div></div>
+    <div class="tl-item"><div class="era">明代以后</div><div class="txt">转入<b>洞穴开采</b>：以斜井掘进，顺石向深部推进，留下天窗格竖井与支撑柱，洞室「一格一格」有序相连。</div></div>
+    <div class="tl-item"><div class="era">明末—清代</div><div class="txt">考古推测采深突破 40 余米后<b>触及地下泉眼</b>，洞内逐渐渍水成湖，采石被迫停止——这场「事故」反而像琥珀一样，把古代工地原样封存。</div></div>
+    <div class="tl-item"><div class="era">2002 年</div><div class="txt">西樵山采石遗址列为<b>广东省文物保护单位</b>。</div></div>
+    <div class="tl-item"><div class="era">2008 年</div><div class="txt"><b>水下遗址被发现</b>，沉睡的水下采石场进入考古视野。</div></div>
+    <div class="tl-item"><div class="era">2015—2018 年</div><div class="txt">广东省文物考古研究所与国家文物局水下文化遗产保护中心多次<b>联合水下考古调查</b>（专家崔勇等数十次洞潜），用声呐三维成像与激光扫描揭开「水底龙宫」：水下有凿痕清晰的四壁、数百级台阶、码放整齐的石板半成品，还有铜灯台、青花瓷碗、竹梯、水桶与炉灶。</div></div>
+    <div class="tl-item"><div class="era">2019 年</div><div class="txt">列入<b>第八批全国重点文物保护单位</b>；2022 年入选「广东省十年十大重要考古发现（2012—2022）」。规模远超意大利加城水下采石场。</div></div>
+    <div class="tl-item"><div class="era">近年</div><div class="txt">石燕岩开放<b>游船探洞</b>——也就是我们戴上橙色头盔、穿上救生衣登船的那一段：约 15 分钟航程，穿过仅半身高的狭洞，「水深 48 米」的警示牌从船舷缓缓退去。</div></div>
+  </div>
+
+  <h3><span class="dot"></span>「石燕」是什么燕？</h3>
+  <p>据旧志与考古资料，此处「<b>因洞曾盛产石燕得名</b>」。至于「石燕」究竟是栖息洞中的燕群、状若飞燕的奇石，还是古人所说的化石「石燕」，尚无定论——这座山由海底火山喷发而成，藏着大海的记忆也顺理成章。洞边「石岗圩」村名倒是明明白白：那是当年石匠采石下山、摆圩卖石的集市。</p>
+
+  <h3><span class="dot"></span>三大奇观速览</h3>
+  <div class="cards">
+    <div class="card rockcard">
+      <h4><span class="tag">天窗格</span>明代「采光井」</h4>
+      <p>巨石横亘围出一口深井，井口如天窗。从绝壁下望只见岩壁陡峭、井底积水幽深；以石投井，约 7 秒才听到水面回响——「险煞万仞」。它是斜井掘进时代留给洞内采光、通风、定位的竖井。</p>
+    </div>
+    <div class="card rockcard">
+      <h4><span class="tag">石屏风</span>两矿区的「界墙」</h4>
+      <p>高约 20 米、宽仅 1 米。当年两个矿区各从坡面向下挖凿，坡越凿越低，中间的石埂便「浮」了出来，如指天巨剑、云底屏风。我们步道旁见到的那面「刀刃切面」，就是它。</p>
+    </div>
+    <div class="card rockcard">
+      <h4><span class="tag">石祠堂</span>水下的「仓储区」</h4>
+      <p>水下考古发现的洞室：支撑柱完好、数百块切割好的石板成品与半成品整齐码放，如同停工那天的仓库原样——旁边还留着灶台、铜灯台与青花瓷碗。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 第四问 ================= -->
+<section id="s4">
+  <div class="sec-head">
+    <span class="no">肆</span>
+    <h2>洞中三大谜题——水 · 深采 · 结构</h2>
+    <span class="en">THREE MYSTERIES</span>
+  </div>
+
+  <h3><span class="dot"></span>谜题一：洞里的水从哪里来？为什么这么清？</h3>
+  <p>先看答案的三层来历：</p>
+  <ul class="clean">
+    <li><b>官方表述</b>：长年累月开采，加上天长日久的侵蚀风化，洞内「渍水成湖」。</li>
+    <li><b>考古推测</b>：明代采深突破 40 余米，可能触发了地下泉眼，洞穴逐渐被淹没。</li>
+    <li><b>地质条件</b>：火山岩空隙多、节理裂隙发育，是天然的「贮水海绵」；西樵山地处南亚热带季风区，春夏多雨、地下水丰富——水，一直都在山里待命。</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="洞内水的来源示意剖面">
+      <text x="340" y="20" text-anchor="middle" font-size="14" fill="#2b2a26" font-weight="bold">石燕岩暗湖的水从哪里来？——一张剖面看懂</text>
+      <!-- sky -->
+      <rect x="0" y="30" width="680" height="60" fill="#e8f1f6"/>
+      <!-- clouds -->
+      <g fill="#cfe1ec">
+        <ellipse cx="90" cy="55" rx="26" ry="11"/><ellipse cx="112" cy="60" rx="18" ry="9"/>
+        <ellipse cx="250" cy="48" rx="22" ry="10"/><ellipse cx="270" cy="53" rx="15" ry="8"/>
+        <ellipse cx="470" cy="55" rx="24" ry="10"/><ellipse cx="492" cy="60" rx="16" ry="8"/>
+      </g>
+      <!-- rain arrows -->
+      <g stroke="#3d7ea6" stroke-width="2">
+        <line x1="90" y1="70" x2="90" y2="86"/><line x1="250" y1="62" x2="250" y2="78"/><line x1="470" y1="68" x2="470" y2="84"/>
+      </g>
+      <text x="90" y="100" text-anchor="middle" font-size="11" fill="#3d7ea6">充沛降雨</text>
+      <!-- mountain body -->
+      <path d="M0,290 L0,150 Q170,88 340,92 Q520,96 680,170 L680,290 Z" fill="#f0e2d6"/>
+      <!-- joints -->
+      <g stroke="#b98d63" stroke-width="1.4" stroke-dasharray="4 3" opacity=".85">
+        <line x1="180" y1="110" x2="205" y2="170"/><line x1="255" y1="100" x2="272" y2="165"/>
+        <line x1="330" y1="96" x2="330" y2="160"/><line x1="405" y1="100" x2="390" y2="168"/>
+        <line x1="480" y1="108" x2="470" y2="170"/><line x1="545" y1="120" x2="555" y2="185"/>
+      </g>
+      <!-- infiltration arrows -->
+      <g stroke="#3d7ea6" stroke-width="2" marker-end="url(#arw2)">
+        <path d="M200,120 L215,185" fill="none"/>
+        <path d="M330,110 L330,190" fill="none"/>
+        <path d="M465,125 L445,195" fill="none"/>
+      </g>
+      <text x="340" y="140" text-anchor="middle" font-size="11.5" fill="#3d7ea6">① 雨水沿节理裂隙下渗</text>
+      <!-- cave chamber with water -->
+      <path d="M150,252 Q340,200 530,252 L536,272 Q340,242 144,272 Z" fill="#7fb3d0"/>
+      <path d="M150,252 Q340,200 530,252 L530,290 L150,290 Z" fill="#3d7ea6" opacity=".85"/>
+      <!-- water table dashed -->
+      <line x1="60" y1="243" x2="640" y2="243" stroke="#3d7ea6" stroke-width="1.2" stroke-dasharray="6 4" opacity=".7"/>
+      <text x="636" y="236" text-anchor="end" font-size="11" fill="#3d7ea6">山体地下水位线</text>
+      <text x="340" y="285" text-anchor="middle" font-size="11.5" fill="#eaf4fa">② 洞穴深盆集水：四周封闭，没有外泄通道</text>
+      <!-- stable level note -->
+      <line x1="150" y1="252" x2="150" y2="290" stroke="#c0392b" stroke-width="1.6"/>
+      <text x="60" y="308" font-size="11.5" fill="#a8402f">③ 水位终年恒定——年变幅仅几厘米（补给≈蒸发，动态平衡）</text>
+      <text x="340" y="314" text-anchor="middle" font-size="12" fill="#6f6a5e">水下近于静水：不流动、无暗河、无鱼无水草（水下考古确认）</text>
+      <defs>
+        <marker id="arw2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#3d7ea6"/>
+        </marker>
+      </defs>
+    </svg>
+    <figcaption><b>图四</b> | 暗湖成因示意：降雨下渗 + 裂隙贮水 + 封闭集水 + 触及泉眼，共同蓄成这潭深湖。</figcaption>
+  </figure>
+
+  <p>那<b>为什么清得像巨型水晶</b>？潜水考古员在水下 40 多米仍能看清凿痕。四个原因缺一不可：</p>
+  <div class="cards">
+    <div class="card watercard"><h4><span class="tag">静</span>一潭死水</h4><p>湖水不流动、无暗河，最深 处几乎感觉不出水流——不搅动底泥，悬浮物自然沉降。</p></div>
+    <div class="card watercard"><h4><span class="tag">净</span>没有泥沙来源</h4><p>湖在山体内部，没有地表河溪注入，缺少外源泥沙；洞口下雨时进来的水也早已澄清。</p></div>
+    <div class="card watercard"><h4><span class="tag">暗</span>没有藻类</h4><p>洞内常年黑暗，藻类无法光合作用，也没有鱼和水草——水体「贫营养」，想浑都难。</p></div>
+    <div class="card watercard"><h4><span class="tag">滤</span>岩层当滤芯</h4><p>补给水是穿过数十米火山岩裂隙慢慢渗进来的，粗面岩裂隙像滤层，滤掉杂质，只剩清冽。</p></div>
+  </div>
+  <div class="callout water">
+    <b class="t">一个佐证</b>：水下专家崔勇潜入数十次后发现，无论冬夏，<b>洞内水位误差始终保持在几厘米之内</b>，水底还有约 10 厘米厚的浮泥静置——这正是「封闭 · 静水 · 平衡」的完美标本。也正因无光恒温、水不流动，洞里夏凉如「拉开一扇巨大的冰柜门」。
+  </div>
+
+  <div class="divider"></div>
+
+  <h3><span class="dot"></span>谜题二：为什么拼命往地下采，不在地面采？</h3>
+  <p>合理疑问：露天挖多痛快，为什么要钻进黑黢黢的山肚子里？把考古确认的事实与采石遗址研究的通行解释放在一起，答案是一条清晰的逻辑链：</p>
+
+  <figure>
+    <svg viewBox="0 0 680 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="地层剖面：越深石料越好">
+      <text x="340" y="20" text-anchor="middle" font-size="14" fill="#2b2a26" font-weight="bold">为什么要往下采？——好石料藏在深处</text>
+      <!-- surface -->
+      <path d="M20,80 L660,80" stroke="#5e7d5e" stroke-width="4"/>
+      <g fill="#7a9a72">
+        <circle cx="60" cy="76" r="3"/><circle cx="120" cy="74" r="3"/><circle cx="560" cy="76" r="3"/><circle cx="620" cy="74" r="3"/>
+      </g>
+      <text x="46" y="66" font-size="11" fill="#5e7d5e">地表植被</text>
+      <!-- weathered zone -->
+      <rect x="20" y="82" width="640" height="70" fill="#e3c9a8"/>
+      <g stroke="#b98d63" stroke-width="1.3">
+        <line x1="60" y1="88" x2="90" y2="146"/><line x1="130" y1="84" x2="118" y2="148"/>
+        <line x1="200" y1="90" x2="230" y2="144"/><line x1="300" y1="84" x2="288" y2="148"/>
+        <line x1="380" y1="90" x2="402" y2="146"/><line x1="470" y1="84" x2="458" y2="148"/>
+        <line x1="550" y1="90" x2="572" y2="144"/><line x1="630" y1="86" x2="618" y2="146"/>
+        <line x1="40" y1="110" x2="640" y2="112" stroke-dasharray="6 5"/>
+      </g>
+      <text x="340" y="108" text-anchor="middle" font-size="12.5" fill="#7a5124" font-weight="bold">风化带：4500 万年风吹雨打，岩石破碎、裂隙密布</text>
+      <text x="340" y="128" text-anchor="middle" font-size="12" fill="#7a5124">——「皮壳料」，一敲就碎，盖不了房、开不了板</text>
+      <!-- boundary -->
+      <line x1="20" y1="152" x2="660" y2="152" stroke="#a8402f" stroke-width="2" stroke-dasharray="8 4"/>
+      <text x="656" y="166" text-anchor="end" font-size="11" fill="#a8402f">古代工匠的「优质矿层」分界</text>
+      <!-- fresh rock -->
+      <rect x="20" y="154" width="640" height="86" fill="#d99a80"/>
+      <g stroke="#b4532a" stroke-width="1.2" opacity=".7">
+        <line x1="120" y1="170" x2="120" y2="236"/><line x1="360" y1="200" x2="430" y2="200"/><line x1="540" y1="168" x2="540" y2="238"/>
+      </g>
+      <text x="340" y="192" text-anchor="middle" font-size="12.5" fill="#7a2d1d" font-weight="bold">新鲜粗面岩：致密完整、节理稀疏、色泽均匀</text>
+      <text x="340" y="212" text-anchor="middle" font-size="12" fill="#7a2d1d">——石板厚薄随心、成材率高，光孝寺石狮用就是这个</text>
+      <!-- depth arrow -->
+      <line x1="40" y1="90" x2="40" y2="232" stroke="#a8402f" stroke-width="2.5" marker-end="url(#arw3)"/>
+      <text x="52" y="232" font-size="11.5" fill="#a8402f">越往下，石料越好</text>
+      <defs>
+        <marker id="arw3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#a8402f"/>
+        </marker>
+      </defs>
+    </svg>
+    <figcaption><b>图五</b> | 地层剖面示意：地表是风化的「皮壳」，深部才是完整的「好料」——向下采，是奔着品质去的。</figcaption>
+  </figure>
+
+  <div class="cards">
+    <div class="card rockcard"><h4><span class="tag">① 品质</span>表层是「皮壳」，深处是「好料」</h4><p>火山岩暴露地表后经数千万年球状风化，外层破碎多隙、成分蚀变；深部岩体新鲜致密、节理间距大。石板要成材，必须往深处要料。</p></div>
+    <div class="card rockcard"><h4><span class="tag">② 效率</span>露天越深越亏，洞采越深越顺</h4><p>露天挖到几十米深，要剥离的废土废石越来越多、运距越来越长；改为沿坡面打斜井进洞，直接在好料里「掏」，废方少、损耗低。</p></div>
+    <div class="card rockcard"><h4><span class="tag">③ 顺纹</span>跟着节理「借力打力」</h4><p>粗面岩柱状、板状节理发育，工匠顺节理凿眼打楔，锤到石开——等于让山自己把石头「掰」开。</p></div>
+    <div class="card rockcard"><h4><span class="tag">④ 环境</span>洞里是个恒温室</h4><p>洞内冬暖夏凉、湿度稳定，石材不会暴晒开裂，工匠可常年作业——今天洞里仍是景区最凉快的纳凉点。</p></div>
+  </div>
+
+  <p>把三个阶段连起来看，就是一部「越挖越深」的编年史：</p>
+
+  <figure>
+    <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="采石三阶段演化">
+      <text x="340" y="20" text-anchor="middle" font-size="14" fill="#2b2a26" font-weight="bold">从露天到水下：采石方式三阶段</text>
+      <!-- stage 1 -->
+      <g>
+        <rect x="18" y="32" width="200" height="150" rx="10" fill="#fdf3ef" stroke="#eed3c9"/>
+        <path d="M18,110 Q118,70 218,110 L218,182 L18,182 Z" fill="#d99a80"/>
+        <path d="M78,110 L98,96 L118,110 L138,98 L158,112 L158,130 L78,130 Z" fill="#f0e2d6"/>
+        <text x="118" y="122" text-anchor="middle" font-size="10.5" fill="#7a3120">浅坑台阶</text>
+        <circle cx="196" cy="52" r="8" fill="#e8c46a"/>
+        <text x="118" y="200" text-anchor="middle" font-size="11.5" fill="#7a3120" font-weight="bold">① 宋—明初 · 露天开采</text>
+        <text x="118" y="216" text-anchor="middle" font-size="10.5" fill="#6f6a5e">山坡剥层取石，挖到哪算哪</text>
+      </g>
+      <path d="M222,105 L240,105" stroke="#b07d2b" stroke-width="2.5" marker-end="url(#arw4)"/>
+      <!-- stage 2 -->
+      <g>
+        <rect x="244" y="32" width="200" height="150" rx="10" fill="#fdf3ef" stroke="#eed3c9"/>
+        <path d="M244,110 Q344,70 444,110 L444,182 L244,182 Z" fill="#d99a80"/>
+        <path d="M288,112 L352,132 L352,166 L288,140 Z" fill="#fffdf9"/>
+        <rect x="398" y="80" width="10" height="46" fill="#fffdf9"/>
+        <text x="416" y="76" font-size="10" fill="#7a3120">天窗格</text>
+        <rect x="330" y="140" width="8" height="30" fill="#c98a6a"/><rect x="356" y="144" width="8" height="30" fill="#c98a6a"/>
+        <text x="322" y="158" font-size="10" fill="#7a3120" transform="rotate(-8 322 158)">斜井掘进</text>
+        <text x="344" y="200" text-anchor="middle" font-size="11.5" fill="#7a3120" font-weight="bold">② 明代起 · 斜井入洞</text>
+        <text x="344" y="216" text-anchor="middle" font-size="10.5" fill="#6f6a5e">顺坡打斜井+竖井，往深处要料</text>
+      </g>
+      <path d="M448,105 L466,105" stroke="#b07d2b" stroke-width="2.5" marker-end="url(#arw4)"/>
+      <!-- stage 3 -->
+      <g>
+        <rect x="470" y="32" width="200" height="150" rx="10" fill="#e8f1f6" stroke="#cfe1ec"/>
+        <path d="M470,110 Q570,70 670,110 L670,182 L470,182 Z" fill="#d99a80"/>
+        <path d="M496,116 L636,150 L636,182 L496,168 Z" fill="#3d7ea6" opacity=".85"/>
+        <path d="M500,150 h14 M520,158 h14 M540,166 h14" stroke="#eaf4fa" stroke-width="2"/>
+        <text x="586" y="176" font-size="10" fill="#eaf4fa">触及泉眼</text>
+        <text x="570" y="200" text-anchor="middle" font-size="11.5" fill="#2b5a7a" font-weight="bold">③ 明末—清 · 触水而止</text>
+        <text x="570" y="216" text-anchor="middle" font-size="10.5" fill="#6f6a5e">深部被淹停采，遗迹原样封存</text>
+      </g>
+      <defs>
+        <marker id="arw4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#b07d2b"/>
+        </marker>
+      </defs>
+    </svg>
+    <figcaption><b>图六</b> | 采石三阶段：露天 → 斜井入洞 → 水淹停采。每一步都是当时条件下的最优解。</figcaption>
+  </figure>
+
+  <div class="callout warn">
+    <b class="t">顺带解开一个小误会</b>：水下也有采石痕迹，<b>不是因为古人潜水采石</b>，而是他们当年在「干燥的山腹」里一直向下挖，挖穿了地下水位；后来水漫进来，把最深的作业面连同凿痕、台阶、半成品一起封进了水下。今天潜水员看到的一切，都是停工那一刻的原状。
+  </div>
+
+  <div class="divider"></div>
+
+  <h3><span class="dot"></span>谜题三：石燕岩的整个结构长什么样？</h3>
+  <p>综合景区实测介绍与 2015—2018 年水下考古调查，石燕岩是一座「<b>外干内水、上下分层、洞洞相连</b>」的巨大石窟系统——外洞干燥高耸，支撑柱把洞分作内外两进，内洞蓄水成湖，水下还连着成片的采石洞室。下面这张剖面图，就是那天我们坐船穿行的世界：</p>
+
+  <figure>
+    <svg viewBox="0 0 680 740" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="石燕岩洞穴结构大剖面">
+      <text x="340" y="22" text-anchor="middle" font-size="15" fill="#2b2a26" font-weight="bold">石燕岩结构大剖面（示意，依据公开资料绘制）</text>
+      <!-- sky -->
+      <rect x="0" y="34" width="680" height="60" fill="#e8f1f6"/>
+      <circle cx="654" cy="40" r="10" fill="#e8c46a"/>
+      <!-- mountain mass -->
+      <path d="M0,740 L0,240 Q120,150 250,110 Q420,70 560,160 Q640,210 680,260 L680,740 Z" fill="#d7ab8e"/>
+      <!-- weathered band along surface -->
+      <path d="M0,240 Q120,150 250,110 Q420,70 560,160 Q640,210 680,260" fill="none" stroke="#c9a276" stroke-width="14" opacity=".55"/>
+      <!-- fresh rock label -->
+      <text x="80" y="620" font-size="12" fill="#6e3a22" stroke="#d7ab8e" stroke-width="3" paint-order="stroke">新鲜粗面岩</text>
+      <text x="80" y="638" font-size="10.5" fill="#7a4a30" stroke="#d7ab8e" stroke-width="3" paint-order="stroke">（致密完整 · 好料区）</text>
+      <!-- 天窗格 shaft -->
+      <rect x="452" y="116" width="16" height="312" fill="#fffdf9" stroke="#c9a276"/>
+      <polygon points="452,116 468,116 492,420 428,420" fill="#fff3c4" opacity=".55"/>
+      <line x1="460" y1="112" x2="474" y2="70" stroke="#8a6a4a" stroke-width="1"/>
+      <text x="478" y="60" font-size="11.5" fill="#7a3120" font-weight="bold">天窗格——明代透光竖井</text>
+      <text x="478" y="76" font-size="10.5" fill="#8a6a4a">斜井掘进时代的采光 · 通风 · 定位井</text>
+      <text x="478" y="91" font-size="10.5" fill="#8a6a4a">以石投井，约 7 秒才闻水面回响</text>
+      <text x="390" y="52" font-size="11" fill="#6f6a5e">狮脑峰东南坡</text>
+      <!-- 洞天 skylight -->
+      <rect x="196" y="196" width="34" height="26" fill="#e8f1f6" stroke="#c9a276"/>
+      <polygon points="196,222 230,222 258,330 168,330" fill="#fff3c4" opacity=".6"/>
+      <line x1="213" y1="194" x2="150" y2="82" stroke="#8a6a4a" stroke-width="1"/>
+      <text x="14" y="66" font-size="11.5" fill="#7a3120" font-weight="bold">洞天（顶窗）</text>
+      <text x="14" y="82" font-size="10.5" fill="#8a6a4a">洞顶塌陷，天光直泻大平台</text>
+      <!-- entry corridor -->
+      <path d="M70,196 C100,260 112,370 150,440" fill="none" stroke="#fffdf9" stroke-width="26" stroke-linecap="round"/>
+      <path d="M70,196 C100,260 112,370 150,440" fill="none" stroke="#c9a276" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <line x1="78" y1="186" x2="60" y2="130" stroke="#8a6a4a" stroke-width="1"/>
+      <text x="14" y="112" font-size="11.5" fill="#7a3120" font-weight="bold">入洞步道</text>
+      <text x="14" y="128" font-size="10.5" fill="#8a6a4a">观光车下车后步行下行这条</text>
+      <!-- outer hall -->
+      <ellipse cx="205" cy="470" rx="95" ry="58" fill="#fdf8ef" stroke="#c9a276"/>
+      <text x="205" y="452" text-anchor="middle" font-size="12.5" fill="#7a3120" font-weight="bold">外洞大厅（干区）</text>
+      <text x="205" y="470" text-anchor="middle" font-size="10.5" fill="#8a6a4a">高数丈 · 洞壁凝珠滴水</text>
+      <text x="205" y="486" text-anchor="middle" font-size="10.5" fill="#8a6a4a">炎夏生凉 ·「洞内大平台」</text>
+      <g fill="#a8402f">
+        <circle cx="185" cy="502" r="2.5"/><circle cx="200" cy="505" r="2.5"/><circle cx="216" cy="502" r="2.5"/>
+      </g>
+      <text x="205" y="522" text-anchor="middle" font-size="10" fill="#8a6a4a">（渺小爸与兄弟们）</text>
+      <!-- pillar wall -->
+      <g fill="#c98a6a" stroke="#a8402f" stroke-width="1">
+        <rect x="312" y="300" width="14" height="300"/><rect x="336" y="330" width="14" height="270"/><rect x="360" y="310" width="14" height="290"/>
+      </g>
+      <rect x="306" y="286" width="74" height="12" fill="#c98a6a" stroke="#a8402f"/>
+      <text x="343" y="262" text-anchor="middle" font-size="11.5" fill="#7a3120" font-weight="bold" stroke="#fdf8ef" stroke-width="3" paint-order="stroke">支撑柱列</text>
+      <text x="343" y="278" text-anchor="middle" font-size="10" fill="#8a6a4a" stroke="#fdf8ef" stroke-width="3" paint-order="stroke">「横如列屏，截分内外两进」</text>
+      <!-- water body inner lake -->
+      <path d="M380,452 L664,452 L664,700 L380,700 Q368,560 380,452 Z" fill="#3d7ea6" opacity=".82"/>
+      <path d="M380,452 L664,452" stroke="#7fb3d0" stroke-width="2"/>
+      <text x="418" y="470" font-size="11" fill="#eaf4fa">内洞暗湖（水位终年恒定）</text>
+      <!-- boat -->
+      <g transform="translate(430,446)">
+        <path d="M0,6 Q14,14 30,6 L26,0 L4,0 Z" fill="#a8402f"/>
+        <circle cx="10" cy="-3" r="2.5" fill="#a8402f"/><circle cx="20" cy="-3" r="2.5" fill="#a8402f"/>
+      </g>
+      <text x="432" y="438" font-size="10.5" fill="#7a3120">游船（约15分钟航程）</text>
+      <!-- underwater grid chambers -->
+      <g fill="none" stroke="#eaf4fa" stroke-width="1.4" opacity=".9">
+        <rect x="392" y="500" width="40" height="34"/><rect x="440" y="500" width="40" height="34"/><rect x="488" y="500" width="40" height="34"/>
+        <rect x="392" y="542" width="40" height="34"/><rect x="440" y="542" width="40" height="34"/>
+      </g>
+      <text x="460" y="494" text-anchor="middle" font-size="10.5" fill="#dff0fa">水下采石隔间「一格一格」</text>
+      <!-- 石祠堂 -->
+      <g stroke="#eaf4fa" fill="none" stroke-width="1.6">
+        <rect x="548" y="512" width="58" height="8"/>
+        <rect x="554" y="520" width="8" height="60"/><rect x="576" y="520" width="8" height="60"/><rect x="596" y="520" width="8" height="60"/>
+        <rect x="548" y="580" width="58" height="8"/>
+      </g>
+      <text x="577" y="606" text-anchor="middle" font-size="10.5" fill="#dff0fa">石祠堂（成品仓储区）</text>
+      <!-- stairs -->
+      <g stroke="#dff0fa" stroke-width="2">
+        <line x1="386" y1="492" x2="398" y2="492"/><line x1="388" y1="506" x2="400" y2="506"/><line x1="390" y1="520" x2="402" y2="520"/>
+        <line x1="392" y1="534" x2="404" y2="534"/><line x1="394" y1="548" x2="406" y2="548"/><line x1="396" y1="562" x2="408" y2="562"/>
+        <line x1="398" y1="576" x2="410" y2="576"/><line x1="400" y1="590" x2="412" y2="590"/>
+      </g>
+      <text x="368" y="614" text-anchor="start" font-size="10.5" fill="#dff0fa">数百级采石台阶</text>
+      <!-- stacked slabs -->
+      <g fill="#bfe0ee">
+        <rect x="470" y="640" width="52" height="6"/><rect x="474" y="650" width="52" height="6"/><rect x="470" y="660" width="52" height="6"/>
+      </g>
+      <text x="496" y="682" text-anchor="middle" font-size="10.5" fill="#dff0fa">未及运走的石板半成品</text>
+      <!-- tools -->
+      <text x="664" y="656" text-anchor="end" font-size="10.5" fill="#dff0fa">灯台 · 瓷碗 · 竹梯 · 炉灶</text>
+      <text x="664" y="670" text-anchor="end" font-size="10" fill="#bfe0ee">（生活区遗存，浮泥之下）</text>
+      <!-- 斜井 -->
+      <path d="M620,460 L660,560 L644,566 L606,468 Z" fill="#fffdf9" opacity=".85" stroke="#c9a276"/>
+      <text x="632" y="450" text-anchor="middle" font-size="10.5" fill="#7a3120" stroke="#d7ab8e" stroke-width="3" paint-order="stroke">斜井巷道</text>
+      <!-- depth scale -->
+      <rect x="662" y="446" width="18" height="262" fill="#fffdf9" opacity=".92"/>
+      <line x1="676" y1="452" x2="676" y2="700" stroke="#2b5a7a" stroke-width="1.4"/>
+      <g font-size="9.5" fill="#2b5a7a" stroke="#fffdf9" stroke-width="2.5" paint-order="stroke">
+        <text x="672" y="455" text-anchor="end">0</text>
+        <text x="672" y="497" text-anchor="end">-10m</text>
+        <text x="672" y="539" text-anchor="end">-20m</text>
+        <text x="672" y="581" text-anchor="end">-30m</text>
+        <text x="672" y="623" text-anchor="end">-40m</text>
+        <text x="672" y="656" text-anchor="end">-44m</text>
+      </g>
+      <g stroke="#2b5a7a" stroke-width="1"><line x1="670" y1="452" x2="676" y2="452"/><line x1="670" y1="494" x2="676" y2="494"/><line x1="670" y1="536" x2="676" y2="536"/><line x1="670" y1="578" x2="676" y2="578"/><line x1="670" y1="620" x2="676" y2="620"/><line x1="670" y1="652" x2="676" y2="652"/></g>
+      <!-- annotations -->
+      <text x="14" y="700" font-size="11.5" fill="#2b5a7a" stroke="#d7ab8e" stroke-width="3" paint-order="stroke">水深参考：考古记载最深约 44 米；游船码头警示牌标注 48 米（我们亲眼所见）</text>
+      <text x="14" y="718" font-size="11.5" fill="#4d493f" stroke="#d7ab8e" stroke-width="3" paint-order="stroke">生产区 · 生活区 · 运输通道错落相连，结构复杂恍如迷宫；水无鱼无草，静如琥珀</text>
+    </svg>
+    <figcaption><b>图七</b> | 石燕岩洞穴结构大剖面：入洞步道 → 外洞大厅 → 支撑柱分界 → 内洞暗湖 → 水下采石洞室群，天窗格竖井垂直贯通。</figcaption>
+  </figure>
+
+  <h3><span class="dot"></span>分层读懂这张图</h3>
+  <table class="data">
+    <tr><th>层次</th><th>是什么</th><th>当时的作用 / 今天的看点</th></tr>
+    <tr><td>入洞步道</td><td>从山坡下行进入洞口的通道</td><td>我们下车的游览线路；古代石料由此出山</td></tr>
+    <tr><td>洞天（顶窗）</td><td>洞顶塌陷形成的天窗</td><td>大平台的自然采光井，天光直泻洞底</td></tr>
+    <tr><td>外洞大厅</td><td>干燥的开阔洞室，高数丈</td><td>集散、粗加工场地；今为纳凉打卡点</td></tr>
+    <tr><td>支撑柱列</td><td>刻意留下的承重石柱</td><td>防塌顶的「安全柱」，截分内外两进</td></tr>
+    <tr><td>内洞暗湖</td><td>蓄水湖区，深40余米</td><td>停采后水淹而成；今可泛舟探洞</td></tr>
+    <tr><td>水下采石隔间</td><td>「一格一格」的作业面</td><td>按序开采的工作单元，凿痕清晰</td></tr>
+    <tr><td>石祠堂</td><td>带支撑柱的仓储式洞室</td><td>数百块成品半成品原样码放，如时间胶囊</td></tr>
+    <tr><td>斜井 · 步道 · 台阶</td><td>运输与交通系统</td><td>数百级台阶连通上下，人员物料进出</td></tr>
+    <tr><td>天窗格竖井</td><td>从山表直通洞内的竖井</td><td>采光、通风、定位；投石7秒闻回响</td></tr>
+  </table>
+
+  <div class="callout">
+    <b class="t">把三个谜题串成一句话</b>：古人为追求深部的优质粗面岩，顺节理从坡面斜井一路向下掘进，洞越挖越深、越连越多；当采深触到地下水位，水灌满了洞，工程戛然而止——而<b>正是这场「事故」，把一座完整的古代石工厂密封保存了数百年</b>，静水澄清，凿痕如新，等我们坐船来看。
+  </div>
+</section>
+
+<!-- ================= 第五部分 ================= -->
+<section id="s5">
+  <div class="sec-head">
+    <span class="no">伍</span>
+    <h2>下次再去：带着问题玩，越玩越懂</h2>
+    <span class="en">FIELD TASKS</span>
+  </div>
+  <p>这份材料不用背——下次重游时，把下面的小任务分给兄弟俩，每人认领几条：</p>
+  <ol class="task">
+    <li><b>找凿痕</b>：在外洞大平台任选一面石壁，找找一道道平行的錾子印——那就是六百年前工匠的「笔迹」。</li>
+    <li><b>看格子</b>：船行暗湖时，留意水下一格一格的采石隔间，数数能看到几个。</li>
+    <li><b>认地标</b>：找出「水上汽车」「水底牌坊」「石祠堂」，对照本册图七核对你的航线路线。</li>
+    <li><b>抬头看</b>：在大平台看「洞天」漏下的天光，想想洞顶为什么会塌出这扇窗。</li>
+    <li><b>听回响</b>：听讲解员讲天窗格「投石七秒闻水响」，用回声估一估竖井有多深（声速约 340 米/秒，想想为什么比算出来的深得多）。</li>
+    <li><b>摸温度</b>：洞口与洞内各站一分钟，感受「天然冰柜门」——再想想为什么洞里冬暖夏凉。</li>
+    <li><b>对暗号</b>：哪天去广州光孝寺，看看月台的石狮子——那是和石燕岩同款的粗面岩。</li>
+    <li><b>找石燕</b>：睁大眼睛在洞壁找找有没有形似燕子的石影——找到算你解开「石燕岩得名」之谜。</li>
+  </ol>
+</section>
+
+<!-- ================= 第六部分 ================= -->
+<section id="s6">
+  <div class="sec-head">
+    <span class="no">陆</span>
+    <h2>资料来源</h2>
+    <span class="en">REFERENCES</span>
+  </div>
+  <ul class="src">
+    <li>广东省人民政府地方志办公室 ·《广东印记：西樵山》——山体面积 13.03 km²、72 峰 36 洞 232 泉 28 瀑、双肩石器、书院史等。</li>
+    <li>广东省林业局 ·《佛山市西樵山风景名胜区》——直径 4 公里、桑基鱼塘、石燕岩「水陆结合遗址」表述。</li>
+    <li>佛山市南海区人民政府 ·《西樵山风景名胜区》——火山成因、名称由来（锦石山 / 茶山 / 二樵）、白云洞等。</li>
+    <li>南方+ ·《历经三年拍摄！带你穿越西樵山石燕岩数百年水下遗址》（2020）——水下考古调查、遗址构成、荣誉记录。</li>
+    <li>南海发布 ·《来西樵山石燕岩寻找「地质奇遇」》（2024）——外洞内洞结构、44 米水深、采石隔间、意大利加城对比。</li>
+    <li>水下考古专家崔勇访谈（今日头条转载）——宋代始采、粗面岩用途（光孝寺 / 肇庆古城墙）、水位恒定、无鱼无草、水下遗存清单。</li>
+    <li>澳门日报 ·《西樵山古洞探奇》（2025）——天窗格七秒回响、石屏风尺寸与成因、水淹推测。</li>
+    <li>佛山市委宣传部 ·《跟着央视〈正大综艺〉到西樵》——四大书院、三湖书院与康有为、石燕岩保护历程。</li>
+    <li>华南师大附中地理考察记（2018）与西樵山国家地质公园资料——古近纪火山岩性、柱状节理、断块地貌。</li>
+    <li>广东名山数据——各地志办 / 景区官方口径（罗浮山 214.8 km²·1296 m；丹霞山 292 km²·巴寨 618 m；鼎湖山 11.33 km²·1000.3 m；白云山 20.98 km²·382 m 等）。</li>
+    <li>家庭游记《README》（2026-09-19）——观光车、水深 48 米警示牌、洞天、三角通道等当日亲历细节。</li>
+  </ul>
+  <div class="callout warn" style="margin-top:18px;">
+    <b class="t">说明</b>：本册所有示意图均为<b>科普示意，非精确测绘</b>；面积、水深等数据在不同资料中口径略有出入，正文已尽量注明；「触泉眼水淹」为考古推测之一，特此说明。这份材料属于前期准备阶段的补充内容，日后编制子站时可按栏目拆分重组。
+  </div>
+</section>
+
+<footer>
+  四季景点 · 佛山西樵山石燕岩周末家庭游 —— 配套科普资料 · 2026 年 9 月<br>
+  山不在高，有仙则名；洞不在深，有问则灵。
+</footer>
+
+</div>
+</body>
+</html>
