@@ -12,6 +12,8 @@
 | `site-template.html` | 攻略 / 规划型模板（8 段结构、多方案切换、营业时间复核、天气评估） | 陌生 / 远 / 复杂、需**提前规划**的出行（周末家庭游、多方案亲子游） |
 | `site-template-travelogue.html` | **纯记录型模板**（轻量：总览 → 实录 → 美食 → 实用信息） | 熟悉 / 去过 / 近 / 简单、事前不规划、事后记录（生活点滴、轻游记） |
 | `site-template-travelogue-core.html` | ⭐ **记录核心模块（公共 · 单一来源）**：`.log-chapter` + `.food-card` 的 CSS/HTML/JS，被上述两个模板共同引用 | — |
+| `compress_media.sh` | 媒体压缩器核心（ffmpeg 保质量降体积：JPEG 重编码去 EXIF / PNG / 视频 H.264·H.265 CRF；仅收益 ≥`--min-saving`% 才替换原文件） | 媒体入库前的体积优化（用法见 §10） |
+| `compress_media.py` | ⭐ 上一脚本的 **Windows 服务入口**：自动定位 ffmpeg+ffprobe（`static_ffmpeg`）与 Git Bash 并透传调用，中文输出不乱码 | 本机日常用这条（用法见 §10） |
 | `assets/ph1..6.svg` | 占位图（演示主图 + 缩略图切换）；预览用，正式子站须替换为真实图片 | — |
 | `assets/index.svg` | 首图占位演示图（命名 `index.*` 会被自动选为主图）；正式子站用它替换成你自己的 `index.*` 或直接删掉 | — |
 
@@ -171,3 +173,58 @@
 - [ ] 配图关键词命中的图片正确带入对应卡；桌面端双列、移动端单列无溢出。
 - [ ] 围栏长文**未**出现在「行程总览 / 开场白」中（无开篇照搬）。
 - [ ] 生成 HTML 经 `node --check`（内嵌 JS）通过；`<div>` / `<section>` 配平。
+
+---
+
+## 10. 媒体压缩服务（compress_media，上传媒体入库前必跑）
+
+> 目标：**最大限度保质量的前提下减小媒体体积**，且输出恒满足仓库入库铁律（AGENTS §10：视频 H.264+faststart）。`compress_media.sh` 为核心算法（bash+ffmpeg），`compress_media.py` 为本机 Windows 服务入口（自动定位依赖并透传调用，参数完全一致）。
+
+### 10.1 用法（在 `home/` 根目录执行）
+
+```powershell
+# 预览（不写任何文件，先看收益）
+python src/compress_media.py --dry-run 生活点滴/2026/0920
+
+# 实际压缩（按相对路径备份原件到仓库外目录，强烈建议）
+python src/compress_media.py --backup-dir ..\_media_bak 生活点滴/2026/0920
+
+# 只压图片 / 只压视频；图片转 WebP 求极致体积
+python src/compress_media.py --image-only 四季景点/某游
+python src/compress_media.py --video-only --webp .
+```
+
+全部参数（`--preset`/`--jpeg-quality`/`--crf-h264`/`--crf-hevc`/`--min-saving`/`--min-size`/`--keep-exif` 等）见 `compress_media.sh` 头部注释：`python src/compress_media.py --help`。
+
+### 10.2 默认策略（保质量优先）
+
+| 素材 | 处理 | 默认 |
+|------|------|------|
+| jpg/jpeg | 重编码 JPEG + 去 EXIF 元数据 | `-q:v 3`（≈质量 85） |
+| png | 重编码 PNG；**含透明通道的自动跳过**（防丢 alpha） | compression_level 9 |
+| h264 视频 | libx264 CRF20 重编码，音轨 aac/mp3 直接 copy | preset slow |
+| hevc 视频 | libx265 CRF24（hvc1 tag），音轨 copy | preset slow |
+| 其他编码 | 统一转 H.264 CRF20 → 满足入库铁律 | mp4/mov 加 +faststart |
+
+**安全阀**：只有比原文件小 ≥`--min-saving`%（默认 5）才替换原文件，否则保留；<`--min-size` KB（默认 200）的图片直接跳过；`--backup-dir` 替换前按相对路径镜像备份原件。
+
+### 10.3 依赖与环境（一次性）
+
+- 本机 PATH 无 ffmpeg/ffprobe。服务入口按 **环境变量 `FFMPEG`/`FFPROBE` → `static_ffmpeg`（推荐，含双二进制）→ `imageio_ffmpeg`（仅 ffmpeg，缺 ffprobe 时拒绝执行）** 顺序自动定位，并自动寻找 Git Bash（显式排除 WindowsApps 下的 WSL 存根）。
+- 首次安装（系统 Python 3.10 `C:/Users/km/AppData/Local/Programs/Python/Python310/python.exe`）：
+  `pip install static-ffmpeg`（2026-09-20 已装 v3.0，ffmpeg/ffprobe 8.0.1 静态二进制）。
+- `compress_media.sh` 启动时强校验 ffprobe——**缺失即退出**：缺失会导致 `probe_audio` 返回空而走 `-an` 静默丢音轨（融合时加固的防回归点）。
+
+### 10.4 边界与职责
+
+- **HEIC 不在本服务范围**（iPhone 直出）：先按 AGENTS §8.3 用 `pillow-heif` 转 jpg（原档留底），再对 jpg 跑压缩。
+- **输出即合规**：mp4 输出恒为 H.264+yuv420p+faststart 且音轨保留，天然通过 pre-commit 媒体守卫与 S7 编码守卫；但**不负责** 100MB 上限裁切（超大视频请先剪裁）。
+- **不入库**：`--backup-dir` 建议放仓库外（如 `..\_media_bak`），避免备份被 find 二次扫描与误提交。
+- **范围**：`.jpg/.jpeg/.png/.mp4/.mov/.mkv/.avi/.webm/.m4v`；递归处理目标目录下全部匹配文件。
+
+### 10.5 验证记录（2026-09-20，隔离临时目录实测）
+
+- dry-run：三素材（近无损 4K JPEG 408.7K / 零压缩 PNG 6.0M / mpeg4+aac 8.2M）预估省 14%/96%/71%，原文件字节级未动（418486 不变），退出码 0。
+- 实压 + `--backup-dir`：合计 14.5M → 2.9M（省 80%）；备份件尺寸与原文件逐字一致。
+- 产物核验：`ffprobe` 输出 `h264, yuv420p` + `aac`（音轨在）；moov 位于文件头部（faststart 成立）。
+- 中文输出经入口接管 UTF-8→GBK 转发，PowerShell 5 下无乱码。

@@ -112,7 +112,7 @@ home/
 - 改动 `query-system/src/` 后，提交前**必须依次通过** `npm run lint` → `npm run test` → `npm run build`。三者全绿方可推送（当前为存量红，见 `tests/baseline.json` 棘轮基线，重构只许改善不许恶化）。
 - **任何 HTML / 媒体 / 目录结构的改动（含定期重构）落地后，必须 `npm run test:repo` 全绿方可提交推送**；涉及 `query-system`、认证或部署配置时改跑 `npm run test:repo:full`。用例矩阵见 `tests/README.md`。
 - `tests/config.js` 的 `KNOWN_ISSUES` 是显式记账的存量债务豁免：**对应重构项落地时必须同步删除条目**，禁止为变绿静默加白。
-- **媒体入库三重防线**（2026-09 设立，防 HEVC 复发）：① pre-commit 钩子自动拒绝 HEVC(hvc1/hev1) 与 >100MB 文件（源文件 `tests/hooks/scan-media.js`，已装至 `.bare/hooks/pre-commit`；**新克隆/换机须重装**：`cp tests/hooks/pre-commit.sh "$(git rev-parse --git-path hooks)/pre-commit" && chmod +x "$(git rev-parse --git-path hooks)/pre-commit"`）；② push 后 GitHub Actions 自动跑静态回归（`.github/workflows/regression.yml`）；③ 本地 `npm run test:repo` 的 S7 编码守卫。
+- **媒体入库三重防线**（2026-09 设立，防 HEVC 复发）：① pre-commit 钩子自动拒绝 HEVC(hvc1/hev1) 与 >100MB 文件（源文件 `tests/hooks/scan-media.js`，已装至 `.bare/hooks/pre-commit`；**新克隆/换机须重装**：`cp tests/hooks/pre-commit.sh "$(git rev-parse --git-path hooks)/pre-commit" && chmod +x "$(git rev-parse --git-path hooks)/pre-commit"`）；② push 后 GitHub Actions 自动跑静态回归（`.github/workflows/regression.yml`）；③ 本地 `npm run test:repo` 的 S7 编码守卫。入库前建议先经媒体压缩服务 `python src/compress_media.py <目录>` 减体积（§8.3 工作流 ②；实测照片省 14%、视频省 71%、PNG 省 96%）。
 - `dist/` 与 `node_modules/` 已在 `.gitignore`，**禁止提交**。
 - 纯静态子站点（健康/景点/采购）改动后无需 build，但需本地浏览器验证链接与 Logo。
 
@@ -397,7 +397,7 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **不得把随意哼唱写成连轴**：若全程断断续续、谁想唱接过去，不得写「一首接一首」「麦克风一拿就不想放」式的连轴暗示；应写「断断续续、并不连轴」「挑了几首慢慢唱」。
 - 文案扩展必须以 `README.MD` 底稿与文件名事实为锚，宁可平实也不能编造节奏。
 
-**同步工作流（新增/更新记录后）**：① 把媒体 + `README.MD` 放入 `生活点滴/<YYYY>/<MMDD>/` → ② `python src/gen_life_record.py <YYYY>/<MMDD>` 生成页 → ③ `python src/gen_life_record.py gallery` 重建画廊 → ④ 校验（无 `{{` 残留、section 平衡、媒体路径解析，`git ls-files` 确认入库）→ ⑤ 提交并推送。
+**同步工作流（新增/更新记录后）**：① 把媒体 + `README.MD` 放入 `生活点滴/<YYYY>/<MMDD>/` → ② `python src/compress_media.py --dry-run 生活点滴/<YYYY>/<MMDD>` 预览压缩收益，确认后去掉 `--dry-run` 实际压缩（媒体压缩服务：图片重编码去 EXIF、视频统一 H.264 CRF20+faststart，仅更小才替换，可用 `--backup-dir` 留底；用法与参数见 `src/README.md` §10；HEIC 先按上文 pillow-heif 转 jpg 再压缩）→ ③ `python src/gen_life_record.py <YYYY>/<MMDD>` 生成页 → ④ `python src/gen_life_record.py gallery` 重建画廊 → ⑤ 校验（无 `{{` 残留、section 平衡、媒体路径解析，`git ls-files` 确认入库）→ ⑥ 提交并推送。
 
 **⚠️ git 推送纪律（分支引用碰撞处置）**：提交前先 `git fetch origin home` 并比对 `git merge-base HEAD origin/home`。若**两分支无公共祖先**（`merge-base` 为空，且 `origin/home` 含与本仓库无关的 commit，如陌生项目内容），属**分支引用碰撞**，**禁止** `git push --force` / `--force-with-lease` 覆盖远端——可能毁掉远端历史。此时应：停止推送、向用户报告远端异常、由用户确认 `origin/home` 的真实意图（是错误推送的另一项目 / 需换分支 / 还是可安全强推）后再决定。本地 commit 已落盘即安全，不丢工作。
 
@@ -426,7 +426,7 @@ AI 将自动读取 HTML 文件，按规范插入 CSS、HTML 结构和 JS，无�
 - **`rawData.ts` 是核心数据真源**：改 `database/` 下 MD 不会自动反映到查询系统分数列，须同步改 `rawData.ts` 内嵌字符串。
 - **本地辅助脚本已删除**（2026-09 重构）：`query-system/publish.ps1`/`start.bat`/`ngrok.bat` 不再存在，权威流程是根 `npm run build` + `git push`。
 - **认证遮罩不保护静态文件直链**：Netlify `publish="."` 发布整个仓库，XBrainAuth 只是前端 UI 遮罩，任何入库文件都可被直链下载。敏感档案（`健康/妈/MR-无需建立子站点/` 医疗影像 zip）与 AI 工作记忆（`.workbuddy/`）已于 2026-09 重构移出 git（本地保留，`.gitignore` 防回填）；**今后任何敏感/隐私文件不得入库**。
-- **入库视频必须 H.264（avc1）+ faststart**：iPhone「高效」HEVC(hvc1) 视频在 Chrome/Edge/多数安卓浏览器无法播放（2026-09 重构追补：37 个存量 HEVC 已批量转码为 H.264）。入库前用「兼容性最佳」导出，或经 `imageio-ffmpeg`（系统 Python 3.10 自带静态 ffmpeg）转码；回归套件 S7 编码守卫将拦截违规入库。单文件 ≤100MB（GitHub 硬限）。
+- **入库视频必须 H.264（avc1）+ faststart**：iPhone「高效」HEVC(hvc1) 视频在 Chrome/Edge/多数安卓浏览器无法播放（2026-09 重构追补：37 个存量 HEVC 已批量转码为 H.264）。入库前用「兼容性最佳」导出，或经 `imageio-ffmpeg`（系统 Python 3.10 自带静态 ffmpeg）转码；回归套件 S7 编码守卫将拦截违规入库。单文件 ≤100MB（GitHub 硬限）。也可直接用媒体压缩服务 `python src/compress_media.py <目录>`——输出恒为 H.264(CRF20)+faststart 且音轨保留（已实测验证），见 §8.3 工作流 ②。
 - **SPA `base` 必须为 `'./'`**：否则相对路径部署资源 404。
 - **图片用相对路径**：子站点图片路径错乱多因未用相对路径或 `base` 配置错误。
 - **dist/node_modules 禁提交**：已在 `.gitignore`。
