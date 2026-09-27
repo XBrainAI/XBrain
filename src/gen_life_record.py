@@ -14,7 +14,8 @@ gen_life_record.py —— 生活点滴「简单记录」页生成器（通用版
   - 顶部导航只保留：返回 / 首页 / 行程总览 / 生活实录（移除美食&实用信息，因简单记录无此内容）
   - #log 章节按「拍摄时序」放全部媒体（页面顺序即活动顺序）：所有图片/视频按文件名
     时间戳统一排序交织编排；连续图片按拍摄间隔（>30 分钟视为不同活动场景）聚成组图块，
-    视频落在其拍摄时间点上；文件名无时间戳的媒体稳定排尾
+    视频落在其拍摄时间点上；文件名无时间戳的媒体稳定排尾。
+    index.* 不进页面——它是上层站点卡片的预览图（画廊卡片封面取用它）
   - Logo / 返回链接按两级深记录页改为 ../../index.html
   - README 可选 `## 标题` 一行覆盖默认标题（默认按年份取「高一/沙初中军训 · 日期」），
     支持 `主标题｜高亮短词`（`｜` 后省略时高亮词=主标题）；提供标题时整套文案切换中性版
@@ -127,8 +128,10 @@ def media_ts(fn):
 
 
 def build_media_html(imgs, vids):
+    # index.* 是上层站点卡片的预览图（collect_records 卡片封面用），不是记录页内容：不出现在时间线里
+    content_imgs = [im for im in imgs if os.path.splitext(im)[0].lower() != "index"]
     items = sorted(
-        [(media_ts(fn), "img", fn) for fn in imgs] + [(media_ts(fn), "vid", fn) for fn in vids],
+        [(media_ts(fn), "img", fn) for fn in content_imgs] + [(media_ts(fn), "vid", fn) for fn in vids],
         key=lambda t: (t[0], t[2]))
     # 时间线分段：连续图片聚为一个组图块；遇到视频、或图片间隔超过 IMG_GAP_MIN 则断开
     segs = []  # ("imgs", [fn...]) | ("vid", fn)
@@ -156,8 +159,8 @@ def build_media_html(imgs, vids):
             h += ('      <video class="log-video" src="%s" controls preload="metadata"></video>\n'
                   '      <div class="log-video-cap">%s</div>\n') % (payload, humanize(payload))
             continue
-        # 组块主图：组内 index.* 优先，否则组内最早一张
-        cover = next((im for im in payload if os.path.splitext(im)[0].lower() == "index"), payload[0])
+        # 组块主图：组内最早一张（index.* 是上层卡片预览图，不参与页面媒体）
+        cover = payload[0]
         gal = "".join(
             '          <img src="%s" alt="%s" loading="lazy" decoding="async">\n' % (im, humanize(im))
             for im in payload)
