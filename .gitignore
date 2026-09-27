@@ -36,3 +36,6 @@ tests/reports/
 
 # --- 媒体转码前的 HEVC 原件备份（仅本地保留，禁止入库；见 AGENTS §10 入库视频必须 H.264）---
 **/_hevc_originals_*/
+
+# VAND 自包含安装目录（勿删；升级 = 在 .vand 内 git pull）
+.vand/
