@@ -187,11 +187,13 @@
       }
     });
     per.sort(function (a, b) { return b.delta - a.delta; });
+    /* 口径一致 = 科目 key 集合相同（仅比数量会漏掉"同数量不同科目"的选科切换） */
+    function scopeKeys(e) { return (e.subjects || []).map(function (s) { return s.key; }).sort().join(','); }
     return {
       first: first, last: last,
       overallDelta: last.rate - first.rate,
       per: per,
-      sameScope: first.exam.subjects.length === last.exam.subjects.length
+      sameScope: scopeKeys(first.exam) === scopeKeys(last.exam)
     };
   }
 
@@ -274,6 +276,10 @@
 
     if (!exams.length) {
       return { text: '还没有考试记录。先到「录入」添加第一场考试，系统会自动生成趋势、偏科、目标差距等分析。', insufficient: true };
+    }
+    /* 有记录但无可计分得分（如全部缺考/导入脏数据）：数值分析不可用，明确告知而非崩溃 */
+    if (!os.length) {
+      return { text: '已记录 ' + exams.length + ' 场考试，但没有一场包含可计分的科目得分（全部为缺考/未考或数据不完整），无法进行数值分析。请到「考试」视图检查记录，或在「录入」中补录得分。', insufficient: true };
     }
 
     var first = exams[0], last = exams[exams.length - 1];

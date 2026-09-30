@@ -142,9 +142,84 @@
     figure{break-inside:avoid;}
     section{break-inside:auto;}
   }
+  /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+  .xbrain-brand{
+    position:fixed; top:16px; left:16px; z-index:100;
+    display:flex; align-items:center; gap:8px;
+    background:linear-gradient(135deg, rgba(17,33,27,.94) 0%, rgba(28,58,46,.92) 100%);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border:1.5px solid rgba(143,217,182,.55);
+    border-radius:12px; padding:6px 14px 6px 8px;
+    box-shadow:0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(95,185,138,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+    text-decoration:none; transition:opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+  }
+  .xbrain-brand:hover{box-shadow:0 0 24px rgba(95,185,138,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform:translateY(-1px); border-color:rgba(143,217,182,.7);}
+  .xbrain-brand svg{width:32px; height:32px; flex-shrink:0; filter:drop-shadow(0 0 12px rgba(95,185,138,.55));}
+  .xbrain-brand .xb-ring{stroke-width:4; opacity:.95;}
+  .xbrain-brand .xb-glow-bg{opacity:.40;}
+  .xbrain-brand .xb-center-ring{stroke-width:3; opacity:.95;}
+  .xbrain-brand .xb-x-line{opacity:.9; stroke-width:2.5;}
+  .xbrain-brand .xb-core{r:12; opacity:1;}
+  .xbrain-brand .xb-ttai{fill:#2a6a52; filter:drop-shadow(0 0 6px rgba(95,185,138,.45));}
+  .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2{opacity:1;}
+  .xbrain-brand .xb-bar-group{opacity:.75;}
+  .xbrain-brand .xb-bar{fill:#3a8a6a;}
+  .xbrain-brand .xb-bar-glow{opacity:.9;}
+  .xbrain-brand .xbrain-text{font-size:15px; font-weight:800; letter-spacing:1.5px; color:#eef2f8; line-height:1; text-shadow:0 0 12px rgba(95,185,138,.55);}
+  .xbrain-brand .xbrain-text span{color:#5fb98a; text-shadow:0 0 18px rgba(95,185,138,.9);}
+  .xbrain-brand.scrolled{background:rgba(10,20,16,.4); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border-color:rgba(95,185,138,.08); box-shadow:none;}
+  @media (max-width:640px){
+    .xbrain-brand{top:8px; left:8px; padding:4px 10px 4px 6px;}
+    .xbrain-brand svg{width:26px; height:26px;}
+    .xbrain-brand .xbrain-text{font-size:13px;}
+  }
 </style>
 </head>
-<body>
+<body id="top">
+<!-- ===== XBrain Logo（IP 规范）===== -->
+<a class="xbrain-brand" href="../index.html" title="XBrain · 四季景点导航">
+  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#5fb98a" stop-opacity="1" />
+        <stop offset="60%" stop-color="#3a8a6a" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="#1a3a2e" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#8fd9b6" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#8fd9b6" />
+      </linearGradient>
+      <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
+    </defs>
+    <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+    <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+    <g transform="matrix(0 -1 1 0 30 300)">
+      <rect class="xb-ttai" fill="#2a6a52" width="240" height="36" rx="4" ry="4" />
+      <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+      <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+    </g>
+    <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+      <rect class="xb-bar" fill="#3a8a6a" width="40" height="280" rx="3" ry="3" />
+      <rect class="xb-bar-glow" fill="#5fb98a" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+    </g>
+    <g transform="matrix(0 -1 1 0 30 230)">
+      <circle cx="50" cy="50" r="50" fill="#0d2018" />
+      <circle cx="50" cy="50" r="46" fill="#16281f" opacity="0.8" />
+      <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#5fb98a" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+      <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+      <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#5fb98a" stroke-width="1.5" opacity="0.5" />
+      <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#5fb98a" stroke-width="1.5" opacity="0.5" />
+      <circle class="xb-core" cx="50" cy="50" r="10" fill="#8fd9b6" filter="url(#glow)" opacity="0.9" />
+      <circle cx="50" cy="50" r="4" fill="#ffffff" />
+    </g>
+    <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+      <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+      <circle cx="42" cy="42" r="32" fill="none" stroke="#5fb98a" stroke-width="0.6" stroke-dasharray="4 4" />
+    </g>
+  </svg>
+  <div class="xbrain-text"><span>X</span>Brain</div>
+</a>
 <div class="page">
 
 <header class="hero">
@@ -815,5 +890,20 @@
 </footer>
 
 </div>
+
+<script>
+  /* ===== XBrain Logo 滚动淡出（IP 规范）===== */
+  (function () {
+    var logo = document.querySelector('.xbrain-brand'), ticking = false;
+    function updateLogo() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var ratio = Math.min(scrollY / vh, 1);
+      if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { window.requestAnimationFrame(function () { updateLogo(); ticking = false; }); ticking = true; } }, { passive: true });
+    updateLogo();
+  })();
+</script>
 </body>
 </html>

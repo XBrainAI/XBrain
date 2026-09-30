@@ -132,6 +132,13 @@
       return;
     }
 
+    /* 有记录但无可计分得分（全部缺考/导入脏数据）：给空态而非崩溃 */
+    if (!os.length) {
+      el.innerHTML = html + emptyHtml('📊', '已记录 ' + state.exams.length + ' 场考试，但没有可计分的科目得分（全部缺考或数据不完整）。<br>请到「考试」检查记录，或在「录入」补录得分。', 'exams', '去检查考试记录');
+      bindGoButtons(el); bindBanners();
+      return;
+    }
+
     var last = os[os.length - 1];
     var rates = os.map(function (x) { return x.rate; });
     var s = A.slope(rates);
@@ -249,14 +256,15 @@
       });
     });
 
+    /* 分科序列与总分同源（按考试一一映射），不再按日期字符串匹配——
+       同日两场考试时日期标签会重复，字符串匹配会错位 */
     var xLabels = os.map(function (x) { return A.fmtDate(x.exam.date); });
     var series = [{ name: '总分', data: os.map(function (x) { return x.rate; }) }];
     subjectsWithData.forEach(function (sub) {
       if (!trendSubSel[sub.key]) return;
-      var ss = A.subjectSeries(exams, sub.key);
-      series.push({ name: sub.name, data: xLabels.map(function (d, i) {
-        var pt = ss.find(function (p) { return A.fmtDate(p.exam.date) === d; });
-        return pt ? pt.rate : null;
+      series.push({ name: sub.name, data: os.map(function (o) {
+        var sr = o.exam.subjects.find(function (s) { return s.key === sub.key; });
+        return sr ? A.subjRate(sr) : null;
       }) });
     });
     C.line('trLine', { xLabels: xLabels, series: series, zoom: true });
@@ -675,7 +683,7 @@
     };
 
     if (rowErr) { toast(rowErr); return; }
-    var v = S.validateExam(exam, state);
+    var v = S.validateExam(exam, state, editingId);
     if (v.errors.length) { toast(v.errors[0]); return; }
     if (v.warnings.length && !confirm(v.warnings.join('\n') + '\n\n仍要保存吗？')) return;
 

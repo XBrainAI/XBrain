@@ -75,22 +75,29 @@
       subjects: (e.subjects || []).map(function (s) {
         return {
           key: s.key,
-          full: typeof s.full === 'number' ? s.full : null,
-          score: (s.score === null || s.score === undefined || s.score === '') ? null : Number(s.score),
-          avgClass: (s.avgClass === undefined || s.avgClass === null || s.avgClass === '') ? null : Number(s.avgClass),
-          avgGrade: (s.avgGrade === undefined || s.avgGrade === null || s.avgGrade === '') ? null : Number(s.avgGrade),
-          rank: (s.rank === undefined || s.rank === null || s.rank === '') ? null : Number(s.rank),
-          rankSize: (s.rankSize === undefined || s.rankSize === null || s.rankSize === '') ? null : Number(s.rankSize),
+          full: numOrNull(s.full),
+          score: numOrNull(s.score),
+          avgClass: numOrNull(s.avgClass),
+          avgGrade: numOrNull(s.avgGrade),
+          rank: numOrNull(s.rank),
+          rankSize: numOrNull(s.rankSize),
           level: s.level || null
         };
       }),
-      totalRank: (e.totalRank === undefined || e.totalRank === null || e.totalRank === '') ? null : Number(e.totalRank),
-      totalRankSize: (e.totalRankSize === undefined || e.totalRankSize === null || e.totalRankSize === '') ? null : Number(e.totalRankSize)
+      totalRank: numOrNull(e.totalRank),
+      totalRankSize: numOrNull(e.totalRankSize)
     };
   }
 
   function makeExamId(e) {
     return String(e.date || '') + '-' + String(e.name || '').replace(/\s+/g, '');
+  }
+
+  /* 数值归一：空值 → null；非有限数（NaN/Infinity，导入脏数据）→ null，按缺考口径处理 */
+  function numOrNull(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
   }
 
   /* ---------- 读取 / 保存 ---------- */
@@ -129,8 +136,9 @@
   }
 
   /* ---------- 录入校验 ----------
-     返回 { errors:[], warnings:[] } */
-  function validateExam(exam, state) {
+     返回 { errors:[], warnings:[] }
+     excludeId：编辑场景下豁免自身（新建场景传 null/省略，同日同名一律判重） */
+  function validateExam(exam, state, excludeId) {
     var errors = [], warnings = [];
     if (!exam.name) errors.push('请填写考试名称');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(exam.date)) errors.push('请选择考试日期');
@@ -148,7 +156,7 @@
       } else if (s.full && s.score > s.full) {
         errors.push(nm + '：得分 ' + s.score + ' 超过满分 ' + s.full);
       }
-      if (s.full && (!s.full || s.full <= 0)) errors.push(nm + '：满分必须大于 0');
+      if (s.full !== null && s.full !== undefined && s.full <= 0) errors.push(nm + '：满分必须大于 0');
       if (s.rank !== null && s.rankSize !== null && s.rank > s.rankSize) {
         warnings.push(nm + '：排名 ' + s.rank + ' 大于年级人数 ' + s.rankSize + '，请确认');
       }
@@ -161,9 +169,10 @@
       warnings.push('总分排名大于年级人数，请确认');
     }
 
-    /* 同日同名去重（按日期+名称比对，兼容任何 id 方案；编辑时跳过自身） */
+    /* 同日同名判重（编辑时经 excludeId 豁免自身；新建考试 id 由日期+名称派生，
+       若沿用旧的"按 id 排除自身"写法，新建撞车会被误判为编辑而静默覆盖） */
     var dup = state.exams.some(function (e) {
-      return e.id !== exam.id && e.date === exam.date && e.name === exam.name;
+      return e.id !== excludeId && e.date === exam.date && e.name === exam.name;
     });
     if (dup) errors.push('已存在同日期同名称的考试记录');
 
@@ -240,9 +249,9 @@
   }
 
   /* ---------- 备份提醒 ----------
-     距上次导出 > 14 天 且 之后有修改 → 建议导出 */
+     距上次导出 > 14 天 且 之后有修改 → 建议导出（示例数据无需备份） */
   function backupNeeded(state) {
-    if (!state.exams.length) return false;
+    if (state.isSample || !state.exams.length) return false;
     if (!state.lastExportAt) return true;
     var days = (Date.now() - new Date(state.lastExportAt).getTime()) / 86400000;
     var modifiedAfterExport = new Date(state.lastModified).getTime() > new Date(state.lastExportAt).getTime();
