@@ -140,28 +140,21 @@
 
   <!-- 应用头部 -->
   <header class="app-header">
+    <button class="gear-btn" id="btnGear" title="设置" aria-label="设置">⚙️</button>
     <h1 class="page-title">📊 成绩追踪</h1>
     <div class="page-sub">高中三年成绩跟踪分析 · 跨考试归一 · 趋势 / 偏科 / 目标推演</div>
   </header>
 
-  <!-- 视图容器 -->
+  <!-- 视图容器（三页直线：报告 + 记录；设置经齿轮弹层） -->
   <main>
-    <section class="view active" id="view-overview"></section>
-    <section class="view" id="view-trends"></section>
-    <section class="view" id="view-subjects"></section>
-    <section class="view" id="view-exams"></section>
-    <section class="view" id="view-entry"></section>
-    <section class="view" id="view-settings"></section>
+    <section class="view active" id="view-report"></section>
+    <section class="view" id="view-records"></section>
   </main>
 
   <!-- 底部 Tab（桌面端自动转为顶部导航） -->
   <nav class="tabbar" id="tabbar">
-    <a href="#overview" data-route="overview"><span class="tab-ico">📊</span>总览</a>
-    <a href="#trends" data-route="trends"><span class="tab-ico">📈</span>趋势</a>
-    <a href="#subjects" data-route="subjects"><span class="tab-ico">🧭</span>科目</a>
-    <a href="#exams" data-route="exams"><span class="tab-ico">📋</span>考试</a>
-    <a href="#entry" data-route="entry"><span class="tab-ico">✏️</span>录入</a>
-    <a href="#settings" data-route="settings"><span class="tab-ico">⚙️</span>设置</a>
+    <a href="#report" data-route="report"><span class="tab-ico">📊</span>报告</a>
+    <a href="#records" data-route="records"><span class="tab-ico">📋</span>记录</a>
   </nav>
 
   <!-- 弹层 -->

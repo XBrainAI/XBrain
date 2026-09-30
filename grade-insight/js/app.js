@@ -1,7 +1,9 @@
 /* ============================================================
-   grade-insight · 应用层
-   hash 路由（#overview/#trends/#subjects/#exams/#entry/#settings，
-   可深链分享）+ 视图渲染 + 录入表单 + 弹层 + 导入导出。
+   grade-insight · 应用层（三页直线版）
+   ------------------------------------------------------------
+   路由：#report 报告（一条龙长页）/#records 记录（录入+考试时间线），
+   设置经右上角齿轮弹层；旧六路由（#overview/#trends/#subjects/
+   #exams/#entry/#settings）保留为别名自动重定向。
    依赖顺序：data.js → store.js → analysis.js → charts.js → 本文件。
    ============================================================ */
 (function () {
@@ -43,14 +45,35 @@
     } else { fallback(); }
   }
 
+  /* 章节跳转：确定性定位（window.scrollTo 各内核行为一致；
+     84px 为固定品牌胶囊预留余量，与 .rep-sec 的 scroll-margin-top 一致） */
+  function scrollToSec(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + (window.pageYOffset || 0) - 84;
+    window.scrollTo(0, y > 0 ? y : 0);
+  }
+
   /* ================= 路由 ================= */
-  var ROUTES = ['overview', 'trends', 'subjects', 'exams', 'entry', 'settings'];
-  var TAB_ICONS = { overview: '📊', trends: '📈', subjects: '🧭', exams: '📋', entry: '✏️', settings: '⚙️' };
-  var TAB_NAMES = { overview: '总览', trends: '趋势', subjects: '科目', exams: '考试', entry: '录入', settings: '设置' };
+  var ROUTES = ['report', 'records'];
+  /* 旧六路由别名：映射到新路由 + 动作（sec=章节滚动 / openEntry=展开录入 / openSettings=打开设置弹层） */
+  var LEGACY = {
+    overview: { route: 'report' },
+    trends: { route: 'report', sec: 'sec-trend' },
+    subjects: { route: 'report', sec: 'sec-subjects' },
+    exams: { route: 'records' },
+    entry: { route: 'records', openEntry: true },
+    settings: { route: 'report', openSettings: true }
+  };
 
   function parseRoute() {
     var h = (location.hash || '').replace(/^#/, '');
-    return ROUTES.indexOf(h) >= 0 ? h : 'overview';
+    if (ROUTES.indexOf(h) >= 0) return { route: h };
+    if (LEGACY[h]) {
+      var l = LEGACY[h];
+      return { route: l.route, sec: l.sec || null, openEntry: !!l.openEntry, openSettings: !!l.openSettings, legacy: h };
+    }
+    return { route: 'report' };
   }
 
   /* 导航：显式接管（不依赖 <a> 默认锚点行为与 hashchange 事件——
@@ -63,25 +86,35 @@
     onRoute();
   }
 
+  /* 上次渲染的路由：某些内核对 replaceState 改 hash 也会补发 hashchange，
+     导致 onRoute 二次执行并把刚滚到章节的位置重置回顶部——仅在路由真正变化时回顶 */
+  var lastRenderedRoute = null;
+
   function onRoute() {
     var r = parseRoute();
+    /* 旧深链地址栏规范化（replaceState 不触发 hashchange，无循环） */
+    if (r.legacy) {
+      try { history.replaceState(null, '', '#' + r.route); }
+      catch (e) { /* 忽略，仍按别名渲染 */ }
+    }
+    var routeChanged = r.route !== lastRenderedRoute;
+    lastRenderedRoute = r.route;
     document.querySelectorAll('.tabbar a').forEach(function (a) {
-      a.classList.toggle('active', a.getAttribute('data-route') === r);
+      a.classList.toggle('active', a.getAttribute('data-route') === r.route);
     });
     document.querySelectorAll('.view').forEach(function (v) {
-      v.classList.toggle('active', v.id === 'view-' + r);
+      v.classList.toggle('active', v.id === 'view-' + r.route);
     });
-    window.scrollTo(0, 0);
+    if (r.openEntry) entryOpen = true;
+    if (routeChanged && !r.sec && !r.openSettings) window.scrollTo(0, 0);
     try {
-      var renderers = {
-        overview: renderOverview, trends: renderTrends, subjects: renderSubjects,
-        exams: renderExams, entry: renderEntry, settings: renderSettings
-      };
-      renderers[r]();
+      if (r.route === 'report') renderReport(); else renderRecords();
     } catch (err) {
       toast('渲染出错：' + err.message);
       if (window.console) console.error(err);
     }
+    if (r.sec) scrollToSec(r.sec);
+    if (r.openSettings) openSettingsSheet();
   }
 
   /* ================= 公共片段 ================= */
@@ -101,10 +134,10 @@
   function bindBanners() {
     var b1 = document.getElementById('bnClearSample');
     if (b1) b1.addEventListener('click', function () {
-      if (confirm('清空示例数据并开始空白档案？')) { S.clearAll(); toast('已清空，开始记录真实成绩吧'); onRoute(); }
+      if (confirm('清空示例数据并开始空白档案？')) { S.clearAll(); entryOpen = false; editingId = null; toast('已清空，开始记录真实成绩吧'); onRoute(); }
     });
     var b2 = document.getElementById('bnGoSettings');
-    if (b2) b2.addEventListener('click', function () { navigate('settings'); });
+    if (b2) b2.addEventListener('click', function () { openSettingsSheet(); });
   }
 
   function emptyHtml(icon, text, actRoute, actText) {
@@ -113,185 +146,249 @@
       '</div>';
   }
 
+  function hintCard(text) {
+    return '<div class="card"><div class="muted">' + text + '</div></div>';
+  }
+
   function bindGoButtons(container) {
     container.querySelectorAll('[data-go]').forEach(function (b) {
       b.addEventListener('click', function () { navigate(b.getAttribute('data-go')); });
     });
   }
 
-  /* ================= 视图 1：总览 ================= */
-  function renderOverview() {
-    var el = document.getElementById('view-overview');
+  function secTitle(ico, text) {
+    return '<h3 class="sec-title"><span class="h-ico">' + ico + '</span>' + text + '</h3>';
+  }
+
+  /* ================= 视图 1：报告（一条龙长页） ================= */
+  var trendFilterKey = 'all';   /* 走势图的考试性质筛选 */
+
+  function renderReport() {
+    var el = document.getElementById('view-report');
     var state = S.load();
     var os = A.overallSeries(state.exams);
     var html = bannersHtml(state);
+    var nExams = state.exams.length;
 
-    if (!state.exams.length) {
-      el.innerHTML = html + emptyHtml('📊', '还没有考试记录。<br>从「录入」开始，每次考完花一分钟，趋势/偏科/目标差距全自动生成。', 'entry', '＋ 录入第一场考试');
+    if (!nExams) {
+      el.innerHTML = html + emptyHtml('📊', '还没有考试记录。<br>到「记录」开始，每次考完花一分钟，报告全自动生成。', 'records', '＋ 录入第一场考试');
       bindGoButtons(el); bindBanners();
       return;
     }
-
     /* 有记录但无可计分得分（全部缺考/导入脏数据）：给空态而非崩溃 */
     if (!os.length) {
-      el.innerHTML = html + emptyHtml('📊', '已记录 ' + state.exams.length + ' 场考试，但没有可计分的科目得分（全部缺考或数据不完整）。<br>请到「考试」检查记录，或在「录入」补录得分。', 'exams', '去检查考试记录');
+      el.innerHTML = html + emptyHtml('📊', '已记录 ' + nExams + ' 场考试，但没有可计分的科目得分（全部缺考或数据不完整）。<br>请到「记录」检查记录，或补录得分。', 'records', '去检查考试记录');
       bindGoButtons(el); bindBanners();
       return;
     }
 
+    /* ---- ① 本况 ---- */
+    html += '<section class="rep-sec" id="sec-now">' + kpiGridHtml(state, os) + '</section>';
+
+    /* ---- ② 本期要点 ---- */
+    html += '<section class="rep-sec" id="sec-takeaways">';
+    html += secTitle('🧭', '本期要点');
+    var tks = A.takeaways(state);
+    if (!tks.length) {
+      html += hintCard('记录满 2 场后，这里会自动提炼本期要点。');
+    } else {
+      html += '<div class="tk-grid">';
+      tks.forEach(function (t) {
+        html += '<button class="tk-card ' + t.cls + '" data-anchor="' + t.anchor + '">' +
+          '<span class="tk-ico">' + t.icon + '</span>' +
+          '<span class="tk-text">' + esc(t.text) + '</span>' +
+          '<span class="tk-go">›</span></button>';
+      });
+      html += '</div><div class="small-note mt8">点要点卡可跳到对应图表。</div>';
+    }
+    html += '</section>';
+
+    /* ---- ③ 总分走势与相对位置 ---- */
+    html += '<section class="rep-sec" id="sec-trend">';
+    html += secTitle('📈', '总分走势与相对位置');
+    if (os.length < 2) {
+      html += hintCard('图表需要至少 2 场考试，先积累数据或切换筛选。');
+    } else {
+      var groups = (D.typeGroups || [{ key: 'all', name: '全部', types: null }]);
+      html += '<div class="card">' +
+        '<div class="chips">' + groups.map(function (x) {
+          return '<button class="chip' + (x.key === trendFilterKey ? ' active' : '') + '" data-gkey="' + x.key + '">' + esc(x.name) + '</button>';
+        }).join('') + '</div>' +
+        '<div class="chart-box tall" id="rpLine"></div>' +
+        '<div class="chart-note">怎么看：每个点是一场考试的<b>总分得分率（得分 ÷ 满分）</b>，越高越好；横轴为考试日期。不同考试满分不同，已自动归一，禁止直接比原始分。</div></div>';
+      html += '<div class="card"><div class="chart-box" id="rpBar"></div>' +
+        '<div class="chart-note">怎么看：柱高 = 个人总得分率 <b>−</b> 年级均分得分率；<b>绿柱 = 跑赢年级，红柱 = 落后</b>；柱子整体向上 = 在跑赢大盘。单位为百分点。</div></div>';
+    }
+    html += '</section>';
+
+    /* ---- ④ 学科诊断 ---- */
+    html += '<section class="rep-sec" id="sec-subjects">';
+    html += secTitle('🧭', '学科诊断');
+    if (os.length < 2) {
+      html += hintCard('学科诊断需要至少 2 场考试。');
+    } else {
+      var im = A.imbalance(state.exams, state.subjects);
+
+      /* 雷达：最近一次 vs 个人均值 */
+      var last = os[os.length - 1];
+      var inds = [], latestVals = [], meanVals = [];
+      state.subjects.forEach(function (sub) {
+        var sr = last.exam.subjects.find(function (s) { return s.key === sub.key && s.score !== null; });
+        var it = im.items.find(function (x) { return x.key === sub.key && x.count >= 1; });
+        if (sr && it) {
+          inds.push({ name: sub.name, max: 1 });
+          latestVals.push(A.subjRate(sr));
+          meanVals.push(it.mean);
+        }
+      });
+      html += '<div class="card"><h3><span class="h-ico">🕸️</span>学科雷达</h3>' +
+        '<div class="card-desc">蓝色 = 最近一次「' + esc(last.exam.name) + '」，黄色 = 个人历史均值。<b>某条边明显凹进去，就是短板方向</b>（相对你自己的总分均值得分率）。</div>' +
+        '<div class="chart-box tall" id="rpRadar"></div></div>';
+
+      /* 偏科榜 */
+      var sorted = im.items.filter(function (x) { return x.count >= 2; }).sort(function (a, b) { return b.delta - a.delta; });
+      html += '<div class="card"><h3><span class="h-ico">⚖️</span>偏科诊断</h3>' +
+        '<div class="card-desc">差值 = 该科均值得分率 <b>−</b> 个人总分均值得分率（基准 ' + A.pct(im.overallMean) + '）；<b>≥ 8 个百分点判强科，≤ −8 判弱科</b>。</div><div class="rank-list">';
+      if (!sorted.length) html += '<div class="muted">暂无数据</div>';
+      sorted.forEach(function (x, i) {
+        html += '<div class="rank-item"><span class="ri-idx">' + (i + 1) + '</span><span class="ri-name">' + esc(x.name) +
+          ' <span class="muted small-note">均值 ' + A.pct(x.mean) + '</span></span>' +
+          '<span class="ri-val ' + (x.delta >= 0 ? 'text-up' : 'text-down') + '">' + A.pp(x.delta) + ' pp</span>' +
+          '<span class="tag ' + (x.tag === 'strong' ? 'strong' : x.tag === 'weak' ? 'weak' : 'muted') + '">' + (x.tag === 'strong' ? '强科' : x.tag === 'weak' ? '弱科' : '均衡') + '</span></div>';
+      });
+      html += '</div></div>';
+
+      /* 单科走势（折叠懒绘制） */
+      var sparkRows = '';
+      var colors = C.PALETTE;
+      var idx = 0;
+      state.subjects.forEach(function (sub) {
+        var ss = A.subjectSeries(state.exams, sub.key);
+        if (ss.length < 2) return;
+        var s = A.slope(ss.map(function (x) { return x.rate; }));
+        var tl = A.trendLabel(s);
+        var std = A.stdev(ss.map(function (x) { return x.rate; }));
+        var vl = A.volatilityLabel(std);
+        var it = im.items.find(function (x) { return x.key === sub.key; });
+        sparkRows += '<details class="sub-row" data-key="' + esc(sub.key) + '">' +
+          '<summary><b>' + esc(sub.name) + '</b>' +
+          '<span class="tag ' + tl.cls + '">' + tl.label + '</span>' +
+          '<span class="tag ' + vl.cls + '">' + vl.label + '</span>' +
+          '<span class="tag muted">均值 ' + (it ? A.pct(it.mean) : '—') + '</span>' +
+          '<span class="sr-arrow">▾</span></summary>' +
+          '<div class="chart-box spark" id="sp_' + esc(sub.key) + '"></div>' +
+          '<div class="chart-note">横轴为考试日期，纵轴为该科得分率（自动缩放）；波动 = 近几次得分率标准差，斜率单位为百分点/次。</div>' +
+          '</details>';
+        idx++;
+      });
+      html += '<div class="card"><h3><span class="h-ico">📚</span>单科走势<span class="muted small-note">（点科目展开小图）</span></h3>';
+      html += sparkRows ? sparkRows : '<div class="muted">暂无足够数据的科目（每科至少 2 次记录）</div>';
+      html += '</div>';
+    }
+    html += '</section>';
+
+    /* ---- ⑤ 目标与提分 ---- */
+    html += '<section class="rep-sec" id="sec-goal">';
+    html += secTitle('🎯', '目标与提分');
+    var tg = A.target(state, os);
+    if (tg) {
+      html += '<div class="card"><h3><span class="h-ico">🎓</span>目标推演</h3>' +
+        '<div class="goal-line">目标总得分率 ' + A.pct(tg.target) + ' · 当前 ' + A.pct(tg.current) +
+        ' · <b class="' + (tg.gap <= 0 ? 'text-up' : 'text-down') + '">' + (tg.gap <= 0 ? '已达标（+' + A.pp(-tg.gap) + ' pp）' : '还差 ' + A.pp(tg.gap) + ' pp') + '</b></div>' +
+        '<div class="card-desc">' + esc(tg.projection || '') + '</div>';
+      var pri = A.priorities(state.exams, state);
+      if (pri.length) {
+        html += '<div class="rank-list mt12">';
+        pri.forEach(function (p, i) {
+          var why = p.slope !== null && p.slope < -0.008 ? '且趋势向下，优先止损' : '提升空间最大';
+          html += '<div class="rank-item"><span class="ri-idx">' + (i + 1) + '</span><span class="ri-name">' + esc(p.name) +
+            ' <span class="muted small-note">均值 ' + A.pct(p.mean) + '</span></span>' +
+            '<span class="ri-val">距目标 ' + A.pp(p.space) + ' pp</span>' +
+            '<span class="tag muted">' + why + '</span></div>';
+        });
+        html += '</div>';
+      }
+      html += '<div class="small-note mt8">提分优先级 = 距目标空间 × 趋势加权 Top3；趋势外推仅供参考，不构成升学承诺。</div></div>';
+    } else {
+      html += hintCard('暂无可分析的数据。');
+    }
+    html += '</section>';
+
+    /* ---- ⑥ 完整简报（折叠，可复制给 AI） ---- */
+    var br = A.briefing(state);
+    html += '<section class="rep-sec" id="sec-briefing">' +
+      '<details class="brief-fold"><summary>📄 完整智能简报<span class="muted small-note">（默认收起 · 可复制给 AI 深聊）</span><span class="sr-arrow">▾</span></summary>' +
+      '<div class="card"><div class="briefing-text" id="briefText">' + esc(br.text) + '</div>' +
+      '<div class="btn-row"><button class="btn small primary" id="btnCopyBrief">📋 一键复制简报</button></div>' +
+      '<div class="small-note">简报随每次录入自动更新；结论由规则引擎基于三重归一生成。</div></div></details></section>';
+
+    el.innerHTML = html;
+    bindGoButtons(el); bindBanners();
+
+    /* 要点卡点击 → 跳章节 */
+    el.querySelectorAll('.tk-card').forEach(function (t) {
+      t.addEventListener('click', function () { scrollToSec(t.getAttribute('data-anchor')); });
+    });
+    /* 考试性质筛选 */
+    el.querySelectorAll('.chip[data-gkey]').forEach(function (c) {
+      c.addEventListener('click', function () {
+        trendFilterKey = c.getAttribute('data-gkey');
+        renderReport();
+        scrollToSec('sec-trend');
+      });
+    });
+    /* 单科走势懒绘制：展开时才画（收起时容器无尺寸） */
+    el.querySelectorAll('.sub-row').forEach(function (d) {
+      var drawn = false;
+      d.addEventListener('toggle', function () {
+        if (d.open && !drawn) {
+          drawn = true;
+          drawSubjectSpark(state, d.getAttribute('data-key'));
+        }
+      });
+    });
+    var cb = document.getElementById('btnCopyBrief');
+    if (cb) cb.addEventListener('click', function () { copyText(br.text, '简报已复制，可粘贴给 AI 深聊'); });
+
+    drawReportCharts(state, os);
+  }
+
+  function kpiGridHtml(state, os) {
     var last = os[os.length - 1];
     var rates = os.map(function (x) { return x.rate; });
     var s = A.slope(rates);
     var tl = A.trendLabel(s);
-
-    /* KPI：最近得分率 / 排名百分位 / 趋势 / 距目标 */
     var lastRanked = null;
     for (var i = os.length - 1; i >= 0; i--) {
       if (os[i].percentile !== null) { lastRanked = os[i]; break; }
     }
     var gap = state.student.targetRate - last.rate;
-    html +=
-      '<div class="kpi-grid">' +
+    return '<div class="kpi-grid">' +
       '<div class="kpi"><div class="kpi-value">' + A.pct(last.rate) + '</div><div class="kpi-label">最近总得分率</div><div class="kpi-extra">' + esc(last.exam.name) + '</div></div>' +
       '<div class="kpi"><div class="kpi-value">' + (lastRanked ? A.percentileOf(lastRanked.exam.totalRank, lastRanked.exam.totalRankSize).toFixed(1) + '%' : '—') + '</div><div class="kpi-label">总分排名百分位</div><div class="kpi-extra">' + (lastRanked ? esc(lastRanked.exam.name) + '：' + lastRanked.exam.totalRank + '/' + lastRanked.exam.totalRankSize : '录入总分排名后显示') + '</div></div>' +
       '<div class="kpi"><div class="kpi-value ' + (tl.cls === 'up' ? 'up' : tl.cls === 'down' ? 'down' : '') + '">' + tl.label + '</div><div class="kpi-label">总体趋势</div><div class="kpi-extra">' + (s === null ? '样本不足' : '平均每次 ' + A.pp(s) + ' pp') + '</div></div>' +
       '<div class="kpi"><div class="kpi-value ' + (gap <= 0 ? 'up' : '') + '">' + (gap <= 0 ? '已达标' : A.pp(-gap) + ' pp') + '</div><div class="kpi-label">距高考目标 ' + A.pct(state.student.targetRate) + '</div><div class="kpi-extra">目标在「设置」中可调</div></div>' +
       '</div>';
-
-    /* 智能简报 */
-    var br = A.briefing(state);
-    html += '<div class="card"><h3><span class="h-ico">🤖</span>智能简报</h3>' +
-      '<div class="briefing-text" id="briefText">' + esc(br.text) + '</div>' +
-      '<div class="btn-row"><button class="btn small primary" id="btnCopyBrief">📋 一键复制简报</button>' +
-      '<button class="btn small" data-go="trends">查看趋势图</button></div>' +
-      '<div class="briefing-foot">简报随每次录入自动更新；复制后可粘贴给任意 AI 助手做更深入的个性化分析。</div></div>';
-
-    /* 迷你趋势 + 强弱科 */
-    var im = A.imbalance(state.exams, state.subjects);
-    var strongTags = im.items.filter(function (x) { return x.tag === 'strong' && x.count >= 2; }).sort(function (a, b) { return b.delta - a.delta; }).slice(0, 3);
-    var weakTags = im.items.filter(function (x) { return x.tag === 'weak' && x.count >= 2; }).sort(function (a, b) { return a.delta - b.delta; }).slice(0, 3);
-    html += '<div class="card"><h3><span class="h-ico">📈</span>总得分率走势</h3><div class="chart-box" id="ovSpark"></div>' +
-      '<div class="mt12"><span class="tag muted">最近 ' + os.length + ' 次走势</span> ' +
-      (strongTags.length ? '<span class="tag strong">强科 ' + strongTags.map(function (x) { return esc(x.name); }).join('/') + '</span> ' : '') +
-      (weakTags.length ? '<span class="tag weak">弱科 ' + weakTags.map(function (x) { return esc(x.name); }).join('/') + '</span>' : '') +
-      '</div></div>';
-
-    html += '<div class="card"><h3><span class="h-ico">🚀</span>快捷入口</h3><div class="btn-row" style="margin-top:4px">' +
-      '<button class="btn" data-go="entry">✏️ 录入新成绩</button>' +
-      '<button class="btn" data-go="subjects">🧭 学科诊断</button>' +
-      '<button class="btn" data-go="exams">📋 考试列表</button></div></div>';
-
-    el.innerHTML = html;
-    bindGoButtons(el); bindBanners();
-    var cb = document.getElementById('btnCopyBrief');
-    if (cb) cb.addEventListener('click', function () { copyText(br.text, '简报已复制，可粘贴给 AI 深聊'); });
-
-    C.spark('ovSpark', {
-      xLabels: os.map(function (x) { return A.fmtDate(x.exam.date); }),
-      data: rates
-    });
   }
 
-  /* ================= 视图 2：趋势 ================= */
-  var trendFilterKey = 'all';
-  var trendSubSel = {};   /* key -> true */
-
-  function renderTrends() {
-    var el = document.getElementById('view-trends');
-    var state = S.load();
-    var groups = (D.typeGroups || [{ key: 'all', name: '全部', types: null }]);
-    var types = null;
+  function drawReportCharts(state, os) {
+    /* 走势图（按考试性质筛选） */
+    var groups = (D.typeGroups || []);
     var g = groups.find(function (x) { return x.key === trendFilterKey; });
-    if (g && g.types) types = g.types;
-    var exams = A.sortExams(state.exams).filter(function (e) { return !types || types.indexOf(e.type) >= 0; });
-    var os = A.overallSeries(exams);
-
-    var html = bannersHtml(state);
-    html += '<div class="card"><h3><span class="h-ico">📈</span>得分率趋势</h3>' +
-      '<div class="card-desc">不同考试满分不同，全部按「得分率 = 得分 ÷ 满分」归一后比较。</div>' +
-      '<div class="chips">' + groups.map(function (x) {
-        return '<button class="chip' + (x.key === trendFilterKey ? ' active' : '') + '" data-gkey="' + x.key + '">' + esc(x.name) + '</button>';
-      }).join('') + '</div>';
-
-    if (os.length < 2) {
-      html += emptyHtml('📈', '该筛选下考试不足 2 场，先积累数据或切换筛选。');
-      el.innerHTML = html; bindBanners();
-      el.querySelectorAll('.chip').forEach(function (c) {
-        c.addEventListener('click', function () { trendFilterKey = c.getAttribute('data-gkey'); renderTrends(); });
+    var types = g && g.types ? g.types : null;
+    var fos = os.filter(function (x) { return !types || types.indexOf(x.exam.type) >= 0; });
+    if (fos.length >= 2) {
+      var xLabels = fos.map(function (x) { return A.fmtDate(x.exam.date); });
+      C.line('rpLine', {
+        xLabels: xLabels,
+        series: [{ name: '总分', data: fos.map(function (x) { return x.rate; }) }],
+        zoom: true
       });
-      return;
+      C.barDiff('rpBar', { xLabels: xLabels, data: fos.map(function (x) { return x.vsAvg; }), name: '总得分率差' });
     }
-
-    /* 分科开关 */
-    var subjectsWithData = state.subjects.filter(function (sub) {
-      var n = 0;
-      exams.forEach(function (e) {
-        var sr = e.subjects.find(function (s) { return s.key === sub.key; });
-        if (sr && sr.score !== null) n++;
-      });
-      return n >= 2;
-    });
-    html += '<div class="chips">' + subjectsWithData.map(function (sub) {
-      return '<button class="chip' + (trendSubSel[sub.key] ? ' active' : '') + '" data-subkey="' + sub.key + '">' + esc(sub.name) + '</button>';
-    }).join('') + '</div>';
-
-    html += '<div class="chart-box tall" id="trLine"></div>' +
-      '<div class="small-note mt8">提示：横轴为考试日期，点击图例可显示/隐藏科目；柱状对比图见下方。</div></div>';
-
-    /* 相对均分差 */
-    html += '<div class="card"><h3><span class="h-ico">🎯</span>相对年级位置</h3>' +
-      '<div class="card-desc">个人总得分率 − 年级均分得分率（单位：百分点）。柱子越高 = 越领先年级；趋势向上 = 在跑赢大盘。</div>' +
-      '<div class="chart-box" id="trBar"></div></div>';
-
-    el.innerHTML = html;
-    bindBanners();
-    el.querySelectorAll('.chip[data-gkey]').forEach(function (c) {
-      c.addEventListener('click', function () { trendFilterKey = c.getAttribute('data-gkey'); renderTrends(); });
-    });
-    el.querySelectorAll('.chip[data-subkey]').forEach(function (c) {
-      c.addEventListener('click', function () {
-        var k = c.getAttribute('data-subkey');
-        trendSubSel[k] = !trendSubSel[k];
-        renderTrends();
-      });
-    });
-
-    /* 分科序列与总分同源（按考试一一映射），不再按日期字符串匹配——
-       同日两场考试时日期标签会重复，字符串匹配会错位 */
-    var xLabels = os.map(function (x) { return A.fmtDate(x.exam.date); });
-    var series = [{ name: '总分', data: os.map(function (x) { return x.rate; }) }];
-    subjectsWithData.forEach(function (sub) {
-      if (!trendSubSel[sub.key]) return;
-      series.push({ name: sub.name, data: os.map(function (o) {
-        var sr = o.exam.subjects.find(function (s) { return s.key === sub.key; });
-        return sr ? A.subjRate(sr) : null;
-      }) });
-    });
-    C.line('trLine', { xLabels: xLabels, series: series, zoom: true });
-    C.barDiff('trBar', {
-      xLabels: xLabels,
-      data: os.map(function (x) { return x.vsAvg; }),
-      name: '总得分率差'
-    });
-  }
-
-  /* ================= 视图 3：科目 ================= */
-  function renderSubjects() {
-    var el = document.getElementById('view-subjects');
-    var state = S.load();
-    var html = bannersHtml(state);
-
-    var os = A.overallSeries(state.exams);
-    if (os.length < 2) {
-      el.innerHTML = html + emptyHtml('🧭', '考试不足 2 场，暂无法做学科诊断。', 'entry', '去录入');
-      bindGoButtons(el); bindBanners();
-      return;
-    }
-
-    var im = A.imbalance(state.exams, state.subjects);
-
-    /* 雷达：最近一次 vs 个人均值 */
+    /* 雷达 */
     var last = os[os.length - 1];
+    var im = A.imbalance(state.exams, state.subjects);
     var inds = [], latestVals = [], meanVals = [];
     state.subjects.forEach(function (sub) {
       var sr = last.exam.subjects.find(function (s) { return s.key === sub.key && s.score !== null; });
@@ -302,80 +399,8 @@
         meanVals.push(it.mean);
       }
     });
-    html += '<div class="card"><h3><span class="h-ico">🕸️</span>学科雷达</h3>' +
-      '<div class="card-desc">蓝色 = 最近一次「' + esc(last.exam.name) + '」，黄色 = 个人历史均值。凹进去的边就是短板方向。</div>' +
-      '<div class="chart-box tall" id="sbRadar"></div></div>';
-
-    /* 单科走势小图 */
-    var sparkCards = '';
-    var colors = C.PALETTE;
-    var idx = 0;
-    state.subjects.forEach(function (sub) {
-      var ss = A.subjectSeries(state.exams, sub.key);
-      if (ss.length < 2) return;
-      var s = A.slope(ss.map(function (x) { return x.rate; }));
-      var tl = A.trendLabel(s);
-      var std = A.stdev(ss.map(function (x) { return x.rate; }));
-      var vl = A.volatilityLabel(std);
-      sparkCards += '<div class="card" style="margin-bottom:10px;padding:12px">' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">' +
-        '<b>' + esc(sub.name) + '</b>' +
-        '<span><span class="tag ' + tl.cls + '">' + tl.label + '</span> <span class="tag ' + vl.cls + '">' + vl.label + '</span> <span class="tag muted">均值 ' + A.pct(im.items.find(function (x) { return x.key === sub.key; }).mean) + '</span></span>' +
-        '</div>' +
-        '<div class="chart-box spark" id="sp_' + esc(sub.key) + '"></div></div>';
-    });
-    if (sparkCards) {
-      html += '<h3 style="margin:6px 0 10px;font-size:16px">📚 单科走势</h3>' + sparkCards;
-    } else {
-      html += '<p class="muted mt8">暂无足够数据的科目（每科至少 2 次记录）</p>';
-    }
-
-    /* 三个榜 */
-    var volList = im.items.filter(function (x) { return x.count >= 3; }).map(function (x) {
-      var ss = A.subjectSeries(state.exams, x.key);
-      return { name: x.name, std: A.stdev(ss.map(function (y) { return y.rate; })), label: A.volatilityLabel(A.stdev(ss.map(function (y) { return y.rate; }))) };
-    }).filter(function (x) { return x.std !== null; }).sort(function (a, b) { return b.std - a.std; }).slice(0, 5);
-
-    var slopeList = im.items.filter(function (x) { return x.count >= 3 && x.slope !== null; }).sort(function (a, b) { return b.slope - a.slope; });
-    var progTop = slopeList.slice(0, 3), progBottom = slopeList.slice(-3).reverse();
-
-    html += '<div class="card"><h3><span class="h-ico">⚖️</span>偏科诊断（基准：个人总均值 ' + A.pct(im.overallMean) + '）</h3><div class="rank-list">';
-    var sorted = im.items.filter(function (x) { return x.count >= 2; }).sort(function (a, b) { return b.delta - a.delta; });
-    if (!sorted.length) html += '<div class="muted">暂无数据</div>';
-    sorted.forEach(function (x, i) {
-      html += '<div class="rank-item"><span class="ri-idx">' + (i + 1) + '</span><span class="ri-name">' + esc(x.name) +
-        ' <span class="muted small-note">均值 ' + A.pct(x.mean) + '</span></span>' +
-        '<span class="ri-val ' + (x.delta >= 0 ? 'text-up' : 'text-down') + '">' + A.pp(x.delta) + ' pp</span>' +
-        '<span class="tag ' + (x.tag === 'strong' ? 'strong' : x.tag === 'weak' ? 'weak' : 'muted') + '">' + (x.tag === 'strong' ? '强科' : x.tag === 'weak' ? '弱科' : '均衡') + '</span></div>';
-    });
-    html += '</div></div>';
-
-    html += '<div class="card"><h3><span class="h-ico">🌊</span>稳定性榜（起伏最大 Top5）</h3><div class="rank-list">';
-    if (!volList.length) html += '<div class="muted">样本不足</div>';
-    volList.forEach(function (x, i) {
-      html += '<div class="rank-item"><span class="ri-idx">' + (i + 1) + '</span><span class="ri-name">' + esc(x.name) + '</span>' +
-        '<span class="ri-val">±' + (x.std * 100).toFixed(1) + ' pp</span><span class="tag ' + x.label.cls + '">' + x.label.label + '</span></div>';
-    });
-    html += '</div></div>';
-
-    html += '<div class="card"><h3><span class="h-ico">🏁</span>进退步榜（斜率）</h3><div class="rank-list">';
-    if (!slopeList.length) html += '<div class="muted">样本不足</div>';
-    progTop.forEach(function (x) {
-      if (x.slope > 0.004) html += '<div class="rank-item"><span class="ri-idx">↑</span><span class="ri-name">' + esc(x.name) + '</span><span class="ri-val text-up">每次 ' + A.pp(x.slope) + ' pp</span></div>';
-    });
-    progBottom.forEach(function (x) {
-      if (x.slope < -0.004) html += '<div class="rank-item"><span class="ri-idx">↓</span><span class="ri-name">' + esc(x.name) + '</span><span class="ri-val text-down">每次 ' + A.pp(x.slope) + ' pp</span></div>';
-    });
-    if (!progTop.some(function (x) { return x.slope > 0.004; }) && !progBottom.some(function (x) { return x.slope < -0.004; })) {
-      html += '<div class="muted">各科趋势平稳</div>';
-    }
-    html += '</div></div>';
-
-    el.innerHTML = html;
-    bindBanners();
-
     if (inds.length >= 3) {
-      C.radar('sbRadar', {
+      C.radar('rpRadar', {
         indicators: inds,
         series: [
           { name: '最近一次', values: latestVals },
@@ -383,56 +408,90 @@
         ]
       });
     } else {
-      var rEl = document.getElementById('sbRadar');
+      var rEl = document.getElementById('rpRadar');
       if (rEl) rEl.innerHTML = '<div class="empty-state" style="padding:30px 10px">最近一次可考科目不足 3 科，暂不绘制雷达</div>';
     }
-    state.subjects.forEach(function (sub, i) {
-      var ss = A.subjectSeries(state.exams, sub.key);
-      if (ss.length < 2) return;
-      C.sparkSub('sp_' + sub.key, {
-        xLabels: ss.map(function (x) { return A.fmtDate(x.exam.date); }),
-        data: ss.map(function (x) { return x.rate; }),
-        color: colors[i % colors.length]
-      });
+  }
+
+  function drawSubjectSpark(state, key) {
+    var sub = state.subjects.find(function (x) { return x.key === key; });
+    var ss = A.subjectSeries(state.exams, key);
+    if (!sub || ss.length < 2) return;
+    var colors = C.PALETTE;
+    var idx = state.subjects.indexOf(sub);
+    C.sparkSub('sp_' + key, {
+      xLabels: ss.map(function (x) { return A.fmtDate(x.exam.date); }),
+      data: ss.map(function (x) { return x.rate; }),
+      color: colors[idx % colors.length]
     });
   }
 
-  /* ================= 视图 4：考试列表 + 弹层 ================= */
-  function renderExams() {
-    var el = document.getElementById('view-exams');
+  /* ================= 视图 2：记录（录入 + 考试时间线） ================= */
+  var entryOpen = false;
+  var editingId = null;
+  var termTouched = false;
+
+  function startEntry(id) {
+    editingId = id || null;
+    termTouched = !!id;
+    entryOpen = true;
+    navigate('records');
+    window.scrollTo(0, 0);
+  }
+
+  function renderRecords() {
+    var el = document.getElementById('view-records');
     var state = S.load();
+    var formOpen = entryOpen || editingId;
     var html = bannersHtml(state);
+
+    html += '<div class="btn-row entry-toggle">' +
+      (formOpen ? '' : '<button class="btn primary" id="btnOpenEntry">✏️ 录入新考试</button>') + '</div>';
+    if (formOpen) html += '<div id="entryWrap">' + entryFormHtml(state) + '</div>';
+
+    html += '<section class="rep-sec" id="sec-list">';
+    html += secTitle('🗂️', '考试时间线');
     var os = A.overallSeries(state.exams);
-    var desc = os.slice().reverse();
-
-    if (!desc.length) {
-      el.innerHTML = html + emptyHtml('📋', '还没有考试记录。', 'entry', '＋ 录入第一场考试');
-      bindGoButtons(el); bindBanners();
-      return;
+    if (!os.length) {
+      html += emptyHtml('📋', state.exams.length ?
+        '已记录 ' + state.exams.length + ' 场考试，但没有可计分的科目得分。' :
+        '还没有考试记录。');
+    } else {
+      var desc = os.slice().reverse();
+      html += '<div class="card-desc dim" style="margin-bottom:10px">共 ' + desc.length + ' 场 · 点击卡片看明细与环比拆解</div>';
+      desc.forEach(function (o, i) {
+        var e = o.exam;
+        var prev = desc[i + 1];   /* desc 中后一个即时间上一场 */
+        var d = prev ? o.rate - prev.rate : null;
+        html += '<div class="exam-item" data-eid="' + esc(e.id) + '">' +
+          '<div class="ei-top"><span class="ei-name">' + esc(e.name) + '</span><span class="ei-date">' + e.date + '</span></div>' +
+          '<div class="ei-tags"><span class="tag type">' + esc(e.type) + '</span>' + (e.term ? '<span class="tag">' + esc(e.term) + '</span>' : '') +
+          '<span class="tag muted">' + o.agg.count + ' 科计分</span></div>' +
+          '<div class="ei-stats"><span>总得分率 <b>' + A.pct(o.rate) + '</b></span>' +
+          (e.totalRank !== null && e.totalRank !== undefined ? '<span>年级排名 <b>' + e.totalRank + (e.totalRankSize ? '/' + e.totalRankSize : '') + '</b></span>' : '') +
+          (d !== null ? '<span>较上次 <b class="' + (d >= 0 ? 'text-up' : 'text-down') + '">' + A.pp(d) + ' pp</b></span>' : '') +
+          '</div></div>';
+      });
     }
-
-    html += '<div class="card-desc dim" style="margin-bottom:10px">共 ' + desc.length + ' 场 · 点击卡片看明细与环比拆解</div>';
-    desc.forEach(function (o, i) {
-      var e = o.exam;
-      var prev = desc[i + 1];   /* desc 中后一个即时间上一场 */
-      var d = prev ? o.rate - prev.rate : null;
-      html += '<div class="exam-item" data-eid="' + esc(e.id) + '">' +
-        '<div class="ei-top"><span class="ei-name">' + esc(e.name) + '</span><span class="ei-date">' + e.date + '</span></div>' +
-        '<div class="ei-tags"><span class="tag type">' + esc(e.type) + '</span>' + (e.term ? '<span class="tag">' + esc(e.term) + '</span>' : '') +
-        '<span class="tag muted">' + o.agg.count + ' 科计分</span></div>' +
-        '<div class="ei-stats"><span>总得分率 <b>' + A.pct(o.rate) + '</b></span>' +
-        (e.totalRank !== null && e.totalRank !== undefined ? '<span>年级排名 <b>' + e.totalRank + (e.totalRankSize ? '/' + e.totalRankSize : '') + '</b></span>' : '') +
-        (d !== null ? '<span>较上次 <b class="' + (d >= 0 ? 'text-up' : 'text-down') + '">' + A.pp(d) + ' pp</b></span>' : '') +
-        '</div></div>';
-    });
+    html += '</section>';
 
     el.innerHTML = html;
-    bindBanners();
+    bindGoButtons(el); bindBanners();
+    bindExamList(el);
+    if (formOpen) bindEntryForm(state);
+    else {
+      var ob = document.getElementById('btnOpenEntry');
+      if (ob) ob.addEventListener('click', function () { entryOpen = true; renderRecords(); window.scrollTo(0, 0); });
+    }
+  }
+
+  function bindExamList(el) {
     el.querySelectorAll('.exam-item').forEach(function (item) {
       item.addEventListener('click', function () { openExamModal(item.getAttribute('data-eid')); });
     });
   }
 
+  /* ---------- 考试详情弹层 ---------- */
   function subjName(subjects, key) {
     return S.subjectName(subjects, key);
   }
@@ -466,6 +525,7 @@
         '<td class="num">' + (sr.rank !== null && sr.rank !== undefined ? sr.rank + (sr.rankSize ? '/' + sr.rankSize : '') + (pctl !== null ? ' <span class="muted small-note">前' + (100 - pctl).toFixed(0) + '%</span>' : '') : '—') + '</td></tr>';
     });
     html += '</tbody></table></div>';
+    html += '<div class="small-note mt8">得分率 = 得分 ÷ 该科满分；相对均分 = 个人得分率 − 年级（缺则班级）均分得分率，单位百分点。</div>';
 
     if (oi) {
       html += '<div class="mt12 dim">总分口径：计分 ' + oi.agg.count + ' 科，合计 ' + oi.agg.score + ' / ' + oi.agg.full + '，总得分率 <b class="num">' + A.pct(oi.rate) + '</b>' +
@@ -512,10 +572,7 @@
     document.getElementById('modalOverlay').classList.remove('active');
   }
 
-  /* ================= 视图 5：录入 ================= */
-  var editingId = null;
-  var termTouched = false;
-
+  /* ---------- 录入表单（记录页内嵌，默认收起） ---------- */
   function autoTerm(dateStr) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr || '')) return '';
     var y = parseInt(dateStr.slice(0, 4), 10);
@@ -527,15 +584,7 @@
     return ['高一', '高二', '高三'][idx] + (m >= 8 ? '上' : '下');
   }
 
-  function startEntry(id) {
-    editingId = id || null;
-    termTouched = !!id;
-    navigate('entry');
-  }
-
-  function renderEntry() {
-    var el = document.getElementById('view-entry');
-    var state = S.load();
+  function entryFormHtml(state) {
     var exam = editingId ? S.getExam(editingId) : null;
     if (editingId && !exam) { editingId = null; exam = null; }
 
@@ -604,11 +653,13 @@
       '<button class="btn" id="fCancel">取消</button>' +
       (exam ? '<button class="btn danger" id="fDelete">🗑 删除本场</button>' : '') + '</div>';
 
-    el.innerHTML = html;
+    return html;
+  }
 
-    /* 交互绑定 */
+  function bindEntryForm(state) {
     var dateIn = document.getElementById('fDate');
     var termIn = document.getElementById('fTerm');
+    var exam = editingId ? S.getExam(editingId) : null;
     if (!exam) {
       dateIn.addEventListener('change', function () {
         if (!termTouched) termIn.value = autoTerm(dateIn.value);
@@ -616,7 +667,7 @@
     }
     termIn.addEventListener('change', function () { termTouched = true; });
 
-    el.querySelectorAll('.subject-row').forEach(function (row) {
+    document.querySelectorAll('#view-records .subject-row').forEach(function (row) {
       var absent = row.querySelector('.sr-absent-in');
       var scoreIn = row.querySelector('.sr-score-in');
       function sync() {
@@ -628,14 +679,17 @@
       sync();
     });
 
-    document.getElementById('fCancel').addEventListener('click', function () { navigate('exams'); });
+    document.getElementById('fCancel').addEventListener('click', function () {
+      entryOpen = false; editingId = null;
+      renderRecords();
+    });
     if (exam) {
       document.getElementById('fDelete').addEventListener('click', function () {
         if (confirm('确定删除「' + exam.name + '」？')) {
           S.deleteExam(exam.id);
-          editingId = null;
+          editingId = null; entryOpen = false;
           toast('已删除');
-          navigate('exams');
+          renderRecords();
         }
       });
     }
@@ -651,7 +705,7 @@
 
     var subjects = [];
     var rowErr = null;
-    document.querySelectorAll('#view-entry .subject-row').forEach(function (row) {
+    document.querySelectorAll('#view-records .subject-row').forEach(function (row) {
       var key = row.getAttribute('data-key');
       var absent = row.querySelector('.sr-absent-in').checked;
       var score = row.querySelector('.sr-score-in').value;
@@ -690,19 +744,28 @@
     S.upsertExam(exam);
     var wasEditing = !!editingId;
     editingId = null;
-    toast(wasEditing ? '已更新' : '已保存，分析已更新');
-    navigate('exams');
+    entryOpen = false;
+    toast(wasEditing ? '已更新' : '已保存，报告已更新');
+    renderRecords();
   }
 
-  /* ================= 视图 6：设置 ================= */
-  function renderSettings() {
-    var el = document.getElementById('view-settings');
+  /* ================= 设置（齿轮弹层） ================= */
+  function openSettingsSheet() {
     var state = S.load();
+    var body = document.getElementById('modalBody');
+    var html = '<div class="modal-head"><div><h3>⚙️ 设置</h3>' +
+      '<div class="modal-sub">学生与目标 · 科目 · 数据管理</div></div>' +
+      '<button class="modal-close" id="mdClose">✕</button></div>';
+    html += settingsInnerHtml(state);
+    body.innerHTML = html;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.getElementById('mdClose').addEventListener('click', closeModal);
+    bindSettingsEvents(state);
+  }
+
+  function settingsInnerHtml(state) {
     var st = state.student;
-
-    var html = bannersHtml(state);
-
-    html += '<div class="card"><h3><span class="h-ico">🎓</span>学生与目标</h3><div class="form-grid">' +
+    var html = '<div class="card"><h3><span class="h-ico">🎓</span>学生与目标</h3><div class="form-grid">' +
       '<div class="form-row"><label>姓名</label><input class="gi-input" id="stName" value="' + esc(st.name) + '" maxlength="20"></div>' +
       '<div class="form-2col">' +
       '<div class="form-row"><label>高一入学年份（用于自动推算学段）</label><input class="gi-input" id="stEnroll" type="number" step="1" inputmode="numeric" min="2000" max="2100" value="' + esc(st.enrollYear) + '"></div>' +
@@ -713,7 +776,7 @@
       '</div></div>';
 
     html += '<div class="card"><h3><span class="h-ico">📚</span>科目与默认满分</h3>' +
-      '<div class="card-desc">按学校实际情况改默认满分；高一下选科后，可删掉不选的科目、加上体育/信息等自定义科目。</div>' +
+      '<div class="card-desc">按学校实际情况改默认满分；高一下选科后，可删掉不选的科目、加上体育/信息等自定义科目。科目 key 一旦产生历史数据就不可改。</div>' +
       '<div id="subList">';
     state.subjects.forEach(function (sub) {
       html += '<div class="setting-subject-row" data-key="' + esc(sub.key) + '">' +
@@ -745,10 +808,10 @@
       '<div class="dim" style="font-size:14px">XBrain · grade-insight 高中成绩跟踪分析。纯静态零构建，数据三重归一（得分率/排名百分位/相对均分）跨考试可比。' +
       '分析结论由规则引擎生成，趋势外推仅供参考，不构成任何升学承诺。</div>' +
       '<div class="btn-row"><a class="btn" href="../index.html">← 返回 XBrain 门户</a></div></div>';
+    return html;
+  }
 
-    el.innerHTML = html;
-    bindBanners();
-
+  function bindSettingsEvents(state) {
     document.getElementById('stSave').addEventListener('click', function () {
       var name = document.getElementById('stName').value.trim() || '学生';
       var ey = parseInt(document.getElementById('stEnroll').value, 10);
@@ -758,11 +821,10 @@
       if (tg >= 10 && tg <= 100) state.student.targetRate = tg / 100;
       S.save();
       toast('设置已保存');
-      renderSettings();
+      openSettingsSheet();
     });
 
-    /* 科目编辑 */
-    el.querySelectorAll('.sub-del').forEach(function (btn) {
+    document.querySelectorAll('#modalBody .sub-del').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var row = btn.closest('.setting-subject-row');
         var key = row.getAttribute('data-key');
@@ -770,19 +832,19 @@
         if (state.subjects.length <= 1) { toast('至少保留一个科目'); return; }
         if (confirm('删除科目「' + name + '」？已有考试中该科数据仍保留在历史记录里。')) {
           S.removeSubject(key);
-          renderSettings();
+          openSettingsSheet();
         }
       });
     });
     document.getElementById('subSave').addEventListener('click', function () {
-      el.querySelectorAll('.setting-subject-row').forEach(function (row) {
+      document.querySelectorAll('#modalBody .setting-subject-row').forEach(function (row) {
         S.updateSubject(row.getAttribute('data-key'), {
           name: row.querySelector('.sub-name').value.trim(),
           full: parseFloat(row.querySelector('.sub-full').value)
         });
       });
       toast('科目已保存');
-      renderSettings();
+      openSettingsSheet();
     });
     document.getElementById('newSubAdd').addEventListener('click', function () {
       var n = document.getElementById('newSubName').value.trim();
@@ -790,10 +852,9 @@
       if (!n) { toast('请填写科目名'); return; }
       if (!f || f <= 0) { toast('请填写有效满分'); return; }
       S.addSubject(n, f);
-      renderSettings();
+      openSettingsSheet();
     });
 
-    /* 数据管理 */
     document.getElementById('dmExportJs').addEventListener('click', function () {
       var text = S.buildSnapshotText(state);
       S.markExported(state);
@@ -806,7 +867,7 @@
       S.markExported(state);
       S.download('grade-backup-' + new Date().toISOString().slice(0, 10) + '.json', payload, 'application/json');
       toast('JSON 已下载，请妥善保管');
-      renderSettings();
+      openSettingsSheet();
     });
     document.getElementById('dmImport').addEventListener('click', function () {
       openIoModal('导入数据', '选择 JSON 备份文件，或把 data.js 快照 / JSON 内容粘贴到下面：', '', null);
@@ -825,7 +886,7 @@
           S.importSnapshot(payload);
           closeModal();
           toast('导入成功，共 ' + S.load().exams.length + ' 场考试');
-          navigate('overview');
+          navigate('report');
         } catch (err) {
           toast('导入失败：' + err.message);
         }
@@ -834,16 +895,20 @@
     document.getElementById('dmLoadSample').addEventListener('click', function () {
       if (confirm('载入示例数据将覆盖当前全部数据，确定？')) {
         S.loadSample();
+        entryOpen = false; editingId = null;
+        closeModal();
         toast('示例数据已载入');
-        navigate('overview');
+        navigate('report');
       }
     });
     document.getElementById('dmClear').addEventListener('click', function () {
       if (confirm('确定清空全部数据？此操作不可恢复，建议先导出备份。')) {
         if (confirm('再次确认：真的要清空吗？')) {
           S.clearAll();
+          entryOpen = false; editingId = null;
+          closeModal();
           toast('已清空');
-          renderSettings();
+          navigate('report');
         }
       }
     });
@@ -893,9 +958,11 @@
       e.preventDefault();
       navigate(a.getAttribute('data-route'));
     });
+    var gear = document.getElementById('btnGear');
+    if (gear) gear.addEventListener('click', openSettingsSheet);
     S.load();
     if (!location.hash) {
-      try { history.replaceState(null, '', '#overview'); } catch (e) { location.hash = '#overview'; }
+      try { history.replaceState(null, '', '#report'); } catch (e) { location.hash = '#report'; }
     }
     onRoute();
     /* 浏览器前进/后退、手动改 URL、外链深链仍走 hash/popstate 同步 */
@@ -910,5 +977,5 @@
   }
 
   /* 暴露给内联调用 */
-  window.GIApp = { toast: toast, startEntry: startEntry, openExamModal: openExamModal, navigate: navigate };
+  window.GIApp = { toast: toast, startEntry: startEntry, openExamModal: openExamModal, navigate: navigate, openSettingsSheet: openSettingsSheet };
 })();

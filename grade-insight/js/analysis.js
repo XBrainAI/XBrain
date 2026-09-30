@@ -422,6 +422,72 @@
     return { text: L.join('\n'), insufficient: false };
   }
 
+  /* ---------- 本期要点（结构化，供报告页要点卡使用） ----------
+     只读衍生：全部由既有分析函数拼装，不改变其口径。
+     返回 [{icon, cls, text, anchor}]，anchor ∈ sec-trend / sec-subjects / sec-goal */
+  function takeaways(state) {
+    var exams = sortExams(state.exams);
+    var os = overallSeries(state.exams);
+    var items = [];
+    if (exams.length < 2 || !os.length) return items;
+
+    /* ① 最近一次环比：拉分 / 拖累（取影响最大的一头） */
+    if (exams.length >= 2) {
+      var ctb = contribution(exams[exams.length - 2], exams[exams.length - 1], state.subjects);
+      if (ctb.items.length) {
+        var top = ctb.items[0], bot = ctb.items[ctb.items.length - 1];
+        if (top.contrib > 0.003) {
+          items.push({ icon: '▲', cls: 'up', text: '「' + top.name + '」拉分最多：较上次贡献 +' + pp(top.contrib) + ' 个百分点', anchor: 'sec-trend' });
+        } else if (bot.contrib < -0.003) {
+          items.push({ icon: '▼', cls: 'down', text: '「' + bot.name + '」拖累最大：较上次贡献 ' + pp(bot.contrib) + ' 个百分点', anchor: 'sec-trend' });
+        }
+      }
+    }
+
+    /* ② 趋势 / 拐点 */
+    if (exams.length >= 3) {
+      var rates = os.map(function (x) { return x.rate; });
+      var s = slope(rates), rs = recentSlope(rates, 3);
+      var tl = trendLabel(s);
+      if (rs !== null && s !== null && rs * s < 0) {
+        items.push({ icon: '⚠', cls: 'down', text: '近 3 次出现拐点：近期呈「' + trendLabel(rs).label + '」，与长期（' + tl.label + '）相反', anchor: 'sec-trend' });
+      } else if (s !== null) {
+        items.push({ icon: tl.cls === 'up' ? '▲' : tl.cls === 'down' ? '▼' : '－', cls: tl.cls, text: '总体趋势' + tl.label + '：平均每次 ' + pp(s) + ' 个百分点', anchor: 'sec-trend' });
+      }
+      /* ③ 学科：最需关注 + 进步最快（各取一条） */
+      var slopeList = imbalance(state.exams, state.subjects).items.filter(function (x) { return x.count >= 3 && x.slope !== null; });
+      if (slopeList.length) {
+        var worst = slopeList.slice().sort(function (a, b) { return a.slope - b.slope; })[0];
+        var best = slopeList.slice().sort(function (a, b) { return b.slope - a.slope; })[0];
+        if (worst.slope <= -0.008) {
+          items.push({ icon: '▼', cls: 'down', text: '「' + worst.name + '」连续走低（每次约 ' + pp(worst.slope) + '），建议优先止损', anchor: 'sec-subjects' });
+        }
+        if (best.slope >= 0.008 && best.key !== (worst.slope <= -0.008 ? worst.key : null)) {
+          items.push({ icon: '▲', cls: 'up', text: '「' + best.name + '」进步最快（每次约 ' + pp(best.slope) + '）', anchor: 'sec-subjects' });
+        }
+      }
+      /* ④ 相对年级位置 */
+      var vsVals = os.filter(function (x) { return x.vsAvg !== null; });
+      if (vsVals.length >= 3) {
+        var vsSlope = slope(vsVals.map(function (x) { return x.vsAvg; }));
+        if (vsSlope >= 0.012) items.push({ icon: '🏁', cls: 'up', text: '正在跑赢大盘：与年级均分的差距持续扩大', anchor: 'sec-trend' });
+        else if (vsSlope <= -0.012) items.push({ icon: '🏁', cls: 'down', text: '正在跑输大盘：与年级均分的差距在收窄', anchor: 'sec-trend' });
+      }
+    }
+
+    /* ⑤ 目标（末位保留，保证"下一步"总在要点里） */
+    var tg = target(state, os);
+    if (tg) {
+      if (tg.gap <= 0) {
+        items.push({ icon: '★', cls: 'up', text: '已达标：高出高考目标 ' + pp(-tg.gap) + ' 个百分点，可上调一档', anchor: 'sec-goal' });
+      } else {
+        items.push({ icon: '★', cls: 'flat', text: '距高考目标 ' + pct(tg.target) + ' 还差 ' + pp(tg.gap) + ' 个百分点', anchor: 'sec-goal' });
+      }
+    }
+
+    return items.slice(0, 5);
+  }
+
   /* ---------- 暴露 ---------- */
   window.GIAnalysis = {
     pct: pct,
@@ -445,6 +511,7 @@
     target: target,
     priorities: priorities,
     anomalies: anomalies,
-    briefing: briefing
+    briefing: briefing,
+    takeaways: takeaways
   };
 })();

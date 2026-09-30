@@ -622,3 +622,166 @@ textarea.gi-input { min-height: 72px; resize: vertical; }
 
 /* file:// 本地调试：认证兜底解除隐藏（与 index.html 内联脚本配合） */
 html.xbrain-auth-filefix body { visibility: visible !important; opacity: 1 !important; }
+
+/* ============================================================
+   三页直线版补充组件（SPEC-2026-0002）
+   报告长页（章节/要点卡/图注/单科折叠）+ 记录页 + 齿轮设置弹层
+   ============================================================ */
+
+/* ---------- 右上角齿轮（设置入口，与品牌胶囊对称） ---------- */
+.gear-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 101;
+  width: 44px;
+  height: 44px;
+  font-size: 19px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(180, 210, 255, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), 0 0 40px rgba(80, 140, 255, 0.35), 0 4px 20px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.gear-btn:active { transform: translateY(1px); }
+@media (max-width: 640px) {
+  .gear-btn { top: 8px; right: 8px; width: 40px; height: 40px; font-size: 17px; }
+}
+
+/* ---------- 报告页章节 ---------- */
+.rep-sec {
+  margin-bottom: 8px;
+  scroll-margin-top: 84px;   /* 锚点滚动时给固定品牌胶囊留出余量 */
+}
+.sec-title {
+  font-size: 17px;
+  margin: 16px 2px 10px;
+  letter-spacing: 0.5px;
+}
+.sec-title .h-ico { margin-right: 6px; }
+
+/* ---------- 本期要点卡 ---------- */
+.tk-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 768px) {
+  .tk-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.tk-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  text-align: left;
+  background: linear-gradient(160deg, rgba(45, 27, 78, 0.38) 0%, rgba(26, 16, 48, 0.55) 100%);
+  border: 1px solid var(--xb-border);
+  border-radius: var(--radius-lg);
+  padding: 10px 12px;
+  color: var(--xb-text);
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.tk-card:active { transform: scale(0.99); }
+.tk-card .tk-ico {
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+}
+.tk-card.up .tk-ico { color: var(--up); }
+.tk-card.down .tk-ico { color: var(--down); }
+.tk-card.flat .tk-ico { color: var(--warn); }
+.tk-card .tk-text { flex: 1; line-height: 1.5; }
+.tk-card .tk-go {
+  flex-shrink: 0;
+  color: var(--xb-hint);
+  font-size: 18px;
+}
+
+/* ---------- 图注（怎么读这张图） ---------- */
+.chart-note {
+  font-size: 12.5px;
+  color: var(--xb-hint);
+  line-height: 1.7;
+  margin-top: 8px;
+}
+.chart-note b { color: var(--xb-dim); }
+
+/* ---------- 单科走势折叠行 ---------- */
+.sub-row {
+  background: linear-gradient(160deg, rgba(45, 27, 78, 0.38) 0%, rgba(26, 16, 48, 0.55) 100%);
+  border: 1px solid var(--xb-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.sub-row summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 48px;
+  padding: 8px 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.sub-row summary::-webkit-details-marker { display: none; }
+.sub-row summary b { font-size: 15px; margin-right: 2px; }
+.sub-row .sr-arrow {
+  margin-left: auto;
+  color: var(--xb-hint);
+  transition: transform 0.2s;
+}
+.sub-row[open] .sr-arrow { transform: rotate(180deg); }
+.sub-row .chart-box { height: 180px; }
+.sub-row .chart-note { padding: 0 12px 10px; margin-top: 0; }
+
+/* ---------- 目标推演 ---------- */
+.goal-line {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.goal-line b { font-size: 16px; }
+
+/* ---------- 完整简报折叠 ---------- */
+.brief-fold summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 10px 12px;
+  cursor: pointer;
+  background: linear-gradient(160deg, rgba(45, 27, 78, 0.38) 0%, rgba(26, 16, 48, 0.55) 100%);
+  border: 1px solid var(--xb-border);
+  border-radius: var(--radius-lg);
+  font-size: 15px;
+  -webkit-tap-highlight-color: transparent;
+}
+.brief-fold summary::-webkit-details-marker { display: none; }
+.brief-fold summary .sr-arrow {
+  margin-left: auto;
+  color: var(--xb-hint);
+  transition: transform 0.2s;
+}
+.brief-fold[open] summary .sr-arrow { transform: rotate(180deg); }
+.brief-fold[open] summary { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+.brief-fold .card { margin-bottom: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+
+/* ---------- 记录页录入切换 ---------- */
+.entry-toggle { margin-bottom: 12px; }
