@@ -545,12 +545,11 @@ textarea.gi-input { min-height: 72px; resize: vertical; }
 }
 @media (min-width: 768px) {
   .tabbar {
-    top: 0;
-    bottom: auto;
-    left: auto;
-    height: 52px;
+    top: 16px;
+    right: 76px;      /* 右上角固定齿轮(44px+16px 边距)的让位，避免与"记录"胶囊重叠 */
+    height: 44px;
     padding-bottom: 0;
-    justify-content: center;
+    justify-content: flex-end;
     background: transparent;
     border-top: none;
     -webkit-backdrop-filter: none;
@@ -560,12 +559,14 @@ textarea.gi-input { min-height: 72px; resize: vertical; }
   .tabbar a {
     flex: 0 0 auto;
     flex-direction: row;
+    align-items: center;
     gap: 6px;
-    padding: 0 14px;
+    height: 44px;     /* 与齿轮同高，垂直对齐 */
+    padding: 0 16px;
     font-size: 14px;
     pointer-events: auto;
     border-radius: 999px;
-    margin: 8px 2px;
+    margin: 0 2px;
   }
   .tabbar a.active {
     background: rgba(100, 180, 255, 0.12);
