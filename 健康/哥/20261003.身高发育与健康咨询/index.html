@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>身高发育与健康咨询 · 2026-10-03 — 哥的个人健康档案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --xb-deep:#0a0a1a;--xb-accent:#64b4ff;--xb-accent2:#80c0ff;--xb-border:rgba(100,180,255,0.2);
+  --xb-text:#e8ecf4;--xb-text-dim:rgba(200,210,230,0.6);
+  --xb-card-bg:linear-gradient(135deg,rgba(20,20,50,0.6) 0%,rgba(30,20,60,0.5) 100%);
+  --success:#2ed573;--warning:#ffa502;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--xb-deep);color:var(--xb-text);line-height:1.7;overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+.container{max-width:900px;margin:0 auto;padding:3rem 1.2rem 2rem}
+.hero{text-align:center;padding:1.5rem 0 1rem}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;letter-spacing:2px;margin-bottom:0.5rem}
+.hero h1 span{color:var(--xb-accent);text-shadow:0 0 30px rgba(100,180,255,0.5)}
+.hero .meta{color:var(--xb-text-dim);font-size:0.85rem;letter-spacing:1px}
+.hero .meta b{color:var(--xb-accent2);font-weight:500}
+.toc-nav{
+  position:sticky;top:0;z-index:90;display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;
+  background:linear-gradient(to bottom,var(--xb-deep) 85%,transparent);padding:0.8rem 0;margin-bottom:0.5rem;
+}
+.toc-nav a{
+  padding:0.4rem 1rem;border-radius:20px;border:1px solid var(--xb-border);
+  background:rgba(100,180,255,0.08);color:var(--xb-text-dim);font-size:0.82rem;
+  text-decoration:none;transition:all 0.2s;
+}
+.toc-nav a:hover,.toc-nav a.active{background:var(--xb-accent);color:var(--xb-deep);border-color:var(--xb-accent)}
+.section-title{
+  font-family:'Noto Serif SC',serif;font-size:clamp(1.15rem,3vw,1.5rem);font-weight:700;
+  margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--xb-border);
+  display:flex;align-items:center;gap:0.5rem;
+}
+.section-title::before{content:'';width:4px;height:1.2rem;background:var(--xb-accent);border-radius:2px}
+h3.sub{font-size:1rem;font-weight:700;margin:1.4rem 0 0.5rem;color:var(--xb-accent)}
+p{margin-bottom:0.6rem;color:var(--xb-text-dim);font-size:0.92rem}
+p strong,p b{color:var(--xb-text)}
+blockquote{border-left:3px solid var(--xb-accent);padding:0.5rem 0.8rem;margin:0.8rem 0;color:var(--xb-text-dim);font-size:0.88rem;background:rgba(100,180,255,0.04);border-radius:0 8px 8px 0}
+blockquote strong{color:var(--xb-accent2)}
+ul,ol{margin:0.4rem 0 0.8rem 1.3rem;color:var(--xb-text-dim);font-size:0.9rem}
+li{margin:0.25rem 0}
+.table-wrap{overflow-x:auto;margin:0.6rem 0 1rem}
+table{width:100%;border-collapse:collapse;font-size:0.86rem;background:rgba(100,180,255,0.03)}
+th,td{padding:0.55rem 0.7rem;border:1px solid var(--xb-border);text-align:left;vertical-align:top}
+th{background:rgba(100,180,255,0.1);color:var(--xb-accent);font-weight:600;white-space:nowrap}
+td strong{color:var(--xb-accent2)}
+.pos{color:var(--success)!important;font-weight:600}
+.hl{background:rgba(239,159,39,0.12)}
+.back-link{
+  display:inline-flex;align-items:center;gap:0.5rem;margin:2.5rem auto 0;
+  padding:0.6rem 1.2rem;color:var(--xb-accent);text-decoration:none;
+  border:1px solid var(--xb-border);border-radius:8px;font-size:0.9rem;transition:all 0.3s ease;
+}
+.back-link:hover{background:rgba(100,180,255,0.1);border-color:var(--xb-accent)}
+.note{color:var(--xb-text-dim);font-size:0.78rem;margin-top:0.6rem}
+.hc-p{margin:0.5rem 0 0.9rem}
+.hc-svg{width:100%;border:1px solid var(--xb-border);border-radius:12px;background:rgba(20,20,50,0.35);margin:0.6rem 0 1rem;padding:0.5rem}
+.hc-chart-title{font-size:0.95rem;font-weight:700;color:var(--xb-accent2);margin:1.2rem 0 0.4rem}
+.hc-legend{display:flex;flex-wrap:wrap;gap:14px;margin:0.2rem 0 0.6rem;font-size:0.78rem;color:var(--xb-text-dim)}
+.hc-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px}
+.hc-chart-wrap{position:relative;width:100%;height:320px;margin:0.4rem 0 1rem}
+.hc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0.7rem;margin:1rem 0 0.6rem}
+.hc-card{background:rgba(100,180,255,0.06);border:1px solid var(--xb-border);border-radius:10px;padding:0.8rem}
+.hc-card b{color:var(--xb-accent2);display:block;margin-bottom:0.25rem;font-size:0.88rem}
+.hc-card span{color:var(--xb-text-dim);font-size:0.8rem;line-height:1.6}
+.xbrain-brand{
+  position:fixed;top:16px;left:16px;z-index:100;display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,rgba(20,15,50,0.94) 0%,rgba(40,30,80,0.92) 100%);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1.5px solid rgba(180,210,255,0.55);border-radius:12px;padding:6px 14px 6px 8px;
+  box-shadow:0 0 12px rgba(255,255,255,0.15),0 0 40px rgba(80,140,255,0.35),0 4px 20px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);
+  text-decoration:none;transition:opacity 0.6s ease,box-shadow 0.6s ease;
+}
+.xbrain-brand:hover{box-shadow:0 0 24px rgba(80,140,255,0.40),0 4px 20px rgba(0,0,0,0.5);transform:translateY(-1px)}
+.xbrain-brand svg{width:32px;height:32px;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(100,180,255,0.55))}
+.xbrain-brand .xbrain-text{font-size:15px;font-weight:800;letter-spacing:1.5px;color:#e8ecf4;text-shadow:0 0 12px rgba(100,180,255,0.55)}
+.xbrain-brand .xbrain-text span{color:#64b4ff;text-shadow:0 0 18px rgba(100,180,255,0.9)}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0.7rem;margin:0.8rem 0 1rem}
+.st-card{background:rgba(100,180,255,0.06);border:1px solid var(--xb-border);border-radius:10px;padding:0.7rem}
+.st-card svg{width:100%;height:auto;display:block;background:rgba(20,20,50,0.35);border:1px solid var(--xb-border);border-radius:8px;margin-bottom:0.5rem}
+.st-card b{color:var(--xb-accent2);font-size:0.9rem;display:block;margin-bottom:0.2rem}
+.st-card p{font-size:0.8rem;margin:0 0 0.15rem;color:var(--xb-text-dim)}
+.st-card .dur{font-size:0.75rem;color:var(--xb-accent);font-weight:600}
+footer{text-align:center;padding:2rem 1rem 1.5rem;color:var(--xb-text-dim);font-size:0.78rem}
+@media (max-width:640px){.container{padding:2rem 0.8rem 1.5rem}.hc-chart-wrap{height:280px}}
+</style>
+</head>
+<body>
+
+<a class="xbrain-brand" href="../index.html" title="XBrain">
+  <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+    <defs>
+      <radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#64b4ff" stop-opacity="1"/><stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6"/><stop offset="100%" stop-color="#1a2a5e" stop-opacity="0"/></radialGradient>
+      <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#80c0ff"/><stop offset="50%" stop-color="#4a90e2"/><stop offset="100%" stop-color="#80c0ff"/></linearGradient>
+      <filter id="gf" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <circle cx="176" cy="180" r="170" fill="url(#cg)" opacity="0.12"/>
+    <circle cx="176" cy="180" r="168" fill="none" stroke="url(#lg)" stroke-width="2" opacity="0.55" filter="url(#gf)"/>
+    <g transform="matrix(0 -1 1 0 30 300)"><rect fill="#2a4080" width="240" height="36" rx="4"/><rect fill="url(#lg)" width="240" height="3" rx="1.5" y="4" opacity="0.9"/><rect fill="url(#lg)" width="240" height="3" rx="1.5" y="29" opacity="0.6"/></g>
+    <g transform="matrix(0 -1 1 0 66 200)" opacity="0.35"><rect fill="#3a60a0" width="40" height="280" rx="3"/><rect fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5"/></g>
+    <g transform="matrix(0 -1 1 0 30 230)"><circle cx="50" cy="50" r="50" fill="#0d1636"/><circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8"/><circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#gf)"/><circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45"/><line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5"/><circle cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#gf)" opacity="0.9"/><circle cx="50" cy="50" r="4" fill="#fff"/></g>
+  </svg>
+  <div class="xbrain-text"><span>X</span>Brain</div>
+</a>
+
+<div class="container">
+
+  <section class="hero" id="top">
+    <h1>身高发育<span>与健康咨询</span></h1>
+    <p class="meta">2026-10-03 · <b>健康咨询</b> · 哥本人主动提出 · 非就诊记录</p>
+  </section>
+
+  <nav class="toc-nav">
+    <a href="#s1">评估与改善方案</a>
+    <a href="#s2">骨龄与骨骺详解</a>
+    <a href="#s3">身高小课堂</a>
+    <a href="#s4">行动要点</a>
+  </nav>
+
+  <!-- ============ 一、评估与改善方案 ============ -->
+  <section id="s1">
+    <h2 class="section-title">一、评估与改善方案</h2>
+
+    <h3 class="sub">基本情况</h3>
+    <div class="table-wrap"><table>
+      <tr><th>项目</th><th>数值</th><th>初步解读</th></tr>
+      <tr><td>年龄</td><td>15周岁8个月</td><td>高一在读，青春期后段</td></tr>
+      <tr><td>身高</td><td>166cm</td><td>低于遗传靶身高区间下限附近</td></tr>
+      <tr><td>体重</td><td>51.8kg</td><td>BMI≈18.8，正常范围偏下段</td></tr>
+      <tr class="hl"><td>近一年身高增长</td><td>&lt;3cm/年</td><td>值得关注，需骨龄确认节奏（也可能只是"晚长"）</td></tr>
+      <tr><td>父亲身高</td><td>179cm</td><td rowspan="2">遗传靶身高约175±5cm</td></tr>
+      <tr><td>母亲身高</td><td>158cm</td></tr>
+      <tr class="hl"><td>睡眠</td><td>晚11点-早5点（约6小时）</td><td><strong>重点问题</strong>：青少年需要8-9小时</td></tr>
+      <tr><td>饮食</td><td>营养齐全，近期进食量减少</td><td>需关注，生长期热量不足会直接限制生长</td></tr>
+      <tr><td>运动</td><td>规律运动；睡前拉伸到"生长痛"程度</td><td>运动习惯好；拉伸到痛的方式需要纠正</td></tr>
+    </table></div>
+
+    <h3 class="sub">先把结论说清楚（哥真正想知道的答案）</h3>
+    <ol>
+      <li><strong>遗传靶身高约 175cm</strong>（计算式：(父179+母158+13)÷2=175，正常波动范围约170~180cm）。当前166cm，处于遗传潜力的下限附近——哥的担忧不是空穴来风，但距离完全可以通过方法补上。</li>
+      <li>年增长&lt;3cm + 已15岁8个月：生长节奏可能正在放缓——这在15岁男生中很常见，也可能就是"晚长"。剩余空间<strong>靠感觉判断不了，只能靠骨龄</strong>，一张片子就能把疑问彻底解决。</li>
+      <li><strong>最值得做的一件事：拍一张左手腕骨龄片</strong>。门诊开单即可，无创、便宜、当天出结果——骨骺未闭合就还有明确空间，方案照做稳步见效；即使节奏偏快也能早安心，把方向调整到整体健康上，不用再猜。</li>
+      <li>哥真正担心的不是"习惯好不好"，而是"<strong>我还能不能长</strong>"。答案：机会不小，用骨龄片确认自己的节奏，然后用对方法稳稳把握。</li>
+    </ol>
+
+    <h3 class="sub">需要改变的生活习惯（按重要性排序）</h3>
+    <div class="table-wrap"><table>
+      <tr><th>优先级</th><th>习惯</th><th>现状</th><th>改成</th></tr>
+      <tr><td>1</td><td><strong>睡眠</strong></td><td>晚11-早5，仅6小时</td><td><strong>22:30前入睡，6:30-7:00起床，保证8小时</strong>。生长激素在夜间深睡眠分泌达到高峰，这是当前性价比最高、最可改变的一项</td></tr>
+      <tr><td>2</td><td><strong>睡前拉伸强度</strong></td><td>拉到"生长痛"程度</td><td>改为<strong>轻微牵拉感（微酸、不痛）</strong>。骨骺还在发育期，暴力拉伸可能造成损伤，"拉到痛"不等于"长得快"</td></tr>
+      <tr><td>3</td><td><strong>进食量</strong></td><td>近期减少</td><td>三餐定时+上下午各一次加餐；先找原因（学习压力？胃不舒服？挑食？）</td></tr>
+      <tr><td>4</td><td>其他</td><td>—</td><td>少喝含糖饮料（同时利于预防肾结石复发，见2026-06-14档案）；白天晒太阳20-30分钟；避免连续久坐超过1小时</td></tr>
+    </table></div>
+
+    <h3 class="sub">每日饮食清单</h3>
+    <div class="table-wrap"><table>
+      <tr><th>类别</th><th>每日推荐量</th><th>举例</th></tr>
+      <tr><td>奶及奶制品</td><td>300-500ml</td><td>早晚各一杯牛奶，或牛奶+酸奶</td></tr>
+      <tr><td>优质蛋白</td><td>鸡蛋1-2个 + 瘦肉/鱼虾100-150g</td><td>鸡蛋、牛肉、鱼虾、鸡肉轮换</td></tr>
+      <tr><td>主食</td><td>足量，运动日适当加量</td><td>米饭、面条、全麦面包</td></tr>
+      <tr><td>大豆制品</td><td>每天1份</td><td>豆腐、豆浆</td></tr>
+      <tr><td>蔬菜+水果</td><td>蔬菜约500g + 水果约300g</td><td>深色蔬菜为主</td></tr>
+      <tr><td>饮水</td><td>1500-2000ml白开水</td><td>晨起、运动前后重点补水</td></tr>
+      <tr><td>睡前加餐</td><td>睡前1小时可喝一杯牛奶</td><td>助眠+补钙，喝完记得刷牙</td></tr>
+    </table></div>
+    <p><strong>要避免的</strong>：含糖饮料、奶茶、油炸食品；不吃早餐；为控制体重刻意节食（现阶段不适用）。<strong>说明</strong>：维生素D主要靠晒太阳合成；若秋冬户外少，可就医时顺带咨询是否补充。</p>
+
+    <h3 class="sub">睡前拉伸清单（温和版，10-15分钟）</h3>
+    <blockquote><strong>原则：以"轻微牵拉感"为度，出现疼痛立即停止。</strong>拉伸前可先洗澡或轻微活动热身。图中<span style="color:var(--xb-accent2)">蓝色线条</span>为身体姿态，<span style="color:#EF9F27">橙色高亮</span>为被拉伸的部位，<span style="color:#97C459">绿色箭头</span>为发力/牵拉方向。</blockquote>
+    <div class="st-grid">
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作1 颈肩放松示意</title>
+          <defs><marker id="g1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="18" font-size="11" fill="#B4B2A9" text-anchor="middle">前后左右缓慢倾 · 画小圈</text>
+          <line x1="40" y1="132" x2="180" y2="132" stroke="#444441" stroke-width="1"/>
+          <line x1="110" y1="130" x2="110" y2="94" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="80" y1="92" x2="140" y2="92" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="110" y1="92" x2="110" y2="72" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="110" cy="56" r="14" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <circle cx="93" cy="60" r="14" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <circle cx="127" cy="60" r="14" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <path d="M97 44 Q86 52 92 64" fill="none" stroke="#97C459" stroke-width="1.8" marker-end="url(#g1)"/>
+          <path d="M123 44 Q134 52 128 64" fill="none" stroke="#97C459" stroke-width="1.8" marker-end="url(#g1)"/>
+        </svg>
+        <b>1 · 颈肩放松</b>
+        <p>头部缓慢向前后左右倾，再画小圈</p>
+        <p class="dur">各方向 5秒 × 4次</p>
+      </div>
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作2 猫式伸展示意</title>
+          <defs><marker id="g2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="18" font-size="11" fill="#B4B2A9" text-anchor="middle">弓背 ↔ 塌腰 交替</text>
+          <line x1="30" y1="132" x2="190" y2="132" stroke="#444441" stroke-width="1"/>
+          <path d="M58,96 Q104,60 150,96" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M58,96 Q104,112 150,96" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="58" y1="96" x2="64" y2="130" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="150" y1="96" x2="144" y2="130" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="43" cy="92" r="9" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <line x1="52" y1="95" x2="58" y2="96" stroke="#85B7EB" stroke-width="2.5"/>
+          <line x1="150" y1="96" x2="163" y2="105" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="104" y1="56" x2="104" y2="104" stroke="#97C459" stroke-width="1.8" marker-start="url(#g2)" marker-end="url(#g2)"/>
+        </svg>
+        <b>2 · 猫式伸展</b>
+        <p>跪姿，随呼吸弓背-塌腰交替，脊柱一节节活动</p>
+        <p class="dur">8-10次</p>
+      </div>
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作3 婴儿式示意</title>
+          <defs><marker id="g3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="18" font-size="11" fill="#B4B2A9" text-anchor="middle">臀部坐向脚跟 · 手臂前伸贴地</text>
+          <line x1="20" y1="132" x2="200" y2="132" stroke="#444441" stroke-width="1"/>
+          <line x1="34" y1="130" x2="62" y2="128" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="62" y1="128" x2="98" y2="100" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M98,100 Q125,112 148,104" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M148,104 Q168,118 190,120" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="157" cy="115" r="8" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <path d="M96,84 Q88,94 90,106" fill="none" stroke="#97C459" stroke-width="1.8" marker-end="url(#g3)"/>
+        </svg>
+        <b>3 · 婴儿式</b>
+        <p>跪坐后身体前趴，手臂前伸贴地，背部放松下沉</p>
+        <p class="dur">30秒 × 2</p>
+      </div>
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作4 站立体前屈示意</title>
+          <defs><marker id="g4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="18" font-size="11" fill="#B4B2A9" text-anchor="middle">膝盖微屈 · 够不到脚尖没关系</text>
+          <line x1="30" y1="132" x2="190" y2="132" stroke="#444441" stroke-width="1"/>
+          <path d="M92,66 L97,99 L94,130" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M101,67 L106,100 L103,130" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M94,70 Q84,100 91,128" fill="none" stroke="#EF9F27" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+          <path d="M92,66 Q116,84 123,114" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="126" cy="118" r="8" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <path d="M114,94 Q126,110 130,128" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M130,72 Q138,88 134,102" fill="none" stroke="#97C459" stroke-width="1.8" marker-end="url(#g4)"/>
+        </svg>
+        <b>4 · 站立体前屈</b>
+        <p>双腿微屈，感受腿后侧（橙色）牵拉即可</p>
+        <p class="dur">30秒 × 2</p>
+      </div>
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作5 弓步压髋示意</title>
+          <defs><marker id="g5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="18" font-size="11" fill="#B4B2A9" text-anchor="middle">后腿膝触地 · 髋部向前压</text>
+          <line x1="20" y1="132" x2="200" y2="132" stroke="#444441" stroke-width="1"/>
+          <line x1="44" y1="130" x2="78" y2="98" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="78" y1="98" x2="118" y2="90" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="146" y1="128" x2="120" y2="90" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="146" y1="128" x2="180" y2="130" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="120" y1="90" x2="128" y2="50" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="132" cy="38" r="9" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <path d="M128,52 Q106,72 84,94" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="122" cy="92" r="7" fill="none" stroke="#EF9F27" stroke-width="2.5" opacity="0.9"/>
+          <line x1="104" y1="108" x2="134" y2="108" stroke="#97C459" stroke-width="1.8" marker-end="url(#g5)"/>
+        </svg>
+        <b>5 · 弓步压髋</b>
+        <p>前腿弓、后腿膝触地，感受髋前侧（橙色）拉伸</p>
+        <p class="dur">每侧 30秒</p>
+      </div>
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作6 单杠悬垂示意</title>
+          <defs><marker id="g6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="14" font-size="11" fill="#B4B2A9" text-anchor="middle">脚尖轻点地 · 肩背自然下沉</text>
+          <line x1="40" y1="28" x2="180" y2="28" stroke="#E6F1FB" stroke-width="4" stroke-linecap="round"/>
+          <line x1="52" y1="28" x2="52" y2="16" stroke="#5F5E5A" stroke-width="2"/>
+          <line x1="168" y1="28" x2="168" y2="16" stroke="#5F5E5A" stroke-width="2"/>
+          <line x1="98" y1="30" x2="100" y2="56" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="122" y1="30" x2="120" y2="56" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="110" cy="52" r="8" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <line x1="110" y1="60" x2="110" y2="96" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="110" y1="96" x2="103" y2="126" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="110" y1="96" x2="117" y2="126" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="103" y1="62" x2="106" y2="92" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <line x1="117" y1="62" x2="114" y2="92" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <line x1="140" y1="58" x2="140" y2="118" stroke="#97C459" stroke-width="1.8" marker-start="url(#g6)" marker-end="url(#g6)"/>
+        </svg>
+        <b>6 · 单杠悬垂</b>
+        <p>双手吊住高单杠，脚尖可轻触地减负，感受肩背拉长</p>
+        <p class="dur">20-30秒 × 3组</p>
+      </div>
+
+      <div class="st-card">
+        <svg viewBox="0 0 220 150" role="img" xmlns="http://www.w3.org/2000/svg">
+          <title>动作7 蝴蝶式示意</title>
+          <defs><marker id="g7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#97C459" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+          <text x="110" y="18" font-size="11" fill="#B4B2A9" text-anchor="middle">脚心相对 · 轻压膝盖向下</text>
+          <line x1="30" y1="134" x2="190" y2="134" stroke="#444441" stroke-width="1"/>
+          <circle cx="110" cy="40" r="10" fill="none" stroke="#85B7EB" stroke-width="2.5"/>
+          <line x1="110" y1="52" x2="110" y2="92" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="110" y1="92" x2="64" y2="108" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="110" y1="92" x2="156" y2="108" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="64" y1="108" x2="102" y2="124" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="156" y1="108" x2="118" y2="124" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M100,124 Q110,117 120,124" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M96,58 Q78,80 66,106" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M124,58 Q142,80 154,106" fill="none" stroke="#85B7EB" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="78" y1="98" x2="102" y2="112" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <line x1="142" y1="98" x2="118" y2="112" stroke="#EF9F27" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+          <line x1="64" y1="96" x2="64" y2="112" stroke="#97C459" stroke-width="1.8" marker-end="url(#g7)"/>
+          <line x1="156" y1="96" x2="156" y2="112" stroke="#97C459" stroke-width="1.8" marker-end="url(#g7)"/>
+        </svg>
+        <b>7 · 蝴蝶式</b>
+        <p>坐姿，脚心相对，轻压膝盖向下，感受大腿内侧（橙色）拉伸</p>
+        <p class="dur">30秒 × 2</p>
+      </div>
+
+    </div>
+
+    <h3 class="sub">每天运动内容清单（30-60分钟）</h3>
+    <div class="table-wrap"><table>
+      <tr><th>项目</th><th>内容</th><th>频率</th></tr>
+      <tr><td><strong>纵向弹跳类（最优先）</strong></td><td>跳绳500-1000个（分3-4组），或摸高跳3组×15次</td><td>每天</td></tr>
+      <tr><td>球类</td><td>篮球/排球（含跑跳的项目效果最好）</td><td>每周3-4次，每次40分钟</td></tr>
+      <tr><td>游泳</td><td>自由伸展泳姿</td><td>每周1-2次</td></tr>
+      <tr><td>慢跑/快走</td><td>中等强度</td><td>每周2-3次，每次20分钟</td></tr>
+    </table></div>
+    <ul>
+      <li>强度以"微微出汗、能说话不能唱歌"为宜，避免每天大强度练到力竭；</li>
+      <li>骨骺闭合前<strong>不建议大重量负重深蹲/硬拉</strong>等大负荷力量训练，自重练习（俯卧撑、引体）可以；</li>
+      <li>运动前热身、运动后拉伸，与睡前拉伸衔接即可。</li>
+    </ul>
+
+    <h3 class="sub">给哥的话</h3>
+    <ul>
+      <li>你的遗传身高潜力在170以上，现在正是行动的黄金期——方法对了，接下来一两年每一步都算数；</li>
+      <li><strong>睡眠从6小时改到8小时，比任何补品都有效</strong>——这是第一优先级；</li>
+      <li>别拉伸到痛、别熬夜、别不吃饭，这三件恰恰是"反向长高"；</li>
+      <li>饮食、拉伸、运动清单从今天就可以照做，而"还能长多少"这个问题，请用一张骨龄片来回答，不猜、不焦虑。</li>
+    </ul>
+  </section>
+
+  <!-- ============ 二、骨龄与骨骺详解 ============ -->
+  <section id="s2">
+    <h2 class="section-title">二、骨龄与骨骺详解</h2>
+
+    <h3 class="sub">骨龄是什么：骨骼的"发育年龄"</h3>
+    <p><strong>日历年龄</strong>是你活了多少年（哥：15周岁8个月）；<strong>骨龄</strong>是你的骨骼实际"发育到了几岁"。拍一张左手腕X光片，医生对照标准图谱（G-P图谱或TW3评分法），看骨化中心数量、形态、骨骺与骨干的融合程度来判定。关键点：<strong>判断长高潜力看骨龄，不看日历年龄</strong>。"晚长"还是"已经长完了"，只有骨龄能回答。</p>
+    <div class="table-wrap"><table>
+      <tr><th>情况</th><th>含义</th><th>对哥的意义</th></tr>
+      <tr><td>骨龄 = 日历年龄</td><td>发育节奏正常</td><td>按骨龄15.7岁评估剩余空间</td></tr>
+      <tr><td>骨龄 &gt; 日历年龄</td><td>发育偏早（提前透支）</td><td>表面"早长"，更要抓紧当前方案</td></tr>
+      <tr><td>骨龄 &lt; 日历年龄</td><td>发育偏晚（俗称"晚长"）</td><td>剩余空间比想象的多，追上来很常见</td></tr>
+    </table></div>
+
+    <h3 class="sub">骨骺与生长板：长骨是怎么变长的</h3>
+    <div class="table-wrap"><table>
+      <tr><th>结构</th><th>位置</th><th>作用</th></tr>
+      <tr><td>骨骺（epiphysis）</td><td>长骨两端</td><td>靠近关节的"骨帽"，本身是独立骨块</td></tr>
+      <tr><td>骺板/生长板（physis）</td><td>骨骺与骨干之间的<strong>一层透明软骨</strong></td><td><strong>长高的发动机</strong>——全身长骨的生长板共同决定身高</td></tr>
+      <tr><td>干骺端</td><td>骨干靠近生长板的部分</td><td>软骨"成骨"的施工现场</td></tr>
+      <tr><td>骨干</td><td>长骨中段</td><td>骨骼的主体</td></tr>
+    </table></div>
+    <p><strong>工作原理</strong>：生长板里的软骨细胞像流水线一样不断增殖→肥大→钙化成骨，新骨在骨干方向持续堆积，骨头就一节一节变长。身高增长的本质，就是<strong>所有长骨生长板还在生产新骨</strong>。</p>
+
+    <h3 class="sub">什么是"闭合"</h3>
+    <p>青春期后期，体内性激素水平升高，会让生长板软骨细胞增殖速度逐渐放缓，最终整层软骨被骨组织取代、与骨骺完全融合——这就是<strong>骨骺闭合</strong>。每个人的节奏不同、有早有晚，X光上可分三个阶段：</p>
+    <div class="table-wrap"><table>
+      <tr><th>阶段</th><th>X光表现</th><th>长高状态</th></tr>
+      <tr><td>未闭合</td><td>骨骺与骨干之间有一条<strong>清晰的黑色透光线</strong></td><td class="pos">生长板还在生产，能继续长</td></tr>
+      <tr><td>闭合中</td><td>透光线变窄、断续、边缘不规则</td><td>仍在增长，节奏放缓</td></tr>
+      <tr><td>融合完成</td><td>透光线消失，骨干与骨骺连成一体（或仅残留一条淡淡的白线）</td><td>进入稳定期，身高基本确定</td></tr>
+    </table></div>
+    <p><strong>为什么建议趁早了解</strong>：每个人的生长节奏不同，越早拍片越早清楚自己的节奏，把每一分努力都用在点子上，不焦虑、不空等。</p>
+
+    <h3 class="sub">闭合与长高空间的关系（男孩参考）</h3>
+    <div class="table-wrap"><table>
+      <tr><th>男孩骨龄</th><th>大致剩余增长空间</th><th>状态</th></tr>
+      <tr><td>13岁</td><td>约8-10cm</td><td>快速增长期尾段</td></tr>
+      <tr><td>14岁</td><td>约5-8cm</td><td>减速开始</td></tr>
+      <tr class="hl"><td>15岁</td><td>约3-6cm</td><td>明显放缓，方法对了空间实在</td></tr>
+      <tr class="hl"><td>16岁</td><td>约1-3cm</td><td>仍有稳稳的收获</td></tr>
+      <tr><td>17岁</td><td>约0-1cm</td><td>接近尾声（"晚长"者可推迟）</td></tr>
+      <tr><td>18岁+</td><td>0</td><td>完全融合</td></tr>
+    </table></div>
+    <p><strong>对哥意味着什么</strong>（15周岁8个月，年增&lt;3cm）：</p>
+    <ul>
+      <li>若骨龄≤15：还有约3-6cm空间，报告中的睡眠/营养/运动方案<strong>有实际意义</strong>，认真执行；</li>
+      <li>若骨龄16~16.5：仍有约1-3cm的稳稳收获，方案照做、稳扎稳打；</li>
+      <li>若已接近/完全融合：说明节奏偏早、已率先进入稳定期，方案转为健康习惯长期保持（对防近视、防结石、体能同样有价值），同样是满分答案。</li>
+    </ul>
+
+    <h3 class="sub">为什么拍左手腕？辐射安全吗？</h3>
+    <ul>
+      <li><strong>选左手腕</strong>：手腕集中了多块骨化中心（桡骨远端、尺骨远端、8块腕骨、掌骨近端），随年龄变化规律清晰，是世界通用的骨龄标准摄片部位（右利手者用左手避开运动影响）；</li>
+      <li><strong>辐射量极低</strong>：一张手腕片的有效剂量约0.001mSv以下，相当于几小时的自然本底辐射、不足一次胸片的百分之一，一年拍一次也完全在安全范围内；</li>
+      <li>无创、门诊即可开单、当天出片出结果。</li>
+    </ul>
+  </section>
+
+  <!-- ============ 三、身高小课堂 ============ -->
+  <section id="s3">
+    <h2 class="section-title">三、身高小课堂（图解）</h2>
+    <p class="hc-p"><strong style="color:var(--xb-text)">骨龄</strong>是骨骼的"发育年龄"——日历年龄记的是你活了多少年，骨龄告诉你骨骼实际"发育到了几岁"。有人骨龄比日历年龄小，这就是常说的"晚长"，在男生中相当常见；判断长高潜力<b style="color:var(--xb-text)">只认骨龄，不看日历</b>，所以一张片子就能把"晚长还是长完了"的疑问彻底解决，早知道早安心。</p>
+    <svg class="hc-svg" viewBox="0 0 680 380" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>长骨末端结构与骨骺闭合三阶段</title>
+      <desc>左侧为长骨末端解剖示意：骨干、干骺端、生长板（骺板）、骨骺；右侧为X光下未闭合、闭合中、融合完成三个阶段的对比。</desc>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#85B7EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <text x="40" y="58" font-size="14" font-weight="500" fill="#E6F1FB">长骨末端结构与骨骺闭合三阶段</text>
+      <line x1="366" y1="90" x2="366" y2="350" stroke="#B4B2A9" stroke-width="0.5" opacity="0.35"/>
+      <rect x="60" y="210" width="180" height="64" rx="10" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <rect x="236" y="200" width="44" height="84" rx="10" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <rect x="278" y="200" width="8" height="84" rx="2" fill="#EF9F27"/>
+      <rect x="286" y="192" width="54" height="100" rx="18" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <text x="282" y="125" font-size="13" font-weight="500" fill="#EF9F27" text-anchor="middle">生长板 · 长高的发动机</text>
+      <line x1="282" y1="133" x2="282" y2="196" stroke="#EF9F27" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text x="322" y="168" font-size="13" fill="#E6F1FB" text-anchor="middle">骨骺</text>
+      <line x1="322" y1="176" x2="322" y2="188" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="3 3"/>
+      <text x="150" y="238" font-size="12" fill="#E6F1FB">新骨不断堆积 · 骨变长</text>
+      <line x1="240" y1="256" x2="90" y2="256" stroke="#85B7EB" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+      <text x="258" y="310" font-size="13" fill="#E6F1FB" text-anchor="middle">干骺端</text>
+      <text x="150" y="310" font-size="13" fill="#E6F1FB" text-anchor="middle">骨干</text>
+      <text x="380" y="120" font-size="13" font-weight="500" fill="#E6F1FB">生长板在X光下的三个阶段</text>
+      <circle cx="390" cy="163" r="5" fill="#97C459"/>
+      <text x="406" y="160" font-size="13" font-weight="500" fill="#E6F1FB">未闭合</text>
+      <text x="406" y="178" font-size="12" fill="#B4B2A9">清晰透光线，生长活跃</text>
+      <rect x="500" y="148" width="70" height="34" rx="6" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <rect x="578" y="142" width="32" height="46" rx="12" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <circle cx="390" cy="243" r="5" fill="#EF9F27"/>
+      <text x="406" y="240" font-size="13" font-weight="500" fill="#E6F1FB">闭合中</text>
+      <text x="406" y="258" font-size="12" fill="#B4B2A9">仍在增长，节奏放缓</text>
+      <rect x="500" y="228" width="68" height="34" rx="6" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <rect x="576" y="222" width="32" height="46" rx="12" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <line x1="573" y1="230" x2="573" y2="260" stroke="#85B7EB" stroke-width="1" stroke-dasharray="4 4"/>
+      <circle cx="390" cy="323" r="5" fill="#F09595"/>
+      <text x="406" y="320" font-size="13" font-weight="500" fill="#E6F1FB">融合完成</text>
+      <text x="406" y="338" font-size="12" fill="#B4B2A9">进入稳定期</text>
+      <rect x="500" y="308" width="70" height="34" rx="6" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <rect x="570" y="302" width="32" height="46" rx="12" fill="#0C447C" stroke="#85B7EB" stroke-width="0.5"/>
+      <line x1="572" y1="312" x2="572" y2="338" stroke="#5F5E5A" stroke-width="1"/>
+    </svg>
+    <p class="hc-p">长骨两端的"骨帽"叫<b style="color:var(--xb-text)">骨骺</b>，它与骨干之间夹着一层软骨——<b style="color:var(--xb-text)">生长板</b>。它的细胞像流水线一样不断增殖、钙化成骨，新骨持续堆积，骨头就一节节变长。青春期后期这层软骨逐步与骨骺融合，生长节奏自然放缓——这是每个人的必经过程，只是节奏因人而异、有早有晚。</p>
+    <p class="hc-chart-title">不同骨龄男生的大致增长空间（参考区间）</p>
+    <div class="hc-legend">
+      <span><i style="background:#5DCAA5"></i>一般阶段</span>
+      <span><i style="background:#EF9F27"></i>哥的黄金窗口（15~16.5岁）</span>
+      <span><i style="background:#888780"></i>尾声阶段</span>
+    </div>
+    <div class="hc-chart-wrap">
+      <canvas id="boneAgeChart" role="img" aria-label="男孩骨龄与预计剩余长高空间的水平条形图">图表加载失败，请参考文字说明。</canvas>
+    </div>
+    <p class="note">参考区间因人而异，"晚长"的孩子空间往往更大，以医生读片判读为准。</p>
+    <div class="hc-cards">
+      <div class="hc-card"><b>一张骨龄片，三个明确答案</b><span>骨龄几岁、生长板状态、还有多少空间，医生当面读片就能说清，从此不用再猜。</span></div>
+      <div class="hc-card"><b>"晚长"很常见</b><span>不少男生的骨龄比日历年龄小，后面稳稳追上来的例子很多，骨龄检查能第一时间分辨。</span></div>
+      <div class="hc-card"><b>遗传潜力有支撑</b><span>按爸妈身高计算，遗传潜力约175cm（±5cm），方法对了完全来得及。</span></div>
+      <div class="hc-card"><b>当下最有效的三件事</b><span>睡够8小时、三餐营养到位、每天跳绳/摸高等纵向运动——今天就能开始。</span></div>
+      <div class="hc-card"><b>无论结果如何都不亏</b><span>好睡眠、好营养、好习惯，长高是收获，好体质、好状态同样是收获。</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 四、行动要点 ============ -->
+  <section id="s4">
+    <h2 class="section-title">四、行动要点</h2>
+    <ol>
+      <li><strong>拍左手腕骨龄片</strong>：近1-2个月内挂儿科/生长发育门诊；拿到结果请医生同时说明<strong>骨龄几岁、生长板闭合程度、预计剩余空间</strong>这三个信息；</li>
+      <li>若骨龄落后明显或其余指标异常，按医生建议进一步查生长激素、甲状腺功能、25-羟维生素D；</li>
+      <li><strong>顺带提醒</strong>：2026-09-01开学血常规建议的<strong>血清铁蛋白+血红蛋白电泳</strong>至今未做（见本档案"开学血常规检查"），可与本次检查<strong>同一次抽血一起安排</strong>；</li>
+      <li>睡眠、饮食、拉伸、运动清单<strong>今天就可以开始</strong>，不等检查结果。</li>
+    </ol>
+    <blockquote><strong>重要</strong>：本页为哥本人健康诉求的咨询记录与健康科普，不构成医学诊断；骨龄判读与剩余空间估算存在个体差异，一切以面诊医生意见为准。</blockquote>
+  </section>
+
+  <div style="text-align:center;">
+    <a class="back-link" href="../index.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      返回哥的健康档案
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <p>XBrain &copy; 2026 · 个人健康档案 · 仅供家庭参考</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  var el = document.getElementById('boneAgeChart');
+  if(!el || typeof Chart === 'undefined') return;
+  new Chart(el, {
+    type: 'bar',
+    data: {
+      labels: ['骨龄17岁', '骨龄16岁', '骨龄15岁', '骨龄14岁', '骨龄13岁'],
+      datasets: [{
+        label: '增长空间',
+        data: [[0,1],[1,3],[3,6],[5,8],[8,10]],
+        backgroundColor: ['#888780','#EF9F27','#EF9F27','#5DCAA5','#5DCAA5'],
+        borderRadius: 4,
+        barThickness: 22
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx){ var v = ctx.raw; return '约 ' + v[0] + '~' + v[1] + ' cm'; } } }
+      },
+      scales: {
+        x: { min: 0, max: 11,
+          title: { display: true, text: '大致增长空间（cm）', color: '#B4B2A9', font: { size: 12 } },
+          ticks: { color: '#B4B2A9', stepSize: 2 },
+          grid: { color: 'rgba(180,178,169,0.15)' }
+        },
+        y: { ticks: { color: '#E6F1FB', autoSkip: false }, grid: { display: false } }
+      }
+    }
+  });
+})();
+</script>
+<script>
+(function(){
+  var links = document.querySelectorAll('.toc-nav a');
+  var sections = [];
+  links.forEach(function(a){ var s = document.querySelector(a.getAttribute('href')); if(s) sections.push([a, s]); });
+  window.addEventListener('scroll', function(){
+    var y = window.pageYOffset + 80, cur = links[0];
+    sections.forEach(function(p){ if(p[1].offsetTop <= y) cur = p[0]; });
+    links.forEach(function(a){ a.classList.toggle('active', a === cur); });
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>

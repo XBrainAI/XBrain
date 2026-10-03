@@ -121,8 +121,17 @@ body{
   font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;
   background:rgba(100,180,255,0.1);color:var(--xb-accent2);border:1px solid var(--xb-border);
 }
-.timeline-title{
+'.timeline-title{
   font-size:1rem;font-weight:700;margin-bottom:0.5rem;
+}
+.timeline-desc p{
+  margin:0.2rem 0;font-size:0.85rem;color:var(--xb-text-dim);
+}
+.timeline-desc ul{
+  margin:0.3rem 0 0.4rem 1.1rem;font-size:0.85rem;color:var(--xb-text-dim);
+}
+.timeline-desc strong{
+  color:var(--xb-text);
 }
 .thumb-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.5rem;margin:0.5rem 0;
@@ -283,7 +292,7 @@ footer{
   <!-- Hero -->
   <section class="hero" id="top">
     <h1>哥<span>个人健康档案</span></h1>
-    <p class="meta">就诊记录 · 检查报告 · 病情分析 · 共4份</p>
+    <p class="meta">就诊记录 · 检查报告 · 病情分析 · 共5份</p>
   </section>
 
   <!-- 时间线 -->
@@ -297,6 +306,28 @@ footer{
       </div>
     </div>
     <div class="timeline" id="timeline">
+  <div class="timeline-item" data-date="2026-10-03" data-year="2026">
+    <div class="timeline-dot"></div>
+    <div class="timeline-card">
+      <div class="timeline-header">
+        <span class="timeline-date">2026-10-03</span>
+        <span class="timeline-tag">健康咨询</span>
+      </div>
+      <h4 class="timeline-title">身高发育与健康咨询</h4>
+      <p><strong>结论速览</strong>（完整图文报告请点「查看详情页」）</p>
+<ul>
+<li>遗传潜力约 <strong>175cm（±5）</strong>，当前166cm，方法对了来得及；</li>
+<li>年增<3cm <strong>可能是"晚长"</strong>，节奏只有骨龄片能确认——近1-2个月拍一张左手腕片；</li>
+<li>第一优先级：<strong>睡眠从6小时加到8小时</strong>；睡前拉伸改温和版，不拉到痛；</li>
+<li>饮食、拉伸、运动三份清单及就医安排详见详情页。</li>
+</ul>
+      
+      <div class="timeline-actions">
+        <a href="./20261003.身高发育与健康咨询/index.html" class="btn-link">查看详情页</a>
+      </div>
+      
+    </div>
+  </div>
   <div class="timeline-item" data-date="2026-09-01" data-year="2026">
     <div class="timeline-dot"></div>
     <div class="timeline-card">
@@ -305,6 +336,7 @@ footer{
         <span class="timeline-tag">就诊记录</span>
       </div>
       <h4 class="timeline-title">开学血常规检查</h4>
+      
       <div class="img-fold" style="display:none;"><div class="thumb-grid"><img src="./20260901.开学血常规检查/image.png" alt="开学血常规检查" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div></div>
       <div class="timeline-actions">
         <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
@@ -520,6 +552,7 @@ footer{
         <span class="timeline-tag">就诊记录</span>
       </div>
       <h4 class="timeline-title">脚指甲检查</h4>
+      
       <div class="img-fold" style="display:none;"><div class="thumb-grid"><img src="./20260703.脚指甲检查/image.png" alt="脚指甲检查" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div></div>
       <div class="timeline-actions">
         <button class="btn-img-toggle" onclick="toggleImages(this)">查看图片</button>
@@ -651,6 +684,7 @@ footer{
         <span class="timeline-tag">就诊记录</span>
       </div>
       <h4 class="timeline-title">甲癣(灰指甲)</h4>
+      
       <div class="img-fold" style="display:none;"><div class="thumb-grid"><img src="./20260622.甲癣(灰指甲)/image.png" alt="甲癣(灰指甲)" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260622.甲癣(灰指甲)/南方医科大学皮肤病医院-刘应辉.png" alt="甲癣(灰指甲)" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260622.甲癣(灰指甲)/南方医科大学皮肤病医院-文玮.png" alt="甲癣(灰指甲)" class="report-thumb" loading="lazy" onclick="openModal(this.src)"></div></div>
@@ -849,6 +883,7 @@ footer{
         <span class="timeline-tag">就诊记录</span>
       </div>
       <h4 class="timeline-title">发烧腹股沟尿道肿胀肾结石</h4>
+      
       <div class="img-fold" style="display:none;"><div class="thumb-grid"><img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (1).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (2).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">
 <img src="./20260614.发烧腹股沟尿道肿胀肾结石/15岁男性末梢血检验报告分析 (3).png" alt="发烧腹股沟尿道肿胀肾结石" class="report-thumb" loading="lazy" onclick="openModal(this.src)">

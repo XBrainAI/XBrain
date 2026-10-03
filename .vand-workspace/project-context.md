@@ -29,6 +29,7 @@
 - **敏感与纪律**：敏感/隐私文件不得入库（认证遮罩不保护直链）；dist/node_modules 禁提交；入库视频必须 H.264+faststart、单文件 ≤100MB；中文目录/空格文件名路径写原始字符；git 推送前 fetch 比对防分支引用碰撞（禁盲目 force push）。
 - **生活点滴双生成器**：`src/gen_travelogue.py` 仅限 2026/0816 手搓原型；其余用 `src/gen_life_record.py`；手搓精修页（2026/0816、0823）禁止通用生成器重盖；媒体按文件名时间戳归章、文案忠实于事实。
 - **grade-insight**：纯静态交互应用（无构建），localStorage 主存 + data.js 快照同步；分析禁直接比较原始分，必须三重归一（得分率/排名百分位/相对均分）。
+- **健康/哥 个人健康档案**：`generate_index.py` 生成时间线首页（勿手改 index.html）；条目分旧式（就诊/检查，md 折叠全文）与新式咨询（meta.json+条目级详情页+README速览三件套，显式 opt-in）；子系统单一事实源见 `健康/哥/README.md`，详细约定见 §11。**手写子页面（条目详情页）必须携带完整品牌组件（.xbrain-brand/.xbrain-text/<span>X</span>Brain SVG，Logo href="../index.html"）+ 首屏 id="top"——brand.test.js 静态守卫强制**。
 
 ## 领域术语表
 
@@ -2610,4 +2611,43 @@ footer
 - [ ] 导航首页 `.sites-grid` 已加卡片入口
 - [ ] 若有 MD 源，建立 MD+HTML 双份并约定同步方式
 - [ ] 本地浏览器验证全链路跳转、Logo 显示、移动端布局
+
+---
+
+## 11. 健康/哥 个人健康档案子系统（2026-10-03 确立）
+
+> **单一事实源：`健康/哥/README.md`**（随目录走、AI 打开文件夹即可发现）。本节为项目级摘要，冲突时以该 README 为准。
+
+### 11.1 机制与红线
+- 档案首页 `index.html` 由 `generate_index.py` 生成（managed python），**勿直接手改**；重新生成 `python generate_index.py`。
+- 条目 = 子目录 `YYYYMMDD.标题/`（日期前缀8位数字+点）；`EXCLUDE_DIRS` 含 `MR-无需建立子站点`、`__pycache__`；根 `README.md` 不会被误当条目。
+- `meta.json`（如 `{"tag": "健康咨询"}`）自定义时间线标签，缺省"就诊记录"。
+
+### 11.2 条目双轨制（防冗余分工）
+| 类型 | 建法 | 卡片表现 |
+| --- | --- | --- |
+| 就诊/检查（旧式） | 目录放 md（+图片），可选自带 index.html | "查看完整报告"折叠全文 |
+| 健康咨询（新式，三件套） | `meta.json` + 条目级 `index.html` 详情页 + `README.md` 速览 | 仅速览 + "查看详情页"，不渲染 md 全文 |
+
+- 卡片=索引层、详情页=唯一全文图文入口；新式条目缺详情页时**兜底保留折叠全文**（防内容不可达）。
+- **全局机制变更必须 meta.json 显式 opt-in**，严禁"有无 index.html"启发式——旧条目肾结石（自带 index.html）曾被误伤（教训 §README.7）。
+- 旧条目展示行为是冻结的：任何全局改动不得影响其按钮、折叠全文与 README 不上卡。
+
+### 11.3 详情页与内容规范
+- 详情页独立维护（不随生成器重建），暗色 XBrain 主题、sticky 锚点导航、返回 `../index.html`；SVG 图解配色：蓝=姿态、橙 #EF9F27=拉伸/关注部位、绿 #97C459=发力方向，marker id 全页唯一。
+- **面向哥（15岁青少年）措辞必须正向不打击**：禁"定型/帮助有限/减速/收窄"，用"黄金窗口/晚长很常见/稳稳收获/进入稳定期"；结尾附"不构成医学诊断"。
+
+### 11.4 改动验证
+- 改生成器后：重新生成 + 逐条目 node 断言核对按钮/内容归属。
+- **隔离模拟法**：monkeypatch `gen.BASE` 指向临时夹具目录，断言 `get_items()`——标准5场景：新就诊 / 完整新式咨询 / 新式未建详情页（兜底）/ 根md报告 / 命名不合规目录。
+- 全仓改动后 `npm run test:repo` 全绿。
+
+### 11.5 改动验证清单（哥档案）
+- [ ] `python generate_index.py` 成功且条目数符合预期（新增条目出现在时间线）
+- [ ] 旧条目（肾结石/血常规/脚指甲/甲癣）行为不变：折叠全文在、README 不上卡
+- [ ] 新式咨询条目：速览显示、无 md 全文泄漏到卡片、详情页链接可达
+- [ ] 详情页 SVG XML 校验通过、marker id 无冲突
+- [ ] **详情页含完整品牌组件（.xbrain-brand/.xbrain-text/<span>X</span>Brain SVG）+ 首屏 id="top"**（brand.test.js 守卫）
+- [ ] 措辞过一遍正向红线（§11.3）
+- [ ] 视改动范围跑 `npm run test:repo`（沙箱内 spawnSync 可能报 EBUSY，属环境限制——需用 git ls-files / ast.parse / node --check 手工实质复核）
 ```

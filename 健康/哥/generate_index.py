@@ -4,6 +4,7 @@
 整合所有子站点目录 + md 报告文件
 参考妈子站点模式：时间线 + 单页整合 + 支持增量追加
 """
+import json
 import os
 import re
 from pathlib import Path
@@ -11,8 +12,9 @@ from pathlib import Path
 BASE = Path(r"d:\data\wy25311753\workspace\git\github\XBrain\home\健康\哥")
 OUTPUT = BASE / "index.html"
 
-EXCLUDE_DIRS = {"MR-无需建立子站点"}
+EXCLUDE_DIRS = {"MR-无需建立子站点", "__pycache__"}
 EXCLUDE_FILES = {"generate_index.py", "index.html", "README.md", "README.MD"}
+
 
 
 def parse_dir_name(name):
@@ -231,13 +233,26 @@ def get_items():
         img_paths = [f"./{entry.name}/{img.name}" for img in images]
 
         has_index = (entry / "index.html").exists()
+        tag = "就诊记录"
+        meta_file = entry / "meta.json"
+        new_style = meta_file.exists()
+        if new_style:
+            try:
+                tag = json.loads(meta_file.read_text(encoding="utf-8")).get("tag", tag)
+            except Exception:
+                pass
+        # 分工约定（仅对带 meta.json 的新式条目生效，旧条目行为完全不变）：
+        # 新式条目且有详情页 -> 卡片只放 README 速览 + 查看详情页按钮，不重复 md 全文；
+        # 新式条目但尚无详情页 -> 兜底保留 md 折叠全文（避免内容不可达）；
+        # 旧条目   -> 维持 md 折叠全文（查看完整报告）
+        card_detail = "" if (new_style and has_index) else detail_html
         items.append({
             "type": "subdir",
             "date": date,
             "title": title,
-            "tag": "就诊记录",
-            "desc": desc,
-            "detail_html": detail_html,
+            "tag": tag,
+            "desc_html": md_to_html(desc) if (desc and new_style) else "",
+            "detail_html": card_detail,
             "images": img_paths,
             "link": f"./{entry.name}/index.html" if has_index else "",
             "sort_key": date,
@@ -288,6 +303,7 @@ def build_html(items):
         date_display = item["date"]
         title = item["title"]
         tag = item["tag"]
+        desc_html = item.get("desc_html", "")
 
         # 图片 HTML（默认折叠）
         img_section = ""
@@ -324,6 +340,7 @@ def build_html(items):
         <span class="timeline-tag">{tag}</span>
       </div>
       <h4 class="timeline-title">{title}</h4>
+      {desc_html}
       {img_section}
       <div class="timeline-actions">
         {actions_html}
@@ -459,8 +476,17 @@ body{{
   font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;
   background:rgba(100,180,255,0.1);color:var(--xb-accent2);border:1px solid var(--xb-border);
 }}
-.timeline-title{{
+'.timeline-title{{
   font-size:1rem;font-weight:700;margin-bottom:0.5rem;
+}}
+.timeline-desc p{{
+  margin:0.2rem 0;font-size:0.85rem;color:var(--xb-text-dim);
+}}
+.timeline-desc ul{{
+  margin:0.3rem 0 0.4rem 1.1rem;font-size:0.85rem;color:var(--xb-text-dim);
+}}
+.timeline-desc strong{{
+  color:var(--xb-text);
 }}
 .thumb-grid{{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.5rem;margin:0.5rem 0;
