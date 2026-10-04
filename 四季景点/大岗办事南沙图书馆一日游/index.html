@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>大岗办事·南沙图书馆一日游（2026-10-05 家庭一日行程）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 主题变量（书卷气浅色：宣纸米白 + 墨蓝 + 金铜；独立于品牌 --xb-*，仅保留 Logo 品牌底座） ===== */
+    :root {
+      --ink-900: #152a42;
+      --ink-700: #1f3d5f;
+      --ink-500: #3a5a80;
+      --gold-700: #8f6a33;
+      --gold-500: #b98a45;
+      --gold-300: #e0c08a;
+      --paper: #f6f1e6;
+      --card: #fffdf7;
+      --line: rgba(31, 61, 95, 0.18);
+      --tx: #26374a;
+      --tx-dim: #5e6f80;
+      --ok: #2e7d4f;
+      --ok-bg: #e6f2ea;
+      --warn: #a05a1c;
+      --warn-bg: #faf0e0;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(1000px 600px at 110% -5%, rgba(185, 138, 69, 0.10), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(31, 61, 95, 0.06), transparent 55%),
+        var(--paper);
+      color: var(--tx);
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, .serif { font-family: "Noto Serif SC", serif; }
+    a { color: inherit; }
+
+    /* ===== XBrain Brand (IP 规范 brand/XBRAIN-LOGO-IP.md 原文嵌入) ===== */
+    .xbrain-brand {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px;
+      padding: 6px 14px 6px 8px;
+      box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.15),
+        0 0 40px rgba(80, 140, 255, 0.35),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .xbrain-brand:hover {
+      box-shadow:
+        0 0 24px rgba(80, 140, 255, 0.40),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+      border-color: rgba(180, 210, 255, 0.70);
+    }
+    .xbrain-brand.scrolled {
+      background: rgba(15, 10, 40, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-color: rgba(100, 180, 255, 0.08);
+      box-shadow: none;
+    }
+    .xbrain-brand.scrolled:hover { opacity: 0.7 !important; border-color: rgba(100, 180, 255, 0.2); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+    .xbrain-brand .xb-glow-bg { opacity: 0.40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+    .xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: 0.75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: 0.9; }
+    .xbrain-brand .xbrain-text {
+      font-size: 15px; font-weight: 800; letter-spacing: 1.5px;
+      color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+    }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100, 180, 255, 0.9); }
+
+    /* ===== 顶部导航（top-nav 模板结构，配色适配本页墨蓝金主题） ===== */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(21, 42, 66, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(224, 192, 138, 0.35);
+      padding: 0 1.5rem;
+      padding-top: env(safe-area-inset-top, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(52px + env(safe-area-inset-top, 0));
+    }
+    .top-nav .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .top-nav .nav-inner::-webkit-scrollbar { display: none; }
+    .top-nav .nav-hamburger {
+      display: none;
+      align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      min-width: 44px; min-height: 44px; color: #f2ead9;
+    }
+    .top-nav .nav-hamburger svg { width: 24px; height: 24px; }
+    .top-nav a {
+      position: relative;
+      display: inline-flex; align-items: center;
+      padding: 6px 13px;
+      font-size: 14px; font-weight: 500;
+      color: rgba(242, 234, 217, 0.78);
+      text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+    .top-nav a:hover { color: #fff; background: rgba(224, 192, 138, 0.14); }
+    .top-nav a.active { color: var(--gold-300); background: rgba(224, 192, 138, 0.16); }
+    .top-nav a.active::after {
+      content: ''; position: absolute; bottom: 2px; left: 50%;
+      transform: translateX(-50%);
+      width: 14px; height: 2px; background: var(--gold-300); border-radius: 1px;
+    }
+    .nav-mobile-dropdown { display: none; }
+
+    /* ===== 通用版式 ===== */
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 1.25rem; }
+    section[id] { scroll-margin-top: 76px; }
+    .sec { padding: 3.2rem 0 1.2rem; }
+    .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 0.4rem; }
+    .sec-head .no { font-family: "Noto Serif SC", serif; font-size: 0.95rem; color: var(--gold-700); letter-spacing: 2px; }
+    .sec h2 { font-size: 1.55rem; color: var(--ink-700); margin: 0; }
+    .sec-desc { color: var(--tx-dim); margin: 0.2rem 0 1.4rem; font-size: 0.98rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 2px 10px rgba(21, 42, 66, 0.05);
+    }
+    .card h3 { margin: 0 0 0.5rem; color: var(--ink-700); font-size: 1.12rem; }
+    .card p { margin: 0.4rem 0; }
+    .muted { color: var(--tx-dim); }
+    .in-doc-link { color: var(--gold-700); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .b { display: inline-block; font-size: 0.8rem; font-weight: 700; border-radius: 4px; padding: 1px 8px; vertical-align: 1px; white-space: nowrap; }
+    .b-ok { color: var(--ok); background: var(--ok-bg); border: 1px solid rgba(46, 125, 79, 0.35); }
+    .b-warn { color: var(--warn); background: var(--warn-bg); border: 1px solid rgba(160, 90, 28, 0.35); }
+    .b-key { color: var(--ink-700); background: rgba(31, 61, 95, 0.08); border: 1px solid var(--line); }
+
+    /* 表格：窄屏横向滚动容器 */
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--line); background: var(--card); }
+    table.tbl { width: 100%; border-collapse: collapse; font-size: 16px; min-width: 560px; }
+    .tbl th {
+      background: var(--ink-700); color: #f2ead9; text-align: left;
+      font-weight: 600; font-size: 0.86rem; letter-spacing: 1px;
+      padding: 9px 12px; white-space: nowrap;
+    }
+    .tbl td { padding: 9px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+    .tbl tr:nth-child(even) td { background: rgba(31, 61, 95, 0.03); }
+    .tbl td.t-time { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--ink-700); white-space: nowrap; }
+    .tbl td.t-dur { white-space: nowrap; color: var(--tx-dim); }
+
+    /* ===== Hero ===== */
+    .hero {
+      position: relative;
+      margin-top: calc(52px + env(safe-area-inset-top, 0));
+      background:
+        radial-gradient(760px 300px at 85% 0%, rgba(224, 192, 138, 0.18), transparent 60%),
+        linear-gradient(152deg, var(--ink-900) 0%, var(--ink-700) 58%, #2c5170 100%);
+      color: #f4efe3;
+      padding: 4.6rem 0 4.2rem;
+      overflow: hidden;
+    }
+    .hero .wrap { position: relative; z-index: 2; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+    .hero-tag {
+      font-size: 0.8rem; letter-spacing: 1px;
+      border: 1px solid rgba(224, 192, 138, 0.55); color: var(--gold-300);
+      border-radius: 999px; padding: 3px 12px; background: rgba(21, 42, 66, 0.35);
+    }
+    .hero h1 { font-size: clamp(1.7rem, 4.6vw, 2.5rem); margin: 0 0 0.6rem; line-height: 1.3; }
+    .hero h1 .thin { color: var(--gold-300); }
+    .hero-sub { color: rgba(244, 239, 227, 0.82); max-width: 640px; margin: 0 0 1.4rem; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 10px; }
+    .stat-chip {
+      background: rgba(255, 253, 247, 0.08);
+      border: 1px solid rgba(224, 192, 138, 0.4);
+      border-radius: 12px;
+      padding: 10px 16px;
+      min-height: 44px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .stat-chip b { font-size: 1.02rem; color: #fff; font-family: "Noto Serif SC", serif; }
+    .stat-chip span { font-size: 0.78rem; color: rgba(244, 239, 227, 0.72); letter-spacing: 1px; }
+    .hero-wave { position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 60px; z-index: 1; opacity: 0.5; }
+
+    /* ===== 方案切换（项目 §12.2 多方案切换架构） ===== */
+    .plan-selector { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1.2rem; }
+    .plan-btn {
+      position: relative; overflow: hidden;
+      flex: 1 1 220px;
+      min-height: 56px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+    .plan-btn .plan-name { display: block; font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 1.05rem; color: var(--ink-700); }
+    .plan-btn .plan-desc { display: block; font-size: 0.82rem; color: var(--tx-dim); margin-top: 2px; }
+    .plan-btn:hover { border-color: var(--gold-500); }
+    .plan-btn.active { border-color: var(--gold-700); background: #fdf7ec; box-shadow: 0 0 0 1px var(--gold-700) inset, 0 4px 14px rgba(143, 106, 51, 0.12); }
+    .plan-btn.active .plan-name { color: var(--gold-700); }
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn 0.45s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .day-label {
+      font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--gold-700);
+      letter-spacing: 2px; margin: 1.1rem 0 0.5rem; font-size: 0.95rem;
+    }
+    .key-points { border-left: 3px solid var(--gold-500); background: rgba(185, 138, 69, 0.07); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin-top: 1rem; }
+    .key-points p { margin: 0.3rem 0; font-size: 0.95rem; }
+    .key-points b { color: var(--ink-700); }
+
+    /* 场所卡组 */
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
+    @media (min-width: 720px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+    .tier-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; border-radius: 4px; padding: 2px 8px; margin-bottom: 0.4rem; }
+    .t1 { background: rgba(31, 61, 95, 0.1); color: var(--ink-700); }
+    .t2 { background: rgba(185, 138, 69, 0.16); color: var(--gold-700); }
+    .t3 { background: rgba(46, 125, 79, 0.12); color: var(--ok); }
+    .kv { margin: 0.35rem 0; font-size: 0.95rem; }
+    .kv b { color: var(--ink-700); }
+    ul.tight { margin: 0.4rem 0; padding-left: 1.25rem; }
+    ul.tight li { margin: 0.28rem 0; }
+
+    /* 准备清单（可勾选） */
+    .ck-list { list-style: none; margin: 0; padding: 0; }
+    .ck-list li { border-bottom: 1px dashed var(--line); }
+    .ck-list li:last-child { border-bottom: none; }
+    .ck {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 4px; min-height: 44px; cursor: pointer;
+    }
+    .ck input[type="checkbox"] { width: 20px; height: 20px; margin-top: 4px; accent-color: var(--gold-700); flex-shrink: 0; }
+    .ck span { font-size: 0.97rem; }
+    .ck-group-title { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--ink-700); margin: 0.9rem 0 0.3rem; }
+
+    /* 返回顶部 / 页脚 */
+    .section-backtop { text-align: center; padding: 1.2rem 0 0.6rem; }
+    .section-backtop a {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 8px 22px;
+      border: 1px solid var(--line); border-radius: 8px;
+      color: var(--ink-700); text-decoration: none; font-size: 0.9rem;
+      background: var(--card); transition: border-color 0.2s, color 0.2s;
+    }
+    .section-backtop a:hover { border-color: var(--gold-500); color: var(--gold-700); }
+    footer.site-footer {
+      margin-top: 3rem; padding: 2.2rem 0 3rem;
+      background: var(--ink-900); color: rgba(244, 239, 227, 0.75);
+      text-align: center; font-size: 0.9rem;
+    }
+    footer.site-footer a { color: var(--gold-300); text-decoration: none; border-bottom: 1px solid rgba(224, 192, 138, 0.4); padding-bottom: 1px; }
+    footer.site-footer .foot-links { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 1rem; }
+    footer.site-footer p { margin: 0.3rem 0; }
+    footer.site-footer .muted { color: rgba(244, 239, 227, 0.5); }
+
+    /* ===== 移动端 ===== */
+    @media (max-width: 768px) {
+      .top-nav { justify-content: flex-end; padding: 0 12px; }
+      .top-nav .nav-inner { display: none; }
+      .top-nav .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown {
+        display: flex; flex-direction: column; gap: 2px;
+        position: fixed; top: calc(48px + env(safe-area-inset-top, 0)); left: 0; right: 0;
+        background: rgba(21, 42, 66, 0.97);
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(224, 192, 138, 0.35);
+        z-index: 98; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0));
+        transform: translateY(-130%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-height: calc(100vh - 48px); overflow-y: auto;
+      }
+      .nav-mobile-dropdown.open { transform: translateY(0); }
+      .nav-mobile-dropdown a {
+        display: flex; align-items: center;
+        padding: 12px 16px; font-size: 16px; font-weight: 500;
+        color: rgba(242, 234, 217, 0.85); text-decoration: none;
+        border-radius: 10px; transition: color 0.2s, background 0.2s; min-height: 44px;
+      }
+      .nav-mobile-dropdown a:active, .nav-mobile-dropdown a.active { color: var(--gold-300); background: rgba(224, 192, 138, 0.12); }
+      .hero { padding: 3.4rem 0 3.2rem; }
+      .sec { padding: 2.4rem 0 0.8rem; }
+      section[id] { scroll-margin-top: 66px; }
+      .card { padding: 1rem; }
+      .wrap { padding: 0 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== XBrain Brand IP（brand/XBRAIN-LOGO-IP.md · href 按层级指向四季景点导航） ===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" />
+          <stop offset="50%" stop-color="#4a90e2" />
+          <stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== 顶部导航（brand/top-nav-template.html 结构） ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a href="../index.html">← 导航</a>
+      <a href="#top">顶部</a>
+      <a href="#plans">行程方案</a>
+      <a href="#gates">决策门</a>
+      <a href="#places">场所档案</a>
+      <a href="#traffic">交通对照</a>
+      <a href="#budget">预算</a>
+      <a href="#prep">准备清单</a>
+      <a href="#risk">降级预案</a>
+      <a href="#sources">信息来源</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+  <div class="nav-mobile-dropdown" id="navMobile">
+    <a href="../index.html">← 返回四季景点导航</a>
+    <a href="#top">顶部</a>
+    <a href="#plans">行程方案 A / B</a>
+    <a href="#gates">决策触发器</a>
+    <a href="#places">场所档案</a>
+    <a href="#traffic">黄金周交通对照</a>
+    <a href="#budget">预算明细</a>
+    <a href="#prep">准备清单</a>
+    <a href="#risk">降级预案</a>
+    <a href="#sources">信息来源</a>
+  </div>
+
+  <!-- ===== Hero ===== -->
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-tags">
+        <span class="hero-tag">2026-10-05 周一</span>
+        <span class="hero-tag">国庆假期第 5 天 · 错峰出行</span>
+        <span class="hero-tag">四口之家 · 自驾</span>
+        <span class="hero-tag">大岗办事 · 图书馆自习 · 灵山岛尖黄昏</span>
+      </div>
+      <h1>大岗办事 · 南沙图书馆一日游<span class="thin">（方案 A / B 双版）</span></h1>
+      <p class="hero-sub">
+        清晨东新高速下大岗办事约 2 小时，午后哥弟在南沙区图书馆（海滨路175号）自习、爸妈在蕉门河一带休闲；
+        晚饭与返程两版任选——<a class="in-doc-link" href="#plans">方案切换见行程方案</a>。
+        全天高速免费通行（10-07 24:00 前），全程约 150–160 km，车程以当日导航为准。
+      </p>
+      <div class="hero-stats">
+        <div class="stat-chip"><b>07:30</b><span>西村出发</span></div>
+        <div class="stat-chip"><b>2 h</b><span>大岗办事</span></div>
+        <div class="stat-chip"><b>11:15 前</b><span>图书馆占座</span></div>
+        <div class="stat-chip"><b>A 17:00 / B 20:30</b><span>到家（两版）</span></div>
+        <div class="stat-chip"><b>¥0</b><span>高速通行费</span></div>
+      </div>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0,30 C240,60 480,0 720,22 C960,44 1200,10 1440,32 L1440,60 L0,60 Z" fill="#f6f1e6"></path>
+    </svg>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ===== 行程方案 ===== -->
+    <section class="sec" id="plans">
+      <div class="sec-head"><span class="no">壹</span><h2>行程方案（A / B 双版切换）</h2></div>
+      <p class="sec-desc">上午与午后主轴完全共用；分岔在傍晚——<b>B 版为评审定稿</b>（黄昏提早、不等夜景）。13:00 前按状态预选，切换规则见<a class="in-doc-link" href="#gates">决策触发器</a>。</p>
+
+      <div class="plan-selector">
+        <button class="plan-btn" data-plan="planA">
+          <span class="plan-name">方案A · 日间版</span>
+          <span class="plan-desc">15:30 前离馆 → 17:00 前到家（晚饭在家）</span>
+        </button>
+        <button class="plan-btn active" data-plan="planB">
+          <span class="plan-name">方案B · 黄昏提早版（定稿）</span>
+          <span class="plan-desc">哥弟自习到 17:00 → 灵山岛尖黄昏+晚饭 → 20:10–20:30 到家</span>
+        </button>
+      </div>
+
+      <!-- 方案A -->
+      <div class="plan-content" id="planA">
+        <div class="day-label">DAY 1 · 2026-10-05（周一）· 方案A</div>
+        <div class="table-scroll">
+          <table class="tbl">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td class="t-time">07:15</td><td class="t-time">07:30</td><td>西村集合上车（满油、自习包就位）</td><td class="t-dur">0.25h</td></tr>
+              <tr><td class="t-time">07:30</td><td class="t-time">08:20</td><td>东新高速南下 → 南沙大岗</td><td class="t-dur">0.85h</td></tr>
+              <tr><td class="t-time">08:30</td><td class="t-time">10:40</td><td>大岗办事（哥弟随行或就近等候）</td><td class="t-dur">2h</td></tr>
+              <tr><td class="t-time">10:40</td><td class="t-time">11:10</td><td>转场南沙区图书馆（海滨路175号）</td><td class="t-dur">0.5h</td></tr>
+              <tr><td class="t-time">11:15</td><td class="t-time">12:00</td><td>哥弟占座自习 · 爸妈馆内踩点</td><td class="t-dur">0.75h</td></tr>
+              <tr><td class="t-time">12:00</td><td class="t-time">13:00</td><td>午餐（步行圈：COCO Park / 万达 / 喜来登）</td><td class="t-dur">1h</td></tr>
+              <tr><td class="t-time">13:00</td><td class="t-time">15:00</td><td>爸妈三级休闲轮换 · 哥弟自习</td><td class="t-dur">2h</td></tr>
+              <tr><td class="t-time">15:00</td><td class="t-time">15:30</td><td>哥弟收拾还座 · 全家离馆</td><td class="t-dur">0.5h</td></tr>
+              <tr><td class="t-time">15:30</td><td class="t-time">16:45</td><td>东新高速北上返程（当日升温段尾部）</td><td class="t-dur">1.25h</td></tr>
+              <tr><td class="t-time">16:45</td><td class="t-time">17:00</td><td>回到西村</td><td class="t-dur">0.25h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="key-points">
+          <p><b>到位标准：</b>11:15 前哥弟座位号已发家庭群；15:00 弟巡查座位区无遗落；15:15–15:30 离馆（导航见红色长段即按 15:15 执行）。</p>
+          <p><b>触发备选：</b>10:30 办事超时 → 午饭轻量化；满座 → 二楼借阅区→报刊区→十里方圆分馆；返程红缓 → 南沙港快速—环城西行。</p>
+        </div>
+      </div>
+
+      <!-- 方案B -->
+      <div class="plan-content active" id="planB">
+        <div class="day-label">DAY 1 · 2026-10-05（周一）· 方案B（黄昏提早版 · 定稿）</div>
+        <div class="table-scroll">
+          <table class="tbl">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td class="t-time">07:15</td><td class="t-time">07:30</td><td>西村集合上车（满油、自习包就位）</td><td class="t-dur">0.25h</td></tr>
+              <tr><td class="t-time">07:30</td><td class="t-time">08:20</td><td>东新高速南下 → 南沙大岗</td><td class="t-dur">0.85h</td></tr>
+              <tr><td class="t-time">08:30</td><td class="t-time">10:40</td><td>大岗办事（可顺路北流小吃街买小吃）</td><td class="t-dur">2h</td></tr>
+              <tr><td class="t-time">10:40</td><td class="t-time">11:10</td><td>转场南沙区图书馆（海滨路175号）</td><td class="t-dur">0.5h</td></tr>
+              <tr><td class="t-time">11:15</td><td class="t-time">12:00</td><td>哥弟占座自习 · 爸妈馆内踩点</td><td class="t-dur">0.75h</td></tr>
+              <tr><td class="t-time">12:00</td><td class="t-time">13:00</td><td>午餐（步行圈）</td><td class="t-dur">1h</td></tr>
+              <tr><td class="t-time">13:00</td><td class="t-time">16:40</td><td>爸妈三级休闲（放宽到 16:40）· 哥弟持续自习</td><td class="t-dur">3.65h</td></tr>
+              <tr><td class="t-time">16:50</td><td class="t-time">17:00</td><td>车边汇合 · <b>16:55 馆门口接哥弟</b>（青少年区 17:00 闭馆）</td><td class="t-dur">0.2h</td></tr>
+              <tr><td class="t-time">17:00</td><td class="t-time">17:15</td><td>转场灵山岛尖（明珠湾）</td><td class="t-dur">0.25h</td></tr>
+              <tr><td class="t-time">17:15</td><td class="t-time">18:05</td><td>黄昏滨江段（友好街区/滨江草坪/白色灯塔，日落 18:05）</td><td class="t-dur">0.85h</td></tr>
+              <tr><td class="t-time">18:05</td><td class="t-time">19:00</td><td>晚饭（三层策略 · 爸全程无酒精；18:30 亮灯饭中顺带看）</td><td class="t-dur">0.9h</td></tr>
+              <tr><td class="t-time">19:00</td><td class="t-time">19:15</td><td>上车返程（最晚 19:30，不恋战）</td><td class="t-dur">0.25h</td></tr>
+              <tr><td class="t-time">19:15</td><td class="t-time">20:30</td><td>东新高速北上 → 回到西村（最坏 21:00）</td><td class="t-dur">1.25h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="key-points">
+          <p><b>硬时点：</b>16:55 接人（迟到=娃在门口干等）；19:00–19:15 上车、19:30 硬上限（19:15 未结账→甜品外带走人）。</p>
+          <p><b>晚饭三层：</b>①岛内正餐（岭南东方酒店餐厅/友好街区餐厅，到场导航现选）→ ②墨礼咖啡&amp;艺术馆轻食 → ③出岛 5–10 min 蕉门河万达/COCO Park（回家顺路）。</p>
+          <p><b>纪律：</b>爸滴酒不沾（想喝当场叫代驾 ¥150–200）；午后 16:00 前爸留 20 分钟车内小憩；雨天→滨江段取消、万达晚饭、18:30 前上车。</p>
+        </div>
+      </div>
+
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 决策触发器 ===== -->
+    <section class="sec" id="gates">
+      <div class="sec-head"><span class="no">贰</span><h2>决策触发器（七道门）</h2></div>
+      <p class="sec-desc">不确定点全部预案化：到点看门，触发即执行，不临场纠结。</p>
+      <div class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>时点</th><th>门</th><th>触发后动作</th></tr></thead>
+          <tbody>
+            <tr><td class="t-time">前夜</td><td>天气门 / 车况门</td><td>预报有雨→雨具入车；满油出发、胎压目测（<a class="in-doc-link" href="#prep">准备清单</a>）</td></tr>
+            <tr><td class="t-time">07:30</td><td>出发门</td><td>晚于 07:45 出发→午饭轻量化，其余顺延</td></tr>
+            <tr><td class="t-time">10:30</td><td>办事进度门</td><td>办事将超时→妈启动午饭轻量化，12:15 前必达图书馆</td></tr>
+            <tr><td class="t-time">11:10</td><td>座位门</td><td>满座→二楼借阅区→报刊区→十里方圆分馆（黄阁大道，无需预约，大岗→蕉门顺路）</td></tr>
+            <tr><td class="t-time">13:00</td><td>A/B 预选门</td><td>哥弟效率高+天气好+爸精神好→选B；任一不满足→选A。B→A 随时可降（16:40 前直接离馆）；A→B 需 15:00 前定</td></tr>
+            <tr><td class="t-time">15:00 / 16:30</td><td>天气复查门</td><td>雷雨→A 提前返程；B 启动室内晚饭预案，18:30 前上车</td></tr>
+            <tr><td class="t-time">18:50</td><td>晚饭进度门</td><td>19:15 前无法上车→外带，19:30 硬上限</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 场所档案 ===== -->
+    <section class="sec" id="places">
+      <div class="sec-head"><span class="no">叁</span><h2>场所档案卡</h2></div>
+      <p class="sec-desc">导航收藏五点位：大岗办事点、南沙区图书馆、星河COCO Park、灵山岛尖啤酒交易所、南沙万达广场。</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>南沙区图书馆（自习主场）</h3>
+          <p class="kv"><b>地址：</b>南沙区海滨路175号（蕉门河城市客厅）；地铁蕉门站 B 口步行 15 分钟；公交南沙W1A路"南沙区图书馆"站。</p>
+          <p class="kv"><b>开放：</b>总馆 9:00–21:00（逢周三闭馆）；一层亲子区、负一层青少年区与报刊区 <b>9:00–17:00</b>。</p>
+          <p class="kv"><b>停车：</b>馆内负二层地下停车场（电梯直达），费用现场为准；11:15 前到基本无忧。</p>
+          <p class="kv"><b>证件/预约：</b>默认无需预约（带身份证）；办读者证凭身份证/广州社保卡。<span class="b b-warn">待现场确认</span></p>
+          <p class="kv"><b>提示：</b>馆内禁饮食；冷气足带外套；电话 020-39279988。馆内水吧<span class="b b-warn">未证实</span>，到场一看便知。</p>
+        </div>
+        <div class="card">
+          <h3>灵山岛尖（方案B 晚段）</h3>
+          <p class="kv"><b>场子：</b>啤酒交易所=常设精酿场景（数字霓虹+金融趣味互动）；友好街区=滨水小店带；滨水公园=一半草地一半江景+白色灯塔。</p>
+          <p class="kv"><b>当晚实况：</b>嘉年华街区巡游为 10-01/02、已结束，当晚常规营业——清净不挤，按"黄昏江景+精酿氛围"预期。</p>
+          <p class="kv"><b>停车：</b>友好街区/滨水商业停车场，现场为准，停车记位拍照。</p>
+          <p class="kv"><b>评审裁决：</b>文体中心啤酒嘉年华主会场（万顷沙）车程 20–25 分钟，<span class="b b-key">太远不考虑</span>。</p>
+        </div>
+        <div class="card">
+          <h3>大岗节点（上午）</h3>
+          <p class="kv"><b>办事：</b>约 2 小时，办事点当日导航定位；就近路内/院内泊车，<b>记位拍照</b>。</p>
+          <p class="kv"><b>彩蛋：</b>北流小吃街（妈惦记处）——10:40 出发前有 20 分钟富余则顺路买小吃，不逗留。</p>
+          <p class="kv"><b>备胎午饭：</b>潭州金悦海鲜酒楼（8 月晚饭口碑好）——仅当 11:00 前办完且哥弟同意延后占座。</p>
+        </div>
+        <div class="card">
+          <h3>走散与通讯约定</h3>
+          <p class="kv"><b>通讯：</b>家庭群位置共享全程开启；任何改道先发群再动。</p>
+          <p class="kv"><b>图书馆走散：</b>一层总服务台集合。</p>
+          <p class="kv"><b>灵山岛尖走散：</b>停车场集合。</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>爸妈休闲三级备选（午后轮换，B 版放宽到 16:40）</h3>
+        <p class="kv"><span class="tier-tag t1">① 馆内</span>报刊区 / 河景大厅 / 各层展陈——避晒蹭冷气，随叫随走。</p>
+        <p class="kv"><span class="tier-tag t2">② 步行圈（≤20 min）</span>蕉门公园+蕉门河绿道（草坪点「临江坐晚」，秋季异木棉）｜星河COCO Park（聚星桥过河即到，距蕉门地铁站约 400 m）｜南沙万达广场（进港大道×双山大道，车程 5 分钟）。</p>
+        <p class="kv"><span class="tier-tag t3">③ 车程 ≤15 min</span>南沙游艇会（免费入园，南法风情建筑+海边咖啡/石奥茶室）｜蒲州花园（免费，9:00–17:00，港前大道1号）+ 南沙天后宫（¥20，8:30–18:00，8 月刚去过可选其一）｜喜来登酒店早茶/咖啡（妈的心水项）。</p>
+        <p class="kv muted">建议节奏：先 ② COCO Park 咖啡坐定，余量足再 ③ 游艇会看海（B 版 16:00 前返程即可）。</p>
+      </div>
+
+      <div class="card">
+        <h3>午餐（12:00–13:00，步行圈）</h3>
+        <ul class="tight">
+          <li><b>首选：</b>星河COCO Park / 万达广场——品类多、有空调、可打包；爸妈先点，给哥弟带一份在<b>馆外</b>交接（馆内禁饮食）。</li>
+          <li><b>次选：</b>喜来登早茶变午餐——全家按 1 小时轮换，爸妈茶位慢叹。</li>
+          <li><b>轻量版：</b>自备三明治/水果，蕉门公园草坪野餐；哥弟 13:00 轮换出来吃 15 分钟回馆。</li>
+        </ul>
+      </div>
+
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 交通对照 ===== -->
+    <section class="sec" id="traffic">
+      <div class="sec-head"><span class="no">肆</span><h2>黄金周交通对照（依据广州交警研判）</h2></div>
+      <p class="sec-desc">
+        高速免费通行 <b>10-01 00:00 至 10-07 24:00</b>——明天全天免费、无需赶时点，全天高速车流整体上浮；
+        <b>真正返程高峰=10-06 16:00–22:00、10-07 9:00–11:00/14:00–20:00</b>，本行程全程在 10-05（错峰返程日，午后 14:00–19:00 入城升温），与高峰日不重叠。
+      </p>
+      <div class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>车段</th><th>车流判断</th><th>对策</th></tr></thead>
+          <tbody>
+            <tr><td><b>07:30 西村→大岗</b>（出城）</td><td>假期早间畅通（出城峰在 9-30 晚与 10-01~03 的 9–15 时，已过去）</td><td>无需处理</td></tr>
+            <tr><td><b>10:40 大岗→图书馆</b>（区内）</td><td>轻</td><td>无需处理</td></tr>
+            <tr><td><b>方案A 15:30–17:00 返程</b>（入城）</td><td>与当日升温段尾部重叠，东新北上或缓行</td><td>缓冲已留 75–90 min；见红可 15:15 早离馆</td></tr>
+            <tr><td><b>方案B 19:00–20:30 返程</b>（入城）</td><td>已过当日升温峰、市区假期晚间较轻→<span class="b b-ok">基本无需规避</span></td><td>保持 19:30 上车纪律；长红段→南沙港快速—环城西行（+10–15 km）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 预算 ===== -->
+    <section class="sec" id="budget">
+      <div class="sec-head"><span class="no">伍</span><h2>预算明细（四口）</h2></div>
+      <div class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>项目</th><th>估算</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>油费（全程约 150–160 km）</td><td class="t-time">¥90–110</td><td>大岗出发前满油</td></tr>
+            <tr><td>高速通行费</td><td class="t-time">¥0</td><td>10-07 24:00 前免费通行</td></tr>
+            <tr><td>午餐</td><td class="t-time">¥150–250</td><td>步行圈商场/早茶</td></tr>
+            <tr><td>晚饭（仅方案B）</td><td class="t-time">¥150–250</td><td>灵山岛尖三层策略</td></tr>
+            <tr><td>咖啡 ×2（爸妈）</td><td class="t-time">¥60–90</td><td>午后休闲</td></tr>
+            <tr><td>天后宫门票（可选，两位大人）</td><td class="t-time">¥40</td><td>8 月刚去过，可不去</td></tr>
+            <tr><td>代驾（备用）</td><td class="t-time">¥150–200</td><td>仅当爸要饮酒才触发</td></tr>
+            <tr><td>停车</td><td class="t-time">现场为准</td><td>图书馆负二层 / 商场 / 滨水停车场</td></tr>
+            <tr><td><b>全天合计</b></td><td class="t-time"><b>A 约 ¥300–450</b></td><td><b>B 约 ¥450–650</b>（含晚饭）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 准备清单 ===== -->
+    <section class="sec" id="prep">
+      <div class="sec-head"><span class="no">陆</span><h2>准备清单（今晚 + 晨检）</h2></div>
+      <p class="sec-desc">出发当晚（10-04）逐项勾选；晨检（10-05 07:00）最后四项。</p>
+
+      <div class="card">
+        <div class="ck-group-title">今晚 · 车</div>
+        <ul class="ck-list">
+          <li><label class="ck"><input type="checkbox"><span>满油（或充电）；胎压/灯光目测；行驶证随车</span></label></li>
+        </ul>
+        <div class="ck-group-title">今晚 · 哥弟自习包</div>
+        <ul class="ck-list">
+          <li><label class="ck"><input type="checkbox"><span>课本作业、平板+耳机、笔袋</span></label></li>
+          <li><label class="ck"><input type="checkbox"><span>水杯、薄外套（馆内冷气足）</span></label></li>
+          <li><label class="ck"><input type="checkbox"><span>身份证 / 读者证（借书用）</span></label></li>
+        </ul>
+        <div class="ck-group-title">今晚 · 全家公共包</div>
+        <ul class="ck-list">
+          <li><label class="ck"><input type="checkbox"><span>充电宝、雨伞×2、防晒帽、纸巾湿巾</span></label></li>
+          <li><label class="ck"><input type="checkbox"><span>零钱+移动支付就绪；家庭群位置共享测试</span></label></li>
+        </ul>
+        <div class="ck-group-title">今晚 · 信息确认</div>
+        <ul class="ck-list">
+          <li><label class="ck"><input type="checkbox"><span>公众号「南沙图书馆」当日公告（明日开放/限流）</span></label></li>
+          <li><label class="ck"><input type="checkbox"><span>导航收藏五点位：大岗办事点、南沙区图书馆、星河COCO Park、灵山岛尖啤酒交易所、南沙万达广场</span></label></li>
+        </ul>
+        <div class="ck-group-title">晨检（10-05 07:00）</div>
+        <ul class="ck-list">
+          <li><label class="ck"><input type="checkbox"><span>天气雷达图；高速导航红黄绿</span></label></li>
+          <li><label class="ck"><input type="checkbox"><span>全员到齐发车</span></label></li>
+        </ul>
+      </div>
+
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 降级预案 ===== -->
+    <section class="sec" id="risk">
+      <div class="sec-head"><span class="no">柒</span><h2>降级预案与风险登记</h2></div>
+      <div class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>风险</th><th>概率</th><th>预案</th></tr></thead>
+          <tbody>
+            <tr><td>图书馆临时闭馆/限流</td><td>低</td><td>改十里方圆分馆（黄阁大道，无需预约，周一 9:00–12:00 / 13:00–19:00，大岗→蕉门顺路）；或哥弟改 COCO Park 自习型咖啡店</td></tr>
+            <tr><td>馆内满座</td><td>中（假期）</td><td>11:15 前到基本无忧；否则二楼→报刊区梯度占座</td></tr>
+            <tr><td>午后雷雨</td><td>中低</td><td>A 提前返程；B 滨江段取消→万达晚饭、18:30 前上车；返程雨天 +30–40 min</td></tr>
+            <tr><td>爸疲劳</td><td>中</td><td>16:00 前车内小憩 20 min；妈可换驾则换；软饮替代酒</td></tr>
+            <tr><td>办事超时</td><td>中</td><td>10:30 门触发→午饭轻量化；B 的 16:55 接人不受影响（自习时长仍 ≥4.5h）</td></tr>
+            <tr><td>物品遗落馆内</td><td>中低</td><td>弟离馆前巡查座位区；包内清单制</td></tr>
+            <tr><td>车辆故障/油量告急</td><td>低</td><td>大岗出发前满油；返程油量 &lt;1/4 出高速就近加油</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+    <!-- ===== 信息来源 ===== -->
+    <section class="sec" id="sources">
+      <div class="sec-head"><span class="no">捌</span><h2>信息来源与待确认（访问日期 2026-10-04）</h2></div>
+      <p class="sec-desc">内容底稿：<a class="in-doc-link" href="../待出行方案/南沙大岗办事+南沙区图书馆自习一日行程规划.md">待出行方案/南沙大岗办事+南沙区图书馆自习一日行程规划.md</a>（单一事实源，本页为其呈现）。</p>
+      <div class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>事项</th><th>结论</th><th>来源</th><th>状态</th></tr></thead>
+          <tbody>
+            <tr><td>图书馆地址/开放/停车/电话</td><td>海滨路175号；9:00–21:00 逢周三闭馆；负二层停车场；020-39279988</td><td>南沙图书馆官网 nslibrary.com.cn</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>明日开放</td><td>假期 10-01~07、非周三→正常开放</td><td>官网+放假安排</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>入馆预约</td><td>现行未见强制（疫情期曾需）</td><td>官网/公开报道</td><td><span class="b b-warn">待现场确认</span></td></tr>
+            <tr><td>馆内水吧</td><td>未检索到</td><td>官网设施清单未列</td><td><span class="b b-warn">待现场确认</span></td></tr>
+            <tr><td>步行圈三处</td><td>馆旁沿河；COCO Park 距蕉门站 400 m；万达进港大道×双山大道</td><td>南方+/大洋网/搜狐</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>游艇会/蒲州花园/天后宫</td><td>免费入园/免费/¥20，均在 ≤15 min 车程圈</td><td>携程/途牛/新浪</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>啤酒交易所（B1 定稿）</td><td>常设精酿场景；街区巡游 10-01/02 已结束、当晚常规营业；B2 文体中心嘉年华太远不考虑（评审裁决）</td><td>人民日报/花城+/21经济网/搜狐</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>灵山岛尖餐饮</td><td>岭南东方酒店餐厅/友好街区/墨礼咖啡；规模化商圈在蕉门河侧</td><td>南方+/携程</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>国庆车流</td><td>返程高峰=10-06 16–22时、10-07 9–11/14–20时；10-05 错峰返程日</td><td>广州交警研判（腾讯/网易转引）</td><td><span class="b b-ok">已核实</span></td></tr>
+            <tr><td>各段车程</td><td>45–50 / 20–25 / 50 / 55 km（估）</td><td>公开资料推算</td><td><span class="b b-warn">以当日导航为准</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-links">
+        <a href="../index.html">← 返回四季景点导航</a>
+        <a href="#plans">行程方案</a>
+        <a href="#prep">准备清单</a>
+      </div>
+      <p>大岗办事·南沙图书馆一日游 · 出行日期 2026-10-05 · 整理于 2026-10-04</p>
+      <p class="muted">内容底稿：四季景点/待出行方案/南沙大岗办事+南沙区图书馆自习一日行程规划.md · 规格 SPEC-2026-0004 · ai-assisted: ZCode</p>
+    </div>
+  </footer>
+
+  <!-- ===== 顶部导航 JS（top-nav 模板） ===== -->
+  <script>
+    (function () {
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (href.charAt(0) !== '#') return;
+        var id = href.substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) {
+          if (scrollY >= s.el.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+        mobileLinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+
+      var navTicking = false;
+      window.addEventListener('scroll', function () {
+        if (!navTicking) {
+          window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; });
+          navTicking = true;
+        }
+      }, { passive: true });
+      setActiveNav();
+
+      var navToggle = document.getElementById('navToggle');
+      var navMobile = document.getElementById('navMobile');
+      var hamburgerIcon = document.getElementById('hamburgerIcon');
+      var menuOpen = false;
+
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        navMobile.classList.remove('open');
+        hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      }
+
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        } else {
+          hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+        }
+      });
+
+      var anchors = document.querySelectorAll('a[href^="#"]');
+      anchors.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          var id = hash.substring(1);
+          var target = document.getElementById(id);
+          if (!target) return;
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', hash);
+          }
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
+
+  <!-- ===== 方案切换（项目多方案切换架构 §12.2） ===== -->
+  <script>
+    (function () {
+      var planBtns = document.querySelectorAll('.plan-btn');
+      planBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-plan');
+          planBtns.forEach(function (b) { b.classList.remove('active'); });
+          document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+          btn.classList.add('active');
+          var target = document.getElementById(id);
+          if (target) target.classList.add('active');
+        });
+      });
+    })();
+  </script>
+
+  <!-- ===== XBrain Logo Scroll Fade（IP 规范） ===== -->
+  <script>
+    (function () {
+      var logo = document.querySelector('.xbrain-brand');
+      var ticking = false;
+
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        var opacity = 1 - ratio * 0.7;
+        if (logo) {
+          logo.style.opacity = opacity;
+          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', function () {
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            updateLogo();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateLogo();
+    })();
+  </script>
+</body>
+</html>
