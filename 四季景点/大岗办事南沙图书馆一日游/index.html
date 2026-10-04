@@ -223,26 +223,19 @@
     .stat-chip span { font-size: 0.78rem; color: rgba(244, 239, 227, 0.72); letter-spacing: 1px; }
     .hero-wave { position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 60px; z-index: 1; opacity: 0.5; }
 
-    /* 场所档案（按行程时序） */
-    .phase-tag {
-      font-family: "Noto Serif SC", serif; font-weight: 700;
-      color: var(--gold-700); letter-spacing: 2px;
-      font-size: 0.95rem; margin: 1.7rem 0 0.6rem;
-      display: flex; align-items: center; gap: 12px;
+    /* 行程段便签（场所信息内嵌于方案区） */
+    .leg-note {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--gold-500);
+      border-radius: 0 10px 10px 0;
+      padding: 0.6rem 0.95rem;
+      margin: 0.55rem 0;
     }
-    .phase-tag::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-    .back-plan {
-      flex-shrink: 0;
-      display: inline-flex; align-items: center;
-      min-height: 32px; padding: 4px 12px;
-      border: 1px solid var(--line); border-radius: 8px;
-      font-size: 0.82rem; color: var(--ink-700); text-decoration: none;
-      background: rgba(31, 61, 95, 0.04);
-      white-space: nowrap;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .back-plan:hover { border-color: var(--gold-500); color: var(--gold-700); }
+    .ln-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 0.15rem; flex-wrap: wrap; }
+    .ln-time { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--gold-700); white-space: nowrap; font-size: 0.9rem; }
+    .ln-title { font-weight: 700; color: var(--ink-700); }
+    .leg-note p { margin: 0; font-size: 0.94rem; }
     .strip {
       background: rgba(31, 61, 95, 0.05);
       border: 1px dashed var(--line);
@@ -282,18 +275,6 @@
     .key-points { border-left: 3px solid var(--gold-500); background: rgba(185, 138, 69, 0.07); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin-top: 1rem; }
     .key-points p { margin: 0.3rem 0; font-size: 0.95rem; }
     .key-points b { color: var(--ink-700); }
-
-    /* 场所卡组 */
-    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
-    @media (min-width: 720px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
-    .tier-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; border-radius: 4px; padding: 2px 8px; margin-bottom: 0.4rem; }
-    .t1 { background: rgba(31, 61, 95, 0.1); color: var(--ink-700); }
-    .t2 { background: rgba(185, 138, 69, 0.16); color: var(--gold-700); }
-    .t3 { background: rgba(46, 125, 79, 0.12); color: var(--ok); }
-    .kv { margin: 0.35rem 0; font-size: 0.95rem; }
-    .kv b { color: var(--ink-700); }
-    ul.tight { margin: 0.4rem 0; padding-left: 1.25rem; }
-    ul.tight li { margin: 0.28rem 0; }
 
     /* 准备清单（可勾选） */
     .ck-list { list-style: none; margin: 0; padding: 0; }
@@ -351,7 +332,6 @@
         border-radius: 10px; transition: color 0.2s, background 0.2s; min-height: 44px;
       }
       .nav-mobile-dropdown a:active, .nav-mobile-dropdown a.active { color: var(--gold-300); background: rgba(224, 192, 138, 0.12); }
-      .back-plan { min-height: 44px; }
       .hero { padding: 3.4rem 0 3.2rem; }
       .sec { padding: 2.4rem 0 0.8rem; }
       section[id] { scroll-margin-top: 66px; }
@@ -417,7 +397,6 @@
       <a href="#top">顶部</a>
       <a href="#plans">行程方案</a>
       <a href="#gates">决策门</a>
-      <a href="#places">场所档案</a>
       <a href="#traffic">交通对照</a>
       <a href="#budget">预算</a>
       <a href="#prep">准备清单</a>
@@ -435,7 +414,6 @@
     <a href="#top">顶部</a>
     <a href="#plans">行程方案 A / B</a>
     <a href="#gates">决策触发器</a>
-    <a href="#places">场所档案</a>
     <a href="#traffic">黄金周交通对照</a>
     <a href="#budget">预算明细</a>
     <a href="#prep">准备清单</a>
@@ -473,15 +451,51 @@
 
   <main class="wrap">
 
-    <!-- ===== 行程方案 ===== -->
+    <!-- ===== 行程方案（主轴共用 + 分岔切换，场所信息内嵌为行程便签） ===== -->
     <section class="sec" id="plans">
       <div class="sec-head"><span class="no">壹</span><h2>行程方案（A / B 双版切换）</h2></div>
-      <p class="sec-desc">上午与午后主轴完全共用；分岔在傍晚——<b>B 版为评审定稿</b>（黄昏提早、不等夜景）。13:00 前按状态预选，切换规则见<a class="in-doc-link" href="#gates">决策触发器</a>。</p>
+      <p class="sec-desc">
+        <b>主轴 07:15–13:00 两版完全共用</b>（下表 + 下方四张行程便签）；13:00 起分岔，用按钮切换——<b>B 版为评审定稿</b>（黄昏提早、不等夜景）。
+        13:00 前按状态预选，切换规则见<a class="in-doc-link" href="#gates">决策触发器</a>。
+        导航收藏五点位：大岗办事点、南沙区图书馆、星河COCO Park、灵山岛尖啤酒交易所、南沙万达广场。
+      </p>
+
+      <div class="day-label">主轴 · 07:15–13:00（A/B 共用）</div>
+      <div class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+          <tbody>
+            <tr><td class="t-time">07:15</td><td class="t-time">07:30</td><td>西村集合上车（满油、自习包就位）</td><td class="t-dur">0.25h</td></tr>
+            <tr><td class="t-time">07:30</td><td class="t-time">08:20</td><td>东新高速南下 → 南沙大岗</td><td class="t-dur">0.85h</td></tr>
+            <tr><td class="t-time">08:30</td><td class="t-time">10:40</td><td>大岗办事（哥弟随行或就近等候）</td><td class="t-dur">2h</td></tr>
+            <tr><td class="t-time">10:40</td><td class="t-time">11:10</td><td>转场南沙区图书馆（海滨路175号）</td><td class="t-dur">0.5h</td></tr>
+            <tr><td class="t-time">11:15</td><td class="t-time">12:00</td><td>哥弟占座自习 · 爸妈馆内踩点</td><td class="t-dur">0.75h</td></tr>
+            <tr><td class="t-time">12:00</td><td class="t-time">13:00</td><td>午餐（步行圈）</td><td class="t-dur">1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="leg-note">
+        <div class="ln-head"><span class="ln-time">08:30–10:40</span><span class="ln-title">大岗办事</span></div>
+        <p>就近路内/院内泊车，记位拍照 · 彩蛋：<b>北流小吃街</b>（妈惦记处，出发前富余 20 分钟顺路买，不逗留）· 备胎午饭：潭州金悦海鲜酒楼（仅当 11:00 前办完且哥弟同意延后占座）。</p>
+      </div>
+      <div class="leg-note">
+        <div class="ln-head"><span class="ln-time">11:10–17:00</span><span class="ln-title">南沙区图书馆（海滨路175号 · 哥弟自习主场）</span></div>
+        <p>总馆 9:00–21:00（逢周三闭馆）· 负一层青少年区/一层亲子区/报刊区 <b>9:00–17:00</b> · 馆内负二层停车场（11:15 前到无忧）· 电话 020-39279988 · 默认无需预约（带身份证，办证凭身份证/广州社保卡）<span class="b b-warn">待确认</span> · 馆内禁饮食、冷气足带外套 · 馆内水吧未证实<span class="b b-warn">现场确认</span></p>
+      </div>
+      <div class="leg-note">
+        <div class="ln-head"><span class="ln-time">12:00–13:00</span><span class="ln-title">午餐（步行圈四选）</span></div>
+        <p>① 万达（双山大道3号）：海底捞 3F（儿童乐园）/师烤·豆花烤鱼/必胜客/星巴克/必富咖啡三明治 ② 星河COCO Park（聚星桥过河）商场餐饮 ③ 喜来登·盛宴标帜餐厅（海熙大街79-80号，020-39002288）④ 自备野餐（蕉门公园草坪）· 打包在馆外交接（馆内禁饮食）。</p>
+      </div>
+      <div class="leg-note">
+        <div class="ln-head"><span class="ln-time">13:00–15:00 / 16:40</span><span class="ln-title">爸妈休闲三级（哥弟持续自习，时长按方案）</span></div>
+        <p>① 馆内报刊区/河景大厅 ② 步行圈：<b>喜来登大堂吧</b>（海滨路海熙大街79-80号，点评4.6，妈的心水）· 瑞幸（成卓世纪中心店）· 蕉门河绿道「临江坐晚」· COCO Park ③ 车程≤15min：<b>漫叙Coffee</b>（金茂湾E3-105）· <b>游艇会</b>（扬帆廊/石奥茶室）· 蒲州花园+天后宫（¥20）· 节奏：先②坐定，余量足再③。</p>
+      </div>
 
       <div class="plan-selector">
         <button class="plan-btn" data-plan="planA">
           <span class="plan-name">方案A · 日间版</span>
-          <span class="plan-desc">15:30 前离馆 → 17:00 前到家（晚饭在家）</span>
+          <span class="plan-desc">13:00 后休闲至 15:00 → 15:30 前离馆，17:00 前到家（晚饭在家）</span>
         </button>
         <button class="plan-btn active" data-plan="planB">
           <span class="plan-name">方案B · 黄昏提早版（定稿）</span>
@@ -489,20 +503,13 @@
         </button>
       </div>
 
-      <!-- 方案A -->
+      <!-- 方案A 分岔 -->
       <div class="plan-content" id="planA">
-        <div class="day-label">DAY 1 · 2026-10-05（周一）· 方案A</div>
+        <div class="day-label">方案A 分岔 · 15:00–17:00</div>
         <div class="table-scroll">
           <table class="tbl">
             <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
             <tbody>
-              <tr><td class="t-time">07:15</td><td class="t-time">07:30</td><td>西村集合上车（满油、自习包就位）</td><td class="t-dur">0.25h</td></tr>
-              <tr><td class="t-time">07:30</td><td class="t-time">08:20</td><td>东新高速南下 → 南沙大岗</td><td class="t-dur">0.85h</td></tr>
-              <tr><td class="t-time">08:30</td><td class="t-time">10:40</td><td><a class="in-doc-link" href="#p-dagang">大岗办事</a>（哥弟随行或就近等候）</td><td class="t-dur">2h</td></tr>
-              <tr><td class="t-time">10:40</td><td class="t-time">11:10</td><td><a class="in-doc-link" href="#p-library">转场南沙区图书馆</a>（海滨路175号）</td><td class="t-dur">0.5h</td></tr>
-              <tr><td class="t-time">11:15</td><td class="t-time">12:00</td><td><a class="in-doc-link" href="#p-library">哥弟占座自习</a> · 爸妈馆内踩点</td><td class="t-dur">0.75h</td></tr>
-              <tr><td class="t-time">12:00</td><td class="t-time">13:00</td><td><a class="in-doc-link" href="#p-lunch">午餐</a>（步行圈：COCO Park / 万达 / 喜来登）</td><td class="t-dur">1h</td></tr>
-              <tr><td class="t-time">13:00</td><td class="t-time">15:00</td><td><a class="in-doc-link" href="#p-leisure">爸妈三级休闲轮换</a> · 哥弟自习</td><td class="t-dur">2h</td></tr>
               <tr><td class="t-time">15:00</td><td class="t-time">15:30</td><td>哥弟收拾还座 · 全家离馆</td><td class="t-dur">0.5h</td></tr>
               <tr><td class="t-time">15:30</td><td class="t-time">16:45</td><td>东新高速北上返程（当日升温段尾部）</td><td class="t-dur">1.25h</td></tr>
               <tr><td class="t-time">16:45</td><td class="t-time">17:00</td><td>回到西村</td><td class="t-dur">0.25h</td></tr>
@@ -515,35 +522,34 @@
         </div>
       </div>
 
-      <!-- 方案B -->
+      <!-- 方案B 分岔 -->
       <div class="plan-content active" id="planB">
-        <div class="day-label">DAY 1 · 2026-10-05（周一）· 方案B（黄昏提早版 · 定稿）</div>
+        <div class="day-label">方案B 分岔 · 16:40–20:30（黄昏提早版 · 定稿）</div>
         <div class="table-scroll">
           <table class="tbl">
             <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
             <tbody>
-              <tr><td class="t-time">07:15</td><td class="t-time">07:30</td><td>西村集合上车（满油、自习包就位）</td><td class="t-dur">0.25h</td></tr>
-              <tr><td class="t-time">07:30</td><td class="t-time">08:20</td><td>东新高速南下 → 南沙大岗</td><td class="t-dur">0.85h</td></tr>
-              <tr><td class="t-time">08:30</td><td class="t-time">10:40</td><td><a class="in-doc-link" href="#p-dagang">大岗办事</a>（可顺路北流小吃街买小吃）</td><td class="t-dur">2h</td></tr>
-              <tr><td class="t-time">10:40</td><td class="t-time">11:10</td><td><a class="in-doc-link" href="#p-library">转场南沙区图书馆</a>（海滨路175号）</td><td class="t-dur">0.5h</td></tr>
-              <tr><td class="t-time">11:15</td><td class="t-time">12:00</td><td><a class="in-doc-link" href="#p-library">哥弟占座自习</a> · 爸妈馆内踩点</td><td class="t-dur">0.75h</td></tr>
-              <tr><td class="t-time">12:00</td><td class="t-time">13:00</td><td><a class="in-doc-link" href="#p-lunch">午餐</a>（步行圈）</td><td class="t-dur">1h</td></tr>
-              <tr><td class="t-time">13:00</td><td class="t-time">16:40</td><td><a class="in-doc-link" href="#p-leisure">爸妈三级休闲（放宽到 16:40）</a> · 哥弟持续自习</td><td class="t-dur">3.65h</td></tr>
-              <tr><td class="t-time">16:50</td><td class="t-time">17:00</td><td>车边汇合 · <b>16:55 馆门口接哥弟</b>（青少年区 17:00 闭馆）</td><td class="t-dur">0.2h</td></tr>
-              <tr><td class="t-time">17:00</td><td class="t-time">17:15</td><td><a class="in-doc-link" href="#p-lingshan">转场灵山岛尖</a>（明珠湾）</td><td class="t-dur">0.25h</td></tr>
+              <tr><td class="t-time">16:40</td><td class="t-time">16:50</td><td>爸妈休闲收尾 · 车边汇合</td><td class="t-dur">0.2h</td></tr>
+              <tr><td class="t-time">16:50</td><td class="t-time">17:00</td><td><b>16:55 馆门口接哥弟</b>（青少年区 17:00 闭馆）</td><td class="t-dur">0.2h</td></tr>
+              <tr><td class="t-time">17:00</td><td class="t-time">17:15</td><td>转场灵山岛尖（明珠湾）</td><td class="t-dur">0.25h</td></tr>
               <tr><td class="t-time">17:15</td><td class="t-time">18:05</td><td>黄昏滨江段（友好街区/滨江草坪/白色灯塔，日落 18:05）</td><td class="t-dur">0.85h</td></tr>
-              <tr><td class="t-time">18:05</td><td class="t-time">19:00</td><td><a class="in-doc-link" href="#p-lingshan">晚饭</a>（三层策略 · 爸全程无酒精；18:30 亮灯饭中顺带看）</td><td class="t-dur">0.9h</td></tr>
+              <tr><td class="t-time">18:05</td><td class="t-time">19:00</td><td>晚饭三层（爸全程无酒精；18:30 亮灯饭中顺带看）</td><td class="t-dur">0.9h</td></tr>
               <tr><td class="t-time">19:00</td><td class="t-time">19:15</td><td>上车返程（最晚 19:30，不恋战）</td><td class="t-dur">0.25h</td></tr>
               <tr><td class="t-time">19:15</td><td class="t-time">20:30</td><td>东新高速北上 → 回到西村（最坏 21:00）</td><td class="t-dur">1.25h</td></tr>
             </tbody>
           </table>
         </div>
+        <div class="leg-note">
+          <div class="ln-head"><span class="ln-time">17:15–19:15</span><span class="ln-title">灵山岛尖（明珠湾）</span></div>
+          <p>啤酒交易所（常设精酿场景·数字霓虹）/友好街区/滨江公园白色灯塔，日落 18:05、约 18:30 亮灯（晚饭中顺带看）· 当晚常规营业（嘉年华街区巡游为 10-01/02、已结束）· <b>晚饭三层</b>：① 岭南东方酒店·林苑中餐厅/渔人码头全日餐厅（横沥岛尖安康路二街6号，携程4.8，17:30 前电订）② 墨礼咖啡&amp;艺术馆/BlackAnt 黑蚂蚁咖啡/漫叙Coffee 金茂湾店（咖啡+轻食）③ 出岛 5–10 min 回蕉门河：万达海底捞/师烤·豆花烤鱼/必胜客 · 精酿现场妈可小酌、爸无酒精 · 停车记位 · 评审裁决：文体中心嘉年华（万顷沙）车程 20–25 分钟，太远不考虑。</p>
+        </div>
         <div class="key-points">
           <p><b>硬时点：</b>16:55 接人（迟到=娃在门口干等）；19:00–19:15 上车、19:30 硬上限（19:15 未结账→甜品外带走人）。</p>
-          <p><b>晚饭三层（具体店）：</b>①正餐层（车程约10分钟）岭南东方酒店·林苑中餐厅/渔人码头全日餐厅（横沥岛尖安康路二街6号，携程4.8，建议17:30前电订）→ ②街区层（岛内步行）墨礼咖啡&amp;艺术馆/黑蚂蚁咖啡/漫叙Coffee金茂湾店（咖啡+轻食）→ ③顺路兜底（出岛5–10分钟回蕉门河）万达海底捞/师烤·豆花烤鱼/必胜客。</p>
           <p><b>纪律：</b>爸滴酒不沾（想喝当场叫代驾 ¥150–200）；午后 16:00 前爸留 20 分钟车内小憩；雨天→滨江段取消、万达晚饭、18:30 前上车。</p>
         </div>
       </div>
+
+      <div class="strip"><b>通讯与走散约定：</b>家庭群位置共享全程开启，任何改道先发群再动；图书馆走散=<b>一层总服务台</b>集合；灵山岛尖走散=<b>停车场</b>集合。</div>
 
       <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
     </section>
@@ -569,80 +575,9 @@
       <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
     </section>
 
-    <!-- ===== 场所档案（按行程时序） ===== -->
-    <section class="sec" id="places">
-      <div class="sec-head"><span class="no">叁</span><h2>场所档案（按行程时序）</h2></div>
-      <p class="sec-desc">三组卡片按当天动线排列：<a class="in-doc-link" href="#p-dagang">上午 · 大岗</a> → <a class="in-doc-link" href="#p-library">午后 · 图书馆与蕉门河</a> → <a class="in-doc-link" href="#p-lingshan">傍晚 · 灵山岛尖（方案B）</a>。<a class="in-doc-link" href="#plans">行程方案</a>表中的地名可点击跳到对应卡，卡片右上角「↩ 行程表」跳回。导航收藏五点位：大岗办事点、南沙区图书馆、星河COCO Park、灵山岛尖啤酒交易所、南沙万达广场。</p>
-
-      <div class="phase-tag">上午 · 08:30–10:40</div>
-      <div class="card" id="p-dagang">
-        <div class="card-head">
-          <h3>大岗节点（办事）</h3>
-          <a class="back-plan" href="#plans">↩ 行程表</a>
-        </div>
-        <p class="kv"><b>办事：</b>约 2 小时，办事点当日导航定位；就近路内/院内泊车，<b>记位拍照</b>。</p>
-        <p class="kv"><b>彩蛋：</b>北流小吃街（妈惦记处）——10:40 出发前有 20 分钟富余则顺路买小吃，不逗留。</p>
-        <p class="kv"><b>备胎午饭：</b>潭州金悦海鲜酒楼（8 月晚饭口碑好）——仅当 11:00 前办完且哥弟同意延后占座。</p>
-      </div>
-
-      <div class="phase-tag">午后 · 11:10–16:40</div>
-      <div class="card" id="p-library">
-        <div class="card-head">
-          <h3>南沙区图书馆（哥弟自习主场）</h3>
-          <a class="back-plan" href="#plans">↩ 行程表</a>
-        </div>
-        <p class="kv"><b>地址：</b>南沙区海滨路175号（蕉门河城市客厅）；地铁蕉门站 B 口步行 15 分钟；公交南沙W1A路"南沙区图书馆"站。</p>
-        <p class="kv"><b>开放：</b>总馆 9:00–21:00（逢周三闭馆）；一层亲子区、负一层青少年区与报刊区 <b>9:00–17:00</b>。</p>
-        <p class="kv"><b>停车：</b>馆内负二层地下停车场（电梯直达），费用现场为准；11:15 前到基本无忧。</p>
-        <p class="kv"><b>证件/预约：</b>默认无需预约（带身份证）；办读者证凭身份证/广州社保卡。<span class="b b-warn">待现场确认</span></p>
-        <p class="kv"><b>提示：</b>馆内禁饮食；冷气足带外套；电话 020-39279988。馆内水吧<span class="b b-warn">未证实</span>，到场一看便知。</p>
-      </div>
-
-      <div class="card" id="p-leisure">
-        <div class="card-head">
-          <h3>爸妈休闲三级备选（午后轮换，B 版放宽到 16:40）</h3>
-          <a class="back-plan" href="#plans">↩ 行程表</a>
-        </div>
-        <p class="kv"><span class="tier-tag t1">① 馆内</span>报刊区 / 河景大厅 / 各层展陈——避晒蹭冷气，随叫随走；有无水吧现场确认。</p>
-        <p class="kv"><span class="tier-tag t2">② 步行圈（≤20 min）</span><b>喜来登·大堂吧</b>（海滨路海熙大街79-80号，沿河步行约15分钟/车程5分钟，五星酒店咖啡·点评4.6，妈的心水项）｜<b>瑞幸咖啡（南沙成卓世纪中心店）</b>（蕉门河写字楼底商，拿了走河边喝）｜蕉门公园+蕉门河绿道（草坪点「临江坐晚」，秋季异木棉）｜星河COCO Park（商场咖啡连锁，聚星桥过河即到）。</p>
-        <p class="kv"><span class="tier-tag t3">③ 车程 ≤15 min</span><b>ManXu 漫叙Coffee（金茂湾店）</b>（灵山岛尖金象西路金茂湾E3幢105铺，独立咖啡馆适合看书）｜<b>南沙游艇会</b>（免费入园，园内扬帆廊咖啡厅/石奥茶室+南法风情建筑）｜蒲州花园（免费，9:00–17:00）+ 南沙天后宫（¥20，8:30–18:00，8 月刚去过可选其一）。</p>
-        <p class="kv muted">建议节奏：先 ② COCO Park 或喜来登大堂吧坐定，余量足再 ③ 游艇会看海/漫叙咖啡（B 版 16:00 前返程即可）。</p>
-      </div>
-
-      <div class="card" id="p-lunch">
-        <div class="card-head">
-          <h3>午餐（12:00–13:00，步行圈 · 具体店）</h3>
-          <a class="back-plan" href="#plans">↩ 行程表</a>
-        </div>
-        <ul class="tight">
-          <li><b>首选 · 南沙万达广场</b>（双山大道3号，车程5分钟）：海底捞（3F-364/365，带儿童乐园，午市不用等位）、师烤·豆花烤鱼（点评4.0）、必胜客、星巴克（南沙万达店）、必富咖啡三明治（轻食快取）——品类最多、打包最方便。</li>
-          <li><b>次选 · 星河COCO Park</b>（聚星桥过河即到）：商场餐饮与咖啡连锁，环境新、人比万达少（品牌以现场楼层指引为准）。</li>
-          <li><b>体验款 · 喜来登盛宴标帜餐厅</b>（海滨路海熙大街79-80号，沿河步行约15分钟，电话 020-39002288）：五星酒店中西餐厅+大堂吧咖啡；全家按 1 小时轮换，哥弟不撤自习位。</li>
-          <li><b>轻量版：</b>自备三明治/水果，蕉门公园草坪野餐；哥弟 13:00 轮换出来吃 15 分钟回馆（馆内禁饮食，打包在馆外交接）。</li>
-        </ul>
-      </div>
-
-      <div class="phase-tag">傍晚 · 17:00–19:15（仅方案B）</div>
-      <div class="card" id="p-lingshan">
-        <div class="card-head">
-          <h3>灵山岛尖（黄昏江景 + 晚饭）</h3>
-          <a class="back-plan" href="#plans">↩ 行程表</a>
-        </div>
-        <p class="kv"><b>场子：</b>啤酒交易所=常设精酿场景（数字霓虹+金融趣味互动）；友好街区=滨水小店带；滨水公园=一半草地一半江景+白色灯塔。</p>
-        <p class="kv"><b>当晚实况：</b>嘉年华街区巡游为 10-01/02、已结束，当晚常规营业——清净不挤，按"黄昏江景+精酿氛围"预期。</p>
-        <p class="kv"><b>晚饭三层（具体店）：</b>①正餐层（车程约10分钟）岭南东方酒店·<b>林苑中餐厅</b>/渔人码头全日餐厅（横沥岛尖安康路二街6号，携程4.8，建议17:30前电订）；②街区层（岛内步行）<b>墨礼咖啡&amp;艺术馆</b>（临江+小众艺术展）/BlackAnt 黑蚂蚁咖啡/漫叙Coffee（金茂湾店）；③顺路兜底（出岛5–10分钟回蕉门河）万达<b>海底捞</b>/师烤·豆花烤鱼/必胜客。</p>
-        <p class="kv"><b>停车：</b>友好街区/滨水商业停车场，现场为准，停车记位拍照。</p>
-        <p class="kv"><b>评审裁决：</b>文体中心啤酒嘉年华主会场（万顷沙）车程 20–25 分钟，<span class="b b-key">太远不考虑</span>。</p>
-      </div>
-
-      <div class="strip"><b>通讯与走散约定：</b>家庭群位置共享全程开启，任何改道先发群再动；图书馆走散=<b>一层总服务台</b>集合；灵山岛尖走散=<b>停车场</b>集合。</div>
-
-      <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-    </section>
-
     <!-- ===== 交通对照 ===== -->
     <section class="sec" id="traffic">
-      <div class="sec-head"><span class="no">肆</span><h2>黄金周交通对照（依据广州交警研判）</h2></div>
+      <div class="sec-head"><span class="no">叁</span><h2>黄金周交通对照（依据广州交警研判）</h2></div>
       <p class="sec-desc">
         高速免费通行 <b>10-01 00:00 至 10-07 24:00</b>——明天全天免费、无需赶时点，全天高速车流整体上浮；
         <b>真正返程高峰=10-06 16:00–22:00、10-07 9:00–11:00/14:00–20:00</b>，本行程全程在 10-05（错峰返程日，午后 14:00–19:00 入城升温），与高峰日不重叠。
@@ -663,7 +598,7 @@
 
     <!-- ===== 预算 ===== -->
     <section class="sec" id="budget">
-      <div class="sec-head"><span class="no">伍</span><h2>预算明细（四口）</h2></div>
+      <div class="sec-head"><span class="no">肆</span><h2>预算明细（四口）</h2></div>
       <div class="table-scroll">
         <table class="tbl">
           <thead><tr><th>项目</th><th>估算</th><th>备注</th></tr></thead>
@@ -685,7 +620,7 @@
 
     <!-- ===== 准备清单 ===== -->
     <section class="sec" id="prep">
-      <div class="sec-head"><span class="no">陆</span><h2>准备清单（今晚 + 晨检）</h2></div>
+      <div class="sec-head"><span class="no">伍</span><h2>准备清单（今晚 + 晨检）</h2></div>
       <p class="sec-desc">出发当晚（10-04）逐项勾选；晨检（10-05 07:00）最后四项。</p>
 
       <div class="card">
@@ -721,7 +656,7 @@
 
     <!-- ===== 降级预案 ===== -->
     <section class="sec" id="risk">
-      <div class="sec-head"><span class="no">柒</span><h2>降级预案与风险登记</h2></div>
+      <div class="sec-head"><span class="no">陆</span><h2>降级预案与风险登记</h2></div>
       <div class="table-scroll">
         <table class="tbl">
           <thead><tr><th>风险</th><th>概率</th><th>预案</th></tr></thead>
@@ -741,7 +676,7 @@
 
     <!-- ===== 信息来源 ===== -->
     <section class="sec" id="sources">
-      <div class="sec-head"><span class="no">捌</span><h2>信息来源与待确认（访问日期 2026-10-04）</h2></div>
+      <div class="sec-head"><span class="no">柒</span><h2>信息来源与待确认（访问日期 2026-10-04）</h2></div>
       <p class="sec-desc">内容底稿：<a class="in-doc-link" href="../待出行方案/南沙大岗办事+南沙区图书馆自习一日行程规划.md">待出行方案/南沙大岗办事+南沙区图书馆自习一日行程规划.md</a>（单一事实源，本页为其呈现）。</p>
       <div class="table-scroll">
         <table class="tbl">
