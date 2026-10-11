@@ -8,5 +8,8 @@
     "dev": "cd query-system && npm run dev",
     "test:repo": "node tests/run.js",
     "test:repo:full": "node tests/run.js --deep"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
   }
 }

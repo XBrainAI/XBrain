@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = "."
+  functions = "netlify/functions"
 
 # SPA 路由：query-system 子站点的 history fallback
 [[redirects]]

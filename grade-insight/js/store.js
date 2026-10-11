@@ -1,8 +1,9 @@
 /* ============================================================
    grade-insight · 存储层
-   - 主存储：localStorage（键 xbrain_grade_insight_v1）
+   - 主存储：localStorage（键 xbrain_grade_insight_v1），第一落点
+   - 云端镜像：Netlify Blobs（经同域端点自动同步，SPEC-2026-0006）
    - 种子：js/data.js 的 window.GRADE_SNAPSHOT（首次打开载入）
-   - 导出：data.js 快照文本 / JSON 备份；导入两者皆收
+   - 导出：data.js 快照文本 / JSON 备份（离线备份手段，保留）；导入两者皆收
    ============================================================ */
 (function () {
   'use strict';
@@ -110,22 +111,31 @@
     if (raw) {
       try {
         _state = normalizeState(JSON.parse(raw));
+        pullSoon();
         return _state;
       } catch (err) { /* 损坏则回落种子 */ }
     }
     _state = seedState();
     save();
+    pullSoon();
     return _state;
   }
 
-  function save() {
-    _state = _state || load();
-    _state.lastModified = new Date().toISOString();
+  /* 纯写本地（不改 lastModified、不触发上传）：远端数据落本地专用 */
+  function saveLocal() {
     try {
       localStorage.setItem(STORE_KEY, JSON.stringify(_state));
     } catch (err) {
       if (window.GIApp && GIApp.toast) GIApp.toast('本地存储失败：' + err.message);
     }
+  }
+
+  function save() {
+    _state = _state || load();
+    _state.lastModified = new Date().toISOString();
+    saveLocal();
+    pullSoon();   /* 未登录时为空操作；登录后首次操作即与云端对账 */
+    schedulePush();
     return _state;
   }
 
@@ -258,6 +268,192 @@
     return days > 14 && modifiedAfterExport;
   }
 
+  /* ---------- 云端同步（SPEC-2026-0006） ----------
+     本地 localStorage 永远第一落点，云端为异步镜像：录入永不因网络阻塞。
+     file:// 本地调试跳过；演示数据（isSample）不上传。
+     冲突整档案按 lastModified 新者胜：云端较新时服务端拒绝写入（409），
+     前端提示且本地不丢，可经设置弹层手动恢复——绝不静默覆盖。 */
+  var SYNC_URL = '/.netlify/functions/grade-store';
+  var SYNC_STATUS_KEY = 'xbrain_grade_sync_status_v1';
+  var PUSH_DEBOUNCE_MS = 2000;
+  var _pushTimer = null;
+  var _pushInflight = false;
+  var _pullDone = false;
+
+  function syncEnabled() {
+    try { return location.protocol !== 'file:'; } catch (err) { return false; }
+  }
+
+  /* 凭证复用既有 XBrainAuth 子站会话（brand/auth.js 登录成功后
+     session.token = sha256hex(密码)；键构造与 auth.js getSessionKey('sub','grade') 同源）。
+     不新增任何凭证；会话过期（默认 7 天）后重新过密码门即自愈。 */
+  function authToken() {
+    try {
+      var raw = localStorage.getItem('xbrain_auth_sub_grade');
+      if (!raw) return null;
+      var s = JSON.parse(raw);
+      return s && s.token ? String(s.token) : null;
+    } catch (err) { return null; }
+  }
+
+  function getSyncStatus() {
+    try { return JSON.parse(localStorage.getItem(SYNC_STATUS_KEY)) || {}; }
+    catch (err) { return {}; }
+  }
+
+  function markSynced() {
+    try {
+      localStorage.setItem(SYNC_STATUS_KEY, JSON.stringify({ lastSyncAt: new Date().toISOString() }));
+    } catch (err) { /* 状态持久化失败不影响同步本身 */ }
+  }
+
+  function markSyncError(err) {
+    var msg = String((err && err.message) || err || '未知错误');
+    try {
+      var st = getSyncStatus();
+      st.lastError = msg;
+      localStorage.setItem(SYNC_STATUS_KEY, JSON.stringify(st));
+    } catch (err2) { /* 同上 */ }
+    return msg;
+  }
+
+  function syncToast(msg) {
+    if (window.GIApp && GIApp.toast) GIApp.toast(msg);
+  }
+
+  function syncHeaders() {
+    var t = authToken();
+    return t ? { 'X-GI-Auth': t } : null;
+  }
+
+  function buildSyncPayload(state) {
+    var p = buildSnapshotPayload(state);
+    p.lastModified = state.lastModified;
+    return p;
+  }
+
+  /* 上传本地快照。resolve 'ok' | 'conflict'；网络/服务端错误 reject。
+     401（会话过期）按普通错误记状态，不弹窗——重新登录后自愈。 */
+  function pushNow(state) {
+    if (_pushInflight) return Promise.resolve('skip');
+    var h = syncHeaders();
+    if (!h || !state || state.isSample) return Promise.resolve('skip');
+    _pushInflight = true;
+    return fetch(SYNC_URL, {
+      method: 'PUT',
+      headers: Object.assign({ 'Content-Type': 'application/json' }, h),
+      body: JSON.stringify(buildSyncPayload(state))
+    }).then(function (res) {
+      _pushInflight = false;
+      if (res.ok) { markSynced(); return 'ok'; }
+      if (res.status === 409) {
+        return Promise.resolve('conflict').then(function (r) {
+          markSyncError(new Error('云端有更新的数据，本次未覆盖'));
+          return r;
+        });
+      }
+      return res.json().catch(function () { return {}; }).then(function (body) {
+        throw new Error('HTTP ' + res.status + (body && body.detail ? '：' + body.detail.join('；') : ''));
+      });
+    }).catch(function (err) {
+      _pushInflight = false;
+      markSyncError(err);
+      throw err;
+    });
+  }
+
+  function schedulePush() {
+    if (!syncEnabled()) return;
+    if (_pushTimer) clearTimeout(_pushTimer);
+    _pushTimer = setTimeout(function () {
+      _pushTimer = null;
+      if (_state) pushNow(_state).then(function (r) {
+        if (r === 'conflict') syncToast('云端已有更新的数据，本次未覆盖；可在设置 → 云端同步中恢复');
+      }).catch(function () { /* 失败已记状态，下次保存自动重试 */ });
+    }, PUSH_DEBOUNCE_MS);
+  }
+
+  /* 远端快照落本地：normalize 兜底（损坏/缺字段不白屏），只写本地不回推 */
+  function applyRemote(snapshot) {
+    _state = normalizeState(snapshot);
+    saveLocal();
+    try { document.dispatchEvent(new CustomEvent('gi:remote-applied')); } catch (err) { /* 非页面环境 */ }
+    return _state;
+  }
+
+  /* 打开/首次保存时与云端对账一次：云端空则初始化上传；
+     云端较新则拉取覆盖；本地较新（离线期间改过）则推上去。 */
+  function pullSoon() {
+    if (_pullDone || !syncEnabled()) return;
+    var h = syncHeaders();
+    if (!h) return; /* 未登录：不消耗对账标记，登录后下次 load/save 再试 */
+    _pullDone = true;
+    var local = _state;
+    if (!local || local.isSample) return;
+    fetch(SYNC_URL, { method: 'GET', headers: h }).then(function (res) {
+      if (res.status === 404) {
+        if (local.exams.length) return pushNow(local).then(function () { return null; });
+        return null;
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json().then(function (remote) {
+        var rnorm = normalizeState(remote);
+        var rT = new Date(rnorm.lastModified).getTime();
+        var lT = new Date(local.lastModified).getTime();
+        if (rT > lT) {
+          applyRemote(rnorm);
+          markSynced();
+        } else if (lT > rT && local.exams.length && !_pushInflight) {
+          return pushNow(local).then(function () { return null; });
+        }
+        return null;
+      });
+    }).catch(function (err) { markSyncError(err); });
+  }
+
+  /* 手动操作（设置弹层） */
+  function syncUp() {
+    if (!syncEnabled()) return Promise.reject(new Error('本地调试模式，云同步不可用'));
+    var state = load();
+    if (state.isSample) return Promise.reject(new Error('当前为演示数据，不上传'));
+    return pushNow(state).then(function (r) {
+      if (r === 'conflict') throw new Error('云端有更新的数据，未覆盖；可点"恢复云端数据"取回');
+      return true;
+    });
+  }
+
+  function syncDown() {
+    if (!syncEnabled()) return Promise.reject(new Error('本地调试模式，云同步不可用'));
+    var h = syncHeaders();
+    if (!h) return Promise.reject(new Error('未登录，请先通过站点密码门'));
+    return fetch(SYNC_URL, { method: 'GET', headers: h }).then(function (res) {
+      if (res.status === 404) throw new Error('云端暂无数据');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (remote) {
+      applyRemote(remote);
+      markSynced();
+      return _state;
+    });
+  }
+
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+  function syncStatusText() {
+    if (!syncEnabled()) return '本地调试模式（file://），云同步不可用';
+    var st = getSyncStatus();
+    var txt;
+    if (st.lastSyncAt) {
+      var d = new Date(st.lastSyncAt);
+      txt = '最近同步：' + d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) +
+        ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+    } else {
+      txt = '尚未同步过（首次打开或保存时自动进行）';
+    }
+    if (st.lastError) txt += ' · ⚠️ 上次同步：' + st.lastError;
+    return txt;
+  }
+
   /* ---------- 增删改 ---------- */
   function upsertExam(exam) {
     var state = load();
@@ -350,6 +546,11 @@
     removeSubject: removeSubject,
     updateSubject: updateSubject,
     subjectName: subjectName,
+    syncEnabled: syncEnabled,
+    syncUp: syncUp,
+    syncDown: syncDown,
+    getSyncStatus: getSyncStatus,
+    syncStatusText: syncStatusText,
     STORE_KEY: STORE_KEY
   };
 })();

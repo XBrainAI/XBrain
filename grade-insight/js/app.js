@@ -790,8 +790,8 @@
       '<button class="btn" id="newSubAdd">＋ 添加</button></div>' +
       '<div class="btn-row"><button class="btn small" id="subSave">保存科目修改</button></div></div>';
 
-    html += '<div class="card"><h3><span class="h-ico">💾</span>数据管理（本地 + 快照同步）</h3>' +
-      '<div class="card-desc">数据保存在本机浏览器。定期导出 data.js 快照并提交到仓库，即可实现备份与多设备同步（其他设备打开页面会自动载入最新快照）。</div>' +
+    html += '<div class="card"><h3><span class="h-ico">💾</span>数据管理（本地 + 快照备份）</h3>' +
+      '<div class="card-desc">数据保存在本机浏览器，并自动同步到云端（见下方）。导出快照仍可作为离线备份手段。</div>' +
       '<div class="btn-row">' +
       '<button class="btn primary" id="dmExportJs">导出 data.js 快照</button>' +
       '<button class="btn" id="dmExportJson">导出 JSON 备份</button>' +
@@ -802,6 +802,14 @@
       '<div class="btn-row">' +
       '<button class="btn" id="dmLoadSample">载入示例数据</button>' +
       '<button class="btn danger" id="dmClear">清空全部数据</button>' +
+      '</div></div>';
+
+    html += '<div class="card"><h3><span class="h-ico">☁️</span>云端同步</h3>' +
+      '<div class="card-desc">数据自动同步到站点部署平台（Netlify），换设备打开即最新。本地始终第一落点，断网不影响录入；演示数据不上传。</div>' +
+      '<div class="small-note" id="syncStatus">' + S.syncStatusText() + '</div>' +
+      '<div class="btn-row mt8">' +
+      '<button class="btn" id="dmSyncUp">⬆️ 上传本地到云端</button>' +
+      '<button class="btn" id="dmSyncDown">⬇️ 恢复云端数据</button>' +
       '</div></div>';
 
     html += '<div class="card"><h3><span class="h-ico">ℹ️</span>关于</h3>' +
@@ -892,6 +900,23 @@
         }
       });
     });
+    document.getElementById('dmSyncUp').addEventListener('click', function () {
+      S.syncUp().then(function () {
+        toast('已上传到云端');
+        openSettingsSheet();
+      }).catch(function (err) {
+        toast('上传失败：' + err.message);
+        openSettingsSheet();
+      });
+    });
+    document.getElementById('dmSyncDown').addEventListener('click', function () {
+      S.syncDown().then(function (st) {
+        toast('已恢复云端数据，共 ' + st.exams.length + ' 场考试');
+        openSettingsSheet();
+      }).catch(function (err) {
+        toast('恢复失败：' + err.message);
+      });
+    });
     document.getElementById('dmLoadSample').addEventListener('click', function () {
       if (confirm('载入示例数据将覆盖当前全部数据，确定？')) {
         S.loadSample();
@@ -968,6 +993,8 @@
     /* 浏览器前进/后退、手动改 URL、外链深链仍走 hash/popstate 同步 */
     window.addEventListener('hashchange', onRoute);
     window.addEventListener('popstate', onRoute);
+    /* 云端较新数据落地后重渲染当前视图（SPEC-2026-0006） */
+    document.addEventListener('gi:remote-applied', onRoute);
   }
 
   if (document.readyState === 'loading') {
