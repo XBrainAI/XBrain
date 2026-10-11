@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { Database, GraduationCap, ChevronDown, ExternalLink, Info, FileText } from 'lucide-react';
+import { Database, GraduationCap, ChevronDown, ExternalLink, Info, FileText, Cloud, CloudUpload, CloudDownload } from 'lucide-react';
 import type { SchoolRecord, FilterCriteria } from './types';
 import { mergeAllData } from './utils/dataMerger';
 import { parseGradientLines, parseMockExamGradients } from './utils/mdParser';
@@ -11,6 +11,7 @@ import DetailDrawer from './components/DetailDrawer';
 import GradientBar from './components/GradientBar';
 import MarkdownModal from './components/MarkdownModal';
 import { RAW_SCORE_BANDS, RAW_MOCK_2026 } from './utils/rawData';
+import { syncStatusText, syncUp, syncDown } from './utils/cloudSync';
 import './App.css';
 
 // 从文件名生成友好的显示名称
@@ -69,6 +70,53 @@ export default function App() {
   const [extMenuOpen, setExtMenuOpen] = useState(false);
   const [extFiles, setExtFiles] = useState<string[]>([]);
   const extMenuRef = useRef<HTMLDivElement>(null);
+  /* 云同步（SPEC-2026-0007）：菜单开关 / 状态刷新 / 轻提示 */
+  const [syncMenuOpen, setSyncMenuOpen] = useState(false);
+  const [syncToast, setSyncToast] = useState('');
+  const syncMenuRef = useRef<HTMLDivElement>(null);
+
+  // 点击外部关闭同步菜单
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (syncMenuRef.current && !syncMenuRef.current.contains(e.target as Node)) {
+        setSyncMenuOpen(false);
+      }
+    }
+    if (syncMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [syncMenuOpen]);
+
+  // 云端配置落地 → 重渲染收藏/志愿；冲突 → 轻提示
+  useEffect(() => {
+    const onApplied = () => setFavoritesVersion(v => v + 1);
+    const onConflict = () => setSyncToast('云端有更新的配置，本次未覆盖；可在「云同步」中恢复');
+    document.addEventListener('qs:remote-applied', onApplied);
+    document.addEventListener('qs:sync-conflict', onConflict);
+    return () => {
+      document.removeEventListener('qs:remote-applied', onApplied);
+      document.removeEventListener('qs:sync-conflict', onConflict);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!syncToast) return;
+    const t = setTimeout(() => setSyncToast(''), 3200);
+    return () => clearTimeout(t);
+  }, [syncToast]);
+
+  const handleSyncUp = () => {
+    syncUp()
+      .then(() => { setSyncToast('已上传到云端'); setFavoritesVersion(v => v + 1); })
+      .catch((e: Error) => { setSyncToast('上传失败：' + e.message); setFavoritesVersion(v => v + 1); });
+  };
+
+  const handleSyncDown = () => {
+    syncDown()
+      .then(() => { setSyncToast('已恢复云端配置'); })
+      .catch((e: Error) => { setSyncToast('恢复失败：' + e.message); });
+  };
 
   // Markdown弹窗状态
   const [mdModalOpen, setMdModalOpen] = useState(false);
@@ -141,6 +189,20 @@ export default function App() {
 
   return (
     <div className="app">
+      {syncToast && (
+        <div
+          role="status"
+          style={{
+            position: 'fixed', top: 16, right: 16, zIndex: 2000,
+            background: 'rgba(20,15,50,0.94)', color: '#dce8ff',
+            border: '1px solid rgba(140,180,255,0.45)', borderRadius: 10,
+            padding: '10px 16px', fontSize: 14, maxWidth: 340,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+          }}
+        >
+          {syncToast}
+        </div>
+      )}
       <header className="app-header">
         <div className="header-inner">
           <div className="header-left">
@@ -154,6 +216,33 @@ export default function App() {
             </p>
           </div>
           <div className="header-right" ref={extMenuRef}>
+            <div ref={syncMenuRef} style={{ position: 'relative' }}>
+              <button
+                className={`ext-menu-toggle ${syncMenuOpen ? 'active' : ''}`}
+                onClick={() => setSyncMenuOpen(v => !v)}
+                aria-haspopup="true"
+                aria-expanded={syncMenuOpen}
+              >
+                <Cloud size={16} />
+                <span>云同步</span>
+                <ChevronDown size={14} className={syncMenuOpen ? 'rotated' : ''} />
+              </button>
+              {syncMenuOpen && (
+                <div className="ext-menu-dropdown">
+                  <div className="ext-menu-item" style={{ cursor: 'default', whiteSpace: 'normal', maxWidth: 260 }}>
+                    <span style={{ fontSize: 13 }}>{syncStatusText()}</span>
+                  </div>
+                  <button className="ext-menu-item" onClick={handleSyncUp}>
+                    <CloudUpload size={14} />
+                    <span>上传配置到云端</span>
+                  </button>
+                  <button className="ext-menu-item" onClick={handleSyncDown}>
+                    <CloudDownload size={14} />
+                    <span>从云端恢复配置</span>
+                  </button>
+                </div>
+              )}
+            </div>
             <button
               className={`ext-menu-toggle ${extMenuOpen ? 'active' : ''}`}
               onClick={() => setExtMenuOpen(v => !v)}

@@ -6,6 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>中考志愿填报查询系统</title>
+  <link rel="stylesheet" href="/brand/auth.css">
   <style>
     /* ===== XBrain Brand (Cerebro Style) ===== */
     .xbrain-brand {
@@ -216,6 +217,31 @@
       }, { passive: true });
 
       updateLogo();
+    })();
+  </script>
+
+  <!-- ===== XBrainAuth 子站认证（file:// 本地调试自动跳过；dist 位于 /query-system/dist/，须用绝对路径） ===== -->
+  <script src="/brand/auth.js"></script>
+  <script>
+    (function () {
+      if (location.protocol === 'file:') {
+        /* 本地调试：file:// 下 fetch 配置不可用，跳过认证并解除防闪烁隐藏 */
+        document.documentElement.classList.remove('xbrain-auth-hidden');
+        document.documentElement.classList.add('xbrain-auth-filefix');
+        return;
+      }
+      if (window.XBrainAuth) {
+        XBrainAuth.init({
+          level: 'sub',
+          subSiteName: 'query',
+          configPath: '/query-system/auth.config.json',
+          onAuthSuccess: function () {
+            /* 登录就绪后立即与云端对账（新设备首次访问必须在登录后拉取）。
+               vite bundle 为 defer module，可能晚于此回调执行，双向触发见 cloudSync.ts */
+            if (window.GICloudSync && GICloudSync.onAuthReady) GICloudSync.onAuthReady();
+          }
+        });
+      }
     })();
   </script>
 

@@ -1,8 +1,8 @@
 /**
- * grade-store 纯逻辑核心（SPEC-2026-0006）
+ * 云端同步端点纯逻辑核心（SPEC-2026-0006 grade-insight / SPEC-2026-0007 query-system 共享）
  *
  * 与平台/存储解耦的可测逻辑：凭证等值校验、载荷校验、冲突判定。
- * 被 netlify/functions/grade-store.mjs（ESM）与 tests/static 用例共同消费，
+ * 被 netlify/functions/grade-store.mjs、query-store.mjs（ESM）与 tests/static 用例共同消费，
  * 因此保持 CJS、零外部依赖。
  */
 'use strict';
@@ -45,6 +45,28 @@ function normalizePayload(payload) {
   return { ok: true, value: payload };
 }
 
+/* ---------- query-system 配置载荷校验（SPEC-2026-0007） ---------- */
+
+/* 配置快照最小结构校验（favorites + volunteerOrders + lastModified）。
+   深度兜底在前端 apply 侧完成，服务端只挡垃圾写入。 */
+function normalizeQueryPayload(payload) {
+  const errors = [];
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return { ok: false, errors: ['载荷必须是 JSON 对象'] };
+  }
+  if (!Array.isArray(payload.favorites) || payload.favorites.some((f) => typeof f !== 'string')) {
+    errors.push('favorites 必须是字符串数组');
+  }
+  if (!payload.volunteerOrders || typeof payload.volunteerOrders !== 'object' || Array.isArray(payload.volunteerOrders)) {
+    errors.push('volunteerOrders 必须是对象');
+  }
+  if (typeof payload.lastModified !== 'string' || !payload.lastModified || Number.isNaN(new Date(payload.lastModified).getTime())) {
+    errors.push('缺少有效 lastModified（同步冲突判据）');
+  }
+  if (errors.length) return { ok: false, errors };
+  return { ok: true, value: payload };
+}
+
 /* ---------- 冲突判定 ---------- */
 
 /* 整档案按 lastModified 新者胜（单用户家庭场景，字段级合并在规格非目标内）。
@@ -58,4 +80,4 @@ function isConflicting(remote, incoming) {
   return r > i; /* 相等视为同一版本，允许覆盖 */
 }
 
-module.exports = { passwordHash, validateAuthHeader, normalizePayload, isConflicting };
+module.exports = { passwordHash, validateAuthHeader, normalizePayload, normalizeQueryPayload, isConflicting };

@@ -1,4 +1,11 @@
 import type { SchoolRecord, FilterCriteria, VolunteerOrder, SchoolVolunteerOrders, BatchVolunteerOrder } from '../types';
+import { initCloudSync, schedulePush, touchLocalLastModified } from './cloudSync';
+
+/* 本地配置变更标记：刷新同步冲突基线并安排去抖上云（SPEC-2026-0007） */
+function markConfigDirty(): void {
+  touchLocalLastModified();
+  schedulePush();
+}
 
 const FAVORITES_KEY = 'school_favorites';
 const VOLUNTEER_KEY = 'school_volunteer_orders';
@@ -27,6 +34,7 @@ export function setVolunteerOrder(schoolName: string, order: VolunteerOrder): vo
   } catch {
     // ignore
   }
+  markConfigDirty();
 }
 
 export function getVolunteerOrder(schoolName: string): VolunteerOrder {
@@ -90,6 +98,7 @@ export function setBatchVolunteerOrder(
   } catch {
     // ignore
   }
+  markConfigDirty();
 }
 
 // 获取学校已选的所有志愿值数组（如 ["二1", "三2"]）
@@ -139,10 +148,12 @@ export function toggleFavorite(schoolName: string): boolean {
   if (idx >= 0) {
     favorites.splice(idx, 1);
     setFavorites(favorites);
+    markConfigDirty();
     return false;
   } else {
     favorites.push(schoolName);
     setFavorites(favorites);
+    markConfigDirty();
     return true;
   }
 }
@@ -183,6 +194,7 @@ export function importConfigFromFile(file: File): Promise<AppConfig> {
         // 兼容旧格式：纯数组表示收藏列表
         if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
           setFavorites(data);
+          markConfigDirty();
           resolve({ favorites: data, volunteerOrders: {} });
           return;
         }
@@ -214,6 +226,7 @@ export function importConfigFromFile(file: File): Promise<AppConfig> {
               } catch {
                 // ignore
               }
+              markConfigDirty();
               resolve({ favorites, volunteerOrders: migrated });
               return;
             } else if (firstVal && typeof firstVal === 'object' && ('batch2' in firstVal || 'batch3' in firstVal || 'batch4' in firstVal)) {
@@ -223,10 +236,12 @@ export function importConfigFromFile(file: File): Promise<AppConfig> {
               } catch {
                 // ignore
               }
+              markConfigDirty();
               resolve({ favorites, volunteerOrders: volData as Record<string, SchoolVolunteerOrders> });
               return;
             }
           }
+          markConfigDirty();
           resolve({ favorites, volunteerOrders: {} });
         } else {
           reject(new Error('文件格式错误：应为配置对象或学校名称数组'));
@@ -445,3 +460,24 @@ export function getAllScopes(data: SchoolRecord[]): string[] {
 export function getAllGradients(data: SchoolRecord[]): string[] {
   return getUniqueValues(data, 'gradient2025').filter(g => g && g !== '-');
 }
+
+/* ===== 云端同步钩子注册（SPEC-2026-0007） =====
+   数据归属本模块（三键），cloudSync 只管网络与时序；apply 侧做损坏兜底。 */
+initCloudSync({
+  collect: () => ({
+    favorites: getFavorites(),
+    volunteerOrders: getAllVolunteerOrdersV2(),
+  }),
+  apply: (cfg) => {
+    setFavorites(Array.isArray(cfg.favorites) ? cfg.favorites : []);
+    try {
+      localStorage.setItem(
+        VOLUNTEER_KEY_V2,
+        JSON.stringify(cfg.volunteerOrders && typeof cfg.volunteerOrders === 'object' ? cfg.volunteerOrders : {})
+      );
+    } catch {
+      // ignore
+    }
+  },
+  hasLocalData: () => getFavorites().length > 0 || Object.keys(getAllVolunteerOrdersV2()).length > 0,
+});

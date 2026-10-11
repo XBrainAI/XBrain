@@ -66,3 +66,28 @@ test('S8.4 冲突判定：云端较新拒绝；相等/云端较旧/坏数据不�
   assert.equal(core.isConflicting({ lastModified: 'garbage' }, { lastModified: old }), false);
   assert.equal(core.isConflicting({ lastModified: neu }, { lastModified: 'garbage' }), false);
 });
+
+test('S8.5 query-system 配置载荷校验（SPEC-2026-0007）：合法放行，结构不符拒绝', () => {
+  const ok = core.normalizeQueryPayload({
+    favorites: ['华南师范大学附属中学'],
+    volunteerOrders: { 广州市协和中学: { batch2: '3', batch3: '', batch4: '' } },
+    lastModified: '2026-10-11T00:00:00.000Z',
+  });
+  assert.equal(ok.ok, true);
+
+  for (const [name, payload] of [
+    ['favorites 缺失', { volunteerOrders: {}, lastModified: '2026-10-11T00:00:00.000Z' }],
+    ['favorites 非数组', { favorites: 'x', volunteerOrders: {}, lastModified: '2026-10-11T00:00:00.000Z' }],
+    ['favorites 含非字符串', { favorites: [1], volunteerOrders: {}, lastModified: '2026-10-11T00:00:00.000Z' }],
+    ['volunteerOrders 缺失', { favorites: [], lastModified: '2026-10-11T00:00:00.000Z' }],
+    ['volunteerOrders 是数组', { favorites: [], volunteerOrders: [], lastModified: '2026-10-11T00:00:00.000Z' }],
+    ['lastModified 缺失', { favorites: [], volunteerOrders: {} }],
+    ['lastModified 非时间', { favorites: [], volunteerOrders: {}, lastModified: 'not-a-date' }],
+    ['非对象', null],
+    ['数组', []],
+  ]) {
+    const r = core.normalizeQueryPayload(payload);
+    assert.equal(r.ok, false, name + ' 应被拒绝');
+    assert.ok(Array.isArray(r.errors) && r.errors.length > 0, name + ' 应给出原因');
+  }
+});
