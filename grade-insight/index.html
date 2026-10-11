@@ -233,6 +233,8 @@
           configPath: 'auth.config.json',
           onAuthSuccess: function () {
             if (window.console) console.log('[XBrainAuth] 成绩追踪认证通过');
+            /* 登录就绪后立即与云端对账（新设备首次访问必须在登录后拉取） */
+            if (window.GIStore && GIStore.onAuthReady) GIStore.onAuthReady();
           },
           onAuthFail: function () {
             if (window.console) console.log('[XBrainAuth] 认证失败');

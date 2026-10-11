@@ -381,23 +381,30 @@
     return _state;
   }
 
-  /* 打开/首次保存时与云端对账一次：云端空则初始化上传；
-     云端较新则拉取覆盖；本地较新（离线期间改过）则推上去。 */
+  /* 打开/首次保存/登录完成时与云端对账一次：云端空则初始化上传；
+     云端有档案则拉取覆盖（本地仍是示例数据时直接采用云端，示例种子
+     的时间戳无意义）；本地较新（离线期间改过）则推上去。
+     未登录或状态未就绪时不消耗对账标记——等登录回调或下次 load/save 再试。 */
   function pullSoon() {
     if (_pullDone || !syncEnabled()) return;
     var h = syncHeaders();
-    if (!h) return; /* 未登录：不消耗对账标记，登录后下次 load/save 再试 */
+    if (!h) return;
+    if (!_state) { load(); return; } /* load 会带着就绪状态重新进入本函数 */
     _pullDone = true;
     var local = _state;
-    if (!local || local.isSample) return;
     fetch(SYNC_URL, { method: 'GET', headers: h }).then(function (res) {
       if (res.status === 404) {
-        if (local.exams.length) return pushNow(local).then(function () { return null; });
+        if (!local.isSample && local.exams.length) return pushNow(local).then(function () { return null; });
         return null;
       }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json().then(function (remote) {
         var rnorm = normalizeState(remote);
+        if (local.isSample) {
+          applyRemote(rnorm);
+          markSynced();
+          return null;
+        }
         var rT = new Date(rnorm.lastModified).getTime();
         var lT = new Date(local.lastModified).getTime();
         if (rT > lT) {
@@ -551,6 +558,7 @@
     syncDown: syncDown,
     getSyncStatus: getSyncStatus,
     syncStatusText: syncStatusText,
+    onAuthReady: pullSoon, /* 密码门登录成功回调触发首次云端对账 */
     STORE_KEY: STORE_KEY
   };
 })();
