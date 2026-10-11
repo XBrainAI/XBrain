@@ -17,6 +17,9 @@ import core from './lib/grade-store-core.cjs';
 const STORE_NAME = 'grade_insight';
 const SNAPSHOT_KEY = 'snapshot';
 const CONFIG_TIMEOUT_MS = 3000;
+/* grade-insight 子站自己的密码配置（与 index.html 密码门同源；
+   站点根的 auth.config.json 是主站结构 { main, defaults }，不可用） */
+const CONFIG_PATH = '/grade-insight/auth.config.json';
 
 const json = (body, status) =>
   new Response(JSON.stringify(body), {
@@ -29,7 +32,7 @@ async function expectedAuthHash(request) {
   const host = request.headers.get('host');
   if (!host) throw new Error('missing host header');
   const proto = request.headers.get('x-forwarded-proto') || 'https';
-  const res = await fetch(`${proto}://${host}/auth.config.json`, {
+  const res = await fetch(`${proto}://${host}${CONFIG_PATH}`, {
     signal: AbortSignal.timeout(CONFIG_TIMEOUT_MS),
   });
   if (!res.ok) throw new Error(`auth config HTTP ${res.status}`);
