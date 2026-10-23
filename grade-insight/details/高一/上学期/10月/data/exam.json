@@ -5,10 +5,10 @@
     "pipeline": {
       "transcribePrompt": "v1",
       "converter": "v1",
-      "acceptance": "v1",
+      "acceptance": "v1.1",
       "alias": "v1"
     },
-    "transcribedAt": "2026-10-23T01:13:30",
+    "transcribedAt": "2026-10-23T03:00:31",
     "confidence": {
       "chinese": "高",
       "math": "高",

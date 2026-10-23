@@ -505,81 +505,109 @@
     os.forEach(function (o, i) { if (o.exam.id === id) { oi = o; oiIdx = i; } });
     var prev = oiIdx > 0 ? os[oiIdx - 1] : null;
 
-    var html = '<div class="modal-head"><div><h3>' + esc(e.name) + '</h3>' +
-      '<div class="modal-sub">' + e.date + ' · ' + esc(e.type) + (e.term ? ' · ' + esc(e.term) : '') + '</div></div>' +
-      '<button class="modal-close" id="mdClose">✕</button></div>';
+    /* —— SPEC-005 分页标签弹层：仪表盘 / 题级错题 / 知识点 / 环比与总分 —— */
+    function dashImg(src, alt) {
+      return '<img src="' + encodeURI(src) + '" alt="' + esc(alt) + '" onerror="this.remove()">';
+    }
+    var dir = e.dataRef ? e.dataRef.replace(/data\/exam\.json$/, '') : null;
 
-    if (e.note) html += '<div class="card" style="padding:10px 12px;margin-bottom:10px"><span class="dim">📝 ' + esc(e.note) + '</span></div>';
-
-    html += '<div class="table-wrap"><table class="gi-table"><thead><tr>' +
+    var tblHtml = '<div class="table-wrap"><table class="gi-table"><thead><tr>' +
       '<th>科目</th><th>得分/满分</th><th>得分率</th><th>年级均分</th><th>相对均分</th><th>年级排名</th></tr></thead><tbody>';
     e.subjects.forEach(function (sr) {
       var rate = A.subjRate(sr);
       var v = A.vsAvgOf(sr);
       var pctl = A.percentileOf(sr.rank, sr.rankSize);
-      html += '<tr><td>' + esc(subjName(state.subjects, sr.key)) + (sr.level ? ' <span class="tag muted">' + esc(sr.level) + '</span>' : '') + '</td>' +
+      tblHtml += '<tr><td>' + esc(subjName(state.subjects, sr.key)) + (sr.level ? ' <span class="tag muted">' + esc(sr.level) + '</span>' : '') + '</td>' +
         '<td class="num">' + (sr.score === null ? '<span class="muted">缺考/未考</span>' : sr.score + ' / ' + sr.full) + '</td>' +
         '<td class="num">' + (rate === null ? '—' : A.pct(rate)) + '</td>' +
         '<td class="num">' + (sr.avgGrade !== null && sr.avgGrade !== undefined ? sr.avgGrade : (sr.avgClass !== null && sr.avgClass !== undefined ? '<span class="muted">班 ' + sr.avgClass + '</span>' : '—')) + '</td>' +
         '<td class="num">' + (v ? '<span class="' + (v.diff >= 0 ? 'text-up' : 'text-down') + '">' + A.pp(v.diff) + '</span><span class="muted small-note">(' + v.basis + ')</span>' : '—') + '</td>' +
         '<td class="num">' + (sr.rank !== null && sr.rank !== undefined ? sr.rank + (sr.rankSize ? '/' + sr.rankSize : '') + (pctl !== null ? ' <span class="muted small-note">前' + (100 - pctl).toFixed(0) + '%</span>' : '') : '—') + '</td></tr>';
     });
-    html += '</tbody></table></div>';
-    html += '<div class="small-note mt8">得分率 = 得分 ÷ 该科满分；相对均分 = 个人得分率 − 年级（缺则班级）均分得分率，单位百分点。</div>';
+    tblHtml += '</tbody></table></div>' +
+      '<div class="small-note mt8">得分率 = 得分 ÷ 该科满分；均分/排名列"–"=源未提供（可补录年级视图截图，不做估算）。</div>';
 
-    if (oi) {
-      html += '<div class="mt12 dim">总分口径：计分 ' + oi.agg.count + ' 科，合计 ' + oi.agg.score + ' / ' + oi.agg.full + '，总得分率 <b class="num">' + A.pct(oi.rate) + '</b>' +
-        (e.totalRank !== null && e.totalRank !== undefined ? '，总分排名 ' + e.totalRank + (e.totalRankSize ? '/' + e.totalRankSize : '') : '') + '</div>';
-    }
-
-    /* 知识点掌握（gi-exam-data/1 L3 快照透传，SPEC-004；无源数据整块不显示=手工档案零回退） */
     var kpSubs = e.subjects.filter(function (sr) { return sr.kps && sr.kps.length; });
+    var kpHtml = '';
     if (kpSubs.length) {
-      html += '<hr class="divider"><h3 style="font-size:15px;margin-bottom:8px">🧠 知识点掌握</h3>';
       kpSubs.forEach(function (sr) {
         var sorted = sr.kps.slice().sort(function (a, b) { return (a.rate || 0) - (b.rate || 0); });
         var weak = sorted.filter(function (k) { return (k.rate || 0) < 60; }).length;
-        html += '<div class="mt8"><b>' + esc(subjName(state.subjects, sr.key)) + '</b>' +
+        kpHtml += '<div class="mt8"><b>' + esc(subjName(state.subjects, sr.key)) + '</b>' +
           '<span class="muted small-note"> 入档 ' + sr.kps.length + ' 条，薄弱(&lt;60%) ' + weak + ' 条</span></div>';
-        html += '<div class="table-wrap"><table class="gi-table"><thead><tr><th>知识点</th><th>掌握率</th><th>错题</th><th>页签</th></tr></thead><tbody>';
+        kpHtml += '<div class="table-wrap"><table class="gi-table"><thead><tr><th>知识点</th><th>掌握率</th><th>错题</th><th>页签</th></tr></thead><tbody>';
         sorted.forEach(function (k) {
           var low = (k.rate || 0) < 60;
-          html += '<tr><td>' + (k.key ? '<span class="tag">★重点</span> ' : '') + esc(k.name) + '</td>' +
+          kpHtml += '<tr><td>' + (k.key ? '<span class="tag">★重点</span> ' : '') + esc(k.name) + '</td>' +
             '<td class="num' + (low ? ' text-down' : '') + '">' + (k.rate === null || k.rate === undefined ? '—' : k.rate + '%') + '</td>' +
             '<td class="num">' + (k.wrong === null || k.wrong === undefined ? '—' : k.wrong) + '</td>' +
             '<td><span class="tag muted">' + esc(k.category || '考查') + '</span></td></tr>';
         });
-        html += '</tbody></table></div>';
+        kpHtml += '</tbody></table></div>';
       });
-      html += '<div class="small-note mt8">仅显示平台提供该视图的科目；未显示≠未学习。掌握率&lt;60% 标红，★=重点。</div>';
+      kpHtml += '<div class="small-note mt8">仅显示平台提供该视图的科目；未显示≠未学习。掌握率&lt;60% 标红，★=重点。</div>';
     }
 
-    /* 环比拆解 */
+    var cmpHtml = '';
+    if (oi) {
+      cmpHtml += '<div class="dim">总分口径：计分 ' + oi.agg.count + ' 科，合计 ' + oi.agg.score + ' / ' + oi.agg.full + '，总得分率 <b class="num">' + A.pct(oi.rate) + '</b>' +
+        (e.totalRank !== null && e.totalRank !== undefined ? '，总分排名 ' + e.totalRank + (e.totalRankSize ? '/' + e.totalRankSize : '') : '') + '</div>';
+    }
     if (prev) {
       var ctb = A.contribution(prev.exam, e, state.subjects);
-      html += '<hr class="divider"><h3 style="font-size:15px;margin-bottom:8px">🔍 环比拆解（较「' + esc(prev.exam.name) + '」）</h3>';
+      cmpHtml += '<h3 style="font-size:15px;margin:10px 0 8px">🔍 环比拆解（较「' + esc(prev.exam.name) + '」）</h3>';
       if (ctb.items.length) {
-        html += '<div class="rank-list">';
+        cmpHtml += '<div class="rank-list">';
         ctb.items.forEach(function (it) {
           if (Math.abs(it.contrib) < 0.001 && Math.abs(it.delta) < 0.01) return;
-          html += '<div class="rank-item"><span class="ri-name">' + esc(it.name) +
+          cmpHtml += '<div class="rank-item"><span class="ri-name">' + esc(it.name) +
             '<span class="muted small-note"> 得分率 ' + (it.delta >= 0 ? '+' : '') + (it.delta * 100).toFixed(1) + ' pp</span></span>' +
             '<span class="ri-val ' + (it.contrib >= 0 ? 'text-up' : 'text-down') + '">对总分贡献 ' + A.pp(it.contrib) + ' pp</span></div>';
         });
-        html += '</div><div class="small-note mt8">贡献 = 该科满分占比 × 得分率变化，单位为总得分率百分点。</div>';
+        cmpHtml += '</div><div class="small-note mt8">贡献 = 该科满分占比 × 得分率变化，单位为总得分率百分点。</div>';
       } else {
-        html += '<div class="muted">两次考试没有共同计分科目，无法拆解。</div>';
+        cmpHtml += '<div class="muted">两次考试没有共同计分科目，无法拆解。</div>';
       }
     }
 
-    /* 题级明细与错题本（dataRef 懒加载静态数据件，SPEC-004；不进同步快照） */
-    if (e.dataRef) html += '<div id="qzBox" class="mt12"><span class="muted small-note">📋 题级明细加载中…</span></div>';
+    var dashHtml = e.note ? '<div class="card" style="padding:8px 12px;margin-bottom:8px"><span class="dim">📝 ' + esc(e.note) + '</span></div>' : '';
+    if (dir) {
+      var names = ['总分'];
+      state.subjects.forEach(function (s) { if (names.indexOf(s.name) < 0) names.push(s.name); });
+      dashHtml += '<div class="dash-strip">' + names.map(function (n) {
+        return dashImg(dir + 'data/assets/' + n + '-仪表盘.png', n + '仪表盘');
+      }).join('') + '</div>';
+    }
+    dashHtml += tblHtml;
 
+    var tabs = [['dash', '📊 仪表盘', true], ['qz', '📋 题级错题', !!e.dataRef], ['kp', '🧠 知识点', !!kpSubs.length], ['cmp', '📈 环比与总分', true]];
+    var paneContent = { dash: dashHtml, qz: '<div id="qzBox"><span class="muted small-note">题级明细加载中…</span></div>', kp: kpHtml, cmp: cmpHtml };
+    var tabBar = '<div class="xtabs">' + tabs.filter(function (t) { return t[2]; }).map(function (t, i) {
+      return '<button class="xbtn' + (i === 0 ? ' on' : '') + '" data-x="' + t[0] + '">' + t[1] + '</button>';
+    }).join('') + '</div>';
+
+    var html = '<div class="modal-head"><div><h3>' + esc(e.name) + '</h3>' +
+      '<div class="modal-sub">' + e.date + ' · ' + esc(e.type) + (e.term ? ' · ' + esc(e.term) : '') + '</div></div>' +
+      '<button class="modal-close" id="mdClose">✕</button></div>';
+    html += tabBar;
+    html += tabs.filter(function (t) { return t[2]; }).map(function (t, i) {
+      return '<div class="xpane' + (i === 0 ? ' on' : '') + '" id="xp-' + t[0] + '">' + paneContent[t[0]] + '</div>';
+    }).join('');
     html += '<div class="btn-row"><button class="btn primary" id="mdEdit">✏️ 编辑</button>' +
       '<button class="btn danger" id="mdDel">🗑 删除</button></div>';
 
     document.getElementById('modalBody').innerHTML = html;
     document.getElementById('modalOverlay').classList.add('active');
+
+    document.querySelectorAll('#modalBody .xbtn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('#modalBody .xbtn').forEach(function (x) { x.classList.remove('on'); });
+        document.querySelectorAll('#modalBody .xpane').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on');
+        var p = document.getElementById('xp-' + b.getAttribute('data-x'));
+        if (p) p.classList.add('on');
+      });
+    });
 
     document.getElementById('mdClose').addEventListener('click', closeModal);
     document.getElementById('mdEdit').addEventListener('click', function () { closeModal(); startEntry(id); });
@@ -607,7 +635,7 @@
     }).then(function (d) {
       if (!d || !Array.isArray(d.subjects)) throw new Error('契约结构缺失');
       var base = e.dataRef.replace(/data\/exam\.json$/, '');
-      var html = '<hr class="divider"><h3 style="font-size:15px;margin-bottom:8px">📋 题级明细与错题本</h3>';
+      var html = '';
       var shown = 0;
       d.subjects.forEach(function (sr) {
         if (!sr.questions || !sr.questions.length) return;
@@ -619,11 +647,13 @@
         if (!wrongs.length) { html += '<div class="muted small-note">全对。</div>'; return; }
         html += '<div class="rank-list">';
         wrongs.forEach(function (q) {
-          var safe = /^md\//.test(q.analysisRef || '') && q.analysisRef.indexOf('..') < 0;
+          /* SPEC-005：解析指向预渲染 HTML（render-analysis 同规则推导）；md 源白名单校验不变 */
+          var safe = /^md\/.+\.md$/.test(q.analysisRef || '') && q.analysisRef.indexOf('..') < 0;
+          var href = safe ? base + 'data/analysis/' + q.analysisRef.replace(/^md\//, '').replace(/ \((\d+)\)\.md$/, '-$1.html') : '';
           html += '<div class="rank-item"><span class="ri-name">第 ' + q.no + ' 题 · ' + esc(q.type || '') +
             (q.diff ? ' · ' + esc(q.diff) : '') +
             '<span class="muted small-note"> ' + q.score + '/' + q.point + ' 分</span></span>' +
-            (safe ? '<a class="ri-val" href="' + encodeURI(base + q.analysisRef) + '" target="_blank" rel="noopener">解析 ↗</a>'
+            (safe ? '<a class="ri-val" href="' + encodeURI(href) + '" target="_blank" rel="noopener">解析 ↗</a>'
                   : '<span class="muted small-note">无解析源</span>') + '</div>';
         });
         html += '</div>';

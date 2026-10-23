@@ -14,7 +14,7 @@ const SUBJECTS = [
   { key: 'politics', cn: '政治' }, { key: 'history', cn: '历史' }, { key: 'geography', cn: '地理' },
 ];
 const CN2KEY = {}; SUBJECTS.forEach(s => { CN2KEY[s.cn] = s.key; CN2KEY['生物学'] = 'biology'; });
-const PIPE_VERSIONS = { transcribePrompt: 'v1', converter: 'v1', acceptance: 'v1', alias: 'v1' };
+const PIPE_VERSIONS = { transcribePrompt: 'v1', converter: 'v1', acceptance: 'v1.1', alias: 'v1' };
 
 function lines(t) { return t.split(/\r?\n/); }
 function cells(line) {

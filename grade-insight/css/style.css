@@ -786,3 +786,13 @@ html.xbrain-auth-filefix body { visibility: visible !important; opacity: 1 !impo
 
 /* ---------- 记录页录入切换 ---------- */
 .entry-toggle { margin-bottom: 12px; }
+
+/* SPEC-005：考试详情分页标签弹层 */
+.xtabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.xbtn{border:1px solid #d5d5dd;background:#f6f6f8;border-radius:16px;padding:5px 13px;font-size:13px;cursor:pointer;color:#444}
+.xbtn.on{background:#3b5bdb;color:#fff;border-color:#3b5bdb}
+.xpane{display:none;max-height:58vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.xpane.on{display:block}
+.dash-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 12px}
+.dash-strip img{width:100%;height:auto;border:1px solid #ececf2;border-radius:8px}
+@media (max-width:560px){.dash-strip{grid-template-columns:repeat(2,1fr)}}

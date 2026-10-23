@@ -1,6 +1,6 @@
 # 考试数据契约 gi-exam-data/1
 
-- 版本：v1（2026-10-23）｜ 承载规格：SPEC-003 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
+- 版本：v1.1（2026-10-23，SPEC-005 增 §5 展示路径约定；schema 字段不变）｜ 承载规格：SPEC-003/SPEC-005 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
 - 适用：`grade-insight/details/<学段>/<学期>/<YYYY-MM>-<第N考>/data/exam.json`
 - 铁律：**缺层不冒充**——数据没有的字段一律缺省（不写 null 占位以外的假值）；机器拿不准的进 quarantine，不进 subjects。
 
@@ -62,3 +62,11 @@
 - **别名表**（`grade-insight/data/knowledge-alias.yaml`）append-only：新名自动登记为 canonical；**疑似同义不合并**，只列 `suspected[]` 供人工裁定后追加 alias。
 - **版本纪律**：固化件升版（vN→vN+1）必须对既往各考数据重跑 converter 对账回归，diff 结果入 5.2 留痕后方可用于新考（防"尺子变短"，SPEC-002 R8）。
 - 隐私：契约文件含个人成绩，随仓库既有知情裁定管理（SPEC-001 5.1）。
+
+## 5. 展示路径约定（v1.1，SPEC-005；不改 schema，按 dataRef 目录推导）
+
+| 资产 | 路径约定 | 生产方 | 消费方 |
+|------|---------|--------|--------|
+| 仪表盘裁剪件 | `<考>/data/assets/<科中文名>-仪表盘.png`、`总分-仪表盘.png` | S3.6 裁剪批次（AI 视觉+像素定界，同 SPEC-000 配图纪律） | 详情弹层"仪表盘"页（img onerror 自动退化，缺图不报错） |
+| 解析预渲染 HTML | `<考>/data/analysis/<科>-试卷解析-<N>.html`（md 名规则化：去空格括号、`(N)`→`-N`） | `pipeline/render-analysis.js`（devDeps markdown-it+KaTeX，公式内联 SVG，禁 html 直通） | 错题本"解析 ↗"新标签；前端由 questions[].analysisRef 同规则推导 |
+| 年级视图补录 | `<科>-成绩概览-年级.(jpg\|png)` 入 raw，转写与转换提取 avgGrade/rank/rankSize | 用户下月投料（acceptance v1.1） | 成绩表"年级均分/排名"列（缺源显示 –，**禁止由等级反推估算**） |
