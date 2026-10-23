@@ -564,13 +564,15 @@
 
     var html = '<div class="modal-head"><div><h3>' + esc(e.name) + '</h3>' +
       '<div class="modal-sub">' + e.date + ' · ' + esc(e.type) + (e.term ? ' · ' + esc(e.term) : '') + '</div></div>' +
-      '<button class="modal-close" id="mdClose">✕</button></div>';
+      '<div class="modal-actions">' +
+      '<button class="modal-icon" id="mdEdit" aria-label="编辑" title="编辑">✏️</button>' +
+      '<button class="modal-icon danger" id="mdDel" aria-label="删除" title="删除">🗑</button>' +
+      '<button class="modal-close" id="mdClose" aria-label="关闭" title="关闭">✕</button>' +
+      '</div></div>';
     html += tabBar;
     html += tabs.filter(function (t) { return t[3]; }).map(function (t, i) {
       return '<div class="xpane' + (i === 0 ? ' on' : '') + '" id="xp-' + t[0] + '">' + paneContent[t[0]] + '</div>';
     }).join('');
-    html += '<div class="btn-row"><button class="btn primary" id="mdEdit">✏️ 编辑</button>' +
-      '<button class="btn danger" id="mdDel">🗑 删除</button></div>';
 
     document.getElementById('modalBody').innerHTML = html;
     document.getElementById('modalOverlay').classList.add('active');
@@ -969,7 +971,7 @@
           {
             name: '满分', type: 'bar', barWidth: 16, silent: true, z: 1,
             data: subs.map(function (s) { return s.full; }),
-            itemStyle: { color: 'rgba(255,255,255,0.09)', borderRadius: 4 }
+            itemStyle: { color: 'rgba(255,255,255,0.4)', borderColor: 'rgba(255,255,255,0.28)', borderWidth: 1, borderRadius: 4 }
           },
           {
             name: '得分', type: 'bar', barWidth: 16, barGap: '-100%', z: 2,
