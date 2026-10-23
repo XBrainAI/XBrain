@@ -580,8 +580,8 @@
     }
     dashHtml += tblHtml;
 
-    var tabs = [['dash', '📊 仪表盘', true], ['qz', '📋 题级错题', !!e.dataRef], ['kp', '🧠 知识点', !!kpSubs.length], ['cmp', '📈 环比与总分', true]];
-    var paneContent = { dash: dashHtml, qz: '<div id="qzBox"><span class="muted small-note">题级明细加载中…</span></div>', kp: kpHtml, cmp: cmpHtml };
+    var tabs = [['dash', '📊 仪表盘', true], ['sys', '🧭 系统分析', !!e.dataRef], ['qz', '📋 题级错题', !!e.dataRef], ['kp', '🧠 知识点', !!kpSubs.length], ['cmp', '📈 环比与总分', true]];
+    var paneContent = { dash: dashHtml, sys: '<div id="sysBox" class="muted small-note">🧭 系统分析加载中…</div>', qz: '<div id="qzBox"><span class="muted small-note">题级明细加载中…</span></div>', kp: kpHtml, cmp: cmpHtml };
     var tabBar = '<div class="xtabs">' + tabs.filter(function (t) { return t[2]; }).map(function (t, i) {
       return '<button class="xbtn' + (i === 0 ? ' on' : '') + '" data-x="' + t[0] + '">' + t[1] + '</button>';
     }).join('') + '</div>';
@@ -635,6 +635,7 @@
     }).then(function (d) {
       if (!d || !Array.isArray(d.subjects)) throw new Error('契约结构缺失');
       var base = e.dataRef.replace(/data\/exam\.json$/, '');
+      d._base = base;
       var html = '';
       var shown = 0;
       d.subjects.forEach(function (sr) {
@@ -660,9 +661,72 @@
       });
       if (!shown) html += '<div class="muted">该考未提供题级数据。</div>';
       box.innerHTML = html;
+      renderSysPanel(d);
     }).catch(function () {
       box.innerHTML = '<span class="muted small-note">📋 题级明细未能加载（数据件缺失或路径变更），不影响上方内容。</span>';
+      var sb = document.getElementById('sysBox');
+      if (sb) sb.innerHTML = '<span class="muted small-note">🧭 系统分析未能加载（数据件缺失），不影响其他标签。</span>';
     });
+  }
+
+  /* 🧭 系统分析面板：GIAnalyze 引擎（与 CLI md 同源）→ 可视化 HTML */
+  function renderSysPanel(d) {
+    var sb = document.getElementById('sysBox'); if (!sb || !window.GIAnalyze) return;
+    var tr = (S.load().student && S.load().student.targetRate) || 0.8;
+    var m = GIAnalyze.build(d, tr);
+    var o = m.overall;
+    var pc = function (x) { return x == null ? '–' : (x * 100).toFixed(1) + '%'; };
+    var H = [];
+    var tagPill = function (t) { return '<span class="sa-tag sa-' + t.toLowerCase() + '">' + t + '</span>'; };
+    var bar = function (rate, opts) {
+      opts = opts || {};
+      return '<div class="sa-bar"><i style="width:' + Math.min(100, rate * 100).toFixed(1) + '%" class="' + (opts.cls || '') + '"></i>' +
+        (opts.marker != null ? '<b class="sa-mark" style="left:' + Math.min(100, opts.marker * 100).toFixed(1) + '%"></b>' : '') + '</div>';
+    };
+    /* 一、全科 */
+    H.push('<div class="sa-block"><h4>全科研判</h4>' +
+      '<div class="sa-total"><span class="sa-big num">' + o.score + '</span><span class="dim"> / ' + o.full + '（' + pc(o.rate) + '，' + o.level + '）</span>' +
+      bar(o.rate, { marker: tr }) + '<div class="small-note dim">目标线 ' + pc(tr) + '｜R7 差 ' + o.gapPP + 'pp；规则估计回收上限 ' + o.potential + ' 分（全实现约 ' + pc(o.potentialRate) + '，上限口径非承诺）</div></div>');
+    H.push('<div class="sa-chips">' + o.levels.map(function (kv) { return '<span class="tag">' + kv[0] + '×' + kv[1] + '</span>'; }).join('') +
+      '<span class="tag muted">极差 ' + o.spread.pp + 'pp（' + o.spread.minName + '↔' + o.spread.maxName + '）</span>' +
+      '<span class="tag muted">σ ' + o.sigma + (o.skewed ? '·偏科发散' : '·均衡') + '</span></div>');
+    H.push('<div class="sa-subjs">' + m.subjects.map(function (s) {
+      return '<div class="sa-row"><span class="sa-name">' + esc(s.name) + '</span>' + bar(s.rate, { cls: s.rate < 0.6 ? 'lo' : (s.rate < 0.7 ? 'mid' : ''), marker: null }) +
+        '<span class="num small">' + pc(s.rate) + (s.level ? '·' + s.level : '') + '</span></div>';
+    }).join('') + '</div>');
+    H.push('<div class="sa-chips">' + (o.r1.length ? o.r1.map(function (n) { return tagPill('R1') + '<span class="small">' + esc(n) + '</span>'; }).join(' ') : '<span class="muted small">R1 无命中</span>') + '</div></div>');
+    /* 二、逐科卡片 */
+    H.push('<div class="sa-block"><h4>逐科研判（升序）</h4><div class="sa-grid">');
+    m.subjects.forEach(function (s) {
+      var lossAll = ['易', '中', '难'].reduce(function (a, dd) { return a + (s.diffs[dd] ? s.diffs[dd].loss : 0); }, 0) || 1;
+      var segs = s.hasQ ? '<div class="sa-stack">' + ['易', '中', '难'].map(function (dd, i) {
+        var l = s.diffs[dd] ? s.diffs[dd].loss : 0; if (!l) return '';
+        return '<i class="d' + i + '" style="width:' + (l / lossAll * 100).toFixed(1) + '%" title="' + dd + '题丢 ' + l + ' 分">' + dd + l + '</i>';
+      }).join('') + '</div>' : '<div class="muted small">' + esc(s.note || '无题级源') + '</div>';
+      var kpline = s.kp ? '<div class="sa-kp">' + s.kp.top.slice(0, 3).map(function (k) {
+        return '<div class="sa-krow"><span class="sa-kname">' + (k.key ? '★' : '') + esc(String(k.name).split('>').pop()) + '</span>' + bar((k.rate || 0) / 100, { cls: k.rate < 60 ? 'lo' : '' }) + '<span class="num small">' + k.rate + '%</span></div>';
+      }).join('') + '</div>' : '';
+      var easy = s.easyWrongNos && s.easyWrongNos.length ? '<div class="small"><span class="sa-tag sa-r2">易错题</span> ' + s.easyWrongNos.map(function (n) { return '<span class="tag">第' + n + '题</span>'; }).join(' ') + '</div>' : '';
+      H.push('<div class="sa-card' + (o.r1.indexOf(s.name) >= 0 ? ' warn' : '') + '"><div class="sa-head"><b>' + esc(s.name) + '</b><span class="num">' + s.score + '/' + s.full + '</span><span class="tag muted">' + pc(s.rate) + (s.level ? '·' + s.level : '') + '</span></div>' +
+        segs + easy + kpline +
+        '<div class="sa-concl">' + (s.concls.length ? s.concls.map(function (c) { return tagPill(c.tag) + '<span class="small">' + esc(c.text) + '</span>'; }).join('<br>') : '<span class="muted small">未命中风险规则</span>') + '</div></div>');
+    });
+    H.push('</div></div>');
+    /* 三、补救清单 */
+    var maxRec = m.plan.length ? m.plan[0].rec || 1 : 1;
+    H.push('<div class="sa-block"><h4>补救优先级 top' + m.plan.length + '（预估回收=规则估计）</h4><div class="sa-plan">');
+    m.plan.forEach(function (it, i) {
+      var href = it.link ? d._base + 'data/analysis/' + it.link.replace(/^md\//, '').replace(/ \((\d+)\)\.md$/, '-$1.html') : '';
+      H.push('<div class="sa-item"><span class="sa-idx">' + (i + 1) + '</span>' + tagPill(it.tag) +
+        '<span class="sa-what"><b>' + esc(it.subj) + '</b> · ' + esc(it.what) + '<span class="dim small">（' + esc(it.basis) + '）</span></span>' +
+        '<div class="sa-rec">' + bar(it.rec / maxRec, { cls: 'rec' }) + '<span class="num small">' + it.rec + '分</span></div>' +
+        (href ? '<a class="small" href="' + encodeURI(href) + '" target="_blank" rel="noopener">解析↗</a>' : '') + '</div>');
+    });
+    H.push('</div></div>');
+    /* 四、边界 */
+    H.push('<div class="sa-block sa-bounds"><h4>边界与置信</h4>' + m.bounds.map(function (b) { return '<div class="small dim">· ' + esc(b) + '</div>'; }).join('') +
+      '<div class="small dim">· 引擎 ' + m.engine + '（与 CLI 报告同源）｜ 规则 ' + m.rules + '</div></div>');
+    sb.innerHTML = H.join('');
   }
 
   /* ---------- 录入表单（记录页内嵌，默认收起） ---------- */

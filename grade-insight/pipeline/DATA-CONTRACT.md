@@ -1,6 +1,6 @@
 # 考试数据契约 gi-exam-data/1
 
-- 版本：v1.1（2026-10-23，SPEC-005 增 §5 展示路径约定；schema 字段不变）｜ 承载规格：SPEC-003/SPEC-005 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
+- 版本：v1.2（2026-10-23，SPEC-006 §1 目录增系统分析交付物；schema 字段不变）｜ 承载规格：SPEC-003/SPEC-005/SPEC-006 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
 - 适用：`grade-insight/details/<学段>/<学期>/<YYYY-MM>-<第N考>/data/exam.json`
 - 铁律：**缺层不冒充**——数据没有的字段一律缺省（不写 null 占位以外的假值）；机器拿不准的进 quarantine，不进 subjects。
 
@@ -12,6 +12,9 @@
   md/  + md/images/    转写件（pipeline/transcribe-prompt.md 产物）
   data/exam.json       ★ 标准账（本契约）
   data/report.md       单考深挖报告（由 exam.json 生成，人读）
+  data/系统分析.md     系统分析报告（v1.2 新增，SPEC-006：ANALYZE-RULES 规则引擎产物——全科研判/逐科研判/补救清单/边界附录）
+  data/analysis/       解析预渲染 HTML（SPEC-005 §5）
+  data/assets/         仪表盘裁剪件（SPEC-005 §5）
 ```
 
 ## 2. exam.json 字段规范
