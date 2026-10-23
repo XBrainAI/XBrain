@@ -651,7 +651,12 @@
       });
       if (!shown) html += '<div class="muted">该考未提供题级数据。</div>';
       box.innerHTML = html;
-      renderSysPanel(d);
+      fetch(encodeURI(base + 'data/balance.json')).then(function (r) {
+        return r.ok ? r.json() : null;
+      }).catch(function () { return null; }).then(function (bal) {
+        if (bal && Array.isArray(bal.axes) && Array.isArray(bal.series)) d.balance = bal;
+        renderSysPanel(d);
+      });
     }).catch(function () {
       box.innerHTML = '<span class="muted small-note">📋 题级明细未能加载（数据件缺失或路径变更），不影响上方内容。</span>';
       var sb = document.getElementById('sysBox');
@@ -759,6 +764,22 @@
         '<span><i class="sa-dot d-good"></i>70–85%</span><span><i class="sa-dot d-top"></i>85% 以上</span>' +
         '<span><i class="sa-dot d-track"></i>灰条=满分</span></div>' +
       '</div>');
+
+    /* 学科均衡度：原图雷达的相对水平（非分数刻度） */
+    if (d.balance && Array.isArray(d.balance.axes) && Array.isArray(d.balance.series)) {
+      H.push('<div class="sa-block">' +
+        '<div class="sa-title">学科均衡度 <span>原图相对水平 · 非分数刻度</span></div>' +
+        '<div class="sa-insight">首考：平时水平=本次水平（两线重叠，原图蓝色平时面覆盖绿色本次线）；年级中等仅相对占比。</div>' +
+        '<div class="sa-chart" id="saChartBalance"></div>' +
+        '<div class="sa-tip">外圈=100、圆心=0；这是相对水平，不是各科得分率。首考平时=本次；年级中等不能反推具体分数。</div>' +
+        '<details class="sa-more"><summary>数据来源与估算口径</summary><div class="sa-tip">' +
+          '来源：' + esc(d.balance.source || 'raw/总分概览.jpg') + '<br>' +
+          (d.balance.note ? '说明：' + esc(d.balance.note) + '<br>' : '') +
+          '方法：' + esc(d.balance.method || '') + '<br>' +
+          '注意：' + esc(d.balance.caveat || '') +
+        '</div></details>' +
+        '</div>');
+    }
 
     /* 图后速览：最强/最弱/丢分最多/最多能追回 */
     H.push('<div class="sa-kpis">' +
@@ -1010,6 +1031,44 @@
               label: { show: x.v / totalLost >= 0.12, position: 'inside', color: x.t, fontSize: 11, formatter: '{c}' }
             };
           })
+        });
+      }
+      if (d.balance && Array.isArray(d.balance.axes) && Array.isArray(d.balance.series)) {
+        var bal = d.balance;
+        var radarData = bal.series.map(function (s) {
+          return {
+            name: s.label || s.key,
+            value: s.values,
+            lineStyle: { color: s.color, width: s.key === 'usual' ? 3 : 2 },
+            itemStyle: { color: s.color },
+            symbol: 'circle', symbolSize: s.key === 'usual' ? 5 : 4,
+            areaStyle: s.key === 'usual' ? { color: s.color, opacity: 0.16 } : undefined
+          };
+        });
+        GICharts.paint('saChartBalance', {
+          animationDuration: 400,
+          color: bal.series.map(function (s) { return s.color; }),
+          tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)',
+            textStyle: { color: '#e8ecf4', fontSize: 12 },
+            formatter: function (p) {
+              var v = p.value || [];
+              var lines = bal.axes.map(function (a, i) { return a + '：' + (v[i] == null ? '–' : v[i]); }).join('<br>');
+              return '<b>' + p.name + '</b>（相对水平）<br>' + lines +
+                '<br><span style="color:#9aa7c4">相对水平；年级中等不可反推具体分数</span>';
+            }
+          },
+          legend: { bottom: 0, data: bal.series.map(function (s) { return s.label || s.key; }), textStyle: { color: '#9aa7c4', fontSize: 11 }, itemWidth: 14, itemHeight: 8, icon: 'roundRect' },
+          radar: {
+            indicator: bal.axes.map(function (a) { return { name: a, max: 100 }; }),
+            radius: '58%', center: ['50%', '44%'],
+            axisName: { color: '#9aa7c4', fontSize: 11 },
+            splitArea: { areaStyle: { color: ['rgba(100,180,255,0.03)', 'rgba(100,180,255,0.06)'] } },
+            axisLine: { lineStyle: { color: 'rgba(100,180,255,0.18)' } },
+            splitLine: { lineStyle: { color: 'rgba(100,180,255,0.18)' } }
+          },
+          series: [{ type: 'radar', symbolSize: 4, data: radarData }]
         });
       }
     }

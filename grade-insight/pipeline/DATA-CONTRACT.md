@@ -1,6 +1,6 @@
 # 考试数据契约 gi-exam-data/1
 
-- 版本：v1.2（2026-10-23，SPEC-006 §1 目录增系统分析交付物；schema 字段不变）｜ 承载规格：SPEC-003/SPEC-005/SPEC-006 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
+- 版本：v1.3（2026-10-23，SPEC-006 §1 增 balance.json 雷达派生件；schema 字段不变）｜ 承载规格：SPEC-003/SPEC-005/SPEC-006 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
 - 适用：`grade-insight/details/<学段>/<学期>/<YYYY-MM>-<第N考>/data/exam.json`
 - 铁律：**缺层不冒充**——数据没有的字段一律缺省（不写 null 占位以外的假值）；机器拿不准的进 quarantine，不进 subjects。
 
@@ -13,6 +13,7 @@
   data/exam.json       ★ 标准账（本契约）
   data/report.md       单考深挖报告（由 exam.json 生成，人读）
   data/系统分析.md     系统分析报告（v1.2 新增，SPEC-006：ANALYZE-RULES 规则引擎产物——全科研判/逐科研判/补救清单/边界附录）
+  data/balance.json    学科均衡度雷达（v1.3 可选，SPEC-006：从 raw 雷达图按外圈占比提取的相对水平，非分数）
   data/analysis/       解析预渲染 HTML（SPEC-005 §5）
   data/assets/         仪表盘裁剪件（SPEC-005 §5）
 ```
@@ -70,6 +71,7 @@
 
 | 资产 | 路径约定 | 生产方 | 消费方 |
 |------|---------|--------|--------|
-| 仪表盘裁剪件 | `<考>/data/assets/<科中文名>-仪表盘.png`、`总分-仪表盘.png` | S3.6 裁剪批次（AI 视觉+像素定界，同 SPEC-000 配图纪律） | 详情弹层"仪表盘"页（img onerror 自动退化，缺图不报错） |
+| 仪表盘裁剪件 | `<考>/data/assets/<科中文名>-仪表盘.png`、`总分-仪表盘.png` | S3.6 裁剪批次（AI 视觉+像素定界，同 SPEC-000 配图纪律） | 详情弹层（v1.3 起不再引用，保留为流水线素材） |
 | 解析预渲染 HTML | `<考>/data/analysis/<科>-试卷解析-<N>.html`（md 名规则化：去空格括号、`(N)`→`-N`） | `pipeline/render-analysis.js`（devDeps markdown-it+KaTeX，公式内联 SVG，禁 html 直通） | 错题本"解析 ↗"新标签；前端由 questions[].analysisRef 同规则推导 |
+| 学科均衡度雷达 | `<考>/data/balance.json`（schema `gi-balance-radar/1`：axes[9]/series[3]/method/caveat） | 从 `raw/总分概览` 雷达图按外圈占比像素采样（±3，原图无数值刻度） | 详情弹层"仪表盘"学科均衡度（缺件不显示；年级中等仅相对占比，禁止反推具体分数） |
 | 年级视图补录 | `<科>-成绩概览-年级.(jpg\|png)` 入 raw，转写与转换提取 avgGrade/rank/rankSize | 用户下月投料（acceptance v1.1） | 成绩表"年级均分/排名"列（缺源显示 –，**禁止由等级反推估算**） |
