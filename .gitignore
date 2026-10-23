@@ -39,3 +39,6 @@ tests/reports/
 
 # VAND 自包含安装目录（勿删；升级 = 在 .vand 内 git pull）
 .vand/
+
+# --- 临时文件 ---
+.tmp/
