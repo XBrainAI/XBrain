@@ -82,11 +82,19 @@
           avgGrade: numOrNull(s.avgGrade),
           rank: numOrNull(s.rank),
           rankSize: numOrNull(s.rankSize),
-          level: s.level || null
+          level: s.level || null,
+          // gi-exam-data/1 L3 透传（SPEC-004）：无该层数据时保持 undefined，老档案行为不变
+          kps: Array.isArray(s.kps) ? s.kps.map(function (k) {
+            return {
+              kpId: k.kpId || null, name: String(k.name || ''), rate: numOrNull(k.rate),
+              wrong: numOrNull(k.wrong), key: !!k.key, category: k.category || null
+            };
+          }).filter(function (k) { return k.name; }) : undefined
         };
       }),
       totalRank: numOrNull(e.totalRank),
-      totalRankSize: numOrNull(e.totalRankSize)
+      totalRankSize: numOrNull(e.totalRankSize),
+      dataRef: e.dataRef || undefined
     };
   }
 

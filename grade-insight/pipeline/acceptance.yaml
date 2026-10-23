@@ -1,0 +1,35 @@
+# 准入清单 v1（S1 固化件）
+# 版本：v1（2026-10-23）｜ 承载：SPEC-003 / 契约 §4 ｜ 用途：每轮投料后、转写前的完整性验收；acceptance 升版须回归历史考。
+# 判定方式：文件名正则匹配（容忍命名差异），由 convert.js --check 执行并输出缺项报告。
+
+required:                     # 缺一即 S1 不通过（可显式豁免，豁免理由入 exam.json integrity.checks）
+  - name: 总分概览
+    pattern: "总分概览"
+    min: 1
+  - name: 各科成绩概览        # 题级表与 L1 分数/等级的出处
+    pattern: "(语文|数学|英语|物理|化学|生物|政治|历史|地理)[-－]成绩概览"
+    per_subject: true
+    min_per_subject: 1
+
+optional:                     # 有则入档对应层，无则按兼容矩阵降级（不视为缺陷）
+  - name: 知识点掌握情况
+    pattern: "(数学|生物)[-－]知识点掌握情况[-－]?\\d*"
+    layer: L3
+  - name: 试卷解析逐页
+    pattern: "(数学|生物)[-－]试卷解析 \\(\\d+\\)"
+    layer: L4
+  - name: 作答原卷
+    pattern: "(语文作答原卷|(数学|英语|物理|化学|生物|政治|历史)[-－]作答原卷[上下]?)"
+    layer: L5                  # L5 不入分析（SPEC-002 §三），仅档案
+  - name: 等级与指标说明
+    pattern: "(等级说明|说明)"
+    layer: meta
+
+naming_tolerance:             # 已实证的命名差异 → 科目归属（新增差异须升版补录）
+  生物学: biology
+  生物: biology
+  语文作答原卷: 语文-作答原卷
+
+volume_hints:                 # 预期量级参考（±异常时报 warn，不阻断）
+  raw_images_min: 20           # 9 科概览+总分起步
+  md_files_equals_raw: true    # SPEC-000 AC1 恒等式

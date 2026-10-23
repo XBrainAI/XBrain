@@ -532,6 +532,28 @@
         (e.totalRank !== null && e.totalRank !== undefined ? '，总分排名 ' + e.totalRank + (e.totalRankSize ? '/' + e.totalRankSize : '') : '') + '</div>';
     }
 
+    /* 知识点掌握（gi-exam-data/1 L3 快照透传，SPEC-004；无源数据整块不显示=手工档案零回退） */
+    var kpSubs = e.subjects.filter(function (sr) { return sr.kps && sr.kps.length; });
+    if (kpSubs.length) {
+      html += '<hr class="divider"><h3 style="font-size:15px;margin-bottom:8px">🧠 知识点掌握</h3>';
+      kpSubs.forEach(function (sr) {
+        var sorted = sr.kps.slice().sort(function (a, b) { return (a.rate || 0) - (b.rate || 0); });
+        var weak = sorted.filter(function (k) { return (k.rate || 0) < 60; }).length;
+        html += '<div class="mt8"><b>' + esc(subjName(state.subjects, sr.key)) + '</b>' +
+          '<span class="muted small-note"> 入档 ' + sr.kps.length + ' 条，薄弱(&lt;60%) ' + weak + ' 条</span></div>';
+        html += '<div class="table-wrap"><table class="gi-table"><thead><tr><th>知识点</th><th>掌握率</th><th>错题</th><th>页签</th></tr></thead><tbody>';
+        sorted.forEach(function (k) {
+          var low = (k.rate || 0) < 60;
+          html += '<tr><td>' + (k.key ? '<span class="tag">★重点</span> ' : '') + esc(k.name) + '</td>' +
+            '<td class="num' + (low ? ' text-down' : '') + '">' + (k.rate === null || k.rate === undefined ? '—' : k.rate + '%') + '</td>' +
+            '<td class="num">' + (k.wrong === null || k.wrong === undefined ? '—' : k.wrong) + '</td>' +
+            '<td><span class="tag muted">' + esc(k.category || '考查') + '</span></td></tr>';
+        });
+        html += '</tbody></table></div>';
+      });
+      html += '<div class="small-note mt8">仅显示平台提供该视图的科目；未显示≠未学习。掌握率&lt;60% 标红，★=重点。</div>';
+    }
+
     /* 环比拆解 */
     if (prev) {
       var ctb = A.contribution(prev.exam, e, state.subjects);
@@ -550,6 +572,9 @@
       }
     }
 
+    /* 题级明细与错题本（dataRef 懒加载静态数据件，SPEC-004；不进同步快照） */
+    if (e.dataRef) html += '<div id="qzBox" class="mt12"><span class="muted small-note">📋 题级明细加载中…</span></div>';
+
     html += '<div class="btn-row"><button class="btn primary" id="mdEdit">✏️ 编辑</button>' +
       '<button class="btn danger" id="mdDel">🗑 删除</button></div>';
 
@@ -566,10 +591,48 @@
         onRoute();
       }
     });
+    if (e.dataRef) loadQuestionDetail(e);
   }
 
   function closeModal() {
     document.getElementById('modalOverlay').classList.remove('active');
+  }
+
+  /* dataRef → exam.json 懒加载渲染：题级丢分与错题解析链接（站内 md/ 相对路径白名单校验） */
+  function loadQuestionDetail(e) {
+    var box = document.getElementById('qzBox'); if (!box) return;
+    fetch(encodeURI(e.dataRef)).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (d) {
+      if (!d || !Array.isArray(d.subjects)) throw new Error('契约结构缺失');
+      var base = e.dataRef.replace(/data\/exam\.json$/, '');
+      var html = '<hr class="divider"><h3 style="font-size:15px;margin-bottom:8px">📋 题级明细与错题本</h3>';
+      var shown = 0;
+      d.subjects.forEach(function (sr) {
+        if (!sr.questions || !sr.questions.length) return;
+        shown++;
+        var wrongs = sr.questions.filter(function (q) { return q.score < q.point; });
+        var lost = wrongs.reduce(function (a, q) { return a + (q.point - q.score); }, 0).toFixed(1);
+        html += '<div class="mt8"><b>' + esc(sr.name || sr.key) + '</b><span class="muted small-note"> 错题 ' +
+          wrongs.length + ' / ' + sr.questions.length + ' 题，丢 ' + lost + ' 分</span></div>';
+        if (!wrongs.length) { html += '<div class="muted small-note">全对。</div>'; return; }
+        html += '<div class="rank-list">';
+        wrongs.forEach(function (q) {
+          var safe = /^md\//.test(q.analysisRef || '') && q.analysisRef.indexOf('..') < 0;
+          html += '<div class="rank-item"><span class="ri-name">第 ' + q.no + ' 题 · ' + esc(q.type || '') +
+            (q.diff ? ' · ' + esc(q.diff) : '') +
+            '<span class="muted small-note"> ' + q.score + '/' + q.point + ' 分</span></span>' +
+            (safe ? '<a class="ri-val" href="' + encodeURI(base + q.analysisRef) + '" target="_blank" rel="noopener">解析 ↗</a>'
+                  : '<span class="muted small-note">无解析源</span>') + '</div>';
+        });
+        html += '</div>';
+      });
+      if (!shown) html += '<div class="muted">该考未提供题级数据。</div>';
+      box.innerHTML = html;
+    }).catch(function () {
+      box.innerHTML = '<span class="muted small-note">📋 题级明细未能加载（数据件缺失或路径变更），不影响上方内容。</span>';
+    });
   }
 
   /* ---------- 录入表单（记录页内嵌，默认收起） ---------- */

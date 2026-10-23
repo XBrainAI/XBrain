@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sample": false,
-  "exportedAt": "2026-10-23T07:20:00",
+  "exportedAt": "2026-10-23T02:04:52",
   "student": {
     "name": "陈映蓝",
     "studentId": "s1",
@@ -9,15 +9,51 @@
     "targetRate": 0.8
   },
   "subjects": [
-    { "key": "chinese", "name": "语文", "full": 150 },
-    { "key": "math", "name": "数学", "full": 150 },
-    { "key": "english", "name": "英语", "full": 150 },
-    { "key": "physics", "name": "物理", "full": 100 },
-    { "key": "chemistry", "name": "化学", "full": 100 },
-    { "key": "biology", "name": "生物", "full": 100 },
-    { "key": "politics", "name": "政治", "full": 100 },
-    { "key": "history", "name": "历史", "full": 100 },
-    { "key": "geography", "name": "地理", "full": 100 }
+    {
+      "key": "chinese",
+      "name": "语文",
+      "full": 150
+    },
+    {
+      "key": "math",
+      "name": "数学",
+      "full": 150
+    },
+    {
+      "key": "english",
+      "name": "英语",
+      "full": 150
+    },
+    {
+      "key": "physics",
+      "name": "物理",
+      "full": 100
+    },
+    {
+      "key": "chemistry",
+      "name": "化学",
+      "full": 100
+    },
+    {
+      "key": "biology",
+      "name": "生物",
+      "full": 100
+    },
+    {
+      "key": "politics",
+      "name": "政治",
+      "full": 100
+    },
+    {
+      "key": "history",
+      "name": "历史",
+      "full": 100
+    },
+    {
+      "key": "geography",
+      "name": "地理",
+      "full": 100
+    }
   ],
   "exams": [
     {
@@ -28,16 +64,641 @@
       "type": "月考",
       "note": "广州四中2026学年第一学期10月素养评估；raw 仅确认月份，日期暂记 10-10 待确认后修正；九科分数与班级等级（B/D/D/C/D/C/D/C）按 details/高一/上学期/10月/md 转写件登记，总分 623.5/1030（班级等级 C）",
       "subjects": [
-        { "key": "chinese", "full": 150, "score": 111, "level": "B" },
-        { "key": "math", "full": 150, "score": 80, "level": "D" },
-        { "key": "english", "full": 130, "score": 64.5, "level": "D" },
-        { "key": "physics", "full": 100, "score": 66, "level": "C" },
-        { "key": "chemistry", "full": 100, "score": 46, "level": "D" },
-        { "key": "biology", "full": 100, "score": 64, "level": "C" },
-        { "key": "politics", "full": 100, "score": 59, "level": "D" },
-        { "key": "history", "full": 100, "score": 64, "level": "C" },
-        { "key": "geography", "full": 100, "score": 69 }
-      ]
+        {
+          "key": "chinese",
+          "full": 150,
+          "score": 111,
+          "level": "B"
+        },
+        {
+          "key": "math",
+          "full": 150,
+          "score": 80,
+          "level": "D",
+          "kps": [
+            {
+              "kpId": "kp-0001",
+              "name": "函数的对称性",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0002",
+              "name": "【重点】多面体和旋转体表面上的最短距离问题",
+              "rate": 0,
+              "wrong": 1,
+              "key": true,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0003",
+              "name": "利用函数的单调性解不等式",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0004",
+              "name": "【重点】平面与平面所成角的向量求法",
+              "rate": 0,
+              "wrong": 1,
+              "key": true,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0005",
+              "name": "圆与圆的位置关系",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0006",
+              "name": "求圆的标准方程",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0007",
+              "name": "辅助角公式(三角函数的叠加及应用（北师）)",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0008",
+              "name": "【重点】空间向量的数量积与空间向量的垂直关系",
+              "rate": 0,
+              "wrong": 1,
+              "key": true,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0009",
+              "name": "等差数列前n项和的最值问题",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0010",
+              "name": "二面角",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0011",
+              "name": "离散型随机变量的均值（期望）",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0012",
+              "name": "空间几何体的截面问题（截面形状、面积）",
+              "rate": 50,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0013",
+              "name": "球的切、接问题",
+              "rate": 50,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0014",
+              "name": "棱柱的体积",
+              "rate": 50,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0015",
+              "name": "棱台的体积",
+              "rate": 50,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0016",
+              "name": "面面垂直的判定",
+              "rate": 50,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0017",
+              "name": "抛物线的定义",
+              "rate": 53.3,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0018",
+              "name": "直线与抛物线位置关系及其应用",
+              "rate": 53.3,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0019",
+              "name": "抛物线的标准方程",
+              "rate": 53.3,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0020",
+              "name": "利用导数研究恒成或极值点求参",
+              "rate": 60,
+              "wrong": 1,
+              "key": false,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0021",
+              "name": "利用导数求已知函数的极值或极值点（含参）",
+              "rate": 60,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0022",
+              "name": "百分位数",
+              "rate": 66.7,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0023",
+              "name": "回归直线方程",
+              "rate": 66.7,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0024",
+              "name": "变量的相关关系",
+              "rate": 66.7,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0025",
+              "name": "利用余弦定理解三角形",
+              "rate": 76.9,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0026",
+              "name": "三角形面积公式",
+              "rate": 76.9,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0027",
+              "name": "正弦定理及变形",
+              "rate": 76.9,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0028",
+              "name": "利用幂函数的图象与性质比较大小",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0029",
+              "name": "余弦（型）函数的周期性",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0030",
+              "name": "充要条件及其判断",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0031",
+              "name": "求双曲线的离心率（或取值范围）",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0032",
+              "name": "交集运算",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0033",
+              "name": "指定项的系数与二项式系数",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0034",
+              "name": "向量的加减与数乘意义",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "考查"
+            },
+            {
+              "kpId": "kp-0035",
+              "name": "利用指数函数的图象与性质比较大小",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0036",
+              "name": "求余弦（型）函数的对称轴、对称中心",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0037",
+              "name": "平面向量基本定理的应用",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0038",
+              "name": "余弦型函数的奇偶性",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0039",
+              "name": "解不含参的一元二次不等式",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0040",
+              "name": "复数的除法运算",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0041",
+              "name": "空间中直线与平面的位置关系",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0042",
+              "name": "空间中直线与直线的位置关系",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0043",
+              "name": "求曲线上一点的切线方程（斜率、倾斜角）",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0044",
+              "name": "向量的加减与数乘混合运算",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0045",
+              "name": "复数的模及其几何意义",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0046",
+              "name": "余弦型函数的奇偶的应用",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0047",
+              "name": "利用导数研究恒成立与存在性问题",
+              "rate": 60,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0048",
+              "name": "利用导数根据极值立与存在性问题",
+              "rate": 60,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0049",
+              "name": "利用导数根据极值或极值点求参",
+              "rate": 60,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0050",
+              "name": "【重点】平面与平面所成角最值问题",
+              "rate": 0,
+              "wrong": 1,
+              "key": true,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0051",
+              "name": "离散型随机变量的均值（期望）（长截图拼接接缝处重复行）",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            }
+          ]
+        },
+        {
+          "key": "english",
+          "full": 130,
+          "score": 64.5,
+          "level": "D"
+        },
+        {
+          "key": "physics",
+          "full": 100,
+          "score": 66,
+          "level": "C"
+        },
+        {
+          "key": "chemistry",
+          "full": 100,
+          "score": 46,
+          "level": "D"
+        },
+        {
+          "key": "biology",
+          "full": 100,
+          "score": 64,
+          "level": "C",
+          "kps": [
+            {
+              "kpId": "kp-0052",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>生物大分子以碳链为骨架",
+              "rate": 0,
+              "wrong": 1,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0053",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的结构",
+              "rate": 40,
+              "wrong": 3,
+              "key": false,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0054",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>核酸的结构及功能",
+              "rate": 42.3,
+              "wrong": 4,
+              "key": true,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0055",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>水的含量、存在形式及作用",
+              "rate": 50,
+              "wrong": 1,
+              "key": true,
+              "category": "薄弱"
+            },
+            {
+              "kpId": "kp-0056",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞结构和功能的多样性>>真核细胞和原核细胞的异同",
+              "rate": 65,
+              "wrong": 1,
+              "key": true,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0057",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>【实验】检测生物组织中的糖类、脂肪和蛋白质",
+              "rate": 66.7,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0058",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>糖类的种类及作用",
+              "rate": 66.7,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0059",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>无机盐的含量及作用",
+              "rate": 66.7,
+              "wrong": 1,
+              "key": false,
+              "category": "待提升"
+            },
+            {
+              "kpId": "kp-0060",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的功能",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0061",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>【实验】观察DNA、RNA在细胞中的分布实验",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0062",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的盐析和变性",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0063",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>脂质的种类及作用",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0064",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>细胞学说的建立过程",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0065",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>生命系统的结构层次",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0066",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>组成细胞的化合物",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0067",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>细胞中常见的化学元素",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0068",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>【实验】使用高倍显微镜观察几种细胞",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0069",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞结构和功能的多样性>>细胞的多样性",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0070",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>核酸的种类及存在部位",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0071",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>细胞学说的基本观点及意义",
+              "rate": 100,
+              "wrong": 0,
+              "key": false,
+              "category": "已掌握"
+            },
+            {
+              "kpId": "kp-0072",
+              "name": "分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>氨基酸的结构及其种类",
+              "rate": 43.8,
+              "wrong": 1,
+              "key": true,
+              "category": "薄弱"
+            }
+          ]
+        },
+        {
+          "key": "politics",
+          "full": 100,
+          "score": 59,
+          "level": "D"
+        },
+        {
+          "key": "history",
+          "full": 100,
+          "score": 64,
+          "level": "C"
+        },
+        {
+          "key": "geography",
+          "full": 100,
+          "score": 69
+        }
+      ],
+      "dataRef": "details/高一/上学期/10月/data/exam.json"
     }
   ]
 }

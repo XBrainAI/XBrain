@@ -1,0 +1,374 @@
+# 知识点受控别名表 gi-alias/1
+# 版本：v1（2026-10-23）｜ 承载：SPEC-003 / 契约 §4 ｜ 规则：append-only；convert.js 首次遇到未登记名自动登记 canonical（v 计数+1）并列入 integrity.unmapped。
+# 归一算法：去空白、去"重点 "前缀与"【重点】"标记、全角转半角后精确匹配 canonical.name 或 aliases；**疑似同义不自动合并**。
+# 已知漂移实例（人工裁定后可追加 alias）：
+#   - 数学：「平面与平面所成角的向量求法」（全量页签） vs 「平面与平面所成角最值问题」（薄弱页签）——语境疑为同域不同题型的两个知识点，未合并。
+#   - 生物：「水的含量、存在形式及作用」【重点】角标在 -1 有、-4 无——标记位置差异，不影响归一。
+
+stats:
+  total: 72
+  updated_at: "2026-10-23"
+
+canonical:
+  - id: kp-0001
+    name: 函数的对称性
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0002
+    name: 【重点】多面体和旋转体表面上的最短距离问题
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0003
+    name: 利用函数的单调性解不等式
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0004
+    name: 【重点】平面与平面所成角的向量求法
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0005
+    name: 圆与圆的位置关系
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0006
+    name: 求圆的标准方程
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0007
+    name: 辅助角公式(三角函数的叠加及应用（北师）)
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0008
+    name: 【重点】空间向量的数量积与空间向量的垂直关系
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0009
+    name: 等差数列前n项和的最值问题
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0010
+    name: 二面角
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0011
+    name: 离散型随机变量的均值（期望）
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0012
+    name: 空间几何体的截面问题（截面形状、面积）
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0013
+    name: 球的切、接问题
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0014
+    name: 棱柱的体积
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0015
+    name: 棱台的体积
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0016
+    name: 面面垂直的判定
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0017
+    name: 抛物线的定义
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0018
+    name: 直线与抛物线位置关系及其应用
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0019
+    name: 抛物线的标准方程
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0020
+    name: 利用导数研究恒成或极值点求参
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0021
+    name: 利用导数求已知函数的极值或极值点（含参）
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0022
+    name: 百分位数
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0023
+    name: 回归直线方程
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0024
+    name: 变量的相关关系
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0025
+    name: 利用余弦定理解三角形
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0026
+    name: 三角形面积公式
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0027
+    name: 正弦定理及变形
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0028
+    name: 利用幂函数的图象与性质比较大小
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0029
+    name: 余弦（型）函数的周期性
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0030
+    name: 充要条件及其判断
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0031
+    name: 求双曲线的离心率（或取值范围）
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0032
+    name: 交集运算
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0033
+    name: 指定项的系数与二项式系数
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0034
+    name: 向量的加减与数乘意义
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0035
+    name: 利用指数函数的图象与性质比较大小
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0036
+    name: 求余弦（型）函数的对称轴、对称中心
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0037
+    name: 平面向量基本定理的应用
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0038
+    name: 余弦型函数的奇偶性
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0039
+    name: 解不含参的一元二次不等式
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0040
+    name: 复数的除法运算
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0041
+    name: 空间中直线与平面的位置关系
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0042
+    name: 空间中直线与直线的位置关系
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0043
+    name: 求曲线上一点的切线方程（斜率、倾斜角）
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0044
+    name: 向量的加减与数乘混合运算
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0045
+    name: 复数的模及其几何意义
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0046
+    name: 余弦型函数的奇偶的应用
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0047
+    name: 利用导数研究恒成立与存在性问题
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0048
+    name: 利用导数根据极值立与存在性问题
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0049
+    name: 利用导数根据极值或极值点求参
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0050
+    name: 【重点】平面与平面所成角最值问题
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0051
+    name: 离散型随机变量的均值（期望）（长截图拼接接缝处重复行）
+    subject: math
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0052
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>生物大分子以碳链为骨架
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0053
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的结构
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0054
+    name: 重点 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>核酸的结构及功能
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0055
+    name: 重点 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>水的含量、存在形式及作用
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0056
+    name: 重点 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞结构和功能的多样性>>真核细胞和原核细胞的异同
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0057
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>【实验】检测生物组织中的糖类、脂肪和蛋白质
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0058
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>糖类的种类及作用
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0059
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>无机盐的含量及作用
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0060
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的功能
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0061
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>【实验】观察DNA、RNA在细胞中的分布实验
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0062
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的盐析和变性
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0063
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>脂质的种类及作用
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0064
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>细胞学说的建立过程
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0065
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>生命系统的结构层次
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0066
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>组成细胞的化合物
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0067
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>细胞中常见的化学元素
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0068
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>【实验】使用高倍显微镜观察几种细胞
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0069
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞结构和功能的多样性>>细胞的多样性
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0070
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>核酸的种类及存在部位
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0071
+    name: 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>细胞学说的基本观点及意义
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+  - id: kp-0072
+    name: 重点 分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>氨基酸的结构及其种类
+    subject: biology
+    aliases: []
+    first_seen: 2026-10
+
+suspected: []
