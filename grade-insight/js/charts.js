@@ -260,6 +260,7 @@
 
   window.GICharts = {
     PALETTE: PALETTE,
+    paint: render, /* 通用入口：系统分析面板等自定义 option 复用同一注册/销毁/resize */
     line: line,
     barDiff: barDiff,
     radar: radar,

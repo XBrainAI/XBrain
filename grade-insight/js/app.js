@@ -606,6 +606,7 @@
         b.classList.add('on');
         var p = document.getElementById('xp-' + b.getAttribute('data-x'));
         if (p) p.classList.add('on');
+        if (b.getAttribute('data-x') === 'sys' && window.GISysPanel) window.GISysPanel.reveal();
       });
     });
 
@@ -669,64 +670,309 @@
     });
   }
 
-  /* 🧭 系统分析面板：GIAnalyze 引擎（与 CLI md 同源）→ 可视化 HTML */
+  /* 🧭 系统分析面板（学生/家长视角）：GIAnalyze 引擎 → 少文字 + 自带图例的图表
+     三条自约束：① 结论先行；② 每张图自带读法/口径（不依赖外部定义）；
+     ③ 只做展示层聚合，研判数字一律来自引擎，缺源直说"没数据"。 */
   function renderSysPanel(d) {
     var sb = document.getElementById('sysBox'); if (!sb || !window.GIAnalyze) return;
     var tr = (S.load().student && S.load().student.targetRate) || 0.8;
     var m = GIAnalyze.build(d, tr);
     var o = m.overall;
-    var pc = function (x) { return x == null ? '–' : (x * 100).toFixed(1) + '%'; };
+    if (!o.full || !m.subjects.length) { sb.innerHTML = '<div class="muted small-note">本次考试没有可分析的成绩数据。</div>'; return; }
+
+    var r1 = function (x) { return Math.round(x * 10) / 10; };
+    var p100 = function (score, full) { return full ? Math.round(score / full * 100) : 0; };
+    var cur = p100(o.score, o.full);
+    var goal = Math.round(tr * 100);
+    var gap = Math.max(0, goal - cur);
+    var band = function (v) { return v >= 85 ? 'A' : v >= 70 ? 'B' : v >= 60 ? 'C' : v >= 40 ? 'D' : 'E'; };
+    var bandCls = function (v) { return v >= 85 ? 'top' : v >= 70 ? 'good' : v >= 60 ? 'ok' : 'weak'; };
+    var colorOf = { weak: '#ff8f8f', ok: '#ffd479', good: '#64b4ff', top: '#7ee2a8' };
+
+    var subs = m.subjects.map(function (s) {
+      var st = s.diffs || {};
+      var p = p100(s.score, s.full);
+      return {
+        name: s.name || s.key, score: s.score, full: s.full, p: p, band: band(p), cls: bandCls(p),
+        lost: r1(s.full - s.score), hasQ: s.hasQ,
+        loss: {
+          '易': (st['易'] && st['易'].loss) || 0,
+          '中': (st['中'] && st['中'].loss) || 0,
+          '难': (st['难'] && st['难'].loss) || 0
+        },
+        easyNos: s.easyWrongNos || [], kp: s.kp || null, concls: s.concls || []
+      };
+    });
+    var lossSum = { '易': 0, '中': 0, '难': 0 };
+    subs.forEach(function (s) { ['易', '中', '难'].forEach(function (k) { lossSum[k] += s.loss[k]; }); });
+    var totalLost = r1(o.full - o.score);
+    var unSplit = r1(Math.max(0, totalLost - (lossSum['易'] + lossSum['中'] + lossSum['难'])));
+    var potential = Math.round(o.potential || 0);
+    var reach = Math.min(100, p100(o.score + (o.potential || 0), o.full));
+    var tierWord = { '易': '简单题', '中': '中档题', '难': '难题' };
+    var tierSum = lossSum['易'] + lossSum['中'] + lossSum['难'];
+    var hasTiers = tierSum > 0;
+    var mainTier = hasTiers ? ['易', '中', '难'].sort(function (a, b) { return lossSum[b] - lossSum[a]; })[0] : null;
+    var weakN = subs.filter(function (s) { return s.p < 60; }).length;
+    var best = subs.slice().sort(function (a, b) { return b.p - a.p; })[0];
+    var worst = subs.slice().sort(function (a, b) { return a.p - b.p; })[0];
+    var kpNames = subs.filter(function (s) { return s.kp; }).map(function (s) { return s.name; });
+    var share = function (x) { return totalLost ? Math.round(x / totalLost * 100) : 0; };
+
+    /* 数据缺口：如实说明（地理无题级、化学记录差），不猜 */
+    var noQ = [], mismatch = [];
+    (d.subjects || []).forEach(function (sr) {
+      var qs = sr.questions || [];
+      if (!qs.length) {
+        if (typeof sr.score === 'number') noQ.push({ name: sr.name || sr.key, lost: r1(sr.full - sr.score) });
+        return;
+      }
+      var qLost = qs.reduce(function (a, q) { return a + Math.max(0, (q.point || 0) - (q.score || 0)); }, 0);
+      var lost = sr.full - sr.score;
+      if (Math.abs(qLost - lost) > 0.01) mismatch.push({ name: sr.name || sr.key, diff: r1(lost - qLost) });
+    });
+
     var H = [];
-    var tagPill = function (t) { return '<span class="sa-tag sa-' + t.toLowerCase() + '">' + t + '</span>'; };
-    var bar = function (rate, opts) {
-      opts = opts || {};
-      return '<div class="sa-bar"><i style="width:' + Math.min(100, rate * 100).toFixed(1) + '%" class="' + (opts.cls || '') + '"></i>' +
-        (opts.marker != null ? '<b class="sa-mark" style="left:' + Math.min(100, opts.marker * 100).toFixed(1) + '%"></b>' : '') + '</div>';
+
+    /* 一、这次考得怎么样：总分 + 等级尺子 + 目标位置 */
+    H.push('<div class="sa-hero">' +
+      '<div class="sa-hero-top">' +
+        '<div><div class="sa-hero-label">这次总分</div>' +
+        '<div class="sa-hero-score"><b class="num">' + o.score + '</b><span class="num"> / ' + o.full + '</span></div>' +
+        '<div class="sa-hero-pct">折成百分制 <b class="num">' + cur + '</b> 分（满分 100）</div></div>' +
+        '<div class="sa-gap">' + (gap > 0
+          ? '<span>离目标还差</span><b class="num">' + gap + '</b><span>分</span>'
+          : '<span>已达标</span><b class="num" style="color:var(--up)">+' + (cur - goal) + '</b><span>分</span>') +
+        '<div class="sa-gap-sub">目标线 ' + goal + ' 分</div></div>' +
+      '</div>' +
+      '<div class="sa-ruler">' +
+        '<div class="sa-zone z-e" style="width:40%">E</div>' +
+        '<div class="sa-zone z-d" style="width:20%">D</div>' +
+        '<div class="sa-zone z-c" style="width:10%">C</div>' +
+        '<div class="sa-zone z-b" style="width:15%">B</div>' +
+        '<div class="sa-zone z-a" style="width:15%">A</div>' +
+        '<b class="sa-you" style="left:' + cur + '%"><i></i><span>你 ' + cur + '</span></b>' +
+        '<b class="sa-goal" style="left:' + goal + '%"><i></i><span>目标 ' + goal + '</span></b>' +
+      '</div>' +
+      '<div class="sa-ruler-legend">色带就是等级：A 85 分以上 · B 70–85 · C 60–70 · D 40–60 · E 40 以下（按得分比例）</div>' +
+      '</div>');
+
+    H.push('<div class="sa-kpis">' +
+      '<div class="sa-kpi top"><div class="sa-kpi-l">最强科目</div><div class="sa-kpi-v">' + esc(best.name) + '<em>' + best.p + ' 分</em></div></div>' +
+      '<div class="sa-kpi weak"><div class="sa-kpi-l">最弱科目</div><div class="sa-kpi-v">' + esc(worst.name) + '<em>' + worst.p + ' 分</em></div></div>' +
+      '<div class="sa-kpi ok"><div class="sa-kpi-l">' + (mainTier ? '丢分最多' : '总共丢分') + '</div><div class="sa-kpi-v">' +
+        (mainTier ? tierWord[mainTier] + '<em>' + r1(lossSum[mainTier]) + ' 分</em>' : totalLost + '<em>分</em>') + '</div></div>' +
+      '<div class="sa-kpi good"><div class="sa-kpi-l">最多能追回</div><div class="sa-kpi-v">+' + potential + '<em>分</em></div></div>' +
+      '</div>');
+
+    /* 二、九科强弱（横条 + 目标线，颜色=分数段） */
+    H.push('<div class="sa-block">' +
+      '<div class="sa-title">各科强弱 <span>按满分 100 分折算 · 条越短越要补</span></div>' +
+      '<div class="sa-insight">' + esc(best.name) + ' 最强（' + best.p + ' 分），' + esc(worst.name) + ' 最弱（' + worst.p + ' 分）；' +
+        (weakN ? '有 ' + weakN + ' 科不到 60 分。' : '全部在 60 分以上。') + '</div>' +
+      '<div class="sa-chart" id="saChartSubj"></div>' +
+      '<div class="sa-legend"><span><i class="sa-dot d-weak"></i>不到 60 分</span><span><i class="sa-dot d-ok"></i>60–70</span>' +
+        '<span><i class="sa-dot d-good"></i>70–85</span><span><i class="sa-dot d-top"></i>85 以上</span><span><i class="sa-dot d-goal"></i>目标线</span></div>' +
+      '</div>');
+
+    /* 三、分数丢在哪（难易档构成，1 条堆叠条 + 图例） */
+    if (totalLost > 0) {
+      var why = [];
+      if (noQ.length) why.push(noQ.map(function (x) { return x.name + '整科 ' + x.lost + ' 分'; }).join('、'));
+      if (mismatch.length) why.push(mismatch.map(function (x) { return x.name + '记录差 ' + x.diff + ' 分'; }).join('、'));
+      H.push('<div class="sa-block">' +
+        '<div class="sa-title">分数丢在哪 <span>全科共丢 ' + totalLost + ' 分</span></div>' +
+        '<div class="sa-insight">' + (hasTiers
+          ? tierWord[mainTier] + '丢得最多：<b>' + r1(lossSum[mainTier]) + ' 分</b>，占丢分的 ' + share(lossSum[mainTier]) + '%。'
+          : '没有逐题明细，丢分无法细分到简单/中档/难题。') + '</div>' +
+        '<div class="sa-chart sa-chart-loss" id="saChartLoss"></div>' +
+        '<div class="sa-legend">' + ['易', '中', '难'].filter(function (k) { return lossSum[k] > 0; }).map(function (k) {
+          return '<span><i class="sa-dot" style="background:' + (k === '易' ? '#ff8f8f' : k === '中' ? '#ffd479' : '#9aa7c4') + '"></i>' +
+            tierWord[k] + ' ' + r1(lossSum[k]) + ' 分（' + share(lossSum[k]) + '%）</span>';
+        }).join('') +
+          (unSplit > 0 ? '<span><i class="sa-dot" style="background:#5c6784"></i>未细分 ' + unSplit + ' 分</span>' : '') + '</div>' +
+        '<div class="sa-tip">难易是试卷给每道题的标注。' +
+          (unSplit > 0 ? '“未细分”= 没有逐题明细的部分（' + (why.length ? why.join('；') : '未提供逐题明细') + '）。' : '') + '</div>' +
+        '</div>');
+    }
+
+    /* 四、先补什么最划算（按能追回的分数排序） */
+    var plan = m.plan || [];
+    var maxRec = plan.length ? Math.max(plan[0].rec, 0.01) : 1;
+    var sumRec = function (arr) { return Math.round(arr.reduce(function (a, b) { return a + b.rec; }, 0)); };
+    var typeWord = function (t) {
+      return { '主观题': '大题', '单选题': '选择题', '多选题': '多选题', '英语作文题': '作文', '作文题': '作文' }[t] || t;
     };
-    /* 一、全科 */
-    H.push('<div class="sa-block"><h4>全科研判</h4>' +
-      '<div class="sa-total"><span class="sa-big num">' + o.score + '</span><span class="dim"> / ' + o.full + '（' + pc(o.rate) + '，' + o.level + '）</span>' +
-      bar(o.rate, { marker: tr }) + '<div class="small-note dim">目标线 ' + pc(tr) + '｜R7 差 ' + o.gapPP + 'pp；规则估计回收上限 ' + o.potential + ' 分（全实现约 ' + pc(o.potentialRate) + '，上限口径非承诺）</div></div>');
-    H.push('<div class="sa-chips">' + o.levels.map(function (kv) { return '<span class="tag">' + kv[0] + '×' + kv[1] + '</span>'; }).join('') +
-      '<span class="tag muted">极差 ' + o.spread.pp + 'pp（' + o.spread.minName + '↔' + o.spread.maxName + '）</span>' +
-      '<span class="tag muted">σ ' + o.sigma + (o.skewed ? '·偏科发散' : '·均衡') + '</span></div>');
-    H.push('<div class="sa-subjs">' + m.subjects.map(function (s) {
-      return '<div class="sa-row"><span class="sa-name">' + esc(s.name) + '</span>' + bar(s.rate, { cls: s.rate < 0.6 ? 'lo' : (s.rate < 0.7 ? 'mid' : ''), marker: null }) +
-        '<span class="num small">' + pc(s.rate) + (s.level ? '·' + s.level : '') + '</span></div>';
-    }).join('') + '</div>');
-    H.push('<div class="sa-chips">' + (o.r1.length ? o.r1.map(function (n) { return tagPill('R1') + '<span class="small">' + esc(n) + '</span>'; }).join(' ') : '<span class="muted small">R1 无命中</span>') + '</div></div>');
-    /* 二、逐科卡片 */
-    H.push('<div class="sa-block"><h4>逐科研判（升序）</h4><div class="sa-grid">');
-    m.subjects.forEach(function (s) {
-      var lossAll = ['易', '中', '难'].reduce(function (a, dd) { return a + (s.diffs[dd] ? s.diffs[dd].loss : 0); }, 0) || 1;
-      var segs = s.hasQ ? '<div class="sa-stack">' + ['易', '中', '难'].map(function (dd, i) {
-        var l = s.diffs[dd] ? s.diffs[dd].loss : 0; if (!l) return '';
-        return '<i class="d' + i + '" style="width:' + (l / lossAll * 100).toFixed(1) + '%" title="' + dd + '题丢 ' + l + ' 分">' + dd + l + '</i>';
-      }).join('') + '</div>' : '<div class="muted small">' + esc(s.note || '无题级源') + '</div>';
-      var kpline = s.kp ? '<div class="sa-kp">' + s.kp.top.slice(0, 3).map(function (k) {
-        return '<div class="sa-krow"><span class="sa-kname">' + (k.key ? '★' : '') + esc(String(k.name).split('>').pop()) + '</span>' + bar((k.rate || 0) / 100, { cls: k.rate < 60 ? 'lo' : '' }) + '<span class="num small">' + k.rate + '%</span></div>';
-      }).join('') + '</div>' : '';
-      var easy = s.easyWrongNos && s.easyWrongNos.length ? '<div class="small"><span class="sa-tag sa-r2">易错题</span> ' + s.easyWrongNos.map(function (n) { return '<span class="tag">第' + n + '题</span>'; }).join(' ') + '</div>' : '';
-      H.push('<div class="sa-card' + (o.r1.indexOf(s.name) >= 0 ? ' warn' : '') + '"><div class="sa-head"><b>' + esc(s.name) + '</b><span class="num">' + s.score + '/' + s.full + '</span><span class="tag muted">' + pc(s.rate) + (s.level ? '·' + s.level : '') + '</span></div>' +
-        segs + easy + kpline +
-        '<div class="sa-concl">' + (s.concls.length ? s.concls.map(function (c) { return tagPill(c.tag) + '<span class="small">' + esc(c.text) + '</span>'; }).join('<br>') : '<span class="muted small">未命中风险规则</span>') + '</div></div>');
-    });
-    H.push('</div></div>');
-    /* 三、补救清单 */
-    var maxRec = m.plan.length ? m.plan[0].rec || 1 : 1;
-    H.push('<div class="sa-block"><h4>补救优先级 top' + m.plan.length + '（预估回收=规则估计）</h4><div class="sa-plan">');
-    m.plan.forEach(function (it, i) {
+    var actionText = function (it) {
+      var q = /^易题全回收：(.+)$/.exec(it.what);
+      if (q) return '把 ' + q[1].split('、').length + ' 道简单错题弄懂';
+      var mt = /^(.+?)中档专项$/.exec(it.what);
+      if (mt) return '专攻' + typeWord(mt[1]) + '里的中档题';
+      var kp = /^补重点薄弱：(.+)$/.exec(it.what);
+      if (kp) return '弄懂重点知识：' + kp[1];
+      return it.what;
+    };
+    var actRow = function (it, i) {
       var href = it.link ? d._base + 'data/analysis/' + it.link.replace(/^md\//, '').replace(/ \((\d+)\)\.md$/, '-$1.html') : '';
-      H.push('<div class="sa-item"><span class="sa-idx">' + (i + 1) + '</span>' + tagPill(it.tag) +
-        '<span class="sa-what"><b>' + esc(it.subj) + '</b> · ' + esc(it.what) + '<span class="dim small">（' + esc(it.basis) + '）</span></span>' +
-        '<div class="sa-rec">' + bar(it.rec / maxRec, { cls: 'rec' }) + '<span class="num small">' + it.rec + '分</span></div>' +
-        (href ? '<a class="small" href="' + encodeURI(href) + '" target="_blank" rel="noopener">解析↗</a>' : '') + '</div>');
-    });
-    H.push('</div></div>');
-    /* 四、边界 */
-    H.push('<div class="sa-block sa-bounds"><h4>边界与置信</h4>' + m.bounds.map(function (b) { return '<div class="small dim">· ' + esc(b) + '</div>'; }).join('') +
-      '<div class="small dim">· 引擎 ' + m.engine + '（与 CLI 报告同源）｜ 规则 ' + m.rules + '</div></div>');
+      var nos = String(it.what).match(/第\d+题/g) || [];
+      return '<div class="sa-act">' +
+        '<span class="sa-act-rank">' + (i + 1) + '</span>' +
+        '<div class="sa-act-body">' +
+          '<div class="sa-act-line"><b>' + esc(it.subj) + '</b><span class="sa-act-what" title="' + esc(actionText(it)) + '">' + esc(actionText(it)) + '</span></div>' +
+          (nos.length ? '<div class="sa-act-sub">' + nos.slice(0, 6).map(function (n) { return '<span>' + n + '</span>'; }).join('') +
+            (nos.length > 6 ? '<span>等 ' + nos.length + ' 道</span>' : '') + '</div>' : '') +
+          '<div class="sa-act-bar"><i style="width:' + Math.max(4, Math.round(it.rec / maxRec * 100)) + '%"></i></div>' +
+        '</div>' +
+        '<div class="sa-act-side"><b>+' + Math.round(it.rec) + '</b> 分' +
+          (href ? '<a href="' + encodeURI(href) + '" target="_blank" rel="noopener">看解析 ↗</a>' : '') + '</div>' +
+      '</div>';
+    };
+    if (plan.length) {
+      var top = plan.slice(0, 6), rest = plan.slice(6);
+      H.push('<div class="sa-block">' +
+        '<div class="sa-title">先补什么最划算 <span>按“能追回多少分”排序</span></div>' +
+        '<div class="sa-insight">先做下面 ' + top.length + ' 件，最多约 <b>+' + sumRec(top) + ' 分</b>；本次可追回的机会合计约 +' + potential + ' 分。</div>' +
+        '<div class="sa-acts">' + top.map(function (it, i) { return actRow(it, i); }).join('') + '</div>' +
+        (rest.length ? '<details class="sa-more"><summary>展开另外 ' + rest.length + ' 项（约 +' + sumRec(rest) + ' 分）</summary>' +
+          '<div class="sa-acts">' + rest.map(function (it, i) { return actRow(it, 6 + i); }).join('') + '</div></details>' : '') +
+        '<div class="sa-tip">“能追回”是经验估计：简单题按 8 成、中档题按 5 成算，做到才算，不是承诺；全部做到约可到 ' + reach + ' 分（满分 100）。</div></div>');
+    }
+
+    /* 五、每科细看（卡片：分数段徽标 + 丢分构成条 + 知识点弱项条） */
+    var actWords = { R2: '先补简单题', R6: '重点知识没掌握', R5: '知识漏洞多', R3: '主攻中档题', R4: '难题失分属正常' };
+    var card = function (s) {
+      var seg, cs = [];
+      if (s.hasQ) {
+        var tot = s.loss['易'] + s.loss['中'] + s.loss['难'];
+        if (tot > 0) {
+          var gapLoss = r1(Math.max(0, s.lost - tot));
+          var denom = s.lost > 0 ? s.lost : tot;
+          seg = '<div class="sa-stack">' + [['易', 's0'], ['中', 's1'], ['难', 's2']].map(function (kv) {
+            var l = s.loss[kv[0]]; if (!l) return '';
+            var w = l / denom * 100;
+            return '<i class="' + kv[1] + '" style="width:' + w.toFixed(1) + '%" title="' + kv[0] + '题丢 ' + r1(l) + ' 分">' + (w >= 14 ? r1(l) : '') + '</i>';
+          }).join('') +
+            (gapLoss > 0.05 ? '<i class="s3" style="width:' + (gapLoss / denom * 100).toFixed(1) + '%" title="逐题记录差 ' + gapLoss + ' 分（以总分为准）"></i>' : '') + '</div>' +
+          '<div class="sa-stack-legend"><span><i style="background:#ff8f8f"></i>简单 ' + r1(s.loss['易']) + '</span>' +
+            '<span><i style="background:#ffd479"></i>中档 ' + r1(s.loss['中']) + '</span>' +
+            '<span><i style="background:#9aa7c4"></i>难题 ' + r1(s.loss['难']) + '</span>' +
+            (gapLoss > 0.05 ? '<span><i style="background:#5c6784"></i>记录差 ' + gapLoss + '</span>' : '') + '</div>';
+        } else {
+          seg = s.lost > 0
+            ? '<div class="sa-card-note">逐题明细缺失，共丢 ' + s.lost + ' 分</div>'
+            : '<div class="sa-card-note">这次没有丢分</div>';
+        }
+      } else {
+        seg = '<div class="sa-card-note">没有逐题记录，只能看总分</div>';
+      }
+      ['R2', 'R6', 'R5', 'R3', 'R4'].forEach(function (k) {
+        if (cs.length < 2 && s.concls.some(function (c) { return c.tag === k; })) cs.push(actWords[k]);
+      });
+      var kp = '';
+      if (s.kp && s.kp.top.length) {
+        kp = '<div class="sa-kp">' + s.kp.top.slice(0, 3).map(function (k) {
+          return '<div class="sa-krow"><span class="sa-kname">' + (k.key ? '★ ' : '') + esc(String(k.name).split('>').pop()) + '</span>' +
+            '<div class="sa-kbar"><i style="width:' + Math.min(100, k.rate || 0) + '%"></i></div>' +
+            '<span class="num">' + (k.rate === null || k.rate === undefined ? '–' : k.rate + '%') + '</span></div>';
+        }).join('') + '</div>';
+      }
+      return '<div class="sa-card">' +
+        '<div class="sa-card-h"><b>' + esc(s.name) + '</b><span class="sa-band ' + s.cls + '">' + s.p + ' 分 · ' + s.band + '</span></div>' +
+        '<div class="sa-card-s">' + s.score + ' / ' + s.full + ' 分 · 丢 ' + s.lost + ' 分</div>' +
+        seg +
+        (cs.length ? '<div class="sa-chips">' + cs.map(function (t) { return '<span class="sa-chip">' + t + '</span>'; }).join('') + '</div>' : '') +
+        kp + '</div>';
+    };
+    H.push('<div class="sa-block">' +
+      '<div class="sa-title">每科细看 <span>条形越长＝丢分越多 · 知识点只列最弱的 3 条</span></div>' +
+      '<div class="sa-grid">' + subs.map(card).join('') + '</div></div>');
+
+    /* 六、看图须知：数据来源与缺口（说人话，不用术语） */
+    var notes = [];
+    if (noQ.length) notes.push(noQ.map(function (x) { return x.name; }).join('、') + ' 没有逐题记录，只统计了总分，无法细分到难易档。');
+    if (mismatch.length) notes.push(mismatch.map(function (x) { return x.name; }).join('、') + ' 的逐题丢分合计与总丢分相差 ' + mismatch.map(function (x) { return x.diff; }).join('、') + ' 分（记录差异），以总分为准。');
+    notes.push('知识点掌握率只有 ' + (kpNames.join('、') || '无科目') + ' 提供；其他科没有这项数据，不代表没问题。');
+    notes.push('等级按得分比例：A 85 分以上、B 70–85、C 60–70、D 40–60、E 40 以下。');
+    notes.push('“能追回”是经验估计（简单题 8 成、中档题 5 成），做到才能算，不是承诺；全部做到约可到 ' + reach + ' 分（满分 100）。');
+    H.push('<details class="sa-bounds"><summary>看图须知：数字从哪来、哪里没有数据</summary><div>' +
+      '<p>· 所有数字都来自本场考试的逐题成绩单；没有的数据不猜。</p>' +
+      notes.map(function (t) { return '<p>· ' + esc(t) + '</p>'; }).join('') +
+      '</div></details>' +
+      '<div class="sa-foot">图表由本场成绩实时生成，与原始分数一一对应。</div>');
+
     sb.innerHTML = H.join('');
+
+    /* 图表延迟到标签页可见时再画（隐藏容器量不到宽高） */
+    function paint() {
+      if (!window.GICharts || !GICharts.paint) return;
+      GICharts.paint('saChartSubj', {
+        animationDuration: 400,
+        grid: { left: 4, right: 44, top: 10, bottom: 6, containLabel: true },
+        tooltip: {
+          trigger: 'axis', axisPointer: { type: 'shadow' },
+          backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)',
+          textStyle: { color: '#e8ecf4', fontSize: 12 },
+          formatter: function (ps) {
+            var s = subs[ps[0].dataIndex];
+            return '<b>' + esc(s.name) + '</b><br>百分制 ' + s.p + ' 分 · 等级 ' + s.band +
+              '<br>原始分 ' + s.score + ' / ' + s.full + '（丢 ' + s.lost + ' 分）';
+          }
+        },
+        xAxis: {
+          type: 'value', min: 0, max: 100,
+          axisLabel: { color: '#9aa7c4', fontSize: 10 },
+          splitLine: { lineStyle: { color: 'rgba(100, 180, 255, 0.12)' } },
+          axisLine: { show: false }, axisTick: { show: false }
+        },
+        yAxis: {
+          type: 'category', inverse: true, data: subs.map(function (s) { return s.name; }),
+          axisLabel: { color: '#e8ecf4', fontSize: 12 },
+          axisTick: { show: false }, axisLine: { show: false }
+        },
+        series: [{
+          type: 'bar', barWidth: 12,
+          data: subs.map(function (s) { return { value: s.p, itemStyle: { color: colorOf[s.cls], borderRadius: [0, 6, 6, 0] } }; }),
+          label: { show: true, position: 'right', color: '#e8ecf4', fontSize: 11, formatter: '{c}' },
+          markLine: {
+            symbol: 'none', silent: true,
+            lineStyle: { type: 'dashed', color: '#ffd479', width: 1.2 },
+            label: { formatter: '目标 ' + goal, color: '#ffd479', fontSize: 10, position: 'insideEndTop' },
+            data: [{ xAxis: goal }]
+          }
+        }]
+      });
+      if (totalLost > 0) {
+        var lc = [
+          { n: '简单题', v: r1(lossSum['易']), c: '#ff8f8f', t: '#1a1030' },
+          { n: '中档题', v: r1(lossSum['中']), c: '#ffd479', t: '#1a1030' },
+          { n: '难题', v: r1(lossSum['难']), c: '#9aa7c4', t: '#1a1030' }
+        ];
+        if (unSplit > 0) lc.push({ n: '未细分', v: unSplit, c: '#5c6784', t: '#e8ecf4' });
+        var segs = lc.filter(function (x) { return x.v > 0; });
+        GICharts.paint('saChartLoss', {
+          animationDuration: 400,
+          grid: { left: 0, right: 0, top: 6, bottom: 6 },
+          tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)',
+            textStyle: { color: '#e8ecf4', fontSize: 12 },
+            formatter: function (p) { return p.name + '：' + p.value + ' 分（占丢分 ' + Math.round(p.value / totalLost * 100) + '%）'; }
+          },
+          xAxis: { type: 'value', max: totalLost, show: false },
+          yAxis: { type: 'category', data: ['丢分'], show: false },
+          series: segs.map(function (x, i) {
+            var first = i === 0, last = i === segs.length - 1;
+            return {
+              name: x.n, type: 'bar', stack: 'loss', data: [x.v], barWidth: 30,
+              itemStyle: { color: x.c, borderRadius: first ? [6, 0, 0, 6] : (last ? [0, 6, 6, 0] : 0) },
+              label: { show: x.v / totalLost >= 0.12, position: 'inside', color: x.t, fontSize: 11, formatter: x.n + ' ' + x.v }
+            };
+          })
+        });
+      }
+    }
+    window.GISysPanel = { reveal: paint };
+    if (document.getElementById('xp-sys') && document.getElementById('xp-sys').classList.contains('on')) paint();
   }
 
   /* ---------- 录入表单（记录页内嵌，默认收起） ---------- */
