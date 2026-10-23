@@ -90,3 +90,9 @@
 - 说明：`npm test` 存量 57 failed（database 数据更新后 regression/dataConsistency 等断言基线未同步，如公办校数 149 vs 期望 147；经 stash 对比验证与 SPEC-2026-0007 改动无关——改动前同样失败，改动后新增 8 用例全过、失败数 58→57 未新增）；`npm run lint` 存量 95 errors（no-explicit-any 等为主，本次改动文件 0 error）。需要独立任务更新断言基线并修 lint——不阻塞 0007 交付；deep 层回归（test:repo:full 跑 SPA test）因此为红，接入前必修。
 - 承接自：SPEC-2026-0007 交付验证（AC7 口径按"不新增失败"执行）
 - 回写：
+
+### TD-000-grade-insight远端同步核验-261023-070245.1430
+- 状态：open｜触发时机：用户提供 grade-insight 生产站点 URL 或要求续做远端同步核验时｜来源：会话 2026-10-22（用户问"本地是否已与 Netlify 远端同步"，因站点 URL 无记录、且 SPEC-2026-0006/0007 留痕为"待部署"而受阻）｜登记：2026-10-23
+- 智力强度：低
+- 说明：远端为 Netlify Blobs（store grade_insight / 键 snapshot，端点 /.netlify/functions/grade-store，X-GI-Auth=sha256(子站密码)）。待站点部署确认后：只读探测远端 snapshot 与本地 data.js/浏览器档案比对，完成用户要求的同步核验；并核验 SPEC-001 登记后各设备经云端取得的档案一致性。
+- 回写：

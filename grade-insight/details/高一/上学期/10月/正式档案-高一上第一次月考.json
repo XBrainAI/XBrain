@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "sample": false,
+  "exportedAt": "2026-10-23T07:20:00",
+  "student": {
+    "name": "陈映蓝",
+    "studentId": "s1",
+    "enrollYear": 2026,
+    "targetRate": 0.8
+  },
+  "subjects": [
+    { "key": "chinese", "name": "语文", "full": 150 },
+    { "key": "math", "name": "数学", "full": 150 },
+    { "key": "english", "name": "英语", "full": 150 },
+    { "key": "physics", "name": "物理", "full": 100 },
+    { "key": "chemistry", "name": "化学", "full": 100 },
+    { "key": "biology", "name": "生物", "full": 100 },
+    { "key": "politics", "name": "政治", "full": 100 },
+    { "key": "history", "name": "历史", "full": 100 },
+    { "key": "geography", "name": "地理", "full": 100 }
+  ],
+  "exams": [
+    {
+      "id": "ex-2026-10-10",
+      "name": "高一上第一次月考",
+      "date": "2026-10-10",
+      "term": "高一上",
+      "type": "月考",
+      "note": "广州四中2026学年第一学期10月素养评估；raw 仅确认月份，日期暂记 10-10 待确认后修正；九科分数与班级等级（B/D/D/C/D/C/D/C）按 details/高一/上学期/10月/md 转写件登记，总分 623.5/1030（班级等级 C）",
+      "subjects": [
+        { "key": "chinese", "full": 150, "score": 111, "level": "B" },
+        { "key": "math", "full": 150, "score": 80, "level": "D" },
+        { "key": "english", "full": 130, "score": 64.5, "level": "D" },
+        { "key": "physics", "full": 100, "score": 66, "level": "C" },
+        { "key": "chemistry", "full": 100, "score": 46, "level": "D" },
+        { "key": "biology", "full": 100, "score": 64, "level": "C" },
+        { "key": "politics", "full": 100, "score": 59, "level": "D" },
+        { "key": "history", "full": 100, "score": 64, "level": "C" },
+        { "key": "geography", "full": 100, "score": 69 }
+      ]
+    }
+  ]
+}
