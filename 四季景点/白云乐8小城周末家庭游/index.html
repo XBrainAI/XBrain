@@ -18,88 +18,50 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../brand/tokens.css">
+  <link rel="stylesheet" href="../../brand/brand.css">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ===== 主题令牌（暖金为「游记/回忆」皮肤；本页沿用模板默认）===== */
+    /* ===== 皮肤层覆写（SPEC-008 双层令牌）：本页为「游记/回忆」暖金皮肤 =====
+       品牌层 --xb-* 九值与排印/间距/动效令牌由 ../../brand/tokens.css 提供；
+       下方 --accent 系为存量页面样式的兼容映射（批量迁移完成后逐页清除）。 */
     :root {
-      --xb-deep: #0a0a1a;
-      --xb-mid: #14101f;
-      --xb-light: #241a30;
-      --accent: #ffc46b;
-      --accent2: #ffd9a0;
-      --accent-glow: rgba(255, 180, 100, 0.16);
-      --accent-border: rgba(255, 180, 100, 0.22);
+      --skin-accent: #ffc46b;
+      --skin-accent2: #ffd9a0;
+      --skin-glow: rgba(255, 180, 100, 0.16);
+      --skin-border: rgba(255, 180, 100, 0.22);
+      --accent: var(--skin-accent);
+      --accent2: var(--skin-accent2);
+      --accent-glow: var(--skin-glow);
+      --accent-border: var(--skin-border);
       --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(255, 180, 100, 0.16) 0%, transparent 60%),
                    radial-gradient(circle at 80% 20%, rgba(255, 200, 140, 0.10) 0%, transparent 40%);
-      --text: #e8ecf4;
-      --text-dim: rgba(200, 210, 230, 0.62);
+      --text: var(--xb-text);
+      --text-dim: var(--xb-text-dim);
       --text-hint: rgba(200, 210, 230, 0.35);
-      --danger: #ff6b6b;
-      --warn: #ffd166;
-      --success: #5ee4a0;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --danger: var(--xb-danger);
+      --warn: var(--xb-warn);
+      --success: var(--xb-success);
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
-      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font-sans);
       background: var(--xb-deep);
       color: var(--text);
       overflow-x: hidden;
       -webkit-text-size-adjust: 100%;
       -webkit-tap-highlight-color: transparent;
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: var(--fs-base);
+      line-height: var(--lh-body);
     }
 
-    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
-    .xbrain-brand {
-      position: fixed; top: 16px; left: 16px; z-index: 100;
-      display: flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(180, 210, 255, 0.55);
-      border-radius: 12px; padding: 6px 14px 6px 8px;
-      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
-      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
-    }
-    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
-    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
-    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
-    .xbrain-brand .xb-glow-bg { opacity: .40; }
-    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
-    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
-    .xbrain-brand .xb-core { r: 12; opacity: 1; }
-    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
-    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
-    .xbrain-brand .xb-bar-group { opacity: .75; }
-    .xbrain-brand .xb-bar { fill: #5a90e0; }
-    .xbrain-brand .xb-bar-glow { opacity: .9; }
-    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
-    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
-    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
-
-    /* ===== TOP NAV（固定 + 移动汉堡）===== */
-    .top-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
-      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--accent-border);
-      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
-    }
-    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
-    .nav-inner::-webkit-scrollbar { display: none; }
-    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
-    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
-    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
-    .nav-mobile-dropdown.open { transform: translateY(0); }
-    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
-    .top-nav a:hover { color: var(--text); background: rgba(255,180,100,.08); }
-    .top-nav a.active { color: var(--accent); background: rgba(255,180,100,.12); }
-    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
-    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+    /* ===== 品牌 Logo 与 top-nav 样式由 ../../brand/brand.css 提供（SPEC-008 形态 B）；
+       以下仅页面级补充 ===== */
+    .top-nav { padding-left: 130px; } /* 桌面端避让左上角品牌胶囊（本页既有处理） */
+    .top-nav a.back { color: var(--skin-accent2); border: 1px solid var(--skin-border); }
 
     /* ===== HERO ===== */
     .hero {
@@ -124,7 +86,7 @@
 
     /* ===== INFO GRID / QUICK FACTS ===== */
     .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; }
     .info-card.visible { opacity: 1; transform: translateY(0); }
     .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
     .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
@@ -150,7 +112,7 @@
     @media (max-width: 640px) { .chapter-videos video { width: 150px; } }
 
     /* ===== 游记实录（核心）：按时间/站点拆章 ===== */
-    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; }
     .log-chapter.visible { opacity: 1; transform: translateY(0); }
     .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
     .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
@@ -167,7 +129,7 @@
 
     /* ===== 美食 & 随手发现 ===== */
     .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; }
     .food-card.visible { opacity: 1; transform: translateY(0); }
     .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
     .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
@@ -599,60 +561,18 @@
         });
       });
 
-      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
-      var navLinks = document.querySelectorAll('#navInner a');
-      var mobileLinks = document.querySelectorAll('#navMobile a');
-      var sections = [];
-      navLinks.forEach(function (a) {
-        var id = a.getAttribute('href').substring(1);
-        var el = document.getElementById(id);
-        if (el) sections.push({ el: el, id: id });
-      });
-      function setActiveNav() {
-        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-        var current = '';
-        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
-        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
-        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
-      }
-      var navTicking = false;
-      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
-      setActiveNav();
-      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
-      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
-      navToggle.addEventListener('click', function (e) {
-        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
-        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
-        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
-      });
+      // ===== 锚点平滑滚动 + 历史记录（品牌行为外置，本段为页面体验件）=====
       document.querySelectorAll('a[href^="#"]').forEach(function (a) {
         a.addEventListener('click', function (e) {
           var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
           var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
           e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
-          closeMenu();
         });
       });
-      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
-
-      // ===== XBrain Logo 滚动淡出 =====
-      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
-      function updateLogo() {
-        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var ratio = Math.min(scrollY / vh, 1);
-        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
-      }
-      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
-      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
-      updateLogo();
-
-      // ===== 入场动画 =====
-      var revealEls = document.querySelectorAll('.info-card, .log-chapter, .food-card');
-      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-      revealEls.forEach(function (el) { observer.observe(el); });
     })();
   </script>
+  <!-- 品牌行为由共享层提供：Logo 淡出 / 导航高亮 / 汉堡下拉（SPEC-008 形态 B） -->
+  <script src="../../brand/brand.js" defer></script>
 </body>
 </html>

@@ -10,6 +10,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="../brand/tokens.css">
+  <link rel="stylesheet" href="../brand/brand.css">
   <style>
     *,
     *::before,
@@ -19,141 +21,18 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --xb-deep: #0a0a1a;
-      --xb-mid: #1a1030;
-      --xb-light: #2d1b4e;
-      --xb-accent: #64b4ff;
-      --xb-accent2: #80c0ff;
-      --xb-glow: rgba(100, 180, 255, 0.35);
-      --xb-border: rgba(100, 180, 255, 0.2);
-      --xb-text: #e8ecf4;
-      --xb-text-dim: rgba(200, 210, 230, 0.6);
-    }
+    /* 品牌层令牌由 ../brand/tokens.css 提供（SPEC-008 形态 B） */
 
     html {
       scroll-behavior: smooth;
     }
 
     body {
-      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font-sans);
       background: var(--xb-deep);
       color: var(--xb-text);
       overflow-x: hidden;
       -webkit-text-size-adjust: 100%;
-    }
-
-    /* ===== XBrain Brand Logo (Fixed) ===== */
-    .xbrain-brand {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(180, 210, 255, 0.55);
-      border-radius: 12px;
-      padding: 6px 14px 6px 8px;
-      box-shadow:
-        0 0 12px rgba(255, 255, 255, 0.15),
-        0 0 40px rgba(80, 140, 255, 0.35),
-        0 4px 20px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.12);
-      text-decoration: none;
-      transition: opacity 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
-    }
-
-    .xbrain-brand:hover {
-      box-shadow:
-        0 0 24px rgba(80, 140, 255, 0.40),
-        0 4px 20px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-      border-color: rgba(180, 210, 255, 0.70);
-    }
-
-    .xbrain-brand.scrolled {
-      background: rgba(15, 10, 40, 0.4);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border-color: rgba(100, 180, 255, 0.08);
-      box-shadow: none;
-    }
-
-    .xbrain-brand.scrolled:hover {
-      opacity: 0.7 !important;
-      border-color: rgba(100, 180, 255, 0.2);
-    }
-
-    .xbrain-brand svg {
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-      filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55));
-    }
-
-    .xbrain-brand .xb-ring {
-      stroke-width: 4;
-      opacity: 0.95;
-    }
-
-    .xbrain-brand .xb-glow-bg {
-      opacity: 0.40;
-    }
-
-    .xbrain-brand .xb-center-ring {
-      stroke-width: 3;
-      opacity: 0.95;
-    }
-
-    .xbrain-brand .xb-x-line {
-      opacity: 0.9;
-      stroke-width: 2.5;
-    }
-
-    .xbrain-brand .xb-core {
-      r: 12;
-      opacity: 1;
-    }
-
-    .xbrain-brand .xb-ttai {
-      fill: #4a70c0;
-      filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45));
-    }
-
-    .xbrain-brand .xb-ttai-line1,
-    .xbrain-brand .xb-ttai-line2 {
-      opacity: 1;
-    }
-
-    .xbrain-brand .xb-bar-group {
-      opacity: 0.75;
-    }
-
-    .xbrain-brand .xb-bar {
-      fill: #5a90e0;
-    }
-
-    .xbrain-brand .xb-bar-glow {
-      opacity: 0.9;
-    }
-
-    .xbrain-brand .xbrain-text {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: #e8ecf4;
-      line-height: 1;
-      text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
-    }
-
-    .xbrain-brand .xbrain-text span {
-      color: #64b4ff;
-      text-shadow: 0 0 18px rgba(100, 180, 255, 0.9);
     }
 
     /* ===== HERO ===== */
@@ -170,24 +49,23 @@
     }
 
     .hero-title {
-      font-family: 'Noto Serif SC', serif;
+      font-family: var(--font-serif);
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 900;
       letter-spacing: 4px;
-      margin-bottom: 1rem;
+      margin-bottom: var(--sp-4);
     }
 
     .hero-title span {
-      color: var(--xb-accent);
       text-shadow: 0 0 30px rgba(100, 180, 255, 0.5);
     }
 
     .hero-subtitle {
-      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+      font-size: clamp(var(--fs-sm), 1.8vw, var(--fs-md));
       font-weight: 300;
       color: var(--xb-text-dim);
       letter-spacing: 4px;
-      margin-bottom: 1rem;
+      margin-bottom: var(--sp-4);
     }
 
     .hero-line {
@@ -217,21 +95,13 @@
       display: block;
       text-decoration: none;
       color: inherit;
-      border-radius: 16px;
+      border-radius: var(--r-lg);
       overflow: hidden;
-      background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
-      border: 1px solid var(--xb-border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-
-    .site-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+      background: var(--xb-surface-1);
+      border: 1px solid var(--skin-border);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      transition: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) ease, border-color var(--dur-med) ease;
     }
 
     .site-card:hover {
@@ -276,33 +146,33 @@
     }
 
     .site-card-content {
-      padding: 1.5rem;
+      padding: var(--sp-4) var(--sp-5);
       position: relative;
     }
 
     .site-card-tag {
       display: inline-block;
-      padding: 0.2rem 0.8rem;
-      border: 1px solid var(--xb-accent);
-      color: var(--xb-accent);
-      font-size: 0.7rem;
+      padding: var(--sp-1) var(--sp-3);
+      border: 1px solid var(--skin-accent);
+      color: var(--skin-accent);
+      font-size: var(--fs-xs);
       letter-spacing: 2px;
-      border-radius: 4px;
-      margin-bottom: 0.8rem;
+      border-radius: var(--r-sm);
+      margin-bottom: var(--sp-3);
     }
 
     .site-card h3 {
-      font-family: 'Noto Serif SC', serif;
-      font-size: 1.3rem;
+      font-family: var(--font-serif);
+      font-size: var(--fs-lg);
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--sp-2);
       color: var(--xb-text);
     }
 
     .site-card p {
-      font-size: 0.9rem;
+      font-size: var(--fs-sm);
       color: var(--xb-text-dim);
-      line-height: 1.6;
+      line-height: var(--lh-body);
     }
 
     .site-card-arrow {
@@ -351,20 +221,21 @@
       z-index: 1;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      margin: 2rem auto 0;
-      padding: 0.6rem 1.2rem;
-      color: var(--xb-accent);
+      gap: var(--sp-2);
+      margin: var(--sp-5) auto 0;
+      padding: var(--sp-2) var(--sp-4);
+      min-height: var(--tap-size);
+      color: var(--skin-accent);
       text-decoration: none;
-      border: 1px solid var(--xb-border);
-      border-radius: 8px;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
+      font-size: var(--fs-sm);
+      border: 1px solid var(--skin-border);
+      border-radius: var(--r-md);
+      transition: all var(--dur-fast) ease;
     }
 
     .back-link:hover {
       background: rgba(100, 180, 255, 0.1);
-      border-color: var(--xb-accent);
+      border-color: var(--skin-accent);
     }
 
     .back-link svg {
@@ -584,64 +455,8 @@
     <p>探索未知，连接世界</p>
   </footer>
 
-  <!-- ===== Scripts ===== -->
-  <script>
-    (function () {
-      // ===== Logo Scroll Fade =====
-      var logo = document.querySelector('.xbrain-brand');
-      var ticking = false;
-
-      function updateLogo() {
-        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var ratio = Math.min(scrollY / vh, 1);
-        var opacity = 1 - ratio * 0.7;
-        if (logo) {
-          logo.style.opacity = opacity;
-          logo.classList.toggle('scrolled', scrollY > vh * 0.3);
-        }
-      }
-
-      window.addEventListener('scroll', function () {
-        if (!ticking) {
-          window.requestAnimationFrame(function () {
-            updateLogo();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-
-      window.addEventListener('touchmove', function () {
-        if (!ticking) {
-          window.requestAnimationFrame(function () {
-            updateLogo();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }, { passive: true });
-
-      updateLogo();
-
-      // ===== Card Reveal on Scroll =====
-      var cards = document.querySelectorAll('.site-card');
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry, index) {
-          if (entry.isIntersecting) {
-            setTimeout(function () {
-              entry.target.classList.add('visible');
-            }, index * 150);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-      cards.forEach(function (card) {
-        observer.observe(card);
-      });
-    })();
-  </script>
+  <!-- ===== Scripts（品牌行为由共享层提供：淡出/高亮/编排，SPEC-008 形态 B）===== -->
+  <script src="../brand/brand.js" defer></script>
 
 </body>
 
