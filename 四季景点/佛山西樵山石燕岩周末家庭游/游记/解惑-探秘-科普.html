@@ -6,23 +6,25 @@
 <title>解惑 · 探秘 · 科普 —— 西樵山与石燕岩家庭问答手册</title>
 <style>
   :root{
-    --paper:#faf7f1; --panel:#fffdf9; --line:#e6ded0;
-    --ink:#2b2a26; --muted:#6f6a5e;
-    --teal:#2f6f6a; --teal-bg:#e9f2f0;
-    --rock:#a8402f; --rock-bg:#f7e9e3;
-    --water:#3d7ea6; --water-bg:#e8f1f6;
-    --gold:#b07d2b; --hl:#c0392b;
+    /* D2 终裁：纳入品牌主题（SPEC-008）——纸感变量映射到品牌令牌；
+       章节矿物色保留 hue、深底适配（内容语义色） */
+    --paper:var(--xb-deep); --panel:var(--xb-surface-1); --line:var(--skin-border);
+    --ink:var(--xb-text); --muted:var(--xb-text-dim);
+    --teal:#5fc4b8; --teal-bg:rgba(95,196,184,.09);
+    --rock:#ff8a70; --rock-bg:rgba(255,138,112,.09);
+    --water:#7ab8e0; --water-bg:rgba(122,184,224,.09);
+    --gold:#e8c06a; --hl:#ff8a70;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-    background:var(--paper); color:var(--ink); line-height:1.85; font-size:16px;
+    font-family:var(--font-sans);
+    background:var(--paper); color:var(--ink); line-height:var(--lh-body); font-size:var(--fs-base);
   }
   .page{max-width:960px; margin:0 auto; padding:0 20px 80px;}
   header.hero{
     margin:0 -20px; padding:64px 20px 48px; text-align:center;
-    background:linear-gradient(180deg,#eef2ee 0%, var(--paper) 100%);
+    background:linear-gradient(180deg,rgba(45,27,78,.35) 0%, var(--paper) 100%);
     border-bottom:1px solid var(--line);
   }
   header.hero .kicker{letter-spacing:.4em; font-size:13px; color:var(--muted); margin-bottom:14px;}
@@ -61,6 +63,11 @@
     border-radius:0 10px 10px 0; padding:14px 18px; margin:18px 0;
   }
   .qa .q{font-weight:700; color:var(--teal);}
+  /* 信息图=档案馆里的图纸卡片：保留米白画布（D2 重写执行说明见 SPEC-008 5.2 B5） */
+  .qa svg[role="img"], figure svg[role="img"], svg.blueprint{
+    display:block; width:100%; height:auto; margin:14px 0;
+    background:#faf7f1; border:1px solid #e0d8c8; border-radius:10px; padding:12px;
+  }
   .qa .a{color:var(--muted); font-size:14.5px;}
   .chips{display:flex; flex-wrap:wrap; gap:10px; margin:16px 0;}
   .chip{
