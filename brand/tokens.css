@@ -1,0 +1,90 @@
+/* ==========================================================================
+   XBrain Design Tokens · 共享令牌层（单一权威来源）
+   规格：SPEC-008-XBrain全站UI重构实施（阶段 2）
+   设计计划：docs/ui/品牌层设计计划-两遍法留痕.md
+   层级：品牌层（IP 锁定，禁止改值）→ 皮肤层（按站覆写）→ 语义层/表面层/排印/间距/动效
+   ========================================================================== */
+
+:root {
+  /* ---- 品牌层（IP 锚点：色值零变化，S3 门禁 + AC3 断言锁定） ---- */
+  --xb-deep: #0a0a1a;
+  --xb-mid: #1a1030;
+  --xb-light: #2d1b4e;
+  --xb-accent: #64b4ff;
+  --xb-accent2: #80c0ff;
+  --xb-glow: rgba(100, 180, 255, 0.35);
+  --xb-border: rgba(100, 180, 255, 0.2);
+  --xb-text: #e8ecf4;
+  --xb-text-dim: rgba(200, 210, 230, 0.6);
+
+  /* ---- 皮肤层（换肤只动这里；覆写 --xb-* 即违规） ---- */
+  --skin-accent: var(--xb-accent);
+  --skin-accent2: var(--xb-accent2);
+  --skin-glow: var(--xb-glow);
+  --skin-border: var(--xb-border);
+  /* 既有皮肤实践参考（按站覆写示例）：
+     暖金 --skin-accent:#ffc46b; --skin-accent2:#ffe0a3; --skin-glow:rgba(255,196,107,.32); --skin-border:rgba(255,196,107,.22);
+     冷蓝 --skin-accent:#6ea8ff; 玉绿 --skin-accent:#5fb98a; —— 皮肤层之外一律不改 */
+
+  /* ---- 语义层（门户既有实践入共享层） ---- */
+  --xb-danger: #ff6b6b;
+  --xb-warn: #ffd166;
+  --xb-success: #5ee4a0;
+
+  /* ---- 表面层（三级：卡片 / 浮层 / 输入） ---- */
+  --xb-surface-1: rgba(26, 16, 48, 0.6);
+  --xb-surface-2: rgba(45, 27, 78, 0.55);
+  --xb-surface-3: rgba(10, 10, 26, 0.8);
+
+  /* ---- 排印（Noto 双族为 IP；scale 规范化） ---- */
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 16px;   /* 正文基准 16px（移动可读性升级点） */
+  --fs-md: 18px;
+  --fs-lg: 22px;
+  --fs-xl: 28px;
+  --fs-2xl: 36px;
+  --lh-body: 1.75;   /* 中文正文行高 */
+  --lh-head: 1.3;    /* 衬线标题行高 */
+  --xb-measure: 42em; /* 阅读列宽（中文 35–45 字/行） */
+
+  /* ---- 间距（4/8 网格） ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+
+  /* ---- 圆角（IP 层级语义化） ---- */
+  --r-lg: 12px;  /* 主容器 / Logo 胶囊 */
+  --r-md: 8px;   /* 导航 / 标签 / 表格 */
+  --r-sm: 4px;   /* 小元素 */
+
+  /* ---- 阴影 / 毛玻璃 ---- */
+  --shadow-1: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --glass-bg: rgba(20, 15, 50, 0.92);
+  --glass-blur: 12px;
+
+  /* ---- 动效（0.6s 为 Logo 淡出既有值） ---- */
+  --dur-fast: 160ms;
+  --dur-med: 320ms;
+  --dur-slow: 600ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --focus-ring: 0 0 0 2px rgba(10, 10, 26, 0.9), 0 0 0 4px var(--skin-accent);
+
+  /* ---- 触控与安全区（移动优先硬要求） ---- */
+  --tap-size: 44px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* ---- 断点说明（D5：媒体查询处使用字面值，此处仅作文档锚） ----
+     主断点 min-width:640px；微调档 min-width:400px；桌面增强 min-width:768px */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-med: 0ms; --dur-slow: 0ms; }
+}

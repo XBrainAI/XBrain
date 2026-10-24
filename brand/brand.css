@@ -1,0 +1,198 @@
+/* ==========================================================================
+   XBrain 共享品牌壳 · 样式层（Logo 胶囊 + top-nav 三件套 + 基础工具）
+   规格：SPEC-008（阶段 2）｜设计计划：docs/ui/品牌层设计计划-两遍法留痕.md
+   依赖：tokens.css（先于本文件引入）
+   视觉基线：brand/XBRAIN-LOGO-IP.md §四.1（重制须同步该文档——D3 同步条款）
+   ========================================================================== */
+
+/* ---------- Logo 胶囊（视觉基线 = IP 文档标准段，token 化重制） ---------- */
+
+.xbrain-brand {
+  position: fixed;
+  top: calc(var(--sp-4) + var(--safe-top));
+  left: var(--sp-4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px 14px 6px 8px;
+  font-family: var(--font-sans);
+  background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1.5px solid rgba(180, 210, 255, 0.55);
+  border-radius: var(--r-lg); /* IP：胶囊 12px 圆角，禁 100px 胶囊形（S3.5） */
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.15),
+    0 0 40px var(--skin-glow),
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+  transition: opacity var(--dur-slow) ease, box-shadow var(--dur-slow) ease, border-color var(--dur-slow) ease;
+}
+
+.xbrain-brand:hover {
+  box-shadow:
+    0 0 24px rgba(80, 140, 255, 0.40),
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  border-color: rgba(180, 210, 255, 0.70);
+}
+
+.xbrain-brand:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.xbrain-brand.scrolled {
+  background: rgba(15, 10, 40, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-color: rgba(100, 180, 255, 0.08);
+  box-shadow: none;
+}
+
+.xbrain-brand.scrolled:hover { opacity: 0.7 !important; border-color: rgba(100, 180, 255, 0.2); }
+
+.xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100, 180, 255, 0.55)); }
+.xbrain-brand .xb-ring { stroke-width: 4; opacity: 0.95; }
+.xbrain-brand .xb-glow-bg { opacity: 0.40; }
+.xbrain-brand .xb-center-ring { stroke-width: 3; opacity: 0.95; }
+.xbrain-brand .xb-x-line { opacity: 0.9; stroke-width: 2.5; }
+.xbrain-brand .xb-core { r: 12; opacity: 1; }
+.xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100, 180, 255, 0.45)); }
+.xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+.xbrain-brand .xb-bar-group { opacity: 0.75; }
+.xbrain-brand .xb-bar { fill: #5a90e0; }
+.xbrain-brand .xb-bar-glow { opacity: 0.9; }
+
+.xbrain-brand .xbrain-text {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #e8ecf4;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(100, 180, 255, 0.55);
+}
+.xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100, 180, 255, 0.9); }
+
+/* ---------- top-nav 三件套（README §十标准，token 化重制；移动优先） ---------- */
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-2) var(--sp-3);
+  background: linear-gradient(to bottom, var(--xb-deep) 85%, transparent);
+}
+
+.top-nav .nav-inner {
+  display: flex;
+  gap: var(--sp-2);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.top-nav .nav-inner::-webkit-scrollbar { display: none; }
+
+.top-nav .nav-inner a {
+  min-height: var(--tap-size);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--skin-border);
+  border-radius: 20px;
+  background: rgba(100, 180, 255, 0.08);
+  color: var(--xb-text-dim);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.top-nav .nav-inner a:hover { border-color: var(--skin-accent); color: var(--xb-text); }
+
+.top-nav .nav-inner a.active {
+  background: var(--skin-accent);
+  color: var(--xb-deep);
+  border-color: var(--skin-accent);
+  font-weight: 600;
+}
+
+.top-nav .nav-inner a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.top-nav .nav-hamburger {
+  display: none;
+  min-width: var(--tap-size);
+  min-height: var(--tap-size);
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 180, 255, 0.08);
+  border: 1px solid var(--skin-border);
+  border-radius: var(--r-md);
+  color: var(--xb-text);
+  cursor: pointer;
+}
+
+/* 桌面增强档（D5：768+ 为增强，非移动断点） */
+@media (min-width: 768px) {
+  .top-nav { padding: var(--sp-3) var(--sp-5); }
+  .top-nav .nav-inner { gap: var(--sp-3); overflow: visible; }
+  .top-nav .nav-inner a { font-size: var(--fs-base); }
+}
+
+/* 小屏：横向滚动胶囊（既有行为），汉堡由页面按需启用（D7 样板波对照后定去留） */
+@media (max-width: 639px) {
+  .xbrain-brand { top: calc(var(--sp-2) + var(--safe-top)); left: var(--sp-2); padding: 4px 10px 4px 6px; }
+  .xbrain-brand svg { width: 26px; height: 26px; }
+  .xbrain-brand .xbrain-text { font-size: 13px; }
+}
+
+/* ---------- 基础工具（质量底线：焦点可见 / 阅读列宽 / 编排瞬间） ---------- */
+
+/* 键盘焦点全局可见（质量底线，不宣告） */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--r-sm);
+}
+
+/* 长文阅读列宽：中文 35–45 字/行 */
+.xb-measure { max-width: var(--xb-measure); }
+
+/* 编排瞬间（唯一非用户触发动效 = hero 单序列；逐元素渐入须页面显式启用并过样板波评审） */
+.xb-hero-seq > * { opacity: 0; transform: translateY(16px); }
+.xb-hero-seq.xb-in > * {
+  animation: xb-rise var(--dur-slow) var(--ease-out) forwards;
+}
+.xb-hero-seq.xb-in > *:nth-child(2) { animation-delay: 120ms; }
+.xb-hero-seq.xb-in > *:nth-child(3) { animation-delay: 240ms; }
+.xb-hero-seq.xb-in > *:nth-child(4) { animation-delay: 360ms; }
+
+@keyframes xb-rise {
+  to { opacity: 1; transform: none; }
+}
+
+/* 逐元素渐入（默认关闭；页面加 .xb-reveal-on 显式启用） */
+.xb-reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--dur-slow) ease, transform var(--dur-slow) var(--ease-out); }
+.xb-reveal-on .xb-reveal.xb-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xb-hero-seq > *, .xb-reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+
+/* ---------- 卡片基线（非"同款卡片"：仅 quiet 基线 + 变体钩子，页面层差异化） ---------- */
+
+.xb-card {
+  background: var(--xb-surface-1);
+  border: 1px solid var(--skin-border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+}
+.xb-card.is-accent {
+  background: linear-gradient(135deg, var(--xb-surface-2) 0%, var(--xb-surface-1) 100%);
+  border-color: var(--skin-accent);
+}

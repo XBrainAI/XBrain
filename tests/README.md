@@ -39,13 +39,14 @@ push 前的完整门禁 = `test:repo:full` 全绿（等同 AGENTS §2 纪律的�
 ### S3 品牌 / 移动端规范（static/brand.test.js）——范围：门户 + 6 个静态子站全部 HTML
 | ID | 断言 | 依据 |
 |----|------|------|
-| S3.1 | `.xbrain-brand` + `.xbrain-text` + `<span>X</span>Brain` + SVG 四件套齐全 | §6.3/§6.7 |
+| S3.1 | `.xbrain-brand` + `.xbrain-text` + `<span>X</span>Brain` + SVG 四件套类名（`xb-ring`/`xb-ttai`/`xb-bar-group`/`xb-decor-group`）齐全 | §6.3/§6.7 |
 | S3.2 | 品牌链接不死链：门户 `#top`；子站 `#top` 或解析后目标存在 | §6.3 |
 | S3.3 | 每页有 `id="top"` 首屏锚点 | §6.7/§13 |
-| S3.4 | viewport meta 存在，禁止 `user-scalable=no` | §6.9① |
+| S3.4 | viewport meta 存在且 content 引号闭合，禁止 `user-scalable=no` | §6.9① |
 | S3.5 | `.xbrain-brand` 规则块内禁止 `border-radius:100px` 胶囊形（仅查品牌块，不误伤业务药丸按钮） | §6.3 |
 | S3.6 | 禁止 `body.style.overflow` 锁滚动（iOS 灯箱错位铁律） | §14.2 |
 | S3.7 | `.lightbox-nav.prev/.next` 禁止负偏移推出屏幕 | §14.2 |
+| S3.8 | 共享品牌层完整性：tokens.css 九令牌与门户权威值零漂移、皮肤层默认映射、四件套 override 色值、胶囊圆角令牌、淡出行为参数、逐元素渐入默认关闭（SPEC-008 阶段 2 新增，static/brand-layer.test.js） | SPEC-008 |
 
 ### S4 脚本生成页约定（static/generated.test.js）
 | ID | 断言 | 依据 |
