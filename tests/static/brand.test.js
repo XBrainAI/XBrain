@@ -16,10 +16,13 @@ const { BRAND_SCOPE_DIRS, isExempt } = require('../config');
 
 const pages = listFiles('.html').filter(
   (f) => underDir(f, 'index.html') || BRAND_SCOPE_DIRS.some((d) => underDir(f, d))
+).filter(
+  // 预渲染解析页为数据工件（SPEC-005 B2，报告 §3.4 白名单定位），有意使用紧凑品牌头——完整四件套断言不适用
+  (f) => !/grade-insight[\\/]details[\\/].*[\\/]analysis[\\/]/.test(f)
 );
 const IS_PORTAL = (f) => relToRoot(f) === 'index.html';
 
-test('S3.1 品牌组件完整：.xbrain-brand + .xbrain-text + <span>X</span> + SVG', () => {
+test('S3.1 品牌组件完整：.xbrain-brand + .xbrain-text + <span>X</span> + SVG + 四件套类名', () => {
   const missing = [];
   for (const file of pages) {
     const html = readText(file);
@@ -29,6 +32,11 @@ test('S3.1 品牌组件完整：.xbrain-brand + .xbrain-text + <span>X</span> + 
     if (!/class="xbrain-text/.test(html)) problems.push('缺 .xbrain-text');
     if (!/<span>X<\/span>Brain/.test(html)) problems.push('品牌文字非 <span>X</span>Brain');
     if (!/<svg[\s>]/i.test(html)) problems.push('缺品牌 SVG');
+    // 四件套类名断言（XBRAIN-LOGO-IP §五.4 禁简化 SVG；SPEC-008 阶段 0.5 补齐，此前仅查存在性标记——AUDIT-006 K3）
+    if (!/xb-ring/.test(html)) problems.push('缺 xb-ring');
+    if (!/xb-ttai/.test(html)) problems.push('缺 xb-ttai');
+    if (!/xb-bar-group/.test(html)) problems.push('缺 xb-bar-group');
+    if (!/xb-decor-group/.test(html)) problems.push('缺 xb-decor-group');
     if (problems.length) missing.push(`${relToRoot(file)}: ${problems.join('; ')}`);
   }
   assert.deepEqual(missing, [], `品牌组件缺失页:\n  ${missing.join('\n  ')}`);
@@ -64,14 +72,18 @@ test('S3.3 每页存在 id="top" 首屏锚点（IP 规范硬性要求）', () =>
   assert.deepEqual(missing, [], `缺 id="top" 页面:\n  ${missing.join('\n  ')}`);
 });
 
-test('S3.4 viewport meta 存在，且禁止 user-scalable=no（§6.9 ①）', () => {
+test('S3.4 viewport meta 存在、content 闭合、禁 user-scalable=no（§6.9 ①）', () => {
   const bad = [];
   for (const file of pages) {
     if (isExempt(file, 'S3.4')) continue;
     const html = readText(file);
     const vp = /<meta\s+name=["']viewport["'][^>]*>/i.exec(html);
     if (!vp) { bad.push(`${relToRoot(file)}: 缺 viewport meta`); continue; }
-    if (/user-scalable\s*=\s*(no|0)/i.test(vp[0])) bad.push(`${relToRoot(file)}: viewport 禁止缩放`);
+    if (/user-scalable\s*=\s*(no|0)/i.test(vp[0])) { bad.push(`${relToRoot(file)}: viewport 禁止缩放`); continue; }
+    // content 闭合校验（SPEC-008 阶段 0.5 收紧：[^>]* 会吞到下一标签的 >，缺右引号的 meta 借此蒙混——AUDIT-006 K6）
+    const cm = /content=(["'])([\s\S]*?)\1/.exec(vp[0]);
+    if (!cm) bad.push(`${relToRoot(file)}: viewport content 引号未闭合`);
+    else if (/[<\n]/.test(cm[2])) bad.push(`${relToRoot(file)}: viewport content 未闭合（跨标签吞并）`);
   }
   assert.deepEqual(bad, [], `viewport 问题:\n  ${bad.join('\n  ')}`);
 });

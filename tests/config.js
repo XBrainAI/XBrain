@@ -63,6 +63,16 @@ const KNOWN_ISSUES = [
     id: 'KI-10', file: '四季景点/古埃及展南沙周末家庭游/index.html', rule: 'S3.6',
     reason: '存量灯箱用 body 滚动锁，待按 §14.3 模板修复',
   },
+  // SPEC-008 阶段 0.5 登记（S3.1 四件套断言补齐后的显红存量页；清理条件 = 对应阶段修复后立即删除）：
+  // 已清偿并删除：KI-13（哥/20261003 简化 SVG）、KI-14（古埃及展四件套缺失）——SPEC-008 阶段 1 修复落地即删（2026-10-24）。
+  {
+    id: 'KI-15', file: '健康/哥/index.html', rule: 'S3.1',
+    reason: '生成页压缩版 Logo（无四件套类名）——SPEC-008 阶段 3 生成器改造重跑后删除',
+  },
+  {
+    id: 'KI-16', file: '健康/妈/index.html', rule: 'S3.1',
+    reason: '生成页压缩版 Logo（无四件套类名）——SPEC-008 阶段 3 生成器改造重跑后删除',
+  },
 ];
 
 module.exports = { ROOT, SUBSITE_DIRS, BRAND_SCOPE_DIRS, SCAN_EXCLUDE_DIRS, SCAN_EXCLUDE_FILES, KNOWN_ISSUES };
