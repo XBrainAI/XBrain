@@ -142,37 +142,7 @@
     figure{break-inside:avoid;}
     section{break-inside:auto;}
   }
-  /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
-  .xbrain-brand{
-    position:fixed; top:16px; left:16px; z-index:100;
-    display:flex; align-items:center; gap:8px;
-    background:linear-gradient(135deg, rgba(17,33,27,.94) 0%, rgba(28,58,46,.92) 100%);
-    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-    border:1.5px solid rgba(143,217,182,.55);
-    border-radius:12px; padding:6px 14px 6px 8px;
-    box-shadow:0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(95,185,138,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
-    text-decoration:none; transition:opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
-  }
-  .xbrain-brand:hover{box-shadow:0 0 24px rgba(95,185,138,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform:translateY(-1px); border-color:rgba(143,217,182,.7);}
-  .xbrain-brand svg{width:32px; height:32px; flex-shrink:0; filter:drop-shadow(0 0 12px rgba(95,185,138,.55));}
-  .xbrain-brand .xb-ring{stroke-width:4; opacity:.95;}
-  .xbrain-brand .xb-glow-bg{opacity:.40;}
-  .xbrain-brand .xb-center-ring{stroke-width:3; opacity:.95;}
-  .xbrain-brand .xb-x-line{opacity:.9; stroke-width:2.5;}
-  .xbrain-brand .xb-core{r:12; opacity:1;}
-  .xbrain-brand .xb-ttai{fill:#4a70c0; filter:drop-shadow(0 0 6px rgba(100,180,255,.45));}
-  .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2{opacity:1;}
-  .xbrain-brand .xb-bar-group{opacity:.75;}
-  .xbrain-brand .xb-bar{fill:#5a90e0;}
-  .xbrain-brand .xb-bar-glow{opacity:.9;}
-  .xbrain-brand .xbrain-text{font-size:15px; font-weight:800; letter-spacing:1.5px; color:#eef2f8; line-height:1; text-shadow:0 0 12px rgba(100,180,255,.55);}
-  .xbrain-brand .xbrain-text span{color:#64b4ff; text-shadow:0 0 18px rgba(100,180,255,.9);}
-  .xbrain-brand.scrolled{background:rgba(15,10,40,.4); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border-color:rgba(100,180,255,.08); box-shadow:none;}
-  @media (max-width:640px){
-    .xbrain-brand{top:8px; left:8px; padding:4px 10px 4px 6px;}
-    .xbrain-brand svg{width:26px; height:26px;}
-    .xbrain-brand .xbrain-text{font-size:13px;}
-  }
+  /* 品牌 Logo 胶囊样式由 ../../../brand/brand.css 提供（SPEC-008 形态 B，玉绿胶囊随阶段1还原收口） */
 </style>
 </head>
 <body id="top">
@@ -891,19 +861,6 @@
 
 </div>
 
-<script>
-  /* ===== XBrain Logo 滚动淡出（IP 规范）===== */
-  (function () {
-    var logo = document.querySelector('.xbrain-brand'), ticking = false;
-    function updateLogo() {
-      var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var ratio = Math.min(scrollY / vh, 1);
-      if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
-    }
-    window.addEventListener('scroll', function () { if (!ticking) { window.requestAnimationFrame(function () { updateLogo(); ticking = false; }); ticking = true; } }, { passive: true });
-    updateLogo();
-  })();
-</script>
+<script src="../../../brand/brand.js" defer></script>
 </body>
 </html>
