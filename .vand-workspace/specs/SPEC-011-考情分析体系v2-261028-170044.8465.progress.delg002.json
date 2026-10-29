@@ -1,0 +1,25 @@
+{
+  "spec_id": "SPEC-011-考情分析体系v2-261028-170044.8465",
+  "delg": "DELG-002-考情分析v2-S1收尾与S2实施-261029-113010.1374",
+  "batches": [
+    { "id": "recon", "name": "开工对账", "status": "done" },
+    { "id": "TA", "name": "T-A 错因复核承接（22 行确认+回填重跑）", "status": "done" },
+    { "id": "TKP", "name": "T-KP 别名裁定承接（kp-0051 已并入 kp-0011；OCR 变体组留 TD-008）", "status": "done" },
+    { "id": "T4", "name": "T4 联合数据 joint.js + joint-data.js", "status": "done" },
+    { "id": "T5", "name": "T5 引擎 v2（D/E/A 系列，R1–R7 冻结）", "status": "done" },
+    { "id": "T6", "name": "T6 可视化 V1–V5 + 系统分析.md v2 + 移动端三档 + S12", "status": "done" },
+    { "id": "T8", "name": "T8 提交请示清单与回执", "status": "done" }
+  ],
+  "done": [
+    "recon: git pull 无更新；工作树干净；S1 已在 ac13aad 提交（任务书'未提交'前提已过时，以仓库现状为准）",
+    "TA: 用户裁定 22 行全部确认；复核件状态行改'已确认（2026-10-29 by 25311753）'，22 行打 ✓",
+    "TA: convert 重跑 cause 10/10 + 12/12，integrity 错因覆盖双 pass；双跑幂等 true（除 transcribedAt）",
+    "TKP: kp-0051→kp-0011 合并（用户采纳）；convert.js 两处缺陷修复（内联 aliases 解析、alias 优先于 canonical、按 kpId 归并重复行）；数学 KP 51→50、薄弱 21→20；OCR 变体组暂不合并→TD-008",
+    "T4: pipeline/joint.js 新建；js/joint-data.js 生成（gi-joint/1，头注在位，确定性幂等，S12.4 断言与生成器同源）",
+    "T5: js/analyze.js v2（D1/D2/D3/E1/E2/E3/A1/A2）；R1–R7 与 v1 引擎逐字段一致（S12.2）；pipeline/analyze.js 渲染系统分析.md v2（错因构成/复习计划/跨考占位）",
+    "T6: V1 题级散点+题目对照卡（iframe 解析+错因标签）、V2 错因堆叠条（分科卡）、V3 KP 四象限（点击联动题号+解析）、V4 演化占位'下考激活'、V5 四周路径阶梯图+周计划；移动端 320/375/390 实测无溢出、触控≥44px、图表 touch-action:pan-y；S12 新增 9 用例，67/67 全绿",
+    "T8: 提交请示已列（不自行 commit/push）；回执 K1–K10 全项结论已填，状态 returned"
+  ],
+  "next": "代码已按 A/B/C+D 提交（a327dd9/6c671c0/87784af），工作区工件随 E 提交并推送；请求方承接：规格 5.1/5.2 留痕 → 回执 closed；AC9 用户抽检待安排。TD-008（OCR 变体别名）与 TD-009（导入包行数同步）待时机。",
+  "_canary": "rev=3|2026-10-29 13:36:36|25311753:qoder-desktop|87784af"
+}
