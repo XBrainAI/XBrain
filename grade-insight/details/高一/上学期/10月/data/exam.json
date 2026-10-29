@@ -8,7 +8,7 @@
       "acceptance": "v1.2",
       "alias": "v1"
     },
-    "transcribedAt": "2026-10-28T10:04:08",
+    "transcribedAt": "2026-10-29T03:55:44",
     "confidence": {
       "chinese": "高",
       "math": "高",
@@ -273,7 +273,9 @@
           "point": 5,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/数学-试卷解析 (8).md"
+          "analysisRef": "md/数学-试卷解析 (8).md",
+          "cause": "C6",
+          "causeNote": "我的答案 B 与解析推导一致但与参考答案键 D 矛盾，疑答案键或转写有误"
         },
         {
           "no": 9,
@@ -289,7 +291,9 @@
           "point": 6,
           "diff": "中",
           "score": 4,
-          "analysisRef": "md/数学-试卷解析 (10).md"
+          "analysisRef": "md/数学-试卷解析 (10).md",
+          "cause": "C1",
+          "causeNote": "百分位数位置计算概念不清（5×25%=1.25 → 取第 2 个数据 2.2）"
         },
         {
           "no": 11,
@@ -297,7 +301,9 @@
           "point": 6,
           "diff": "中",
           "score": 3,
-          "analysisRef": "md/数学-试卷解析 (11).md"
+          "analysisRef": "md/数学-试卷解析 (11).md",
+          "cause": "C2",
+          "causeNote": "面面垂直判定的证明方法链未掌握（OM⊥ON → 线面垂直）"
         },
         {
           "no": 12,
@@ -313,7 +319,9 @@
           "point": 5,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/数学-试卷解析 (13).md"
+          "analysisRef": "md/数学-试卷解析 (13).md",
+          "cause": "C2",
+          "causeNote": "等差数列最值的 d 范围不等式法未建立（KP 掌握率 0%）；作答区内容与题意不"
         },
         {
           "no": 14,
@@ -321,7 +329,9 @@
           "point": 5,
           "diff": "难",
           "score": 0,
-          "analysisRef": "md/数学-试卷解析 (14).md"
+          "analysisRef": "md/数学-试卷解析 (14).md",
+          "cause": "C2",
+          "causeNote": "圆与圆内切+存在性问题的强技巧方法链未建立，作答空白"
         },
         {
           "no": 15,
@@ -329,7 +339,9 @@
           "point": 13,
           "diff": "易",
           "score": 10,
-          "analysisRef": "md/数学-试卷解析 (15).md"
+          "analysisRef": "md/数学-试卷解析 (15).md",
+          "cause": "C5",
+          "causeNote": "过程性失分（10/13）；作答影像与本题（解三角形）不符疑转写配图错位，失分步骤"
         },
         {
           "no": 16,
@@ -337,7 +349,9 @@
           "point": 15,
           "diff": "中",
           "score": 9,
-          "analysisRef": "md/数学-试卷解析 (16).md"
+          "analysisRef": "md/数学-试卷解析 (16).md",
+          "cause": "C5",
+          "causeNote": "过程性失分（9/15）；作答影像与本题（导数极值恒成立）不符疑配图错位"
         },
         {
           "no": 17,
@@ -345,7 +359,9 @@
           "point": 15,
           "diff": "中",
           "score": 8,
-          "analysisRef": "md/数学-试卷解析 (17).md"
+          "analysisRef": "md/数学-试卷解析 (17).md",
+          "cause": "C5",
+          "causeNote": "过程性失分（8/15）；作答影像与本题（抛物线）不符疑配图错位"
         },
         {
           "no": 18,
@@ -353,7 +369,9 @@
           "point": 17,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/数学-试卷解析 (18).md"
+          "analysisRef": "md/数学-试卷解析 (18).md",
+          "cause": "C2",
+          "causeNote": "圆锥侧面展开求最短路径+空间向量法方法链未掌握（0 分）"
         },
         {
           "no": 19,
@@ -361,7 +379,9 @@
           "point": 17,
           "diff": "难",
           "score": 0,
-          "analysisRef": "md/数学-试卷解析 (19).md"
+          "analysisRef": "md/数学-试卷解析 (19).md",
+          "cause": "C2",
+          "causeNote": "期望递推与无穷级数求和方法未掌握（0 分）"
         }
       ],
       "kps": [
@@ -943,15 +963,6 @@
           "key": true,
           "category": "薄弱",
           "kpKey": "math::平面与平面所成角最值问题"
-        },
-        {
-          "kpId": "kp-0051",
-          "name": "离散型随机变量的均值（期望）（长截图拼接接缝处重复行）",
-          "rate": 0,
-          "wrong": 1,
-          "key": false,
-          "category": "薄弱",
-          "kpKey": "math::离散型随机变量的均值(期望)(长截图拼接接缝处重复行)"
         }
       ],
       "kpBadges": {
@@ -1849,7 +1860,9 @@
           "point": 2,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (9).md"
+          "analysisRef": "md/生物-试卷解析 (9).md",
+          "cause": "C1",
+          "causeNote": "Mg/Fe 与叶绿素/血红素的对应概念混淆（血红素含 Fe 非 Mg）"
         },
         {
           "no": 10,
@@ -1873,7 +1886,9 @@
           "point": 2,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (12).md"
+          "analysisRef": "md/生物-试卷解析 (12).md",
+          "cause": "C1",
+          "causeNote": "缺 K⁺ 与肌肉抽搐症状对应混淆（抽搐系缺 Ca²⁺）"
         },
         {
           "no": 13,
@@ -1921,7 +1936,9 @@
           "point": 2,
           "diff": "易",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (18).md"
+          "analysisRef": "md/生物-试卷解析 (18).md",
+          "cause": "C1",
+          "causeNote": "斐林试剂仅检测还原糖的概念缺口（不是所有糖类均可反应）"
         },
         {
           "no": 19,
@@ -1985,7 +2002,9 @@
           "point": 2,
           "diff": "易",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (26).md"
+          "analysisRef": "md/生物-试卷解析 (26).md",
+          "cause": "C1",
+          "causeNote": "氨基酸 R 基可含 S（-CH₂SH）的元素组成概念缺口（漏判 S 元素）"
         },
         {
           "no": 27,
@@ -1993,7 +2012,9 @@
           "point": 2,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (27).md"
+          "analysisRef": "md/生物-试卷解析 (27).md",
+          "cause": "C1",
+          "causeNote": "蛋白质多样性原因的概念缺口（氨基酸连接方式相同，均为肽键）"
         },
         {
           "no": 28,
@@ -2009,7 +2030,9 @@
           "point": 2,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (29).md"
+          "analysisRef": "md/生物-试卷解析 (29).md",
+          "cause": "C1",
+          "causeNote": "核苷酸类别由五碳糖决定的概念缺口（m=G 时可为核糖或脱氧核糖核苷酸）"
         },
         {
           "no": 30,
@@ -2025,7 +2048,9 @@
           "point": 2,
           "diff": "难",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (31).md"
+          "analysisRef": "md/生物-试卷解析 (31).md",
+          "cause": "C1",
+          "causeNote": "脂质不属于生物大分子（非多聚体）的概念缺口"
         },
         {
           "no": 32,
@@ -2041,7 +2066,9 @@
           "point": 2,
           "diff": "难",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (33).md"
+          "analysisRef": "md/生物-试卷解析 (33).md",
+          "cause": "C1",
+          "causeNote": "细胞生物遗传物质 = DNA（4 种脱氧核苷酸）概念混淆（按 DNA+RNA 共"
         },
         {
           "no": 34,
@@ -2049,7 +2076,9 @@
           "point": 2,
           "diff": "易",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (34).md"
+          "analysisRef": "md/生物-试卷解析 (34).md",
+          "cause": "C1",
+          "causeNote": "肽键数 = 氨基酸数 − 肽链数 公式应用错误（按减 1 计算）"
         },
         {
           "no": 35,
@@ -2057,7 +2086,9 @@
           "point": 2,
           "diff": "中",
           "score": 0,
-          "analysisRef": "md/生物-试卷解析 (35).md"
+          "analysisRef": "md/生物-试卷解析 (35).md",
+          "cause": "C1",
+          "causeNote": "RNA 彻底水解产物（核糖+含氮碱基+磷酸）概念缺口"
         },
         {
           "no": 36,
@@ -2065,7 +2096,9 @@
           "point": 14,
           "diff": "中",
           "score": 7,
-          "analysisRef": "md/生物-试卷解析 (36).md"
+          "analysisRef": "md/生物-试卷解析 (36).md",
+          "cause": "C5",
+          "causeNote": "过程性失分（7/14）：(1)漏答 A/核膜拟核表述混淆、(5)细胞生物遗传物质"
         },
         {
           "no": 37,
@@ -2073,7 +2106,9 @@
           "point": 16,
           "diff": "中",
           "score": 7,
-          "analysisRef": "md/生物-试卷解析 (37).md"
+          "analysisRef": "md/生物-试卷解析 (37).md",
+          "cause": "C5",
+          "causeNote": "过程性失分（7/16）：(2)储能物质误答纤维素、(3)特有碱基未答尿嘧啶、(4"
         }
       ],
       "kps": [
@@ -3025,7 +3060,7 @@
       {
         "name": "知识点行数 vs 徽标:math",
         "expect": 45,
-        "actual": 51,
+        "actual": 50,
         "status": "warn"
       },
       {
@@ -3046,8 +3081,8 @@
       {
         "name": "错因覆盖(cause):math",
         "expect": "全部错题经人工确认标注",
-        "actual": "0/10",
-        "status": "warn"
+        "actual": "10/10",
+        "status": "pass"
       },
       {
         "name": "qNos 一致性:math",
@@ -3058,8 +3093,8 @@
       {
         "name": "错因覆盖(cause):biology",
         "expect": "全部错题经人工确认标注",
-        "actual": "0/12",
-        "status": "warn"
+        "actual": "12/12",
+        "status": "pass"
       },
       {
         "name": "qNos 一致性:biology",

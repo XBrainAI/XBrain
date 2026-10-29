@@ -189,7 +189,12 @@ function loadAlias(file) {
     if (cur) {
       const f = l.match(/^\s+(name|subject|first_seen):\s*(.+)$/);
       if (f) cur[f[1]] = f[2].trim();
-      const a = l.match(/^\s+-\s+(.+)$/); if (a && /^\s+aliases:/.test(l) === false) cur.aliases.push(a[1].trim());
+      const inline = l.match(/^\s+aliases:\s*\[(.*)\]\s*$/);
+      if (inline) {
+        inline[1].split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean).forEach(a => cur.aliases.push(a));
+        continue;
+      }
+      const a = l.match(/^\s+-\s+(.+)$/); if (a) cur.aliases.push(a[1].trim());
     }
   }
   return { canonical, suspected };
@@ -211,10 +216,10 @@ function saveAlias(file, canonical, suspected, total0) {
 }
 function makeResolver(canonical) {
   const byNorm = {}; const nameById = {};
-  canonical.forEach(c => {
-    byNorm[normName(c.name) + '|' + c.subject] = c.id; nameById[c.id] = c.name;
-    c.aliases.forEach(a => { byNorm[normName(a) + '|' + c.subject] = c.id; });
-  });
+  /* 两遍建索引：canonical 名先入，aliases 后入——已裁定的合并（alias）优先于被并行的旧登记名，
+     使 append-only 字典能在不删除旧条目的前提下完成归并（SPEC-011 T-KP kp-0051→kp-0011）。 */
+  canonical.forEach(c => { byNorm[normName(c.name) + '|' + c.subject] = c.id; nameById[c.id] = c.name; });
+  canonical.forEach(c => { c.aliases.forEach(a => { byNorm[normName(a) + '|' + c.subject] = c.id; }); });
   let next = canonical.length;
   const unmapped = [];
   return {
@@ -288,9 +293,9 @@ function convert(examDir, aliasFile, month) {
     const main = parseKpFile(read(mainF)); const merged = {};
     const add = (item, category) => {
       const id = alias.resolve(item.name, key);
-      const k = normName(item.name);
-      merged[k] = merged[k] || { kpId: id, name: item.name.replace(/^重点\s*/, ''), rate: item.rate, wrong: item.wrong, key: item.key };
-      if (category) merged[k].category = category;
+      /* 按解析后的 kpId 归并：别名裁定的同义行（如 kp-0051→kp-0011）合并为一条，避免同一 KP 重复入档 */
+      merged[id] = merged[id] || { kpId: id, name: item.name.replace(/^重点\s*/, ''), rate: item.rate, wrong: item.wrong, key: item.key };
+      if (category) merged[id].category = category;
     };
     main.list.forEach(i => add(i, '考查'));
     const catMap = { mastered: '已掌握', improve: '待提升', weak: '薄弱' };
