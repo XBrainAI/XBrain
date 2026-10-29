@@ -526,6 +526,10 @@
         kpHtml += '</tbody></table></div>';
       });
       kpHtml += '<div class="small-note mt8">仅显示平台提供该视图的科目；未显示≠未学习。掌握率&lt;60% 标红，★=重点。</div>';
+      kpHtml += '<div class="sa-block" id="kpQuadBlock"><div class="sa-title">知识点四象限 <span>横轴=关联丢分 · 纵轴=掌握率（越上越未掌握）</span></div>' +
+        '<div id="kpQuadWrap" class="muted small-note">四象限加载中…</div></div>';
+      kpHtml += '<div class="sa-block" id="kpEvoBlock"><div class="sa-title">知识点演化 <span>跨考追踪</span></div>' +
+        '<div id="kpEvoWrap" class="muted small-note">加载中…</div></div>';
     }
 
     var cmpHtml = '';
@@ -587,6 +591,8 @@
         if (p) p.classList.add('on');
         if (b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center' });
         if (b.getAttribute('data-x') === 'sys' && window.GISysPanel) window.GISysPanel.reveal();
+        if (b.getAttribute('data-x') === 'qz' && window.GIQzPanel) window.GIQzPanel.reveal();
+        if (b.getAttribute('data-x') === 'kp' && window.GIKpPanel) window.GIKpPanel.reveal();
       });
     });
 
@@ -626,7 +632,7 @@
       if (!d || !Array.isArray(d.subjects)) throw new Error('契约结构缺失');
       var base = e.dataRef.replace(/data\/exam\.json$/, '');
       d._base = base;
-      var html = '';
+      var html = '<div id="qzDiag"></div>';
       var shown = 0;
       d.subjects.forEach(function (sr) {
         if (!sr.questions || !sr.questions.length) return;
@@ -651,6 +657,8 @@
       });
       if (!shown) html += '<div class="muted">该考未提供题级数据。</div>';
       box.innerHTML = html;
+      renderQzDiag(d);
+      renderKpExtras(d);
       fetch(encodeURI(base + 'data/balance.json')).then(function (r) {
         return r.ok ? r.json() : null;
       }).catch(function () { return null; }).then(function (bal) {
@@ -661,7 +669,273 @@
       box.innerHTML = '<span class="muted small-note">📋 题级明细未能加载（数据件缺失或路径变更），不影响上方内容。</span>';
       var sb = document.getElementById('sysBox');
       if (sb) sb.innerHTML = '<span class="muted small-note">📊 仪表盘未能加载（数据件缺失），不影响其他标签。</span>';
+      var kq = document.getElementById('kpQuadWrap'), ke = document.getElementById('kpEvoWrap');
+      if (kq) kq.innerHTML = '<span class="muted small-note">四象限未能加载（数据件缺失）。</span>';
+      if (ke) ke.innerHTML = '<span class="muted small-note">演化数据未能加载。</span>';
     });
+  }
+
+  /* ---------- v2 可视化（SPEC-011）：V1 题级诊断散点 / V3 KP 四象限 / V4 KP 演化 ---------- */
+  var qzLast = null, kpLast = null;
+  var r1x = function (x) { return Math.round(x * 10) / 10; };
+  var shortKp = function (n) { return String(n || '').split('>').pop().replace(/^【重点】/, '').replace(/^重点\s*/, ''); };
+  var QUAD_TEXT = { highValue: '高价值补强（丢分多·未掌握）', stable: '稳定得分区（丢分多·已掌握）', lowEffort: '低效防护（丢分少·未掌握）', safe: '安全区（丢分少·已掌握）' };
+  var QUAD_COLOR = { highValue: '#ff8f8f', stable: '#64b4ff', lowEffort: '#ffd479', safe: '#7ee2a8' };
+  var causeLabel = function (c) {
+    if (!c) return '待标注';
+    var map = (window.GIAnalyze && GIAnalyze.RULES && GIAnalyze.RULES.causeName) || {};
+    return map[c] || '已标注';
+  };
+  var analysisHref = function (base, ref) {
+    var safe = /^md\/.+\.md$/.test(ref || '') && ref.indexOf('..') < 0;
+    return safe ? base + 'data/analysis/' + ref.replace(/^md\//, '').replace(/ \((\d+)\)\.md$/, '-$1.html') : '';
+  };
+
+  function openQzCard(d, sr, q) {
+    var href = analysisHref(d._base || '', q.analysisRef);
+    var ov = document.createElement('div');
+    ov.className = 'qz-overlay';
+    ov.innerHTML = '<div class="qz-card" role="dialog" aria-label="题目对照卡">' +
+      '<div class="qz-card-h"><div><b>' + esc(sr.name || sr.key) + ' · 第 ' + q.no + ' 题</b>' +
+      '<div class="muted small-note">' + esc(q.type || '') + ' · ' + esc(q.diff || '') + ' · ' + q.score + '/' + q.point + ' 分 · 错因：' + esc(causeLabel(q.cause)) + '（AI 预判+人工复核）</div></div>' +
+      '<button class="qz-close" aria-label="关闭">✕</button></div>' +
+      (q.causeNote ? '<div class="qz-note">' + esc(q.causeNote) + '</div>' : '') +
+      (href ? '<iframe src="' + encodeURI(href) + '" title="题目对照与解析" loading="lazy"></iframe>'
+            : '<div class="qz-empty">该题无解析源，只能查看分数记录（缺源不研判）。</div>') +
+      '</div>';
+    document.body.appendChild(ov);
+    var ifr = ov.querySelector('iframe');
+    if (ifr) ifr.addEventListener('load', function () {
+      try {
+        var doc = ifr.contentDocument; if (!doc) return;
+        var st = doc.createElement('style');
+        st.textContent = '.katex{max-width:100%;overflow-x:auto;overflow-y:hidden;display:inline-block;vertical-align:top}';
+        doc.head.appendChild(st);
+      } catch (e) { /* 跨源不可达时保持原样 */ }
+    });
+    function close() { if (ov.parentNode) ov.parentNode.removeChild(ov); document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+    ov.querySelector('.qz-close').addEventListener('click', close);
+    document.addEventListener('keydown', onKey);
+  }
+
+  function renderQzDiag(d) {
+    var wrap = document.getElementById('qzDiag'); if (!wrap) return;
+    var options = (d.subjects || []).filter(function (sr) { return sr.questions && sr.questions.length; });
+    if (!options.length) { wrap.innerHTML = ''; return; }
+    var first = options.filter(function (sr) { return sr.questions.some(function (q) { return q.score < q.point; }); })[0] || options[0];
+    wrap.innerHTML = '<div class="sa-block qz-diag">' +
+      '<div class="sa-title">题级诊断 <span>每点=一道题 · 横轴难度 · 纵轴得分率 · 点大小=分值</span></div>' +
+      '<div class="qz-toolbar"><label>科目 <select id="qzSubj">' +
+        options.map(function (sr) { return '<option value="' + esc(sr.key) + '">' + esc(sr.name || sr.key) + '</option>'; }).join('') +
+      '</select></label><span class="muted small-note">点圆点看题目对照与解析</span></div>' +
+      '<div class="sa-chart qz-chart" id="qzChart"></div>' +
+      '<div class="qz-legend"><span><i style="background:#ff8f8f"></i>错题</span><span><i style="background:#ffd479"></i>部分得分</span><span><i style="background:#7ee2a8"></i>满分</span><span class="muted">气泡大小=该题分值</span></div>' +
+      '<div id="qzCauseNote" class="sa-chip-note"></div></div>';
+    var sel = document.getElementById('qzSubj');
+    if (sel) { sel.value = first.key; sel.addEventListener('change', function () { qzLast.subject = options.filter(function (x) { return x.key === sel.value; })[0]; drawQz(); }); }
+    qzLast = { d: d, subject: first };
+    window.GIQzPanel = { reveal: drawQz };
+    if (document.getElementById('xp-qz') && document.getElementById('xp-qz').classList.contains('on')) drawQz();
+  }
+
+  function drawQz() {
+    if (!qzLast) return;
+    var d = qzLast.d, sr = qzLast.subject;
+    var diffIdx = { '易': 0, '中': 1, '难': 2 };
+    var data = (sr.questions || []).map(function (q, i) {
+      var p = q.point || 0, sc = q.score === null || q.score === undefined ? 0 : q.score;
+      var state = sc >= p ? 'full' : (sc <= 0 ? 'wrong' : 'partial');
+      var base = diffIdx[q.diff] === undefined ? 1 : diffIdx[q.diff];
+      var same = (sr.questions || []).filter(function (x) { return x.diff === q.diff; });
+      var pos = same.indexOf(q);
+      return {
+        value: [base, Math.round(p ? sc / p * 100 : 0)], q: q, state: state,
+        symbolSize: Math.max(9, Math.min(26, 9 + p * 0.55)),
+        symbolOffset: [((pos % 5) - 2) * 7, 0]
+      };
+    });
+    var note = document.getElementById('qzCauseNote');
+    if (note) {
+      var wrong = (sr.questions || []).filter(function (q) { return q.score < q.point; });
+      var labelled = wrong.filter(function (q) { return q.cause; }).length;
+      note.innerHTML = wrong.length
+        ? (labelled ? '错因标注 ' + labelled + '/' + wrong.length + ' · AI 预判+人工复核' : '本考错因待标注（未标注≠无问题）')
+        : '';
+    }
+    var inst = GICharts.paint('qzChart', {
+      animationDuration: 400,
+      grid: { left: 8, right: 18, top: 24, bottom: 30, containLabel: true },
+      tooltip: {
+        trigger: 'item',
+        backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)',
+        textStyle: { color: '#e8ecf4', fontSize: 12 },
+        formatter: function (p) {
+          var q = p.data.q;
+          return '<b>第 ' + q.no + ' 题</b> ' + esc(q.type || '') + '<br>' + esc(q.diff || '') + ' · ' + q.score + '/' + q.point + ' 分' +
+            '<br>错因：' + esc(causeLabel(q.cause)) + (q.causeNote ? '<br><span style="color:#9aa7c4">' + esc(q.causeNote) + '</span>' : '');
+        }
+      },
+      xAxis: {
+        type: 'category', data: ['易', '中', '难'], boundaryGap: true,
+        axisLabel: { color: '#9aa7c4', fontSize: 11 }, splitLine: { show: false },
+        axisLine: { lineStyle: { color: 'rgba(100,180,255,0.18)' } }, axisTick: { show: false }
+      },
+      yAxis: {
+        type: 'value', min: 0, max: 100,
+        axisLabel: { color: '#9aa7c4', fontSize: 10, formatter: '{value}%' },
+        splitLine: { lineStyle: { color: 'rgba(100,180,255,0.12)' } }
+      },
+      series: [{
+        type: 'scatter',
+        data: data.map(function (x) {
+          return { value: x.value, q: x.q, symbolSize: x.symbolSize, symbolOffset: x.symbolOffset, itemStyle: { color: QUAD_COLOR[x.state === 'wrong' ? 'highValue' : x.state === 'partial' ? 'lowEffort' : 'safe'], opacity: 0.9, borderColor: 'rgba(255,255,255,0.35)', borderWidth: 1 } };
+        }),
+        emphasis: { scale: 1.2 }
+      }]
+    });
+    if (inst && inst.on) {
+      inst.on('click', function (p) { if (p.data && p.data.q) openQzCard(d, sr, p.data.q); });
+    }
+  }
+
+  function renderKpExtras(d) {
+    var quadWrap = document.getElementById('kpQuadWrap');
+    var evoWrap = document.getElementById('kpEvoWrap');
+    if (!quadWrap && !evoWrap) return;
+    var tr = (S.load().student && S.load().student.targetRate) || 0.8;
+    var model = window.GIAnalyze ? GIAnalyze.build(d, tr, window.GI_JOINT || null) : null;
+    kpLast = { d: d, model: model, tr: tr };
+    var subs = (d.subjects || []).filter(function (sr) { return sr.kps && sr.kps.length; });
+    if (quadWrap) {
+      if (!subs.length) quadWrap.innerHTML = '<div class="muted small-note">本考无知识点视图（不参与四象限，非"无问题"）。</div>';
+      else {
+        quadWrap.innerHTML = subs.map(function (sr) {
+          return '<div class="kp-block"><div class="sa-card-h"><b>' + esc(sr.name || sr.key) + '</b>' +
+            '<span class="muted small-note">' + sr.kps.length + ' 条 · 分界：掌握率 60%</span></div>' +
+            '<div class="sa-chart kp-quad" id="kpQuad-' + esc(sr.key) + '"></div>' +
+            '<div class="qz-legend"><span><i style="background:#ff8f8f"></i>高价值补强</span><span><i style="background:#64b4ff"></i>稳定得分区</span>' +
+            '<span><i style="background:#ffd479"></i>低效防护</span><span><i style="background:#7ee2a8"></i>安全区</span><span class="muted">★=重点 · 点大小=错题数</span></div>' +
+            '<div class="kp-tip muted small-note" id="kpTip-' + esc(sr.key) + '">点一个知识点，查看关联错题与解析链接。</div></div>';
+        }).join('');
+      }
+    }
+    if (evoWrap) {
+      var joint = window.GI_JOINT || null;
+      var nExams = joint && joint.exams ? joint.exams.length : 0;
+      if (nExams < 2) {
+        evoWrap.innerHTML = '<div class="sa-card-note">下考激活：当前 ' + (nExams || (d.exam ? 1 : 0)) + ' 考带题级数据。第 2 考入库后自动显示知识点掌握率演化折线与回落告警（不编造）。</div>';
+      } else {
+        evoWrap.innerHTML = subs.map(function (sr) {
+          return '<div class="kp-block"><div class="sa-card-h"><b>' + esc(sr.name || sr.key) + '</b><span class="muted small-note">掌握率演化</span></div>' +
+            '<div class="sa-chart kp-evo" id="kpEvo-' + esc(sr.key) + '"></div></div>';
+        }).join('');
+        var e1 = (model && model.cross && model.cross.e1 || []);
+        var e2 = (model && model.cross && model.cross.e2 || []);
+        evoWrap.innerHTML += '<div class="sa-chip-note">回落告警（相邻两考降 ≥15pp）：' + (e1.length ? e1.map(function (x) { return esc(shortKp(x.kpKey)) + ' ' + x.delta + 'pp'; }).join('、') : '无') +
+          ' ｜ 顽固薄弱（连续 2 考薄弱）：' + (e2.length ? e2.map(function (x) { return esc(shortKp(x.kpKey)); }).join('、') : '无') + '</div>';
+      }
+    }
+    window.GIKpPanel = { reveal: drawKpCharts };
+    if (document.getElementById('xp-kp') && document.getElementById('xp-kp').classList.contains('on')) drawKpCharts();
+  }
+
+  function drawKpCharts() {
+    if (!kpLast || !kpLast.model) return;
+    var d = kpLast.d, model = kpLast.model;
+    var byKey = {};
+    model.subjects.forEach(function (s) { byKey[s.key] = s; });
+    (d.subjects || []).filter(function (sr) { return sr.kps && sr.kps.length; }).forEach(function (sr) {
+      var ms = byKey[sr.key];
+      var q = ms && ms.l2 && ms.l2.quadrant;
+      if (!q) return;
+      var maxLoss = Math.max(1, q.points.reduce(function (a, p) { return Math.max(a, p.loss); }, 0));
+      var data = q.points.map(function (p) {
+        return {
+          value: [p.loss, p.rate === null || p.rate === undefined ? 0 : p.rate], p: p,
+          symbolSize: Math.max(9, Math.min(26, 9 + (p.wrong || 0) * 4)),
+          itemStyle: { color: QUAD_COLOR[p.quadrant], opacity: 0.92, borderColor: p.key ? '#ffd479' : 'rgba(255,255,255,0.35)', borderWidth: p.key ? 2 : 1 }
+        };
+      });
+      var inst = GICharts.paint('kpQuad-' + sr.key, {
+        animationDuration: 400,
+        grid: { left: 8, right: 18, top: 26, bottom: 30, containLabel: true },
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)',
+          textStyle: { color: '#e8ecf4', fontSize: 12 },
+          formatter: function (p) {
+            var x = p.data.p;
+            return '<b>' + (x.key ? '★ ' : '') + esc(shortKp(x.name)) + '</b><br>掌握率 ' + (x.rate == null ? '–' : x.rate + '%') +
+              ' · 关联丢分 ' + x.loss + ' 分<br>错 ' + x.wrong + ' 题 · ' + QUAD_TEXT[x.quadrant] +
+              (x.degraded ? '<br><span style="color:#9aa7c4">无题号映射：按错题数×主观题均丢退化估算</span>' : '');
+          }
+        },
+        xAxis: {
+          type: 'value', min: 0, max: Math.ceil(maxLoss * 1.1),
+          axisLabel: { color: '#9aa7c4', fontSize: 10 }, splitLine: { lineStyle: { color: 'rgba(100,180,255,0.12)' } }
+        },
+        yAxis: {
+          type: 'value', min: 0, max: 100, inverse: true,
+          axisLabel: { color: '#9aa7c4', fontSize: 10, formatter: '{value}%' },
+          splitLine: { lineStyle: { color: 'rgba(100,180,255,0.12)' } }
+        },
+        series: [{
+          type: 'scatter', data: data,
+          markArea: {
+            silent: true, label: { color: '#9aa7c4', fontSize: 10 },
+            data: [
+              [{ coord: [q.xLine, 0], itemStyle: { color: 'rgba(255,143,143,0.07)' }, label: { formatter: '高价值补强', position: 'insideTopRight' } }, { coord: [Math.ceil(maxLoss * 1.1), 60] }],
+              [{ coord: [q.xLine, 60], itemStyle: { color: 'rgba(100,180,255,0.06)' }, label: { formatter: '稳定得分区', position: 'insideBottomRight' } }, { coord: [Math.ceil(maxLoss * 1.1), 100] }],
+              [{ coord: [0, 0], itemStyle: { color: 'rgba(255,212,121,0.05)' }, label: { formatter: '低效防护', position: 'insideTopLeft' } }, { coord: [q.xLine, 60] }],
+              [{ coord: [0, 60], itemStyle: { color: 'rgba(126,226,168,0.05)' }, label: { formatter: '安全区', position: 'insideBottomLeft' } }, { coord: [q.xLine, 100] }]
+            ]
+          }
+        }]
+      });
+      if (inst && inst.on) {
+        inst.on('click', function (p) {
+          var x = p.data.p, tip = document.getElementById('kpTip-' + sr.key);
+          if (!tip) return;
+          var qs = (sr.questions || []).filter(function (qq) { return (x.qNos || []).indexOf(qq.no) >= 0; });
+          tip.innerHTML = '<b>' + (x.key ? '★ ' : '') + esc(shortKp(x.name)) + '</b> · ' + QUAD_TEXT[x.quadrant] +
+            ' · 关联丢分 ' + x.loss + ' 分' + (x.degraded ? ' · <span style="color:#ffd479">退化口径</span>' : '') +
+            (qs.length ? '<br>关联题：' + qs.map(function (qq) {
+              var href = analysisHref(d._base || '', qq.analysisRef);
+              return '第' + qq.no + '题' + (href ? ' <a href="' + encodeURI(href) + '" target="_blank" rel="noopener">解析 ↗</a>' : '');
+            }).join('、') : '<br>无题号映射，无法列出重练题。');
+        });
+      }
+    });
+    /* V4 演化（≥2 考才有数据） */
+    var joint = window.GI_JOINT || null;
+    if (joint && joint.exams && joint.exams.length >= 2) {
+      (d.subjects || []).filter(function (sr) { return sr.kps && sr.kps.length; }).forEach(function (sr) {
+        var ms = byKey[sr.key]; var q = ms && ms.l2 && ms.l2.quadrant;
+        if (!q) return;
+        var top = q.points.slice(0, 5);
+        var series = top.map(function (p) {
+          var tl = (joint.kpTimeline || {})[p.kpKey] || [];
+          return {
+            name: shortKp(p.name), type: 'line', smooth: true, symbolSize: 5,
+            data: joint.exams.map(function (e) {
+              var hit = tl.filter(function (x) { return x.examId === e.examId; })[0];
+              return hit ? hit.rate : null;
+            })
+          };
+        });
+        GICharts.paint('kpEvo-' + sr.key, {
+          animationDuration: 300,
+          grid: { left: 8, right: 18, top: 30, bottom: 24, containLabel: true },
+          legend: { top: 0, textStyle: { color: '#9aa7c4', fontSize: 10 }, itemWidth: 12, itemHeight: 7 },
+          tooltip: { trigger: 'axis', backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)', textStyle: { color: '#e8ecf4', fontSize: 12 }, valueFormatter: function (v) { return v == null ? '–' : v + '%'; } },
+          xAxis: { type: 'category', data: joint.exams.map(function (e) { return e.name || e.date; }), axisLabel: { color: '#9aa7c4', fontSize: 10, hideOverlap: true }, axisLine: { lineStyle: { color: 'rgba(100,180,255,0.18)' } } },
+          yAxis: { type: 'value', min: 0, max: 100, axisLabel: { color: '#9aa7c4', fontSize: 10, formatter: '{value}%' }, splitLine: { lineStyle: { color: 'rgba(100,180,255,0.12)' } } },
+          series: series
+        });
+      });
+    }
   }
 
   /* 📊 仪表盘（系统分析，学生/家长视角）：GIAnalyze 引擎 → 少文字 + 自带图例的图表
@@ -670,7 +944,7 @@
   function renderSysPanel(d) {
     var sb = document.getElementById('sysBox'); if (!sb || !window.GIAnalyze) return;
     var tr = (S.load().student && S.load().student.targetRate) || 0.8;
-    var m = GIAnalyze.build(d, tr);
+    var m = GIAnalyze.build(d, tr, window.GI_JOINT || null);
     var o = m.overall;
     if (!o.full || !m.subjects.length) { sb.innerHTML = '<div class="muted small-note">本次考试没有可分析的成绩数据。</div>'; return; }
 
@@ -696,7 +970,7 @@
           '中': (st['中'] && st['中'].loss) || 0,
           '难': (st['难'] && st['难'].loss) || 0
         },
-        easyNos: s.easyWrongNos || [], kp: s.kp || null, concls: s.concls || []
+        easyNos: s.easyWrongNos || [], kp: s.kp || null, concls: s.concls || [], l2: s.l2 || null
       };
     });
     var lossSum = { '易': 0, '中': 0, '难': 0 };
@@ -714,6 +988,10 @@
     var maxFull = subs.reduce(function (a, s) { return Math.max(a, s.full || 0); }, 0) || 100;
     var kpNames = subs.filter(function (s) { return s.kp; }).map(function (s) { return s.name; });
     var share = function (x) { return totalLost ? Math.round(x / totalLost * 100) : 0; };
+    /* v2：错因构成（V2）——对外中文短语，内部编号不外露 */
+    var CAUSE_ORDER = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6'];
+    var CAUSE_COLOR = { C1: '#c79bff', C2: '#64b4ff', C3: '#7ee2a8', C4: '#ffd479', C5: '#ffc0dd', C6: '#5c6784' };
+    var CAUSE_NAME = (window.GIAnalyze && GIAnalyze.RULES && GIAnalyze.RULES.causeName) || {};
 
     /* 数据缺口：如实说明（地理无题级、化学记录差），不猜 */
     var noQ = [], mismatch = [];
@@ -897,6 +1175,49 @@
         '<div class="sa-tip">比例是经验估计，做到才算，不是承诺；全部做到约可到 ' + r1(o.score + (o.potential || 0)) + ' / ' + o.full + ' 分。</div></div>');
     }
 
+    /* v2：V5 四周提升路径（阶梯图 + 周计划；规则估计，确定性生成） */
+    var ladder = null;
+    var av2 = m.actionV2;
+    if (av2 && av2.weeks && av2.weeks.length) {
+      var wkSum = av2.weeks.map(function (w) {
+        return r1((w.items || []).reduce(function (a, b) { return a + (b.rec || 0); }, 0));
+      });
+      var cum = [o.score];
+      wkSum.forEach(function (v) { cum.push(r1(cum[cum.length - 1] + v)); });
+      ladder = { labels: ['现在', '第1周', '第2周', '第3周'], cum: cum, weekSum: wkSum, target: Math.round(tr * o.full), full: o.full };
+      var weekHtml = av2.weeks.map(function (w) {
+        var sum = r1((w.items || []).reduce(function (a, b) { return a + (b.rec || 0); }, 0));
+        var list = (w.items || []).slice(0, 6).map(function (it) {
+          if (it.kind === 'kp' || it.questions) {
+            var nos = it.kind === 'kp' ? (it.qNos || []) : (it.questions || []).map(function (q) { return q.no; });
+            return '<div class="sa-week-item"><span class="sa-week-name">' + esc(it.subj) + ' · ' + esc(String(it.name).split('>').pop()) +
+              (it.rate === null || it.rate === undefined ? '' : ' · ' + it.rate + '%') + '</span>' +
+              '<span class="sa-week-q">' + nos.slice(0, 4).map(function (n) { return '第' + n + '题'; }).join('、') + '</span>' +
+              '<span class="sa-week-num">+' + r1(it.rec) + '</span></div>';
+          }
+          return '<div class="sa-week-item"><span class="sa-week-name">' + esc(it.subj) + ' 第' + it.no + '题' +
+            (it.diff ? ' · ' + esc(it.diff) : '') + '</span>' +
+            '<span class="sa-week-q">' + esc(it.causeLabel || '待标注') + (it.loss ? ' · 丢 ' + r1(it.loss) : '') + '</span>' +
+            '<span class="sa-week-num">+' + r1(it.rec) + '</span></div>';
+        }).join('');
+        var more = (w.items || []).length > 6
+          ? '<div class="sa-week-more">另有 ' + ((w.items.length - 6) + (w.overflow || 0)) + ' 项（按回收降序）</div>'
+          : (w.overflow ? '<div class="sa-week-more">另有 ' + w.overflow + ' 项（按回收降序）</div>' : '');
+        if (!(w.items || []).length) more = '<div class="sa-week-more">本周无新增项（前序周次已覆盖全部重练项）</div>';
+        var still = w.still && w.still.length ? '<div class="sa-week-more">仍未掌握转入下期 ' + w.still.length + ' 条</div>' : '';
+        var headNum = w.week === 4 ? '回测 ' + (w.items || []).length + ' 项' : '+' + sum + ' 分';
+        return '<div class="sa-week"><div class="sa-week-h"><b>第 ' + w.week + ' 周 · ' + esc(w.title) + '</b><span>' + headNum + '</span></div>' +
+          '<div class="sa-week-desc">' + esc(w.desc) + '</div>' + list + more + still + '</div>';
+      }).join('');
+      H.push('<div class="sa-block">' +
+        '<div class="sa-title">四周提升路径 <span>当前总分 → 各周回收累加 → 目标线</span></div>' +
+        '<div class="sa-insight">按错因加权后的规则估计：第 1 周 +' + wkSum[0] + ' 分、第 2 周 +' + wkSum[1] + ' 分、第 3 周 +' + wkSum[2] + ' 分；目标线 ' + ladder.target + ' / ' + o.full + ' 分。做到才算，不是承诺。</div>' +
+        '<div class="sa-chart sa-chart-ladder" id="saChartLadder"></div>' +
+        '<div class="sa-legend"><span class="sa-legend-lead">读法：</span><span><i class="sa-dot" style="background:#64b4ff"></i>累计可达分（规则估计）</span><span><i class="sa-dot" style="background:#ffd479"></i>目标线</span></div>' +
+        '<div class="sa-weeks">' + weekHtml + '</div>' +
+        '<div class="sa-tip">周计划由规则确定性生成：第 1 周止血（简单题+算错/看错题）、第 2–3 周主攻（高价值补强区）、第 4 周验收；无题号映射的知识点见"先补什么最划算"的重点薄弱项。</div></div>');
+    }
+
     /* 五、每科细看（卡片：分数段徽标 + 丢分构成条 + 知识点弱项条） */
     var actWords = { R2: '先补简单题', R6: '重点知识没掌握', R5: '知识漏洞多', R3: '主攻中档题', R4: '难题失分属正常' };
     var card = function (s) {
@@ -935,10 +1256,36 @@
             '<span class="num">' + (k.rate === null || k.rate === undefined ? '–' : k.rate + '%') + '</span></div>';
         }).join('') + '</div>';
       }
+      /* v2：V2 错因构成堆叠条（无错因数据 → 待标注桶，不编造） */
+      var causeSeg = '';
+      var cc = s.l2 && s.l2.cause;
+      if (cc && cc.coverage.total > 0) {
+        if (cc.causes) {
+          var vals = CAUSE_ORDER.map(function (k) { return { k: k, v: cc.causes[k] || 0 }; }).filter(function (x) { return x.v > 0; });
+          var pend = cc.pendingLoss > 0 ? cc.pendingLoss : 0;
+          var totalAll = vals.reduce(function (a, x) { return a + x.v; }, 0) + pend || 1;
+          var parts = vals.map(function (x) {
+            return '<i class="c' + x.k.slice(1) + '" style="width:' + (x.v / totalAll * 100).toFixed(1) + '%" title="' + CAUSE_NAME[x.k] + ' ' + r1(x.v) + ' 分">' + (x.v >= 3 ? r1(x.v) : '') + '</i>';
+          });
+          var legend = vals.map(function (x) {
+            return '<span><i style="background:' + CAUSE_COLOR[x.k] + '"></i>' + CAUSE_NAME[x.k] + ' ' + r1(x.v) + '</span>';
+          });
+          if (pend > 0) {
+            parts.push('<i class="c6" style="width:' + (pend / totalAll * 100).toFixed(1) + '%" title="未确认错题 ' + r1(pend) + ' 分">' + (pend >= 3 ? r1(pend) : '') + '</i>');
+            legend.push('<span><i style="background:#5c6784"></i>待确认 ' + r1(pend) + '</span>');
+          }
+          causeSeg = '<div class="sa-cause-wrap"><div class="sa-cause">' + parts.join('') + '</div>' +
+            '<div class="sa-cause-legend">' + legend.join('') + '</div>' +
+            '<div class="sa-chip-note">错因构成 · AI 预判+人工复核</div></div>';
+        } else {
+          causeSeg = '<div class="sa-card-note">错因待标注（未标注≠无问题）</div>';
+        }
+      }
       return '<div class="sa-card">' +
         '<div class="sa-card-h"><b>' + esc(s.name) + '</b><span class="sa-band ' + s.cls + '">' + s.p + '% · ' + s.band + '</span></div>' +
         '<div class="sa-card-s">' + s.score + ' / ' + s.full + ' 分 · 丢 ' + s.lost + ' 分</div>' +
         seg +
+        causeSeg +
         (cs.length ? '<div class="sa-chips">' + cs.map(function (t) { return '<span class="sa-chip">' + t + '</span>'; }).join('') + '</div>' : '') +
         kp + '</div>';
     };
@@ -1071,6 +1418,45 @@
           series: [{ type: 'radar', symbolSize: 4, data: radarData }]
         });
       }
+    }
+    if (ladder) {
+      GICharts.paint('saChartLadder', {
+        animationDuration: 400,
+        grid: { left: 8, right: 16, top: 34, bottom: 24, containLabel: true },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(20, 15, 50, 0.95)', borderColor: 'rgba(100, 180, 255, 0.45)',
+          textStyle: { color: '#e8ecf4', fontSize: 12 },
+          formatter: function (ps) {
+            var i = ps[0].dataIndex;
+            var gain = i === 0 ? '' : '（本周 +' + ladder.weekSum[i - 1] + ' 分）';
+            return '<b>' + ladder.labels[i] + '</b><br>累计可达 ' + ps[0].value + ' / ' + ladder.full + ' 分' + gain;
+          }
+        },
+        xAxis: {
+          type: 'category', data: ladder.labels, boundaryGap: false,
+          axisLine: { lineStyle: { color: 'rgba(100,180,255,0.18)' } }, axisTick: { show: false },
+          axisLabel: { color: '#9aa7c4', fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value', min: function (v) { return Math.max(0, Math.floor(v.min - 20)); }, max: ladder.full,
+          axisLabel: { color: '#9aa7c4', fontSize: 10 },
+          splitLine: { lineStyle: { color: 'rgba(100,180,255,0.12)' } }
+        },
+        series: [{
+          name: '累计可达分', type: 'line', step: 'end', data: ladder.cum,
+          symbol: 'circle', symbolSize: 8,
+          lineStyle: { width: 3, color: '#64b4ff' }, itemStyle: { color: '#64b4ff' },
+          areaStyle: { color: 'rgba(100,180,255,0.12)' },
+          label: { show: true, position: 'top', color: '#e8ecf4', fontSize: 11, formatter: '{c}' },
+          markLine: {
+            silent: true, symbol: 'none',
+            data: [{ yAxis: ladder.target }],
+            lineStyle: { color: '#ffd479', type: 'dashed', width: 1.5 },
+            label: { formatter: '目标 ' + ladder.target, color: '#ffd479', fontSize: 11, position: 'insideEndTop' }
+          }
+        }]
+      });
     }
     window.GISysPanel = { reveal: paint };
     if (document.getElementById('xp-sys') && document.getElementById('xp-sys').classList.contains('on')) paint();

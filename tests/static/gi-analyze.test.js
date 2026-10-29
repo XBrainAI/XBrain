@@ -22,7 +22,7 @@ test('S11.1 RULES 常量与 ANALYZE-RULES.md 阈值一致（防漂移）', () =>
   assert.match(RULES_MD, /易题错题 \| 该项丢分 × 80%/); assert.equal(R.recEasy, 0.8);
   assert.match(RULES_MD, /中档题错题 \| 该项丢分 × 50%/); assert.equal(R.recMid, 0.5);
   assert.match(RULES_MD, /上限 8 分\/条/); assert.equal(R.recKpCap, 8);
-  assert.equal(R.v, 'ANALYZE-RULES v1');
+  assert.equal(R.v, 'ANALYZE-RULES v2');
 });
 
 test('S11.2 10 月模型：全科研判数字正确', () => {
@@ -45,7 +45,8 @@ test('S11.3 逐科规则命中与题级/知识点结构', () => {
   assert.equal(by['化学'].diffs['易'].wrongN, 0);
   assert.ok(by['英语'].concls.some((c) => c.tag === 'R2'));
   assert.equal(by['英语'].easyWrongNos.length, 9);
-  assert.ok(by['数学'].kp && by['数学'].kp.weakN === 21 && by['数学'].kp.keyWeakN === 4);
+  /* SPEC-011 T-KP：kp-0051 拼接瑕疵行并入 kp-0011 后，数学 KP 51→50、薄弱 21→20（已裁定的数据质量修复） */
+  assert.ok(by['数学'].kp && by['数学'].kp.weakN === 20 && by['数学'].kp.keyWeakN === 4);
   assert.ok(by['数学'].concls.some((c) => c.tag === 'R5') && by['数学'].concls.some((c) => c.tag === 'R6'));
   assert.ok(by['物理'].concls.some((c) => c.tag === 'R4'));
   assert.equal(by['地理'].hasQ, false);

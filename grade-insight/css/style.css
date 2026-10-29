@@ -967,3 +967,68 @@ html.xbrain-auth-filefix body { visibility: visible !important; opacity: 1 !impo
   .sa-hero-score{font-size:24px}
   .sa-kpi{padding:7px 8px}
 }
+
+/* ===== SPEC-011 v2：V1–V5 可视化（错因构成 / 四周路径 / 题级散点 / KP 四象限 / KP 演化） ===== */
+.sa-cause-wrap{margin-top:6px}
+.sa-cause{display:flex;height:14px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,.06)}
+.sa-cause i{display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden;font-style:normal;font-size:9px;font-weight:600;color:#1a1030}
+.sa-cause .c1{background:#c79bff}.sa-cause .c2{background:#64b4ff}.sa-cause .c3{background:#7ee2a8}
+.sa-cause .c4{background:#ffd479}.sa-cause .c5{background:#ffc0dd}.sa-cause .c6{background:#5c6784;color:#e8ecf4}
+.sa-cause-legend{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:10px;color:var(--xb-dim)}
+.sa-cause-legend i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:3px}
+.sa-chip-note{font-size:10px;color:var(--xb-dim);opacity:.9;margin-top:3px;line-height:1.6}
+.sa-chart-ladder{height:240px;touch-action:pan-y}
+.sa-weeks{margin-top:8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.sa-week{background:rgba(45,27,78,.26);border:1px solid rgba(100,180,255,.14);border-radius:10px;padding:9px 10px;min-width:0}
+.sa-week-h{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--xb-text)}
+.sa-week-h span{color:var(--xb-accent2);font-variant-numeric:tabular-nums}
+.sa-week-desc{font-size:10px;color:var(--xb-dim);margin:3px 0 5px;line-height:1.5}
+.sa-week-item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;align-items:center;padding:4px 0;border-bottom:1px dashed rgba(100,180,255,.1);font-size:11px}
+.sa-week-item:last-child{border-bottom:0}
+.sa-week-name{color:var(--xb-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sa-week-q{color:var(--xb-dim);font-size:10px;white-space:nowrap}
+.sa-week-num{color:var(--xb-accent2);font-variant-numeric:tabular-nums}
+.sa-week-more{font-size:10px;color:var(--xb-dim);margin-top:4px}
+.qz-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 6px;font-size:12px;color:var(--xb-dim)}
+.qz-toolbar select{background:rgba(45,27,78,.5);color:var(--xb-text);border:1px solid rgba(100,180,255,.25);border-radius:8px;padding:6px 8px;font-size:12px;min-height:36px}
+.qz-chart{height:280px;touch-action:pan-y}
+.qz-chart canvas,.qz-chart svg,.kp-quad canvas,.kp-quad svg,.kp-evo canvas,.kp-evo svg,.sa-chart-ladder canvas{touch-action:pan-y}
+.qz-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:var(--xb-dim);margin-top:4px}
+.qz-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px}
+.kp-block{margin:4px 0 14px}
+.kp-quad{height:300px;touch-action:pan-y}
+.kp-evo{height:260px;touch-action:pan-y}
+.kp-tip{line-height:1.7;margin-top:4px}
+.kp-tip a{color:var(--xb-accent);display:inline-flex;align-items:center;min-height:32px;padding:0 2px}
+.qz-overlay{position:fixed;inset:0;background:rgba(10,8,24,.74);z-index:1400;display:flex;align-items:center;justify-content:center;padding:12px}
+.qz-card{background:#1c1533;border:1px solid rgba(100,180,255,.25);border-radius:14px;width:min(860px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.qz-card-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(100,180,255,.16)}
+.qz-card-h b{font-size:14px;color:var(--xb-text)}
+.qz-close{background:transparent;border:1px solid rgba(100,180,255,.25);color:var(--xb-text);border-radius:9px;min-width:44px;min-height:44px;font-size:15px;cursor:pointer}
+.qz-note{padding:8px 14px;font-size:12px;color:var(--xb-dim);border-bottom:1px solid rgba(100,180,255,.1)}
+.qz-card iframe{width:100%;height:min(68vh,620px);border:0;background:#fff}
+.qz-empty{padding:24px 14px;color:var(--xb-dim);font-size:13px}
+@media (max-width:767px){
+  .sa-weeks{grid-template-columns:1fr}
+  .sa-chart-ladder{height:220px}
+  .qz-chart{height:250px}
+  .kp-quad{height:270px}
+  .kp-evo{height:230px}
+  .qz-toolbar select{min-height:44px;font-size:14px}
+  .qz-card{max-height:94vh}
+  .qz-card iframe{height:70vh}
+}
+@media (max-width:400px){
+  .sa-week-item{grid-template-columns:minmax(0,1fr) auto}
+  .sa-week-q{display:none}
+}
+
+/* SPEC-011 AC8：移动端触控 ≥44px（既有 tab 与解析链接一并补齐；桌面端不受影响） */
+@media (max-width:767px){
+  .xbtn,.modal-box.detail-sheet .xbtn{min-height:44px}
+  .xtabs{align-items:center}
+  .ri-val{display:inline-flex;align-items:center;justify-content:flex-end;min-height:44px;padding:0 4px}
+  .kp-tip a{min-height:44px}
+}
+.qz-card-h>div{min-width:0;flex:1 1 auto}
+.qz-card-h .small-note{white-space:normal;line-height:1.5}
