@@ -1,14 +1,14 @@
 {
-  "contract": "gi-exam-data/1",
+  "contract": "gi-exam-data/2",
   "meta": {
     "source": "raw",
     "pipeline": {
-      "transcribePrompt": "v1",
-      "converter": "v1",
-      "acceptance": "v1.1",
+      "transcribePrompt": "v2",
+      "converter": "v2",
+      "acceptance": "v1.2",
       "alias": "v1"
     },
-    "transcribedAt": "2026-10-23T03:00:31",
+    "transcribedAt": "2026-10-28T10:04:08",
     "confidence": {
       "chinese": "高",
       "math": "高",
@@ -27,7 +27,7 @@
     "date": "2026-10-10",
     "term": "高一上",
     "type": "月考",
-    "note": "广州四中2026学年第一学期10月素养评估；raw 仅确认月份，日期暂记 10-10 待确认后修正；九科分数与班级等级（B/D/D/C/D/C/D/C）按 details/高一/上学期/10月/md 转写件登记，总分 623.5/1030（班级等级 C）；本件由流水线 S3 按 gi-exam-data/1 生成"
+    "note": "广州四中2026学年第一学期10月素养评估；raw 仅确认月份，日期暂记 10-10 待确认后修正；九科分数与班级等级（B/D/D/C/D/C/D/C）按 details/高一/上学期/10月/md 转写件登记，总分 623.5/1030（班级等级 C）；本件由流水线 S3 按 gi-exam-data/2 生成"
   },
   "student": {
     "name": "陈映蓝",
@@ -371,7 +371,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::函数的对称性",
+          "qNos": [
+            8
+          ]
         },
         {
           "kpId": "kp-0002",
@@ -379,7 +383,8 @@
           "rate": 0,
           "wrong": 1,
           "key": true,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::多面体和旋转体表面上的最短距离问题"
         },
         {
           "kpId": "kp-0003",
@@ -387,7 +392,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::利用函数的单调性解不等式",
+          "qNos": [
+            8
+          ]
         },
         {
           "kpId": "kp-0004",
@@ -395,7 +404,11 @@
           "rate": 0,
           "wrong": 1,
           "key": true,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::平面与平面所成角的向量求法",
+          "qNos": [
+            18
+          ]
         },
         {
           "kpId": "kp-0005",
@@ -403,7 +416,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::圆与圆的位置关系",
+          "qNos": [
+            13
+          ]
         },
         {
           "kpId": "kp-0006",
@@ -411,7 +428,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::求圆的标准方程",
+          "qNos": [
+            13
+          ]
         },
         {
           "kpId": "kp-0007",
@@ -419,7 +440,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::辅助角公式(三角函数的叠加及应用(北师))",
+          "qNos": [
+            13
+          ]
         },
         {
           "kpId": "kp-0008",
@@ -427,7 +452,11 @@
           "rate": 0,
           "wrong": 1,
           "key": true,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::空间向量的数量积与空间向量的垂直关系",
+          "qNos": [
+            18
+          ]
         },
         {
           "kpId": "kp-0009",
@@ -435,7 +464,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::等差数列前n项和的最值问题",
+          "qNos": [
+            14
+          ]
         },
         {
           "kpId": "kp-0010",
@@ -443,7 +476,8 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::二面角"
         },
         {
           "kpId": "kp-0011",
@@ -451,7 +485,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::离散型随机变量的均值(期望)",
+          "qNos": [
+            19
+          ]
         },
         {
           "kpId": "kp-0012",
@@ -459,7 +497,11 @@
           "rate": 50,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::空间几何体的截面问题(截面形状、面积)",
+          "qNos": [
+            11
+          ]
         },
         {
           "kpId": "kp-0013",
@@ -467,7 +509,11 @@
           "rate": 50,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::球的切、接问题",
+          "qNos": [
+            11
+          ]
         },
         {
           "kpId": "kp-0014",
@@ -475,7 +521,11 @@
           "rate": 50,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::棱柱的体积",
+          "qNos": [
+            11
+          ]
         },
         {
           "kpId": "kp-0015",
@@ -483,7 +533,11 @@
           "rate": 50,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::棱台的体积",
+          "qNos": [
+            11
+          ]
         },
         {
           "kpId": "kp-0016",
@@ -491,7 +545,11 @@
           "rate": 50,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::面面垂直的判定",
+          "qNos": [
+            11
+          ]
         },
         {
           "kpId": "kp-0017",
@@ -499,7 +557,11 @@
           "rate": 53.3,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::抛物线的定义",
+          "qNos": [
+            17
+          ]
         },
         {
           "kpId": "kp-0018",
@@ -507,7 +569,11 @@
           "rate": 53.3,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::直线与抛物线位置关系及其应用",
+          "qNos": [
+            17
+          ]
         },
         {
           "kpId": "kp-0019",
@@ -515,7 +581,11 @@
           "rate": 53.3,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::抛物线的标准方程",
+          "qNos": [
+            17
+          ]
         },
         {
           "kpId": "kp-0020",
@@ -523,7 +593,8 @@
           "rate": 60,
           "wrong": 1,
           "key": false,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::利用导数研究恒成或极值点求参"
         },
         {
           "kpId": "kp-0021",
@@ -531,7 +602,11 @@
           "rate": 60,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::利用导数求已知函数的极值或极值点(含参)",
+          "qNos": [
+            16
+          ]
         },
         {
           "kpId": "kp-0022",
@@ -539,7 +614,11 @@
           "rate": 66.7,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::百分位数",
+          "qNos": [
+            10
+          ]
         },
         {
           "kpId": "kp-0023",
@@ -547,7 +626,11 @@
           "rate": 66.7,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::回归直线方程",
+          "qNos": [
+            10
+          ]
         },
         {
           "kpId": "kp-0024",
@@ -555,7 +638,11 @@
           "rate": 66.7,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::变量的相关关系",
+          "qNos": [
+            10
+          ]
         },
         {
           "kpId": "kp-0025",
@@ -563,7 +650,11 @@
           "rate": 76.9,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::利用余弦定理解三角形",
+          "qNos": [
+            15
+          ]
         },
         {
           "kpId": "kp-0026",
@@ -571,7 +662,11 @@
           "rate": 76.9,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::三角形面积公式",
+          "qNos": [
+            15
+          ]
         },
         {
           "kpId": "kp-0027",
@@ -579,7 +674,11 @@
           "rate": 76.9,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::正弦定理及变形",
+          "qNos": [
+            15
+          ]
         },
         {
           "kpId": "kp-0028",
@@ -587,7 +686,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::利用幂函数的图象与性质比较大小",
+          "qNos": [
+            4
+          ]
         },
         {
           "kpId": "kp-0029",
@@ -595,7 +698,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::余弦(型)函数的周期性",
+          "qNos": [
+            9
+          ]
         },
         {
           "kpId": "kp-0030",
@@ -603,7 +710,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::充要条件及其判断",
+          "qNos": [
+            4
+          ]
         },
         {
           "kpId": "kp-0031",
@@ -611,7 +722,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::求双曲线的离心率(或取值范围)",
+          "qNos": [
+            7
+          ]
         },
         {
           "kpId": "kp-0032",
@@ -619,7 +734,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::交集运算",
+          "qNos": [
+            2
+          ]
         },
         {
           "kpId": "kp-0033",
@@ -627,7 +746,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::指定项的系数与二项式系数",
+          "qNos": [
+            3
+          ]
         },
         {
           "kpId": "kp-0034",
@@ -635,7 +758,8 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "考查"
+          "category": "考查",
+          "kpKey": "math::向量的加减与数乘意义"
         },
         {
           "kpId": "kp-0035",
@@ -643,7 +767,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::利用指数函数的图象与性质比较大小",
+          "qNos": [
+            4
+          ]
         },
         {
           "kpId": "kp-0036",
@@ -651,7 +779,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::求余弦(型)函数的对称轴、对称中心",
+          "qNos": [
+            9
+          ]
         },
         {
           "kpId": "kp-0037",
@@ -659,7 +791,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::平面向量基本定理的应用",
+          "qNos": [
+            5
+          ]
         },
         {
           "kpId": "kp-0038",
@@ -667,7 +803,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::余弦型函数的奇偶性",
+          "qNos": [
+            9
+          ]
         },
         {
           "kpId": "kp-0039",
@@ -675,7 +815,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::解不含参的一元二次不等式",
+          "qNos": [
+            2
+          ]
         },
         {
           "kpId": "kp-0040",
@@ -683,7 +827,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::复数的除法运算",
+          "qNos": [
+            1
+          ]
         },
         {
           "kpId": "kp-0041",
@@ -691,7 +839,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::空间中直线与平面的位置关系",
+          "qNos": [
+            6
+          ]
         },
         {
           "kpId": "kp-0042",
@@ -699,7 +851,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::空间中直线与直线的位置关系",
+          "qNos": [
+            6
+          ]
         },
         {
           "kpId": "kp-0043",
@@ -707,7 +863,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::求曲线上一点的切线方程(斜率、倾斜角)",
+          "qNos": [
+            12
+          ]
         },
         {
           "kpId": "kp-0044",
@@ -715,7 +875,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::向量的加减与数乘混合运算",
+          "qNos": [
+            5
+          ]
         },
         {
           "kpId": "kp-0045",
@@ -723,7 +887,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::复数的模及其几何意义",
+          "qNos": [
+            1
+          ]
         },
         {
           "kpId": "kp-0046",
@@ -731,7 +899,8 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "math::余弦型函数的奇偶的应用"
         },
         {
           "kpId": "kp-0047",
@@ -739,7 +908,11 @@
           "rate": 60,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::利用导数研究恒成立与存在性问题",
+          "qNos": [
+            16
+          ]
         },
         {
           "kpId": "kp-0048",
@@ -747,7 +920,8 @@
           "rate": 60,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::利用导数根据极值立与存在性问题"
         },
         {
           "kpId": "kp-0049",
@@ -755,7 +929,11 @@
           "rate": 60,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "math::利用导数根据极值或极值点求参",
+          "qNos": [
+            16
+          ]
         },
         {
           "kpId": "kp-0050",
@@ -763,7 +941,8 @@
           "rate": 0,
           "wrong": 1,
           "key": true,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::平面与平面所成角最值问题"
         },
         {
           "kpId": "kp-0051",
@@ -771,7 +950,8 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "math::离散型随机变量的均值(期望)(长截图拼接接缝处重复行)"
         }
       ],
       "kpBadges": {
@@ -1903,7 +2083,11 @@
           "rate": 0,
           "wrong": 1,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>生物大分子以碳链为骨架",
+          "qNos": [
+            31
+          ]
         },
         {
           "kpId": "kp-0053",
@@ -1911,7 +2095,15 @@
           "rate": 40,
           "wrong": 3,
           "key": false,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的结构",
+          "qNos": [
+            22,
+            23,
+            26,
+            27,
+            34
+          ]
         },
         {
           "kpId": "kp-0054",
@@ -1919,7 +2111,15 @@
           "rate": 42.3,
           "wrong": 4,
           "key": true,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>核酸的结构及功能",
+          "qNos": [
+            28,
+            29,
+            33,
+            35,
+            37
+          ]
         },
         {
           "kpId": "kp-0055",
@@ -1927,7 +2127,12 @@
           "rate": 50,
           "wrong": 1,
           "key": true,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>水的含量、存在形式及作用",
+          "qNos": [
+            9,
+            16
+          ]
         },
         {
           "kpId": "kp-0056",
@@ -1935,7 +2140,14 @@
           "rate": 65,
           "wrong": 1,
           "key": true,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞结构和功能的多样性>>真核细胞和原核细胞的异同",
+          "qNos": [
+            5,
+            6,
+            7,
+            36
+          ]
         },
         {
           "kpId": "kp-0057",
@@ -1943,7 +2155,13 @@
           "rate": 66.7,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>【实验】检测生物组织中的糖类、脂肪和蛋白质",
+          "qNos": [
+            10,
+            14,
+            18
+          ]
         },
         {
           "kpId": "kp-0058",
@@ -1951,7 +2169,11 @@
           "rate": 66.7,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>糖类的种类及作用",
+          "qNos": [
+            17
+          ]
         },
         {
           "kpId": "kp-0059",
@@ -1959,7 +2181,13 @@
           "rate": 66.7,
           "wrong": 1,
           "key": false,
-          "category": "待提升"
+          "category": "待提升",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>无机盐的含量及作用",
+          "qNos": [
+            12,
+            13,
+            15
+          ]
         },
         {
           "kpId": "kp-0060",
@@ -1967,7 +2195,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的功能",
+          "qNos": [
+            24
+          ]
         },
         {
           "kpId": "kp-0061",
@@ -1975,7 +2207,8 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>【实验】观察DNA、RNA在细胞中的分布实验"
         },
         {
           "kpId": "kp-0062",
@@ -1983,7 +2216,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>蛋白质的盐析和变性",
+          "qNos": [
+            25
+          ]
         },
         {
           "kpId": "kp-0063",
@@ -1991,7 +2228,14 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>脂质的种类及作用",
+          "qNos": [
+            19,
+            20,
+            21,
+            32
+          ]
         },
         {
           "kpId": "kp-0064",
@@ -1999,7 +2243,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>细胞学说的建立过程",
+          "qNos": [
+            2
+          ]
         },
         {
           "kpId": "kp-0065",
@@ -2007,7 +2255,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>生命系统的结构层次",
+          "qNos": [
+            3
+          ]
         },
         {
           "kpId": "kp-0066",
@@ -2015,7 +2267,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>组成细胞的化合物",
+          "qNos": [
+            11
+          ]
         },
         {
           "kpId": "kp-0067",
@@ -2023,7 +2279,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>细胞中常见的化学元素",
+          "qNos": [
+            8
+          ]
         },
         {
           "kpId": "kp-0068",
@@ -2031,7 +2291,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>【实验】使用高倍显微镜观察几种细胞",
+          "qNos": [
+            4
+          ]
         },
         {
           "kpId": "kp-0069",
@@ -2039,7 +2303,8 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞结构和功能的多样性>>细胞的多样性"
         },
         {
           "kpId": "kp-0070",
@@ -2047,7 +2312,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>核酸的种类及存在部位",
+          "qNos": [
+            30
+          ]
         },
         {
           "kpId": "kp-0071",
@@ -2055,7 +2324,11 @@
           "rate": 100,
           "wrong": 0,
           "key": false,
-          "category": "已掌握"
+          "category": "已掌握",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的多样性和统一性>>细胞和生物界的统一性>>细胞学说的基本观点及意义",
+          "qNos": [
+            1
+          ]
         },
         {
           "kpId": "kp-0072",
@@ -2063,7 +2336,8 @@
           "rate": 43.8,
           "wrong": 1,
           "key": true,
-          "category": "薄弱"
+          "category": "薄弱",
+          "kpKey": "biology::分子与细胞>>细胞是生物体结构和功能的基本单位>>细胞的分子组成>>蛋白质的结构及功能>>氨基酸的结构及其种类"
         }
       ],
       "kpBadges": {
@@ -2767,6 +3041,30 @@
           "math": "19/19",
           "biology": "37/37"
         },
+        "status": "pass"
+      },
+      {
+        "name": "错因覆盖(cause):math",
+        "expect": "全部错题经人工确认标注",
+        "actual": "0/10",
+        "status": "warn"
+      },
+      {
+        "name": "qNos 一致性:math",
+        "expect": "全部引用存在于题级表",
+        "actual": "引用 43 处，越界 0",
+        "status": "pass"
+      },
+      {
+        "name": "错因覆盖(cause):biology",
+        "expect": "全部错题经人工确认标注",
+        "actual": "0/12",
+        "status": "warn"
+      },
+      {
+        "name": "qNos 一致性:biology",
+        "expect": "全部引用存在于题级表",
+        "actual": "引用 37 处，越界 0",
         "status": "pass"
       }
     ],

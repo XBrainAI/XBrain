@@ -1,5 +1,5 @@
-# 准入清单 v1.1（S1 固化件）
-# 版本：v1.1（2026-10-23，SPEC-005：增"年级视图"补录项与仪表盘裁剪件约定；required 不变，向后兼容）｜ 承载：SPEC-003/SPEC-004/SPEC-005 / 契约 §4
+# 准入清单 v1.2（S1 固化件）
+# 版本：v1.2（2026-10-28，SPEC-011：增"错因复核件"可选项；required 不变，向后兼容）｜ 承载：SPEC-003/SPEC-004/SPEC-005/SPEC-011 / 契约 §4
 # 判定方式：文件名正则匹配（容忍命名差异），由 convert.js --check 执行并输出缺项报告。
 
 required:                     # 缺一即 S1 不通过（可显式豁免，豁免理由入 exam.json integrity.checks）
@@ -31,6 +31,10 @@ optional:                     # 有则入档对应层，无则按兼容矩阵降
   - name: 仪表盘裁剪件                # v1.1 新增：站点弹层"仪表盘"页素材（S3.6 产物，命名约定见契约）
     pattern: "data/assets/(总分|语文|数学|英语|物理|化学|生物|政治|历史|地理)-仪表盘\\.png$"
     layer: ui
+  - name: 错因复核件                  # v1.2 新增（SPEC-011）：AI 预判+人工确认，仅确认行回填 cause（CAUSE-TAXONOMY v1 §四）
+    pattern: "md\\.错因复核[-－](数学|生物|语文|英语|物理|化学|政治|历史|地理)"
+    layer: L6-cause
+    note: 有则转换器回填已确认行的 cause/causeNote；无则该科错因覆盖 integrity 报 warn"待复核"
 
 naming_tolerance:             # 已实证的命名差异 → 科目归属（新增差异须升版补录）
   生物学: biology

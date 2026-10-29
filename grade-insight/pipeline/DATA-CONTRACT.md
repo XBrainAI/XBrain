@@ -1,6 +1,6 @@
-# 考试数据契约 gi-exam-data/1
+# 考试数据契约 gi-exam-data/2
 
-- 版本：v1.3（2026-10-23，SPEC-006 §1 增 balance.json 雷达派生件；schema 字段不变）｜ 承载规格：SPEC-003/SPEC-005/SPEC-006 ｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
+- 版本：**v2.0**（2026-10-28，SPEC-011：契约升 gi-exam-data/2——增 kpKey/qNos/cause/causeNote 增量字段（全 optional，v1 件仍合法、读取端双兼容）；目录增错因复核件；KP 全局键语义澄清）｜ 承载规格：SPEC-003/SPEC-005/SPEC-006（v1.x）/ SPEC-011（v2.0）｜ 母本：SPEC-002 方案稿 §二（字段级定稿于本文）
 - 适用：`grade-insight/details/<学段>/<学期>/<YYYY-MM>-<第N考>/data/exam.json`
 - 铁律：**缺层不冒充**——数据没有的字段一律缺省（不写 null 占位以外的假值）；机器拿不准的进 quarantine，不进 subjects。
 
@@ -12,10 +12,11 @@
   md/  + md/images/    转写件（pipeline/transcribe-prompt.md 产物）
   data/exam.json       ★ 标准账（本契约）
   data/report.md       单考深挖报告（由 exam.json 生成，人读）
-  data/系统分析.md     系统分析报告（v1.2 新增，SPEC-006：ANALYZE-RULES 规则引擎产物——全科研判/逐科研判/补救清单/边界附录）
+  data/系统分析.md     系统分析报告（v1.2 新增，SPEC-006：ANALYZE-RULES 规则引擎产物——全科研判/逐科研判/补救清单/边界附录；v2.0 起新增"错因构成/复习计划"节）
   data/balance.json    学科均衡度雷达（v1.3 可选，SPEC-006：从 raw 雷达图按外圈占比提取的相对水平，非分数）
   data/analysis/       解析预渲染 HTML（SPEC-005 §5）
   data/assets/         仪表盘裁剪件（SPEC-005 §5）
+  md.错因复核-<科>.md  错因人工复核件（v2.0 可选，SPEC-011：AI 预判+人工确认，格式见 CAUSE-TAXONOMY v1 §四；仅确认行回填 cause）
 ```
 
 ## 2. exam.json 字段规范
@@ -23,7 +24,7 @@
 ### 2.1 顶层
 | 字段 | 必含 | 说明 |
 |------|-----|------|
-| contract | ✔ | 固定 `gi-exam-data/1` |
+| contract | ✔ | `gi-exam-data/2`（v2.0 起；存量 gi-exam-data/1 件合法，读取端按 optional 字段双兼容） |
 | meta | ✔ | 见 2.2 |
 | exam | ✔ | `{id,name,date,term,type,note}`，与站点 store.js v1 考试字段同名同义；id=日期+名称规范化；date 未确认时以月内暂记并在 note 声明（SPEC-001 先例） |
 | student | ✔ | `{name, studentId, enrollYear, targetRate}` |
@@ -42,12 +43,12 @@
 |------|----|------|------|
 | key/name/full/score/level | L1 | score/full ✔ | level=班级口径等级（A-E），源为概览页等级标尺读数 |
 | avgClass/avgGrade/rank/rankSize | L1' | 选 | 有则填（概览页班级/年级切换态下可见值才录） |
-| questions[] | L2 | 选 | `{no,type,point,diff,score}`；no=题号(int)，type=题型原文，point=分值(num)，diff=难度原文（易/中/难等），score=得分(num，允许小数/0)；`mine/ref/correct` 阶段 2 起可选 |
-| kps[] | L3 | 选 | `{kpId,name,rate,wrong,key,category}`；rate=掌握率百分比数值(0-100)，wrong=错题数，key=布尔（【重点】/重点前缀），category=`考查|已掌握|待提升|薄弱`（页签归属）；name 保留源层级路径（`>>` 分隔） |
+| questions[] | L2 | 选 | `{no,type,point,diff,score}`；no=题号(int)，type=题型原文，point=分值(num)，diff=难度原文（易/中/难等），score=得分(num，允许小数/0)；`mine/ref/correct` 阶段 2 起可选；**v2.0 增**：`cause`（错因代码 C1–C6，仅人工确认行回填，见 CAUSE-TAXONOMY v1）、`causeNote`（≤40 字说明，与 cause 成对） |
+| kps[] | L3 | 选 | `{kpId,name,rate,wrong,key,category}`；rate=掌握率百分比数值(0-100)，wrong=错题数，key=布尔（【重点】/重点前缀），category=`考查|已掌握|待提升|薄弱`（页签归属）；name 保留源层级路径（`>>` 分隔）；**v2.0 增**：`kpKey`（跨考全局稳定键=`<subjectKey>::<归一化名>`，归一化名取别名表 canonical 名，见 §4）、`qNos`（该 KP 关联题号列表(int 数组)，来源=逐题解析件"知识点"节解析） |
 | analysisRef | L4 | 选（题目级） | 指向 `md/<科>-试卷解析 (n).md`（题目级字段挂 questions[].analysisRef） |
 
 ### 2.4 integrity
-- `checks[]`: `{name, expect, actual, status:"pass|fail|warn"}`，至少含：①各科题得分之和 vs L1 科得分；②各科分之和 vs 总分；③知识点行数 vs 徽标计数；④试卷解析覆盖数。
+- `checks[]`: `{name, expect, actual, status:"pass|fail|warn"}`，至少含：①各科题得分之和 vs L1 科得分；②各科分之和 vs 总分；③知识点行数 vs 徽标计数；④试卷解析覆盖数；**v2.0 增**：⑤错因覆盖（`错因覆盖(cause):<key>`——确认行数/错题总数，缺件或未确认=warn"待复核"）；⑥qNos 引用一致性（`qNos 一致性:<key>`——kps[].qNos 引用的题号必须存在于 questions[]，越界=fail）。
 - `deduped[]`: 长截图拼接产生的重复行（文件/题号/原因）。
 - `quarantined[]`: 解析失败的原始行（文件/行号/原文），**不猜不丢**。
 - `unmapped[]`: 别名归一未能对齐既有 kpId、本轮新增登记的名称清单。
@@ -60,10 +61,11 @@
 | +L2 | 题型×难度丢分矩阵、部分得分统计 |
 | +L3 | 知识点画像、跨考核踪、薄弱老化告警 |
 | +L4 索引 | 错题本联动（点开题解/图） |
+| +错因（v2.0，L2×复核件） | 错因构成（D2）、可补性加权补救（A1）、复习计划（A2）——无错因科按"待标注"桶诚实呈现 |
 缺层规则：对应分析模块输出"源数据未提供"而非 0 值。
 
 ## 4. 治理规则
-- **别名表**（`grade-insight/data/knowledge-alias.yaml`）append-only：新名自动登记为 canonical；**疑似同义不合并**，只列 `suspected[]` 供人工裁定后追加 alias。
+- **别名表（= KP 全局字典真源）**（`grade-insight/data/knowledge-alias.yaml`）append-only：新名自动登记为 canonical；**疑似同义不合并**，只列 `suspected[]` 供人工裁定后追加 alias。**v2.0 澄清（SPEC-011 S1 实现修正）**：KP 跨考稳定键即本表 canonical 的归一化名（`<subject>::<normName>`），随 exam.json kps[].kpKey 落地——**不另建第二登记表**（避免双真源漂移）；transcribe/解析来源的变体名经 resolve 命中 canonical。
 - **版本纪律**：固化件升版（vN→vN+1）必须对既往各考数据重跑 converter 对账回归，diff 结果入 5.2 留痕后方可用于新考（防"尺子变短"，SPEC-002 R8）。
 - 隐私：契约文件含个人成绩，随仓库既有知情裁定管理（SPEC-001 5.1）。
 
@@ -75,3 +77,4 @@
 | 解析预渲染 HTML | `<考>/data/analysis/<科>-试卷解析-<N>.html`（md 名规则化：去空格括号、`(N)`→`-N`） | `pipeline/render-analysis.js`（devDeps markdown-it+KaTeX，公式内联 SVG，禁 html 直通） | 错题本"解析 ↗"新标签；前端由 questions[].analysisRef 同规则推导 |
 | 学科均衡度雷达 | `<考>/data/balance.json`（schema `gi-balance-radar/1`：axes[9]/series[3]/method/caveat） | 从 `raw/总分概览` 雷达图按外圈占比像素采样（±3，原图无数值刻度） | 详情弹层"仪表盘"学科均衡度（缺件不显示；年级中等仅相对占比，禁止反推具体分数） |
 | 年级视图补录 | `<科>-成绩概览-年级.(jpg\|png)` 入 raw，转写与转换提取 avgGrade/rank/rankSize | 用户下月投料（acceptance v1.1） | 成绩表"年级均分/排名"列（缺源显示 –，**禁止由等级反推估算**） |
+| 错因复核件 | `<考>/md.错因复核-<科>.md`（表列：题号/错因/说明/依据/确认；仅确认行生效） | AI 预判（transcribe-prompt v2 标注任务）→ 人工确认 | convert.js v2 回填 questions[].cause/causeNote；CAUSE-TAXONOMY v1 §四 |

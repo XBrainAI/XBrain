@@ -1,6 +1,6 @@
 # 单考深挖报告 · 高一上第一次月考
 
-- 生成：2026-10-23T03:00:31 ｜ 来源：raw ｜ 契约：gi-exam-data/1 ｜ 流水线：{"transcribePrompt":"v1","converter":"v1","acceptance":"v1.1","alias":"v1"}
+- 生成：2026-10-28T10:04:08 ｜ 来源：raw ｜ 契约：gi-exam-data/2 ｜ 流水线：{"transcribePrompt":"v2","converter":"v2","acceptance":"v1.2","alias":"v1"}
 - 日期口径：2026-10-10（月份暂记，待确认）｜ 总分 **623.5/1030**（班级等级 C）
 
 ## 一、成绩结构
@@ -74,6 +74,10 @@
 | 知识点行数 vs 徽标:math | 45 | 51 | warn |
 | 知识点行数 vs 徽标:biology | 21 | 21 | pass |
 | 题解覆盖(analysisRef) | "数学/生物源图存在页" | {"math":"19/19","biology":"37/37"} | pass |
+| 错因覆盖(cause):math | "全部错题经人工确认标注" | "0/10" | warn |
+| qNos 一致性:math | "全部引用存在于题级表" | "引用 43 处，越界 0" | pass |
+| 错因覆盖(cause):biology | "全部错题经人工确认标注" | "0/12" | warn |
+| qNos 一致性:biology | "全部引用存在于题级表" | "引用 37 处，越界 0" | pass |
 
 - 拼接去重 4 处；隔离待审 1 行；别名新登记 0 条（见 exam.json integrity）。
 - 源文说明（转写件"注："行原文摘录，解释对账差异出处）：
@@ -83,4 +87,4 @@
 ## 五、小结
 - 亮点：得分率前列 语文(74.0%)、地理(69.0%)、物理(66.0%)。
 - 漏洞：得分率末位 数学(53.3%)、英语(49.6%)、化学(46.0%)。
-- 异常：题级得分之和 vs 科得分:chemistry=fail；知识点行数 vs 徽标:math=warn。
+- 异常：题级得分之和 vs 科得分:chemistry=fail；知识点行数 vs 徽标:math=warn；错因覆盖(cause):math=warn；错因覆盖(cause):biology=warn。
