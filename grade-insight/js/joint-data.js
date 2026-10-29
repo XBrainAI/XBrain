@@ -1,8 +1,8 @@
-/* 由 pipeline/joint.js 生成，勿手改 —— schema gi-joint/1 ｜ 数据截至 2026-10-29T03:55:44 */
+/* 由 pipeline/joint.js 生成，勿手改 —— schema gi-joint/1 ｜ 数据截至 2026-10-29T05:57:40 */
 (function (root) {
   var data = {
     "schema": "gi-joint/1",
-    "generatedAt": "2026-10-29T03:55:44",
+    "generatedAt": "2026-10-29T05:57:40",
     "kpDictVersion": 72,
     "exams": [
       {
@@ -10,7 +10,7 @@
         "name": "高一上第一次月考",
         "date": "2026-10-10",
         "source": "details/高一/上学期/10月/data/exam.json",
-        "transcribedAt": "2026-10-29T03:55:44",
+        "transcribedAt": "2026-10-29T05:57:40",
         "subjects": {
           "chinese": {
             "name": "语文",

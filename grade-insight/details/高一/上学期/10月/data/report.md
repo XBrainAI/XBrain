@@ -1,6 +1,6 @@
 # 单考深挖报告 · 高一上第一次月考
 
-- 生成：2026-10-29T03:55:44 ｜ 来源：raw ｜ 契约：gi-exam-data/2 ｜ 流水线：{"transcribePrompt":"v2","converter":"v2","acceptance":"v1.2","alias":"v1"}
+- 生成：2026-10-29T05:57:40 ｜ 来源：raw ｜ 契约：gi-exam-data/2 ｜ 流水线：{"transcribePrompt":"v2","converter":"v2","acceptance":"v1.2","alias":"v1"}
 - 日期口径：2026-10-10（月份暂记，待确认）｜ 总分 **623.5/1030**（班级等级 C）
 
 ## 一、成绩结构
