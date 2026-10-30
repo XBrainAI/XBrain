@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 清远佛冈周末家庭游 子站（攻略型 · 派生自 src/site-template.html）
+  ----------------------------------------------------------------------------
+  内容底稿：四季景点/待出行方案/清远佛冈一日游完整行程A（2026-10-31）.md（SPEC-012）
+  建页规格：SPEC-013-清远佛冈周末家庭游子站页面-261030-224332.5315
+  派生要点：主题换肤（镬耳楼暖金 #d4a853）；单方案A（PLAN_IDS=['planA'] 深链）；
+            自补 syncOrient/.img-portrait（§5.8，竖屏图自适应）；
+            删除 #log/#food/#hotels（未执行、一日游无酒店）；
+            §13.7 加载期 section 深链已补。
+  图片：8 张实景采集图（去重后），来源标注于文件名与图注；无 AI 生成图（§5.5）。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>清远佛冈周末家庭游 · 上岳古村×观音山王山寺 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（镬耳楼暖金：青砖黛瓦间的夕照与灰塑朱彩）===== */
+    :root {
+      --xb-deep: #0d0b08;
+      --xb-mid: #1a1510;
+      --xb-light: #2a2318;
+      --accent: #d4a853;            /* 暖金主色 */
+      --accent2: #e8c987;
+      --accent-glow: rgba(212, 168, 83, 0.16);
+      --accent-border: rgba(212, 168, 83, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(212, 168, 83, 0.18) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(160, 110, 50, 0.14) 0%, transparent 40%);
+      --text: #f0ece2;
+      --text-dim: rgba(224, 214, 194, 0.62);
+      --text-hint: rgba(224, 214, 194, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(30, 24, 14, 0.94) 0%, rgba(50, 40, 22, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(232, 201, 135, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(212,168,83,.30), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(212,168,83,.38), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(232,201,135,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(212,168,83,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #6b5a2e; filter: drop-shadow(0 0 6px rgba(212,168,83,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #7a6535; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #f0ece2; line-height: 1; text-shadow: 0 0 12px rgba(212,168,83,.55); }
+    .xbrain-brand .xbrain-text span { color: #d4a853; text-shadow: 0 0 18px rgba(212,168,83,.9); }
+    .xbrain-brand.scrolled { background: rgba(25,20,12,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(212,168,83,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(13,11,8,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(13,11,8,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: var(--accent-glow); }
+    .top-nav a.active { color: var(--accent); background: rgba(212,168,83,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(212,168,83,.05); border-bottom: 1px solid var(--accent-border); }
+    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* 竖屏图（高>宽）自适应：取消固定比例、完整显示不裁切（§5.8 自补 syncOrient） */
+    .media-cover.img-portrait { aspect-ratio: auto; display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); }
+    /* 在卡片/时间线内嵌时的边距适配 */
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+    .media-credit { padding: .35rem 1.1rem .6rem; font-size: .68rem; color: var(--text-hint); border-top: 1px dashed rgba(255,255,255,.06); }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+    .culture-card .kid-list li { margin-bottom: .45rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(212,168,83,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+
+    /* ===== TIMELINE ===== */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text-dim); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+    .risk { display: inline-block; padding: .05rem .45rem; border-radius: 4px; font-size: .72rem; font-weight: 700; }
+    .risk.low { border: 1px solid var(--success); color: var(--success); }
+    .risk.mid { border: 1px solid var(--warn); color: var(--warn); }
+    .risk.high { border: 1px solid var(--danger); color: var(--danger); }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem calc(3rem + env(safe-area-inset-bottom, 0px)); color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+    footer .footer-credit { margin-top: .5rem; font-size: .68rem; color: var(--text-hint); }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 四季景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#d4a853" stop-opacity="1" />
+          <stop offset="60%" stop-color="#a07a35" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#5e451a" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e8c987" /><stop offset="50%" stop-color="#c9963f" /><stop offset="100%" stop-color="#e8c987" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#4a3d20" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#5e4c26" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#d4a853" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#241c0e" />
+        <circle cx="50" cy="50" r="46" fill="#332812" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#d4a853" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#a07a35" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#d4a853" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#d4a853" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#e8c987" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#a07a35" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#d4a853" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点 & 餐厅总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#weather">天气影响评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">2026-10-31 周六 · 一日家庭自驾（备选 11-01）</span>
+    <h1 class="hero-title">清远佛冈 · <span>古村禅山一日</span></h1>
+    <p class="hero-subtitle">上岳古村镬耳楼群 × 观音山王山寺 · 两大锚点全免票</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>环线 206km 不走回头路</span><span>0 门票 · 全家约 ¥500</span><span>08:30 开园即入</span><span>17:00 到家不赶夜路</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">环线串联逻辑：上午进山林（凉快）→ 正午农家菜 → 下午逛古村（巷弄有荫）→ 傍晚返程。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>路线总览</h4><p>广州西村 → 京港澳G4/佛冈出口 → 观音山王山寺（80km）→ S292→S252 → 上岳古村（33km）→ 汕湛→广连 → 回西村（93km）。总里程约 206km，纯驾驶约 4h（以当日导航为准）。</p></div>
+      <div class="info-card"><h4>核心看点</h4><p>王山寺免票（2026-05-01 起）+ 天然仰卧观音山形 + 千年菩提树；上岳 720 年南宋古村、28 座镬耳楼、朱熹后裔家风；午餐古村岳农庄民安白切鸡。</p></div>
+      <div class="info-card"><h4>天气提醒</h4><p>周六晴 21–30℃，体感偏热；<b>森林火险橙色预警</b>生效中——火种不入山。详见 <a class="in-doc-link" href="#weather">天气影响评估</a>。</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">按行程顺序排列；实景图均为网络采集参考图（来源见图注），以实地为准。</p>
+    <div class="spots-grid">
+      <!-- 景点卡 1：观音山王山寺 -->
+      <div class="spot-card" id="spot-wangshan">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="观音山王山寺/index.jpg" alt="观音山王山寺·瀑布水坝" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="观音山王山寺/index.jpg" alt="瀑布水坝（小红书采集）" loading="lazy" decoding="async">
+            <img src="观音山王山寺/景区简介牌_实拍.jpg" alt="观音山王山寺简介牌（实拍）" loading="lazy" decoding="async">
+            <img src="观音山王山寺/千年菩提树_小红书视频截图.jpg" alt="千年菩提树（小红书视频截图）" loading="lazy" decoding="async">
+          </div>
+          <div class="media-credit">图源：网络采集（小红书/实拍），仅作参考</div>
+        </div>
+        <div class="spot-card-header"><h4>观音山王山寺</h4><span class="spot-card-dist">佛冈县石角镇英佛公路（S292）· 距广州约 80km</span></div>
+        <div class="spot-card-body"><p>整座山体天然形似仰卧观音；王山寺供明代三面十二臂观音、汉白玉观音等古造像，寺内植有佛陀成道地菩提树母树后代的千年菩提。森林氧吧、瀑布龙潭。亲子走"寺+朝圣广场+湖边栈道"平缓段，<a class="in-doc-link" href="#culture-wangshan">人文背景·讲给孩子听</a>。⚠️ 导航须搜全名「观音山王山寺风景区」——对面另有「佛冈观音山风景区」，没有王山寺。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">上午主目标</span><span class="spot-tag free">免票</span><span class="spot-tag kid">亲子平缓段</span></div>
+        <div class="spot-hours"><b>开放：</b>约 08:30–17:00（有源称 08:00 开，宜早到）。<b>门票：</b>2026-05-01 起免票（以现场公告为准，兜底 ¥35–50/人）。电话 0763-4882088。</div>
+      </div>
+      <!-- 景点卡 2：上岳古村 -->
+      <div class="spot-card" id="spot-shangyue">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="上岳古村/index.jpg" alt="上岳古村·镬耳楼群" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="上岳古村/index.jpg" alt="镬耳楼群晨光（©白鳥 Whitebird studio）" loading="lazy" decoding="async">
+            <img src="上岳古村/屋脊鳌鱼灰塑_白鳥Whitebird.jpg" alt="屋脊鳌鱼灰塑（©白鳥 Whitebird studio）" loading="lazy" decoding="async">
+            <img src="上岳古村/镬耳楼群雨后_采集.jpg" alt="镬耳楼群雨后（网络采集）" loading="lazy" decoding="async">
+            <img src="上岳古村/门楼彩绘与巷道_采集.jpg" alt="门楼彩绘与巷道（网络采集）" loading="lazy" decoding="async">
+            <img src="上岳古村/镬耳墙老窗_采集.jpg" alt="镬耳墙老窗（网络采集）" loading="lazy" decoding="async">
+          </div>
+          <div class="media-credit">图源：网络采集（部分 ©2021 白鳥 Whitebird studio），仅作参考</div>
+        </div>
+        <div class="spot-card-header"><h4>上岳古村</h4><span class="spot-card-dist">佛冈县龙山镇上岳村 · 距王山寺约 33km</span></div>
+        <div class="spot-card-body"><p>720 余年南宋古村，朱熹后裔（朱文焕一脉）聚居地；明清民居 37 幢 108 座、28 座镬耳楼完好；归仁里三组、朴山/朝瑞朱公祠（民俗馆）、五龙过脊、古井、风水塘，"象棋之乡"。0 商业化原生态，<a class="in-doc-link" href="#culture-shangyue">人文背景·讲给孩子听</a>。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">下午主目标</span><span class="spot-tag free">免费</span><span class="spot-tag warn">老宅勿入</span></div>
+        <div class="spot-hours"><b>开放：</b>全天开放；民俗馆 8:30–17:30。<b>门票：</b>免费（村口观景台自愿付费 8 元/人，豆腐花 2 元/碗备小额现金）。村口免费停车场，步行 3 分钟入村。</div>
+      </div>
+      <!-- 餐厅卡 3：古村岳农庄 -->
+      <div class="spot-card" id="spot-nongzhuang">
+        <div class="spot-card-header" style="padding-top:1.4rem;"><h4>古村岳农庄（午餐主选）</h4><span class="spot-card-dist">龙山镇上岳横围新村 · 距村口约 489m</span></div>
+        <div class="spot-card-body"><p>本地食材农家菜：民安白切鸡（果园走地鸡蘸沙姜酱油）、碌乌鬃鹅、客家酿三宝、时令山野菜。评分 4.3 / 人均约 ¥56。<b>出行前一晚电话订位</b>，周末饭点走量。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">午餐</span><span class="spot-tag kid">适合全家</span></div>
+        <div class="spot-hours"><b>营业：</b>08:00–20:00。<b>订位：</b>13417274694。备选：民安农庄（4.3分，13828536655）/ 岳凤凰农庄（13602920524）/ 安记农庄（13750156039）。</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 行程方案 ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（一日往返）
+    </h2>
+    <p class="section-desc">线路A（观音山上午 → 上岳下午），km 已圈定；日期按建议取 2026-10-31 周六，改周日要素不变（见天气评估）。点击方案可分享深链。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 经典避晒环线</span>
+        <span class="plan-desc">观音山上午 → 农家午餐 → 上岳古村下午，07:00 出发 17:00 到家</span>
+      </button>
+    </div>
+
+    <!-- 方案 A -->
+    <div class="plan-content active" id="planA">
+      <!-- 先列行程表 -->
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 2026-10-31 周六（晴 21–30℃）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:00</td><td>08:30</td><td>广州西村 → 观音山王山寺（京港澳G4 → 佛冈出口 → S292）</td><td>1.5h</td></tr>
+              <tr><td>08:30</td><td>11:00</td><td>观音山王山寺（寺 + 朝圣广场 + 湖边栈道，平缓段不登顶）</td><td>2.5h</td></tr>
+              <tr><td>11:00</td><td>11:45</td><td>S292 → S252 南下赴上岳古村（33km）</td><td>0.75h</td></tr>
+              <tr><td>11:45</td><td>13:00</td><td>午餐 · 古村岳农庄（白切鸡/碌鹅，已订位）</td><td>1.25h</td></tr>
+              <tr><td>13:00</td><td>13:15</td><td>村口停车场停车，步行入村</td><td>0.25h</td></tr>
+              <tr><td>13:15</td><td>15:30</td><td>上岳古村（归仁里 → 民俗馆 → 古井 → 风水塘 → 观景台俯拍）</td><td>2.25h</td></tr>
+              <tr><td>15:30</td><td>17:00</td><td>返程广州西村（汕湛高速 → 广连高速，93km）</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 再按时间点展开 -->
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 周六 · 晴，防暑防晒</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:00 — 08:30</div>
+          <div class="timeline-content">
+            <h4>西村出发 · 错峰北上</h4>
+            <p>周六早走避出城高峰；满油、水与零食装车。导航点①「<b>观音山王山寺风景区</b>」（务必全名）。过路费单程约 ¥35–50。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾 80km</span><span class="timeline-tag kid">车内早餐</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:30 — 11:00</div>
+          <div class="timeline-content">
+            <h4>观音山王山寺 · 开门即入</h4>
+            <p>山门 → 王山寺（大殿/明代观音造像/千年菩提树）→ 朝圣广场仰拍「天然仰卧观音」山形 → 湖边木栈道 → 瀑布龙潭方向走到体力半程即折返。全程森林荫蔽，不登顶（1288m 非本日目标）。<a class="in-doc-link" href="#culture-wangshan">给孩子讲：躺着的观音与菩提树 →</a></p>
+            <div class="timeline-tags"><span class="timeline-tag free">免票</span><span class="timeline-tag view">山形奇观</span><span class="timeline-tag kid">平缓段</span><span class="timeline-tag warn">禁火种</span></div>
+            <div class="media-cover"><img src="观音山王山寺/index.jpg" alt="观音山王山寺·瀑布" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="观音山王山寺/index.jpg" alt="瀑布水坝（小红书采集）" loading="lazy" decoding="async">
+              <img src="观音山王山寺/景区简介牌_实拍.jpg" alt="景区简介牌（实拍）" loading="lazy" decoding="async">
+              <img src="观音山王山寺/千年菩提树_小红书视频截图.jpg" alt="千年菩提树（小红书视频截图）" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:00 — 13:00</div>
+          <div class="timeline-content">
+            <h4>南下上岳 · 农家午餐</h4>
+            <p>S292→S252 约 41 分钟抵龙山镇。古村岳农庄：民安白切鸡、碌乌鬃鹅、酿三宝、山野菜（人均约 ¥56，已订位）。等位久就切备选农庄（电话见景点卡）。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">33km</span><span class="timeline-tag food">农家菜</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:15 — 15:30</div>
+          <div class="timeline-content">
+            <h4>上岳古村 · 镬耳楼群里慢逛</h4>
+            <p>村口免费停车场步行 3 分钟入村。动线：归仁里门楼（上/中/下三组）→ 朴山朱公祠（民俗馆）→ 朝瑞朱公祠 → 青云巷/古井 → 五龙过脊、五龙过阶 → 风水塘 → 观景台俯拍全景（8 元/人）。巷弄有荫，午后也走得舒服；村口豆腐花 2 元/碗。<a class="in-doc-link" href="#culture-shangyue">给孩子讲：戴官帽的村子与朱熹家风 →</a></p>
+            <div class="timeline-tags"><span class="timeline-tag free">免费</span><span class="timeline-tag museum">民俗馆</span><span class="timeline-tag view">镬耳楼</span><span class="timeline-tag kid">寻宝任务</span></div>
+            <div class="media-cover"><img src="上岳古村/index.jpg" alt="上岳古村·镬耳楼群" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="上岳古村/index.jpg" alt="镬耳楼群晨光（©白鳥 Whitebird studio）" loading="lazy" decoding="async">
+              <img src="上岳古村/屋脊鳌鱼灰塑_白鳥Whitebird.jpg" alt="屋脊鳌鱼灰塑（©白鳥 Whitebird studio）" loading="lazy" decoding="async">
+              <img src="上岳古村/镬耳楼群雨后_采集.jpg" alt="镬耳楼群雨后（网络采集）" loading="lazy" decoding="async">
+              <img src="上岳古村/门楼彩绘与巷道_采集.jpg" alt="门楼彩绘与巷道（网络采集）" loading="lazy" decoding="async">
+              <img src="上岳古村/镬耳墙老窗_采集.jpg" alt="镬耳墙老窗（网络采集）" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:30 — 17:00</div>
+          <div class="timeline-content">
+            <h4>返程 · 不赶夜路</h4>
+            <p>导航直接设「家」：汕湛高速 → 广连高速，93km 约 1.5h。时间富余可加项「渔游下岳」（上岳邻村竹筏+窑烤，+1.5–2h），默认不加。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">93km</span><span class="timeline-tag kid">车上补觉</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">带孩子看懂背景，旅行不只是看热闹。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-shangyue">
+        <div class="media-cover"><img src="上岳古村/屋脊鳌鱼灰塑_白鳥Whitebird.jpg" alt="屋脊鳌鱼灰塑（©白鳥 Whitebird studio）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="上岳古村/屋脊鳌鱼灰塑_白鳥Whitebird.jpg" alt="屋脊鳌鱼灰塑（©白鳥 Whitebird studio）" loading="lazy" decoding="async">
+          <img src="上岳古村/门楼彩绘与巷道_采集.jpg" alt="门楼彩绘与巷道（网络采集）" loading="lazy" decoding="async">
+        </div>
+        <div class="media-credit">图源：网络采集（©2021 白鳥 Whitebird studio），仅作参考</div>
+        <div class="culture-card-head"><div class="c-icon">🏘️</div><h4>上岳古村——戴上官帽的村子</h4></div>
+        <p><b>背景：</b>南宋末年，朱熹第六代孙朱文焕（抗元名将）后人南迁至此建村，720 多年。明清民居 37 幢 108 座、28 座镬耳楼完好，是广东保存最完整的镬耳屋古建筑群；村民自明代起爱下棋，是"象棋之乡"。</p>
+        <ul class="kid-list">
+          <li><b>找帽子：</b>镬耳墙又叫"鳌背墙"，形似官帽两耳，寓意"独占鳌头"——数数能看到的镬耳墙，猜猜哪家的"官"最大？</li>
+          <li><b>认门匾：</b>祠堂门匾"名贤世泽，儒学家风"——朱熹是大大学问家，他家的家风你觉得是什么？</li>
+          <li><b>古井任务：</b>为什么古井的水冬暖夏凉？（没有冰箱的年代，这就是天然冰箱）</li>
+          <li><b>屋脊寻龙：</b>抬头找屋顶上像龙脊一样起伏的"五龙过脊"，还有屋脊上的鳌鱼灰塑——传说鳌鱼能吞火避灾。</li>
+          <li><b>棋盘挑战：</b>晚饭后跟爸或弟下一盘棋，试试 720 年"象棋之乡"传人的水平。</li>
+        </ul>
+      </div>
+      <div class="culture-card" id="culture-wangshan">
+        <div class="media-cover"><img src="观音山王山寺/景区简介牌_实拍.jpg" alt="观音山王山寺简介牌（实拍）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="观音山王山寺/景区简介牌_实拍.jpg" alt="景区简介牌（实拍）" loading="lazy" decoding="async">
+          <img src="观音山王山寺/千年菩提树_小红书视频截图.jpg" alt="千年菩提树（小红书视频截图）" loading="lazy" decoding="async">
+        </div>
+        <div class="media-credit">图源：网络采集（小红书/实拍），仅作参考</div>
+        <div class="culture-card-head"><div class="c-icon">⛰️</div><h4>观音山王山寺——躺着一座山的观音</h4></div>
+        <p><b>背景：</b>观音山海拔 1288 米，是广东著名"观音名山"之最高峰；整座山体天然形似仰卧的观音，被称为天然"仰卧观音"，自北宋起就受民间礼拜。王山寺是千年古刹（战争中被毁后重建），存明代三面十二臂观音、汉白玉观音等古造像，还有一棵由佛陀成道地菩提树母树种子繁育而来的菩提树。这里森林覆盖率极高，是华南负离子含量最高的区域之一。</p>
+        <ul class="kid-list">
+          <li><b>想象力挑战：</b>在朝圣广场抬头看山——山脊线哪里像额头？哪里像手？古人就是靠想象力给山"命名"的。</li>
+          <li><b>菩提树：</b>相传释迦牟尼在菩提树下悟道，寺里这棵是"母树的后代"——两千多年的故事就长在叶子上。</li>
+          <li><b>负离子 = 空气里的维生素：</b>深呼吸三次，森林里的"空气维生素"浓度是广州城区的好多倍，这就是为什么山林里特别舒服。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">核实于 2026-10-30（百科 / Trip.com / 去哪儿 / 腾讯地图多源交叉）；以出行当日官方公告为准。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>观音山王山寺</td><td>约 08:30–17:00（有源称 08:00 开）</td><td>免票（2026-05-01 起；现场设票口则以公告为准，兜底 ¥35–50/人）</td><td>电话 0763-4882088；导航须全名</td></tr>
+          <tr><td>上岳古村</td><td>全天开放；民俗馆 8:30–17:30</td><td>免费（观景台自愿 8 元/人）</td><td>村口免费停车场；石板路平底鞋</td></tr>
+          <tr><td>古村岳农庄（午餐）</td><td>08:00–20:00</td><td>人均约 ¥56</td><td>订位 13417274694；备选农庄见景点卡</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 行程复核结论</div>
+      <ul>
+        <li>王山寺开门时间双源核实（百度百科 + Trip.com 均为 08:30–17:00），行程表 08:30 到达即入，无白等。</li>
+        <li>上岳停车两源矛盾（游客中心 vs 无正式游客中心）已由 2025–2026 亲测信源确证：村口大型免费停车场、步行 3 分钟入村。</li>
+        <li>无周一闭馆问题（周六出行）；民俗馆 8:30 开，下午段正常参观。</li>
+        <li>里程/时长沿用在库估算（206km / 纯驾约 4h），出发前以导航复核。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">核实于 2026-10-30（墨迹天气 / 中国天气网广东站 / 广东省气象台多源一致）；出发当日再查实时预警。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>10-31 周六（出行日） <span class="risk mid">🟡 注意</span></h4><p>晴，21–30℃，降水 0%，东南风 3 级。可出行，体感偏热（正午体感约 32℃）：行程已按"上午山林荫蔽 → 正午用餐 → 下午古村巷弄"避开正午暴晒。防晒帽/防晒霜/每人 ≥1L 水。</p></div>
+      <div class="info-card"><h4>11-01 周日（备选日） <span class="risk mid">🟡 注意</span></h4><p>多云，23–29℃；珠三角中南部有分散小雨可能，早晚轻雾。若改周日：带雨具、早出发；王山寺山道湿滑则缩短瀑布段。</p></div>
+      <div class="info-card"><h4>森林火险橙色预警 <span class="risk high">🔴 高</span></h4><p>近期高温干燥破纪录，林火气象风险高：<b>火种不入山</b>，山区严禁吸烟、野炊、明火。此为当日最硬约束。</p></div>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">调整建议</div>
+      <ul>
+        <li>无台风/暴雨预警，行程整体维持；高温时段已通过顺序编排规避。</li>
+        <li>若周日遇中雨以上：整体顺延至 11-08 周末（11-02 起弱冷空气降温，届时更接近"入秋"体感，行程要素不变）。</li>
+        <li>出发前一日与当日复查：预警信号升级（雷雨大风橙色以上）则户外段一律取消。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">行前一晚与行中提醒。</p>
+    <div class="tips-box">
+      <div class="tips-box-title">出行清单</div>
+      <ul>
+        <li>全员平底运动鞋（古村石板路凹凸）；防晒帽、防晒霜、驱蚊液（山林蚊虫多）、薄外套（车内温差）。</li>
+        <li>水（每人 ≥1L）+ 小零食（上岳村内无商店，观景台/豆腐花备小额现金）。</li>
+        <li>充电宝、纸巾湿巾、垃圾袋；满油出发。</li>
+        <li>导航收藏三件套：①观音山王山寺风景区 ②古村岳农庄 ③家（返程直设）。</li>
+      </ul>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">⚠️ 避坑提醒</div>
+      <ul>
+        <li><b>导航坑：</b>必须搜全名「观音山王山寺风景区」——对面另有「佛冈观音山风景区」，那里没有王山寺。</li>
+        <li><b>吃饭坑：</b>上岳村内无餐馆和商店，午餐锁定古村岳农庄（订位 13417274694）或备选农庄。</li>
+        <li><b>安全坑：</b>部分无人居住老宅有局部坍塌，勿贸然进入；村内有原住民，轻声慢行不闯私宅；王山寺山道湿滑处牵好娃。</li>
+        <li><b>禁火：</b>森林火险橙色预警生效中，火种不入山。</li>
+        <li><b>免票以现场为准：</b>王山寺免票为景区公众号信源 + OTA 旁证，门口若收票以现场公告为准（预算已留兜底）。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 收录 · 清远佛冈周末家庭游</div>
+    <div class="footer-credit">实景图均为网络采集（部分 ©2021 白鳥 Whitebird studio / 小红书），仅作出行参考，以实地为准</div>
+    <div class="footer-version">v20261030-224332</div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 方案切换（单方案 A，保留深链 §13.9）=====
+      var PLAN_IDS = ['planA'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+
+      // 打开即定位：方案深链（§13.9）或章节深链（§13.7）
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
+      } else if (window.location.hash && window.location.hash.length > 1) {
+        var secId = window.location.hash.substring(1);
+        window.addEventListener('load', function () {
+          setTimeout(function () { var t = document.getElementById(secId); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 450);
+        });
+      }
+
+      // ===== 媒体画廊：首图自动解析（index.* 优先）+ 竖屏自适应 syncOrient（§5.8 / 根§14）=====
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        function syncOrient() { var nw = coverImg.naturalWidth, nh = coverImg.naturalHeight; if (nw && nh) cover.classList.toggle('img-portrait', nh > nw); }
+        coverImg.addEventListener('load', syncOrient);
+        if (coverImg.complete) syncOrient();
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) { syncOrient(); return; }
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) { syncOrient(); return; }
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov);
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none';
+          syncOrient();
+        }
+        applyCover(coverThumb);
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== 页内锚点：平滑滚动 + URL 片段（§13.7）=====
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          if (id === 'planA') { switchPlan('planA', true); }
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+
+      // ===== XBrain Logo 滚动淡出（IP 规范）=====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画（含 .culture-card）=====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>
