@@ -166,6 +166,18 @@
     .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
     .media-credit { padding: .35rem 1.1rem .6rem; font-size: .68rem; color: var(--text-hint); border-top: 1px dashed rgba(255,255,255,.06); }
 
+    /* ===== 子行程节点路线图（横向滚动节点链，移动端友好）===== */
+    .route-flow { display: flex; align-items: stretch; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: .9rem .2rem .5rem; scrollbar-width: none; margin-top: .6rem; }
+    .route-flow::-webkit-scrollbar { display: none; }
+    .route-node { position: relative; flex: 0 0 auto; width: 138px; background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: .6rem .7rem .55rem; }
+    .route-node .rn-idx { position: absolute; top: -11px; left: 10px; min-width: 22px; height: 22px; padding: 0 4px; border-radius: 11px; background: var(--accent); color: #241c0e; font-size: .72rem; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--xb-deep); }
+    .route-node .rn-time { font-size: .68rem; color: var(--accent2); font-weight: 600; white-space: nowrap; }
+    .route-node .rn-name { font-size: .8rem; font-weight: 700; color: var(--text); margin: .18rem 0 .12rem; line-height: 1.35; }
+    .route-node .rn-dur { font-size: .68rem; color: var(--text-hint); line-height: 1.4; }
+    .route-node.return { border-style: dashed; }
+    .route-arrow { flex: 0 0 auto; align-self: center; color: var(--accent); font-size: 1.05rem; opacity: .85; }
+    .route-note { font-size: .74rem; color: var(--text-hint); line-height: 1.55; margin-top: .4rem; }
+
     /* ===== CULTURE CARDS ===== */
     .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
     .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
@@ -473,6 +485,24 @@
               <img src="观音山王山寺/景区简介牌_实拍.jpg" alt="景区简介牌（实拍）" loading="lazy" decoding="async">
               <img src="观音山王山寺/千年菩提树_小红书视频截图.jpg" alt="千年菩提树（小红书视频截图）" loading="lazy" decoding="async">
             </div>
+            <div class="route-flow" aria-label="观音山王山寺子行程节点路线图（08:30–11:00 亲子版）">
+              <div class="route-node"><span class="rn-idx">起</span><div class="rn-time">08:30–08:35</div><div class="rn-name">停车场 → 山门</div><div class="rn-dur">免票入园 · 步行 5min</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node"><span class="rn-idx">1</span><div class="rn-time">08:35–08:50</div><div class="rn-name">山门广场 · 圣水观音</div><div class="rn-dur">15min · 高10.9m + 奇石馆</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node"><span class="rn-idx">2</span><div class="rn-time">08:50–09:20</div><div class="rn-name">王山寺中轴</div><div class="rn-dur">30min · 菩提圣树→天王殿→大雄宝殿→财神殿</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node"><span class="rn-idx">3</span><div class="rn-time">09:20–09:35</div><div class="rn-name">万人拜佛台 · 朝圣广场</div><div class="rn-dur">15min · 仰卧观音最佳机位</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node"><span class="rn-idx">4</span><div class="rn-time">09:35–09:55</div><div class="rn-name">灵水湖环湖木栈道</div><div class="rn-dur">20min · 依山面湖吸氧</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node"><span class="rn-idx">5</span><div class="rn-time">09:55–10:20</div><div class="rn-name">龙潭溪谷缓坡上行</div><div class="rn-dur">约1.2km / 25min · 三叠潭 石阶湿滑</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node"><span class="rn-idx">6</span><div class="rn-time">10:20–10:40</div><div class="rn-name">龙潭飞瀑观瀑位</div><div class="rn-dur">20min · 宽60m 落差100m</div></div>
+              <div class="route-arrow">➜</div>
+              <div class="route-node return"><span class="rn-idx">返</span><div class="rn-time">10:40–11:00</div><div class="rn-name">原路下坡返上车</div><div class="rn-dur">20min · 11:00 出发上岳</div></div>
+            </div>
+            <p class="route-note">子行程为静态估算，以现场指示牌为准。平缓替换版：舍⑤⑥改由灵水湖直接返回，约 1.5h、10:00 前回到停车场；全程深溯到深潭（单程约2.5km、过水及膝）留作夏季溪降专程。</p>
           </div>
         </div>
         <div class="timeline-item">
