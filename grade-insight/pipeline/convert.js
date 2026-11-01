@@ -276,12 +276,11 @@ function convert(examDir, aliasFile, month) {
     const subj = { key: s.key, name: s.cn, full: L1.full, score: L1.score };
     if (level) subj.level = level;
     if (ov.questions.length) subj.questions = ov.questions.map(q => Object.assign({}, q));
-    if (s.key === 'math' || s.key === 'biology') {
-      subj.questions && subj.questions.forEach(q => {
-        const f = files.find(x => x === s.cn + '-试卷解析 (' + q.no + ').md');
-        if (f) q.analysisRef = 'md/' + f;
-      });
-    }
+    /* SPEC-017：analysisRef 推导扩展到全科目（有解析件即挂 ref；数学/生物存量行为不变） */
+    subj.questions && subj.questions.forEach(q => {
+      const f = files.find(x => x === s.cn + '-试卷解析 (' + q.no + ').md');
+      if (f) q.analysisRef = 'md/' + f;
+    });
     issuesAll[s.key] = ov.issues;
     subjects.push(subj);
   }
@@ -378,7 +377,7 @@ function convert(examDir, aliasFile, month) {
   }
   const refCnt = {};
   for (const s of subjects) if (s.questions) { const c = s.questions.filter(q => q.analysisRef).length; if (c) refCnt[s.key] = c + '/' + s.questions.length; }
-  checks.push({ name: '题解覆盖(analysisRef)', expect: '数学/生物源图存在页', actual: refCnt, status: 'pass' });
+  checks.push({ name: '题解覆盖(analysisRef)', expect: '有解析件的题目按文件存在推导（全科目）', actual: refCnt, status: 'pass' });
   /* v2：错因覆盖 + qNos 一致性 */
   for (const s of subjects) {
     if (!s.questions) continue;

@@ -65,11 +65,11 @@ function run(examDir) {
   const mdDir = path.join(examDir, 'md');
   const outDir = path.join(examDir, 'data', 'analysis');
   fs.mkdirSync(outDir, { recursive: true });
-  const files = fs.readdirSync(mdDir).filter((f) => /试卷解析.*\.md$/.test(f));
+  const files = fs.readdirSync(mdDir).filter((f) => /试卷解析.*\.md$/.test(f) || /-错题缺漏汇总\.md$/.test(f)); // SPEC-017：错题缺漏汇总件同批渲染
   let mathCount = 0, imgCount = 0;
   for (const f of files) {
     const title = f.replace(/\.md$/, '');
-    renderFile(path.join(mdDir, f), path.join(outDir, htmlNameFor(f)), title, '../../md/images/');
+    renderFile(path.join(mdDir, f), path.join(outDir, htmlNameFor(f)), /-错题缺漏汇总\.md$/.test(f) ? f.replace(/\.md$/, '') : title, '../../md/images/');
     const out = fs.readFileSync(path.join(outDir, htmlNameFor(f)), 'utf8');
     mathCount += (out.match(/katex/g) || []).length;
     imgCount += (out.match(/<img /g) || []).length;

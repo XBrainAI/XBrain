@@ -34,7 +34,8 @@ test('S11.2 10 月模型：全科研判数字正确', () => {
   assert.equal(o.bottom[0].name, '化学'); assert.equal(o.bottom[0].rate, 0.46);
   assert.equal(o.spread.minName, '化学'); assert.equal(o.spread.maxName, '语文');
   assert.equal(o.skewed, true);
-  assert.equal(o.potential, 173.8);
+  /* SPEC-017 扩展轮（2026-11-01）：地理题级数据补录入库（raw/地理-成绩概览.jpg 转录），易 6 × 0.8 + 中 23 × 0.5 = +16.3 计入可回收，potential 173.8 → 190.1 */
+  assert.equal(o.potential, 190.1);
 });
 
 test('S11.3 逐科规则命中与题级/知识点结构', () => {
@@ -49,7 +50,11 @@ test('S11.3 逐科规则命中与题级/知识点结构', () => {
   assert.ok(by['数学'].kp && by['数学'].kp.weakN === 20 && by['数学'].kp.keyWeakN === 4);
   assert.ok(by['数学'].concls.some((c) => c.tag === 'R5') && by['数学'].concls.some((c) => c.tag === 'R6'));
   assert.ok(by['物理'].concls.some((c) => c.tag === 'R4'));
-  assert.equal(by['地理'].hasQ, false);
+  /* SPEC-017 扩展轮（2026-11-01）：地理题级数据补录入库，hasQ 翻转；42 题（40 单选×2 + 主观 11 + 主观 9），丢分 易6/中23/难2 */
+  assert.equal(by['地理'].hasQ, true);
+  assert.equal(by['地理'].diffs['易'].loss, 6);
+  assert.equal(by['地理'].diffs['中'].loss, 23);
+  assert.equal(by['地理'].diffs['难'].loss, 2);
 });
 
 test('S11.4 补救清单确定性 + 引擎幂等', () => {

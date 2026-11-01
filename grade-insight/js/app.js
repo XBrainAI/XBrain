@@ -640,7 +640,8 @@
         var wrongs = sr.questions.filter(function (q) { return q.score < q.point; });
         var lost = wrongs.reduce(function (a, q) { return a + (q.point - q.score); }, 0).toFixed(1);
         html += '<div class="mt8"><b>' + esc(sr.name || sr.key) + '</b><span class="muted small-note"> 错题 ' +
-          wrongs.length + ' / ' + sr.questions.length + ' 题，丢 ' + lost + ' 分</span></div>';
+          wrongs.length + ' / ' + sr.questions.length + ' 题，丢 ' + lost + ' 分</span>' +
+          '<span id="qzSum-' + esc(sr.key) + '" class="qz-sum"></span></div>';
         if (!wrongs.length) { html += '<div class="muted small-note">全对。</div>'; return; }
         html += '<div class="rank-list">';
         wrongs.forEach(function (q) {
@@ -657,6 +658,16 @@
       });
       if (!shown) html += '<div class="muted">该考未提供题级数据。</div>';
       box.innerHTML = html;
+      /* SPEC-017：科目"错题缺漏汇总"入口——按文件存在性显示（HEAD 探测，缺失不渲染，无空壳） */
+      d.subjects.forEach(function (sr) {
+        if (!sr.questions || !sr.questions.length) return;
+        var el = document.getElementById('qzSum-' + sr.key);
+        if (!el) return;
+        var u = base + 'data/analysis/' + (sr.name || sr.key) + '-错题缺漏汇总.html';
+        fetch(encodeURI(u), { method: 'HEAD' }).then(function (r) {
+          if (r.ok) el.innerHTML = ' <a class="ri-val" href="' + encodeURI(u) + '" target="_blank" rel="noopener">错题缺漏汇总 ↗</a>';
+        }).catch(function () { /* 文件缺失：保持占位为空 */ });
+      });
       renderQzDiag(d);
       renderKpExtras(d);
       fetch(encodeURI(base + 'data/balance.json')).then(function (r) {
