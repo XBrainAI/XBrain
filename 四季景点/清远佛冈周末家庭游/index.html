@@ -154,8 +154,9 @@
 
     /* ===== 媒体组件：主图 + 缩略图切换 ===== */
     .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
-    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(212,168,83,.05); border-bottom: 1px solid var(--accent-border); }
-    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-cover { width: 100%; overflow: hidden; background: rgba(212,168,83,.05); border-bottom: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; }
+    /* 完整显示不裁切（2026-11-01 用户要求全图完整：横图 4:3 在 16:10 框内 cover 会裁掉上下缘，蝴蝶等贴边主体被切） */
+    .media-cover img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; display: block; }
     /* 竖屏图（高>宽）自适应：取消固定比例、完整显示不裁切（§5.8 自补 syncOrient） */
     .media-cover.img-portrait { aspect-ratio: auto; display: flex; align-items: center; justify-content: center; }
     .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
