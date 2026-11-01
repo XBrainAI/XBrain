@@ -220,37 +220,53 @@
 
     .sites-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
     }
 
     .site-card {
       position: relative;
-      display: block;
+      display: flex;
+      flex-direction: column;
       text-decoration: none;
       color: inherit;
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       background: linear-gradient(135deg, rgba(20, 20, 50, 0.6) 0%, rgba(30, 20, 60, 0.5) 100%);
       border: 1px solid var(--xb-border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      -webkit-tap-highlight-color: transparent;
       transition: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) ease, border-color var(--dur-med) ease;
     }
 
-    .site-card.visible {
+    /* 悬停反馈仅限具备悬停能力的设备（触屏不粘滞） */
+    @media (hover: hover) {
 
-    .site-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(100, 180, 255, 0.5);
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(100, 180, 255, 0.15);
+      .site-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(100, 180, 255, 0.5);
+        box-shadow:
+          0 16px 48px rgba(0, 0, 0, 0.45),
+          0 0 32px rgba(100, 180, 255, 0.12);
+      }
+
+      .site-card:hover .site-card-arrow {
+        background: var(--xb-accent);
+        color: var(--xb-deep);
+        border-color: var(--xb-accent);
+        box-shadow: 0 0 16px rgba(100, 180, 255, 0.4);
+      }
+    }
+
+    /* 触摸按下反馈（移动端主要交互态） */
+    .site-card:active {
+      transform: scale(0.98);
+      border-color: rgba(100, 180, 255, 0.55);
     }
 
     .site-card-image {
       width: 100%;
-      height: 220px;
+      height: 150px;
+      flex: none;
       background-size: cover;
       background-position: center;
       position: relative;
@@ -275,14 +291,14 @@
     }
 
     .site-card-image.fallback svg {
-      width: 80px;
-      height: 80px;
-      opacity: 0.3;
-      filter: drop-shadow(0 0 20px rgba(100, 180, 255, 0.3));
+      width: 52px;
+      height: 52px;
+      opacity: 0.5;
+      filter: drop-shadow(0 0 16px rgba(100, 180, 255, 0.3));
     }
 
     .site-card-content {
-      padding: 1.5rem;
+      padding: 1rem 1.2rem;
       position: relative;
     }
 
@@ -299,24 +315,25 @@
 
     .site-card h3 {
       font-family: 'Noto Serif SC', serif;
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: var(--xb-text);
     }
 
     .site-card p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--xb-text-dim);
       line-height: 1.6;
+      padding-right: 2.4rem;
     }
 
     .site-card-arrow {
       position: absolute;
-      right: 1.5rem;
-      bottom: 1.5rem;
-      width: 32px;
-      height: 32px;
+      right: 1.2rem;
+      bottom: 1.2rem;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 1px solid var(--xb-border);
       display: flex;
@@ -326,11 +343,17 @@
       transition: all 0.3s ease;
     }
 
-    .site-card:hover .site-card-arrow {
-      background: var(--xb-accent);
-      color: var(--xb-deep);
-      border-color: var(--xb-accent);
-      box-shadow: 0 0 16px rgba(100, 180, 255, 0.4);
+    @media (prefers-reduced-motion: reduce) {
+
+      .site-card,
+      .site-card-arrow {
+        transition: none;
+      }
+
+      .site-card:hover,
+      .site-card:active {
+        transform: none;
+      }
     }
 
     /* ===== FOOTER ===== */
@@ -353,9 +376,75 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 640px) {
+
+      /* 移动端：紧凑横排卡——缩略图居左，一屏可容纳更多入口 */
       .sites-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 0.85rem;
+      }
+
+      .site-card {
+        flex-direction: row;
+        align-items: stretch;
+        border-radius: 12px;
+      }
+
+      .site-card-image {
+        width: 108px;
+        height: auto;
+        min-height: 112px;
+      }
+
+      .site-card-image::after {
+        background: linear-gradient(to right, rgba(10, 10, 26, 0.35) 0%, transparent 40%);
+      }
+
+      .site-card-image.fallback svg {
+        width: 40px;
+        height: 40px;
+      }
+
+      .site-card-content {
+        flex: 1;
+        min-width: 0;
+        padding: 0.75rem 3rem 0.75rem 0.85rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .site-card-tag {
+        display: none;
+      }
+
+      .site-card h3 {
+        font-size: 1.02rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .site-card p {
+        font-size: 0.8rem;
+        line-height: 1.5;
+        padding-right: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .site-card-arrow {
+        right: 0.55rem;
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border: none;
+      }
+
+      .site-card-arrow svg {
+        width: 18px;
+        height: 18px;
       }
 
       .hero-title {
@@ -367,7 +456,11 @@
       }
 
       .sites-section {
-        padding: 4rem 1rem 2rem;
+        padding: 3rem 1rem 2rem;
+      }
+
+      .section-header {
+        margin-bottom: 2.2rem;
       }
     }
   </style>
@@ -509,14 +602,11 @@
       <!-- 二级子站点入口：中考志愿填报查询系统 -->
       <a class="site-card" href="./query-system/dist/index.html">
         <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#64b4ff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <path d="M8.5 11h5M11 8.5v5" opacity="0.7" />
           </svg>
         </div>
         <div class="site-card-content">
@@ -553,14 +643,10 @@
       <!-- 子站点：健康 -->
       <a class="site-card" href="./健康/index.html">
         <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#64b4ff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 3 8.5c0 2.3 1.5 4.05 3 5.5l6 6Z" />
+            <path d="M3.5 11h4l1.5-2.5 2.5 5 1.5-2.5h4" />
           </svg>
         </div>
         <div class="site-card-content">
@@ -580,14 +666,9 @@
       <!-- 子站点：采购与维护 -->
       <a class="site-card" href="./采购与维护/index.html">
         <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#64b4ff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
           </svg>
         </div>
         <div class="site-card-content">
@@ -607,14 +688,10 @@
       <!-- 子站点：学习与成长 -->
       <a class="site-card" href="./学习与成长/index.html">
         <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#64b4ff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z" />
+            <path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z" />
           </svg>
         </div>
         <div class="site-card-content">
@@ -633,17 +710,7 @@
 
       <!-- 子站点：生活点滴 -->
       <a class="site-card" href="./生活点滴/index.html">
-        <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="1.5" opacity="0.3" />
-              <line x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <line x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-              <circle cx="50" cy="50" r="8" fill="#64b4ff" opacity="0.3" />
-            </g>
-          </svg>
-        </div>
+        <div class="site-card-image" style="background-image: url('./生活点滴/2026/0816/四中津园周边-泮塘-IMG_20260816_165135-thumb.jpg')"></div>
         <div class="site-card-content">
           <span class="site-card-tag">子站点</span>
           <h3>生活点滴</h3>
@@ -661,14 +728,10 @@
       <!-- 子站点：成绩追踪 -->
       <a class="site-card" href="./grade-insight/index.html">
         <div class="site-card-image fallback">
-          <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="176" cy="180" r="168" fill="none" stroke="#64b4ff" stroke-width="1" opacity="0.3" />
-            <g transform="matrix(0 -1 1 0 30 230)">
-              <polyline points="20,80 45,55 65,65 85,25" fill="none" stroke="#64b4ff" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round" opacity="0.45" />
-              <circle cx="85" cy="25" r="6" fill="#64b4ff" opacity="0.45" />
-              <line x1="20" y1="88" x2="90" y2="88" stroke="#64b4ff" stroke-width="2" opacity="0.3" />
-            </g>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#64b4ff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 17 9 11 13 15 21 7" />
+            <polyline points="15 7 21 7 21 13" />
           </svg>
         </div>
         <div class="site-card-content">
