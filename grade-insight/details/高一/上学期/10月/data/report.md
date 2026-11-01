@@ -1,6 +1,6 @@
 # 单考深挖报告 · 高一上第一次月考
 
-- 生成：2026-11-01T04:15:15 ｜ 来源：raw ｜ 契约：gi-exam-data/2 ｜ 流水线：{"transcribePrompt":"v2","converter":"v2","acceptance":"v1.2","alias":"v1"}
+- 生成：2026-11-01T04:33:21 ｜ 来源：raw ｜ 契约：gi-exam-data/2 ｜ 流水线：{"transcribePrompt":"v2","converter":"v2","acceptance":"v1.2","alias":"v1"}
 - 日期口径：2026-10-10（月份暂记，待确认）｜ 总分 **623.5/1030**（班级等级 C）
 
 ## 一、成绩结构
@@ -75,7 +75,7 @@
 | 各科满分之和 vs 总分满分 | 1030 | 1030 | pass |
 | 知识点行数 vs 徽标:math | 45 | 50 | warn |
 | 知识点行数 vs 徽标:biology | 21 | 21 | pass |
-| 题解覆盖(analysisRef) | "有解析件的题目按文件存在推导（全科目）" | {"chinese":"12/22","math":"19/19","english":"36/76","physics":"7/17","chemistry":"8/19","biology":"37/37","politics":"15/42","history":"15/42"} | pass |
+| 题解覆盖(analysisRef) | "有解析件的题目按文件存在推导（全科目）" | {"chinese":"12/22","math":"19/19","english":"36/76","physics":"7/17","chemistry":"8/19","biology":"37/37","politics":"15/42","history":"15/42","geography":"14/42"} | pass |
 | 错因覆盖(cause):math | "全部错题经人工确认标注" | "10/10" | pass |
 | qNos 一致性:math | "全部引用存在于题级表" | "引用 43 处，越界 0" | pass |
 | 错因覆盖(cause):biology | "全部错题经人工确认标注" | "12/12" | pass |

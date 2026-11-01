@@ -13,12 +13,19 @@ const katex = require('katex');
 
 const md = new MarkdownIt({ html: false, linkify: false, typographer: false });
 
+let KATEX_CSS = '';
+try { KATEX_CSS = require('fs').readFileSync(require.resolve('katex/dist/katex.min.css'), 'utf8'); } catch (e) { KATEX_CSS = ''; }
+
 const CSS = 'body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.65;color:#222;background:#fff}' +
   'h1,h2,h3{line-height:1.3}table{border-collapse:collapse;margin:10px 0;width:100%}' +
   'th,td{border:1px solid #d8d8d8;padding:6px 9px;text-align:left;font-size:14px}th{background:#f4f4f6}' +
   'img{max-width:100%;height:auto;border:1px solid #eee;border-radius:6px;display:block;margin:8px 0}' +
   'blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid #c9c9d6;background:#fafafc;color:#555;font-size:13px}' +
-  '.katex{font-size:1.06em}.src{color:#999;font-size:12px;margin-top:28px;border-top:1px dashed #ddd;padding-top:8px}' +
+  '.katex{font-size:1.06em}' +
+  /* SPEC-017 T8 反馈：内嵌 katex.min.css（output:'svg' 仍输出无障碍 MathML 副本，缺此表则双份渲染且其 min-content 撑爆表格列宽）+ 表格换行护栏 */
+  (KATEX_CSS ? KATEX_CSS.replace(/\n/g, '') : '') +
+  'td,th{overflow-wrap:anywhere;word-break:break-word;vertical-align:top}' +
+  '.src{color:#999;font-size:12px;margin-top:28px;border-top:1px dashed #ddd;padding-top:8px}' +
   '.xbrain-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#2b3a67;font-weight:700;margin-bottom:16px}' +
   '.xbrain-brand svg{width:26px;height:26px}.xbrain-text{font-size:15px;letter-spacing:.02em}';
 

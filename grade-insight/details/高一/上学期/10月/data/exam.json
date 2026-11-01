@@ -8,7 +8,7 @@
       "acceptance": "v1.2",
       "alias": "v1"
     },
-    "transcribedAt": "2026-11-01T04:15:15",
+    "transcribedAt": "2026-11-01T04:33:21",
     "confidence": {
       "chinese": "高",
       "math": "高",
@@ -3135,7 +3135,8 @@
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (7).md"
         },
         {
           "no": 8,
@@ -3198,14 +3199,16 @@
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (16).md"
         },
         {
           "no": 17,
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (17).md"
         },
         {
           "no": 18,
@@ -3240,14 +3243,16 @@
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (22).md"
         },
         {
           "no": 23,
           "type": "单选题",
           "point": 2,
           "diff": "易",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (23).md"
         },
         {
           "no": 24,
@@ -3261,7 +3266,8 @@
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (25).md"
         },
         {
           "no": 26,
@@ -3282,7 +3288,8 @@
           "type": "单选题",
           "point": 2,
           "diff": "易",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (28).md"
         },
         {
           "no": 29,
@@ -3310,7 +3317,8 @@
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (32).md"
         },
         {
           "no": 33,
@@ -3324,7 +3332,8 @@
           "type": "单选题",
           "point": 2,
           "diff": "难",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (34).md"
         },
         {
           "no": 35,
@@ -3345,7 +3354,8 @@
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (37).md"
         },
         {
           "no": 38,
@@ -3359,28 +3369,32 @@
           "type": "单选题",
           "point": 2,
           "diff": "易",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (39).md"
         },
         {
           "no": 40,
           "type": "单选题",
           "point": 2,
           "diff": "中",
-          "score": 0
+          "score": 0,
+          "analysisRef": "md/地理-试卷解析 (40).md"
         },
         {
           "no": 41,
           "type": "主观题",
           "point": 11,
           "diff": "中",
-          "score": 8
+          "score": 8,
+          "analysisRef": "md/地理-试卷解析 (41).md"
         },
         {
           "no": 42,
           "type": "主观题",
           "point": 9,
           "diff": "中",
-          "score": 5
+          "score": 5,
+          "analysisRef": "md/地理-试卷解析 (42).md"
         }
       ]
     }
@@ -3476,7 +3490,8 @@
           "chemistry": "8/19",
           "biology": "37/37",
           "politics": "15/42",
-          "history": "15/42"
+          "history": "15/42",
+          "geography": "14/42"
         },
         "status": "pass"
       },
