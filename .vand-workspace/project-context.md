@@ -2721,3 +2721,8 @@ footer
 - [ ] 措辞过一遍正向红线（§11.3）
 - [ ] 视改动范围跑 `npm run test:repo`（沙箱内 spawnSync 可能报 EBUSY，属环境限制——需用 git ls-files / ast.parse / node --check 手工实质复核）
 ```
+
+## Git 协作约定（2026-11-17 用户授权）
+
+- **会话内提交后直接 `git push`**（用户 2026-11-17 明示授权，原话："后续改动直接push代码"）——不必逐次询问；推送失败时如实报告并留待用户处理。
+- 仍遵守既有纪律：共享分支禁 force-push；提交信息照常带 `spec:`（规格性）/ `ai-assisted:` 标注。
