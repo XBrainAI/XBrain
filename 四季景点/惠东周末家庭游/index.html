@@ -560,13 +560,13 @@
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       行程方案（2 天 1 夜）
     </h2>
-    <p class="section-desc">三案<strong>首日完全一致</strong>（海龟湾 + 双月湾），差异在次日：<strong style="color:#e8641b;">A 自然探索线</strong>（黑排角赶海·情人岛 + 礁石酒吧）适合爱玩水；<strong style="color:#7d3cc9;">B 文化休闲线</strong>（平海古城 + 沙滩）节奏松弛；<strong style="color:#c2410c;">C 两案合一</strong>（A 线全部玩法 + 平海古城，住情人湾盐晶 H10，含全程饮食安排）内容最满。点选切换，链接可分享。</p>
+    <p class="section-desc">方案 <strong style="color:#e8641b;">A</strong> / <strong style="color:#7d3cc9;">B</strong> 首日一致（看下方「共同首日」表）；<strong style="color:#c2410c;">方案 C 两案合一</strong>（A 线全部玩法 + 平海古城，住情人湾盐晶 H10，含全程饮食安排）——首日改稔山线自驾口径（06:30 出发 · 泰美服务区早餐），<b>选 C 时共同首日表自动隐藏</b>，C 卡内自带两天完整行程表。次日差异：A 黑排角赶海·情人岛 + 礁石酒吧适合爱玩水；B 平海古城 + 沙滩节奏松弛；C 两者全含、内容最满。点选切换，链接可分享。</p>
 
     <!-- 共同首日 -->
     <div class="info-card" id="day1" style="opacity:1;transform:none;">
-      <h4>📅 共同首日（周六 · 两方案一致）</h4>
+      <h4>📅 共同首日（周六 · 方案 A / B 适用）</h4>
       <div class="plan-summary">
-        <div class="day-label">DAY 1 · 周六（两方案一致）</div>
+        <div class="day-label">DAY 1 · 周六（方案 A / B 适用）</div>
         <div class="table-scroll">
           <table class="plan-summary-table">
             <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
@@ -591,7 +591,7 @@
           <div class="timeline-time">07:00</div>
           <div class="timeline-content">
             <h4>君荟名轩自驾出发 → 海龟湾</h4>
-            <p>走广佛肇 / 广惠高速一路向东，全程约 <strong>250 km、3 小时</strong>。车上备好零食、饮水与晕车贴，两个孩子可在后排小憩，抵达时正好精神饱满；导航设为「海龟湾（广东惠东海龟国家级自然保护区）」，避免被带去收费仿冒景点。<b>方案 C 口径：</b>06:30 出发、泰美服务区早餐、稔山线进岛（详见下方方案 C 首日卡）。</b></p>
+            <p>走广佛肇 / 广惠高速一路向东，全程约 <strong>250 km、3 小时</strong>。车上备好零食、饮水与晕车贴，两个孩子可在后排小憩，抵达时正好精神饱满；导航设为「海龟湾（广东惠东海龟国家级自然保护区）」，避免被带去收费仿冒景点。选<b>方案 C</b> 时本表自动隐藏——C 案首日为稔山线自驾口径（06:30 出发、泰美服务区早餐），直接看下方方案 C 卡内的两天行程表。</p>
             <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag kid">3h 车程</span></div>
           </div>
         </div>
@@ -1381,6 +1381,8 @@
         document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
         var target = document.getElementById(planId);
         if (target) target.classList.add('active');
+        var day1 = document.getElementById('day1');
+        if (day1) day1.style.display = (planId === 'planC') ? 'none' : '';
         var buttons = document.querySelectorAll('.plan-btn');
         var matched = false;
         buttons.forEach(function (btn) {
