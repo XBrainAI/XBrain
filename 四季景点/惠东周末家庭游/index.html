@@ -146,8 +146,8 @@
 
     /* ===== 媒体组件（req#2）：主图 + 缩略图切换 ===== */
     .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
-    .media-cover { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: rgba(52,200,190,.05); border-bottom: 1px solid var(--accent-border); }
-    .media-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-cover { width: 100%; overflow: hidden; background: rgba(52,200,190,.05); border-bottom: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; }
+    .media-cover img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; display: block; }
     .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
     .media-gallery::-webkit-scrollbar { display: none; }
     .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
@@ -156,6 +156,37 @@
     .media-gallery img.is-cover { display: none; }
     .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
     .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+    /* ===== 网格子项 min-width:0（§14.11 · SPEC-025）===== */
+    .info-grid > *, .spots-grid > *, .culture-grid > * { min-width: 0; }
+    /* ===== 9. 游记实录（SPEC-025 v3 · 时间线瀑布式 · 验收修正版）===== */
+    .log-day-label { font-family: 'Noto Serif SC', serif; font-size: 1.02rem; font-weight: 700; color: var(--accent); margin: 1.8rem 0 .9rem; padding-left: 2px; }
+    .log-timeline { position: relative; padding-left: 16px; margin-top: .6rem; }
+    .log-timeline::before { content: ''; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 2px; background: var(--accent-border); border-radius: 2px; }
+    .log-entry { position: relative; padding-left: 18px; margin-bottom: 2.1rem; min-width: 0; }
+    .log-entry::before { content: ''; position: absolute; left: -16px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(52,200,190,.14); }
+    .log-entry h4 { color: var(--accent); font-size: .95rem; margin: 0 0 .35rem; line-height: 1.5; }
+    .log-time { display: inline-block; background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .1rem .5rem; border-radius: 10px; font-size: .72rem; font-weight: 700; letter-spacing: .5px; margin-right: .4rem; vertical-align: 1px; font-variant-numeric: tabular-nums; }
+    .log-entry .log-summary { font-size: .86rem; color: var(--text-dim); line-height: 1.78; margin: 0 0 .55rem; }
+    .log-entry .media-block, .log-entry .log-video, .log-entry .log-video-cap { max-width: 660px; }
+    .log-video { width: 100%; border-radius: 12px; margin: .6rem 0 .2rem; background: #000; display: block; border: 1px solid var(--accent-border); }
+    .log-video-cap { font-size: .74rem; color: var(--text-hint); margin: .8rem 0 .2rem; }
+    /* ===== 方案已完成印章（§15.2 · SPEC-025）===== */
+    .plan-btn .stamp { position: absolute; top: 4px; right: 4px; width: 42px; height: 42px; border: 2.5px solid #e74c3c; border-radius: 50%; color: #e74c3c; background: rgba(231, 76, 60, 0.06); font-size: 11px; font-weight: 900; font-family: 'Noto Serif SC', serif; display: flex; align-items: center; justify-content: center; transform: rotate(-15deg); opacity: .72; pointer-events: none; text-align: center; line-height: 1.15; letter-spacing: 1px; user-select: none; z-index: 2; }
+    @media (min-width: 640px) { .plan-btn .stamp { width: 50px; height: 50px; font-size: 13px; top: 6px; right: 6px; } }
+    /* ===== 全屏灯箱（§14 六条铁律：不锁 body 滚动 / 遮罩显式满幅 / 箭头≥48px 恒在屏内 / 触控滑动切图 / 安全区避让；SPEC-025 移植自清远佛冈子站）===== */
+    .media-cover img, .media-gallery img, .log-video { cursor: zoom-in; }
+    .lightbox-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: 300; background: rgba(5,5,15,.97); display: none; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; -webkit-tap-highlight-color: transparent; }
+    .lightbox-mask.open { display: flex; }
+    .lightbox-mask .lb-media { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+    .lightbox-mask video.lb-media { width: 100%; max-height: 100%; background: #000; border-radius: 0; border: 0; margin: 0; cursor: default; }
+    .lb-cap { position: absolute; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); text-align: center; color: #e8e8e8; font-size: .88rem; line-height: 1.4; padding: 0 64px; text-shadow: 0 1px 4px #000; pointer-events: none; }
+    .lb-count { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); color: #b9b9b9; font-size: .8rem; letter-spacing: 1px; pointer-events: none; }
+    .lb-close, .lb-nav { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); background: rgba(18,18,28,.72); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; user-select: none; }
+    .lb-close { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); font-size: 20px; }
+    .lb-nav { top: 50%; transform: translateY(-50%); font-size: 24px; }
+    .lb-prev { left: 10px; } .lb-next { right: 10px; }
+    .lb-close:active, .lb-nav:active { background: rgba(52,200,190,.4); }
+    .lb-hidden { display: none !important; }
 
     /* ===== CULTURE CARDS ===== */
     .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
@@ -326,6 +357,7 @@
       <a href="#hotels">酒店推荐</a>
       <a href="#weather">天气评估</a>
       <a href="#tips">实用贴士</a>
+      <a href="#log">游记</a>
     </div>
     <button class="nav-hamburger" id="navToggle" aria-label="菜单">
       <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -343,6 +375,7 @@
       <a href="#hotels">酒店推荐</a>
       <a href="#weather">天气影响评估</a>
       <a href="#tips">实用贴士</a>
+      <a href="#log">游记</a>
     </div>
   </nav>
 
@@ -663,6 +696,7 @@
       <button class="plan-btn active" onclick="switchPlan('planC')">
         <span class="plan-name">方案 C · 两案合一（已选定）</span>
         <span class="plan-desc">A 线玩法 + 平海古城 · 住情人湾盐晶 H10 · 含全程饮食安排</span>
+        <span class="stamp">已完成</span>
       </button>
     </div>
 
@@ -1484,12 +1518,514 @@
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
+  <!-- ===== 9. 游记实录（2026-11-21/22 已实地执行 · SPEC-025 v3 时间线瀑布式·验收修正版）===== -->
+  <section class="section" id="log">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      游记实录
+    </h2>
+    <p class="section-desc">2026-11-21/22 两日实拍 · 按拍摄时刻排成一条时间线瀑布流：243 件素材（185 图＋58 视频）逐时落位，点任意图 / 视频可全屏查看、左右滑动切换 · 逐件归属见 游记/素材时间线映射表.md。</p>
+    <div class="log-day-label">Day 1 · 11-21（周六）· 海龟湾的一天，从晨光到明月</div>
+    <div class="log-timeline">
+      <div class="log-entry">
+        <h4><span class="log-time">07:37</span>沙埔服务区 · 出发的仪式</h4>
+        <p class="log-summary">晨光斜切进 713 的车厢，把一路都镀成金色。后排的弟戴着耳机、举着望远镜——他把去程当成了侦察任务；天窗外，一整片鱼鳞云「高高挂」在蓝得发亮的天上。07:37，沙埔服务区的早餐桌是这趟旅程的发令枪：两天的海，从这一口热食开始。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-去程与沙埔服务区/713-沙埔服务区-早餐-IMG_20261121_073734.jpg" alt="713·沙埔服务区·早餐（07:37）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-去程与沙埔服务区/713-沙埔服务区-早餐-IMG_20261121_073734.jpg" alt="713·沙埔服务区·早餐（07:37）" loading="lazy" decoding="async">
+            <img src="游记/d1-去程与沙埔服务区/713-弟-听音乐.jpg" alt="713·弟·听音乐" loading="lazy" decoding="async">
+            <img src="游记/d1-去程与沙埔服务区/713-弟-望远镜.jpg" alt="713·弟·望远镜" loading="lazy" decoding="async">
+            <img src="游记/d1-去程与沙埔服务区/713-蓝天白云高高挂.jpg" alt="713·蓝天白云高高挂" loading="lazy" decoding="async">
+            <img src="游记/d1-去程与沙埔服务区/713高速.jpg" alt="713高速" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 713高速妈视角·2</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-去程与沙埔服务区/713高速妈视角-2.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 713高速妈视角</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-去程与沙埔服务区/713高速妈视角.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">09:48</span>海龟湾 · 入口的山坡</h4>
+        <p class="log-summary">入口藏在山脚下，坡度不讲情面，先给每个人一个下马威。兄弟妈在坡道上定格了第一张微微喘气的合影，713 也郑重地和保护区标志牌合了影——远道而来的礼貌。入口那尊「破壳龟」雕塑先上了一课：每只大海龟，都是从这样一个小小的破壳瞬间出发的；弟的科普雷达同步开机（10:06 就在科普点挪不动步）。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-海龟湾/海龟湾-兄弟妈-入口是山脚-坡度较大-IMG_20261121_094858.jpg" alt="海龟湾·兄弟妈·入口是山脚·坡度较大（09:48）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-海龟湾/海龟湾-兄弟妈-入口是山脚-坡度较大-IMG_20261121_094858.jpg" alt="海龟湾·兄弟妈·入口是山脚·坡度较大（09:48）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/713与海龟湾标志-IMG_20261121_094943_edit_3057782336299839.jpg" alt="713与海龟湾标志（09:49）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-科普弟-IMG_20261121_100623.jpg" alt="海龟湾·科普弟（10:06）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-入口-破壳龟-兄弟-微信图片_20261121225427_50_271.jpg" alt="海龟湾·入口·破壳龟·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-科普兄弟-微信图片_20261121225427_51_271.jpg" alt="海龟湾·海龟馆·科普兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-科普兄弟-微信图片_20261121225427_114_271.jpg" alt="海龟湾·海龟馆·科普兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-山脚入口.jpg" alt="海龟湾·山脚入口" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">10:02</span>滨海栈道 · 云海与巨石阵</h4>
+        <p class="log-summary">栈道贴着悬崖走。10:31 的那张照片留了一行注脚——「远处中线处为海龟产卵地」：一句注脚，把这片海的来处讲给路人听。10:40 云海压在海平线上，像天河开了道口子；11:03–11:04 悬崖礁石与沧海礁石黑得发亮，11:08 巨石阵到了——兄弟俩与爸在石缝间攀上爬下，把地质时间当成了游乐场。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_102010.jpg" alt="海龟湾·滨海栈道（10:20）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_102010.jpg" alt="海龟湾·滨海栈道（10:20）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-远处中线处为海龟产卵地-IMG_20261121_103117.jpg" alt="海龟湾·滨海栈道·远处中线处为海龟产卵地（10:31）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-松针-IMG_20261121_103346.jpg" alt="海龟湾·滨海栈道·松针（10:33）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-云海-IMG_20261121_104023.jpg" alt="海龟湾·滨海栈道·云海（10:40）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_104111.jpg" alt="海龟湾·滨海栈道（10:41）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_105248.jpg" alt="海龟湾·滨海栈道（10:52）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_105548.jpg" alt="海龟湾·滨海栈道（10:55）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_105916.jpg" alt="海龟湾·滨海栈道（10:59）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-弟-IMG_20261121_110110.jpg" alt="海龟湾·滨海栈道·弟（11:01）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟-IMG_20261121_110211.jpg" alt="海龟湾·滨海栈道·兄弟（11:02）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-悬崖礁石-IMG_20261121_110316.jpg" alt="海龟湾·滨海栈道·悬崖礁石（11:03）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-沧海礁石-IMG_20261121_110411.jpg" alt="海龟湾·滨海栈道·沧海礁石（11:04）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-IMG_20261121_110615.jpg" alt="海龟湾·滨海栈道（11:06）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-巨石阵弟IMG_20261121_110852.jpg" alt="海龟湾·滨海栈道·巨石阵弟（11:08）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-巨石阵兄弟-IMG_20261121_110858.jpg" alt="海龟湾·滨海栈道·巨石阵兄弟（11:08）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-巨石阵-IMG_20261121_110942.jpg" alt="海龟湾·滨海栈道·巨石阵（11:09）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟IMG_20261121_111105.jpg" alt="海龟湾·滨海栈道·兄弟（11:11）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-石滩-IMG_20261121_111330.jpg" alt="海龟湾·滨海栈道·石滩（11:13）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-攀岩沙-微信图片_20261121225427_72_271.jpg" alt="海龟湾·滨海栈道·攀岩沙" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-攀岩弟爸-微信图片_20261121225427_74_271.jpg" alt="海龟湾·滨海栈道·攀岩弟爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟-微信图片_20261121225427_79_271.jpg" alt="海龟湾·滨海栈道·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-爸-微信图片_20261121225427_80_271.jpg" alt="海龟湾·滨海栈道·爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-微信图片_20261121225427_83_271.jpg" alt="海龟湾·滨海栈道" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟爸-微信图片_20261121225427_85_271.jpg" alt="海龟湾·滨海栈道·兄弟爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-微信图片_20261121225427_87_271.jpg" alt="海龟湾·滨海栈道" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟-微信图片_20261121225427_89_271.jpg" alt="海龟湾·滨海栈道·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-微信图片_20261121225427_91_271.jpg" alt="海龟湾·滨海栈道" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-微信图片_20261121225427_92_271.jpg" alt="海龟湾·滨海栈道" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟-微信图片_20261121225427_95_271.jpg" alt="海龟湾·滨海栈道·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-鸡公弟尾弯弯-微信图片_20261121225427_98_271.jpg" alt="海龟湾·滨海栈道·鸡公弟尾弯弯" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-巨石兄弟-微信图片_20261121225427_101_271.jpg" alt="海龟湾·滨海栈道·巨石兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-巨石爸-微信图片_20261121225427_103_271.jpg" alt="海龟湾·滨海栈道·巨石爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟婆.jpg" alt="海龟湾·滨海栈道·兄弟婆" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟爸.jpg" alt="海龟湾·滨海栈道·兄弟爸" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道（10:42）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-VID_20261121_104213.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道（10:48）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-VID_20261121_104831.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道（10:55）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-VID_20261121_105553.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·2</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-2.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·4</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-4.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·5</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-5.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·8</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-8.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·兄弟</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-兄弟.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·弟</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-弟.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道·鸡公弟·尾弯弯</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道-鸡公弟-尾弯弯.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·滨海栈道</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-滨海栈道.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">11:25</span>海龟馆 · 与海龟对视</h4>
+        <p class="log-summary">展缸前，兄弟俩把脸贴到玻璃上：大海龟划着水、伸着脖子，慢悠悠得像时间在海底也放了假。百龟园里大大小小的龟晒着太阳，视频把它们的水下姿态全录了下来。有些动物不用说话，就教完了「慢」这个字。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-海龟湾/海龟湾-海龟馆-兄弟-IMG_20261121_112555.jpg" alt="海龟湾·海龟馆·兄弟（11:25）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-兄弟-IMG_20261121_112555.jpg" alt="海龟湾·海龟馆·兄弟（11:25）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-巡洋中心-兄弟-微信图片_20261121225427_108_271.jpg" alt="海龟湾·巡洋中心·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-微信图片_20261121225427_111_271.jpg" alt="海龟湾·海龟馆" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-兄弟-微信图片_20261121225427_112_271.jpg" alt="海龟湾·海龟馆·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-微信图片_20261121225427_113_271.jpg" alt="海龟湾·海龟馆" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-微信图片_20261121225427_116_271.jpg" alt="海龟湾·海龟馆" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-海龟馆-微信图片_20261121225427_117_271.jpg" alt="海龟湾·海龟馆" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-百龟园.jpg" alt="海龟湾·百龟园" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-百龟园2.jpg" alt="海龟湾·百龟园2" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 海龟湾·海龟 (2)</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-海龟 (2).mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·海龟</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-海龟.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·海龟们</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-海龟们.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">11:42</span>石滩 · 一颗松果的收官</h4>
+        <p class="log-summary">石滩是海龟湾的彩蛋：弟在石头间摸爬滚打，即兴演了一段「醉酒」（假装的，他自己先笑场），又学「鸡公」翘起弯弯的尾；爸也入场——往沙滩上一站，摆出服装广告的架势：全家都爱哥伦比亚的衣裳，「哥伦比沙」，是只有自家人秒懂的梗。11:54，弟捡起一颗松果郑重收好——大人收藏门票，孩子收藏松果。离园前的小卖部也逛了一圈，满载而归。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-海龟湾/海龟湾-石滩-IMG_20261121_114252.jpg" alt="海龟湾·石滩（11:42）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-IMG_20261121_114252.jpg" alt="海龟湾·石滩（11:42）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-IMG_20261121_114305.jpg" alt="海龟湾·石滩（11:43）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-IMG_20261121_114819.jpg" alt="海龟湾·石滩（11:48）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-IMG_20261121_114826.jpg" alt="海龟湾·石滩（11:48）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-松果与蓝天-IMG_20261121_115444.jpg" alt="海龟湾·松果与蓝天（11:54）" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-兄弟-微信图片_20261121225427_104_271.jpg" alt="海龟湾·石滩·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-购物沙-微信图片_20261121225427_106_271.jpg" alt="海龟湾·购物沙" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-购物弟爸-微信图片_20261121225427_107_271.jpg" alt="海龟湾·购物弟爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-兄弟爸-微信图片_20261121225427_126_271.jpg" alt="海龟湾·石滩·兄弟爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-哥伦比沙-微信图片_20261121225427_128_271.jpg" alt="海龟湾·石滩·哥伦比沙" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-哥伦比沙-微信图片_20261121225427_129_271.jpg" alt="海龟湾·石滩·哥伦比沙" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-石滩-哥伦比爸-微信图片_20261121225427_130_271.jpg" alt="海龟湾·石滩·哥伦比爸" loading="lazy" decoding="async">
+            <img src="游记/d1-海龟湾/海龟湾-树爸.jpg" alt="海龟湾·树爸" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 海龟湾·石滩（11:44）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-石滩-VID_20261121_114451.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 海龟湾·沙滩·醉酒弟(假装)</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-海龟湾/海龟湾-沙滩-醉酒弟(假装).mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">14:18</span>港口市场 · 一顿迟到的海鲜</h4>
+        <p class="log-summary">午后的港口市场水汽蒸腾，增氧泵咕嘟作响，水箱里全是讨价还价也换不来的鲜活。午餐比常规晚了一个时辰——但饥肠是最好的调味，照片里菜已上桌，筷子比镜头快。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-港口市场与午餐/港口市场-IMG_20261121_141830.jpg" alt="港口市场（14:18）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-港口市场与午餐/港口市场-IMG_20261121_141830.jpg" alt="港口市场（14:18）" loading="lazy" decoding="async">
+            <img src="游记/d1-港口市场与午餐/港口市场-IMG_20261121_142033.jpg" alt="港口市场（14:20）" loading="lazy" decoding="async">
+            <img src="游记/d1-港口市场与午餐/港口市场-午饭-海鲜餐.jpg" alt="港口市场·午饭·海鲜餐" loading="lazy" decoding="async">
+            <img src="游记/d1-港口市场与午餐/港口市场.jpg" alt="港口市场" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">14:45</span>途经 · 滑浪天堂与追日</h4>
+        <p class="log-summary">往返港口市场的路上，海岸线在车窗里摊开：滑浪天堂的浪头一个接一个（14:45），路边一排冲浪板晒着太阳，713 靠边与它们合了影——四轮与浪，各自赶路。观景平台上，弟举着红色望远镜蹲成一尊小炮台，「作战部队」的侦察兵正在执勤；去程或回程的车里，有人举起手机追着太阳拍了一段——夸父没追上的东西，镜头替他留住了。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-双月湾冲浪天堂途经/港口市场午饭回酒店途中双月湾冲浪天堂-713与冲浪板-IMG_20261121_145903.jpg" alt="港口市场午饭回酒店途中双月湾冲浪天堂·713与冲浪板（14:59）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-双月湾冲浪天堂途经/港口市场午饭回酒店途中双月湾冲浪天堂-713与冲浪板-IMG_20261121_145903.jpg" alt="港口市场午饭回酒店途中双月湾冲浪天堂·713与冲浪板（14:59）" loading="lazy" decoding="async">
+            <img src="游记/d1-双月湾冲浪天堂途经/港口市场午饭后回酒店路上路边沙滩-滑浪天堂8.jpg" alt="港口市场午饭后回酒店路上路边沙滩·滑浪天堂8" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 港口市场午饭回酒店途中双月湾冲浪天堂（14:45）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-双月湾冲浪天堂途经/港口市场午饭回酒店途中双月湾冲浪天堂-VID_20261121_144511.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 作战部队弟</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-双月湾冲浪天堂途经/作战部队弟.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 港口市场午饭后回酒店路上路边沙滩·滑浪天堂</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-双月湾冲浪天堂途经/港口市场午饭后回酒店路上路边沙滩-滑浪天堂.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 港口市场午饭后回酒店路上路边沙滩·滑浪天堂2</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-双月湾冲浪天堂途经/港口市场午饭后回酒店路上路边沙滩-滑浪天堂2.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 港口市场午饭后回酒店路上路边沙滩·滑浪天堂3</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-双月湾冲浪天堂途经/港口市场午饭后回酒店路上路边沙滩-滑浪天堂3.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 追日</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-双月湾冲浪天堂途经/追日.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">15:43</span>盐晶酒店 · 月牙湾收留了一家人</h4>
+        <p class="log-summary">从高层望下去，情人湾是一弯月牙，浪线一层一层往岸上叠。大堂里兄弟俩背着包走向镜头，度假的松弛感从这一步开始。沙滩上，弟把外套一脱，就冲进了下午的阳光里。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-IMG_20261121_154334.jpg" alt="盐晶酒店（15:43）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-IMG_20261121_154334.jpg" alt="盐晶酒店（15:43）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-IMG_20261121_154348.jpg" alt="盐晶酒店（15:43）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-兄弟-IMG_20261121_173305.jpg" alt="盐晶酒店·兄弟（17:33）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-月-IMG_20261121_173323.jpg" alt="盐晶酒店·月（17:33）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-沙滩-闪灯阅月-IMG_20261121_173706.jpg" alt="盐晶酒店·沙滩·闪灯阅月（17:37）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-IMG_20261121_173850.jpg" alt="盐晶酒店（17:38）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-IMG_20261121_173949.jpg" alt="盐晶酒店（17:39）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-兄弟.jpg" alt="盐晶酒店·兄弟" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-大堂-兄弟.jpg" alt="盐晶酒店·大堂·兄弟" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·沙滩（15:43）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店-沙滩-VID_20261121_154301.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-入住与沙滩/惠州双月湾日出·盐晶酒店.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">17:33</span>傍晚 · 金光、皮划艇与一家人</h4>
+        <p class="log-summary">傍晚的金光把海面熨平。黄色双人皮划艇划出近海，救生衣一穿，划得有模有样；太阳落进海平线前，四张脸挤进一张「沙滩自拍」——没有构图技巧，只有都到齐了。17:33 月亮先到场，17:37 沙滩上闪灯「阅月」；酒店沙滩前的「魔法季」舞台亮起，泡泡机把第一批泡泡送上暮色——这场傍晚的序曲，酒店早已备好。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-傍晚.jpg" alt="盐晶酒店·傍晚" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-傍晚.jpg" alt="盐晶酒店·傍晚" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-划船.jpg" alt="盐晶酒店·划船" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-沙滩自拍.jpg" alt="盐晶酒店·沙滩自拍" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·傍晚·气泡</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-傍晚-气泡.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·傍晚</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-傍晚.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·划艇·3</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-划艇-3.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·酒店划艇·2</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-傍晚与追日/惠州双月湾日出·盐晶酒店-酒店划艇-2.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">晚间</span>自助晚餐 · 各取所需的战场</h4>
+        <p class="log-summary">自助餐台上各取所需：妈夹的菜码得整整齐齐，「妈菜」是全家公认的招牌；爸剥蟹的手法专业得像干了二十年，「蟹爸」当之无愧。窗外的沙滩上，月与沙又凑成一张静物。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-妈菜.jpg" alt="盐晶酒店·妈菜" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-妈菜.jpg" alt="盐晶酒店·妈菜" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-自助餐-月沙.jpg" alt="盐晶酒店·自助餐·月沙" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-自助餐-沙.jpg" alt="盐晶酒店·自助餐·沙" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-自助餐-蟹爸.jpg" alt="盐晶酒店·自助餐·蟹爸" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-自助餐-蟹爸2.jpg" alt="盐晶酒店·自助餐·蟹爸2" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-自助餐.jpg" alt="盐晶酒店·自助餐" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·自助餐·晚餐</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-自助晚餐/惠州双月湾日出·盐晶酒店-自助餐-晚餐.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">20:11</span>夜 · 驻场歌声与满空泡泡</h4>
+        <p class="log-summary">20:11 夜场开场：镜头先把月球拍出环形山的质感（20:12–20:13「明月」系列），随后转向酒店沙滩前——酒店安排的驻场歌手在灯下唱着歌，「魔法季」的泡泡机把泡泡一层层送上夜空，与月亮同框（20:18–20:22 连拍里有一张「捕捉气泡瞬间」：一个注定会破的泡泡，在破之前被接进了照片）。20:26 一家人在灯下合了影，20:30 酒店与月，20:43 弟还在房间里回放这一天——舍不得让它结束，是旅行最好的结尾。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-月球-IMG_20261121_201120.jpg" alt="盐晶酒店·夜·月球（20:11）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-月球-IMG_20261121_201120.jpg" alt="盐晶酒店·夜·月球（20:11）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-明月IMG_20261121_201244.jpg" alt="盐晶酒店·夜·明月（20:12）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-明月-IMG_20261121_201307.jpg" alt="盐晶酒店·明月（20:13）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-气泡与海-IMG_20261121_201627.jpg" alt="盐晶酒店·夜·气泡与海（20:16）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-气泡与月-IMG_20261121_201847.jpg" alt="盐晶酒店·气泡与月（20:18）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-气泡与海-IMG_20261121_201908.jpg" alt="盐晶酒店·气泡与海（20:19）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-捕捉气泡瞬间-IMG_20261121_202221.jpg" alt="盐晶酒店·捕捉气泡瞬间（20:22）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-IMG_20261121_202544.jpg" alt="盐晶酒店·夜（20:25）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-哥妈爸-IMG_20261121_202629.jpg" alt="盐晶酒店·夜·哥妈爸（20:26）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-酒店与月-IMG_20261121_203012.jpg" alt="盐晶酒店·酒店与月（20:30）" loading="lazy" decoding="async">
+            <img src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜.jpg" alt="盐晶酒店·夜" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·气泡（20:16）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-气泡-VID_20261121_201641.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·气泡与月（20:18）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-气泡与月-VID_20261121_201813.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·2气泡与月（20:19）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-2气泡与月-VID_20261121_201912.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·气泡与海（20:22）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-气泡与海-VID_20261121_202250.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·酒店弟（20:43）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-酒店弟-VID_20261121_204338.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·2</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-2.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·气泡·3</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-气泡-3.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·气泡·4</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-气泡-4.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·气泡</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-气泡.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·夜·浪气泡</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d1-盐晶酒店-夜与明月/惠州双月湾日出·盐晶酒店-夜-浪气泡.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+    <div class="log-day-label">Day 2 · 11-22（周日）· 日出、栈道与古城</div>
+    <div class="log-timeline">
+      <div class="log-entry">
+        <h4><span class="log-time">06:09</span>日出 · 被日出治愈</h4>
+        <p class="log-summary">06:09，第一段视频在黑暗里开录——那支拍了三分半的长镜，记下了太阳从东山海方向一点点顶出海面的全过程；06:43–06:50 成片连拍，低曝光那张把天际线的层次全留住。沙滩上的打卡装置写着「日出·东山海」「被日出治愈」，照片里的人站了进去——被治愈的，何止是日出。07:22 餐厅自助早餐，给上午充满电。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_064359.jpg" alt="盐晶酒店·日出（06:43）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_064359.jpg" alt="盐晶酒店·日出（06:43）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_064447.jpg" alt="盐晶酒店·日出（06:44）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_064526.jpg" alt="盐晶酒店·日出（06:45）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_064537.jpg" alt="盐晶酒店·日出（06:45）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-低曝光-IMG_20261122_064636.jpg" alt="盐晶酒店·日出·低曝光（06:46）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_064854.jpg" alt="盐晶酒店·日出（06:48）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-IMG_20261122_065013.jpg" alt="盐晶酒店·日出（06:50）" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出东山海.jpg" alt="盐晶酒店·日出东山海" loading="lazy" decoding="async">
+            <img src="游记/d2-日出/惠州双月湾日出·盐晶酒店-沙滩爸弟.jpg" alt="盐晶酒店·沙滩爸弟" loading="lazy" decoding="async">
+            <img src="游记/d2-早餐与餐厅/惠州双月湾日出·盐晶酒店-餐厅范围-IMG_20261122_072233.jpg" alt="盐晶酒店·餐厅范围（07:22）" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·日出（06:09）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-VID_20261122_060915.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·日出（06:14）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出-VID_20261122_061448.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·日出（06:44）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-日出/惠州双月湾日出·盐晶酒店-日出VID_20261122_064436.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">08:41</span>360 观景台 · 全海景开场</h4>
+        <p class="log-summary">上观景台前，泳池边正赶上「小猪跳水」——小猪排队爬上跳台，围观的小孩比猪还兴奋。斜电梯上行、大风楼梯盘旋，风大到能吹晃镜头；09:03 哥妈先到栏杆边，09:26–09:29 兄弟、爸、弟挨个入镜，360° 的海景在脚下摊开成一张活的地图。爸双手抱臂面朝大海，那张照片存成「老人与海」——海明威的老人与海搏斗，我们的爸与海合影。09:38「福与果」——福气与果实，都在这一天的满载里。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-兄弟准备360观景台IMG_20261122_084135.jpg" alt="盐晶酒店·兄弟准备360观景台（08:41）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-兄弟准备360观景台IMG_20261122_084135.jpg" alt="盐晶酒店·兄弟准备360观景台（08:41）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-哥妈-IMG_20261122_090345.jpg" alt="盐晶酒店·360观景台·哥妈（09:03）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-哥妈-IMG_20261122_090355.jpg" alt="盐晶酒店·360观景台·哥妈（09:03）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/IMG_20261122_惠州双月湾日出·盐晶酒店-360观景台-090731.jpg" alt="IMG_20261122_盐晶酒店·360观景台·090731（09:07）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-IMG_20261122_090745.jpg" alt="盐晶酒店·360观景台（09:07）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-浪与石IMG_20261122_090825.jpg" alt="盐晶酒店·360观景台·浪与石（09:08）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-IMG_20261122_090840.jpg" alt="盐晶酒店·360观景台（09:08）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-双月湾-IMG_20261122_090910.jpg" alt="盐晶酒店·360观景台·双月湾（09:09）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-兄弟-IMG_20261122_092606.jpg" alt="盐晶酒店·360观景台·兄弟（09:26）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-爸-IMG_20261122_092825.jpg" alt="盐晶酒店·360观景台·爸（09:28）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-弟-IMG_20261122_092845.jpg" alt="盐晶酒店·360观景台·弟（09:28）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-弟-IMG_20261122_092852.jpg" alt="盐晶酒店·360观景台·弟（09:28）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-弟-IMG_20261122_092901.jpg" alt="盐晶酒店·360观景台·弟（09:29）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-福与果-IMG_20261122_093825.jpg" alt="盐晶酒店·360观景台·福与果（09:38）" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景.jpg" alt="盐晶酒店·360海景" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景2.jpg" alt="盐晶酒店·360海景2" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景3.jpg" alt="盐晶酒店·360海景3" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景4.jpg" alt="盐晶酒店·360海景4" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景5.jpg" alt="盐晶酒店·360海景5" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景6.jpg" alt="盐晶酒店·360海景6" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-小猪跳水.jpg" alt="盐晶酒店·小猪跳水" loading="lazy" decoding="async">
+            <img src="游记/d2-360观景台/老人与海.jpg" alt="老人与海" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·360观景台（09:05）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-VID_20261122_090509.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·360观景台（09:09）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360观景台-VID_20261122_090916.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·360海景台·360海景</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景台-360海景.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·360海景台·大风楼梯</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景台-大风楼梯.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·360海景台·斜电梯</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-360观景台/惠州双月湾日出·盐晶酒店-360海景台-斜电梯.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">09:37</span>海边栈道 · 浪与石的对话</h4>
+        <p class="log-summary">「浪与石」系列从 09:49 拍到 10:08：海每一次抬手、砸在礁石上碎成的每一朵白花，都被镜头接住。「石的岁月」与「石与我们」（09:58–10:00）隔着几万年互相对望——石头不动声色，浪千军万马，我们把一天留在了石头的永恒边上。10:16 空中礼堂，10:24 蓝与绿收官。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-兄弟妈-IMG_20261122_094525.jpg" alt="盐晶酒店·栈道·兄弟妈（09:45）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-兄弟妈-IMG_20261122_094525.jpg" alt="盐晶酒店·栈道·兄弟妈（09:45）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-IMG_20261122_094637.jpg" alt="盐晶酒店·栈道（09:46）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-双月湾-IMG_20261122_094649.jpg" alt="盐晶酒店·栈道·双月湾（09:46）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-IMG_20261122_094708.jpg" alt="盐晶酒店·栈道（09:47）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_094929.jpg" alt="盐晶酒店·栈道·浪与石（09:49）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095058.jpg" alt="盐晶酒店·栈道·浪与石（09:50）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095215.jpg" alt="盐晶酒店·栈道·浪与石（09:52）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095244.jpg" alt="盐晶酒店·栈道·浪与石（09:52）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095406.jpg" alt="盐晶酒店·栈道·浪与石（09:54）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095416.jpg" alt="盐晶酒店·栈道·浪与石（09:54）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095432.jpg" alt="盐晶酒店·栈道·浪与石（09:54）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095500.jpg" alt="盐晶酒店·栈道·浪与石（09:55）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095538.jpg" alt="盐晶酒店·栈道·浪与石（09:55）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095548.jpg" alt="盐晶酒店·栈道·浪与石（09:55）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095718.jpg" alt="盐晶酒店·栈道·浪与石（09:57）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095720.jpg" alt="盐晶酒店·栈道·浪与石（09:57）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-石与我们-IMG_20261122_095857.jpg" alt="盐晶酒店·栈道·浪与石·石与我们（09:58）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_095922.jpg" alt="盐晶酒店·栈道·浪与石（09:59）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100019.jpg" alt="盐晶酒店·栈道·浪与石（10:00）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-石的岁月-IMG_20261122_100051.jpg" alt="盐晶酒店·栈道·石的岁月（10:00）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道IMG_20261122_100230.jpg" alt="盐晶酒店·栈道（10:02）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-哥IMG_20261122_100621.jpg" alt="盐晶酒店·栈道·哥（10:06）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100650.jpg" alt="盐晶酒店·栈道·浪与石（10:06）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100657.jpg" alt="盐晶酒店·栈道·浪与石（10:06）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100701.jpg" alt="盐晶酒店·栈道·浪与石（10:07）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100812.jpg" alt="盐晶酒店·栈道·浪与石（10:08）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100827.jpg" alt="盐晶酒店·栈道·浪与石（10:08）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100832.jpg" alt="盐晶酒店·栈道·浪与石（10:08）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-IMG_20261122_100838.jpg" alt="盐晶酒店·栈道·浪与石（10:08）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-空中礼堂-IMG_20261122_101630.jpg" alt="盐晶酒店·栈道·空中礼堂（10:16）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-蓝与绿IMG_20261122_102406.jpg" alt="盐晶酒店·栈道·蓝与绿（10:24）" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-礁石观景台2.jpg" alt="盐晶酒店·礁石观景台2" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-礁石观景台3.jpg" alt="盐晶酒店·礁石观景台3" loading="lazy" decoding="async">
+            <img src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-礼堂.jpg" alt="盐晶酒店·礼堂" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·栈道（09:37）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-VID_20261122_093746.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·栈道·浪与石（09:53）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-VID_20261122_095309.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·栈道·浪与石·石与岁月（10:00）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-石与岁月-VID_20261122_100058.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·栈道·浪与石（10:08）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-栈道-浪与石-VID_20261122_100841.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 盐晶酒店·礁石观景台</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-海边栈道/惠州双月湾日出·盐晶酒店-礁石观景台.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">10:53</span>沙滩 · 拾贝</h4>
+        <p class="log-summary">弟弯腰在沙滩上搜寻，身旁的大人也蹲了下来——对着一只贝壳研究了半天。海每退一寸，沙滩就多送一份小礼物：孩子收到的是贝壳，大人收到的，是孩子蹲下来的背影。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-沙滩拾贝/惠州双月湾日出·盐晶酒店-沙滩拾贝-弟-IMG_20261122_105322.jpg" alt="盐晶酒店·沙滩拾贝·弟（10:53）" loading="lazy" decoding="async"></div>
+        </div>
+        <p class="log-video-cap">▶ 盐晶酒店·拾贝</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-沙滩拾贝/惠州双月湾日出·盐晶酒店-拾贝.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">11:58</span>情人岛 · 顺路的告别</h4>
+        <p class="log-summary">退房离开酒店，顺路停在情人岛：退潮的礁石滩裸着脊背，兄弟俩上岛走了一圈（12:00 的视频里海风很大）；沙滩上有人写着大字——「书法」两段视频，是别人的浪漫路过我们的镜头。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-情人岛/离开酒店-情人岛-IMG_20261122_115813.jpg" alt="离开酒店·情人岛（11:58）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d2-情人岛/离开酒店-情人岛-IMG_20261122_115813.jpg" alt="离开酒店·情人岛（11:58）" loading="lazy" decoding="async">
+            <img src="游记/d2-情人岛/离开酒店-情人岛-IMG_20261122_115821.jpg" alt="离开酒店·情人岛（11:58）" loading="lazy" decoding="async">
+            <img src="游记/d2-情人岛/离开酒店-情人岛-IMG_20261122_115826.jpg" alt="离开酒店·情人岛（11:58）" loading="lazy" decoding="async">
+            <img src="游记/d2-情人岛/黑排角-情人岛.jpg" alt="黑排角·情人岛" loading="lazy" decoding="async">
+            <img src="游记/d2-情人岛/黑排角-情人岛2.jpg" alt="黑排角·情人岛2" loading="lazy" decoding="async">
+            <img src="游记/d2-情人岛/黑排角-情人岛3.jpg" alt="黑排角·情人岛3" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <p class="log-video-cap">▶ 酒店退房·情人岛·兄弟（12:00）</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-情人岛/酒店退房-情人岛-兄弟VID_20261122_120009.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 黑排角情人岛·书法2</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-情人岛/黑排角情人岛-书法2.mp4" type="video/mp4"></video>
+        <p class="log-video-cap">▶ 黑排角情人岛·书法沙</p>
+        <video class="log-video" controls preload="metadata" playsinline><source src="游记/d2-情人岛/黑排角情人岛-书法沙.mp4" type="video/mp4"></video>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">12:45</span>傅记海鲜 · 两日脚力的犒赏</h4>
+        <p class="log-summary">12:45 落座傅记海鲜饭店，一桌海鲜正餐犒赏两天的脚力；713 停在店前与「平海」同框——这一路它一直在合影：和海龟湾标志牌、和冲浪板、和「平海」。四轮的家伙，也是家庭成员。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-平海古城与傅记午餐/平南古城前午饭-傅记海鲜饭店-IMG_20261122_124526.jpg" alt="平海古城前午饭·傅记海鲜饭店（12:45）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城前午饭-傅记海鲜饭店-IMG_20261122_124526.jpg" alt="平海古城前午饭·傅记海鲜饭店（12:45）" loading="lazy" decoding="async">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城前午饭-傅记海鲜饭店-平海-IMG_20261122_124600.jpg" alt="平海古城前午饭·傅记海鲜饭店·平海（12:46）" loading="lazy" decoding="async">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城前午饭-傅记海鲜饭店-713与平海-IMG_20261122_124713.jpg" alt="平海古城前午饭·傅记海鲜饭店·713与平海（12:47）" loading="lazy" decoding="async">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城前午饭-傅记海鲜饭店-713天窗视角-IMG_20261122_144230.jpg" alt="平海古城前午饭·傅记海鲜饭店·713天窗视角（14:42）" loading="lazy" decoding="async">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城-傅记海鲜酒楼.jpg" alt="平海古城·傅记海鲜酒楼" loading="lazy" decoding="async">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城-傅记海鲜酒楼2.jpg" alt="平海古城·傅记海鲜酒楼2" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">13:50</span>平海古城 · 二十分钟的老街</h4>
+        <p class="log-summary">进城门、走老街，二十来分钟——不赶时间的收官刚刚好。素材文件名把它记作「平南古城」，页面写「平海古城」：一座城两种叫法，都是它；就像旅程，计划里一个样，走起来另一个样，都是好的。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-平海古城与傅记午餐/平南古城-IMG_20261122_135037.jpg" alt="平海古城（13:50）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城-IMG_20261122_135037.jpg" alt="平海古城（13:50）" loading="lazy" decoding="async">
+            <img src="游记/d2-平海古城与傅记午餐/平南古城-IMG_20261122_135221.jpg" alt="平海古城（13:52）" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      <div class="log-entry">
+        <h4><span class="log-time">14:42</span>返程 · 赶在高峰前面收兵</h4>
+        <p class="log-summary">14:42，从傅记门口的「天窗视角」拍下此行最后一张照片——从天窗看天，是这趟旅程开始与结束的同一个动作。行车记录：14:48–17:26、均速 69km/h，比计划提前近两小时到家，正好赶在周日返程高峰前面收兵。计划表上的 19:20 留在了计划表里——真实的生活，总要早一点回家吃饭。</p>
+        <div class="media-block">
+          <div class="media-cover"><img src="游记/d2-返程/713行车记录.jpg" alt="713行车记录" loading="lazy" decoding="async"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tips-box" style="margin-top:1.2rem;">
+      <div class="tips-box-title">📌 与 Plan C 的偏差（如实记录）</div>
+      <ul>
+        <li><b>D2 未前往磨子石公园</b>（原计划 14:20–16:15 收官节点）——实际以平海古城收官后直接返程；</li>
+        <li><b>无黑排角上午段</b>——D2 上午全程留在酒店湾区（日出、360 观景台、栈道、沙滩），情人岛为顺路停靠；</li>
+        <li><b>返程提前</b>——14:48 出发、17:26 到家，较计划预估（19:20–19:35）提前近两小时，避开周日返程高峰；</li>
+        <li>午餐落点为傅记海鲜饭店（Plan C 正文写金源湾），以实际为准。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
   <!-- ===== FOOTER ===== -->
   <footer>
     <div class="footer-line"></div>
     <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 惠东周末家庭游</div>
-    <div class="footer-version">template/official · v20260811-1755</div>
+    <div class="footer-version">template/official · v20261124-164023</div>
   </footer>
+
+  <!-- ===== 全屏灯箱遮罩（§14；点图/点视频放大，滑动或箭头切换 · SPEC-025 移植自清远佛冈子站）===== -->
+  <div class="lightbox-mask" id="lightboxMask" role="dialog" aria-label="媒体全屏查看">
+    <button class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+    <span class="lb-count" id="lbCount"></span>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+    <img class="lb-media" id="lbImg" alt="">
+    <video class="lb-media lb-hidden" id="lbVid" controls playsinline preload="metadata"></video>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="下一张">›</button>
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
 
   <!-- ===== SCRIPTS ===== -->
   <script>
@@ -1557,6 +2093,102 @@
           applyCover(thumb);
         });
       });
+
+      // ===== 全屏灯箱（§14）：点封面/缩略图/视频放大；箭头、键盘或左右滑动切换；不锁 body 滚动（遮罩自抗穿透）· SPEC-025 移植自清远佛冈子站 =====
+      (function () {
+        var mask = document.getElementById('lightboxMask');
+        var lbImg = document.getElementById('lbImg'), lbVid = document.getElementById('lbVid');
+        var lbCap = document.getElementById('lbCap'), lbCount = document.getElementById('lbCount');
+        var lbPrev = document.getElementById('lbPrev'), lbNext = document.getElementById('lbNext'), lbClose = document.getElementById('lbClose');
+        var items = [], idx = 0, startX = 0, startY = 0, swiping = false;
+
+        function collect(host) {
+          var list = [], seen = {};
+          function push(src, alt, video, cap) {
+            if (!src || seen[src]) return;
+            seen[src] = 1;
+            list.push({ src: src, alt: alt || cap || '', video: !!video });
+          }
+          var coverImg = host.querySelector('.media-cover img');
+          if (coverImg) push(coverImg.getAttribute('src'), coverImg.getAttribute('alt'));
+          host.querySelectorAll('.media-gallery img').forEach(function (t) { push(t.getAttribute('src'), t.getAttribute('alt')); });
+          host.querySelectorAll('.log-video').forEach(function (v) {
+            var s = v.querySelector('source');
+            var cap = (v.previousElementSibling && v.previousElementSibling.classList.contains('log-video-cap')) ? v.previousElementSibling.textContent.replace('▶ ', '') : '';
+            push(s ? s.getAttribute('src') : v.src, '', true, cap);
+          });
+          return list;
+        }
+        function render() {
+          var it = items[idx];
+          if (it.video) {
+            lbImg.classList.add('lb-hidden');
+            lbVid.classList.remove('lb-hidden');
+            if (lbVid.getAttribute('src') !== it.src) lbVid.setAttribute('src', it.src);
+            var p = lbVid.play(); if (p && p.catch) p.catch(function () {});
+          } else {
+            lbVid.classList.add('lb-hidden'); lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load();
+            lbImg.classList.remove('lb-hidden');
+            lbImg.src = it.src; lbImg.alt = it.alt;
+          }
+          lbCap.textContent = it.alt || '';
+          lbCount.textContent = items.length > 1 ? (idx + 1) + ' / ' + items.length : '';
+          var one = items.length < 2;
+          lbPrev.classList.toggle('lb-hidden', one);
+          lbNext.classList.toggle('lb-hidden', one);
+        }
+        function open(host, matchSrc) {
+          items = collect(host);
+          if (!items.length) return;
+          idx = 0;
+          items.forEach(function (it, i) { if (matchSrc && it.src === matchSrc) idx = i; });
+          render();
+          mask.classList.add('open');
+        }
+        function close() {
+          mask.classList.remove('open');
+          lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load();
+        }
+        function step(d) { if (items.length) { idx = (idx + d + items.length) % items.length; render(); } }
+
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', function () { step(-1); });
+        lbNext.addEventListener('click', function () { step(1); });
+        mask.addEventListener('click', function (e) { if (e.target === mask) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (!mask.classList.contains('open')) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowLeft') step(-1);
+          else if (e.key === 'ArrowRight') step(1);
+        });
+        mask.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; swiping = false; }, { passive: true });
+        mask.addEventListener('touchmove', function (e) {
+          if (swiping) return;
+          var dx = e.touches[0].clientX - startX, dy = e.touches[0].clientY - startY;
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { swiping = true; step(dx < 0 ? 1 : -1); }
+        }, { passive: true });
+
+        var hosts = new Set();
+        document.querySelectorAll('.media-cover').forEach(function (c) {
+          var h = c.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card, .log-entry') || c.parentElement;
+          if (!h || hosts.has(h)) return;
+          hosts.add(h);
+          var ci = h.querySelector('.media-cover img');
+          if (ci) ci.addEventListener('click', function () { open(h, ci.getAttribute('src')); });
+          var gal = h.querySelector('.media-gallery');
+          if (gal) gal.addEventListener('click', function (e) {
+            var t = e.target.closest('img');
+            if (!t || !gal.contains(t)) return;
+            open(h, t.getAttribute('src'));
+          });
+          h.querySelectorAll('.log-video').forEach(function (v) {
+            v.addEventListener('click', function (e) {
+              e.preventDefault();
+              open(h, (v.querySelector('source') || v).getAttribute('src'));
+            });
+          });
+        });
+      })();
 
       // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
       var navLinks = document.querySelectorAll('#navInner a');
