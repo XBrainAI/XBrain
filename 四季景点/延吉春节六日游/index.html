@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 子站模板（正式模板 · 单文件综合蓝本 · 2026-08-10 选定）
+  ----------------------------------------------------------------------------
+  ⭐ 本文件是「四季景点」新攻略型子站（周末家庭游 / 多方案亲子游）的官方脚手架。
+     纯游记型另有 `site-template-travelogue.html`；候选 B/C 与对比文档已于评审后清理。
+
+  派生规则：
+    1. 配图组件（req#2）：每个需要图片的模块用 .media-block，内嵌
+       .media-cover（主图）+ .media-gallery（缩略图条，列出该卡片对应的全部图片）。
+       首图由 JS 自动解析：画廊中命名 index.* 的图优先作主图；若漏命名 index.*，
+       则回退为画廊第一张（兼容缺失）；点击缩略图切换主图，当前主图不再重复出现在条中。
+    2. 行程方案（req#3/#5）：先 plan-summary 行程表，再 timeline 按时间点展开，
+       每个 timeline-item 内可内嵌 .media-cover + .media-gallery（即 req#2）。
+    3. 子站结构（req#4）：行程速览→景点&餐厅总览→行程方案→人文背景·
+       讲给孩子听→营业时间&行程复核→酒店推荐→天气影响评估→实用贴士。
+    4. 风格（req#6）：遵循 XBRAIN-LOGO-IP.md；主题色由 :root 的 --accent 控制，
+       新建子站只需改 --accent / --accent2 / --hero-grad 三处即可换肤。
+    6. 媒体显示三规则（project-context §14.11–§14.13，2026-11-25 同步）：网格子项 min-width:0；
+       .media-cover 不设定框、图片 contain 完整显示；点封面/缩略图/视频弹出全屏灯箱（#lightboxMask）。
+  派生注记（SPEC-032 · 2026-11-26）：本页由本模板派生，占位符已全部填写、演示图已换成图库配图。
+        本页为「行程未执行」的候选方案规划页——无游记/美食发现两节，模板自带的游记门控脚本已连同
+        两节一并去除（TD-023 既定路径），补游记时从 src/site-template.html 取回；
+        配图为免费图库真实照片（Unsplash，非 AI 生成），出行后按 §8.1 流程以实拍替换。
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>延吉春节六日游 · 候选方案 · XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（换肤只需改这里）===== */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #140e2e;
+      --xb-light: #241a44;
+      --accent: #7fd8ff;            /* 冰雪青蓝（延吉子站） */
+      --accent2: #a5e3ff;
+      --accent-glow: rgba(127, 216, 255, 0.15);
+      --accent-border: rgba(127, 216, 255, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(120, 200, 255, 0.20) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(160, 225, 255, 0.12) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(100,180,255,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(100,180,255,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件（req#2）：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; overflow: hidden; background: rgba(100,180,255,.05); border-bottom: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; }
+    /* 封面完整显示不裁切（§14.12，2026-11-01 用户裁决）：不设固定比例，横竖图一律 contain；原 16:10 定框 + cover 会裁掉横图上下缘 */
+    .media-cover img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; display: block; }
+    /* 竖屏图（高>宽）自适应类：contain 下已冗余，保留兼容（§14.12 取舍说明） */
+    .media-cover.img-portrait { display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); } /* 当前封面缩略图保持可见并高亮（不隐藏，否则缩略图条永远少一张） */
+    /* 在卡片/时间线内嵌时的边距适配 */
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    /* 网格子项允许收缩：防止媒体画廊条（多缩略图）的 min-content 把 1fr 轨道撑出视口（移动端图偏移/截断根因；§14.11，2026-11-01 固化） */
+    .info-grid > *, .spots-grid > *, .culture-grid > * { min-width: 0; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(100,180,255,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+    /* 已执行方案：红色圆形邮戳（含执行日期，req#7） */
+    .plan-btn .plan-stamp {
+      position: absolute; top: .5rem; right: .5rem;
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2.5px solid #e0322f;
+      background: rgba(224,50,47,.05);
+      color: #e0322f;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transform: rotate(-14deg); line-height: 1.15; pointer-events: none;
+    }
+    .plan-btn .plan-stamp::before {
+      content: ""; position: absolute; inset: 5px;
+      border: 1px solid rgba(224,50,47,.5); border-radius: 50%;
+    }
+    .plan-btn .plan-stamp .stamp-main { font-size: 13px; font-weight: 800; letter-spacing: 1px; position: relative; }
+    .plan-btn .plan-stamp .stamp-date {
+      font-size: 8.5px; font-weight: 700; letter-spacing: .3px; position: relative;
+      margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(224,50,47,.55);
+    }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+
+    /* 执行方案「回顾布局」：轻量、不重复放图（真实照片唯一归属 #log/#food） */
+    .recap-hero { width: 100%; border-radius: 14px; overflow: hidden; margin: 0 0 1.1rem; border: 1px solid var(--accent-border); }
+    .recap-hero img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+    .btn-tolog { display: inline-flex; align-items: center; gap: .4rem; margin: .2rem 0 1.4rem; padding: .7rem 1.2rem; background: var(--accent-glow); border: 1px solid var(--accent); color: var(--accent); border-radius: 999px; font-weight: 700; font-size: .92rem; cursor: pointer; font-family: inherit; transition: all .25s ease; }
+    .btn-tolog:hover { background: rgba(100,180,255,.2); transform: translateY(-1px); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+
+    /* ===== TIMELINE（按时间点展开，req#3/#5）===== */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text-dim); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ====================================================================== */
+    /* === 记录核心模块 CSS（源自 site-template-travelogue-core.html · COPY BLOCK 1/3，请勿另写）=== */
+    /* —— 游记实录：按时间/站点拆章 —— */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text-dim); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+
+    /* —— 美食 & 随手发现 —— */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+    /* === END 记录核心模块 CSS ============================================== */
+
+    /* ===== 全屏灯箱（§14.13 图文子站默认要求；参考实现：清远佛冈子站，2026-11-01 同步入模板）=====
+       守 project-context §14 六条铁律：不锁 body 滚动（遮罩自抗穿透）/ 遮罩显式满幅 / 箭头≥48px 恒在屏内 /
+       触控横滑 >45px 切图 / 安全区避让 / 只信 touch 与 :active。行为契约见 §14.13。 */
+    .media-cover img, .media-gallery img, .log-video { cursor: zoom-in; }
+    .lightbox-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: 300; background: rgba(5,5,15,.97); display: none; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; -webkit-tap-highlight-color: transparent; }
+    .lightbox-mask.open { display: flex; }
+    .lightbox-mask .lb-media { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+    .lightbox-mask video.lb-media { width: 100%; max-height: 100%; background: #000; border-radius: 0; border: 0; margin: 0; cursor: default; }
+    .lb-cap { position: absolute; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); text-align: center; color: #e8e8e8; font-size: .88rem; line-height: 1.4; padding: 0 64px; text-shadow: 0 1px 4px #000; pointer-events: none; }
+    .lb-count { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); color: #b9b9b9; font-size: .8rem; letter-spacing: 1px; pointer-events: none; }
+    .lb-close, .lb-nav { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); background: rgba(18,18,28,.72); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; user-select: none; }
+    .lb-close { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); font-size: 20px; }
+    .lb-nav { top: 50%; transform: translateY(-50%); font-size: 24px; }
+    .lb-prev { left: 10px; } .lb-next { right: 10px; }
+    .lb-close:active, .lb-nav:active { background: rgba(255,255,255,.18); }
+    .lb-hidden { display: none !important; }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 本页补充：触控目标不小于 44px（project-context §6.9 ③；照 SPEC-029 先例，模板层面差距见 TD-021）=====
+       实测模板默认样式下，移动端下拉菜单项高 33px、「返回顶部」高 36px、页脚入口高 20px，均低于 44px；在本页补足。
+       品牌标识链接高 36px 属全站统一的品牌组件，本页不改。 */
+    .section-backtop a { display: inline-flex; align-items: center; min-height: 44px; }
+    @media (max-width: 640px) {
+      .nav-mobile-dropdown a { min-height: 44px; padding-top: 12px; padding-bottom: 12px; }
+      .in-doc-link { padding: 13px 5px; margin: -13px -5px; }
+      footer a { padding: 13px 4px; margin: -13px -4px; }
+    }
+
+    /* ===== 本页补充：窄屏表格横滑提示 =====
+       模板表格 min-width:520px，≤640px 时在 .table-scroll 内横向滚动（模板既有设计）。提示仅在"窄屏 + 表格确实溢出"时
+       由脚本加 .is-scrollable 显示：右缘渐隐暗示右侧还有内容，滑到末端后撤掉。不改变表格本身尺寸。 */
+    .table-scroll { position: relative; }
+    .table-scroll.is-scrollable::after { content: "← 左滑看更多 →"; position: sticky; left: 0; display: block; width: 100%; margin-top: 6px;
+      font-size: .78rem; text-align: center; color: var(--accent); opacity: .85; pointer-events: none; }
+    .table-scroll.is-scrollable::before { content: ""; position: absolute; right: 0; top: 0; width: 44px; height: calc(100% - 30px);
+      background: linear-gradient(to right, transparent, var(--xb-deep)); pointer-events: none; }
+    @media (min-width: 641px) { .table-scroll.is-scrollable::before, .table-scroll.is-scrollable::after { display: none; } }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 四季景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#transport">交通与用车</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#hotels">住宿</a>
+      <a href="#dining">餐饮与年夜饭</a>
+      <a href="#weather">气候与适老</a>
+      <a href="#budget">费用</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回四季景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#transport">交通与用车</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#hotels">住宿</a>
+      <a href="#dining">餐饮与年夜饭</a>
+      <a href="#weather">气候与适老评估</a>
+      <a href="#budget">费用估算</a>
+      <a href="#tips">实用贴士与装备</a>
+    </div>
+  </nav>  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">2027 春节 · 2月2日–2月7日 · 6天5晚 · 7口之家 · 飞机往返</span>
+    <h1 class="hero-title">延吉<span>冰雪过年</span>·候选方案</h1>
+    <p class="hero-subtitle">延吉市区过年（除夕 2/5 · 初一 2/6）＋ 长白山北坡 / 边境线三选一 —— 规划页：行程未执行，圈定后再出完整逐小时行程</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>❄️ 白天约 −5～−10℃</span><span>✈️ 无真直飞·经停航班</span><span>💰 全程估 ¥6.8万–10.2万</span><span>📌 待圈定 7 项</span>
+    </div>
+  </section>  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">广州 ⇄ 延吉（经停航班）→ 在延吉市区过年（除夕 2/5、初一 2/6 在延吉）→ 中段二选一：长白山北坡（住二道白河）或边境线（图们＋珲春防川）。与湛江游同构：年廿六出发、目的地过年、初二返程。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>🧭 三方案怎么选</h4><p><b>A 市区慢住</b>（延吉 5 晚，最省力、适老最好）｜<b>B 延吉＋长白山</b>（推荐：延吉 3 晚＋二道白河 2 晚，最"和广东不一样"）｜<b>C 延吉＋边境线</b>（图们国门＋防川"一眼望三国"，车程最长）。页内方案区可切换比较，<a class="in-doc-link" href="#plans">直达方案区 ↓</a>。</p></div>
+      <div class="info-card"><h4>⚠️ 核心结论</h4><p>能去，但贵、也冷：7 人往返机票约 ¥3.9 万（春运全价），全程 ¥6.8万–10.2万，是湛江游的 2–3 倍；往返只有三个"不过夜"航班班次；机票和年夜饭要<b>早订</b>（2026 年春节前两天延吉高端酒店已近满房、年夜饭包房订满）。</p></div>
+      <div class="info-card"><h4>🚫 否决条件（满足任一条就别选延吉，或只走方案 A）</h4><p>① 老人有心脑血管或呼吸系统基础病且控制不稳；② 不能在冰雪路面连续走 20–30 分钟；③ 不接受人均 ¥1 万上下的花费。适老对比见<a class="in-doc-link" href="#weather">气候与适老评估</a>。</p></div>
+      <div class="info-card"><h4>📅 排期硬约束</h4><p>按 2026 年官方安排：除夕至初二延边博物馆闭馆、水上市场与西市场休息——这三处必须排在 2–4 日；民俗园初一开到 21:00、恐龙王国与海兰明珠塔仅除夕闭园。<a class="in-doc-link" href="#hours">逐点位营业时间表 ↓</a></p></div>
+      <div class="info-card"><h4>🚗 落地用车建议</h4><p><b>包车带司机，不自驾</b>：家里没有冰雪路面驾驶经验（冰雪路面阻力仅为干燥路面的 1/4）。一嗨在延吉机场、延吉西站有 7 座 MPV 站内取还点，自驾只建议"市区＋全程高速"范围。<a class="in-doc-link" href="#transport">里程与用车细节 ↓</a></p></div>
+      <div class="info-card"><h4>🕐 白昼很短</h4><p>日出约 06:31–06:37、日落 16:34–16:41（北京时间）；户外活动排在 09:00–16:30，13:00–15:00 回房歇脚。长白山淡季 14:30 停止入园，行程都要按"赶早"排。</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 1b. 交通与用车 ===== -->
+  <section class="section" id="transport">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      往返交通与当地用车
+    </h2>
+    <p class="section-desc">核实日期 2026-11-26（携程实查、12306 实查）；票价为查询价，以出票时为准。广州（及深圳）到延吉没有真直飞，以下"直飞/经停"班次均为经停；火车无直达。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>✈️ 去程（2/2 周二）</h4><p><b>九元 AQ1719</b>：06:55 白云 T2 → 经停南京 1h → 12:50 到（周二/四/六班）——凌晨 4 点出门，第一天下午可用；<b>南航 CZ3606</b>：16:15 → 经停长春 → 22:20 到——第一天全天在路上。折中：2/1 下午飞 CZ3606，延吉多住一晚。</p></div>
+      <div class="info-card"><h4>✈️ 回程</h4><p><b>南航 CZ3605</b>：16:45 → 经停长春 → 23:50 到广州（2/6–2/8 均 ¥2,810）；<b>九元 AQ1720</b> 2/6（初一）13:35 → 20:20 到，¥1,639——7 人省约 ¥8,200，但只过到初一中午。查询价均为成人"起"价。</p></div>
+      <div class="info-card"><h4>🚄 火车对比（不推荐）</h4><p>无直达；最快"广州南夜动卧 D924 → 北京 + G127 高铁 → 延吉西"约 19–20 小时、人均 ¥1,411–1,581，6 天里有 2 天在路上。省约 ¥1.8 万的代价是行程折半，预算为硬约束时再考虑。</p></div>
+    </div>
+    <div class="table-scroll" style="margin-top:1rem;">
+      <table class="plan-summary-table">
+        <thead><tr><th>口径</th><th>飞机（经停班次）</th><th>火车（夜动卧＋高铁）</th></tr></thead>
+        <tbody>
+          <tr><td>单程门到门</td><td>9–12 小时</td><td>约 20 小时</td></tr>
+          <tr><td>7 人往返</td><td>约 ¥3.93 万（另机建燃油约 ¥700–1,400）</td><td>约 ¥2.0–2.2 万（粗估）</td></tr>
+          <tr><td>占用行程</td><td>半天到 1 天</td><td>2 天</td></tr>
+          <tr><td>购票节奏</td><td>现在可买，先订可退改舱位；2/5–7 是票价回落窗口</td><td>15 天预售：2/2 票 1/19 起售、2/7 票 1/24 起售</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">🚗 落地用车：包车带司机（推荐）</div>
+      <ul>
+        <li>延吉交警口径：冰雪地面阻力只有干燥沥青路面的 1/4，行车间距要拉大到 4–5 倍——建议交给本地司机；包车本地报价未查到，订前多询两家。</li>
+        <li>自驾参考：一嗨延吉机场/延吉西站站内取还，7 座有 GL8、传祺 M8、威然、格瑞维亚；GL8 约 ¥700/天（2024 年页面价，春节上浮未核）；雪地胎下单前电话确认；证件——身份证、驾驶证原件或电子驾照，首次租车需本人信用卡。</li>
+        <li>冬季行车：缓刹车、慢转弯；出发前除净车窗霜雪；天黑早，16:30 前结束当天车程；下雪天不上高速。</li>
+        <li>市内：出租车起步价 5 元（检索摘要），延吉西站到市中心打表约 15–20 元；有 BRT 快速公交与网约车。</li>
+      </ul>
+    </div>
+    <div class="table-scroll" style="margin-top:1rem;">
+      <table class="plan-summary-table">
+        <thead><tr><th>路段</th><th>里程</th><th>冬季预留</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>延吉机场 → 市中心</td><td>6.9 km</td><td>15 分钟</td><td rowspan="2">市区各点均在 20 分钟内（开放路网核算）</td></tr>
+          <tr><td>市中心 → 民俗园 / 博物馆 / 水上市场</td><td>3–9 km</td><td>10–15 分钟</td></tr>
+          <tr><td>市中心 → 梦都美滑雪场</td><td>21 km</td><td>30 分钟</td><td>方案 A 玩雪点</td></tr>
+          <tr><td>市中心 → 图们国门</td><td>48 km</td><td>1 小时</td><td>方案 C；须身份证原件</td></tr>
+          <tr><td>市中心 → 二道白河（长白山北）</td><td>148 km</td><td><b>2–2.5 小时</b></td><td>全程高速 G1221；不自驾可坐高铁（1h38min）/城际公交 ¥45/直通车</td></tr>
+          <tr><td>市中心 → 防川龙虎阁</td><td>161 km</td><td><b>约 3 小时</b></td><td>方案 C 最长段，须住宿拆分</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>  <!-- ===== 2. 景点总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点总览
+    </h2>
+    <p class="section-desc">核实日期 2026-11-26；2027 年春节安排尚未公布，"春节"列按 2026 年官方安排参照。本节配图为免费图库真实照片（Unsplash，非 AI 生成），仅作场景示意、非延吉实拍，出行后以实拍替换；票价为参考价，以官方当日公告为准。</p>
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-changbaishan">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="长白山北景区/index.jpg" alt="图库示意：火山口湖冬景（Unsplash）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="长白山北景区/index.jpg" alt="图库示意：火山口湖冬景" loading="lazy" decoding="async">
+            <img src="长白山北景区/雪山云雾.jpg" alt="图库示意：雪山云雾" loading="lazy" decoding="async">
+            <img src="长白山北景区/雪松林.jpg" alt="图库示意：雪松林海" loading="lazy" decoding="async">
+            <img src="长白山北景区/雾凇林海.jpg" alt="图库示意：雾凇林海" loading="lazy" decoding="async">
+            <img src="长白山北景区/温泉蒸汽.jpg" alt="图库示意：雪原温泉蒸汽" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>长白山北景区（二道白河）</h4><span class="spot-card-dist">延吉出发 148 km · 冬季 2–2.5 小时（全程高速）</span></div>
+        <div class="spot-card-body"><p>这趟"和广东不一样"的核心：冰封天池、长白瀑布、聚龙温泉鸡蛋、绿渊潭、林海雪原。天池主峰视天气开放（大风常停运），山下景点冬季照常；淡季 14:30 停止入园，要赶早。老人可不上主峰——山下部分已经值回票价。配套：二道白河镇的雪绒花驯鹿园、恩都里云顶天宫雪雕、麓角村烟花秀（每晚 18:58）。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 B 主目标</span><span class="spot-tag">火山温泉</span><span class="spot-tag">需预约</span></div>
+        <div class="spot-hours"><b>开放：</b>淡季 8:30–15:00（14:30 停入园）；2026 春节除夕检票 8:00–11:30、初一 9:00–13:00。<b>门票：</b>105＋池北班线车 35＋环保车 85＋主峰车 80（车票含往返）；60–64 岁半价、65 岁以上免门票（车票照付）、7–18 岁半价、7 岁或 1.2m 以下免票。<b>预约：</b>"长白山"小程序，提前 7 天、每日 18:00 放票；主峰未开当日 24 点前免费退。</div>
+      </div>
+      <div class="spot-card" id="spot-minsuyuan">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="中国朝鲜族民俗园/index.jpg" alt="图库示意：韩服与民俗建筑（Unsplash）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="中国朝鲜族民俗园/index.jpg" alt="图库示意：韩服与民俗建筑" loading="lazy" decoding="async">
+            <img src="中国朝鲜族民俗园/韩服合影.jpg" alt="图库示意：韩服合影" loading="lazy" decoding="async">
+            <img src="中国朝鲜族民俗园/老宅木门.jpg" alt="图库示意：老宅木门" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>中国朝鲜族民俗园</h4><span class="spot-card-dist">帽儿山下 · 市中心 4 km 约 10 分钟</span></div>
+        <div class="spot-card-body"><p>40 栋朝鲜族传统建筑、9 栋百年老宅；租一套韩服拍"朝鲜族公主"照是这里的招牌体验（园外租赁店多，约 ¥50/小时起、含妆发约 ¥200）。冬季有灯光秀（2026–27 雪季为第五届），夜里青瓦飞檐配灯海。春节有迎宾仪式、伽倻琴、象帽舞等演出。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">三方案共有</span><span class="spot-tag">韩服旅拍</span><span class="spot-tag">灯光秀</span></div>
+        <div class="spot-hours"><b>开放：</b>2026 春节——除夕 9:00–17:00、初一至初七 9:00–21:00（20:30 停售票入园）。<b>门票：</b>口径不一（州政府 2026-11 答复"免费"，平台约 ¥30、优待 ¥15），出发前打园区电话确认。</div>
+      </div>
+      <div class="spot-card" id="spot-huanlegu">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="冰雪欢乐谷/index.jpg" alt="图库示意：雪圈滑行（Unsplash）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="冰雪欢乐谷/index.jpg" alt="图库示意：雪圈滑行" loading="lazy" decoding="async">
+            <img src="冰雪欢乐谷/雪坡滑圈.jpg" alt="图库示意：雪坡滑圈人群" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>冰雪欢乐谷（布尔哈通河冰面）</h4><span class="spot-card-dist">延吉大桥西侧 · 步行可达</span></div>
+        <div class="spot-card-body"><p>河面冰上的游乐场：近 200 米冰滑梯、大雪人、雪圈冲浪、冰车、雪地摩托、1.5 万㎡滑冰场、冬钓区——孩子的主场。2026–27 雪季列为延吉冰雪旅游盛会四大会场之一（开放日期与项目单价尚未公布，上季元旦开放）。老人在冰面上务必防滑、不宜久留，可在两处游客服务中心取暖。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">孩子最爱</span><span class="spot-tag">免门票</span></div>
+        <div class="spot-hours"><b>开放：</b>上季 9:00–20:30，本季待公布（关注"延吉行"小程序）。<b>门票：</b>免门票入园，项目另付（"延吉行"小程序/抖音/美团购票）。</div>
+      </div>
+      <div class="spot-card" id="spot-mengdumei">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="梦都美滑雪场/index.jpg" alt="图库示意：滑雪场雪道（Unsplash）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="梦都美滑雪场/index.jpg" alt="图库示意：滑雪场雪道" loading="lazy" decoding="async">
+            <img src="梦都美滑雪场/缆车雪道.jpg" alt="图库示意：缆车与雪道" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>梦都美滑雪场 · 温泉</h4><span class="spot-card-dist">依兰镇春兴村 · 市中心 21 km 约 30 分钟</span></div>
+        <div class="spot-card-body"><p>7 条雪道、最长 1800 米，有适合初学者的初级道和雪圈；配室内外温泉——玩雪后泡汤，对老人最友好的组合。2026–27 雪季 11 月 28 日开板（检索摘要）；温泉春节是否营业未核到，去前电话确认。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">方案 A 主打</span><span class="spot-tag">新手友好</span><span class="spot-tag">温泉</span></div>
+        <div class="spot-hours"><b>开放：</b>雪季约 12 月初–次年 2 月底。<b>票价：</b>滑雪平日 4h 初中级 ¥100、周末全天 ¥200、节假日 ¥260（2024 年价）；温泉成人 ¥98、儿童 ¥49；滑雪服出租 ¥50–80。春节价未核，以现场为准。</div>
+      </div>
+      <div class="spot-card" id="spot-konglong">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="延吉恐龙王国/index.jpg" alt="图库示意：博物馆恐龙骨架（Unsplash）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="延吉恐龙王国/index.jpg" alt="图库示意：博物馆恐龙骨架" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>延吉恐龙王国 · 海兰明珠塔 · 恐龙博物馆</h4><span class="spot-card-dist">帽儿山（恐龙）文旅区 · 市中心 5.5 km 约 10 分钟</span></div>
+        <div class="spot-card-body"><p>恐龙王国冬季只开室内场馆（室内恐龙馆、水族馆、海豚剧场、延吉市历史文化博物馆），海豚剧场最受小朋友偏爱；海兰明珠塔是改造后的原气象塔，30–32 层观光＋8 层气象博物馆＋云端咖啡，俯瞰雪城。春节有舞狮、非遗杂技等"恐龙七天乐"活动。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">室内·适老亲子</span><span class="spot-tag">初一开门</span></div>
+        <div class="spot-hours"><b>开放：</b>王国 9:30–17:00、博物馆 9:00–16:30（周一不开放）、明珠塔 9:30–17:30——三处 2026 春节仅除夕闭园/闭馆 1 天。<b>票价：</b>王国冬季预售 ¥99–118；博物馆约 ¥30；明珠塔观光 ¥38–48、联票 ¥58–68（预售）。</div>
+      </div>
+      <div class="spot-card" id="spot-shinei">
+        <div class="spot-card-header"><h4>延边博物馆 · 水上市场 · 西市场（市区室内三件套）</h4><span class="spot-card-dist">市中心 3–9 km</span></div>
+        <div class="spot-card-body"><p><b>延边博物馆</b>：免费，朝鲜族民俗与延边历史，冬季 9:00–16:00（15:30 停止入馆）、周一闭馆。<b>水上市场</b>：2026 年 7 月迁入全新室内三层市场（参花街西侧、烟集河东畔，850 摊位、750 余车位）——一层朝鲜族小吃现做现卖，热汤热糕，冬天带老人也舒服；早市约 5:00–9:30。<b>西市场</b>：延边最大集贸市场，泡菜、米肠、米酒、黄牛肉、明太鱼干买手信。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">免费</span><span class="spot-tag">室内暖气</span><span class="spot-tag">须排 2–4 日</span></div>
+        <div class="spot-hours"><b>开放：</b>博物馆 2026 春节腊月廿九至初二闭馆、初三起延至 16:30；水上市场初一初二休息（除夕 13 时起关南门）；西市场初一至初三整体休息。<b>门票：</b>免费（博物馆凭身份证登记）。</div>
+      </div>
+      <div class="spot-card" id="spot-danmu">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+          <div class="media-cover"><img src="霓虹夜景.jpg" alt="图库示意：夜间霓虹招牌街景（Unsplash）" loading="lazy" decoding="async"></div>
+          <div class="media-gallery">
+            <img src="霓虹夜景.jpg" alt="图库示意：夜间霓虹招牌街景" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="spot-card-header"><h4>延吉网红弹幕墙（延大网红墙）</h4><span class="spot-card-dist">延边大学正门对面（公园路 1188 号）· 市中心约 3 km</span></div>
+        <div class="spot-card-body"><p>8 层商业楼的外墙上挂满中朝双语霓虹招牌，长约 150 米——延吉最出片的城市夜景地标，2023 年亮化升级后有开场灯光秀。延边大学门口区域是"打卡"的黄金机位；2026 年春节初一至初六每晚 18:00 在这里另有快闪演出。人行道冬季有冰、人多，扶好老人。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">夜景打卡</span><span class="spot-tag">免费</span></div>
+        <div class="spot-hours"><b>开放：</b>户外全天；亮灯约 18:38–22:00（2023 年口径，冬季实际以现场为准）。<b>门票：</b>免费。</div>
+      </div>
+      <div class="spot-card" id="spot-bianjing">
+        <div class="spot-card-header"><h4>图们国门 · 珲春防川（边境线，方案 C）</h4><span class="spot-card-dist">图们 48 km · 防川 161 km</span></div>
+        <div class="spot-card-body"><p><b>图们国门</b>：登国门观景台隔图们江眺望朝鲜南阳，86/87 号界碑打卡；木栈道约 1 公里，1–1.5 小时，仅限中国公民、须身份证原件（电子身份证不行）。<b>珲春防川</b>：龙虎阁"一眼望三国"（中、俄、朝）＋土字碑；地处边境安检查身份证。单程约 3 小时是三条线里最累的，带 3 位老人不推荐专程去；想吃帝王蟹可宿珲春。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag">边境风情</span><span class="spot-tag">带身份证</span></div>
+        <div class="spot-hours"><b>开放：</b>图们国门 8:00–16:30（16:00 停售票入园）；防川全年开放、淡季时间口径不一（8:00–15:30 或 8:00–17:00），按早班排。<b>门票：</b>国门 ¥25；防川淡季 ¥40（11 月–3 月），65 岁以上免票。</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>  <!-- ===== 3. 行程方案 ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（6 天 5 晚 · 三选一）
+    </h2>
+    <p class="section-desc">三个方案共享 D1（到达）、D4（除夕）、D5（初一）、D6（返程）骨架，差异在 D2–D3。点选切换、地址栏可深链分享（#planA / #planB / #planC）；缺省展示推荐的方案 B。时间为骨架，圈定后再细到逐小时。</p>
+
+    <div class="info-card" id="common-days">
+      <h4>📅 共同骨架（D1 · D4 · D5 · D6，三方案一致）</h4>
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 2/2 周二（年廿六）· 抵达延吉</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>04:00</td><td>06:55</td><td>出门 → 白云 T2 → 九元 AQ1719 起飞</td><td>2.9h</td></tr>
+              <tr><td>06:55</td><td>12:50</td><td>经停南京 1 小时 → 抵延吉朝阳川</td><td>5.9h</td></tr>
+              <tr><td>13:00</td><td>14:15</td><td>午餐 → 入住酒店歇脚</td><td>1.3h</td></tr>
+              <tr><td>16:00</td><td>17:00</td><td>西市场逛买（8:00–17:00）</td><td>1h</td></tr>
+              <tr><td>19:00</td><td>19:40</td><td>延吉网红弹幕墙看夜景</td><td>0.7h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 4 · 2/5 周五（除夕）· 延吉过年</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>自然醒</td><td>11:30</td><td>民俗园白天场 · 韩服旅拍（除夕开到 17:00）</td><td>2.5h</td></tr>
+              <tr><td>12:00</td><td>15:00</td><td>午餐＋午休 · 买年货</td><td>3h</td></tr>
+              <tr><td>18:30</td><td>20:00</td><td>酒店年夜饭（订房时同时订）→ 河畔夜景</td><td>2.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 5 · 2/6 周六（初一）· 延吉过年</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>10:00</td><td>12:00</td><td>恐龙王国新春活动（室内为主，仅除夕闭园）</td><td>2h</td></tr>
+              <tr><td>12:00</td><td>15:15</td><td>午餐＋午休</td><td>3.3h</td></tr>
+              <tr><td>15:15</td><td>16:45</td><td>海兰明珠塔（日落前俯瞰雪城）</td><td>1.5h</td></tr>
+              <tr><td>18:30</td><td>20:00</td><td>冰雪欢乐谷冰上项目</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 6 · 2/7 周日（初二）· 返程</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>09:45</td><td>11:15</td><td>延吉百货大楼买特产（除夕初一 9:00–16:00，初二正常）</td><td>1.5h</td></tr>
+              <tr><td>12:45</td><td>16:45</td><td>赴机场 → 南航 CZ3605 起飞</td><td>4h</td></tr>
+              <tr><td>16:45</td><td>23:50</td><td>经停长春 → 抵广州白云 T2（到家约凌晨 0:40）</td><td>7.1h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="plan-selector">
+      <button class="plan-btn" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 市区慢住</span>
+        <span class="plan-desc">延吉住 5 晚不换酒店——最省力、适老最好，滑雪温泉都在近郊</span>
+      </button>
+      <button class="plan-btn active" onclick="switchPlan('planB')">
+        <span class="plan-name">方案 B · 延吉＋长白山（推荐）</span>
+        <span class="plan-desc">延吉 3 晚＋二道白河 2 晚——冰封天池＋火山温泉，这趟的核心看点</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planC')">
+        <span class="plan-name">方案 C · 延吉＋边境线</span>
+        <span class="plan-desc">图们国门＋珲春防川"一眼望三国"——车程最长，帝王蟹加分</span>
+      </button>
+    </div>
+
+    <!-- 方案 A -->
+    <div class="plan-content" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 2 · 2/3 周三 · 市区室内日（博物馆＋市场）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:00</td><td>09:00</td><td>水上市场早市（室内三层 · 现做小吃）</td><td>1h</td></tr>
+              <tr><td>09:15</td><td>10:15</td><td>延边博物馆（免费 · 周一闭馆）</td><td>1h</td></tr>
+              <tr><td>10:30</td><td>12:00</td><td>回房歇脚 · 午餐</td><td>1.5h</td></tr>
+              <tr><td>14:30</td><td>15:30</td><td>延吉恐龙博物馆</td><td>1h</td></tr>
+              <tr><td>15:45</td><td>16:45</td><td>海兰明珠塔（日落 16:35 前登顶）</td><td>1h</td></tr>
+              <tr><td>19:00</td><td>20:30</td><td>民俗园灯光秀（开到 21:00）</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 3 · 2/4 周四 · 梦都美玩雪泡汤日</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>09:30</td><td>10:00</td><td>出发 → 梦都美滑雪场（21 km）</td><td>0.5h</td></tr>
+              <tr><td>10:00</td><td>12:00</td><td>初级道滑雪＋雪圈（教练可单约）</td><td>2h</td></tr>
+              <tr><td>12:00</td><td>13:15</td><td>雪场午餐</td><td>1.3h</td></tr>
+              <tr><td>13:15</td><td>15:00</td><td>室内外温泉泡汤</td><td>1.8h</td></tr>
+              <tr><td>15:30</td><td>16:00</td><td>回市区歇脚</td><td>0.5h</td></tr>
+              <tr><td>19:00</td><td>20:30</td><td>冰雪欢乐谷（备选：图们国门半日替换本日）</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">方案 A · 全程最长车程 21 km</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D3 10:00 — 12:00</div>
+          <div class="timeline-content">
+            <h4>梦都美：孩子滑雪，老人泡汤</h4>
+            <p>初级道＋雪圈给孩子放电；老人直接进温泉区等饭点——玩雪与泡汤在同一度假村内，互不等候。滑雪平日 4 小时初中级 ¥100（2024 年价）。</p>
+            <div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">新手友好</span></div>
+            <div class="media-cover"><img src="梦都美滑雪场/index.jpg" alt="图库示意：滑雪场雪道（Unsplash）" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="梦都美滑雪场/index.jpg" alt="图库示意：滑雪场雪道" loading="lazy" decoding="async">
+              <img src="梦都美滑雪场/缆车雪道.jpg" alt="图库示意：缆车与雪道" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box">
+        <div class="tips-box-title">方案 A 小结</div>
+        <ul><li>住宿：延吉同一家酒店 5 晚（免打包换房）；全程估算 ¥6.4万–8.4万。</li><li>适老：每天下午回房歇脚；户外时段均 ≤1.5 小时；不碰长途冰雪路况。</li><li>为何不选：少了长白山——"来东北没看长白山"的遗憾要自己掂量。</li></ul>
+      </div>
+    </div>
+
+    <!-- 方案 B（推荐） -->
+    <div class="plan-content active" id="planB">
+      <div class="plan-summary">
+        <div class="day-label">DAY 2 · 2/3 周三 · 市区半日 → 二道白河</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:00</td><td>09:00</td><td>水上市场早市（室内）</td><td>1h</td></tr>
+              <tr><td>09:10</td><td>10:10</td><td>延边博物馆</td><td>1h</td></tr>
+              <tr><td>10:30</td><td>12:30</td><td>退房出发 → 高速 G1221 → 二道白河</td><td>2h</td></tr>
+              <tr><td>12:30</td><td>14:30</td><td>午餐＋入住温泉酒店</td><td>2h</td></tr>
+              <tr><td>15:30</td><td>17:00</td><td>恩都里云顶天宫雪雕（蓝调时刻开灯）或雪绒花驯鹿园</td><td>1.5h</td></tr>
+              <tr><td>17:30</td><td>20:00</td><td>云顶市集晚餐 → 回店泡温泉</td><td>2.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 3 · 2/4 周四 · 长白山北坡全日（淡季 14:30 停入园）</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>07:15</td><td>07:45</td><td>出发 → 北景区游客集散中心</td><td>0.5h</td></tr>
+              <tr><td>07:45</td><td>08:30</td><td>检票入园（提前 7 天小程序预约）</td><td>0.8h</td></tr>
+              <tr><td>08:30</td><td>10:00</td><td>天池主峰（视天气；老人可不上）</td><td>1.5h</td></tr>
+              <tr><td>10:10</td><td>12:00</td><td>长白瀑布 → 聚龙温泉（温泉蛋）→ 绿渊潭</td><td>1.8h</td></tr>
+              <tr><td>12:30</td><td>14:00</td><td>出景区 · 午餐</td><td>1.5h</td></tr>
+              <tr><td>14:00</td><td>16:00</td><td>温泉酒店泡汤（雪地温泉）</td><td>2h</td></tr>
+              <tr><td>18:58</td><td>19:30</td><td>麓角村烟花秀（选）</td><td>0.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 4 前半 · 2/5 除夕上午 · 返回延吉</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>09:30</td><td>11:00</td><td>雪绒花雪乐园 / 美人松公园（主峰没开则补登主峰）</td><td>1.5h</td></tr>
+              <tr><td>11:30</td><td>12:30</td><td>午餐 → 退房出发回延吉（148 km）</td><td>2h</td></tr>
+              <tr><td>14:45</td><td>15:30</td><td>抵延吉入住 → 接共同骨架 D4 除夕安排</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">方案 B · 去程不自驾的三个替代</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D2 08:01 — 09:45（高铁）</div>
+          <div class="timeline-content">
+            <h4>① 高铁：延吉西 → 长白山站</h4>
+            <p>每日 3 班（08:01 / 16:06 / 16:33），最快 1 小时 38 分，二等座 ¥85；长白山站到北景区集散中心 9 公里。② 城际公交：延吉客运站—二道白河—北景区集散中心，6:00–17:00，单程 ¥45。③ 冬季直通车：延吉—雪岭—二道白河，7:30–12:00 每半小时一班，大巴 ¥30／商务车 ¥50。坐车去则这两日镇内靠打车＋公交（1 路/3 路，¥2）。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">不自驾替代</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D3 08:30 — 12:00</div>
+          <div class="timeline-content">
+            <h4>长白山北坡：天池看到是缘分，山下稳赚</h4>
+            <p>主峰零下 20 多度、7–8 级风常致停运——看到天池是缘分，看不到就退主峰票（当日 24 点前免费退）。山下长白瀑布冰挂、聚龙温泉的温泉蛋、绿渊潭冬季照常开放。淡季 14:30 停止入园，全天要赶早。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">必看</span><span class="timeline-tag kid">温泉蛋</span></div>
+            <div class="media-cover"><img src="长白山北景区/index.jpg" alt="图库示意：火山口湖冬景（Unsplash）" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="长白山北景区/index.jpg" alt="图库示意：火山口湖冬景" loading="lazy" decoding="async">
+              <img src="长白山北景区/雪山云雾.jpg" alt="图库示意：雪山云雾" loading="lazy" decoding="async">
+              <img src="长白山北景区/温泉蒸汽.jpg" alt="图库示意：雪原温泉蒸汽" loading="lazy" decoding="async">
+              <img src="长白山北景区/雾凇林海.jpg" alt="图库示意：雾凇林海" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D2 15:30 — 17:00</div>
+          <div class="timeline-content">
+            <h4>二道白河傍晚：雪雕开灯的蓝调时刻</h4>
+            <p>恩都里"云顶天宫"雪雕建议 16 点前后到，赶蓝调开灯；雪绒花驯鹿园买份苔藓喂鹿。晚上云顶市集烤地瓜、铁锅炖，捧着热食看雪人军团。</p>
+            <div class="timeline-tags"><span class="timeline-tag kid">亲子</span><span class="timeline-tag free">镇区免费</span></div>
+            <div class="media-cover"><img src="长白山北景区/雾凇林海.jpg" alt="图库示意：雾凇林海（Unsplash）" loading="lazy" decoding="async"></div>
+            <div class="media-gallery">
+              <img src="长白山北景区/雾凇林海.jpg" alt="图库示意：雾凇林海" loading="lazy" decoding="async">
+              <img src="长白山北景区/雪松林.jpg" alt="图库示意：雪松林" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box">
+        <div class="tips-box-title">方案 B 小结</div>
+        <ul><li>住宿：延吉 3 晚＋二道白河温泉酒店 2 晚；全程估算 ¥6.8万–10.2万（长白山住皇冠假日取高值、镇区中档取低值）。</li><li>天池备份：D3 主峰没开，D4 上午补一次（2026 年除夕检票到 11:30）；仍不开按原时间回延吉，山下景点照常不白跑。</li><li>适老：D2/D4 各约 2–2.5 小时车程，中途服务区休息一次；主峰量力而行，不去也不遗憾。</li><li>门票提前 7 天（约 1/28）18:00 在"长白山"小程序抢票。</li></ul>
+      </div>
+    </div>
+
+    <!-- 方案 C -->
+    <div class="plan-content" id="planC">
+      <div class="plan-summary">
+        <div class="day-label">DAY 2 · 2/3 周三 · 图们 → 珲春</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>08:00</td><td>09:00</td><td>水上市场早市</td><td>1h</td></tr>
+              <tr><td>09:10</td><td>10:10</td><td>延边博物馆</td><td>1h</td></tr>
+              <tr><td>10:20</td><td>11:00</td><td>出发 → 图们国门（48 km）</td><td>0.7h</td></tr>
+              <tr><td>11:00</td><td>12:15</td><td>登国门望朝鲜南阳 · 87 号界碑</td><td>1.3h</td></tr>
+              <tr><td>12:30</td><td>15:00</td><td>午餐 → 珲春（入住）</td><td>2.5h</td></tr>
+              <tr><td>18:00</td><td>19:30</td><td>珲春海鲜晚餐（帝王蟹）</td><td>1.5h</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="day-label">DAY 3 · 2/4 周四 · 防川 → 回延吉</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <tbody>
+              <tr><td>08:30</td><td>10:00</td><td>出发 → 防川龙虎阁（66 km）</td><td>1.5h</td></tr>
+              <tr><td>10:00</td><td>12:00</td><td>一眼望三国 · 土字碑</td><td>2h</td></tr>
+              <tr><td>12:00</td><td>15:30</td><td>回珲春午餐 → 回延吉入住</td><td>3.5h</td></tr>
+              <tr><td>19:00</td><td>19:40</td><td>弹幕墙夜景（若 D1 未看）</td><td>0.7h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">方案 C · D2+D3 合计约 7 小时车程</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D2 11:00 — 12:15</div>
+          <div class="timeline-content">
+            <h4>图们国门：隔江望南阳</h4>
+            <p>登公路国门观景台平视对岸朝鲜南阳的楼房、农田与火车站；沿江栈道走到 87 号界碑。仅限中国公民、必须带身份证原件；淡季 16:00 停止入园，按早班排。</p>
+            <div class="timeline-tags"><span class="timeline-tag museum">边境</span><span class="timeline-tag">身份证原件</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D2 18:00 — 19:30</div>
+          <div class="timeline-content">
+            <h4>珲春：帝王蟹晚餐</h4>
+            <p>珲春帝王蟹是当地年货"顶流"（2026 年春节销量同比 +20%）；防川回来的晚上在珲春海鲜市场挑一只现加工，是方案 C 独有的犒赏。</p>
+            <div class="timeline-tags"><span class="timeline-tag eat">美食</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tips-box">
+        <div class="tips-box-title">方案 C 小结</div>
+        <ul><li>住宿：延吉 4 晚＋珲春 1 晚；全程估算 ¥6.4万–8.4万。</li><li>适老：D2/D3 合计约 7 小时车程，三条线里最累；江边风大，防川观景台停留 1–2 小时为宜。</li><li>边境安检查身份证；防川淡季开放时间口径不一，出发前电话确认。</li></ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>  <!-- === END 记录核心模块 HTML ============================================ -->
+
+  <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">去延吉之前，先把这四个故事讲给哥和弟——看景就不只是看热闹。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-chaoxianzu">
+        <div class="culture-card-head"><div class="c-icon">👗</div><h4>朝鲜族：能歌善舞的"白衣民族"</h4></div>
+        <p><b>背景：</b>朝鲜族是中国 56 个民族之一，主要分布在东北，延边朝鲜族自治州是全国最大的聚居区。传统服饰韩服色彩明艳、裙摆宽大；打糕、冷面、辣白菜是招牌饮食；长鼓舞、象帽舞是国家级非遗。</p>
+        <p><b>讲给孩子听：</b>为什么延吉街上的招牌都写着两种字？因为这里是朝鲜族自治州，朝汉双语并用——你能认出哪一行是朝鲜文吗？租一套韩服拍照时，找找衣服上系带打的结，那叫"御膳结"，老一辈说它藏着讲究。看到打糕现场捶打时数一数：两位叔叔轮流抡木槌，为什么要趁热捶？米越捶越黏，凉了就捶不动了。</p>
+      </div>
+      <div class="culture-card" id="culture-tianchi">
+        <div class="culture-card-head"><div class="c-icon">🌋</div><h4>长白山与天池：一座火山的"湖"</h4></div>
+        <p><b>背景：</b>长白山是一座巨型复式火山，天池是火山口积水成湖，是中国最深的湖泊（最深处 373 米），也是中朝界湖。冬季冰封的天池周围环绕着 16 座山峰。山上天气瞬息万变，主峰大风时车辆停运。</p>
+        <p><b>讲给孩子听：</b>天池其实是一座火山的"大碗"——喷发后山顶塌陷成坑，雨水和雪水积了几百年，就成了湖。为什么水那么清却几乎看不到鱼？水太冷、营养太少，只有少数耐寒鱼种。为什么说"看到天池靠缘分"？海拔 2000 多米的山顶说刮风就刮风、说起雾就起雾——所以去之前别许愿"一定要看到"，把它当抽盲盒。</p>
+      </div>
+      <div class="culture-card" id="culture-bianjing">
+        <div class="culture-card-head"><div class="c-icon">🛂</div><h4>图们江与边境线：一江之隔两个国</h4></div>
+        <p><b>背景：</b>图们江是中朝界河，流入日本海；防川地处中朝俄三国交界，龙虎阁上可"一眼望三国"。土字碑是清代勘定国界的界碑，见证过国土被侵占与收回的历史。</p>
+        <p><b>讲给孩子听：</b>站在图们江边，河对岸就是另一个国家——不用出国门，你能看见对岸的楼房和火车站。界碑上刻着"中国"两个字和国徽，它就像国与国之间的" fence"（ fence 是篱笆）——不过更庄严。为什么叫"一眼望三国"？在防川的观景塔上，左手是俄罗斯、右手是朝鲜、脚下是中国——世界上没几个地方能一站看三国。</p>
+      </div>
+      <div class="culture-card" id="culture-konglong">
+        <div class="culture-card-head"><div class="c-icon">🦕</div><h4>延吉的恐龙：一亿年前的"住户"</h4></div>
+        <p><b>背景：</b>延吉盆地出土了白垩纪早期的恐龙化石群，延吉恐龙博物馆是国内少数以区域恐龙化石群为核心的专题博物馆，配套建成了恐龙王国主题乐园。</p>
+        <p><b>讲给孩子听：</b>一亿年前，延吉这里曾是恐龙的家——现在博物馆里那些巨大骨架，就埋在你脚下的岩层里。找一找化石骨架上颜色不同的部分：颜色不一说明有些骨头是后来补上的"复制件"，真正的化石千万年才形成一次。恐龙博物馆看完再去恐龙王国看海豚——一亿年的邻居和今天的邻居都见一面。</p>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">核实日期 2026-11-26。"春节"列为 2026 年官方安排（延吉旅游 2/11 发布、市场商场营业时间 2/16 发布）；<b>2027 年春节安排尚未公布，出发前一周须逐项复核</b>。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>冬季开放</th><th>春节（2026 参照）</th><th>门票参考</th></tr></thead>
+        <tbody>
+          <tr><td>长白山北景区</td><td>8:30–15:00（14:30 停入园）</td><td>除夕 8:00–11:30 检票；初一 9:00–13:00；余日 8:00–13:30</td><td>105＋车 200；60–64 半价 / 65+ 免票</td></tr>
+          <tr><td>中国朝鲜族民俗园</td><td>灯光秀期 9:00–21:00</td><td>除夕至 17:00；初一至初七至 21:00</td><td>口径不一（免费/约 ¥30）</td></tr>
+          <tr><td>延边博物馆</td><td>9:00–16:00；周一闭馆</td><td><b>腊月廿九至初二闭馆</b>；初三起至 16:30</td><td>免费（身份证登记）</td></tr>
+          <tr><td>水上市场（新址·室内）</td><td>约 5:00–9:30</td><td><b>初一初二休息</b>；除夕 13 时关南门</td><td>免费</td></tr>
+          <tr><td>西市场</td><td>8:00–17:00</td><td><b>初一至初三整体休息</b>；初四一楼、初六恢复</td><td>免费</td></tr>
+          <tr><td>延吉恐龙王国 / 恐龙博物馆 / 明珠塔</td><td>9:30–17:00 / 9:00–16:30（周一不开放）</td><td>仅除夕闭园闭馆 1 天</td><td>¥99–118 / 约 ¥30 / ¥38–48</td></tr>
+          <tr><td>冰雪欢乐谷</td><td>上季 9:00–20:30</td><td>本季为四大会场之一，日期待公布</td><td>免门票、项目另付</td></tr>
+          <tr><td>梦都美滑雪场·温泉</td><td>雪季 12 月初–2 月底</td><td>温泉春节营业未核到，电话确认</td><td>滑雪 ¥100–260；温泉 ¥98</td></tr>
+          <tr><td>图们国门</td><td>8:00–16:30（16:00 停入园）</td><td>全年</td><td>¥25（身份证原件）</td></tr>
+          <tr><td>珲春防川</td><td>口径不一（8:00–15:30 / 17:00）</td><td>全年</td><td>淡季 ¥40；65+ 免票</td></tr>
+          <tr><td>延吉百货大楼 / 百利城 / 万达</td><td>正常营业</td><td>百货/百利城除夕初一 9:00–16:00；万达初一至初七 9:30–21:30</td><td>免费</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">✅ 行程复核结论</div>
+      <ul>
+        <li><b>硬约束</b>：延边博物馆（腊月廿九至初二）、水上市场（初一初二）、西市场（初一至初三）必须排在 2–4 日——三方案骨架已按此排定。</li>
+        <li><b>长白山</b>：淡季 14:30 停止入园 + 提前 7 天 18:00 放票 + 主峰视天气——方案 B 的 D3 已按最早时段排，门票约 1/28 开抢。</li>
+        <li><b>除夕</b>：恐龙王国/明珠塔闭园，民俗园开到 17:00，年夜饭在酒店——D4 安排兼容。</li>
+        <li><b>待核项</b>：民俗园门票口径、梦都美温泉春节营业、冰雪欢乐谷本季日期、防川淡季时刻——出发前一周电话逐一确认。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>  <!-- ===== 6. 住宿（每天 3 间房） ===== -->
+  <section class="section" id="hotels">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      住宿（每天 3 间房）
+    </h2>
+    <p class="section-desc">价格为 Trip.com 2027 年 2 月日历价（2026-11-26 实查，港币折算约 ×0.92），以预订时为准。房型搭配建议 2 双床＋1 大床或 3 双床；卡伊洛斯三床房适合陪 1 位老人同住，订前电话确认连通房或同楼层。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>酒店</th><th>档次与特点</th><th>2/2–2/4 每晚</th><th>除夕 2/5</th><th>初一 2/6</th></tr></thead>
+        <tbody>
+          <tr><td>延边白山大厦</td><td>四星 · 2023 年装修 · 有家庭房 · 延吉大桥边</td><td>约 ¥390</td><td>约 ¥740</td><td>约 ¥740</td></tr>
+          <tr><td>延吉华益卡伊洛斯</td><td>五星 · 老城人民公园旁 · 有三床房</td><td>约 ¥590</td><td>约 ¥590</td><td>约 ¥950</td></tr>
+          <tr><td>延吉希尔顿逸林</td><td>五星 · 2025 年开业 · 室内恒温泳池 · 近机场与网红墙</td><td>约 ¥640–740</td><td>约 ¥620</td><td>约 ¥960</td></tr>
+          <tr><td>长白山温泉皇冠假日（二道白河）</td><td>五星 · 北山门旁 · 住客泡温泉</td><td colspan="3">2/3–2/4 约 ¥3,070/晚（HK$3,341）；除夕约 ¥3,300（HK$3,588）</td></tr>
+          <tr><td>二道白河镇区中档温泉酒店（璞悦/蓝景/在之禾等）</td><td>带温泉 · 房价未核到</td><td colspan="3">按 ¥600–1,200/间 估</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="media-block" style="margin-top:1rem;">
+      <div class="media-cover"><img src="长白山北景区/温泉蒸汽.jpg" alt="图库示意：雪原温泉蒸汽（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="长白山北景区/温泉蒸汽.jpg" alt="图库示意：雪原温泉蒸汽" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">预订提示</div>
+      <ul>
+        <li>2026 年春节前两天延吉高端酒店已近满房、年夜饭包房订满——<b>现在就订可免费取消的房，订房时同时订年夜饭</b>。</li>
+        <li>房价从初一起跳到高位、持续到初十；你们 2/2–2/5 入住的几晚房价并不高。</li>
+        <li>皇冠假日 3 间 2 晚约 ¥1.84 万是最大一笔住宿；选镇区中档温泉酒店可省 1 万以上。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 6b. 餐饮与年夜饭 ===== -->
+  <section class="section" id="dining">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2a5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
+      餐饮与年夜饭
+    </h2>
+    <p class="section-desc">口味提示：延吉菜偏酸甜与甜辣——冷面"冰凉酸甜"、辣白菜"鲜甜酸辣"。不辣又有特色的选择很多：冷面、锅包肉、参鸡汤、牛肉汤饭、米肠、打糕、石锅拌饭；辣白菜、拌桔梗、辣炒年糕、火辣鸡爪老人慎点。配图为免费图库真实照片（Unsplash），仅作菜品示意。</p>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/朝鲜冷面.jpg" alt="图库示意：朝鲜冷面（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/朝鲜冷面.jpg" alt="图库示意：朝鲜冷面" loading="lazy" decoding="async">
+        <img src="延吉美食/韩式烤肉.jpg" alt="图库示意：韩式烤肉" loading="lazy" decoding="async">
+        <img src="延吉美食/烤肉特写.jpg" alt="图库示意：烤肉特写" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🍜 服务大楼冷面（解放路总店）</h4>
+        <p>荞麦冷面约 ¥20、锅包肉约 ¥38，人均约 ¥25；建议 11 点前或 14 点后去避开排队。2026 年春节翻台率超 100%（照常营业）。</p>
+        <div class="price">人均 ¥25 · 延吉冷面招牌</div>
+      </div>
+      <div class="food-card">
+        <h4>🍚 全州拌饭（参花街总店）</h4>
+        <p>石锅拌饭约 ¥25、嫩豆腐汤 ¥20，人均约 ¥30；饭点必排队（2024 年春节排号 30 多桌），错峰去。</p>
+        <div class="price">人均 ¥30</div>
+      </div>
+      <div class="food-card">
+        <h4>🥬 元奶奶包饭</h4>
+        <p>肘子包饭套餐 2 人份 ¥88、参鸡汤 ¥38，人均约 ¥60；包饭不辣、参鸡汤温补，适合老人。</p>
+        <div class="price">人均 ¥60 · 常年排队</div>
+      </div>
+      <div class="food-card">
+        <h4>🍢 丰茂烤串 / 罗宫烤串 / 河坝烧烤串城</h4>
+        <p>延边黄牛肉串是招牌；罗宫 2026 年春节翻台率超 100%。烤串口味可要求少辣。</p>
+        <div class="price">人均 ¥60–80</div>
+      </div>
+      <div class="food-card">
+        <h4>🥟 水上市场早点小吃</h4>
+        <p>现捶打糕、米肠（¥5/根）、土豆饺子、牛肉汤饭——在室内新市场里吃热乎的，冬天不挨冻。</p>
+        <div class="price">十来元 · 早市 5:00–9:30</div>
+      </div>
+      <div class="food-card">
+        <h4>🦀 年夜饭（酒店预订）</h4>
+        <p>延吉各酒店推"朝鲜族风味＋东北特色＋传统年味"套餐（红菊 12 个包房 2026 年除夕前两天订满）；延边宾馆、海兰江民俗宫有"吉延家宴·团圆饭"。订房时同时订，备注清淡少辣，问能否加热自带腊味年糕。</p>
+        <div class="price">按酒店套餐 · 须早订</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>  <!-- ===== 7. 气候与适老评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      气候与适老评估
+    </h2>
+    <p class="section-desc">距出行约 10 周，本节为气候平均值（非临近预报）；<b>出发前一周须复核天气预报与寒潮预警</b>（中央气象台/中国天气网/延边气象）。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>🌡️ 延吉 2 月有多冷</h4><p>各来源口径：平均最高 −1～−4℃、平均最低 −14～−16℃、极端最低 −23～−29℃。实际年份：2025 年 2 月上旬每天最高 −14～−2℃；2026 年春节假期最高 −4～11℃。<b>按白天 −5～−10℃、夜间 −17～−22℃ 准备，寒潮时 −25℃ 以下。</b></p></div>
+      <div class="info-card"><h4>🕐 白昼与体感</h4><p>日出 06:37→06:31、日落 16:34→16:41（北京时间，天黑比广州早）；室内外温差 30–40℃（室内暖气足）；路面结冰对老人是比气温更大的风险；手机低温掉电快、易自动关机。</p></div>
+      <div class="info-card"><h4>🏔️ 长白山更冷</h4><p>2026-11-22 官方实况：池北区 −18～−1℃、天池 −22～−13℃、主峰体感 −29～−20℃、风力 7–8 级——当天官方提示"年老体弱者尽量少外出"。主峰停留 20–30 分钟量力而行。</p></div>
+      <div class="info-card"><h4>❤️ 健康要点（国家疾控局《寒潮公众健康防护指南》）</h4><p>寒冷易诱发心绞痛、心肌梗死、脑卒中等，老年人、儿童与慢性病患者是重点防护人群。护住头脸手；避免清晨户外久留；冰雪路面缓步防滑。就医：延边大学附属医院（三甲，局子街 1327 号，心血管专科与卒中中心）。</p></div>
+    </div>
+    <div class="table-scroll" style="margin-top:1rem;">
+      <table class="plan-summary-table">
+        <thead><tr><th>适老维度</th><th>延吉市区</th><th>二道白河（长白山）</th><th>防川（边境线）</th></tr></thead>
+        <tbody>
+          <tr><td>典型白天温度</td><td>−5～−10℃</td><td>再低约 3–5℃（估）</td><td>与延吉相近，江边风大</td></tr>
+          <tr><td>室内取暖点</td><td>密集（博物馆/乐园/商场/餐厅）</td><td>镇区有；景区内靠景区车与温泉</td><td>少</td></tr>
+          <tr><td>步行与台阶</td><td>多数点位平地或室内</td><td>主峰栈道有坡、山下栈道积雪压实</td><td>观景台为主</td></tr>
+          <tr><td>单段车程</td><td>21 km 内</td><td>148 km · 2–2.5h</td><td>161 km · 约 3h</td></tr>
+          <tr><td><b>适老结论</b></td><td><b>可行</b>（防滑＋控户外时长）</td><td><b>有条件可行</b>（不上主峰也值得）</td><td><b>偏累</b>，不推荐专程去</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">判断口径</div>
+      <ul><li>3 位老人如果平时能走 1 小时平路、没有控制不稳的心脑血管或呼吸系统疾病——延吉市区＋长白山山下景点可行；上主峰另议、不去也不遗憾。对照否决条件见<a class="in-doc-link" href="#overview">行程速览</a>。</li></ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7b. 费用估算 ===== -->
+  <section class="section" id="budget">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      费用估算（7 人）
+    </h2>
+    <p class="section-desc">口径：机票为 2026-11-26 查询价、房价为平台 2027 年 2 月日历价折算；高值含 7 人全新购置冬装（¥1 万）。对照：湛江游全程约 ¥2.4万–3.1万。</p>
+    <div class="tips-box">
+      <div class="tips-box-title">三方案共同项（估算口径）</div>
+      <ul>
+        <li><b>往返机票</b>：成人 ¥2,810×2×7 ＝ <b>¥39,300</b>（另机建燃油 ¥700–1,400）——最大的一项，春运全价水平</li>
+        <li><b>当地用车</b>：包车或租车 6 天 ¥5,000–10,000｜<b>餐饮</b>：¥700–1,000/天＋年夜饭 ¥5,700–8,500</li>
+        <li><b>冬季装备</b>：7 人新增购置 ¥3,000–10,000（已有羽绒服、雪地靴会明显降低）｜<b>保险与杂项</b>：¥300–800</li>
+      </ul>
+    </div>
+    <div class="info-grid">
+      <div class="info-card" id="budget-a"><h4>方案 A · 市区慢住</h4><p>住宿（延吉 5 晚）¥0.79–1.10 万｜门票与活动 ¥2,500–4,000<br><b>合计 ¥6.4万–8.4万</b><br>人均 ¥9,200–12,000</p></div>
+      <div class="info-card" id="budget-b"><h4>方案 B · 延吉＋长白山（推荐）</h4><p>住宿（延吉 3 晚＋二道白河 2 晚）¥0.92–2.53 万｜门票与活动 ¥4,500–7,000<br><b>合计 ¥6.8万–10.2万</b><br>人均 ¥9,700–14,600<br><span style="font-size:.8em">低值＝白山大厦＋镇区中档温泉酒店；高值＝希尔顿逸林＋皇冠假日</span></p></div>
+      <div class="info-card" id="budget-c"><h4>方案 C · 延吉＋边境线</h4><p>住宿（延吉 4 晚＋珲春 1 晚）¥0.80–1.09 万｜门票与活动 ¥2,000–3,500<br><b>合计 ¥6.4万–8.4万</b><br>人均 ¥9,100–12,000</p></div>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">💡 省钱的三个杠杆</div>
+      <ul>
+        <li>回程改初一下午（九元 AQ1720，13:35 起）：7 人省约 ¥8,200，代价是只过到初一中午。</li>
+        <li>弟未满 12 周岁可购儿童票（成人全价五折、免机建），以航司规则为准。</li>
+        <li>长白山住镇区中档温泉酒店（替代皇冠假日）：省 1 万以上。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士与装备
+    </h2>
+    <p class="section-desc">行前、行中提醒；风险处置表在后。</p>
+    <div class="tips-box">
+      <div class="tips-box-title">🧳 冬季装备清单（−15～−20℃ 口径）</div>
+      <ul>
+        <li><b>外层</b>：长款过膝羽绒服（充绒 250g 以上）＋防水束口羽绒裤；<b>内层</b>：速干排汗内衣＋抓绒/轻薄羽绒中层。</li>
+        <li><b>鞋</b>：防滑雪地靴＋厚羊毛袜＋冰爪鞋套；<b>头手</b>：遮耳加绒帽、防水手套、围脖/加绒口罩、墨镜（防雪盲）。</li>
+        <li><b>小物</b>：暖宝宝（腿上可贴 4 片、口袋里给手机贴一片防关机）、保温杯、润唇膏、润肤霜。</li>
+        <li><b>证件</b>：7 人身份证原件（博物馆登记、边境查验、老年票都要）；<b>药品</b>：老人常备药、感冒药、肠胃药、创可贴。</li>
+        <li>厚雪地靴和加绒内衣可到延吉再买（当地买的更管用）；梦都美租滑雪服 ¥50–80。</li>
+      </ul>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;" id="risk-list">
+      <div class="tips-box-title">⚠️ 风险与降级预案</div>
+      <ul>
+        <li><b>去程航班因雪延误/取消</b>：买可退改票＋航班延误险；出发前 3 天盯延吉天气。2/2 走不了改 2/4 班次，砍长白山改走方案 A</li>
+        <li><b>天池主峰关闭</b>：山下照常；D4 上午补一次，仍不开退主峰票（当日 24 点前免费退）</li>
+        <li><b>延吉—二道白河高速因雪封闭</b>：改坐高铁（延吉西 08:01→长白山 09:45）或城际公交；或取消长白山模块改方案 A</li>
+        <li><b>老人不适</b>：缩减户外改室内（恐龙王国/明珠塔/博物馆）；就医去延边大学附属医院（三甲）</li>
+        <li><b>春节闭馆休市</b>：博物馆/水上市场/西市场排在 2–4 日；初一初二只走民俗园、恐龙王国、明珠塔、冰雪欢乐谷</li>
+        <li><b>年夜饭订不到</b>：订房时同时订；订不到改"团圆饭"外送回酒店房间吃</li>
+        <li><b>寒潮（−25℃ 以下）或大风</b>：户外压到 11:00–15:00、单次 ≤30 分钟；放弃天池主峰模块</li>
+        <li><b>自驾打滑</b>：建议直接包车；自驾则冰雪天不出车、只在市区与高速行驶</li>
+      </ul>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">📎 来源与声明</div>
+      <ul>
+        <li>关键事实核实日期 <b>2026-11-26</b>：航班（携程实查）、火车（12306 实查）、房价（Trip.com 2027 年 2 月日历价）、长白山购票规则（官方购票服务）、春节营业（延吉旅游 2026-02 官方攻略）等；主要来源：长白山景区购票服务与帮助、延吉旅游 2026 春节文旅活动全攻略、延吉市人民政府官网、延吉新闻网、国家疾控局寒潮防护指南、吉林省交通运输厅。</li>
+        <li>本页配图均为<b>免费图库真实摄影作品（Unsplash，非 AI 生成、免版税协议）</b>，仅作场景示意、非延吉实拍；出行后按流程以实拍替换。</li>
+        <li>票价、班期、房价为查询时口径，<b>以出票、预订与出行当日官方公告为准</b>；2027 年春节各场馆安排尚未公布，本文春节排期按 2026 年官方安排参照。</li>
+        <li>行程未执行：本页为候选方案规划页，无游记实录；出行后补游记、实拍与"已完成"印章。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 延吉春节六日游（候选方案规划页）</div>
+    <div class="footer-version">延吉冰雪季 · v1.0 · 2026-11-26</div>
+  </footer>  </footer>
+
+  <!-- ===== 全屏灯箱遮罩（§14.13；点图/点视频放大，箭头、键盘或左右滑动切换）===== -->
+  <div class="lightbox-mask" id="lightboxMask" role="dialog" aria-label="媒体全屏查看">
+    <button class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+    <span class="lb-count" id="lbCount"></span>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+    <img class="lb-media" id="lbImg" alt="">
+    <video class="lb-media lb-hidden" id="lbVid" controls playsinline preload="metadata"></video>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="下一张">›</button>
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 方案切换（源自古埃及展）=====
+      var PLAN_IDS = ['planA', 'planB', 'planC'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
+      }
+
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+      // 约定：画廊(.media-gallery)内的图片即「该卡片对应的图片文件夹内容」。
+      //   - 若其中某张命名为 index.*，自动作为主图(.media-cover)。
+      //   - 若漏命名 index.*（常见），回退为画廊第一张作为主图。
+      //   - 点击缩略图切换主图；当前主图从缩略图条隐藏，避免与首图重复。
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) return;
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        // 解析首图：优先 index.*；缺失则取第一张（作者可调整顺序选择「合适」的图）
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov); // 当前主图缩略图高亮（保持可见，不隐藏）
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none'; // 仅剩首图一张时隐藏整条
+        }
+        applyCover(coverThumb);
+
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 全屏灯箱（§14.13）：点封面/缩略图/视频放大；箭头、键盘或左右滑动切换；不锁 body 滚动（遮罩自抗穿透）=====
+      (function () {
+        var mask = document.getElementById('lightboxMask');
+        if (!mask) return;
+        var lbImg = document.getElementById('lbImg'), lbVid = document.getElementById('lbVid');
+        var lbCap = document.getElementById('lbCap'), lbCount = document.getElementById('lbCount');
+        var lbPrev = document.getElementById('lbPrev'), lbNext = document.getElementById('lbNext'), lbClose = document.getElementById('lbClose');
+        var items = [], idx = 0, startX = 0, startY = 0, swiping = false;
+        // 统一取解析后的地址（.src 属性值）：封面图切换后浏览器会把它的 src 属性写成绝对地址，
+        // 按 getAttribute 原值比对会让同一张图被当成两张（首图在灯箱里出现两次）
+        function srcOf(el) { try { return el.src; } catch (e) { return el.getAttribute('src'); } }
+
+        // 同宿主卡内的图 + 视频聚合（去重）。顺序以缩略图条为准（页面上看到的顺序），封面图不在缩略图条里时排在其后：
+        // 点缩略图时画廊逻辑已先把封面换成被点的那张，若仍「封面排首位」，被点的图会被排到第 1 位，计数恒为 1、切换顺序整体轮转
+        function collect(host) {
+          var list = [], seen = {};
+          function push(src, alt, video, cap) {
+            if (!src || seen[src]) return;
+            seen[src] = 1;
+            list.push({ src: src, alt: alt || cap || '', video: !!video });
+          }
+          host.querySelectorAll('.media-gallery img').forEach(function (t) { push(srcOf(t), t.getAttribute('alt')); });
+          var coverImg = host.querySelector('.media-cover img');
+          if (coverImg) push(srcOf(coverImg), coverImg.getAttribute('alt'));
+          host.querySelectorAll('.log-video').forEach(function (v) {
+            var s = v.querySelector('source');
+            var cap = (v.previousElementSibling && v.previousElementSibling.classList.contains('log-video-cap')) ? v.previousElementSibling.textContent.replace('▶ ', '') : '';
+            push(srcOf(s || v), '', true, cap);
+          });
+          return list;
+        }
+        function render() {
+          var it = items[idx];
+          if (it.video) {
+            lbImg.classList.add('lb-hidden');
+            lbVid.classList.remove('lb-hidden');
+            if (lbVid.getAttribute('src') !== it.src) lbVid.setAttribute('src', it.src);
+            var p = lbVid.play(); if (p && p.catch) p.catch(function () {});
+          } else {
+            lbVid.classList.add('lb-hidden'); lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load();
+            lbImg.classList.remove('lb-hidden');
+            lbImg.src = it.src; lbImg.alt = it.alt;
+          }
+          lbCap.textContent = it.alt || '';
+          lbCount.textContent = items.length > 1 ? (idx + 1) + ' / ' + items.length : '';
+          var one = items.length < 2;
+          lbPrev.classList.toggle('lb-hidden', one);
+          lbNext.classList.toggle('lb-hidden', one);
+        }
+        function open(host, matchSrc) {
+          items = collect(host);
+          if (!items.length) return;
+          idx = 0;
+          items.forEach(function (it, i) { if (matchSrc && it.src === matchSrc) idx = i; });
+          render();
+          // 封面上的键盘左右键在部分模板另有切图逻辑：开灯箱时移开焦点，避免一次按键触发两处
+          if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+          mask.classList.add('open');
+        }
+        function close() {
+          mask.classList.remove('open');
+          lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load();
+        }
+        function step(d) { if (items.length) { idx = (idx + d + items.length) % items.length; render(); } }
+
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', function () { step(-1); });
+        lbNext.addEventListener('click', function () { step(1); });
+        mask.addEventListener('click', function (e) { if (e.target === mask) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (!mask.classList.contains('open')) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowLeft') step(-1);
+          else if (e.key === 'ArrowRight') step(1);
+        });
+        mask.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; swiping = false; }, { passive: true });
+        mask.addEventListener('touchmove', function (e) {
+          if (swiping) return;
+          var dx = e.touches[0].clientX - startX, dy = e.touches[0].clientY - startY;
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { swiping = true; step(dx < 0 ? 1 : -1); }
+        }, { passive: true });
+
+        // 接线：封面图 / 缩略图 / 视频点击均开灯箱（缩略图仍同时切换封面，两条链路互不冲突）
+        var hosts = new Set();
+        document.querySelectorAll('.media-cover').forEach(function (c) {
+          var h = c.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card') || c.parentElement;
+          if (!h || hosts.has(h)) return;
+          hosts.add(h);
+          var ci = h.querySelector('.media-cover img');
+          if (ci) ci.addEventListener('click', function () { open(h, srcOf(ci)); });
+          var gal = h.querySelector('.media-gallery');
+          if (gal) gal.addEventListener('click', function (e) {
+            var t = e.target.closest('img');
+            if (!t || !gal.contains(t)) return;
+            open(h, srcOf(t));
+          });
+          h.querySelectorAll('.log-video').forEach(function (v) {
+            v.addEventListener('click', function (e) {
+              e.preventDefault();
+              open(h, srcOf(v.querySelector('source') || v));
+            });
+          });
+        });
+      })();
+
+      // ===== 窄屏表格横滑提示（本页补充）=====
+      (function () {
+        function syncHints() {
+          document.querySelectorAll('.table-scroll').forEach(function (ts) {
+            var tb = ts.querySelector('table'); if (!tb || !ts.clientWidth) return;
+            var overflow = tb.scrollWidth > ts.clientWidth + 1 && window.innerWidth <= 640;
+            var atEnd = ts.scrollLeft >= tb.scrollWidth - ts.clientWidth - 24;
+            ts.classList.toggle('is-scrollable', overflow && !atEnd);
+          });
+        }
+        document.querySelectorAll('.table-scroll').forEach(function (ts) { ts.addEventListener('scroll', syncHints, { passive: true }); });
+        window.addEventListener('resize', syncHints); window.addEventListener('load', syncHints);
+        setTimeout(syncHints, 600); setTimeout(syncHints, 2000);
+        // 方案切换后原隐藏面板里的表格刚刚有了尺寸，主动同步一次（否则要等到下一次 resize 才会出现提示）
+        var sp = window.switchPlan;
+        if (typeof sp === 'function') { window.switchPlan = function () { var r = sp.apply(this, arguments); setTimeout(syncHints, 50); return r; }; }
+        // 内容高度变化（lazy 图加载撑开版面）后复核
+        if ('MutationObserver' in window) { new MutationObserver(function () { setTimeout(syncHints, 80); }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); }
+      })();
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出（IP 规范）=====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画（含记录核心模块：.log-chapter / .food-card）=====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card, .log-chapter, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>
