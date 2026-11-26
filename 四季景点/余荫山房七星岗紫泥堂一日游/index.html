@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+  ============================================================================
+  XBrain · 四季景点 子站：余荫山房 · 七星岗 · 紫泥堂 一日游（2026-11-28 周六）
+  ----------------------------------------------------------------------------
+  骨架来源：home/src/site-template.html（攻略 / 规划型模板，已同步媒体显示三规则的版本）。
+  取舍：一日游无酒店节；行程未执行，无游记实录与美食发现节（项目知识 §14.6.1 规则 7）。
+  内容：通用版，取自《四季景点/待出行方案/余荫山房七星岗紫泥堂一日游完整行程（2026-11-28）.md》。
+  配图：仅七星岗 6 张在库实景图（花城〔广州日报全媒体〕2020-06-02 报道）；其余点位出行后补实拍。
+  规格：SPEC-029-余荫山房七星岗紫泥堂子站页面与模板同步-261125-170836.3335
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>余荫山房 · 七星岗 · 紫泥堂 一日游（2026-11-28）· XBrain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== 主题令牌（换肤只需改这里）===== */
+    :root {
+      --xb-deep: #0a0a1a;
+      --xb-mid: #140e2e;
+      --xb-light: #241a44;
+      --accent: #7ecfa8;            /* ← 主强调色（青瓷绿：青砖园林） */
+      --accent2: #aee8cc;
+      --accent-glow: rgba(126, 207, 168, 0.16);
+      --accent-border: rgba(126, 207, 168, 0.22);
+      --hero-grad: radial-gradient(ellipse at 50% -10%, rgba(126, 207, 168, 0.20) 0%, transparent 60%),
+                   radial-gradient(circle at 80% 20%, rgba(224, 138, 94, 0.10) 0%, transparent 40%);
+      --text: #e8ecf4;
+      --text-dim: rgba(200, 210, 230, 0.62);
+      --text-hint: rgba(200, 210, 230, 0.35);
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --success: #5ee4a0;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--xb-deep);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== XBrain Logo（IP 规范，body 第一子元素）===== */
+    .xbrain-brand {
+      position: fixed; top: 16px; left: 16px; z-index: 100;
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(20, 15, 50, 0.94) 0%, rgba(40, 30, 80, 0.92) 100%);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(180, 210, 255, 0.55);
+      border-radius: 12px; padding: 6px 14px 6px 8px;
+      box-shadow: 0 0 12px rgba(255,255,255,.15), 0 0 40px rgba(80,140,255,.35), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+      text-decoration: none; transition: opacity .6s ease, box-shadow .6s ease, border-color .6s ease;
+    }
+    .xbrain-brand:hover { box-shadow: 0 0 24px rgba(80,140,255,.4), 0 4px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15); transform: translateY(-1px); border-color: rgba(180,210,255,.7); }
+    .xbrain-brand svg { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(100,180,255,.55)); }
+    .xbrain-brand .xb-ring { stroke-width: 4; opacity: .95; }
+    .xbrain-brand .xb-glow-bg { opacity: .40; }
+    .xbrain-brand .xb-center-ring { stroke-width: 3; opacity: .95; }
+    .xbrain-brand .xb-x-line { opacity: .9; stroke-width: 2.5; }
+    .xbrain-brand .xb-core { r: 12; opacity: 1; }
+    .xbrain-brand .xb-ttai { fill: #4a70c0; filter: drop-shadow(0 0 6px rgba(100,180,255,.45)); }
+    .xbrain-brand .xb-ttai-line1, .xbrain-brand .xb-ttai-line2 { opacity: 1; }
+    .xbrain-brand .xb-bar-group { opacity: .75; }
+    .xbrain-brand .xb-bar { fill: #5a90e0; }
+    .xbrain-brand .xb-bar-glow { opacity: .9; }
+    .xbrain-brand .xbrain-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; color: #e8ecf4; line-height: 1; text-shadow: 0 0 12px rgba(100,180,255,.55); }
+    .xbrain-brand .xbrain-text span { color: #64b4ff; text-shadow: 0 0 18px rgba(100,180,255,.9); }
+    .xbrain-brand.scrolled { background: rgba(15,10,40,.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border-color: rgba(100,180,255,.08); box-shadow: none; }
+
+    /* ===== TOP NAV（固定 + 移动汉堡）===== */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99; height: 52px;
+      background: rgba(10,10,26,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--accent-border);
+      display: flex; align-items: center; padding: 0 1.5rem; padding-left: 130px;
+    }
+    .nav-inner { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-hamburger { display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: 1px solid var(--accent-border); border-radius: 8px; padding: 8px; cursor: pointer; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+    .nav-hamburger svg { width: 22px; height: 22px; stroke: var(--text-dim); stroke-width: 2; stroke-linecap: round; }
+    .nav-mobile-dropdown { display: none; position: fixed; top: 52px; left: 0; right: 0; background: rgba(10,10,26,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--accent-border); flex-direction: column; padding: 8px 16px; gap: 4px; z-index: 98; transform: translateY(-120%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .nav-mobile-dropdown.open { transform: translateY(0); }
+    .top-nav a { position: relative; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-dim); text-decoration: none; border-radius: 8px; white-space: nowrap; transition: color .25s ease, background .25s ease; }
+    .top-nav a:hover { color: var(--text); background: rgba(100,180,255,.08); }
+    .top-nav a.active { color: var(--accent); background: rgba(100,180,255,.12); }
+    .top-nav a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+    .top-nav a.back { color: var(--accent2); border: 1px solid var(--accent-border); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; z-index: 1; min-height: 58vh; min-height: 58dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 5.5rem 1.5rem 3rem; background: var(--hero-grad);
+    }
+    .hero-tag { display: inline-block; padding: .3rem 1rem; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: 3px; border-radius: 4px; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Noto Serif SC', serif; font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 900; letter-spacing: 3px; margin-bottom: .8rem; line-height: 1.3; }
+    .hero-title span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+    .hero-subtitle { font-size: clamp(.85rem, 1.5vw, 1.1rem); font-weight: 300; color: var(--text-dim); letter-spacing: 2px; margin-bottom: .8rem; }
+    .hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 1.2rem; }
+    .hero-quick { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .5rem; }
+    .hero-quick span { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 20px; padding: .4rem 1rem; font-size: .82rem; color: var(--text-dim); }
+
+    /* ===== SECTIONS ===== */
+    .section { position: relative; z-index: 1; padding: 3rem 1.5rem; max-width: 960px; margin: 0 auto; }
+    .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; color: var(--text); }
+    .section-title .icon { width: 24px; height: 24px; color: var(--accent); flex-shrink: 0; }
+    .section-desc { color: var(--text-dim); font-size: .9rem; margin-bottom: 1.5rem; }
+    section[id], .spot-card[id], .culture-card[id] { scroll-margin-top: 80px; }
+
+    /* ===== INFO GRID ===== */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .info-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .info-card.visible { opacity: 1; transform: translateY(0); }
+    .info-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; color: var(--accent); }
+    .info-card p, .info-card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+
+    /* ===== SPOT CARDS ===== */
+    .spots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .spot-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .spot-card.visible { opacity: 1; transform: translateY(0); }
+    .spot-card-header { padding: 1.2rem 1.2rem 0; }
+    .spot-card-header h4 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .spot-card-dist { font-size: .78rem; color: var(--text-dim); }
+    .spot-card-body { padding: .5rem 1.2rem; }
+    .spot-card-body p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .spot-card-footer { padding: 0 1.2rem .8rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .spot-tag { display: inline-block; padding: .15rem .6rem; border-radius: 4px; font-size: .7rem; letter-spacing: .5px; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .spot-tag.recommended { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .spot-tag.free { border-color: var(--success); color: var(--success); }
+    .spot-tag.kid { border-color: #f0a500; color: #f0a500; }
+    .spot-tag.warn { border-color: var(--danger); color: var(--danger); }
+    .spot-hours { padding: .5rem 1.2rem 1rem; font-size: .78rem; color: var(--text-hint); border-top: 1px solid rgba(255,255,255,.04); }
+
+    /* ===== 媒体组件（req#2）：主图 + 缩略图切换 ===== */
+    .media-block { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; }
+    .media-cover { width: 100%; overflow: hidden; background: rgba(100,180,255,.05); border-bottom: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; }
+    /* 封面完整显示不裁切（§14.12，2026-11-01 用户裁决）：不设固定比例，横竖图一律 contain；原 16:10 定框 + cover 会裁掉横图上下缘 */
+    .media-cover img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; display: block; }
+    /* 竖屏图（高>宽）自适应类：contain 下已冗余，保留兼容（§14.12 取舍说明） */
+    .media-cover.img-portrait { display: flex; align-items: center; justify-content: center; }
+    .media-cover.img-portrait img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; }
+    .media-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 1.1rem; scrollbar-width: none; }
+    .media-gallery::-webkit-scrollbar { display: none; }
+    .media-gallery img { width: 84px; height: 63px; object-fit: cover; border-radius: 8px; border: 1px solid var(--accent-border); flex-shrink: 0; cursor: pointer; opacity: .78; transition: border-color .2s, opacity .2s, transform .15s; }
+    .media-gallery img:active { transform: scale(.94); }
+    .media-gallery img:hover, .media-gallery img.active { border-color: var(--accent); opacity: 1; }
+    .media-gallery img.is-cover { border-color: var(--accent); opacity: 1; box-shadow: 0 0 0 2px var(--accent); } /* 当前封面缩略图保持可见并高亮（不隐藏，否则缩略图条永远少一张） */
+    /* 在卡片/时间线内嵌时的边距适配 */
+    .spot-card .media-cover, .culture-card .media-cover, .timeline-content .media-cover { margin: 0; border-radius: 0; }
+    .spot-card .media-gallery, .culture-card .media-gallery, .timeline-content .media-gallery { padding: 10px 1.1rem; }
+
+    /* ===== CULTURE CARDS ===== */
+    .culture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    /* 网格子项允许收缩：防止媒体画廊条（多缩略图）的 min-content 把 1fr 轨道撑出视口（移动端图偏移/截断根因；§14.11，2026-11-01 固化） */
+    .info-grid > *, .spots-grid > *, .culture-grid > * { min-width: 0; }
+    .culture-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.2rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .culture-card.visible { opacity: 1; transform: translateY(0); }
+    .culture-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+    .culture-card-head .c-icon { font-size: 1.4rem; }
+    .culture-card-head h4 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+    .culture-card p, .culture-card li { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .culture-card ul { padding-left: 1.2rem; }
+
+    /* ===== PLAN SELECTOR ===== */
+    .plan-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .8rem; margin-bottom: 1.5rem; }
+    .plan-btn { position: relative; display: flex; flex-direction: column; gap: .3rem; padding: .8rem 1rem; background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 10px; color: var(--text-dim); cursor: pointer; text-align: left; font-family: inherit; font-size: .88rem; transition: all .3s ease; overflow: hidden; }
+    .plan-btn:hover { border-color: var(--accent2); background: var(--accent-glow); }
+    .plan-btn.active { border-color: var(--accent); background: rgba(100,180,255,.12); }
+    .plan-btn .plan-name { font-weight: 700; color: var(--accent); font-size: .95rem; }
+    .plan-btn .plan-desc { font-size: .78rem; color: var(--text-hint); }
+    /* 已执行方案：红色圆形邮戳（含执行日期，req#7） */
+    .plan-btn[data-executed="true"] { padding-right: 4.8rem; }
+    .plan-btn .plan-stamp {
+      position: absolute; top: .5rem; right: .5rem;
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2.5px solid #e0322f;
+      background: rgba(224,50,47,.05);
+      color: #e0322f;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transform: rotate(-14deg); line-height: 1.15; pointer-events: none;
+    }
+    .plan-btn .plan-stamp::before {
+      content: ""; position: absolute; inset: 5px;
+      border: 1px solid rgba(224,50,47,.5); border-radius: 50%;
+    }
+    .plan-btn .plan-stamp .stamp-main { font-size: 13px; font-weight: 800; letter-spacing: 1px; position: relative; }
+    .plan-btn .plan-stamp .stamp-date {
+      font-size: 8.5px; font-weight: 700; letter-spacing: .3px; position: relative;
+      margin-top: 3px; padding-top: 3px; border-top: 1px solid rgba(224,50,47,.55);
+    }
+    .plan-btn[data-executed="true"].active { border-color: var(--accent); background: rgba(100,180,255,.14); }
+
+    /* ===== PLAN CONTENT ===== */
+    .plan-content { display: none; }
+    .plan-content.active { display: block; animation: fadeIn .5s ease; }
+
+    /* 执行方案「回顾布局」：轻量、不重复放图（真实照片唯一归属 #log/#food） */
+    .plan-content.executed .media-block { display: none; }
+    .recap-hero { width: 100%; border-radius: 14px; overflow: hidden; margin: 0 0 1.1rem; border: 1px solid var(--accent-border); }
+    .recap-hero img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+    .btn-tolog { display: inline-flex; align-items: center; gap: .4rem; margin: .2rem 0 1.4rem; padding: .7rem 1.2rem; background: var(--accent-glow); border: 1px solid var(--accent); color: var(--accent); border-radius: 999px; font-weight: 700; font-size: .92rem; cursor: pointer; font-family: inherit; transition: all .25s ease; }
+    .btn-tolog:hover { background: rgba(100,180,255,.2); transform: translateY(-1px); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== PLAN SUMMARY TABLE ===== */
+    .plan-summary { margin-bottom: 1.2rem; }
+    .day-label { font-family: 'Noto Serif SC', serif; font-size: .9rem; font-weight: 700; color: var(--accent); margin: 1rem 0 .5rem; padding-left: 2px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plan-summary-table { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 520px; }
+    .plan-summary-table thead th { background: var(--xb-light); color: var(--accent); font-weight: 600; padding: .5rem .6rem; text-align: left; border-bottom: 1px solid var(--accent-border); font-size: .78rem; }
+    .plan-summary-table tbody td { padding: .45rem .6rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+    .plan-summary-table tbody tr:hover td { background: var(--accent-glow); }
+
+    /* ===== TIMELINE（按时间点展开，req#3/#5）===== */
+    .day-divider { display: flex; align-items: center; gap: .8rem; margin: 1.5rem 0 1rem; }
+    .day-divider .line { flex: 1; height: 1px; background: var(--accent-border); }
+    .day-badge { background: var(--xb-light); border: 1px solid var(--accent2); color: var(--accent); padding: .3rem .8rem; border-radius: 14px; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .timeline-item { position: relative; padding-left: 28px; margin-bottom: 1rem; border-left: 2px solid var(--accent-border); }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--xb-deep); }
+    .timeline-time { font-size: .78rem; color: var(--accent2); margin-bottom: .25rem; font-weight: 500; }
+    .timeline-content h4 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+    .timeline-content p { font-size: .82rem; color: var(--text-dim); line-height: 1.55; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .timeline-tag { display: inline-block; padding: .12rem .5rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .timeline-tag.drive { border-color: #2aa198; color: #4fd6c8; }
+    .timeline-tag.food { border-color: #f0a500; color: #ffc24d; }
+    .timeline-tag.hotel { border-color: #8e7cc3; color: #ada0db; }
+    .timeline-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .timeline-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .timeline-tag.museum { border-color: var(--accent); color: var(--accent); }
+    .timeline-tag.free { border-color: var(--success); color: var(--success); }
+    .timeline-tag.warn { border-color: var(--danger); color: var(--danger); }
+
+    /* ===== TIPS BOX ===== */
+    .tips-box { background: var(--xb-light); border: 1px solid var(--accent-border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .tips-box-title { font-weight: 700; color: var(--accent); margin-bottom: .5rem; font-size: .9rem; }
+    .tips-box ul { padding-left: 1.2rem; }
+    .tips-box li { font-size: .82rem; color: var(--text-dim); line-height: 1.6; margin-bottom: .3rem; }
+
+    /* ====================================================================== */
+    /* === 记录核心模块 CSS（源自 site-template-travelogue-core.html · COPY BLOCK 1/3，请勿另写）=== */
+    /* —— 游记实录：按时间/站点拆章 —— */
+    .log-chapter { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 14px; padding: 1.4rem; margin-bottom: 1.4rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .log-chapter.visible { opacity: 1; transform: translateY(0); }
+    .chapter-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; flex-wrap: wrap; }
+    .chapter-time { font-size: .72rem; font-weight: 700; color: #1a1208; background: var(--accent); padding: .22rem .65rem; border-radius: 10px; white-space: nowrap; }
+    .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .log-chapter p { font-size: .92rem; color: var(--text-dim); line-height: 1.78; margin-bottom: .7rem; }
+    .log-chapter p:last-of-type { margin-bottom: 0; }
+    .chapter-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .chapter-tag { display: inline-block; padding: .12rem .55rem; border-radius: 4px; font-size: .68rem; border: 1px solid var(--accent-border); color: var(--accent2); }
+    .chapter-tag.eat { border-color: #f0a500; color: #ffc24d; }
+    .chapter-tag.view { border-color: #4da6ff; color: #80bfff; }
+    .chapter-tag.kid { border-color: #66cc66; color: #80ff80; }
+    .chapter-tag.free { border-color: var(--success); color: var(--success); }
+    .chapter-tag.park { border-color: #4fd6c8; color: #7fe6da; }
+
+    /* —— 美食 & 随手发现 —— */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { background: var(--xb-mid); border: 1px solid var(--accent-border); border-radius: 12px; padding: 1.1rem; opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .food-card.visible { opacity: 1; transform: translateY(0); }
+    .food-card h4 { font-size: .98rem; font-weight: 700; color: var(--accent); margin-bottom: .35rem; display: flex; align-items: center; gap: .4rem; }
+    .food-card p { font-size: .85rem; color: var(--text-dim); line-height: 1.6; }
+    .food-card .price { font-size: .76rem; color: var(--accent2); margin-top: .25rem; }
+    /* === END 记录核心模块 CSS ============================================== */
+
+    /* ===== 全屏灯箱（§14.13 图文子站默认要求；参考实现：清远佛冈子站，2026-11-01 同步入模板）=====
+       守 project-context §14 六条铁律：不锁 body 滚动（遮罩自抗穿透）/ 遮罩显式满幅 / 箭头≥48px 恒在屏内 /
+       触控横滑 >45px 切图 / 安全区避让 / 只信 touch 与 :active。行为契约见 §14.13。 */
+    .media-cover img, .media-gallery img, .log-video { cursor: zoom-in; }
+    .lightbox-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: 300; background: rgba(5,5,15,.97); display: none; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; -webkit-tap-highlight-color: transparent; }
+    .lightbox-mask.open { display: flex; }
+    .lightbox-mask .lb-media { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+    .lightbox-mask video.lb-media { width: 100%; max-height: 100%; background: #000; border-radius: 0; border: 0; margin: 0; cursor: default; }
+    .lb-cap { position: absolute; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); text-align: center; color: #e8e8e8; font-size: .88rem; line-height: 1.4; padding: 0 64px; text-shadow: 0 1px 4px #000; pointer-events: none; }
+    .lb-count { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); color: #b9b9b9; font-size: .8rem; letter-spacing: 1px; pointer-events: none; }
+    .lb-close, .lb-nav { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); background: rgba(18,18,28,.72); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; user-select: none; }
+    .lb-close { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); font-size: 20px; }
+    .lb-nav { top: 50%; transform: translateY(-50%); font-size: 24px; }
+    .lb-prev { left: 10px; } .lb-next { right: 10px; }
+    .lb-close:active, .lb-nav:active { background: rgba(255,255,255,.18); }
+    .lb-hidden { display: none !important; }
+
+    /* ===== 文档内链接 / 返回顶部 / 页脚 ===== */
+    .in-doc-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+    .in-doc-link:hover { color: var(--accent2); }
+    .section-backtop { text-align: center; margin-top: 1.5rem; }
+    .section-backtop a { display: inline-block; padding: .4rem 1.2rem; border: 1px solid var(--accent-border); border-radius: 8px; color: var(--accent2); text-decoration: none; font-size: .82rem; transition: all .2s; }
+    .section-backtop a:hover { background: var(--accent-glow); border-color: var(--accent2); color: var(--accent); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: var(--text-dim); font-size: .85rem; letter-spacing: 1px; }
+    footer .footer-line { width: 30px; height: 1px; background: var(--accent-border); margin: 0 auto 1rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer .footer-version { margin-top: .5rem; font-size: .7rem; color: var(--text-hint); font-family: 'Courier New', monospace; }
+
+    /* ===== 本页补充：触控目标不小于 44px（project-context §6.9 ③）=====
+       实测模板默认样式下，移动端下拉菜单项高 33px、「返回顶部」高 36px、页脚入口高 20px，均低于 44px；在本页补足。
+       品牌标识链接高 36px 属全站统一的品牌组件，本页不改（模板与品牌层面的差距另行登记）。 */
+    .section-backtop a { display: inline-flex; align-items: center; min-height: 44px; }
+    /* 窄屏主标题按地名断行：三个地名各自不拆开（实测 390px 下「紫泥堂」曾被拆成两行） */
+    .hero-title .nb { white-space: nowrap; }
+    @media (max-width: 640px) {
+      .nav-mobile-dropdown a { min-height: 44px; padding-top: 12px; padding-bottom: 12px; }
+      /* 正文里的页内跳转链接与页脚入口：内边距把点击热区向外扩、负外边距抵消占位，排版与视觉不变
+         （实测原高 19–43px、最窄 38px；补后高 45–69px、最窄 48px） */
+      .in-doc-link { padding: 13px 5px; margin: -13px -5px; }
+      footer a { padding: 13px 4px; margin: -13px -4px; }
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 640px) {
+      .top-nav { padding-left: 104px; height: 48px; justify-content: flex-end; }
+      .nav-inner { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-dropdown { display: flex; }
+      .hero { min-height: 46vh; padding: 70px 1rem 2rem; }
+      .section { padding: 2rem 1rem; }
+      .spots-grid, .info-grid, .culture-grid { grid-template-columns: 1fr; }
+      .plan-selector { grid-template-columns: 1fr; }
+      .xbrain-brand { top: 8px; left: 8px; padding: 4px 10px 4px 6px; }
+      .xbrain-brand svg { width: 26px; height: 26px; }
+      .xbrain-brand .xbrain-text { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== XBrain Logo（IP 规范）===== -->
+  <a class="xbrain-brand" href="../index.html" title="XBrain · 四季景点导航">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#64b4ff" stop-opacity="1" />
+          <stop offset="60%" stop-color="#3a7bd5" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#1a2a5e" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#80c0ff" /><stop offset="50%" stop-color="#4a90e2" /><stop offset="100%" stop-color="#80c0ff" />
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <circle class="xb-glow-bg" cx="176" cy="180" r="170" fill="url(#coreGlow)" opacity="0.12" />
+      <circle class="xb-ring" cx="176" cy="180" r="168" fill="none" stroke="url(#ringGrad)" stroke-width="2" opacity="0.55" filter="url(#glow)" />
+      <g transform="matrix(0 -1 1 0 30 300)">
+        <rect class="xb-ttai" fill="#2a4080" width="240" height="36" rx="4" ry="4" />
+        <rect class="xb-ttai-line1" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="4" opacity="0.9" />
+        <rect class="xb-ttai-line2" fill="url(#ringGrad)" width="240" height="3" rx="1.5" y="29" opacity="0.6" />
+      </g>
+      <g class="xb-bar-group" transform="matrix(0 -1 1 0 66 200)" opacity="0.35">
+        <rect class="xb-bar" fill="#3a60a0" width="40" height="280" rx="3" ry="3" />
+        <rect class="xb-bar-glow" fill="#64b4ff" width="6" height="200" rx="3" x="17" y="20" opacity="0.5" />
+      </g>
+      <g transform="matrix(0 -1 1 0 30 230)">
+        <circle cx="50" cy="50" r="50" fill="#0d1636" />
+        <circle cx="50" cy="50" r="46" fill="#162850" opacity="0.8" />
+        <circle class="xb-center-ring" cx="50" cy="50" r="42" fill="none" stroke="#64b4ff" stroke-width="2" opacity="0.7" filter="url(#glow)" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="#4a90e2" stroke-width="1.2" opacity="0.45" />
+        <line class="xb-x-line" x1="22" y1="22" x2="78" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <line class="xb-x-line" x1="78" y1="22" x2="22" y2="78" stroke="#64b4ff" stroke-width="1.5" opacity="0.5" />
+        <circle class="xb-core" cx="50" cy="50" r="10" fill="#80c0ff" filter="url(#glow)" opacity="0.9" />
+        <circle cx="50" cy="50" r="4" fill="#ffffff" />
+      </g>
+      <g class="xb-decor-group" transform="matrix(0 -1 1 0 38 222)" opacity="0.4">
+        <circle cx="42" cy="42" r="40" fill="none" stroke="#4a90e2" stroke-width="1" />
+        <circle cx="42" cy="42" r="32" fill="none" stroke="#64b4ff" stroke-width="0.6" stroke-dasharray="4 4" />
+      </g>
+    </svg>
+    <div class="xbrain-text"><span>X</span>Brain</div>
+  </a>
+
+  <!-- ===== TOP NAV ===== -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-inner" id="navInner">
+      <a class="back" href="../index.html">← 返回</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景</a>
+      <a href="#hours">营业时间</a>
+      <a href="#weather">天气评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="菜单">
+      <svg id="hamburgerIcon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="nav-mobile-dropdown" id="navMobile">
+      <a class="back" href="../index.html">← 返回四季景点导航</a>
+      <a href="#top">首页</a>
+      <a href="#overview">行程速览</a>
+      <a href="#spots">景点 & 餐厅总览</a>
+      <a href="#plans">行程方案</a>
+      <a href="#culture">人文背景·讲给孩子听</a>
+      <a href="#hours">营业时间 & 行程复核</a>
+      <a href="#weather">天气影响评估</a>
+      <a href="#tips">实用贴士</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <span class="hero-tag">11月28日（周六）· 一日往返 · 自驾</span>
+    <h1 class="hero-title"><span class="nb">余荫山房</span> · <span class="nb">七星岗</span> · <span class="nb">紫泥堂</span><span>一日游</span></h1>
+    <p class="hero-subtitle">上午看岭南园林，午前读一段六千年前的海岸，午后在老糖厂吃午饭看江景</p>
+    <div class="hero-line"></div>
+    <div class="hero-quick">
+      <span>📅 2026-11-28 周六</span><span>🚗 全程约 118 公里</span><span>🌤️ 多云 12–25℃</span><span>💰 四人约 ¥460–530</span>
+    </div>
+  </section>
+
+  <!-- ===== 1. 行程速览 ===== -->
+  <section class="section" id="overview">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      行程速览
+    </h2>
+    <p class="section-desc">一条线串起三种完全不同的风景：岭南园林、古海岸遗址、旧糖厂文创园；清早先到里仁洞吃一盘拉肠再出发。全程约 118 公里，三个游览点两个免费、一个门票 18 元。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>路线总览</h4><p>荔湾出发 → 里仁洞早餐 → <a class="in-doc-link" href="#spot-yuyin">余荫山房</a> → <a class="in-doc-link" href="#spot-qixingang">七星岗</a> → <a class="in-doc-link" href="#spot-zinitang">紫泥堂</a>（午餐＋散步）→ 东新高速回家，约 15:00 到家。另有一个把七星岗放在最后的走法，见<a class="in-doc-link" href="#plans">行程方案</a>。</p></div>
+      <div class="info-card"><h4>核心看点</h4><p>余荫山房的「四季窗」与孔雀亭旁的簕杜鹃；七星岗同在一处的海蚀崖、海蚀平台、海蚀洞，和纪念亭里的三方手迹碑；紫泥堂的苏式文化街与临江的万吨仓。</p></div>
+      <div class="info-card"><h4>天气提醒</h4><p>11-28 多云、12–25℃、无雨；早晚温差 13℃，每人带一件薄外套。逐段影响与降雨预案见<a class="in-doc-link" href="#weather">天气影响评估</a>。</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 2. 景点 & 餐厅总览 ===== -->
+  <section class="section" id="spots">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      景点 & 餐厅总览
+    </h2>
+    <p class="section-desc">按行程顺序排列。只有七星岗配了实景图（花城〔广州日报全媒体〕2020-06-02 报道中的照片，仅作出行参考，以实地为准）；其余三处出行后补实拍。</p>
+    <div class="spots-grid">
+      <div class="spot-card" id="spot-breakfast">
+        <div class="spot-card-header"><h4>① 里仁洞本地肠粉</h4><span class="spot-card-dist">番禺 · 金山大道西与新光快速出口交叉口北 140 米</span></div>
+        <div class="spot-card-body"><p>清早第一站。店在新光快速金山大道西出口边上，下高速即到。地图上没有登记营业时间和电话，到店才知道开没开；没开就走 500 米外的丰江源拉肠（兴业大道西 993 号，07:00–20:30，电话 185-0209-96063）。最近的停车场是里仁洞新村-地上停车场（约 130 米）。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">早餐</span><span class="spot-tag">肠粉</span></div>
+        <div class="spot-hours"><b>开放：</b>营业时间未登记，到店确认。<b>花费：</b>四人约 ¥60–70（估算）。</div>
+      </div>
+
+      <div class="spot-card" id="spot-yuyin">
+        <div class="spot-card-header"><h4>② 余荫山房</h4><span class="spot-card-dist">番禺 · 南村镇北大街</span></div>
+        <div class="spot-card-body"><p>岭南四大名园之一，也是其中唯一基本保存原貌的一座。园地只有三亩，却把亭、堂、楼、榭和山、石、池、桥全装了进去。眼下孔雀亭旁的簕杜鹃开成一片，文昌苑瑞景楼一楼有「丹青寄岁」画展（至 2027-01-10）。咨询 020-34822187。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">主目标</span><span class="spot-tag">名园</span><span class="spot-tag warn">需预约</span></div>
+        <div class="spot-hours"><b>开放：</b>8:00–18:00（17:00 停止售票、入园）。<b>门票：</b>18 元；半票 9 元（6–18 周岁未成年人、1.3–1.5 米儿童、全日制本科及以下学生）；6 周岁及以下或 1.3 米及以下儿童免票。需在「余荫山房」公众号预约。<b>停车：</b>园区配停车场（第三方平台口径 5 元/小时、12 小时内封顶 10 元，以现场公示为准）。</div>
+      </div>
+
+      <div class="spot-card" id="spot-qixingang">
+        <div class="media-block" style="border:0;border-radius:0;margin:0;">
+        <div class="media-cover"><img src="七星岗古海岸遗址/index.jpg" alt="海蚀崖与海蚀平台" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+            <img src="七星岗古海岸遗址/index.jpg" alt="海蚀崖、海蚀平台与海蚀洞同框" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/海蚀地貌近景.jpg" alt="海蚀地貌近景" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/纪念亭内部.jpg" alt="纪念亭内部的三方碑" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/登山径与纪念亭.jpg" alt="登山径与纪念亭" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/入口广场与红色凉亭.jpg" alt="入口广场与红色凉亭" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/航拍全景.jpg" alt="园区航拍全景" loading="lazy" decoding="async">
+        </div>
+        </div>
+        <div class="spot-card-header"><h4>③ 七星岗古海岸遗址科学公园</h4><span class="spot-card-dist">海珠 · 石榴岗路 67 号</span></div>
+        <div class="spot-card-body"><p>约六千年前的海岸线就在这里：海蚀崖、海蚀平台、海蚀洞同在一处：崖高约 2 米，平台宽约 6 米、高出今海平面约 1.93 米。这里是世界公认最深入内陆的古海岸遗址。园区只有 1.12 公顷，四周是城市街区，观感像个小公园，价值在「看得懂」。停车在约 40 米外的智通创意工业园-地上停车场（24 小时，收费以现场公示为准）。咨询 020-89440241。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag recommended">必看</span><span class="spot-tag free">免费</span><span class="spot-tag">户外</span></div>
+        <div class="spot-hours"><b>开放：</b>9:00–17:00，周二闭园（周六正常开放）。<b>门票：</b>免费，无需预约。</div>
+      </div>
+
+      <div class="spot-card" id="spot-zinitang">
+        <div class="spot-card-header"><h4>④ 紫泥堂 & 午餐</h4><span class="spot-card-dist">番禺 · 沙湾街紫坭村西安路 7 号</span></div>
+        <div class="spot-card-body"><p>1953 年建成的国营紫坭糖厂改造的文创园，保留着 88 栋旧工业建筑、4 根老烟囱和临江的万吨仓。午餐在园内解决：为食蒸顺德料理（86 栋），人均约 70 元，订位电话 136-3145-3360（地图公示）；饭后沿苏式文化街走到万吨仓看江景。园内有多个停车场，按指示牌停到想去的片区旁。咨询 020-23889900。</p></div>
+        <div class="spot-card-footer"><span class="spot-tag free">免费</span><span class="spot-tag">文创园</span><span class="spot-tag">午餐</span></div>
+        <div class="spot-hours"><b>开放：</b>园区全天开放、免费，无需预约。<b>午餐：</b>为食蒸 11:30–14:00、17:30–21:00（14:00 停业）。</div>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 3. 行程方案 ===== -->
+  <section class="section" id="plans">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      行程方案（一日）
+    </h2>
+    <p class="section-desc">两个方案走的是同样的三个点，区别只在「七星岗放在哪」。方案 A 把七星岗排在余荫山房之后、紫泥堂之前，最后一程全程上东新高速，到家更早（推荐）；方案 B 以七星岗收尾，午餐更准点。点选切换，地址栏可分享。</p>
+
+    <div class="plan-selector">
+      <button class="plan-btn active" onclick="switchPlan('planA')">
+        <span class="plan-name">方案 A · 七星岗居中（推荐）</span>
+        <span class="plan-desc">早餐 → 余荫山房 → 七星岗 → 紫泥堂午餐 → 回家，约 15:00 到家</span>
+      </button>
+      <button class="plan-btn" onclick="switchPlan('planB')">
+        <span class="plan-name">方案 B · 七星岗收尾</span>
+        <span class="plan-desc">早餐 → 余荫山房 → 紫泥堂午餐 → 七星岗 → 回家，晚约 30–45 分钟到家</span>
+      </button>
+    </div>
+
+    <div class="plan-content active" id="planA">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六 11-28</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:30</td><td>08:10</td><td>荔湾出发 → 里仁洞（自驾约 30 公里）</td><td>0.7h</td></tr>
+              <tr><td>08:10</td><td>09:00</td><td>里仁洞本地肠粉 · 早餐</td><td>0.8h</td></tr>
+              <tr><td>09:00</td><td>09:15</td><td>→ 余荫山房（约 7 公里）</td><td>0.3h</td></tr>
+              <tr><td>09:15</td><td>10:45</td><td>游余荫山房</td><td>1.5h</td></tr>
+              <tr><td>10:50</td><td>11:15</td><td>→ 七星岗（约 15–16 公里）</td><td>0.4h</td></tr>
+              <tr><td>11:15</td><td>12:00</td><td>游七星岗古海岸遗址科学公园</td><td>0.8h</td></tr>
+              <tr><td>12:00</td><td>12:40</td><td>→ 紫泥堂（约 31 公里）</td><td>0.7h</td></tr>
+              <tr><td>12:40</td><td>13:40</td><td>午餐 · 为食蒸顺德料理</td><td>1h</td></tr>
+              <tr><td>13:40</td><td>14:10</td><td>紫泥堂散步（苏式文化街—万吨仓）</td><td>0.5h</td></tr>
+              <tr><td>14:10</td><td>15:00</td><td>返程（东新高速约 35 公里）</td><td>0.8h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 多云 12–25℃</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:30 — 08:10</div>
+          <div class="timeline-content">
+            <h4>荔湾出发 → 里仁洞</h4>
+            <p>约 30 公里，周六早 40–50 分钟；导航「里仁洞本地肠粉」。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">08:10 — 09:00</div>
+          <div class="timeline-content">
+            <h4>早餐 · 里仁洞本地肠粉</h4>
+            <p>下高速即到，建议 08:15 前到。营业时间地图上没有登记，到店若没开，走 500 米外的丰江源拉肠。见<a class="in-doc-link" href="#spot-breakfast">① 里仁洞本地肠粉</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag food">美食</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:15 — 10:45</div>
+          <div class="timeline-content">
+            <h4>余荫山房 · 岭南四大名园</h4>
+            <p>08:00 已开园，到即入。动线：门厅与前庭 → 善言邬公祠 → 浣红跨绿廊桥 → 深柳堂与临池别馆 → 卧瓢庐（找「四季窗」）→ 玲珑水榭 → 文昌苑看画展与簕杜鹃。厅堂门槛高、池边护栏低，留神脚下。见<a class="in-doc-link" href="#spot-yuyin">② 余荫山房</a>与<a class="in-doc-link" href="#culture-yuyin">人文背景</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">看点</span><span class="timeline-tag warn">注意</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:15 — 12:00</div>
+          <div class="timeline-content">
+            <h4>七星岗古海岸遗址科学公园</h4>
+            <p>45 分钟走核心：入口科普碑刻 → 海蚀崖、海蚀平台、海蚀洞 → 登山径 → 纪念亭（进亭看三方碑）。停车在 40 米外的智通创意工业园停车场。见<a class="in-doc-link" href="#spot-qixingang">③ 七星岗</a>与<a class="in-doc-link" href="#culture-qixingang">人文背景</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">看点</span><span class="timeline-tag free">免费</span></div>
+        <div class="media-cover"><img src="七星岗古海岸遗址/index.jpg" alt="海蚀崖与海蚀平台" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+            <img src="七星岗古海岸遗址/index.jpg" alt="海蚀崖、海蚀平台与海蚀洞同框" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/海蚀地貌近景.jpg" alt="海蚀地貌近景" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/纪念亭内部.jpg" alt="纪念亭内部的三方碑" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/登山径与纪念亭.jpg" alt="登山径与纪念亭" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/入口广场与红色凉亭.jpg" alt="入口广场与红色凉亭" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/航拍全景.jpg" alt="园区航拍全景" loading="lazy" decoding="async">
+        </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">12:40 — 13:40</div>
+          <div class="timeline-content">
+            <h4>午餐 · 紫泥堂为食蒸顺德料理</h4>
+            <p>11:30 开市、14:00 停业，12:40 前到；建议出发前一晚电话问是否需要订位。见<a class="in-doc-link" href="#spot-zinitang">④ 紫泥堂</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag food">美食</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">13:40 — 14:10</div>
+          <div class="timeline-content">
+            <h4>紫泥堂散步</h4>
+            <p>苏式文化街（1953 年的办公楼群，黄墙拱券走廊）→ 万吨仓（在外面看江景；二楼平台要爬楼梯，可以不上）。累了进茶馆坐。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">看点</span><span class="timeline-tag free">免费</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:10 — 15:00</div>
+          <div class="timeline-content">
+            <h4>返程</h4>
+            <p>东新高速直达，约 35 公里。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plan-content" id="planB">
+      <div class="plan-summary">
+        <div class="day-label">DAY 1 · 周六 11-28</div>
+        <div class="table-scroll">
+          <table class="plan-summary-table">
+            <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
+            <tbody>
+              <tr><td>07:30</td><td>08:10</td><td>荔湾出发 → 里仁洞（自驾约 30 公里）</td><td>0.7h</td></tr>
+              <tr><td>08:10</td><td>09:00</td><td>里仁洞本地肠粉 · 早餐</td><td>0.8h</td></tr>
+              <tr><td>09:00</td><td>09:15</td><td>→ 余荫山房（约 7 公里）</td><td>0.3h</td></tr>
+              <tr><td>09:15</td><td>10:45</td><td>游余荫山房</td><td>1.5h</td></tr>
+              <tr><td>10:50</td><td>11:45</td><td>→ 紫泥堂（约 28–30 公里）</td><td>0.9h</td></tr>
+              <tr><td>11:50</td><td>13:35</td><td>午餐＋散步 · 紫泥堂</td><td>1.6h</td></tr>
+              <tr><td>13:40</td><td>14:20</td><td>→ 七星岗（约 31 公里）</td><td>0.7h</td></tr>
+              <tr><td>14:20</td><td>15:05</td><td>游七星岗古海岸遗址科学公园</td><td>0.8h</td></tr>
+              <tr><td>15:10</td><td>15:50</td><td>返程（约 19 公里）</td><td>0.7h</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="day-divider"><div class="line"></div><div class="day-badge">DAY 1 · 多云 12–25℃</div><div class="line"></div></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">07:30 — 09:15</div>
+          <div class="timeline-content">
+            <h4>荔湾出发 → 早餐 → 余荫山房</h4>
+            <p>与方案 A 完全相同，点这里切回<a class="in-doc-link" href="#planA" onclick="switchPlan('planA')">方案 A</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span><span class="timeline-tag food">美食</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">09:15 — 10:45</div>
+          <div class="timeline-content">
+            <h4>余荫山房 · 岭南四大名园</h4>
+            <p>与方案 A 完全相同。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">看点</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">11:50 — 13:35</div>
+          <div class="timeline-content">
+            <h4>紫泥堂 · 午餐与散步</h4>
+            <p>午餐准点。饭后沿苏式文化街走到万吨仓。见<a class="in-doc-link" href="#spot-zinitang">④ 紫泥堂</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag food">美食</span><span class="timeline-tag view">看点</span></div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">14:20 — 15:05</div>
+          <div class="timeline-content">
+            <h4>七星岗古海岸遗址科学公园</h4>
+            <p>16:00 前入园即可；以一段户外散步收尾。见<a class="in-doc-link" href="#spot-qixingang">③ 七星岗</a>。</p>
+            <div class="timeline-tags"><span class="timeline-tag view">看点</span><span class="timeline-tag free">免费</span></div>
+        <div class="media-cover"><img src="七星岗古海岸遗址/index.jpg" alt="海蚀崖与海蚀平台" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+            <img src="七星岗古海岸遗址/index.jpg" alt="海蚀崖、海蚀平台与海蚀洞同框" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/海蚀地貌近景.jpg" alt="海蚀地貌近景" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/纪念亭内部.jpg" alt="纪念亭内部的三方碑" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/登山径与纪念亭.jpg" alt="登山径与纪念亭" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/入口广场与红色凉亭.jpg" alt="入口广场与红色凉亭" loading="lazy" decoding="async">
+            <img src="七星岗古海岸遗址/航拍全景.jpg" alt="园区航拍全景" loading="lazy" decoding="async">
+        </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">15:10 — 15:50</div>
+          <div class="timeline-content">
+            <h4>返程</h4>
+            <p>约 19 公里，穿市区回家，比方案 A 晚约 30–45 分钟。</p>
+            <div class="timeline-tags"><span class="timeline-tag drive">自驾</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">止损线</div>
+      <ul>
+        <li>11:00 前出不了余荫山房，就舍掉七星岗，直接去紫泥堂（约 28–30 公里，11:50 前后到），午餐相应提前。</li>
+        <li>里程与车程是按开放路网路径规划的静态结果，不含实时路况，以当日导航为准。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
+  <section class="section" id="culture">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      人文背景 · 讲给孩子听
+    </h2>
+    <p class="section-desc">三处地方各有一句值得讲的话：一座三亩地名园的「缩龙成寸」，一段六千年前的海岸线，一座糖厂的前世今生。</p>
+    <div class="culture-grid">
+      <div class="culture-card" id="culture-yuyin">
+        <div class="culture-card-head"><div class="c-icon">🏛️</div><h4>余荫山房——三亩地里的一座名园</h4></div>
+        <p><b>背景：</b>园主邬彬 43 岁中举后，用族人奖励建祠堂剩下的地建了这座园子（1867–1871）。它与佛山梁园、东莞可园、顺德清晖园合称「广东四大名园」，是其中唯一基本保存原貌的。</p>
+        <p><b>讲给孩子听：</b></p>
+        <ul>
+          <li>园地只有三亩，却把亭、堂、楼、榭和山、石、池、桥全装了进去——这叫「缩龙成寸」。</li>
+          <li>二门那副对联「余地三弓红雨足，荫天一角绿云深」是邬彬自己写的：「三弓」是说园子只有三百步大，「红雨」「绿云」说的是花和树。</li>
+          <li>去卧瓢庐找「四季窗」，分别透过蓝玻璃和白玻璃看同一个园子，说说有什么不同；再数数玲珑水榭一共有几面窗。</li>
+          <li>邬彬一家「一门三举人，父子同折桂」——长子、次子后来也中了举人。</li>
+        </ul>
+      </div>
+
+      <div class="culture-card" id="culture-qixingang">
+        <div class="culture-card-head"><div class="c-icon">🌊</div><h4>七星岗——脚底下原来是海</h4></div>
+        <p><b>背景：</b>1937 年 5 月 14 日，中山大学教授吴尚时在这里发现了古海岸遗迹。这里的海蚀崖、海蚀平台、海蚀洞约形成于六千年前，是世界公认最深入内陆的古海岸遗址。</p>
+        <p><b>讲给孩子听：</b></p>
+        <ul>
+          <li>站到海蚀崖前：约六千年前，海岸线就在这里；如今它已向南退了约 100 公里，脚下这块地，当年是海边。</li>
+          <li>找一找三种地貌：陡的是崖，平的是台，凹进去的是洞——它们是同一片海浪刻出来的。</li>
+          <li>进纪念亭看三方碑：一位金石大师、一位地质学泰斗、一位书法篆刻大师，为同一处遗址留下的手迹。</li>
+        </ul>
+        <p>个别旧资料把年代写成「几万年前」，以园区碑刻和说明牌为准；金羊网、人民网的报道写的都是「约六千年前」。</p>
+      </div>
+
+      <div class="culture-card" id="culture-zinitang">
+        <div class="culture-card-head"><div class="c-icon">🏭</div><h4>紫泥堂——一座糖厂的前世今生</h4></div>
+        <p><b>背景：</b>1953 年，这里建成广东省国营紫坭糖厂，是「一五」期间我国自行设计建设的第一家大型甘蔗糖厂，曾为广东最大糖厂。2013 年起改造为文化创意园，保留了 88 栋旧工业建筑。</p>
+        <p><b>讲给孩子听：</b></p>
+        <ul>
+          <li>找一找大烟囱和旧机器，猜猜哪一栋是当年榨甘蔗的车间。</li>
+          <li>在万吨仓外看看江面，想想甘蔗原料从前是怎样从水路运进来的。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 5. 营业时间 & 行程复核 ===== -->
+  <section class="section" id="hours">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      营业时间 & 行程复核
+    </h2>
+    <p class="section-desc">开放时间与票价核实于 2026-11-25（景区官网、海珠区政府网、地图商户信息），以出行当日官方公告为准；核实不到的项如实标注。</p>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>景点 / 场馆</th><th>开放时间</th><th>门票参考</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>里仁洞本地肠粉</td><td>未登记（到店确认）</td><td>四人约 ¥60–70（估算）</td><td>备胎丰江源拉肠 07:00–20:30，电话 185-0209-96063</td></tr>
+          <tr><td>余荫山房</td><td>8:00–18:00（17:00 停止售票、入园）</td><td>18 元；半票 9 元；6 周岁及以下或 1.3 米及以下儿童免票（半票适用对象见表下）</td><td>需公众号预约；020-34822187</td></tr>
+          <tr><td>七星岗古海岸遗址科学公园</td><td>9:00–17:00，周二闭园</td><td>免费</td><td>无需预约；020-89440241</td></tr>
+          <tr><td>紫泥堂（园区）</td><td>全天开放</td><td>免费</td><td>无需预约；020-23889900</td></tr>
+          <tr><td>为食蒸·顺德料理</td><td>11:30–14:00、17:30–21:00</td><td>人均约 70 元</td><td>紫泥堂 86 栋；14:00 停业；订位电话 136-3145-3360（地图公示）</td></tr>
+          <tr><td>工业历史博物馆</td><td>未查到；周一闭馆</td><td>免费</td><td>紫泥堂 A 区 A20 栋；到园先问游客中心</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">行程复核结论</div>
+      <ul>
+        <li>行程表已对齐真实开放时间：余荫山房 8:00 开园（09:15 到即入）；七星岗 9:00 开园（11:15 到）；为食蒸 11:30 开市（12:40 到，14:00 停业前时间充裕）。</li>
+        <li>闭园日核对：11-28 是周六，七星岗（周二闭园）、工业历史博物馆（周一闭馆）都不撞。</li>
+        <li>余荫山房半票适用对象：6–18 周岁未成年人（凭身份证）、1.3–1.5 米儿童、全日制本科及以下学生。</li>
+        <li>待现场确认：早餐店营业时间；七星岗园区是否有自有停车场（地图上只查到 40 米外的智通创意工业园停车场）；紫泥堂停车免费时长（有「前 2 小时」「前 3 小时」两种说法）。</li>
+        <li>里程与车程不含实时路况，以当日导航为准。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 7. 天气影响评估 ===== -->
+  <section class="section" id="weather">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
+      天气影响评估
+    </h2>
+    <p class="section-desc">预报核实于 2026-11-25，中国天气网与中央气象台两源一致；距出行 3 天，出发前一晚须再查一次临近预报与预警。</p>
+    <div class="info-grid">
+      <div class="info-card"><h4>11-28（周六）天气</h4><p>多云，12–25℃，微风，无雨——可出行。早晚温差 13℃，每人带一件薄外套，中午可短袖。备用日 11-29（周日）多云 14–23℃。</p></div>
+      <div class="info-card"><h4>逐段影响</h4><p>清早出发：气温低，且前两天有雨、路面可能未干，留神驾驶。余荫山房：无影响。七星岗：全户外、无遮挡，排在午餐前正合适。紫泥堂：散步段可随时缩进茶馆。</p></div>
+      <div class="info-card"><h4>降雨预案</h4><p>下雨：七星岗全户外、紫泥堂基本露天——改走只去余荫山房（园内有廊可避）或顺延到 11-29；雨大就取消。出发前发布雷雨大风、暴雨预警：全程取消户外点，余荫山房、紫泥堂看现场情况。</p></div>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== 8. 实用贴士 ===== -->
+  <section class="section" id="tips">
+    <h2 class="section-title">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      实用贴士
+    </h2>
+    <p class="section-desc">出发前一晚要办的事、路上遇到情况怎么办、要带什么、大概花多少。</p>
+
+    <div class="tips-box">
+      <div class="tips-box-title">出行前一晚待办（11-27 周五）</div>
+      <ul>
+        <li>「余荫山房」公众号为全员预约（周六上午场）。</li>
+        <li>确认里仁洞本地肠粉营业；备胎丰江源拉肠 07:00 开门，电话 185-0209-96063。</li>
+        <li>为食蒸问是否需要订位：136-3145-3360（报「约 12:40 到」）。</li>
+        <li>再查一次 11-28 的天气与预警。</li>
+        <li>导航收藏：里仁洞本地肠粉、余荫山房、七星岗古海岸遗址科学公园（停车：智通创意工业园-地上停车场）、紫泥堂（餐厅：为食蒸·顺德料理）、回家路线。</li>
+        <li>加满油；薄外套、水、防晒帽装车。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">如果……就……</div>
+      <ul>
+        <li>早餐店没开 → 走 500 米外的丰江源拉肠（07:00 开门）；再不行去石磨肠粉（长隆店，06:00 开门，约 3.3 公里）。</li>
+        <li>余荫山房没约上 → 打 020-34822187 问现场能否入园；不行就舍掉，直接去七星岗（约 15 公里），全天变成两个免费点。</li>
+        <li>11:00 前出不了余荫山房 → 舍七星岗，直接去紫泥堂，午餐提前。</li>
+        <li>到紫泥堂已过 13:30 → 午餐改茶食坊（101 栋，营业到 21:00，人均约 25 元）。</li>
+        <li>为食蒸等位超过 20 分钟 → 换园内备选：茶食坊（101 栋）最省事；紫泥十二门、一招酒楼营业时间未核，先电话问。</li>
+        <li>时间富余、想多走 → 紫泥堂加看工业历史博物馆（先问开放）；不建议当天再加第四个游览点。</li>
+        <li>下雨 → 只去余荫山房或顺延到 11-29；雨大就取消。</li>
+        <li>想以七星岗收尾 → 点这里切换到<a class="in-doc-link" href="#planB" onclick="switchPlan('planB')">方案 B</a>。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">要带什么</div>
+      <ul>
+        <li>薄外套（早晚 12℃）、平底运动鞋（余荫山房门槛高、紫泥堂是厂区道路）。</li>
+        <li>防晒帽、水（七星岗一段无遮挡）。</li>
+        <li>身份证（余荫山房预约与票务核验用）。</li>
+        <li>驾车滴酒不沾；充电宝、纸巾湿巾、垃圾袋。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">费用（四人，静态估算）</div>
+      <ul>
+        <li>门票 ¥45–54（余荫山房；七星岗、紫泥堂免费）。</li>
+        <li>早餐 ¥60–70；午餐 ¥250–280。</li>
+        <li>油费约 ¥80（约 118 公里）；过路费约 ¥10–20；停车约 ¥10–30。</li>
+        <li>合计约 ¥460–530。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box" style="margin-top:1rem;">
+      <div class="tips-box-title">信息来源</div>
+      <ul>
+        <li>行程内容依据《余荫山房七星岗紫泥堂一日游完整行程（2026-11-28）》文稿，事实核实于 2026-11-25。</li>
+        <li>七星岗实景图 6 张来自花城（广州日报全媒体）2020-06-02 的报道专题页，仅作出行参考，以实地为准。</li>
+      </ul>
+    </div>
+    <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-line"></div>
+    <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 余荫山房七星岗紫泥堂一日游</div>
+    <div class="footer-version">v20261126-080123</div>
+  </footer>
+
+  <!-- ===== 全屏灯箱遮罩（§14.13；点图/点视频放大，箭头、键盘或左右滑动切换）===== -->
+  <div class="lightbox-mask" id="lightboxMask" role="dialog" aria-label="媒体全屏查看">
+    <button class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+    <span class="lb-count" id="lbCount"></span>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+    <img class="lb-media" id="lbImg" alt="">
+    <video class="lb-media lb-hidden" id="lbVid" controls playsinline preload="metadata"></video>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="下一张">›</button>
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    (function () {
+      // ===== 方案切换（源自古埃及展；本页行程未执行、无游记节，模板的游记门控脚本不随页——补游记时取回）=====
+      var PLAN_IDS = ['planA', 'planB'];
+      window.switchPlan = function (planId, skipScroll) {
+        document.querySelectorAll('.plan-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.plan-content').forEach(function (c) { c.classList.remove('active'); });
+        var target = document.getElementById(planId);
+        if (target) target.classList.add('active');
+        var buttons = document.querySelectorAll('.plan-btn');
+        var matched = false;
+        buttons.forEach(function (btn) {
+          var m = btn.getAttribute('onclick') ? btn.getAttribute('onclick').match(/switchPlan\('([^']+)'\)/) : null;
+          if (m && m[1] === planId) { btn.classList.add('active'); matched = true; }
+        });
+        if (!matched && buttons.length > 0) {
+          for (var i = 0; i < PLAN_IDS.length; i++) { if (PLAN_IDS[i] === planId && buttons[i]) { buttons[i].classList.add('active'); break; } }
+        }
+        if (window.history && window.history.replaceState) window.history.replaceState(null, '', '#' + planId);
+        if (!skipScroll) { var s = document.getElementById('plans'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      };
+
+      if (window.location.hash && PLAN_IDS.indexOf(window.location.hash.substring(1)) !== -1) {
+        window.addEventListener('load', function () { setTimeout(function () { switchPlan(window.location.hash.substring(1), false); }, 400); });
+      }
+
+      // ===== 媒体画廊：首图自动解析（优先 index.*，缺失则回退第一张）=====
+      // 约定：画廊(.media-gallery)内的图片即「该卡片对应的图片文件夹内容」。
+      //   - 若其中某张命名为 index.*，自动作为主图(.media-cover)。
+      //   - 若漏命名 index.*（常见），回退为画廊第一张作为主图。
+      //   - 点击缩略图切换主图；当前主图从缩略图条隐藏，避免与首图重复。
+      function baseNameOf(src) {
+        var m = /[\\/]([^\\/]+)$/.exec(src || '');
+        var f = m ? m[1] : (src || '');
+        return f.replace(/\.[^.]+$/, '').toLowerCase();
+      }
+      function isIndexImg(img) { return baseNameOf(img.getAttribute('src')) === 'index'; }
+      document.querySelectorAll('.media-cover').forEach(function (cover) {
+        var coverImg = cover.querySelector('img'); if (!coverImg) return;
+        var host = cover.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card');
+        if (!host) host = cover.parentElement;
+        var gallery = host && host.querySelector('.media-gallery');
+        if (!gallery) return;
+        var thumbs = Array.prototype.slice.call(gallery.querySelectorAll('img'));
+        if (!thumbs.length) return;
+
+        // 解析首图：优先 index.*；缺失则取第一张（作者可调整顺序选择「合适」的图）
+        var coverThumb = thumbs.filter(isIndexImg)[0] || thumbs[0];
+
+        function applyCover(thumb) {
+          coverImg.src = thumb.src;
+          if (thumb.alt) coverImg.alt = thumb.alt;
+          var visible = 0;
+          thumbs.forEach(function (t) {
+            var isCov = (t === thumb);
+            t.classList.toggle('is-cover', isCov); // 当前主图缩略图高亮（保持可见，不隐藏）
+            t.classList.toggle('active', isCov);
+            if (!isCov) visible++;
+          });
+          gallery.style.display = visible ? '' : 'none'; // 仅剩首图一张时隐藏整条
+        }
+        applyCover(coverThumb);
+
+        gallery.addEventListener('click', function (e) {
+          var thumb = e.target.closest('img');
+          if (!thumb || !gallery.contains(thumb)) return;
+          applyCover(thumb);
+        });
+      });
+
+      // ===== 全屏灯箱（§14.13）：点封面/缩略图/视频放大；箭头、键盘或左右滑动切换；不锁 body 滚动（遮罩自抗穿透）=====
+      (function () {
+        var mask = document.getElementById('lightboxMask');
+        if (!mask) return;
+        var lbImg = document.getElementById('lbImg'), lbVid = document.getElementById('lbVid');
+        var lbCap = document.getElementById('lbCap'), lbCount = document.getElementById('lbCount');
+        var lbPrev = document.getElementById('lbPrev'), lbNext = document.getElementById('lbNext'), lbClose = document.getElementById('lbClose');
+        var items = [], idx = 0, startX = 0, startY = 0, swiping = false;
+        // 统一取解析后的地址（.src 属性值）：封面图切换后浏览器会把它的 src 属性写成绝对地址，
+        // 按 getAttribute 原值比对会让同一张图被当成两张（首图在灯箱里出现两次）
+        function srcOf(el) { try { return el.src; } catch (e) { return el.getAttribute('src'); } }
+
+        // 同宿主卡内的图 + 视频聚合（去重）。顺序以缩略图条为准（页面上看到的顺序），封面图不在缩略图条里时排在其后：
+        // 点缩略图时画廊逻辑已先把封面换成被点的那张，若仍「封面排首位」，被点的图会被排到第 1 位，计数恒为 1、切换顺序整体轮转
+        function collect(host) {
+          var list = [], seen = {};
+          function push(src, alt, video, cap) {
+            if (!src || seen[src]) return;
+            seen[src] = 1;
+            list.push({ src: src, alt: alt || cap || '', video: !!video });
+          }
+          host.querySelectorAll('.media-gallery img').forEach(function (t) { push(srcOf(t), t.getAttribute('alt')); });
+          var coverImg = host.querySelector('.media-cover img');
+          if (coverImg) push(srcOf(coverImg), coverImg.getAttribute('alt'));
+          host.querySelectorAll('.log-video').forEach(function (v) {
+            var s = v.querySelector('source');
+            var cap = (v.previousElementSibling && v.previousElementSibling.classList.contains('log-video-cap')) ? v.previousElementSibling.textContent.replace('▶ ', '') : '';
+            push(srcOf(s || v), '', true, cap);
+          });
+          return list;
+        }
+        function render() {
+          var it = items[idx];
+          if (it.video) {
+            lbImg.classList.add('lb-hidden');
+            lbVid.classList.remove('lb-hidden');
+            if (lbVid.getAttribute('src') !== it.src) lbVid.setAttribute('src', it.src);
+            var p = lbVid.play(); if (p && p.catch) p.catch(function () {});
+          } else {
+            lbVid.classList.add('lb-hidden'); lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load();
+            lbImg.classList.remove('lb-hidden');
+            lbImg.src = it.src; lbImg.alt = it.alt;
+          }
+          lbCap.textContent = it.alt || '';
+          lbCount.textContent = items.length > 1 ? (idx + 1) + ' / ' + items.length : '';
+          var one = items.length < 2;
+          lbPrev.classList.toggle('lb-hidden', one);
+          lbNext.classList.toggle('lb-hidden', one);
+        }
+        function open(host, matchSrc) {
+          items = collect(host);
+          if (!items.length) return;
+          idx = 0;
+          items.forEach(function (it, i) { if (matchSrc && it.src === matchSrc) idx = i; });
+          render();
+          // 封面上的键盘左右键在部分模板另有切图逻辑：开灯箱时移开焦点，避免一次按键触发两处
+          if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+          mask.classList.add('open');
+        }
+        function close() {
+          mask.classList.remove('open');
+          lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load();
+        }
+        function step(d) { if (items.length) { idx = (idx + d + items.length) % items.length; render(); } }
+
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', function () { step(-1); });
+        lbNext.addEventListener('click', function () { step(1); });
+        mask.addEventListener('click', function (e) { if (e.target === mask) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (!mask.classList.contains('open')) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowLeft') step(-1);
+          else if (e.key === 'ArrowRight') step(1);
+        });
+        mask.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; swiping = false; }, { passive: true });
+        mask.addEventListener('touchmove', function (e) {
+          if (swiping) return;
+          var dx = e.touches[0].clientX - startX, dy = e.touches[0].clientY - startY;
+          if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { swiping = true; step(dx < 0 ? 1 : -1); }
+        }, { passive: true });
+
+        // 接线：封面图 / 缩略图 / 视频点击均开灯箱（缩略图仍同时切换封面，两条链路互不冲突）
+        var hosts = new Set();
+        document.querySelectorAll('.media-cover').forEach(function (c) {
+          var h = c.closest('.media-block, .culture-card, .timeline-content, .log-chapter, .food-card') || c.parentElement;
+          if (!h || hosts.has(h)) return;
+          hosts.add(h);
+          var ci = h.querySelector('.media-cover img');
+          if (ci) ci.addEventListener('click', function () { open(h, srcOf(ci)); });
+          var gal = h.querySelector('.media-gallery');
+          if (gal) gal.addEventListener('click', function (e) {
+            var t = e.target.closest('img');
+            if (!t || !gal.contains(t)) return;
+            open(h, srcOf(t));
+          });
+          h.querySelectorAll('.log-video').forEach(function (v) {
+            v.addEventListener('click', function (e) {
+              e.preventDefault();
+              open(h, srcOf(v.querySelector('source') || v));
+            });
+          });
+        });
+      })();
+
+      // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
+      var navLinks = document.querySelectorAll('#navInner a');
+      var mobileLinks = document.querySelectorAll('#navMobile a');
+      var sections = [];
+      navLinks.forEach(function (a) {
+        var id = a.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ el: el, id: id });
+      });
+      function setActiveNav() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var current = '';
+        sections.forEach(function (s) { if (scrollY >= s.el.offsetTop - 100) current = s.id; });
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+        mobileLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+      }
+      var navTicking = false;
+      window.addEventListener('scroll', function () { if (!navTicking) { window.requestAnimationFrame(function () { setActiveNav(); navTicking = false; }); navTicking = true; } }, { passive: true });
+      setActiveNav();
+      var navToggle = document.getElementById('navToggle'), navMobile = document.getElementById('navMobile'), hamburgerIcon = document.getElementById('hamburgerIcon'), menuOpen = false;
+      function closeMenu() { if (!menuOpen) return; menuOpen = false; navMobile.classList.remove('open'); hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>'; }
+      navToggle.addEventListener('click', function (e) {
+        e.stopPropagation(); menuOpen = !menuOpen; navMobile.classList.toggle('open', menuOpen);
+        if (menuOpen) hamburgerIcon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+        else hamburgerIcon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var hash = a.getAttribute('href'); if (!hash || hash.length < 2) return;
+          var id = hash.substring(1); var target = document.getElementById(id); if (!target) return;
+          e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.history && window.history.pushState) window.history.pushState(null, '', hash);
+          closeMenu();
+        });
+      });
+      document.addEventListener('click', function (e) { if (menuOpen && !navMobile.contains(e.target) && e.target !== navToggle) closeMenu(); });
+
+      // ===== XBrain Logo 滚动淡出（IP 规范）=====
+      var logo = document.querySelector('.xbrain-brand'), lTicking = false;
+      function updateLogo() {
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var ratio = Math.min(scrollY / vh, 1);
+        if (logo) { logo.style.opacity = 1 - ratio * 0.7; logo.classList.toggle('scrolled', scrollY > vh * 0.3); }
+      }
+      window.addEventListener('scroll', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      window.addEventListener('touchmove', function () { if (!lTicking) { window.requestAnimationFrame(function () { updateLogo(); lTicking = false; }); lTicking = true; } }, { passive: true });
+      updateLogo();
+
+      // ===== 入场动画（含记录核心模块：.log-chapter / .food-card）=====
+      var revealEls = document.querySelectorAll('.spot-card, .culture-card, .info-card, .log-chapter, .food-card');
+      var observer = new IntersectionObserver(function (entries) { entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('visible'); observer.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function (el) { observer.observe(el); });
+    })();
+  </script>
+</body>
+</html>

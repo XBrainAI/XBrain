@@ -123,7 +123,7 @@
 
 ## 8. 媒体画廊功能规范（模板 JS 已内置）
 
-> 纯记录型 / 攻略型模板的 `.media-block` 组件已内置以下 4 项功能，由 JS 动态注入，生成器无需改 HTML。
+> 纯记录型 / 攻略型模板的 `.media-block` 组件已内置以下 5 项功能，由 JS 动态注入，生成器无需改 HTML。
 
 | 功能 | 说明 |
 |------|------|
@@ -131,6 +131,13 @@
 | **图片名称标题** | 主图上方动态插入 `.media-caption`，绑定 `thumb.alt`（取自文件名中文主题），每次切换同步更新 |
 | **左右切换** | 多图时动态创建 `.media-nav-btn` 圆形箭头（prev/next）覆盖在主图两侧；支持**点击**、**键盘 ← →**、**触摸滑动**（横向 >45px）三种方式循环切换 |
 | 竖屏自适应 | `syncOrient()` 按图片真实方向给容器加 `.img-portrait` 类，避免裁切 |
+| **全屏灯箱** | 点击主图、缩略图或视频本体弹出全屏查看（`#lightboxMask` 遮罩层）；箭头、键盘 ← →、横滑 >45px 循环切换，Esc 或点遮罩空白关闭；同一张卡片内的图与视频合并去重、从点击的那张开始看。宿主：`.media-block`、`.culture-card`、`.timeline-content`、`.log-chapter`、`.food-card` |
+
+**媒体显示规则**（三个模板文件 `site-template.html`、`site-template-travelogue.html`、`site-template-travelogue-core.html` 均已内置，规则出处见项目知识 §14.11–§14.13）：
+
+- 主图容器 `.media-cover` 不设固定比例，图片完整显示（`object-fit: contain`，最高 `82vh`），横图竖图都不裁切；卡片高度随图片比例变化。
+- 使用 `.info-grid`、`.spots-grid`、`.culture-grid` 的页面，网格直接子项统一 `min-width: 0`，防止缩略图条把卡片撑出视口。
+- 缩略图条里的当前主图保持可见并高亮（`.is-cover`），不隐藏；画廊只有一张图时整条隐藏。
 
 **生成器责任**：确保每个 `<img>` 的 `alt` 属性包含有意义的中文场景描述（从文件名提取主题词），因为该 `alt` 会作为大图标题显示。`gen_travelogue.py` 的 `humanize()` 函数已自动从文件名剥离时间戳/地点前缀，提取主题词作为 `alt`。
 

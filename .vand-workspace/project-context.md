@@ -774,7 +774,6 @@ window.prevImage = function(){ if(!currentGallery) return; currentIndex = (curre
   .media-cover img { width: auto; height: auto; max-width: 100%; max-height: 82vh; object-fit: contain; display: block; }
   ```
 - **取舍（已裁决）**：封面高度随图片比例变化、卡片不再等高——「完整不裁切」优先级高于等高节奏；`82vh` 上限防单图占满整屏。`syncOrient()`/`.img-portrait` 保留兼容（contain 下冗余无害）。
-- **模板待同步**：`src/site-template*.html` 内置的 16:10+cover 旧形态尚未按本规则同步（TD 承接）；hand-authored 页一律按本规则执行，生成器页面在模板同步前仍会裁切——验收时按 §14.9 宽高比校验甄别。
 
 ### 14.13 全屏灯箱是图文子站默认要求（点图 / 点视频 → 全屏可看）
 
