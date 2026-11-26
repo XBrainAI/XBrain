@@ -330,6 +330,20 @@
       footer a { padding: 13px 4px; margin: -13px -4px; }
     }
 
+    /* ===== 本页补充：文字颜色改为不透明（src/README.md §7.2–§7.3；模板层面差距另行登记）=====
+       模板的 --text-dim / --text-hint 是 rgba 半透明写法，且 .section-desc、.info-card p、.food-card p、.tips-box li 等
+       正文段落用了 --text-dim——README §7.2/§7.3 明令禁止（用户曾报"看不见"）。本页用页内样式覆盖：
+       令牌改不透明 hex；README §7.3 点名的正文选择器一律改用 var(--text)；表格单元格与点位正文一并提亮。 */
+    :root { --text: #ffffff; --text-dim: #f0f3f8; --text-hint: #c8d0dc; }
+    .section-desc, .info-card p, .info-card li, .food-card p, .tips-box li, .hero-quick span,
+    .spot-card-body p, .culture-card p, .culture-card li, .timeline-content p,
+    .plan-summary-table tbody td, .spot-card-dist, .food-cat { color: var(--text); }
+    .plan-summary-table thead th, .info-card h4, .spot-hours, .day-label { color: var(--text); }
+    /* 仅保留给真正的次要标注 */
+    footer, .footer-version { color: var(--text-hint); }
+    /* 美食章节的小标题 */
+    .food-cat { font-size: 1.02rem; font-weight: 700; margin: 1.6rem 0 .7rem; padding-left: .6rem; border-left: 3px solid var(--accent); }
+
     /* ===== 本页补充：窄屏表格横滑提示 =====
        模板表格 min-width:520px，≤640px 时在 .table-scroll 内横向滚动（模板既有设计）。提示仅在"窄屏 + 表格确实溢出"时
        由脚本加 .is-scrollable 显示：右缘渐隐暗示右侧还有内容，滑到末端后撤掉。不改变表格本身尺寸。 */
@@ -415,7 +429,7 @@
       <a href="#culture">人文背景</a>
       <a href="#hours">营业时间</a>
       <a href="#hotels">住宿</a>
-      <a href="#dining">餐饮与年夜饭</a>
+      <a href="#dining">延吉美食</a>
       <a href="#weather">气候与适老</a>
       <a href="#budget">费用</a>
       <a href="#tips">实用贴士</a>
@@ -433,12 +447,14 @@
       <a href="#culture">人文背景·讲给孩子听</a>
       <a href="#hours">营业时间 & 行程复核</a>
       <a href="#hotels">住宿</a>
-      <a href="#dining">餐饮与年夜饭</a>
+      <a href="#dining">延吉美食</a>
       <a href="#weather">气候与适老评估</a>
       <a href="#budget">费用估算</a>
       <a href="#tips">实用贴士与装备</a>
     </div>
-  </nav>  </nav>
+  </nav>
+
+  </nav>
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="top">
@@ -449,7 +465,9 @@
     <div class="hero-quick">
       <span>❄️ 白天约 −5～−10℃</span><span>✈️ 无真直飞·经停航班</span><span>💰 全程估 ¥6.8万–10.2万</span><span>📌 待圈定 7 项</span>
     </div>
-  </section>  <!-- ===== 1. 行程速览 ===== -->
+  </section>
+
+  <!-- ===== 1. 行程速览 ===== -->
   <section class="section" id="overview">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -513,7 +531,9 @@
       </table>
     </div>
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-  </section>  <!-- ===== 2. 景点总览 ===== -->
+  </section>
+
+  <!-- ===== 2. 景点总览 ===== -->
   <section class="section" id="spots">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -615,7 +635,9 @@
       </div>
     </div>
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-  </section>  <!-- ===== 3. 行程方案 ===== -->
+  </section>
+
+  <!-- ===== 3. 行程方案 ===== -->
   <section class="section" id="plans">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -888,7 +910,9 @@
       </div>
     </div>
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-  </section>  <!-- === END 记录核心模块 HTML ============================================ -->
+  </section>
+
+  <!-- === END 记录核心模块 HTML ============================================ -->
 
   <!-- ===== 4. 人文背景 · 讲给孩子听 ===== -->
   <section class="section" id="culture">
@@ -957,7 +981,9 @@
       </ul>
     </div>
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-  </section>  <!-- ===== 6. 住宿（每天 3 间房） ===== -->
+  </section>
+
+  <!-- ===== 6. 住宿（每天 3 间房） ===== -->
   <section class="section" id="hotels">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -993,55 +1019,186 @@
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
   </section>
 
-  <!-- ===== 6b. 餐饮与年夜饭 ===== -->
+  <!-- ===== 6b. 延吉美食（独立章节） ===== -->
   <section class="section" id="dining">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 2v20M21 15V2a5 5 0 0 1-5 5 5 5 0 0 1-5 5 5 5 0 0 1-5 5h0V2"/></svg>
-      餐饮与年夜饭
+      延吉美食
     </h2>
-    <p class="section-desc">口味提示：延吉菜偏酸甜与甜辣——冷面"冰凉酸甜"、辣白菜"鲜甜酸辣"。不辣又有特色的选择很多：冷面、锅包肉、参鸡汤、牛肉汤饭、米肠、打糕、石锅拌饭；辣白菜、拌桔梗、辣炒年糕、火辣鸡爪老人慎点。配图为免费图库真实照片（Unsplash），仅作菜品示意。</p>
+    <p class="section-desc">按延边文旅 2026-10 稿的四分法——正餐、硬菜、市集小吃、咖啡与饮品——再加年夜饭单列。口味描述来自延边文旅稿与延吉市人民政府官网美食栏目，店名与价格为游客笔记汇总（可能过时）；<b>辣度与"老人小孩能不能吃"是我据菜品描述做的推断，点单时以现场为准。</b>配图为免费图库真实照片（Unsplash），仅作品类示意、非延吉实拍；图库里没有对得上照片的菜品（参鸡汤、石锅拌饭、打糕）不配图。</p>
+
+    <div class="tips-box">
+      <div class="tips-box-title">🥄 先看这张：谁辣、谁凉、谁热</div>
+      <ul>
+        <li><b>不辣、是热的、适合老人</b>：牛肉汤饭、参鸡汤、温面（汤头微辣，可要免辣）、豆浆面、大酱汤、紫菜卷饭、包饭、打糕、米露。</li>
+        <li><b>不辣但是凉的</b>：延吉冷面——汤带冰碴，冬天吃要掂量肠胃。</li>
+        <li><b>辣</b>：辣白菜、拌桔梗、辣炒年糕、火辣鸡爪、辣蒸明太鱼、辣拌肚领、辣炒海灵菇（后四样是延吉市政府官网"韩食"栏所列）。</li>
+        <li><b>酸甜不辣</b>：锅包肉、冷面汤底。</li>
+      </ul>
+    </div>
+
+    <h3 class="food-cat">🍜 正餐 · 面与汤饭</h3>
     <div class="media-block">
       <div class="media-cover"><img src="延吉美食/朝鲜冷面.jpg" alt="图库示意：朝鲜冷面（Unsplash）" loading="lazy" decoding="async"></div>
       <div class="media-gallery">
         <img src="延吉美食/朝鲜冷面.jpg" alt="图库示意：朝鲜冷面" loading="lazy" decoding="async">
-        <img src="延吉美食/韩式烤肉.jpg" alt="图库示意：韩式烤肉" loading="lazy" decoding="async">
-        <img src="延吉美食/烤肉特写.jpg" alt="图库示意：烤肉特写" loading="lazy" decoding="async">
+        <img src="延吉美食/热汤.jpg" alt="图库示意：滚烫的汤锅" loading="lazy" decoding="async">
+        <img src="延吉美食/蛋花汤.jpg" alt="图库示意：蛋花汤" loading="lazy" decoding="async">
+        <img src="延吉美食/朝鲜族餐桌.jpg" alt="图库示意：多碗同上桌的餐桌" loading="lazy" decoding="async">
       </div>
     </div>
     <div class="food-grid">
       <div class="food-card">
-        <h4>🍜 服务大楼冷面（解放路总店）</h4>
-        <p>荞麦冷面约 ¥20、锅包肉约 ¥38，人均约 ¥25；建议 11 点前或 14 点后去避开排队。2026 年春节翻台率超 100%（照常营业）。</p>
-        <div class="price">人均 ¥25 · 延吉冷面招牌</div>
+        <h4>🍜 延吉冷面 · 城市招牌</h4>
+        <p>手工现压的荞麦面筋道弹牙，浸在<b>冰爽酸甜</b>的汤底里，配卤牛肉、溏心蛋、脆黄瓜和辣白菜，酸甜清爽、开胃解腻。冬天吃一碗带冰碴的面是个考验——老人可以改点温面。</p>
+        <div class="price">约 ¥20 · 服务大楼冷面（解放路）、顺姬冷面、金达莱冷面</div>
       </div>
       <div class="food-card">
-        <h4>🍚 全州拌饭（参花街总店）</h4>
-        <p>石锅拌饭约 ¥25、嫩豆腐汤 ¥20，人均约 ¥30；饭点必排队（2024 年春节排号 30 多桌），错峰去。</p>
-        <div class="price">人均 ¥30</div>
+        <h4>🍲 温面 · 冷面的"热版"</h4>
+        <p>同样是手工压制的面条，软糯筋道，热汤暖意十足，铺牛肉丝、洋葱丝；<b>汤头带微微香辣</b>。和冷面一冷一热，对不敢吃冰的老人是现成的替代。</p>
+        <div class="price">冷面馆多有 · 怕辣先问能否免辣</div>
       </div>
       <div class="food-card">
-        <h4>🥬 元奶奶包饭</h4>
-        <p>肘子包饭套餐 2 人份 ¥88、参鸡汤 ¥38，人均约 ¥60；包饭不辣、参鸡汤温补，适合老人。</p>
-        <div class="price">人均 ¥60 · 常年排队</div>
+        <h4>🍚 牛肉汤饭 · 本地人的暖心饭</h4>
+        <p>慢熬汤底醇厚鲜香，牛肉软烂不柴，热汤拌软糯米饭，配朝鲜族手工咸菜，暖胃饱腹。同类还有大酱汤、姊妹汤、土豆脊骨汤。随桌咸菜里有辣白菜，给老人夹菜时分开。</p>
+        <div class="price">人均约 ¥20–30（估）· 汤饭馆与早市都有</div>
       </div>
       <div class="food-card">
-        <h4>🍢 丰茂烤串 / 罗宫烤串 / 河坝烧烤串城</h4>
-        <p>延边黄牛肉串是招牌；罗宫 2026 年春节翻台率超 100%。烤串口味可要求少辣。</p>
-        <div class="price">人均 ¥60–80</div>
+        <h4>🍗 参鸡汤</h4>
+        <p>朝鲜族传统的清炖鸡汤，延吉市政府官网美食栏目列有专页。元奶奶包饭的参鸡汤约 ¥38。清淡不辣，适合老人。</p>
+        <div class="price">约 ¥38（元奶奶包饭）</div>
       </div>
       <div class="food-card">
-        <h4>🥟 水上市场早点小吃</h4>
-        <p>现捶打糕、米肠（¥5/根）、土豆饺子、牛肉汤饭——在室内新市场里吃热乎的，冬天不挨冻。</p>
-        <div class="price">十来元 · 早市 5:00–9:30</div>
+        <h4>🍚 石锅拌饭</h4>
+        <p>锅巴焦香、蔬菜鲜爽，拌入酱料咸香入味，有蔬菜、牛肉、金枪鱼等多种口味。拌饭酱通常带辣，可要求酱另放、自己控制。</p>
+        <div class="price">约 ¥25 · 全州拌饭（参花街 142 号，人均约 ¥30，饭点排队）</div>
       </div>
       <div class="food-card">
-        <h4>🦀 年夜饭（酒店预订）</h4>
-        <p>延吉各酒店推"朝鲜族风味＋东北特色＋传统年味"套餐（红菊 12 个包房 2026 年除夕前两天订满）；延边宾馆、海兰江民俗宫有"吉延家宴·团圆饭"。订房时同时订，备注清淡少辣，问能否加热自带腊味年糕。</p>
-        <div class="price">按酒店套餐 · 须早订</div>
+        <h4>🥬 包饭（菜包肉）</h4>
+        <p>用菜叶包着肉和饭吃，清爽不腻；元奶奶包饭的肘子包饭套餐 2 人份约 ¥88。不辣，包饭酱可少蘸。常年排队，错峰去。</p>
+        <div class="price">人均约 ¥60 · 元奶奶包饭</div>
       </div>
     </div>
+
+    <h3 class="food-cat">🔥 硬菜 · 围坐吃肉</h3>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/韩式烤肉.jpg" alt="图库示意：韩式烤肉餐桌（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/韩式烤肉.jpg" alt="图库示意：韩式烤肉餐桌" loading="lazy" decoding="async">
+        <img src="延吉美食/烤肉特写.jpg" alt="图库示意：烤肉特写" loading="lazy" decoding="async">
+        <img src="延吉美食/朝鲜族小菜.jpg" alt="图库示意：同上桌的小菜" loading="lazy" decoding="async">
+        <img src="延吉美食/辣白菜.jpg" alt="图库示意：辣白菜" loading="lazy" decoding="async">
+        <img src="延吉美食/辣白菜特写.jpg" alt="图库示意：辣白菜特写" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🥩 炭火烤肉</h4>
+        <p>现切鲜肉炭火烤制，焦香多汁，裹上酱料配生菜、苏子叶，适合一家人围坐分享。延边黄牛肉是招牌——肉质细腻、不膩。肉本身不辣，蘸酱可要求少辣。</p>
+        <div class="price">人均约 ¥80 · 姜虎东白丁烤肉（万达广场）等</div>
+      </div>
+      <div class="food-card">
+        <h4>🍢 延边烤串</h4>
+        <p>延边黄牛肉串是招牌；罗宫烤串 2026 年春节翻台率超过 100%。可要求少辣或不刷辣酱。</p>
+        <div class="price">人均约 ¥60–80 · 丰茂烤串、罗宫烤串、河坝烧烤串城</div>
+      </div>
+      <div class="food-card">
+        <h4>🥟 锅包肉 · 冷面的"绝配"</h4>
+        <p>外酥里嫩、酸甜口，延吉人吃冷面习惯配一盘锅包肉。不辣、酸甜，普遍接受度高；刚出锅烫，让老人稍晾。</p>
+        <div class="price">约 ¥38（服务大楼冷面）</div>
+      </div>
+      <div class="food-card">
+        <h4>🌶️ 火辣鸡爪</h4>
+        <p>软糯脱骨，裹满甜辣酱汁，配炒年糕"越吃越上头"。辣——爸妈点，给老人另留不辣的菜。</p>
+        <div class="price">辣</div>
+      </div>
+    </div>
+
+    <h3 class="food-cat">🧺 市集小吃 · 水上市场与西市场</h3>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/炸鸡.jpg" alt="图库示意：炸鸡（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/炸鸡.jpg" alt="图库示意：炸鸡" loading="lazy" decoding="async">
+        <img src="延吉美食/炸鸡薯条.jpg" alt="图库示意：炸鸡配薯条" loading="lazy" decoding="async">
+        <img src="延吉美食/辣炒年糕.jpg" alt="图库示意：辣炒年糕" loading="lazy" decoding="async">
+        <img src="延吉美食/鱼糕炒年糕.jpg" alt="图库示意：鱼糕炒年糕" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🌅 水上市场早点（清晨 · 室内）</h4>
+        <p>软糯拉丝的手工打糕裹满黄豆粉、香甜不腻；米肠软糯鲜香（约 ¥5/根）；还有现做泡菜、生腌海鲜，全部现做现卖。2026 年 7 月迁入全新的室内三层市场，<b>冬天带老人也舒服</b>。</p>
+        <div class="price">十来元 · 约 5:00–9:30；初一初二休息</div>
+      </div>
+      <div class="food-card">
+        <h4>🏙️ 西市场小吃与手信（白天）</h4>
+        <p>筋道的土豆饺子、酥脆的土豆饼、馅料满满的紫菜卷，平价好吃；各式泡菜、明太鱼、干货零食可以买手信。</p>
+        <div class="price">8:00–17:00；初一至初三休息 · 2/5 前去</div>
+      </div>
+      <div class="food-card">
+        <h4>🍗 延吉炸鸡</h4>
+        <p>外酥里嫩、汁水充盈、酱香浓郁，是延吉的网红小吃，本地人常配米饮。原味不辣，孩子喜欢。</p>
+        <div class="price">人均约 ¥30–50（估）</div>
+      </div>
+      <div class="food-card">
+        <h4>🌶️ 辣炒年糕</h4>
+        <p>年糕条在甜辣酱里炖得软糯，常配鱼糕。辣，给孩子少量尝味即可。</p>
+        <div class="price">十来元</div>
+      </div>
+      <div class="food-card">
+        <h4>🍶 米露与米酒</h4>
+        <p>本地招牌饮品，温润清甜、度数极低，入口是浓郁米香。<b>奶香米露老少皆宜</b>；米酒香气浓，配烤肉解腻。米酒仍含酒精，老人和小孩选米露。</p>
+        <div class="price">十来元 · 市集与超市有售</div>
+      </div>
+    </div>
+
+    <h3 class="food-cat">☕ 咖啡之城 · "县咖之王"</h3>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/拿铁.jpg" alt="图库示意：拿铁（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/拿铁.jpg" alt="图库示意：拿铁" loading="lazy" decoding="async">
+        <img src="延吉美食/手冲拿铁.jpg" alt="图库示意：拉花中的拿铁" loading="lazy" decoding="async">
+        <img src="延吉美食/咖啡馆吧台.jpg" alt="图库示意：咖啡馆吧台" loading="lazy" decoding="async">
+        <img src="延吉美食/咖啡馆卡座.jpg" alt="图库示意：咖啡馆卡座" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">为什么延吉的咖啡值得专门喝一杯（新华社 2025-01 报道）</div>
+      <ul>
+        <li>常住人口不足 70 万的小城，有 <b>1000 多家咖啡店</b>，每万人咖啡店拥有量接近上海的 4 倍；两年内从 500 多家翻倍到 1000 多家。</li>
+        <li>网红弹幕墙所在的大学城一带，方圆 1 公里就有百余家咖啡店——<b>看完弹幕墙，拐进街角一家店坐坐，是最省力的"延吉体验"</b>，对老人也友好（室内暖气、有座位）。</li>
+        <li>本地特色口味：苹果梨咖啡（延边特产苹果梨风味）、冻梨美式、米酒卡布奇诺、打糕咖啡、五味子冷萃。</li>
+        <li>"对于很多延吉人来说，喝咖啡就像吃饭"——咖啡在这里是日常，八九十年代就已融入当地生活，不是为游客造的。</li>
+      </ul>
+    </div>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>☕ 怎么排进行程</h4>
+        <p>D1 晚看完弹幕墙后就近坐一坐（别太晚，老人要休息）；冰雪欢乐谷、梦都美滑雪之后进店暖身；下午"回房歇脚"的时段，不想回房的家人可以换成"咖啡馆歇脚"。</p>
+        <div class="price">拿铁约 ¥20–35（估）</div>
+      </div>
+      <div class="food-card">
+        <h4>🥤 老人不喝咖啡怎么办</h4>
+        <p>多数店有茶、热巧、果汁；延吉还有本土米露。点单前问一句有没有无咖啡因的热饮。</p>
+        <div class="price">—</div>
+      </div>
+    </div>
+
+    <h3 class="food-cat">🧧 年夜饭 · 除夕 2/5</h3>
+    <div class="tips-box">
+      <div class="tips-box-title">订法与备选</div>
+      <ul>
+        <li><b>订房时同时订年夜饭</b>：2026 年延吉各酒店推"朝鲜族风味＋东北特色＋传统年味"套餐，红菊酒店 12 个包房在除夕前两天已订满，延边宾馆、海兰江民俗宫有"吉延家宴·团圆饭"。</li>
+        <li><b>备注清淡、少辣</b>，问能否加热自带的腊味年糕——广东的年味带过去，两边的年一起过。</li>
+        <li><b>备选</b>：订不到包房就订"团圆饭"外送回酒店房间吃；除夕当天百货大楼、百利城只营业到 16:00，别指望当晚下楼找饭馆。</li>
+        <li>除夕到初二小个体店可能休息（推断），那三天优先酒店和商场餐饮；初一初二水上市场、西市场不开。</li>
+      </ul>
+    </div>
+
     <div class="section-backtop"><a href="#top">↑ 返回顶部</a></div>
-  </section>  <!-- ===== 7. 气候与适老评估 ===== -->
+  </section>
+
+  <!-- ===== 7. 气候与适老评估 ===== -->
   <section class="section" id="weather">
     <h2 class="section-title">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6 1.5A3 3 0 0 0 6 19z"/></svg>
@@ -1151,7 +1308,9 @@
     <div class="footer-line"></div>
     <div>由 <a href="../index.html">XBrain · 四季景点</a> 生成 · 延吉春节六日游（候选方案规划页）</div>
     <div class="footer-version">延吉冰雪季 · v1.0 · 2026-11-26</div>
-  </footer>  </footer>
+  </footer>
+
+  </footer>
 
   <!-- ===== 全屏灯箱遮罩（§14.13；点图/点视频放大，箭头、键盘或左右滑动切换）===== -->
   <div class="lightbox-mask" id="lightboxMask" role="dialog" aria-label="媒体全屏查看">
