@@ -342,7 +342,25 @@
     /* 仅保留给真正的次要标注 */
     footer, .footer-version { color: var(--text-hint); }
     /* 美食章节的小标题 */
-    .food-cat { font-size: 1.02rem; font-weight: 700; margin: 1.6rem 0 .7rem; padding-left: .6rem; border-left: 3px solid var(--accent); }
+    .food-cat { scroll-margin-top: 80px; font-size: 1.02rem; font-weight: 700; margin: 1.6rem 0 .7rem; padding-left: .6rem; border-left: 3px solid var(--accent); }
+    /* 市集小节里的小标题（市场名）与不拆行短语 */
+    .market-title { font-size: .95rem; font-weight: 700; margin: 1.4rem 0 .6rem; padding: .45rem .7rem; border-radius: 8px; background: var(--accent-glow); border: 1px solid var(--accent-border); color: var(--accent); scroll-margin-top: 80px; }
+    .nb { white-space: nowrap; }
+    /* ===== 本页补充：锚点落点不被固定导航条盖住 =====
+       模板只给 section / .spot-card / .culture-card 设了 scroll-margin-top；页内目录、提示框等带 id 的块没有，
+       跳转后标题会顶在视口 0px 处、被 48px 高的固定导航条盖住。统一给所有带 id 的块留出导航高度。 */
+    [id] { scroll-margin-top: 80px; }
+    /* 美食节目录：每行一条、行高够手指点 */
+    .toc-list { list-style: none; padding-left: 0; }
+    .toc-list li { padding: .3rem 0; border-bottom: 1px dashed var(--accent-border); }
+    .toc-list li:last-child { border-bottom: 0; }
+    /* 手信携带卡：绿＝可随身、红＝须托运 */
+    .food-card .carry { margin-top: .35rem; }
+    .food-card.carry-ok .carry { color: var(--success); }
+    .food-card.carry-no .carry { color: #ff9b9b; }
+    /* 带图的美食卡：图片贴边、与卡内文字留出间距 */
+    .food-card .media-cover { margin: .5rem -.4rem 0; border-radius: 8px; }
+    .food-card .media-gallery { padding: 8px 0 0; }
 
     /* ===== 本页补充：窄屏表格横滑提示 =====
        模板表格 min-width:520px，≤640px 时在 .table-scroll 内横向滚动（模板既有设计）。提示仅在"窄屏 + 表格确实溢出"时
@@ -718,8 +736,8 @@
           <table class="plan-summary-table">
             <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
             <tbody>
-              <tr><td>08:00</td><td>09:00</td><td>水上市场早市（室内三层 · 现做小吃）</td><td>1h</td></tr>
-              <tr><td>09:15</td><td>10:15</td><td>延边博物馆（免费 · 周一闭馆）</td><td>1h</td></tr>
+              <tr><td>07:00</td><td>08:30</td><td>水上市场早市（7 点前最稳；一楼吃早餐、二楼看特产）</td><td>1.5h</td></tr>
+              <tr><td>09:00</td><td>10:15</td><td>延边博物馆（冬季 9:00 才开门 · 免费 · 周一闭馆）</td><td>1.3h</td></tr>
               <tr><td>10:30</td><td>12:00</td><td>回房歇脚 · 午餐</td><td>1.5h</td></tr>
               <tr><td>14:30</td><td>15:30</td><td>延吉恐龙博物馆</td><td>1h</td></tr>
               <tr><td>15:45</td><td>16:45</td><td>海兰明珠塔（日落 16:35 前登顶）</td><td>1h</td></tr>
@@ -772,8 +790,8 @@
           <table class="plan-summary-table">
             <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
             <tbody>
-              <tr><td>08:00</td><td>09:00</td><td>水上市场早市（室内）</td><td>1h</td></tr>
-              <tr><td>09:10</td><td>10:10</td><td>延边博物馆</td><td>1h</td></tr>
+              <tr><td>07:00</td><td>08:30</td><td>水上市场早市（7 点前最稳；一楼吃早餐、二楼买手信可邮寄）</td><td>1.5h</td></tr>
+              <tr><td>09:00</td><td>10:10</td><td>延边博物馆（冬季 9:00 才开门）</td><td>1.2h</td></tr>
               <tr><td>10:30</td><td>12:30</td><td>退房出发 → 高速 G1221 → 二道白河</td><td>2h</td></tr>
               <tr><td>12:30</td><td>14:30</td><td>午餐＋入住温泉酒店</td><td>2h</td></tr>
               <tr><td>15:30</td><td>17:00</td><td>恩都里云顶天宫雪雕（蓝调时刻开灯）或雪绒花驯鹿园</td><td>1.5h</td></tr>
@@ -810,6 +828,15 @@
         <div class="day-divider"><div class="line"></div><div class="day-badge">方案 B · 去程不自驾的三个替代</div><div class="line"></div></div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">D2 07:00 — 08:30</div>
+          <div class="timeline-content">
+            <h4>水上市场：七点前到最稳</h4>
+            <p>官方攻略原话是"想吃到第一锅现捶的打糕，7 点前到是最稳的；8 点左右到也来得及，但土豆饺子、小鱼饼这类紧俏货去晚了可能扑空"。一楼是主战场——现捶打糕几块钱一件、米肠蘸盐和蒜酱、土豆饺子（皮是土豆粉、包辣白菜馅，偏辣）一份十来块；二楼是延边特产，<b>泡菜可免费塑封加冰邮寄，米酒也能快递到家</b>，不用一路拎着。地址参花街 2599 号，打车直达、电梯进店。</p>
+            <div class="timeline-tags"><span class="timeline-tag eat">早餐</span><span class="timeline-tag kid">室内暖气</span><a class="in-doc-link" href="#market-shuihang">市集攻略 ↓</a></div>
+          </div>
+        </div>
           <div class="timeline-time">D2 08:01 — 09:45（高铁）</div>
           <div class="timeline-content">
             <h4>① 高铁：延吉西 → 长白山站</h4>
@@ -862,8 +889,8 @@
           <table class="plan-summary-table">
             <thead><tr><th>出发</th><th>到达</th><th>目的地或项目</th><th>耗时</th></tr></thead>
             <tbody>
-              <tr><td>08:00</td><td>09:00</td><td>水上市场早市</td><td>1h</td></tr>
-              <tr><td>09:10</td><td>10:10</td><td>延边博物馆</td><td>1h</td></tr>
+              <tr><td>07:00</td><td>08:30</td><td>水上市场早市（7 点前最稳；一楼吃早餐、二楼看特产）</td><td>1.5h</td></tr>
+              <tr><td>09:00</td><td>10:10</td><td>延边博物馆（冬季 9:00 才开门）</td><td>1.2h</td></tr>
               <tr><td>10:20</td><td>11:00</td><td>出发 → 图们国门（48 km）</td><td>0.7h</td></tr>
               <tr><td>11:00</td><td>12:15</td><td>登国门望朝鲜南阳 · 87 号界碑</td><td>1.3h</td></tr>
               <tr><td>12:30</td><td>15:00</td><td>午餐 → 珲春（入住）</td><td>2.5h</td></tr>
@@ -1027,7 +1054,20 @@
     </h2>
     <p class="section-desc">按延边文旅 2026-10 稿的四分法——正餐、硬菜、市集小吃、咖啡与饮品——再加年夜饭单列。口味描述来自延边文旅稿与延吉市人民政府官网美食栏目，店名与价格为游客笔记汇总（可能过时）；<b>辣度与"老人小孩能不能吃"是我据菜品描述做的推断，点单时以现场为准。</b>配图为免费图库真实照片（Unsplash），仅作品类示意、非延吉实拍；图库里没有对得上照片的菜品（参鸡汤、石锅拌饭、打糕）不配图。</p>
 
-    <div class="tips-box">
+    <div class="tips-box" id="dining-toc">
+      <div class="tips-box-title">📖 这一节有点长，按需直达</div>
+      <ul class="toc-list">
+        <li><a class="in-doc-link" href="#dining-spice">谁辣、谁凉、谁热</a>　一表看清</li>
+        <li><a class="in-doc-link" href="#dining-main">🍜 正餐</a>　冷面、温面、牛肉汤饭、参鸡汤、石锅拌饭、包饭</li>
+        <li><a class="in-doc-link" href="#dining-hard">🔥 硬菜</a>　烤肉、烤串、锅包肉、火辣鸡爪</li>
+        <li><a class="in-doc-link" href="#market-quick">🧺 市集小吃</a>　<b>水上市场吃早饭、西市场买手信</b>：怎么排、一层层吃什么、手信怎么带上飞机</li>
+        <li><a class="in-doc-link" href="#dining-coffee">☕ 咖啡之城</a>　千余家咖啡店</li>
+        <li><a class="in-doc-link" href="#dining-reunion">🧧 年夜饭</a>　除夕怎么订</li>
+      </ul>
+    </div>
+
+
+    <div class="tips-box" id="dining-spice">
       <div class="tips-box-title">🥄 先看这张：谁辣、谁凉、谁热</div>
       <ul>
         <li><b>不辣、是热的、适合老人</b>：牛肉汤饭、参鸡汤、温面（汤头微辣，可要免辣）、豆浆面、大酱汤、紫菜卷饭、包饭、打糕、米露。</li>
@@ -1037,7 +1077,7 @@
       </ul>
     </div>
 
-    <h3 class="food-cat">🍜 正餐 · 面与汤饭</h3>
+    <h3 class="food-cat" id="dining-main">🍜 正餐 · 面与汤饭</h3>
     <div class="media-block">
       <div class="media-cover"><img src="延吉美食/朝鲜冷面.jpg" alt="图库示意：朝鲜冷面（Unsplash）" loading="lazy" decoding="async"></div>
       <div class="media-gallery">
@@ -1080,7 +1120,7 @@
       </div>
     </div>
 
-    <h3 class="food-cat">🔥 硬菜 · 围坐吃肉</h3>
+    <h3 class="food-cat" id="dining-hard">🔥 硬菜 · 围坐吃肉</h3>
     <div class="media-block">
       <div class="media-cover"><img src="延吉美食/韩式烤肉.jpg" alt="图库示意：韩式烤肉餐桌（Unsplash）" loading="lazy" decoding="async"></div>
       <div class="media-gallery">
@@ -1115,6 +1155,220 @@
     </div>
 
     <h3 class="food-cat">🧺 市集小吃 · 水上市场与西市场</h3>
+    <p class="section-desc">两个市场在<span class="nb">同一条参花街</span>上，一早一晚正好错开：水上市场吃<b>早饭</b>（只开上午），西市场买<b>手信</b>、吃<b>午饭或下午的粥</b>（开到 17:00）。以下事实来自延吉旅游、延吉市人民政府、国际在线、中新网等公开报道，核实日期 2026-11-27；价格为参考价、注明年份与新旧址。配图为免费图库真实照片（Unsplash），仅作场景示意、<b>不是延吉两个市场的实拍</b>。</p>
+
+    <div class="tips-box" id="market-quick">
+      <div class="tips-box-title">🧭 两个市场怎么排（排进 2/3 这一天）</div>
+      <ul>
+        <li><b>07:00–08:30 水上市场</b>：吃早饭。官方攻略原话——"7 点前到是最稳的；8 点左右到也来得及，但土豆饺子、小鱼饼这类紧俏货去晚了可能扑空"。9:30 后摊位陆续收。</li>
+        <li><b>09:00–10:10 延边博物馆</b>：早市出来正好赶上 9:00 开门（冬季 9:00–16:00），不用在门口挨冻等。</li>
+        <li><b>上午或 2/5 上午 西市场</b>：买手信。营业 8:00–17:00，<b>不要留到下午 16:00 才去</b>——那是收市前最后一小时；更不要指望 2/7 返程当天（按往年惯例初一至初三休市）。</li>
+        <li><b>过年那几天两个市场都不开</b>（2026 年参照）：水上市场休初一初二；西市场休初一至初三、初四初五只开一楼。除夕当天西市场未列提前打烊，是最后的采购机会。</li>
+      </ul>
+    </div>
+
+    <!-- ===== 水上市场 ===== -->
+    <h4 class="market-title" id="market-shuihang">🌅 水上市场（早市）· 参花街 2599 号</h4>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/泡菜摊大盆.jpg" alt="图库示意：市场里的泡菜摊（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/泡菜摊大盆.jpg" alt="图库示意：市场里的泡菜摊" loading="lazy" decoding="async">
+        <img src="延吉美食/市场摊位.jpg" alt="图库示意：室内市场摊位" loading="lazy" decoding="async">
+        <img src="延吉美食/小吃摊.jpg" alt="图库示意：现做小吃摊" loading="lazy" decoding="async">
+        <img src="延吉美食/市集摊主.jpg" alt="图库示意：市集里的摊主" loading="lazy" decoding="async">
+        <img src="延吉美食/室内市场.jpg" alt="图库示意：室内市场人流" loading="lazy" decoding="async">
+        <img src="延吉美食/夜市巷道.jpg" alt="图库示意：挂满招牌的市集巷道（夜间露天，仅示意氛围）" loading="lazy" decoding="async">
+        <img src="延吉美食/传统市场门面.jpg" alt="图库示意：挂韩文招牌的传统市场门面" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>📍 在哪、怎么去</h4>
+        <p>2026 年 7 月 19 日迁入的<b>全新室内市场</b>：参花街西侧、烟集河东畔（参花街 2599 号），比旧址往北约 1 公里。公交 6 路、23 路、50 路可达，周边新设两处公交站。自驾约 770 个车位，<b>游客车停市场南侧</b>（商户在北侧）。带老人直接打车到门口，<b>电梯进店</b>——官方稿里商户说"老人进店不再爬台阶"。</p>
+        <div class="price">市区内打车 · 从机场、高铁站约 20–30 分钟（估）</div>
+      </div>
+      <div class="food-card">
+        <h4>🏫 三层各是什么</h4>
+        <p><b>一楼</b>是主战场：朝鲜族特色鲜食小吃 50 多种，复刻朝鲜族木屋矮墙，有餐饮区可以坐下吃。<b>二楼</b>是延边特产（人参、泡菜、明太鱼、米酒），35 个门市、196 个摊位，设观景平台可远眺河畔。<b>三楼</b>规划为休闲咖啡、书咖空间，开业时还在设计阶段，是否开放未查到。</p>
+        <div class="price">室内集中供热 · 一层有 4 个公共卫生间</div>
+      </div>
+      <div class="food-card">
+        <h4>⏰ 营业时间与春节</h4>
+        <p>每日 <b>5:00–9:30</b>（延吉市商务局通告）。只开上午——"夜市、全天候"是今后的规划，不是现状。2026 年春节（旧址）：初一初二休息，除夕 13 点起关南门、初三恢复。<b>2027 年安排未公布</b>，春节临近时看"延吉旅游""延边发布"的通告。</p>
+        <div class="price">7 点前到最稳 · 9:30 后收摊</div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">🥟 一楼吃什么：现做小吃逐项</div>
+      <ul>
+        <li><b>打糕</b>：现捶现卖，裹黄豆粉，"软糯到能拉丝"，几块钱一件（2026 年新址），<b>趁热吃最香</b>。不辣。</li>
+        <li><b>米肠</b>：看着黑乎乎，蘸盐和蒜酱，口感 Q 弹。蘸料可以选辣或不辣。</li>
+        <li><b>土豆饺子</b>：延吉特色，<b>皮是土豆粉做的，里面包辣白菜馅</b>，QQ 弹弹，一份十来块（2026 年新址）。偏辣——老人慎选，是官方点名的"紧俏货"。</li>
+        <li><b>小鱼饼</b>：另一样"去晚了可能扑空"的紧俏货。</li>
+        <li><b>牛肉汤饭</b>：汤底醇厚，配米饭和辣白菜，"是本地人打开清晨的标准方式"。热、不辣，最适合老人。</li>
+        <li><b>紫菜饭、辣白菜、拌桔梗</b>：新址在售（价格未查到）。</li>
+        <li>旧址时期的参考价（2025 年）：土豆饼 10 元/份、米肠 15 元/斤、明月汤饭 18 元、彩色油条 2.5 元/根；人均约 10–20 元。<b>新址价格多数未查到</b>，以现场为准。</li>
+      </ul>
+    </div>
+    <div class="tips-box">
+      <div class="tips-box-title">📝 逛法</div>
+      <ul>
+        <li><b>进门先吃、后买</b>：一楼先找座位吃早饭，趁热；吃完上二楼买手信——<b>泡菜可以免费塑封加冰邮寄，米酒也能快递到家</b>，不用一路拎着。</li>
+        <li><b>能确认的商户</b>：哥们汤饭屋（一楼，羊汤）、安果果古法酸奶、宋玉锦泡菜（老字号）。其余摊位名未查到，到了看哪家排队。</li>
+        <li><b>带老人小孩</b>：全程在室内、有暖气、有卫生间；室外摊位（蔬菜、粮油）和门口冷，少停留。7 点前后天还没大亮，门口路面可能结冰，扶一把。</li>
+        <li><b>支付</b>：旧址时期的游记建议备一点现金，新址的支付方式未查到——揣二三十元零钱以防万一。</li>
+        <li><b>注意</b>：开业首日客流 5.5 万人次，节假日人多；旧址时有本地人觉得"偏贵，旁边西市场便宜"。人均 10–20 元的量级，贵不到哪去，但别把它当采购主力。</li>
+        <li><b>周边</b>：出市场可沿烟集河遛弯；连接市场与对岸烟河街的便民桥"烟集流韵"在 2026 年 10 月还在收尾，是否已通行未查到。</li>
+      </ul>
+    </div>
+
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🥟 现做的饺子</h4>
+        <p>早市的饺子是现包现蒸。图里是通用示意——延吉的土豆饺子皮是半透明的土豆粉，长得和这不一样。</p>
+        <div class="media-cover"><img src="延吉美食/蒸饺.jpg" alt="图库示意：蒸饺（Unsplash）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="延吉美食/蒸饺.jpg" alt="图库示意：蒸饺" loading="lazy" decoding="async">
+          <img src="延吉美食/饺子拼盘.jpg" alt="图库示意：饺子拼盘" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="food-card">
+        <h4>🍚 紫菜饭</h4>
+        <p>一楼在售的紫菜饭，和紫菜包饭是近亲。图里是常见的韩式紫菜包饭，仅作示意。</p>
+        <div class="media-cover"><img src="延吉美食/紫菜包饭.jpg" alt="图库示意：紫菜包饭（Unsplash）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="延吉美食/紫菜包饭.jpg" alt="图库示意：紫菜包饭" loading="lazy" decoding="async">
+          <img src="延吉美食/紫菜包饭切面.jpg" alt="图库示意：紫菜包饭切面" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="food-card">
+        <h4>🫓 现烙的饼</h4>
+        <p>早市有现烙的土豆饼（旧址时期 10 元/份）。图里是现烙葱油饼，仅作"现烙"的示意。</p>
+        <div class="media-cover"><img src="延吉美食/现烙饼.jpg" alt="图库示意：现烙的饼（Unsplash）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="延吉美食/现烙饼.jpg" alt="图库示意：现烙的饼" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 西市场 ===== -->
+    <h4 class="market-title" id="market-xi">🏙️ 西市场（手信与堂食）· 参花街与新华街口</h4>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/鱼干摊.jpg" alt="图库示意：市场里的鱼干摊（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/鱼干摊.jpg" alt="图库示意：市场里的鱼干摊" loading="lazy" decoding="async">
+        <img src="延吉美食/小鱼干.jpg" alt="图库示意：小鱼干" loading="lazy" decoding="async">
+        <img src="延吉美食/水果摊.jpg" alt="图库示意：水果摊" loading="lazy" decoding="async">
+        <img src="延吉美食/干货果脯摊.jpg" alt="图库示意：干货与果脯摊" loading="lazy" decoding="async">
+        <img src="延吉美食/市场堂食.jpg" alt="图库示意：市场里的堂食区" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>📍 这是个什么地方</h4>
+        <p>延吉最大的综合集贸市场，"全州最大的集商贸零售、农副产品交易于一体的综合集贸市场"，延边特产零售最集中的地方。上世纪 80 年代始建，2015 年底拆除重建、2019 年 1 月重新开业；总建筑面积约 11.7 万平方米，商户 4000 余家，日均客流 2–3 万人次。参花街、新华街各有一个进出口。</p>
+        <div class="price">占全市集贸经济近 40% · 有扶梯、直梯、中央空调</div>
+      </div>
+      <div class="food-card">
+        <h4>🏫 楼层：逛一楼就够</h4>
+        <p><b>一楼</b>农贸区是重点：泡菜小菜、调料、干货、明太鱼、果蔬、鲜肉，以及打糕、米肠、粥等熟食，设有<b>一楼堂食区</b>，食品区还有两家快递窗口。楼上官方口径是"工贸区和餐饮区"——服装鞋帽、布艺床上用品、文具玩具等；攻略称 4 楼有参茸、5 楼有美食城（牛肉汤、冷面、石锅拌饭），这两条只有一篇个人攻略为据。地下 3 层是停车场。</p>
+        <div class="price">每层分 A、B、C 区 · 楼上有购物引导图</div>
+      </div>
+      <div class="food-card">
+        <h4>⏰ 营业时间与春节</h4>
+        <p>8:00–17:00。2026 年春节：初一至初三（2/17–19）整体休息，初四一楼恢复、初五仍只一楼，初六（2/22）整体恢复；除夕未列提前打烊。另有旅游平台写 9:00–18:30，与延吉旅游的口径不一致，采用后者。</p>
+        <div class="price">买手信排在上午或除夕前 · 别留到返程日</div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">🍲 一楼堂食区：坐下来吃的那几家（国际在线 2026-01 报道）</div>
+      <ul>
+        <li><b>李玉今米肠摊</b>：在西市场守了 30 多年，米肠"软糯咸鲜"，是不少本地人从小到大的念想。摊主"手托刚出锅的热乎米肠，大方地递给往来客人"。为方便携带添了塑封机，<b>可现场切块封装</b>。</li>
+        <li><b>马拥军水豆腐摊</b>：2002 年起经营 20 多年，"一碗碗乳白颤动的水豆腐"，嫩滑清鲜。</li>
+        <li><b>马女士粥摊</b>：母女接力 20 多年。大碴粥"豆粒饱满开花"；红豆粥绵密黏糊，"还能碰到里头软糯的小糯米团"。<b>午后</b>不少本地人绕路来喝一碗粥、配两样清淡小菜——这是延吉人的"下午茶"。</li>
+        <li><b>权美玲泡菜摊</b>：婆婆传下来的手艺，玻璃柜里码着 20 多种泡菜——辣白菜、牛板筋、小白萝卜。</li>
+        <li>这里的摊子都是<b>当日制作</b>：深夜 11 点到凌晨三四点，摊主就在洗米、熬汤、拌菜。要吃最热乎的，上午去。</li>
+        <li>价格：米肠一份约 15 元（2021 年）；红豆粥 10 元（2026-11）；其余未查到。<b>粥和水豆腐清淡不辣，最适合给老人当一顿</b>；泡菜多数偏辣。</li>
+      </ul>
+    </div>
+    <div class="media-block">
+      <div class="media-cover"><img src="延吉美食/一桌小菜.jpg" alt="图库示意：一桌朝鲜族小菜（Unsplash）" loading="lazy" decoding="async"></div>
+      <div class="media-gallery">
+        <img src="延吉美食/一桌小菜.jpg" alt="图库示意：一桌朝鲜族小菜" loading="lazy" decoding="async">
+        <img src="延吉美食/市场堂食.jpg" alt="图库示意：市场里的堂食区" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="tips-box" id="market-souvenir">
+      <div class="tips-box-title">🎁 手信怎么买、怎么带上飞机（延吉机场安检 2023 年口径）</div>
+    <div class="food-grid carry-grid">
+      <div class="food-card carry-ok"><h4>朝鲜族泡菜</h4><p>可现场抽真空；春节前真空包装的销量翻几番</p><p class="carry"><b>随身</b>：可以（须包装严密）<br><b>托运</b>：可以</p></div>
+      <div class="food-card carry-no"><h4>散装带汤的泡菜、辣椒酱、大酱、补身汤、冷面</h4><p>含液态成分</p><p class="carry"><b>随身</b>：不可以<br><b>托运</b>：可以</p></div>
+      <div class="food-card carry-no"><h4>米酒、人参酒</h4><p>原厂零售包装；散装自酿的不能托运</p><p class="carry"><b>随身</b>：不可以（酒精饮品）<br><b>托运</b>：可以（酒精含量 ≤24% 不限量；24%–70% 每人不超过 5 升）</p></div>
+      <div class="food-card carry-ok"><h4>米肠、打糕、鱼干、坚果、干人参</h4><p>米肠可现场塑封</p><p class="carry"><b>随身</b>：可以（未列入禁限目录）<br><b>托运</b>：可以</p></div>
+      <div class="food-card carry-ok"><h4>真空包装的延边黄牛肉</h4><p>有礼盒装</p><p class="carry"><b>随身</b>：可以（未列入禁限目录）<br><b>托运</b>：可以</p></div>
+      <div class="food-card carry-no"><h4>螃蟹、鱼类等海鲜</h4><p>须密封打包</p><p class="carry"><b>随身</b>：不可以<br><b>托运</b>：可以</p></div>
+      <div class="food-card carry-no"><h4>带冰袋的肉类、冻梨</h4><p>含冰</p><p class="carry"><b>随身</b>：不可以<br><b>托运</b>：可以</p></div>
+      <div class="food-card carry-ok"><h4>苹果梨</h4><p>常温能放一个月，越放越甜</p><p class="carry"><b>随身</b>：可以<br><b>托运</b>：可以</p></div>
+    </div>
+      <ul style="margin-top:.6rem">
+        <li><b>最省事的办法：直接寄回家。</b>市场里有快递驿站（申通），暑期日均 700–800 单；米肠、辣白菜、干明太鱼、米酒都是热门寄递品类。买了当场打包寄走，"人未到家、心意先达"。</li>
+        <li>以上是延吉机场 2023 年发布的春运提示与国内航班通用规定，<b>以购票航司与机场安检当日口径为准</b>。</li>
+        <li>打糕、米糕保质期短（问答平台称冷藏 3–5 天、冷冻约半月，无权威数字），最后两天再买，回去尽快吃。</li>
+        <li>现场零售价多数未查到；能查到的都是电商批发价，不代表市场现场价，不列。</li>
+      </ul>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">📝 逛法</div>
+      <ul>
+        <li><b>一楼上完后直接去堂食区</b>：买完就近坐下吃碗粥或米肠，给老人一个歇脚的地方；市场有扶梯、直梯，不用爬楼。</li>
+        <li><b>采购清单</b>（延吉旅游 2026 年年货清单）：萝卜块、黄瓜条、茄子条、桔梗、牛蹄筋、小根蒜、拌明太鱼等各类泡菜；米肠；米酒（原味、玉米味、糯米味）；延边黄牛肉；打糕与米糕；朝鲜族大酱、辣椒酱、包饭酱；人参枸杞；鱿鱼丝、鳗鱼丝、风味鱼子酱等海味小菜；苹果梨、松子、榛子。中新网还提到木耳、榛蘑等山珍和茄子干、豆角干。</li>
+        <li><b>二月限定</b>：以苹果梨做的<b>冻梨</b>这时候上市，"汁多爽口，过年吃肉后来一个，清爽解腻"。</li>
+        <li><b>公平秤</b>：市场里多处设有公平秤，担心分量可以去复秤。</li>
+        <li><b>人多</b>：日均 2–3 万人次，2023 年春节后外地游客约占八成。带老人走主通道，别往摊位缝里挤。</li>
+        <li><b>带老人小孩的备选</b>：不想挤市场，可以去隆马特、每日隆（韩国零食、俄罗斯饮品，春节 8:00–21:00）或延吉百货大楼超市。</li>
+      </ul>
+    </div>
+
+    <!-- ===== 其它市集 ===== -->
+    <h4 class="market-title" id="market-others">🏪 延吉其它市场（顺路才去）</h4>
+    <div class="table-scroll">
+      <table class="plan-summary-table">
+        <thead><tr><th>市场</th><th>主营</th><th>平时</th><th>2026 年春节</th></tr></thead>
+        <tbody>
+          <tr><td>东市场</td><td>与西市场同类</td><td>6:00–17:30</td><td>除夕中午关门；初一至初四休</td></tr>
+          <tr><td>河南市场</td><td>与西市场同类</td><td>6:30–17:30</td><td>除夕中午关门；初一至初七休</td></tr>
+          <tr><td>万源批发市场</td><td>批发为主，不推荐游客去</td><td>3:30–12:00</td><td>部分店铺休除夕至初二</td></tr>
+          <tr><td>延边人参交易市场</td><td>买人参可去；在延吉西站东侧约 200 米</td><td>未查到</td><td>除夕、初一至初五都只开到下午</td></tr>
+          <tr><td>夜市</td><td>未查到 2026 年的权威信息</td><td>—</td><td>不建议专门安排</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="food-grid">
+      <div class="food-card">
+        <h4>🌃 夜市巷道（氛围示意）</h4>
+        <p>延吉的夜市暂未查到 2026 年的权威营业信息，不建议专门安排。这两张是图库里的夜间市集，用来看"东北冬夜市集"的氛围就好——<b>不是延吉，也不在行程里</b>。</p>
+        <div class="media-cover"><img src="延吉美食/夜市摊位.jpg" alt="图库示意：夜市摊位（Unsplash）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="延吉美食/夜市摊位.jpg" alt="图库示意：夜市摊位" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="food-card">
+        <h4>🍳 小馆灶台</h4>
+        <p>市场里的小吃多是"前面卖、后面做"。这张是图库里的市集小馆灶台，示意那种现做现卖的样子。</p>
+        <div class="media-cover"><img src="延吉美食/小馆灶台.jpg" alt="图库示意：小馆灶台（Unsplash）" loading="lazy" decoding="async"></div>
+        <div class="media-gallery">
+          <img src="延吉美食/小馆灶台.jpg" alt="图库示意：小馆灶台" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 街头小吃与饮品（不属于市集，原归在本小节） ===== -->
+    <h4 class="market-title" id="market-street">🍟 街头小吃与饮品（不在市集里）</h4>
     <div class="media-block">
       <div class="media-cover"><img src="延吉美食/炸鸡.jpg" alt="图库示意：炸鸡（Unsplash）" loading="lazy" decoding="async"></div>
       <div class="media-gallery">
@@ -1125,16 +1379,6 @@
       </div>
     </div>
     <div class="food-grid">
-      <div class="food-card">
-        <h4>🌅 水上市场早点（清晨 · 室内）</h4>
-        <p>软糯拉丝的手工打糕裹满黄豆粉、香甜不腻；米肠软糯鲜香（约 ¥5/根）；还有现做泡菜、生腌海鲜，全部现做现卖。2026 年 7 月迁入全新的室内三层市场，<b>冬天带老人也舒服</b>。</p>
-        <div class="price">十来元 · 约 5:00–9:30；初一初二休息</div>
-      </div>
-      <div class="food-card">
-        <h4>🏙️ 西市场小吃与手信（白天）</h4>
-        <p>筋道的土豆饺子、酥脆的土豆饼、馅料满满的紫菜卷，平价好吃；各式泡菜、明太鱼、干货零食可以买手信。</p>
-        <div class="price">8:00–17:00；初一至初三休息 · 2/5 前去</div>
-      </div>
       <div class="food-card">
         <h4>🍗 延吉炸鸡</h4>
         <p>外酥里嫩、汁水充盈、酱香浓郁，是延吉的网红小吃，本地人常配米饮。原味不辣，孩子喜欢。</p>
@@ -1147,12 +1391,12 @@
       </div>
       <div class="food-card">
         <h4>🍶 米露与米酒</h4>
-        <p>本地招牌饮品，温润清甜、度数极低，入口是浓郁米香。<b>奶香米露老少皆宜</b>；米酒香气浓，配烤肉解腻。米酒仍含酒精，老人和小孩选米露。</p>
+        <p>本地招牌饮品，温润清甜、度数极低，入口是浓郁米香。奶香米露老少皆宜；米酒香气浓，配烤肉解腻。米酒仍含酒精，老人和小孩选米露。<b>要带回家的米酒必须托运</b>（见上表），或者在市场直接寄。</p>
         <div class="price">十来元 · 市集与超市有售</div>
       </div>
     </div>
 
-    <h3 class="food-cat">☕ 咖啡之城 · "县咖之王"</h3>
+    <h3 class="food-cat" id="dining-coffee">☕ 咖啡之城 · "县咖之王"</h3>
     <div class="media-block">
       <div class="media-cover"><img src="延吉美食/拿铁.jpg" alt="图库示意：拿铁（Unsplash）" loading="lazy" decoding="async"></div>
       <div class="media-gallery">
@@ -1184,7 +1428,7 @@
       </div>
     </div>
 
-    <h3 class="food-cat">🧧 年夜饭 · 除夕 2/5</h3>
+    <h3 class="food-cat" id="dining-reunion">🧧 年夜饭 · 除夕 2/5</h3>
     <div class="tips-box">
       <div class="tips-box-title">订法与备选</div>
       <ul>
@@ -1517,6 +1761,50 @@
         if (typeof sp === 'function') { window.switchPlan = function () { var r = sp.apply(this, arguments); setTimeout(syncHints, 50); return r; }; }
         // 内容高度变化（lazy 图加载撑开版面）后复核
         if ('MutationObserver' in window) { new MutationObserver(function () { setTimeout(syncHints, 80); }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] }); }
+      })();
+      // ===== 锚点落点校正（本页补充）=====
+      // 模板的锚点跳转是"点一次、滚一次"；本页有 50 多张 lazy 图，读者刚打开就点目录时，滚动途中图片陆续加载把版面撑高
+      //（实测文档高度可涨 18%），按点击那一刻算的落点会被推偏上千像素。这里记下最近的锚点目标，版面变化时重新对齐；
+      // 读者一旦自己滚动或触摸屏幕就立即停手，不与读者的操作抢。
+      (function () {
+        var target = null, until = 0, done = false;
+        var yNow = function () { return window.pageYOffset || document.documentElement.scrollTop; };
+        function stop() { target = null; done = true; }
+        function wantY() { return Math.max(0, target.getBoundingClientRect().top + yNow() - 80); }
+        // 等滚动停下来（连续几次位置不变）再做第一次对齐；不猜平滑滚动要多久
+        function whenSettled(cb) {
+          var last = null, still = 0;
+          (function poll() {
+            if (!target || done) return;
+            if (performance.now() > until) { target = null; return; }
+            var y = yNow();
+            if (last !== null && Math.abs(y - last) < 2) still++; else still = 0;
+            last = y;
+            if (still >= 4) cb(); else setTimeout(poll, 100);
+          })();
+        }
+        function realign() {
+          if (!target || done) return;
+          if (performance.now() > until) { target = null; return; }
+          var y = yNow(), want = wantY();
+          if (Math.abs(want - y) < 3) { setTimeout(realign, 250); return; }   // 已对齐：只盯着
+          // 位置和目标对不上，且不是我们对齐后的状态 → 要么读者在滚，要么目标被推走。
+          // 区分：记下上一次我们自己停下的位置；若当前 y 等于它，说明我们没动、是目标动了 → 补偿；否则是别人在滚 → 停手
+          if (realign.lastY !== undefined && Math.abs(y - realign.lastY) > 3) { stop(); return; }
+          window.scrollTo(0, want); realign.lastY = want;
+          setTimeout(realign, 250);
+        }
+        document.addEventListener('click', function (e) {
+          var a = e.target.closest && e.target.closest('a[href^="#"]');
+          var hash = a && a.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          var el = document.getElementById(hash.slice(1));
+          if (!el) return;
+          target = el; done = false; realign.lastY = undefined; until = performance.now() + 5000;
+          whenSettled(function () { realign.lastY = yNow(); realign(); });
+        }, true);
+        // 读者一旦主动操作（滚轮 / 触摸 / 按键）就彻底停手，本轮不再接管
+        ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { document.addEventListener(ev, stop, { passive: true, capture: true }); });
       })();
 
       // ===== 顶部导航滚动高亮 + 汉堡菜单 =====
